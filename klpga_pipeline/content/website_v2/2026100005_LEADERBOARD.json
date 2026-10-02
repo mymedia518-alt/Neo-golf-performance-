@@ -2,7 +2,7 @@
   "schema_version": "hitejinro_round_leaderboard_v2",
   "game_code": "2026100005",
   "final_round": 1,
-  "as_of": "2026-10-01",
+  "as_of": "2026-10-02",
   "source_raw": {
     "path": "klpga_pipeline/content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R1_LEADERBOARD_RAW.html",
     "sha256": "929b7e42321e0f8fd0c3506892d28ae603e179a220f30f021b49600aba4acadc",
@@ -30,7 +30,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9000",
@@ -43,7 +44,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9990",
@@ -56,7 +58,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9134",
@@ -69,7 +72,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8859",
@@ -82,7 +86,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9431",
@@ -95,7 +100,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10296",
@@ -108,7 +114,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9449",
@@ -121,7 +128,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8392",
@@ -134,7 +142,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8883",
@@ -147,7 +156,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10095",
@@ -160,7 +170,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8284",
@@ -173,7 +184,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10481",
@@ -186,7 +198,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9705",
@@ -199,7 +212,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10002",
@@ -212,7 +226,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8300",
@@ -225,7 +240,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "1521",
@@ -238,7 +254,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10138",
@@ -251,7 +268,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10022",
@@ -264,7 +282,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9115",
@@ -277,7 +296,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10081",
@@ -290,7 +310,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9089",
@@ -303,7 +324,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9145",
@@ -316,7 +338,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11066",
@@ -329,7 +352,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10586",
@@ -342,7 +366,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10726",
@@ -355,7 +380,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11134",
@@ -368,7 +394,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10727",
@@ -381,7 +408,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9082",
@@ -394,7 +422,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9111",
@@ -407,7 +436,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9465",
@@ -420,7 +450,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8772",
@@ -433,7 +464,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10577",
@@ -446,7 +478,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11060",
@@ -459,7 +492,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9426",
@@ -472,7 +506,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10083",
@@ -485,7 +520,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11143",
@@ -498,7 +534,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11042",
@@ -511,7 +548,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10531",
@@ -524,7 +562,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8881",
@@ -537,7 +576,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8277",
@@ -550,7 +590,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9784",
@@ -563,7 +604,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9235",
@@ -576,7 +618,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9765",
@@ -589,7 +632,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9708",
@@ -602,7 +646,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9389",
@@ -615,7 +660,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9135",
@@ -628,7 +674,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10790",
@@ -641,7 +688,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8243",
@@ -654,7 +702,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9174",
@@ -667,7 +716,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9130",
@@ -680,7 +730,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9820",
@@ -693,7 +744,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9759",
@@ -706,7 +758,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9183",
@@ -719,7 +772,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8838",
@@ -732,7 +786,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8811",
@@ -745,7 +800,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9391",
@@ -758,7 +814,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10097",
@@ -771,7 +828,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9483",
@@ -784,7 +842,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "6916",
@@ -797,7 +856,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8770",
@@ -810,7 +870,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11447",
@@ -823,7 +884,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9702",
@@ -836,7 +898,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9714",
@@ -849,7 +912,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8380",
@@ -862,7 +926,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9113",
@@ -875,7 +940,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8179",
@@ -888,7 +954,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9436",
@@ -901,7 +968,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8234",
@@ -914,7 +982,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11770",
@@ -927,7 +996,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11057",
@@ -940,7 +1010,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8240",
@@ -953,7 +1024,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8430",
@@ -966,7 +1038,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10109",
@@ -979,7 +1052,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10789",
@@ -992,7 +1066,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9723",
@@ -1005,7 +1080,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11056",
@@ -1018,7 +1094,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8972",
@@ -1031,7 +1108,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8386",
@@ -1044,7 +1122,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8884",
@@ -1057,7 +1136,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9136",
@@ -1070,7 +1150,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9487",
@@ -1083,7 +1164,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8840",
@@ -1096,7 +1178,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9937",
@@ -1109,7 +1192,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11640",
@@ -1122,7 +1206,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8434",
@@ -1135,7 +1220,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "12038",
@@ -1148,7 +1234,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "12080",
@@ -1161,7 +1248,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11040",
@@ -1174,7 +1262,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10178",
@@ -1187,7 +1276,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "13386",
@@ -1200,7 +1290,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9652",
@@ -1213,7 +1304,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9750",
@@ -1226,7 +1318,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11045",
@@ -1239,7 +1332,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10139",
@@ -1252,7 +1346,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11469",
@@ -1265,7 +1360,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10112",
@@ -1278,7 +1374,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8589",
@@ -1291,7 +1388,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11073",
@@ -1304,7 +1402,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8318",
@@ -1317,7 +1416,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11216",
@@ -1330,7 +1430,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "10867",
@@ -1343,7 +1444,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9277",
@@ -1356,7 +1458,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "12078",
@@ -1369,7 +1472,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11076",
@@ -1382,7 +1486,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "11978",
@@ -1395,7 +1500,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "8246",
@@ -1408,7 +1514,8 @@
       "r3_score": null,
       "r4_score": null,
       "withdrawn": false,
-      "disqualified": false
+      "disqualified": false,
+      "missed_cut": false
     },
     {
       "player_id": "9401",
@@ -1420,8 +1527,9 @@
       "r2_score": null,
       "r3_score": null,
       "r4_score": null,
-      "withdrawn": false,
-      "disqualified": false
+      "withdrawn": true,
+      "disqualified": false,
+      "missed_cut": false
     }
   ]
 }

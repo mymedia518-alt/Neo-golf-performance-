@@ -113,6 +113,24 @@ def _int_or_none(s: str) -> int | None:
     return None if s == "" else int(s)
 
 
+def _exclusion_text_for_player(html: str, player_id: str) -> str | None:
+    """Literal WD/DQ/CUT/기권/실격/불참/컷오프 text found inside
+    player_id's own <li>...</li> block in this raw capture, or None if
+    that player's row isn't present in this capture or carries no such
+    text. Bounded to that one player's own block only -- never a flat
+    surrounding-text window that could pick up a neighboring player's
+    status (same per-player-bounded discipline as
+    parse_in_progress_state's own li_bounds)."""
+    m = re.search(rf'<li id="favoritItem_{re.escape(player_id)}"', html)
+    if not m:
+        return None
+    start = m.start()
+    next_li = re.search(r'<li id="favoritItem_\d+"', html[start + 1:])
+    end = start + 1 + next_li.start() if next_li else len(html)
+    text_m = _EXCLUSION_TEXT_RE.search(html[start:end])
+    return text_m.group(0) if text_m else None
+
+
 def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Path:
     """Parse this round's official leaderboard raw capture into
     LEADERBOARD.json. Every row already carries all four rounds'
@@ -122,6 +140,30 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
     truth for every column, old and new alike. 'rank=="999"' is this
     site's own not-yet-finished-this-round marker, same signal at
     every round. Writes LEADERBOARD.json and returns its path.
+
+    withdrawn/disqualified/missed_cut (2026-10-02 fix: these three were
+    hardcoded False/missing before this date, for every round, since
+    this function never looked at the real per-player WD/DQ/CUT text
+    the site itself renders -- confirmed by game_code 2026100005 R1,
+    where player 9401 (마다솜) has a literal "WD" inside her own <li>
+    block with updown=="999", yet silently never appeared on the
+    published R1 page at all, with no status shown anywhere) are now
+    real signals: for every row where data-updown=="999" (this round),
+    whatever literal WD/기권 (withdrawn), DQ/실격 (disqualified), or
+    CUT/컷오프 (missed_cut) text appears inside that player's own <li>
+    block, bounded per-player via _exclusion_text_for_player. A player
+    can also be entirely ABSENT from a later round's leaderboard DOM
+    once genuinely out of the field (confirmed: 마다솜 has zero
+    occurrences anywhere in R2's leaderboard/SG/scorecard captures,
+    despite being a real official entrant) -- in that case her record
+    is carried forward from the last round's own already-parsed
+    LEADERBOARD.json (preserving any real historical scores untouched),
+    but ONLY after independently re-proving a real WD/DQ text match in
+    that earlier round's OWN raw capture (the already-persisted
+    withdrawn/disqualified flags on an old carried record might
+    themselves predate this fix and can't be trusted as proof on their
+    own). Any entrant missing from this round with no such provable
+    earlier exclusion still raises -- never silently dropped.
     """
     label = _round_label(round_number)
     raw_path = raw_path or raw_evidence_path(round_number, "LEADERBOARD")
@@ -132,27 +174,50 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
     entrant_ids = {r["player_code"] for r in entrants}
 
     matches = list(_LEADERBOARD_ROW_RE.finditer(raw_html))
-    assert len(matches) == len(entrants), (
-        f"expected {len(entrants)} official entrants, parsed {len(matches)} leaderboard rows"
+    parsed_ids = {m.group(1) for m in matches}
+
+    assert not (parsed_ids - entrant_ids), (
+        f"{label} leaderboard has playerCodes not in the official entry roster: "
+        f"{sorted(parsed_ids - entrant_ids)}"
     )
 
-    parsed_ids = {m.group(1) for m in matches}
-    assert parsed_ids == entrant_ids, (
-        f"{label} leaderboard playerCodes and the official entry roster are not the same set -- "
-        f"only in leaderboard: {sorted(parsed_ids - entrant_ids)}, "
-        f"only in roster: {sorted(entrant_ids - parsed_ids)}"
-    )
+    existing_board = None
+    if LEADERBOARD_PATH.is_file():
+        existing_board = {
+            r["player_id"]: r for r in json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))["records"]
+        }
+
+    carried_forward: dict[str, dict] = {}
+    for pid in entrant_ids - parsed_ids:
+        proof = None
+        for earlier_round in range(1, round_number):
+            earlier_path = raw_evidence_path(earlier_round, "LEADERBOARD")
+            if not earlier_path.is_file():
+                continue
+            status_text = _exclusion_text_for_player(earlier_path.read_text(encoding="utf-8"), pid)
+            if status_text:
+                proof = (earlier_round, status_text)
+                break
+        if proof is None:
+            raise AssertionError(
+                f"{label} leaderboard is missing official entrant {pid} and no earlier round's raw "
+                f"evidence proves a real WD/DQ/CUT for them -- refusing to silently drop a player. "
+                f"Never fabricated."
+            )
+        carried_forward[pid] = {"proof_round": proof[0], "status_text": proof[1]}
 
     records = []
     not_yet_complete = []
     for m in matches:
         player_id, rank, name, totunderpar, inghole, todayunderpar, score, r1, r2, r3, r4, updown = m.groups()
         incomplete = rank == "999"
+        status_text = None
         if incomplete:
             not_yet_complete.append({"player_id": player_id, "player_name": name})
             finish_position = None
             finish_position_numeric = None
             score_to_par = None
+            status_text = _exclusion_text_for_player(raw_html, player_id)
         else:
             finish_position = rank
             finish_position_numeric = int(rank)
@@ -174,9 +239,28 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
             "r2_score": round_scores[2],
             "r3_score": round_scores[3],
             "r4_score": round_scores[4],
-            "withdrawn": False,
-            "disqualified": False,
+            "withdrawn": status_text in ("WD", "기권"),
+            "disqualified": status_text in ("DQ", "실격"),
+            "missed_cut": status_text in ("CUT", "컷오프"),
         })
+
+    for pid, info in carried_forward.items():
+        prior = (existing_board or {}).get(pid)
+        if prior is not None:
+            record = dict(prior)
+        else:
+            entrant = next(r for r in entrants if r["player_code"] == pid)
+            record = {
+                "player_id": pid, "player_name": entrant["player_name"],
+                "finish_position": None, "finish_position_numeric": None, "score_to_par": None,
+                "r1_score": None, "r2_score": None, "r3_score": None, "r4_score": None,
+            }
+        status_text = info["status_text"]
+        record["withdrawn"] = status_text in ("WD", "기권")
+        record["disqualified"] = status_text in ("DQ", "실격")
+        record["missed_cut"] = status_text in ("CUT", "컷오프")
+        record["carried_forward_from_round"] = info["proof_round"]
+        records.append(record)
 
     assert len(records) == len(entrants)
     assert len({r["player_id"] for r in records}) == len(records), "duplicate player_id after parse"
@@ -440,7 +524,16 @@ def cross_validate(round_number: int, *, raw_path: Path | None = None) -> dict:
     raw_path = raw_path or raw_evidence_path(round_number, "SCORECARD")
     leaderboard = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))
     score_field = f"r{round_number}_score"
-    lb_by_id = {r["player_id"]: r for r in leaderboard["records"]}
+    # A carried_forward_from_round record (parse_leaderboard's own,
+    # independently-proven-WD/DQ/CUT carry-forward for a player entirely
+    # absent from this round's leaderboard DOM) is real evidence that
+    # player is NOT expected on this round's scorecard page either --
+    # confirmed for game_code 2026100005 R2 player 9401 (마다솜), who has
+    # zero occurrences in the real scorecard capture too. Excluding them
+    # here compares only players both real pages actually claim to carry.
+    lb_by_id = {
+        r["player_id"]: r for r in leaderboard["records"] if not r.get("carried_forward_from_round")
+    }
 
     scorecard_html = raw_path.read_text(encoding="utf-8")
     sc_by_id = parse_scorecard(scorecard_html, round_number)
