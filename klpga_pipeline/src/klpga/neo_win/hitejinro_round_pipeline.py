@@ -131,6 +131,46 @@ def _exclusion_text_for_player(html: str, player_id: str) -> str | None:
     return text_m.group(0) if text_m else None
 
 
+# This tournament's own two real cut points (confirmed via raw
+# evidence's own legend, "* +16 컷오프 = CUT", landing exactly on the
+# real 87/88 R1-score boundary): status is STATE, never a bare string
+# match on "CUT" -- R1_CUT (cut after round 1, never played round 2)
+# and R2_CUT (would apply once a player who genuinely completed round
+# 2 is cut before round 3 -- zero real cases exist yet, but the model
+# must represent it, never collapse it into the same state as R1_CUT).
+_CUT_STATE_BY_ROUND = {1: "R1_CUT", 2: "R2_CUT"}
+
+
+def _status_state(status_text: str | None, round_scores: dict[int, int | None], round_number: int) -> tuple[str | None, int | None]:
+    """(status, status_round) from this row's own real per-round
+    scores -- never the round_number the text was merely detected in.
+    A CUT/WD/DQ signal can first become visible in a LATER round's
+    capture while really applying to an earlier one (confirmed this
+    session: 조하리/이수민/이소영's CUT text only appears once R2 is
+    captured, even though the real cut was decided on R1's score alone
+    -- they never played R2 at all). The real round it applies to is
+    the last round this player has an actual recorded score for,
+    already available in round_scores (every row carries all four
+    rounds' scores in one shot) -- never a second file read."""
+    if status_text is None:
+        return None, None
+    # last_completed is the real round this status applies to -- None
+    # (never last_completed-or-round_number) when the player never
+    # completed any round at all (e.g. 마다솜, WD before the tournament
+    # itself): there's no real completed round to attribute it to, so
+    # none is invented. status_round only ever names a round this
+    # player genuinely played.
+    last_completed = max((k for k in range(1, round_number) if round_scores.get(k) is not None), default=0)
+    status_round = last_completed or None
+    if status_text in ("WD", "기권"):
+        return "WD", status_round
+    if status_text in ("DQ", "실격"):
+        return "DQ", status_round
+    if status_text in ("CUT", "컷오프"):
+        return _CUT_STATE_BY_ROUND.get(last_completed, "R1_CUT"), status_round
+    return None, None
+
+
 def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Path:
     """Parse this round's official leaderboard raw capture into
     LEADERBOARD.json. Every row already carries all four rounds'
@@ -229,6 +269,7 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
             # even if the raw attribute happens to carry a stray value.
             # Earlier rounds' real scores are untouched.
             round_scores[round_number] = None
+        status, status_round = _status_state(status_text, round_scores, round_number)
         records.append({
             "player_id": player_id,
             "player_name": name,
@@ -239,9 +280,16 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
             "r2_score": round_scores[2],
             "r3_score": round_scores[3],
             "r4_score": round_scores[4],
-            "withdrawn": status_text in ("WD", "기권"),
-            "disqualified": status_text in ("DQ", "실격"),
-            "missed_cut": status_text in ("CUT", "컷오프"),
+            "status": status,
+            "status_round": status_round,
+            # Legacy fields, derived from status -- kept so every existing
+            # consumer (hitejinro_round_page.py, tests) keeps working
+            # unchanged; missed_cut is true for EITHER real cut state,
+            # same as before this status split, just no longer the only
+            # thing a CUT player's data carries.
+            "withdrawn": status == "WD",
+            "disqualified": status == "DQ",
+            "missed_cut": status in ("R1_CUT", "R2_CUT"),
         })
 
     for pid, info in carried_forward.items():
@@ -256,9 +304,17 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
                 "r1_score": None, "r2_score": None, "r3_score": None, "r4_score": None,
             }
         status_text = info["status_text"]
-        record["withdrawn"] = status_text in ("WD", "기권")
-        record["disqualified"] = status_text in ("DQ", "실격")
-        record["missed_cut"] = status_text in ("CUT", "컷오프")
+        round_scores = {k: record.get(f"r{k}_score") for k in (1, 2, 3, 4)}
+        # proof_round (not round_number) is the real detection round here
+        # -- the exclusion text was found in THAT earlier round's own raw
+        # evidence directly, never in this round's (this player is absent
+        # from it entirely).
+        status, status_round = _status_state(status_text, round_scores, info["proof_round"])
+        record["status"] = status
+        record["status_round"] = status_round
+        record["withdrawn"] = status == "WD"
+        record["disqualified"] = status == "DQ"
+        record["missed_cut"] = status in ("R1_CUT", "R2_CUT")
         record["carried_forward_from_round"] = info["proof_round"]
         records.append(record)
 

@@ -126,32 +126,29 @@ def _round_participation_count(
 
 
 def _status_display_label(status: str, record: dict) -> str:
-    """Display-only disambiguation (2026-10-02 operational mission):
-    a bare "CUT"/"WD"/"DQ" label reads, in the R2 column specifically,
-    as if THIS round produced that outcome -- real evidence this
-    session showed that's often false (조하리/이수민/이소영 never
-    played R2 at all; their real cut was decided on R1's score alone).
-    Never touches the data model (status/withdrawn/disqualified/
-    missed_cut are unchanged) -- only the TEXT shown, derived fresh
-    every render from this record's own real r1-r4 scores (never
-    hardcoded to "R1"): the round this status applies to is the last
-    round this player has a real recorded score for. A player with no
-    real score for any round (e.g. withdrew before the tournament
-    itself started) falls back to the bare status -- there's no real
-    completed round to attribute it to, so none is invented."""
-    last_real_round = max((k for k in (1, 2, 3, 4) if record.get(f"r{k}_score") is not None), default=None)
-    return f"R{last_real_round} {status}" if last_real_round is not None else status
+    """Qualified status text for the one round column it belongs in
+    (2026-10-02 data-model mission): a bare "CUT"/"WD"/"DQ" read, in
+    the R2 column specifically, as if THIS round produced that outcome
+    -- real evidence this session showed that's often false (조하리/
+    이수민/이소영 never played R2 at all; their real cut was decided
+    on R1's score alone). This now reads the real, already-computed
+    status_round field hitejinro_round_pipeline.parse_leaderboard
+    writes -- it does not re-derive anything from scores at render
+    time; the data model itself carries R1_CUT vs R2_CUT as distinct
+    states, not this function's guesswork."""
+    status_round = record.get("status_round")
+    return f"R{status_round} {status}" if status_round is not None else status
 
 
 def _first_missed_round(record: dict) -> int:
     """The first round column (1-4) this player has no real score for
     -- where the qualified status label belongs, once and only once
-    (2026-10-02 operational fix: a bare status previously repeated in
-    every later round column too, e.g. 마다솜 showing "WD" in both her
-    R1 and R2 columns -- redundant and, in the R2 column specifically,
-    misleading about which round the real WD/CUT/DQ applies to)."""
-    last_real_round = max((k for k in (1, 2, 3, 4) if record.get(f"r{k}_score") is not None), default=0)
-    return last_real_round + 1
+    (a bare status previously repeated in every later round column
+    too, e.g. 마다솜 showing "WD" in both her R1 and R2 columns).
+    status_round IS the last round this player really completed
+    (parse_leaderboard's own real-score-derived field, 0 if none) --
+    the next column is where they first couldn't play."""
+    return (record.get("status_round") or 0) + 1
 
 
 def load_leaderboard(content_root: Path) -> dict:
