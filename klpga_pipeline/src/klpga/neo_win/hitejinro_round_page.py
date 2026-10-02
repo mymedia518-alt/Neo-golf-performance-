@@ -151,30 +151,6 @@ def _advancement_summary(records: list[dict]) -> dict | None:
     }
 
 
-def _round_participation_count(
-    round_number: int, records: list[dict], in_progress: dict[str, dict] | None,
-) -> int | None:
-    """Real count of players actually in THIS round's own field --
-    never advanced_count (that's R2's cut-survivor count, a different
-    real quantity that stays frozen at whatever R2 decided; R3/FR each
-    need their OWN round's real participation, which can differ, e.g.
-    a further real WD between rounds).
-
-    During an in-progress capture ("R3 START"-type render), counted
-    straight from in_progress's own real per-player state -- excluded
-    players (real WD/DQ/CUT during this round) don't count. Once the
-    round has genuinely completed and parse_leaderboard has re-parsed
-    real r{round_number}_score values into records, counted from those
-    instead. Returns None (never a fabricated/zero placeholder) if
-    this round has no real data of either kind yet."""
-    if in_progress is not None:
-        count = len([v for v in in_progress.values() if not v.get("excluded")])
-        return count if count > 0 else None
-    score_field = f"r{round_number}_score"
-    count = len([r for r in records if r.get(score_field) is not None])
-    return count if count > 0 else None
-
-
 # 2026-10-02 "CUT UI 재설계" mission: "R1 CUT"/"R2 CUT" read as two
 # nearly-identical codes a user has to decode -- and worse, the label
 # text named the round the player LAST COMPLETED (status_round), while
@@ -567,43 +543,17 @@ def render_round_page(
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"
-    # R2's own top banner (2026-10-02 "advanced_count 표시 금지" mission):
-    # never shows "컷 통과 {advanced_count}명" or a guessed 3R headcount.
-    # Once R3 genuinely has real data of its own (_round_participation_count
-    # reading real r3_score values -- never in_progress here, that param
-    # is round_number's OWN live state, not a later round's), show ONLY
-    # the real "3R 진출 {n}명" fact. Until then, show only what R2's own
-    # completion genuinely established: R2 종료 / CUT 확정 / real CUT and
-    # WD (and DQ, if any) counts -- no CUT LINE score, no advanced_count,
-    # no estimate of who tees off in R3.
-    cut_line_html = ""
-    if round_number == 2 and summary is not None:
-        real_r3_participation = _round_participation_count(3, records, in_progress=None)
-        if real_r3_participation is not None:
-            cut_line_html = f"<p class='cut-line-banner'>3R 진출 {real_r3_participation}명</p>"
-        else:
-            # "CUT 확정" alone has the same R1-vs-cumulative ambiguity
-            # the in-table divider had (see that comment) -- "R1 컷
-            # 확정" names what was actually decided.
-            cut_line_html = (
-                "<p class='cut-line-banner'>"
-                "<strong>R2 종료</strong> &nbsp;·&nbsp; R1 컷 확정"
-                f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
-                f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
-                + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
-                + (f" &nbsp;·&nbsp; DNS {summary['dns_count']}명" if summary["dns_count"] else "")
-                + "</p>"
-            )
-    elif round_number >= 3:
-        participation = _round_participation_count(round_number, records, in_progress)
-        if participation is not None:
-            cut_line_html = (
-                f"<p class='cut-line-banner'>실제 {ROUND_COL_LABELS[round_number]} 출전 선수 "
-                f"{participation}명</p>"
-            )
+    # 2026-10-02 "상단 상태 배너 삭제" mission: every top-of-table banner
+    # this renderer ever showed (R2's "R2 종료 · R1 컷 확정 · CUT · WD"/
+    # "3R 진출 {n}명", R3+'s "실제 {round} 출전 선수 {n}명") is removed --
+    # the real CUT/WD/DQ/DNS facts already render as their own in-table
+    # SECTION headers (see use_sections below); a second, separate
+    # summary line above the table was redundant with those and the
+    # operator asked for the table to start directly under the title on
+    # every round page, not just R2's.
     table_section = (
         f"<section class='panel leaderboard-panel' id='{stage_key}'>"
-        f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2>{cut_line_html}</div>"
+        f"<div class='leaderboard-head'><h2>{stage_label} 결과 <small>{len(played)}명</small></h2></div>"
         "<div class='table-wrap'><table class='data leaderboard-table leaderboard-table--hitejinro'><thead><tr>"
         "<th>순위</th><th>선수</th><th>합계</th>"
         + "".join(f"<th>{ROUND_COL_LABELS[k]}</th>" for k in (1, 2, 3, 4))

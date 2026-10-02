@@ -33,6 +33,10 @@ DOCS_ROOT = REPO_ROOT / "docs"
 CHROMIUM = "/opt/pw-browsers/chromium"
 GAME_CODE = "2026100005"
 FORBIDDEN_LABELS = ("R2 컷 통과", "본선 진출")
+# 2026-10-02 "상단 상태 배너 삭제" mission: the cut-line-banner <p> (any
+# wording -- "R2 종료 · R1 컷 확정 · CUT · WD", "3R 진출 {n}명", etc.)
+# must never reappear; the table starts directly under the <h2> title.
+FORBIDDEN_MARKUP = ("cut-line-banner",)
 REQUIRED_SECTION_ORDER = ("R2 미출전", "WD · ")
 
 
@@ -63,6 +67,9 @@ def _check_viewport(browser, name: str, viewport: dict) -> list[str]:
     for label in FORBIDDEN_LABELS:
         if label in html:
             failures.append(f"[{name}] forbidden unsubstantiated label {label!r} found on the real rendered page")
+    for marker in FORBIDDEN_MARKUP:
+        if marker in html:
+            failures.append(f"[{name}] forbidden markup {marker!r} found -- top banner must stay removed")
 
     positions = [html.find(s) for s in REQUIRED_SECTION_ORDER]
     if any(p == -1 for p in positions):

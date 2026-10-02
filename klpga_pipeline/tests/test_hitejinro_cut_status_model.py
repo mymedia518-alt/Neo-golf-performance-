@@ -165,21 +165,18 @@ def test_advancement_summary_classifies_by_status_not_legacy_flags():
 
 @requires_r2_leaderboard_evidence
 def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
-    """2026-10-02 'advanced_count 표시 금지' mission: R2's top banner
-    and in-table cut-divider must never render "컷 통과 {n}명" -- that
-    phrase claims a later, unconfirmed fact (who actually tees off in
-    R3) that _advancement_summary was never computed from. _advancement_
-    summary() itself is untouched (advanced_count is still a real,
-    correct field on its returned dict -- see the test above) -- only
-    the HTML these two displays render was changed to stop using it.
+    """2026-10-02 'advanced_count 표시 금지' mission (superseded the same
+    day by '상단 상태 배너 삭제' below): never render "컷 통과 {n}명" --
+    that phrase claims a later, unconfirmed fact (who actually tees off
+    in R3) that _advancement_summary was never computed from.
+    _advancement_summary() itself is untouched (advanced_count is still
+    a real, correct field on its returned dict -- see the test above).
 
-    Real R3 data doesn't exist in this checkout yet, so the banner must
-    fall to the no-estimate branch: real R2 종료/R1 컷 확정/CUT+WD counts
-    only, no CUT LINE score, no guessed R3 headcount. "R1 컷 확정" (not
-    bare "CUT 확정") per the 2026-10-02 "배너 문구 재검토" mission: this
-    tournament's real cut rule is R1-only, and a bare "CUT" on an R2
-    RESULTS page could otherwise read as a cumulative R1+R2 cut -- the
-    far more common real rule in stroke play."""
+    This mission's own replacement banner (real R2 종료/R1 컷 확정/
+    CUT+WD counts) was itself removed entirely by the later '상단 상태
+    배너 삭제' mission the same day -- see test_r2_top_banner_is_removed_
+    entirely below for that. This test now only confirms no banner text
+    of any kind survived, not a specific replacement wording."""
     from klpga.tournament_context import CONTENT_DIR
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
@@ -194,15 +191,36 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     # as any kind of "컷 통과" group) -- so "컷 통과 " should not
     # appear anywhere on this page any more, in any form.
     assert "컷 통과 " not in html, "no form of '컷 통과' may be displayed on the R2 page (no real evidence backs it)"
-    assert "<p class='cut-line-banner'><strong>R2 종료</strong>" in html
-    assert "R1 컷 확정" in html
-    assert "CUT 3명" in html
-    assert "WD 3명" in html
+    assert "cut-line-banner" not in html, "the top banner was removed entirely -- no replacement wording either"
     # 2026-10-02 "R2 Renderer 재설계" mission: the in-table cut-line
-    # score now lives on the "R2 미출전" SECTION's own header (see
+    # score lives on the "R2 미출전" SECTION's own header (see
     # test_r2_sections_are_rendered_for_r1_cut_and_wd_only below for
     # the full grouping behavior), not a standalone "CUT LINE —" line.
     assert "R2 미출전 — 87타 이하 통과 · 3명" in html
+
+
+@requires_r2_leaderboard_evidence
+def test_r2_top_banner_is_removed_entirely():
+    """2026-10-02 '상단 상태 배너 삭제' mission: the operator asked for
+    every top-of-table summary line this renderer ever showed (R2's
+    "R2 종료 · R1 컷 확정 · CUT · WD", any "3R 진출 {n}명"/"실제 {round}
+    출전 선수 {n}명" variant) removed outright -- the real CUT/WD/DQ/DNS
+    facts already render as their own in-table SECTION headers, so a
+    second, separate summary line above the table was redundant. The
+    table must start directly under the "<h2>R2 결과 ...</h2>" title,
+    with no <p class='cut-line-banner'> anywhere in the page."""
+    import re
+    from klpga.tournament_context import CONTENT_DIR
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    assert "cut-line-banner" not in html
+    head_m = re.search(r"<div class='leaderboard-head'>(.*?)</div>", html, re.DOTALL)
+    assert head_m is not None, "leaderboard-head block must exist"
+    assert re.fullmatch(r"<h2>R2 결과 <small>\d+명</small></h2>", head_m.group(1)), (
+        f"leaderboard-head must contain ONLY the title -- got {head_m.group(1)!r}"
+    )
 
 
 @requires_r2_leaderboard_evidence
@@ -403,6 +421,40 @@ def test_dns_section_renders_on_r2_page_when_a_real_dns_record_exists(tmp_path, 
     dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
     assert dividers[-1] == "DNS · 1명"
     assert "테스트DNS선수" in html
+
+
+def test_dq_section_renders_on_r2_page_when_a_real_dq_record_exists(tmp_path, monkeypatch):
+    """2026-10-02 Release Gate checklist item: no real DQ record exists
+    in this tournament yet, so this is exercised with one synthetic
+    record layered onto the real board -- same pattern as the R2_CUT/
+    DNS synthetic tests above. Proves DQ gets its own sectioned,
+    rank-less group on the R2 page, same as R1_CUT/WD/DNS -- this
+    status was previously only unit-tested at the _status_family/
+    _advancement_summary level, never through the actual renderer."""
+    from klpga.tournament_context import CONTENT_DIR
+    import json as _json
+
+    real_board = _json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
+    synthetic = dict(real_board["records"][0])
+    synthetic.update(
+        player_id="88889", player_name="테스트DQ선수", finish_position=None, finish_position_numeric=None,
+        score_to_par=None, status="DQ", status_round=1, withdrawn=False, disqualified=True, missed_cut=False,
+        r1_score=None, r2_score=None, r3_score=None, r4_score=None,
+    )
+    real_board["records"].append(synthetic)
+    for name in ("2026100005_ENTRY_KRANKING_JOIN.json", "HITEJINRO_2026100005_PRE_M4_CANDIDATE_V1.json"):
+        src = CONTENT_DIR / name
+        if src.is_file():
+            (tmp_path / name).write_bytes(src.read_bytes())
+    (tmp_path / "2026100005_LEADERBOARD.json").write_text(_json.dumps(real_board, ensure_ascii=False), encoding="utf-8")
+
+    html = render_round_page(
+        2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04", content_root=tmp_path,
+    )
+    dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
+    assert "DQ · 1명" in dividers
+    assert dividers.index("WD · 3명") < dividers.index("DQ · 1명"), "real section order is R1_CUT, WD, DQ, DNS"
+    assert "테스트DQ선수" in html
 
 
 @requires_r2_leaderboard_evidence
