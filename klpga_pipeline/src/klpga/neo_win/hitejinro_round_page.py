@@ -62,6 +62,7 @@ STATUS_R1_CUT = "R1_CUT"
 STATUS_R2_CUT = "R2_CUT"
 STATUS_WD = "WD"
 STATUS_DQ = "DQ"
+STATUS_DNS = "DNS"
 _CUT_STATUSES = {STATUS_R1_CUT, STATUS_R2_CUT}
 
 # 2026-10-02 "R2 Renderer 재설계" mission (status enum unchanged --
@@ -84,7 +85,11 @@ _CUT_STATUSES = {STATUS_R1_CUT, STATUS_R2_CUT}
 # all) fall back into the one flat list with their existing
 # status-replaces-rank/total cell, just with no divider around them.
 _INLINE_RANKED_STATUSES = {STATUS_R2_CUT}
-_SECTIONED_STATUSES = (STATUS_R1_CUT, STATUS_WD, STATUS_DQ)
+# DNS (did not start) never has a real rank either, same as R1_CUT/
+# WD/DQ -- 2026-10-02 "공식 DOM 그대로 파싱" mission added it as its
+# own real status (hitejinro_round_pipeline._status_state), so it
+# needs the same sectioned treatment here.
+_SECTIONED_STATUSES = (STATUS_R1_CUT, STATUS_WD, STATUS_DQ, STATUS_DNS)
 
 
 def _status_family(status: str | None) -> str | None:
@@ -94,7 +99,7 @@ def _status_family(status: str | None) -> str | None:
     function. Returns None for an active player (status is None)."""
     if status in _CUT_STATUSES:
         return "CUT"
-    if status in (STATUS_WD, STATUS_DQ):
+    if status in (STATUS_WD, STATUS_DQ, STATUS_DNS):
         return status
     return None
 
@@ -133,6 +138,7 @@ def _advancement_summary(records: list[dict]) -> dict | None:
         return None
     withdrawn = [r for r in records if r.get("status") == STATUS_WD]
     disqualified = [r for r in records if r.get("status") == STATUS_DQ]
+    dns = [r for r in records if r.get("status") == STATUS_DNS]
     advanced = [r for r in records if r.get("status") is None]
     advancing_r1_scores = [r["r1_score"] for r in advanced if r.get("r1_score") is not None]
     return {
@@ -141,6 +147,7 @@ def _advancement_summary(records: list[dict]) -> dict | None:
         "cut_count": len(cut),
         "withdrawn_count": len(withdrawn),
         "disqualified_count": len(disqualified),
+        "dns_count": len(dns),
     }
 
 
@@ -466,13 +473,13 @@ def render_round_page(
     # count is 0, so its section is correctly ABSENT below, never an
     # empty placeholder). Sectioning (its own rank-less group, pulled
     # out of the ranked table) applies ONLY on round_number == 2, and
-    # ONLY to the 3 statuses with no real rank of their own
-    # (_SECTIONED_STATUSES: R1_CUT/WD/DQ). R2_CUT never sections --
+    # ONLY to the 4 statuses with no real rank of their own
+    # (_SECTIONED_STATUSES: R1_CUT/WD/DQ/DNS). R2_CUT never sections --
     # it keeps a real rank (see _render_row_html) and merges straight
     # into the one ranked list on every round page. On R3/FR
-    # ("CUT 섹션을 생성하지 않는다"), R1_CUT/WD/DQ fall back into that
-    # same flat list too, with their existing status-replaces-rank/
-    # total cell -- just with no divider/header around them.
+    # ("CUT 섹션을 생성하지 않는다"), R1_CUT/WD/DQ/DNS fall back into
+    # that same flat list too, with their existing status-replaces-
+    # rank/total cell -- just with no divider/header around them.
     use_sections = round_number == 2
     inline_rows = [
         r for r in played
@@ -498,7 +505,7 @@ def render_round_page(
             rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
             rows_html.extend(_render_row_html(r, **row_kwargs) for r in r1_cut_group)
 
-        for section_status, section_label in ((STATUS_WD, "WD"), (STATUS_DQ, "DQ")):
+        for section_status, section_label in ((STATUS_WD, "WD"), (STATUS_DQ, "DQ"), (STATUS_DNS, "DNS")):
             group = [r for r in played if r.get("status") == section_status]
             if not group:
                 continue
@@ -570,6 +577,7 @@ def render_round_page(
                 f" &nbsp;·&nbsp; CUT {summary['cut_count']}명"
                 f" &nbsp;·&nbsp; WD {summary['withdrawn_count']}명"
                 + (f" &nbsp;·&nbsp; DQ {summary['disqualified_count']}명" if summary["disqualified_count"] else "")
+                + (f" &nbsp;·&nbsp; DNS {summary['dns_count']}명" if summary["dns_count"] else "")
                 + "</p>"
             )
     elif round_number >= 3:
