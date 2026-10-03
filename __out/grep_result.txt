@@ -1,0 +1,5 @@
+=== grep -n result on live_raw.html (the exact bytes fetched above) ===
+NO MATCH
+
+=== wc -l live_raw.html (total line count in the raw file) ===
+18 live_capture/live_raw.html

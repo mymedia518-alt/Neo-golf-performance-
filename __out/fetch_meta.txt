@@ -1,0 +1,4 @@
+url=https://neogolfdata.com/player/10725/
+status=200
+headers={'Connection': 'close', 'Content-Length': '86001', 'Server': 'GitHub.com', 'Content-Type': 'text/html; charset=utf-8', 'Last-Modified': 'Sat, 03 Oct 2026 20:23:03 GMT', 'Access-Control-Allow-Origin': '*', 'ETag': '"6ac16427-14ff1"', 'expires': 'Sat, 03 Oct 2026 20:33:12 GMT', 'Cache-Control': 'max-age=600', 'x-proxy-cache': 'MISS', 'X-GitHub-Request-Id': 'D124:186421:FB90DD:148ADE0:6AC16430', 'x-github-edge-region': 'iad', 'Accept-Ranges': 'bytes', 'Age': '0', 'Date': 'Sat, 03 Oct 2026 20:23:12 GMT', 'Via': '1.1 varnish', 'X-Served-By': 'cache-chi-kmdw8640087-CHI', 'X-Cache': 'MISS', 'X-Cache-Hits': '0', 'X-Timer': 'S1791058993.626556,VS0,VE91', 'Vary': 'Accept-Encoding', 'X-Fastly-Request-ID': '4de3929d52be1623c00ea6fb9c096ee1426baff9'}
+bytes=86001
