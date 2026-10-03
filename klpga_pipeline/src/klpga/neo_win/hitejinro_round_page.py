@@ -466,6 +466,18 @@ def render_round_page(
         # (incl. a "T" tie shared with an excluded player) is unchanged.
         played = [r for r in played if not (in_progress.get(str(r["player_id"])) or {}).get("excluded")]
 
+    if round_number >= 3:
+        # 2026-10-03 explicit operator instruction ("R3/FR에서는 R2 CUT
+        # 선수는 경기하지 않는다"): unlike R1_CUT/WD/DQ/DNS (which still
+        # fall back into the flat list with their own status-replaces-
+        # rank/total cell on R3/FR), R2_CUT players are dropped from
+        # these pages entirely -- they are not part of this round's
+        # real field at all (confirmed: the real R3 leaderboard capture
+        # itself never lists them, not even with CUT text). Applied
+        # after rank_counts for the same reason as the in_progress
+        # exclusion above.
+        played = [r for r in played if r.get("status") != STATUS_R2_CUT]
+
     nationality_by_id = _load_nationality_by_id(content_root)
     sponsor_cache = cross_tournament_verified_sponsor_cache()
 
@@ -609,3 +621,63 @@ def render_round_page(
         '</div></footer></body></html>'
     )
     return header + stage_nav + table_section + footer
+
+
+def render_r3_neo_verification_html(v: dict) -> str:
+    """② NEO 검증 (2026-10-03 mission): real pre-R3 M4 predictions vs
+    the real R3 outcome -- hitejinro_round_pipeline.build_r3_neo_
+    verification's own real, directly-computed numbers only. Never a
+    narrative guess at WHY a prediction missed; only the real score/
+    rank facts (operator: "예측 실패 원인" means the real data showing
+    the miss, not a fabricated explanation)."""
+    cp = v["cut_prediction"]
+    wc = v["win_candidate"]
+
+    topn_rows = "".join(
+        f"<tr><td>TOP{n}</td><td>{d['hit']}/{d['total']}</td>"
+        f"<td>{round(100 * d['hit'] / d['total'], 1)}%</td></tr>"
+        for n, d in v["topn_hitrates"].items()
+    )
+
+    real_wp = wc["real_leader_pre_r3_win_probability"]
+    real_wp_text = f"{real_wp * 100:.2f}%" if real_wp is not None else "데이터 부족"
+    win_html = (
+        f"<p>실제 R3 종료 선두: <b>{_esc(wc['real_leader']['player_name'])}</b> "
+        f"({format_to_par(wc['real_leader']['score_to_par'])}) -- R2 종료 시점 사전 우승확률 {real_wp_text}</p>"
+        f"<p>사전 우승확률 1위: <b>{_esc(wc['predicted_leader']['player_name'])}</b> "
+        f"({wc['predicted_leader']['pre_r3_win_probability'] * 100:.2f}%) -- "
+        f"실제 R3 결과: {_esc(wc['predicted_leader_real_status'] or ('순위 ' + str(wc['predicted_leader_real_rank'])))}</p>"
+    )
+
+    def _rank_rows(items: list[dict]) -> str:
+        return "".join(
+            f"<tr><td>{_esc(c['player_name'])}</td><td>{c['r2_rank']}</td><td>{c['r3_rank']}</td>"
+            f"<td>{'+' if c['change'] > 0 else ''}{c['change']}</td></tr>"
+            for c in items
+        )
+
+    return (
+        "<section class='panel' id='neo-verification'>"
+        "<h2>NEO 검증 -- 예측을 공개하고 실제 결과로 검증한다</h2>"
+        f"<p class='meta'>R2 종료 시점 NEO 사전 예측(M4 모델, {v['population_count']}명 대상) vs 실제 R3 결과 비교</p>"
+        "<h3>컷 예측 검증</h3>"
+        f"<p>{cp['correct']}/{cp['total']}명 정확 ({cp['accuracy_pct']}%) -- "
+        "R2 종료 시점 컷 통과확률 50% 이상을 '통과 예측'으로 판정</p>"
+        "<h3>TOP20 / TOP10 / TOP5 적중률</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>구간</th><th>적중</th><th>적중률</th></tr></thead>"
+        f"<tbody>{topn_rows}</tbody></table></div>"
+        "<h3>우승후보 적중 여부</h3>"
+        f"{win_html}"
+        "<h3>순위 변동 -- 상승 TOP5</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 순위</th><th>R3 순위</th><th>변동</th></tr></thead>"
+        f"<tbody>{_rank_rows(v['risers'])}</tbody></table></div>"
+        "<h3>순위 변동 -- 하락 TOP5</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 순위</th><th>R3 순위</th><th>변동</th></tr></thead>"
+        f"<tbody>{_rank_rows(v['fallers'])}</tbody></table></div>"
+        "<h3>예측 실패 원인 (실제 데이터)</h3>"
+        f"<p>사전 우승확률 1위 {_esc(wc['predicted_leader']['player_name'])}는 실제 R3 종료 시점 "
+        f"{_esc(wc['predicted_leader_real_status'] or ('순위 ' + str(wc['predicted_leader_real_rank'])))}에 그쳤고, "
+        f"실제 선두 {_esc(wc['real_leader']['player_name'])}의 사전 우승확률은 {real_wp_text}에 불과했다 -- "
+        "두 수치 모두 R2 종료 시점 M4 모델의 실제 출력값이며, 사후 재구성이 아니다.</p>"
+        "</section>"
+    )

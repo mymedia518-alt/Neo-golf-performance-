@@ -91,16 +91,20 @@ def test_legacy_fields_stay_byte_identical_to_the_real_production_file(tmp_path,
     every existing consumer reading finish_position/scores/withdrawn/
     disqualified/missed_cut must see exactly what it saw before this
     mission, for all 108 real entrants, not just a handful of spot
-    checks. 2026-10-03: production now runs a SECOND real step after
-    parse_leaderboard(2) -- derive_r2_cut_from_confirmed_r3_field(),
-    which legitimately changes missed_cut for 41 real players (R2_CUT)
-    -- so this test now reproduces the full real two-step pipeline
-    before comparing, not just its first step."""
-    from klpga.neo_win.hitejinro_round_pipeline import derive_r2_cut_from_confirmed_r3_field
+    checks. 2026-10-03: production now runs a THIRD real step after
+    parse_leaderboard(2) -- derive_r2_cut_from_confirmed_r3_field()
+    (changes missed_cut for 41 real R2_CUT players), then apply_r3_
+    results() (changes finish_position/finish_position_numeric/
+    score_to_par/r3_score for the 61 real active players, from the
+    real completed round-3 leaderboard) -- so this test now reproduces
+    the full real three-step pipeline before comparing, not just its
+    first step."""
+    from klpga.neo_win.hitejinro_round_pipeline import apply_r3_results, derive_r2_cut_from_confirmed_r3_field
 
     monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_path / "LEADERBOARD.json")
     parse_leaderboard(2)
-    out_path = derive_r2_cut_from_confirmed_r3_field()
+    derive_r2_cut_from_confirmed_r3_field()
+    out_path = apply_r3_results()
     new_doc = json.loads(out_path.read_text(encoding="utf-8"))
 
     from klpga.tournament_context import CONTENT_DIR
