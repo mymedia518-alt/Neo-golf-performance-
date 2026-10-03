@@ -5,6 +5,11 @@ data/raw_cache/
 data/klpga.sqlite
 data/csv/*.csv
 
+# HITEJINRO PUBLIC/INTERNAL split (2026-10-03): operator/admin-only
+# pages (NEO 검증/SG 분석/코스 분석 etc.) from build_hitejinro_
+# internal_report -- never under docs/, never deployed, never committed.
+internal_output/
+
 # Generated NEO GOLF PREDICTIONS static site — a build artifact,
 # reproducible from predictions/ + src/klpga/site/ + scripts/25.
 # See docs/PREDICTIONS_SITE.md.
