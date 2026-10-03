@@ -386,13 +386,18 @@ def _render_row_html(
         metric_class = "win"
 
     band_td = f"<td data-label='NEO 경기력'>{band_cell}</td>" if round_number == 1 else ""
+    # BUG FIX (2026-10-03, "R3에서는 컷 통과확률 컬럼을 제거한다"): the
+    # cut is already decided by R3 -- only R1/R2 (cut still pending)
+    # show this column; R3/FR show only the predictions still relevant
+    # at that stage (TOP20/TOP10/TOP5/우승확률).
+    cut_td = f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>" if round_number <= 2 else ""
     return (
         f"<tr><td data-label='순위'>{rank_cell}</td>"
         f"<th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
         f"<td data-label='합계'>{total_cell}</td>"
         + "".join(round_cells) +
         f"{band_td}"
-        f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>"
+        f"{cut_td}"
         f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
         f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
         f"<td class='{metric_class}' data-label='TOP5'>{top5_cell}</td>"
@@ -467,16 +472,16 @@ def render_round_page(
         played = [r for r in played if not (in_progress.get(str(r["player_id"])) or {}).get("excluded")]
 
     if round_number >= 3:
-        # 2026-10-03 explicit operator instruction ("R3/FR에서는 R2 CUT
-        # 선수는 경기하지 않는다"): unlike R1_CUT/WD/DQ/DNS (which still
-        # fall back into the flat list with their own status-replaces-
-        # rank/total cell on R3/FR), R2_CUT players are dropped from
-        # these pages entirely -- they are not part of this round's
-        # real field at all (confirmed: the real R3 leaderboard capture
-        # itself never lists them, not even with CUT text). Applied
-        # after rank_counts for the same reason as the in_progress
-        # exclusion above.
-        played = [r for r in played if r.get("status") != STATUS_R2_CUT]
+        # BUG FIX (2026-10-03, "R3는 실제 R3 출전자만 렌더링한다"):
+        # R2_CUT was already dropped from R3/FR (real R3 leaderboard
+        # capture never lists them). This widens that to every non-
+        # active status -- R1_CUT/WD/DQ/DNS no longer flat-fallback into
+        # R3/FR with a status-replaces-rank/total cell either; R2 is the
+        # only page that manages/displays those statuses at all. R3's
+        # own field is exactly its real 61 active (status is None)
+        # players, nothing else. Applied after rank_counts for the same
+        # reason as the in_progress exclusion above.
+        played = [r for r in played if r.get("status") is None]
 
     nationality_by_id = _load_nationality_by_id(content_root)
     sponsor_cache = cross_tournament_verified_sponsor_cache()
@@ -486,7 +491,7 @@ def render_round_page(
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
 
-    total_cols = 3 + 4 + (1 if round_number == 1 else 0) + 5
+    total_cols = 3 + 4 + (1 if round_number == 1 else 0) + (4 if round_number >= 3 else 5)
 
     # 2026-10-02 "R2 Renderer 재설계" mission, extended 2026-10-03.
     # Real evidence this tournament has: R1_CUT (조하리/이수민/이소영,
@@ -554,15 +559,25 @@ def render_round_page(
             rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
             rows_html.extend(_render_row_html(r, **row_kwargs) for r in group)
 
+    # BUG FIX (2026-10-03, round-trip navigation): this used to gate each
+    # OTHER stage on "n < round_number" -- a snapshot of which stages
+    # existed at THIS page's own build time. Once a later stage (e.g.
+    # R3) was published, every earlier stage's already-built page (R1,
+    # R2) kept permanently showing it as a disabled, unclickable span --
+    # so R3 -> R2 -> R3 could not round-trip (R2's own page had no real
+    # link back to R3). Same real-on-disk-file check PRE's own builder
+    # (scripts/190_build_hitejinro_pre_page.py) already uses, applied
+    # here too so every round page -- not just PRE -- always reflects
+    # the REAL current publication state, however many stages have been
+    # published since this exact page was last (re)built.
     stage_nav_items = []
-    for n, (key, label) in [(0, ("pre", "사전 분석 PRE"))] + [(n, STAGE_LABELS[n]) for n in (1, 2, 3, 4)]:
+    for key, label in [("pre", "사전 분석 PRE")] + [STAGE_LABELS[n] for n in (1, 2, 3, 4)]:
         display_label = "사전 분석 PRE" if key == "pre" else label
-        if key == "pre" or n < round_number:
-            href = f"/tournaments/2026/{GAME_CODE}/{key}/"
-            cur = " aria-current='page'" if key == stage_key else ""
-            stage_nav_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='{href}'{cur}>{display_label}</a></li>")
-        elif key == stage_key:
-            stage_nav_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='/tournaments/2026/{GAME_CODE}/{key}/' aria-current='page'>{display_label}</a></li>")
+        href = f"/tournaments/2026/{GAME_CODE}/{key}/"
+        if key == stage_key:
+            stage_nav_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='{href}' aria-current='page'>{display_label}</a></li>")
+        elif (_REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / key / "index.html").is_file():
+            stage_nav_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='{href}'>{display_label}</a></li>")
         else:
             stage_nav_items.append(f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>{display_label}</span></li>")
 
@@ -609,7 +624,8 @@ def render_round_page(
         "<th>순위</th><th>선수</th><th>합계</th>"
         + "".join(f"<th>{ROUND_COL_LABELS[k]}</th>" for k in (1, 2, 3, 4))
         + ("<th>NEO 경기력</th>" if round_number == 1 else "")
-        + "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
+        + ("<th>컷 통과확률</th>" if round_number <= 2 else "")
+        + "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
     footer = (
