@@ -155,6 +155,65 @@ PLAYER_PROFILE_ENDPOINT = f"{BASE_URL}/web/profile/mainRecord"
 #   possible to check without live access in this sandbox.
 TOURNAMENT_RECORD_ENDPOINT_UNCONFIRMED = f"{BASE_URL}/web/tourRecord/mainRecord"
 
+# [6c] Player season detail record ("공식 기록 > 시즌") -- the real
+#   data source PLAYER_PROFILE_ENDPOINT's own table skeleton is filled
+#   from client-side (its <td class="avgScore">/"avgDriverDistance">/
+#   "fairwayHitPct">/"parOnPct">/"avgPutt"> cells ship empty in the
+#   server HTML -- confirmed by a real GitHub Actions fetch of
+#   mainRecord?playerCode=8436, 2026-10-03, 200 OK/125392 bytes, every
+#   one of those cells literally empty).
+#
+#   CONFIRMED live, 2026-10-03 (GitHub Actions runner, real network --
+#   this sandbox still has none): the player's own publicRecordSeason
+#   page (GET /web/profile/publicRecordSeason?playerCode=<code>, a
+#   plain link on PLAYER_PROFILE_ENDPOINT's own nav, no login) embeds
+#   an inline script whose $(document).ready() calls loadDetail(),
+#   which does:
+#     $("#detail").load("/load/profile/publicRecordSeasonDetail",
+#         {playerCode, season, tourType, gameCode})
+#   i.e. a POST (jQuery .load() with a data object always POSTs) to:
+#     POST https://klpga.co.kr/load/profile/publicRecordSeasonDetail
+#       playerCode=<code>&season=<year>&tourType=RE&gameCode=
+#   (tourType "RE" = 정규투어/regular tour, the page's own default
+#   selection; gameCode="" = 전체/all tournaments that season.)
+#   Response is an HTML fragment (not JSON), three <h2 class="content-
+#   title"> sections (스코어/기술/기타종합), each a <table> of real
+#   "기록명"/"기록" label-value rows. Confirmed real response for
+#   playerCode=8436, season=2026: 평균타수 77.6250, 평균버디 0.8750,
+#   버디율 4.8611, 파브레이크율 4.8611, 페어웨이 안착률 60.0000,
+#   드라이브 거리 238.3080, 평균퍼팅 32.2500, 그린적중률 56.9444,
+#   벙커세이브율 0.0000, 리커버리율 50.0000 -- all real official
+#   values, HTTP 200/12459 bytes. See klpga.collectors.player_profile.
+PUBLIC_RECORD_SEASON_DETAIL_ENDPOINT = f"{BASE_URL}/load/profile/publicRecordSeasonDetail"
+
+# [6d] Player per-tournament hole-by-hole scorecard ("스코어 카드").
+#   CONFIRMED live, 2026-10-03 (GitHub Actions runner, real network):
+#   the player's own GET /web/profile/score?playerCode=<code> page
+#   embeds an inline script whose loadDetail() does:
+#     $("#detail").load("/load/profile/scoreDetail",
+#         {playerCode, gameCode, playerName})
+#   i.e. another POST-via-jQuery-.load() endpoint, same convention as
+#   PUBLIC_RECORD_SEASON_DETAIL_ENDPOINT:
+#     POST https://klpga.co.kr/load/profile/scoreDetail
+#       playerCode=<code>&gameCode=<gameCode>&playerName=<player's own
+#       Korean name, URL-encoded>
+#   gameCode is a SPECIFIC tournament this player actually played (the
+#   page's own #searchGame dropdown, populated from
+#   /ajax/profile/getPublicRecordGameList -- defaults to that player's
+#   own most recent tournament). Response is an HTML fragment: one
+#   <div class="roundDiv" id="round-<word>"> per round actually played
+#   (round-one, round-two, ...), each with its own <table
+#   class="table-scorecard"> of three real rows keyed by
+#   <td class="title">PAR/Score/Status, 18 real per-hole <td> cells
+#   (OUT/IN/TOT subtotal cells interspersed after hole 9 and hole 18).
+#   The Score row's own <td> carries KLPGA's own real per-hole
+#   classification as its CSS class -- "par"/"birdies"/"bogeys"/
+#   "Dbogeys" confirmed in the real 2026-10-03 capture (playerCode=
+#   8436, gameCode=2026080002); "eagles"/"Tbogeys" not yet observed in
+#   that specific capture but read defensively by the parser below,
+#   never assumed absent. See klpga.collectors.player_profile.
+SCORE_DETAIL_ENDPOINT = f"{BASE_URL}/load/profile/scoreDetail"
+
 # The landing page whose DOM carries the data-menu1/data-menu2/
 # data-menu3 attributes that RECORD_TAXONOMY_ENDPOINT's menu1/menu2/
 # menu3 form fields are drawn from — NOT confirmed. No URL is guessed
