@@ -91,7 +91,9 @@ _INLINE_RANKED_STATUSES = {STATUS_R2_CUT}
 # needs the same sectioned treatment here.
 #
 # 2026-10-03 mission: R2_CUT now ALSO gets pulled into its own R2-page
-# section ("R3 미출전"), per operator instruction -- the R2 page is
+# section (divider text "CUT", same as R1_CUT's own section since the
+# same-day "섹션 제목 단순화" mission), per operator instruction -- the
+# R2 page is
 # "R2 종료 시점의 최종 상태를 보여주는 페이지" and must show every real
 # outcome decided by then, R2_CUT included (derived from a real,
 # confirmed R3 field list -- hitejinro_round_pipeline.
@@ -472,7 +474,6 @@ def render_round_page(
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
 
-    summary = _advancement_summary(records)
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + 5
 
     # 2026-10-02 "R2 Renderer 재설계" mission, extended 2026-10-03.
@@ -512,33 +513,26 @@ def render_round_page(
     rows_html = [_render_row_html(r, **row_kwargs) for r in inline_rows]
 
     if use_sections:
-        r1_cut_group = [r for r in played if r.get("status") == STATUS_R1_CUT]
-        if r1_cut_group:
-            # The real R1 cut-line score (summary's own real
-            # computation, unchanged) is meaningful context for this
-            # one section -- no equivalent score exists for WD/DQ.
-            # "R2 미출전" (not "R1 미출전"): matches the already-shipped
-            # per-cell label text ("2R 미출전") exactly -- states the
-            # real fact directly (didn't enter ROUND 2), never
-            # ambiguous with "didn't play R1 itself" the way "R1
-            # 미출전" could be misread.
-            header = "R2 미출전"
-            if summary is not None and summary["cut_line_score"] is not None:
-                header += f" — {summary['cut_line_score']}타 이하 통과"
-            header += f" · {len(r1_cut_group)}명"
-            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
-            rows_html.extend(_render_row_html(r, **row_kwargs) for r in r1_cut_group)
-
-        # 2026-10-03 mission: R2_CUT's own section, "R3 미출전" -- these
-        # players DID complete R2 (real rank/total), so unlike R1_CUT's
-        # section their rows still show that real rank/total + a small
-        # inline "CUT" badge (_INLINE_RANKED_STATUSES, unchanged) rather
-        # than a bare "CUT" placeholder -- only the GROUPING is new.
+        # 2026-10-03 "섹션 제목 단순화" mission: both cut sections' user-
+        # facing DIVIDER TEXT simplifies to plain "CUT" (dropping "R2
+        # 미출전"/"R3 미출전" and the R1 cutline-score suffix) -- the
+        # internal status enum (R1_CUT/R2_CUT) is untouched, and each
+        # row's own cell text (rank/total "CUT", per-cell "2R 미출전"/
+        # "3R 탈락" labels, the inline CUT badge) is untouched too; only
+        # these two divider headers' wording changed. Order also
+        # flipped per explicit instruction: R2_CUT's section now comes
+        # BEFORE R1_CUT's (① 일반 순위 ② CUT/R2_CUT ③ CUT/R1_CUT ④ WD).
         r2_cut_group = [r for r in played if r.get("status") == STATUS_R2_CUT]
         if r2_cut_group:
-            header = f"R3 미출전 · {len(r2_cut_group)}명"
+            header = f"CUT · {len(r2_cut_group)}명"
             rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
             rows_html.extend(_render_row_html(r, **row_kwargs) for r in r2_cut_group)
+
+        r1_cut_group = [r for r in played if r.get("status") == STATUS_R1_CUT]
+        if r1_cut_group:
+            header = f"CUT · {len(r1_cut_group)}명"
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
+            rows_html.extend(_render_row_html(r, **row_kwargs) for r in r1_cut_group)
 
         for section_status, section_label in ((STATUS_WD, "WD"), (STATUS_DQ, "DQ"), (STATUS_DNS, "DNS")):
             group = [r for r in played if r.get("status") == section_status]

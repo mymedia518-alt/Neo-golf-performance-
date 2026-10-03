@@ -11,9 +11,11 @@ Checks:
 2. R1 score cell renders on ONE line, not wrapped (the real CSS
    specificity bug this session found and fixed: "70" rendering as
    "7"/"0" stacked -- single line is ~20-40px, two lines ~55-60px+).
-3. The real section headers ("R2 미출전 — ...", "WD · ...") appear,
-   in that order, and the explicitly-rejected "R2 컷 통과"/"본선 진출"
-   labels never appear (2026-10-02 EVIDENCE INSUFFICIENT finding).
+3. The real section dividers (two "CUT · {n}명" -- R2_CUT then R1_CUT
+   -- then one "WD · {n}명") appear in that order, and the explicitly-
+   retired "R2 컷 통과"/"본선 진출"/"R2 미출전"/"R3 미출전" labels never
+   appear (2026-10-02 EVIDENCE INSUFFICIENT finding; 2026-10-03 섹션
+   제목 단순화 mission).
 Runs each check at both desktop (1440x900) and mobile (390x900)
 viewports -- a bug fixed at one width and not the other is still a
 real regression.
@@ -22,6 +24,7 @@ from __future__ import annotations
 
 import functools
 import http.server
+import re
 import sys
 import threading
 from pathlib import Path
@@ -32,12 +35,19 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DOCS_ROOT = REPO_ROOT / "docs"
 CHROMIUM = "/opt/pw-browsers/chromium"
 GAME_CODE = "2026100005"
-FORBIDDEN_LABELS = ("R2 컷 통과", "본선 진출")
+# "R2 미출전"/"R3 미출전" retired 2026-10-03 "섹션 제목 단순화" mission
+# -- both cut sections' divider text is now plain "CUT · {n}명".
+FORBIDDEN_LABELS = ("R2 컷 통과", "본선 진출", "R2 미출전", "R3 미출전")
 # 2026-10-02 "상단 상태 배너 삭제" mission: the cut-line-banner <p> (any
 # wording -- "R2 종료 · R1 컷 확정 · CUT · WD", "3R 진출 {n}명", etc.)
 # must never reappear; the table starts directly under the <h2> title.
 FORBIDDEN_MARKUP = ("cut-line-banner",)
-REQUIRED_SECTION_ORDER = ("R2 미출전", "R3 미출전", "WD · ")
+# Structural check (not a fixed ordered tuple of distinct label text,
+# since both cut sections now share the same "CUT · {n}명" wording,
+# distinguished only by their real counts -- data this gate doesn't
+# hardcode): two separate "CUT · " dividers must exist, both before
+# the one "WD · " divider.
+REQUIRED_WD_LABEL = "WD · "
 
 
 def _check_viewport(browser, name: str, viewport: dict) -> list[str]:
@@ -71,11 +81,14 @@ def _check_viewport(browser, name: str, viewport: dict) -> list[str]:
         if marker in html:
             failures.append(f"[{name}] forbidden markup {marker!r} found -- top banner must stay removed")
 
-    positions = [html.find(s) for s in REQUIRED_SECTION_ORDER]
-    if any(p == -1 for p in positions):
-        failures.append(f"[{name}] missing expected section header(s): {REQUIRED_SECTION_ORDER} -> positions {positions}")
-    elif positions != sorted(positions):
-        failures.append(f"[{name}] section headers out of order: {REQUIRED_SECTION_ORDER} -> positions {positions}")
+    cut_positions = [m.start() for m in re.finditer(r"CUT · \d+명", html)]
+    wd_position = html.find(REQUIRED_WD_LABEL)
+    if len(cut_positions) < 2:
+        failures.append(f"[{name}] expected 2 'CUT · ' section dividers (R2_CUT + R1_CUT), found {len(cut_positions)}")
+    if wd_position == -1:
+        failures.append(f"[{name}] missing expected '{REQUIRED_WD_LABEL}' section divider")
+    elif cut_positions and any(p > wd_position for p in cut_positions):
+        failures.append(f"[{name}] a 'CUT · ' divider appears after 'WD · ' -- wrong section order")
 
     page.close()
     return failures

@@ -199,11 +199,11 @@ def test_r2_banner_never_shows_advanced_count_and_uses_real_evidence_only():
     # appear anywhere on this page any more, in any form.
     assert "컷 통과 " not in html, "no form of '컷 통과' may be displayed on the R2 page (no real evidence backs it)"
     assert "cut-line-banner" not in html, "the top banner was removed entirely -- no replacement wording either"
-    # 2026-10-02 "R2 Renderer 재설계" mission: the in-table cut-line
-    # score lives on the "R2 미출전" SECTION's own header (see
-    # test_r2_sections_are_rendered_for_r1_cut_and_wd_only below for
-    # the full grouping behavior), not a standalone "CUT LINE —" line.
-    assert "R2 미출전 — 87타 이하 통과 · 3명" in html
+    # 2026-10-03 "섹션 제목 단순화" mission: the cut sections' divider
+    # text is now plain "CUT" (see test_r2_sections_are_rendered_for_
+    # r1_cut_r2_cut_and_wd_not_active below for the full grouping
+    # behavior), no cutline-score suffix.
+    assert "CUT · 3명" in html
 
 
 @requires_r2_leaderboard_evidence
@@ -276,36 +276,41 @@ def test_r1_cut_shows_as_2r_미출전_not_as_an_r1_vs_r2_code():
 
 
 @requires_r2_leaderboard_evidence
-def test_r2_sections_are_rendered_for_r1_cut_r2_cut_and_wd_not_active():
+def test_r2_sections_are_rendered_for_r2_cut_r1_cut_and_wd_not_active():
     """2026-10-02 'R2 Renderer 재설계' mission (operator's own words:
-    "문제는 status enum이 아니다. 문제는 Renderer다"), extended 2026-10-03:
-    on the R2 page, R1_CUT/R2_CUT/WD/DQ/DNS each get their own separate
-    section -- never one flat tail mixing them. status=None renders as
-    a PLAIN ranked list with NO header/group name (2026-10-02 "EVIDENCE
-    INSUFFICIENT" mission: no KLPGA page anywhere in this tournament's
-    raw evidence displays a "본선 진출자"/cut-pass counter for that
-    population). R2_CUT (2026-10-03: derived from a real confirmed R3
-    field list, hitejinro_round_pipeline.derive_r2_cut_from_confirmed_
-    r3_field, score-boundary-verified -- never Set Difference against
-    R3 RESULTS) gets its own "R3 미출전" section, between R1_CUT's and
-    WD's, per the real ① normal ② R2 미출전 ③ R3 미출전 ④ WD ⑤ DQ ⑥ DNS
-    order. Real evidence: 61 active (unlabeled), R1_CUT (조하리/이수민/
-    이소영, 3), R2_CUT (41), WD (고지우/황정미/마다솜, 3)."""
+    "문제는 status enum이 아니다. 문제는 Renderer다"), extended 2026-10-03
+    twice: (a) R2_CUT gets its own section too (derived from a real
+    confirmed R3 field list, hitejinro_round_pipeline.derive_r2_cut_
+    from_confirmed_r3_field, score-boundary-verified -- never Set
+    Difference against R3 RESULTS); (b) "섹션 제목 단순화" mission:
+    both cut sections' divider TEXT simplified to plain "CUT" (no
+    cutline-score suffix, no "R2/R3 미출전" wording -- the internal
+    R1_CUT/R2_CUT status enum and each row's own real-rank/badge/
+    per-cell labels are unchanged), and section ORDER flipped to
+    ① 일반 순위 ② CUT(R2_CUT) ③ CUT(R1_CUT) ④ WD ⑤ DQ ⑥ DNS. status=None
+    renders as a PLAIN ranked list with NO header/group name
+    (2026-10-02 "EVIDENCE INSUFFICIENT" mission). Real evidence: 61
+    active (unlabeled), R2_CUT (41), R1_CUT (조하리/이수민/이소영, 3),
+    WD (고지우/황정미/마다솜, 3)."""
     from klpga.tournament_context import CONTENT_DIR
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
         content_root=CONTENT_DIR,
     )
     dividers = re.findall(r"<tr class='cut-divider'><td colspan='\d+'>([^<]*)</td></tr>", html)
-    # Exactly 3 sections (R2 미출전, R3 미출전, WD) -- no header for the
+    # Exactly 3 sections (CUT/41, CUT/3, WD/3) -- no header for the
     # active group, no DQ/DNS section (0 real cases of either).
-    assert dividers == ["R2 미출전 — 87타 이하 통과 · 3명", "R3 미출전 · 41명", "WD · 3명"]
+    assert dividers == ["CUT · 41명", "CUT · 3명", "WD · 3명"]
     assert "R2 컷 통과" not in html
-    assert html.index("R2 미출전") < html.index("R3 미출전") < html.index("WD · 3명")
+    assert "R2 미출전" not in html and "R3 미출전" not in html
+    first_cut = html.index("CUT · 41명")
+    second_cut = html.index("CUT · 3명")
+    wd = html.index("WD · 3명")
+    assert first_cut < second_cut < wd
     # The first real row (활성 선수, rank 1) must come before any
     # section divider -- confirms it renders plainly with no header
     # above it.
-    assert html.index("<td data-label='순위'>1</td>") < html.index("R2 미출전")
+    assert html.index("<td data-label='순위'>1</td>") < first_cut
 
 
 def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
@@ -315,11 +320,12 @@ def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
     operator supplied) keeps a cut player's REAL rank/total and only
     adds a small "CUT" badge next to the name, never replacing
     rank/total with the word CUT. 2026-10-03 mission: R2_CUT now DOES
-    get pulled into its own "R3 미출전" section (operator: "R2 페이지는
-    R2 종료 시점의 최종 상태를 보여주는 페이지다") -- only the GROUPING
+    get pulled into its own section (operator: "R2 페이지는 R2 종료
+    시점의 최종 상태를 보여주는 페이지다"), whose divider text is plain
+    "CUT" (same-day "섹션 제목 단순화" mission) -- only the GROUPING
     changed, the real-rank+badge row treatment inside that section did
     not. Exercised with one synthetic record layered onto the real
-    (now 41-real-R2_CUT) board, isolating one exact row's fields."""
+    (now 42-R2_CUT) board, isolating one exact row's fields."""
     from klpga.tournament_context import CONTENT_DIR
     import json as _json
 
@@ -344,13 +350,14 @@ def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
         content_root=tmp_content,
     )
     # Real rank (55), real total (+5) -- never replaced by "CUT" text,
-    # even inside the "R3 미출전" section.
+    # even inside R2_CUT's own section.
     assert "<td data-label='순위'>55</td>" in html
     assert "<td data-label='합계'>+5</td>" in html
     assert "<span class='status-badge'>CUT</span>" in html
-    # This synthetic row sits AFTER the "R3 미출전" divider, not inline
-    # in the main ranked list above it.
-    assert html.index("R3 미출전") < html.index("<td data-label='순위'>55</td>")
+    # This synthetic row sits AFTER the R2_CUT section's own divider
+    # (42 = 41 real + this 1 synthetic), not inline in the main ranked
+    # list above it.
+    assert html.index("CUT · 42명") < html.index("<td data-label='순위'>55</td>")
 
 
 @requires_r2_leaderboard_evidence
