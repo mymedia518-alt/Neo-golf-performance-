@@ -1402,6 +1402,25 @@ def build_round_page(round_number: int, *, include_internal: bool = False) -> Pa
     html = render_round_page(
         round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
     )
+    if round_number == 3:
+        # 2026-10-03: operator-supplied homepage video, same real
+        # component Hana's own FINAL page already uses (klpga.neo_win.
+        # final_real_page.render_final_video_section, reused unmodified)
+        # -- spliced right after stage-nav, before the leaderboard panel,
+        # same position Hana's page places it. Public content (not
+        # internal analytics), so always included regardless of
+        # include_internal. HOME mirrors this page's <main> verbatim
+        # (scripts/192), so the video reaches the home screen too.
+        from klpga.neo_win.final_real_page import render_final_video_section
+        video_html = render_final_video_section(
+            video_src=f"/assets/tournaments/{GAME_CODE}/neo-golf-data-home.mp4",
+            caption="NEO GOLF DATA",
+        )
+        assert "</ol></nav><section class='panel leaderboard-panel'" in html
+        html = html.replace(
+            "</ol></nav><section class='panel leaderboard-panel'",
+            "</ol></nav>" + video_html + "<section class='panel leaderboard-panel'",
+        )
     if include_internal and round_number in (1, 2, 3):
         from klpga.neo_win.hitejinro_round_page import render_hitejinro_verification_html
         verification = build_hitejinro_round_verification(round_number)
