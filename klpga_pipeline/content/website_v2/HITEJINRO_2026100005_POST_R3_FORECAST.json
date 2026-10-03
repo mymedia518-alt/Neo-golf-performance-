@@ -1,0 +1,507 @@
+{
+  "artifact": "hitejinro_post_r4_final_preview",
+  "source_round": 3,
+  "remaining_rounds": 1,
+  "n_simulations": 60000,
+  "seed": 20261001,
+  "missing_players": [
+    "10112",
+    "9401",
+    "11076",
+    "8240",
+    "8246",
+    "11978"
+  ],
+  "simulation_engine": "klpga.neo_win.round_update_r3.simulate_post_round3 (same real call Hana's scripts/170 makes)",
+  "sg_adjustment": "not applied -- real walk-forward fit unavailable in this environment (see build_hitejinro_post_r2_forecast)",
+  "records": [
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "win_probability": 0.00018333,
+      "top5_probability": 0.006633,
+      "top10_probability": 0.03485,
+      "top20_probability": 0.19476700000000002
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "win_probability": 3.333e-05,
+      "top5_probability": 0.0034000000000000002,
+      "top10_probability": 0.019950000000000002,
+      "top20_probability": 0.13015000000000002
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "win_probability": 0.0,
+      "top5_probability": 0.00055,
+      "top10_probability": 0.004417,
+      "top20_probability": 0.043
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "win_probability": 0.11476667000000002,
+      "top5_probability": 0.51895,
+      "top10_probability": 0.777717,
+      "top20_probability": 0.956983
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "win_probability": 0.00578333,
+      "top5_probability": 0.08078300000000001,
+      "top10_probability": 0.245517,
+      "top20_probability": 0.60595
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "win_probability": 5e-05,
+      "top5_probability": 0.002333,
+      "top10_probability": 0.017150000000000002,
+      "top20_probability": 0.1159
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "win_probability": 0.00051667,
+      "top5_probability": 0.010367,
+      "top10_probability": 0.053667,
+      "top20_probability": 0.24905000000000002
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "win_probability": 0.0355,
+      "top5_probability": 0.2669,
+      "top10_probability": 0.540783,
+      "top20_probability": 0.854967
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "win_probability": 0.0008500000000000001,
+      "top5_probability": 0.020316999999999998,
+      "top10_probability": 0.087267,
+      "top20_probability": 0.345733
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "win_probability": 0.01626667,
+      "top5_probability": 0.16026700000000002,
+      "top10_probability": 0.38935000000000003,
+      "top20_probability": 0.75015
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "win_probability": 0.04835,
+      "top5_probability": 0.320567,
+      "top10_probability": 0.600983,
+      "top20_probability": 0.88425
+    },
+    {
+      "player_id": "8772",
+      "player_name": "박민지",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.001067,
+      "top10_probability": 0.008767,
+      "top20_probability": 0.074667
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "win_probability": 0.00011667,
+      "top5_probability": 0.0038329999999999996,
+      "top10_probability": 0.02375,
+      "top20_probability": 0.145267
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "win_probability": 0.11811666999999999,
+      "top5_probability": 0.519867,
+      "top10_probability": 0.776283,
+      "top20_probability": 0.956867
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "win_probability": 0.06485,
+      "top5_probability": 0.377033,
+      "top10_probability": 0.65735,
+      "top20_probability": 0.9113500000000001
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "win_probability": 3.333e-05,
+      "top5_probability": 0.0012670000000000001,
+      "top10_probability": 0.00885,
+      "top20_probability": 0.074267
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "win_probability": 0.0729,
+      "top5_probability": 0.40850000000000003,
+      "top10_probability": 0.68915,
+      "top20_probability": 0.924633
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "win_probability": 0.0,
+      "top5_probability": 5e-05,
+      "top10_probability": 0.0009,
+      "top20_probability": 0.0132
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "win_probability": 0.07053333,
+      "top5_probability": 0.394583,
+      "top10_probability": 0.672767,
+      "top20_probability": 0.9195829999999999
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.001,
+      "top10_probability": 0.0072,
+      "top20_probability": 0.06421700000000001
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "win_probability": 0.0019500000000000001,
+      "top5_probability": 0.03915,
+      "top10_probability": 0.142467,
+      "top20_probability": 0.457083
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "win_probability": 0.0,
+      "top5_probability": 1.7e-05,
+      "top10_probability": 0.000117,
+      "top20_probability": 0.0017499999999999998
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "win_probability": 0.00723333,
+      "top5_probability": 0.09683299999999999,
+      "top10_probability": 0.27715,
+      "top20_probability": 0.6436
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "win_probability": 0.00931667,
+      "top5_probability": 0.111517,
+      "top10_probability": 0.3042,
+      "top20_probability": 0.673017
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "win_probability": 5e-05,
+      "top5_probability": 0.000583,
+      "top10_probability": 0.0052,
+      "top20_probability": 0.051399999999999994
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "win_probability": 0.01195,
+      "top5_probability": 0.13045,
+      "top10_probability": 0.344,
+      "top20_probability": 0.710333
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "win_probability": 6.667e-05,
+      "top5_probability": 0.0023669999999999997,
+      "top10_probability": 0.017067000000000002,
+      "top20_probability": 0.1192
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.00145,
+      "top10_probability": 0.010632999999999998,
+      "top20_probability": 0.085967
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "win_probability": 3.333e-05,
+      "top5_probability": 0.000883,
+      "top10_probability": 0.0072499999999999995,
+      "top20_probability": 0.06568299999999999
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 3.3e-05,
+      "top20_probability": 0.0008500000000000001
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "win_probability": 0.00803333,
+      "top5_probability": 0.09515000000000001,
+      "top10_probability": 0.274983,
+      "top20_probability": 0.6445000000000001
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "win_probability": 0.00055,
+      "top5_probability": 0.010617000000000001,
+      "top10_probability": 0.050633,
+      "top20_probability": 0.240483
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "win_probability": 0.0049499999999999995,
+      "top5_probability": 0.070533,
+      "top10_probability": 0.22361699999999998,
+      "top20_probability": 0.582417
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "win_probability": 0.00101667,
+      "top5_probability": 0.021917,
+      "top10_probability": 0.0886,
+      "top20_probability": 0.339517
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "win_probability": 0.0,
+      "top5_probability": 0.0012330000000000002,
+      "top10_probability": 0.008983,
+      "top20_probability": 0.07613299999999999
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "win_probability": 0.00713333,
+      "top5_probability": 0.09505000000000001,
+      "top10_probability": 0.277417,
+      "top20_probability": 0.64445
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 1.7e-05,
+      "top20_probability": 0.000733
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "win_probability": 0.0,
+      "top5_probability": 6.7e-05,
+      "top10_probability": 0.000583,
+      "top20_probability": 0.010117000000000001
+    },
+    {
+      "player_id": "9115",
+      "player_name": "유해란",
+      "win_probability": 0.37021667,
+      "top5_probability": 0.805283,
+      "top10_probability": 0.938167,
+      "top20_probability": 0.99285
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 1.7e-05,
+      "top20_probability": 0.000317
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "win_probability": 0.00016667,
+      "top5_probability": 0.0031669999999999997,
+      "top10_probability": 0.019933,
+      "top20_probability": 0.13235
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "win_probability": 0.0001,
+      "top5_probability": 0.0038829999999999997,
+      "top10_probability": 0.025317,
+      "top20_probability": 0.152917
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "win_probability": 0.0,
+      "top5_probability": 0.00013299999999999998,
+      "top10_probability": 0.001133,
+      "top20_probability": 0.013867
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "win_probability": 0.0,
+      "top5_probability": 0.000733,
+      "top10_probability": 0.004767,
+      "top20_probability": 0.049567
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "win_probability": 0.00403333,
+      "top5_probability": 0.0629,
+      "top10_probability": 0.20566700000000002,
+      "top20_probability": 0.55505
+    },
+    {
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.001717,
+      "top10_probability": 0.0118,
+      "top20_probability": 0.09525
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "win_probability": 0.0097,
+      "top5_probability": 0.11578300000000001,
+      "top10_probability": 0.3169,
+      "top20_probability": 0.684533
+    },
+    {
+      "player_id": "10138",
+      "player_name": "임진영",
+      "win_probability": 0.00236667,
+      "top5_probability": 0.040583,
+      "top10_probability": 0.146617,
+      "top20_probability": 0.460683
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "win_probability": 0.0008333300000000001,
+      "top5_probability": 0.01635,
+      "top10_probability": 0.0722,
+      "top20_probability": 0.305033
+    },
+    {
+      "player_id": "8179",
+      "player_name": "박성현",
+      "win_probability": 0.00023333,
+      "top5_probability": 0.005617,
+      "top10_probability": 0.031417,
+      "top20_probability": 0.179883
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "win_probability": 0.0021166699999999997,
+      "top5_probability": 0.032333,
+      "top10_probability": 0.12425000000000001,
+      "top20_probability": 0.415067
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 0.0,
+      "top20_probability": 0.000333
+    },
+    {
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.000417,
+      "top10_probability": 0.00335,
+      "top20_probability": 0.037083
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "win_probability": 1.667e-05,
+      "top5_probability": 0.000867,
+      "top10_probability": 0.005883,
+      "top20_probability": 0.056183
+    },
+    {
+      "player_id": "11640",
+      "player_name": "성아진",
+      "win_probability": 8.333e-05,
+      "top5_probability": 0.0027,
+      "top10_probability": 0.018317,
+      "top20_probability": 0.12378299999999999
+    },
+    {
+      "player_id": "9111",
+      "player_name": "박서현",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 0.0,
+      "top20_probability": 0.0
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "win_probability": 0.0,
+      "top5_probability": 0.0009329999999999999,
+      "top10_probability": 0.0072499999999999995,
+      "top20_probability": 0.062016999999999996
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 0.0001,
+      "top20_probability": 0.001567
+    },
+    {
+      "player_id": "9089",
+      "player_name": "김소정",
+      "win_probability": 0.00531667,
+      "top5_probability": 0.0718,
+      "top10_probability": 0.224917,
+      "top20_probability": 0.5791499999999999
+    },
+    {
+      "player_id": "10531",
+      "player_name": "현세린",
+      "win_probability": 0.0036,
+      "top5_probability": 0.058717,
+      "top10_probability": 0.192283,
+      "top20_probability": 0.5379999999999999
+    },
+    {
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "win_probability": 0.0,
+      "top5_probability": 0.0,
+      "top10_probability": 0.0001,
+      "top20_probability": 0.002333
+    }
+  ]
+}
