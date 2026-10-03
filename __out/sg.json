@@ -1,0 +1,1225 @@
+{
+  "retrieved_at": "2026-10-03T09:40:38.470635+00:00",
+  "records": [
+    {
+      "rank": 1,
+      "player": "유서연2",
+      "total": 7.54,
+      "tee_to_green": 2.8,
+      "off_the_tee": 0.45,
+      "approach": 2.79,
+      "around_green": -0.43,
+      "putting": 4.74,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11066",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 2,
+      "player": "이지현3",
+      "total": 6.57,
+      "tee_to_green": 2.37,
+      "off_the_tee": 0.12,
+      "approach": 2.71,
+      "around_green": -0.47,
+      "putting": 4.19,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9449",
+      "validation": {
+        "total_delta": 0.02,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 3,
+      "player": "배소현",
+      "total": 6.37,
+      "tee_to_green": 4.64,
+      "off_the_tee": 0.47,
+      "approach": 2.84,
+      "around_green": 1.34,
+      "putting": 1.72,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8589",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 4,
+      "player": "현세린",
+      "total": 5.54,
+      "tee_to_green": 1.31,
+      "off_the_tee": -1.21,
+      "approach": 2.2,
+      "around_green": 0.33,
+      "putting": 4.23,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10531",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 5,
+      "player": "전예성",
+      "total": 3.74,
+      "tee_to_green": 1.91,
+      "off_the_tee": -1.12,
+      "approach": 3.09,
+      "around_green": -0.06,
+      "putting": 1.83,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9082",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 6,
+      "player": "서어진",
+      "total": 3.52,
+      "tee_to_green": 2.96,
+      "off_the_tee": 0.8,
+      "approach": 1.87,
+      "around_green": 0.28,
+      "putting": 0.56,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9134",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 7,
+      "player": "안지현",
+      "total": 3.47,
+      "tee_to_green": 2.54,
+      "off_the_tee": 0.57,
+      "approach": 1.96,
+      "around_green": 0.0,
+      "putting": 0.94,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9465",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 8,
+      "player": "마서영",
+      "total": 3.44,
+      "tee_to_green": 3.72,
+      "off_the_tee": 0.02,
+      "approach": 2.45,
+      "around_green": 1.24,
+      "putting": -0.28,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10083",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 8,
+      "player": "이예원",
+      "total": 3.44,
+      "tee_to_green": 1.25,
+      "off_the_tee": 0.91,
+      "approach": 0.31,
+      "around_green": 0.03,
+      "putting": 2.19,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9784",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 10,
+      "player": "정윤지",
+      "total": 3.35,
+      "tee_to_green": 2.43,
+      "off_the_tee": 0.9,
+      "approach": 1.54,
+      "around_green": 0.0,
+      "putting": 0.92,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9820",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 11,
+      "player": "김민주",
+      "total": 2.68,
+      "tee_to_green": 2.61,
+      "off_the_tee": 0.41,
+      "approach": 1.57,
+      "around_green": 0.64,
+      "putting": 0.07,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10081",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 12,
+      "player": "최예본",
+      "total": 2.67,
+      "tee_to_green": 0.85,
+      "off_the_tee": 0.79,
+      "approach": 1.9,
+      "around_green": -1.83,
+      "putting": 1.81,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10577",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 13,
+      "player": "윤화영",
+      "total": 2.52,
+      "tee_to_green": 4.19,
+      "off_the_tee": -0.06,
+      "approach": 1.2,
+      "around_green": 3.05,
+      "putting": -1.67,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8884",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 14,
+      "player": "전우리",
+      "total": 2.46,
+      "tee_to_green": 1.02,
+      "off_the_tee": 0.49,
+      "approach": -0.36,
+      "around_green": 0.89,
+      "putting": 1.44,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9389",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 15,
+      "player": "노승희",
+      "total": 2.42,
+      "tee_to_green": 1.1,
+      "off_the_tee": 0.47,
+      "approach": 1.55,
+      "around_green": -0.92,
+      "putting": 1.32,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9113",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 16,
+      "player": "홍진영2",
+      "total": 2.4,
+      "tee_to_green": 1.7,
+      "off_the_tee": 0.97,
+      "approach": 1.1,
+      "around_green": -0.37,
+      "putting": 0.71,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10586",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 17,
+      "player": "유해란",
+      "total": 2.32,
+      "tee_to_green": 2.48,
+      "off_the_tee": -0.76,
+      "approach": 3.45,
+      "around_green": -0.21,
+      "putting": -0.16,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9115",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 18,
+      "player": "고지원",
+      "total": 2.29,
+      "tee_to_green": 3.89,
+      "off_the_tee": 0.92,
+      "approach": 2.27,
+      "around_green": 0.7,
+      "putting": -1.6,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10109",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 19,
+      "player": "홍현지",
+      "total": 1.54,
+      "tee_to_green": -0.59,
+      "off_the_tee": -0.41,
+      "approach": -0.25,
+      "around_green": 0.07,
+      "putting": 2.13,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11042",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 20,
+      "player": "임진영",
+      "total": 1.46,
+      "tee_to_green": 1.97,
+      "off_the_tee": -0.12,
+      "approach": 0.98,
+      "around_green": 1.1,
+      "putting": -0.51,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10138",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 21,
+      "player": "성아진",
+      "total": 1.44,
+      "tee_to_green": -1.28,
+      "off_the_tee": -0.01,
+      "approach": -1.12,
+      "around_green": -0.16,
+      "putting": 2.72,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11640",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 22,
+      "player": "김우정",
+      "total": 1.42,
+      "tee_to_green": 1.53,
+      "off_the_tee": 0.01,
+      "approach": 0.87,
+      "around_green": 0.66,
+      "putting": -0.11,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8838",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 23,
+      "player": "김수지",
+      "total": 1.38,
+      "tee_to_green": 0.46,
+      "off_the_tee": 0.35,
+      "approach": 1.33,
+      "around_green": -1.21,
+      "putting": 0.93,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8300",
+      "validation": {
+        "total_delta": -0.02,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 24,
+      "player": "방신실",
+      "total": 1.2,
+      "tee_to_green": 0.81,
+      "off_the_tee": -1.22,
+      "approach": 2.11,
+      "around_green": -0.08,
+      "putting": 0.39,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10095",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 25,
+      "player": "최은우",
+      "total": 0.91,
+      "tee_to_green": 1.15,
+      "off_the_tee": 0.52,
+      "approach": 0.48,
+      "around_green": 0.14,
+      "putting": -0.23,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9235",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 26,
+      "player": "이다연",
+      "total": 0.87,
+      "tee_to_green": 0.25,
+      "off_the_tee": -0.01,
+      "approach": 0.5,
+      "around_green": -0.24,
+      "putting": 0.62,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8392",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 27,
+      "player": "김소정",
+      "total": 0.63,
+      "tee_to_green": 2.45,
+      "off_the_tee": 0.5,
+      "approach": 2.19,
+      "around_green": -0.25,
+      "putting": -1.82,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9089",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 28,
+      "player": "김지수",
+      "total": 0.55,
+      "tee_to_green": 0.04,
+      "off_the_tee": 0.19,
+      "approach": -0.94,
+      "around_green": 0.79,
+      "putting": 0.51,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9000",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 29,
+      "player": "이재윤",
+      "total": 0.51,
+      "tee_to_green": 0.98,
+      "off_the_tee": 0.44,
+      "approach": 1.02,
+      "around_green": -0.47,
+      "putting": -0.47,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9708",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 30,
+      "player": "홍지원",
+      "total": 0.08,
+      "tee_to_green": 0.08,
+      "off_the_tee": -0.16,
+      "approach": -0.4,
+      "around_green": 0.64,
+      "putting": 0.01,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9705",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 31,
+      "player": "이율린",
+      "total": -0.23,
+      "tee_to_green": -0.73,
+      "off_the_tee": -0.34,
+      "approach": 0.93,
+      "around_green": -1.32,
+      "putting": 0.5,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9759",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 32,
+      "player": "박보겸",
+      "total": -0.29,
+      "tee_to_green": 0.94,
+      "off_the_tee": 0.47,
+      "approach": 1.17,
+      "around_green": -0.7,
+      "putting": -1.23,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9431",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 32,
+      "player": "윤수아",
+      "total": -0.29,
+      "tee_to_green": 1.68,
+      "off_the_tee": 0.12,
+      "approach": 0.44,
+      "around_green": 1.11,
+      "putting": -1.97,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9990",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 34,
+      "player": "성유진",
+      "total": -0.33,
+      "tee_to_green": 1.68,
+      "off_the_tee": 0.38,
+      "approach": 1.1,
+      "around_green": 0.2,
+      "putting": -2.0,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8881",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 35,
+      "player": "김하은2",
+      "total": -0.37,
+      "tee_to_green": 1.28,
+      "off_the_tee": 0.78,
+      "approach": 0.55,
+      "around_green": -0.04,
+      "putting": -1.65,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10790",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 36,
+      "player": "박성현",
+      "total": -0.57,
+      "tee_to_green": -2.9,
+      "off_the_tee": 0.62,
+      "approach": -1.58,
+      "around_green": -1.95,
+      "putting": 2.34,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8179",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 37,
+      "player": "서교림",
+      "total": -0.67,
+      "tee_to_green": 1.52,
+      "off_the_tee": 0.65,
+      "approach": 0.49,
+      "around_green": 0.37,
+      "putting": -2.19,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11134",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 38,
+      "player": "김민선7",
+      "total": -0.87,
+      "tee_to_green": -1.49,
+      "off_the_tee": -1.31,
+      "approach": 1.44,
+      "around_green": -1.61,
+      "putting": 0.62,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10097",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 39,
+      "player": "김새로미",
+      "total": -1.15,
+      "tee_to_green": -4.09,
+      "off_the_tee": 0.59,
+      "approach": -2.17,
+      "around_green": -2.52,
+      "putting": 2.94,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8380",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 40,
+      "player": "한아름",
+      "total": -1.4,
+      "tee_to_green": 0.32,
+      "off_the_tee": -2.76,
+      "approach": 2.05,
+      "around_green": 1.03,
+      "putting": -1.72,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11447",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 41,
+      "player": "임희정",
+      "total": -1.89,
+      "tee_to_green": -0.52,
+      "off_the_tee": 0.05,
+      "approach": -0.9,
+      "around_green": 0.33,
+      "putting": -1.37,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9145",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 42,
+      "player": "김민솔",
+      "total": -1.99,
+      "tee_to_green": -1.83,
+      "off_the_tee": -0.66,
+      "approach": -0.38,
+      "around_green": -0.78,
+      "putting": -0.16,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10725",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 43,
+      "player": "정소이",
+      "total": -2.09,
+      "tee_to_green": -2.94,
+      "off_the_tee": -0.91,
+      "approach": -2.31,
+      "around_green": 0.28,
+      "putting": 0.85,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9765",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 44,
+      "player": "짜라위 분짠(I)",
+      "total": -2.1,
+      "tee_to_green": -3.06,
+      "off_the_tee": -0.69,
+      "approach": -1.62,
+      "around_green": -0.74,
+      "putting": 0.95,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11770",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 45,
+      "player": "이세희",
+      "total": -2.4,
+      "tee_to_green": -1.78,
+      "off_the_tee": 0.12,
+      "approach": -1.36,
+      "around_green": -0.54,
+      "putting": -0.62,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9652",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 46,
+      "player": "이승연",
+      "total": -2.45,
+      "tee_to_green": -0.1,
+      "off_the_tee": 0.86,
+      "approach": 0.15,
+      "around_green": -1.11,
+      "putting": -2.35,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8859",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 47,
+      "player": "안재희",
+      "total": -2.53,
+      "tee_to_green": 0.96,
+      "off_the_tee": 0.83,
+      "approach": 0.11,
+      "around_green": 0.02,
+      "putting": -3.49,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11060",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 48,
+      "player": "손예빈",
+      "total": -2.58,
+      "tee_to_green": -2.83,
+      "off_the_tee": -0.77,
+      "approach": -2.28,
+      "around_green": 0.22,
+      "putting": 0.25,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10022",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 49,
+      "player": "장은수",
+      "total": -2.74,
+      "tee_to_green": -2.76,
+      "off_the_tee": 0.2,
+      "approach": -3.29,
+      "around_green": 0.32,
+      "putting": 0.02,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8243",
+      "validation": {
+        "total_delta": 0.01,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 50,
+      "player": "최예림",
+      "total": -3.09,
+      "tee_to_green": -3.23,
+      "off_the_tee": -2.98,
+      "approach": -1.31,
+      "around_green": 1.06,
+      "putting": 0.15,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8284",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 51,
+      "player": "김시현",
+      "total": -3.32,
+      "tee_to_green": 0.5,
+      "off_the_tee": 0.08,
+      "approach": -0.05,
+      "around_green": 0.47,
+      "putting": -3.82,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "11143",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 52,
+      "player": "김민별",
+      "total": -3.33,
+      "tee_to_green": -2.6,
+      "off_the_tee": -0.07,
+      "approach": -1.84,
+      "around_green": -0.69,
+      "putting": -0.73,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10002",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 53,
+      "player": "신다인",
+      "total": -3.37,
+      "tee_to_green": -2.43,
+      "off_the_tee": 0.8,
+      "approach": -2.76,
+      "around_green": -0.47,
+      "putting": -0.94,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9135",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 54,
+      "player": "김가희2",
+      "total": -3.48,
+      "tee_to_green": -4.22,
+      "off_the_tee": 0.7,
+      "approach": -5.76,
+      "around_green": 0.84,
+      "putting": 0.74,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10726",
+      "validation": {
+        "total_delta": -0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 55,
+      "player": "문정민",
+      "total": -3.53,
+      "tee_to_green": -0.64,
+      "off_the_tee": 1.51,
+      "approach": -1.81,
+      "around_green": -0.34,
+      "putting": -2.89,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10296",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 55,
+      "player": "박민지",
+      "total": -3.53,
+      "tee_to_green": 0.59,
+      "off_the_tee": 0.78,
+      "approach": -0.86,
+      "around_green": 0.67,
+      "putting": -4.12,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8772",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": -0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 57,
+      "player": "한지원",
+      "total": -3.74,
+      "tee_to_green": -5.29,
+      "off_the_tee": 0.26,
+      "approach": -5.01,
+      "around_green": -0.54,
+      "putting": 1.56,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9483",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 58,
+      "player": "최민경",
+      "total": -4.64,
+      "tee_to_green": -3.72,
+      "off_the_tee": -1.69,
+      "approach": -3.56,
+      "around_green": 1.54,
+      "putting": -0.92,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "8277",
+      "validation": {
+        "total_delta": -0.01,
+        "t2g_delta": -0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 59,
+      "player": "한진선",
+      "total": -4.71,
+      "tee_to_green": -4.25,
+      "off_the_tee": -0.64,
+      "approach": -4.45,
+      "around_green": 0.83,
+      "putting": -0.45,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9426",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.01,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 60,
+      "player": "이서윤4",
+      "total": -5.89,
+      "tee_to_green": -3.01,
+      "off_the_tee": -1.84,
+      "approach": -0.8,
+      "around_green": -0.37,
+      "putting": -2.88,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "10481",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    },
+    {
+      "rank": 61,
+      "player": "박서현",
+      "total": -9.23,
+      "tee_to_green": -6.67,
+      "off_the_tee": -0.36,
+      "approach": -5.57,
+      "around_green": -0.74,
+      "putting": -2.56,
+      "rounds": 1,
+      "scope": "single_round",
+      "round": 3,
+      "player_id": "9111",
+      "validation": {
+        "total_delta": 0.0,
+        "t2g_delta": 0.0,
+        "total_within_tolerance": true,
+        "t2g_within_tolerance": true
+      }
+    }
+  ]
+}
