@@ -498,25 +498,26 @@ def render_round_page(
     current_form_by_id = load_current_form_by_id(all_ids)
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
-    # NEO Verification Spec (2026-10-03, "비교 기준은 하나금융그룹
-    # 챔피언십이다... 새로운 로직을 만들지 않는다"): 하나금융 자신의
-    # real pipeline -- R1은 Monte Carlo 없이 정적 사전 모델 그대로,
-    # R2/R3+는 klpga.neo_win.round_update_r2/round_update_r3를 그대로
-    # 호출하는 hitejinro_round_pipeline.build_hitejinro_post_r2_forecast/
-    # build_hitejinro_post_r3_forecast -- 를 그대로 따른다. R1은 m4_by_id
-    # 자체가 이미 "정적, Monte Carlo 없음"이므로 별도 변환이 필요 없다.
+    # NEO Verification Spec (2026-10-03, "R1 페이지는 POST_R1_FORECAST만
+    # 읽는다. R2 페이지는 POST_R2_FORECAST만 읽는다. R3 페이지는
+    # POST_R3_FORECAST만 읽는다... 각 라운드 페이지가 PRE 확률이나 다른
+    # 라운드 Forecast를 읽는 것은 금지한다"): each round's own leaderboard
+    # TOP20/TOP10/TOP5/우승확률 columns are sourced by READING that
+    # round's own dedicated, already-written forecast file (hitejinro_
+    # round_pipeline.build_round_page writes it before calling this
+    # renderer) -- never another round's file, never the raw PRE path.
+    # cut_probability alone still comes from m4_by_id (a separate,
+    # round-scoped logistic model, not part of this forecast file).
+    from klpga.neo_win.hitejinro_round_pipeline import (
+        load_post_r1_forecast, load_post_r2_forecast, load_post_r3_forecast,
+    )
     if round_number == 1:
-        conditioned_by_id = {
-            pid: {"win_probability": r["win_probability"], "top5_probability": r["top5_probability"],
-                  "top10_probability": r["top10_probability"], "top20_probability": r["top20_probability"]}
-            for pid, r in m4_by_id.items()
-        }
+        forecast_doc = load_post_r1_forecast(content_root)
     elif round_number == 2:
-        from klpga.neo_win.hitejinro_round_pipeline import build_hitejinro_post_r2_forecast
-        conditioned_by_id = {r["player_id"]: r for r in build_hitejinro_post_r2_forecast(content_root=content_root)["records"]}
+        forecast_doc = load_post_r2_forecast(content_root)
     else:
-        from klpga.neo_win.hitejinro_round_pipeline import build_hitejinro_post_r3_forecast
-        conditioned_by_id = {r["player_id"]: r for r in build_hitejinro_post_r3_forecast(content_root=content_root)["records"]}
+        forecast_doc = load_post_r3_forecast(content_root)
+    conditioned_by_id = {r["player_id"]: r for r in forecast_doc["records"]}
 
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + (4 if round_number >= 3 else 5)
 

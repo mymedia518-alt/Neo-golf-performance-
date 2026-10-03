@@ -1182,6 +1182,89 @@ def build_hitejinro_post_r3_forecast(content_root: Path | None = None, *, n_simu
     }
 
 
+def post_r1_forecast_path(content_root: Path | None = None) -> Path:
+    return (content_root or CONTENT) / f"HITEJINRO_{GAME_CODE}_POST_R1_FORECAST.json"
+
+
+def post_r2_forecast_path(content_root: Path | None = None) -> Path:
+    return (content_root or CONTENT) / f"HITEJINRO_{GAME_CODE}_POST_R2_FORECAST.json"
+
+
+def post_r3_forecast_path(content_root: Path | None = None) -> Path:
+    return (content_root or CONTENT) / f"HITEJINRO_{GAME_CODE}_POST_R3_FORECAST.json"
+
+
+def write_post_r1_forecast(content_root: Path | None = None) -> Path:
+    """R1's own dedicated, persisted forecast file -- so R1's page reads
+    ONLY this one file, never the raw PRE path directly (NEO Verification
+    Spec, 2026-10-03: "R1 페이지는 POST_R1_FORECAST만 읽는다"). Confirmed
+    by exhaustive investigation: Hana has no round_update_r1/post_r1_
+    forecast module anywhere in this repository -- round_update_r2
+    itself REQUIRES real R1+R2 known scores as input, so it structurally
+    cannot produce an R1-only forecast. R1's real forecast is therefore
+    the frozen PRE M4 model itself (scripts/193_build_hitejinro_pre_m4.py),
+    persisted here UNCHANGED under its own R1-specific filename -- never
+    a new model, just this round's own copy of the one real forecast
+    that exists before R2 happens."""
+    from klpga.neo_win.hitejinro_player_metrics import M4_CANDIDATE_PATH, load_m4_by_id
+    content_root = content_root or CONTENT
+    m4 = load_m4_by_id()
+    records = [
+        {
+            "player_id": pid, "player_name": rec["playerName"],
+            "win_probability": rec["win_probability"], "top5_probability": rec["top5_probability"],
+            "top10_probability": rec["top10_probability"], "top20_probability": rec["top20_probability"],
+            "cut_probability": rec["cut_probability"],
+        }
+        for pid, rec in m4.items()
+    ]
+    out = {
+        "artifact": "hitejinro_post_r1_forecast", "game_code": GAME_CODE, "source_round": 1,
+        "source_model": "frozen PRE M4 -- no round_update_r1 module exists in this codebase (confirmed 2026-10-03); see this function's own docstring",
+        "source_file": str(M4_CANDIDATE_PATH.relative_to(_ROOT.parent)),
+        "records": records,
+    }
+    path = post_r1_forecast_path(content_root)
+    path.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def write_post_r2_forecast(content_root: Path | None = None, **kwargs) -> Path:
+    """Persists build_hitejinro_post_r2_forecast's real output (klpga.
+    neo_win.round_update_r2.simulate_post_round2, the same real engine
+    Hana's scripts/159 uses) to its own dedicated file -- R2's page
+    reads ONLY this file."""
+    content_root = content_root or CONTENT
+    doc = build_hitejinro_post_r2_forecast(content_root=content_root, **kwargs)
+    path = post_r2_forecast_path(content_root)
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def write_post_r3_forecast(content_root: Path | None = None, **kwargs) -> Path:
+    """Persists build_hitejinro_post_r3_forecast's real output (klpga.
+    neo_win.round_update_r3.simulate_post_round3, the same real engine
+    Hana's scripts/170 uses) to its own dedicated file -- R3's page
+    reads ONLY this file."""
+    content_root = content_root or CONTENT
+    doc = build_hitejinro_post_r3_forecast(content_root=content_root, **kwargs)
+    path = post_r3_forecast_path(content_root)
+    path.write_text(json.dumps(doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return path
+
+
+def load_post_r1_forecast(content_root: Path | None = None) -> dict:
+    return json.loads(post_r1_forecast_path(content_root).read_text(encoding="utf-8"))
+
+
+def load_post_r2_forecast(content_root: Path | None = None) -> dict:
+    return json.loads(post_r2_forecast_path(content_root).read_text(encoding="utf-8"))
+
+
+def load_post_r3_forecast(content_root: Path | None = None) -> dict:
+    return json.loads(post_r3_forecast_path(content_root).read_text(encoding="utf-8"))
+
+
 def _hitejinro_confirmed_outcome(round_number: int, *, content_root: Path | None = None) -> list[dict]:
     """Real end-of-round standing in the {"player_id", "player_name",
     "final_rank", "position_from", "position_to"} shape klpga.neo_win.
@@ -1215,20 +1298,6 @@ def _hitejinro_confirmed_outcome(round_number: int, *, content_root: Path | None
             "final_rank": rank, "position_from": rank_int, "position_to": rank_int,
         })
     return records
-
-
-def _hitejinro_m4_forecast_by_id() -> dict[str, dict]:
-    """The static PRE M4 forecast, reshaped into the {"neo_final_rank",
-    "win_pct", "player_name"} shape compare_forecast_to_outcome expects
-    -- the real Hana-style R1 forecast (no Monte Carlo, same frozen
-    snapshot load_m4_by_id already returns)."""
-    from klpga.neo_win.hitejinro_player_metrics import load_m4_by_id
-    m4 = load_m4_by_id()
-    ordered = sorted(m4.items(), key=lambda kv: -kv[1]["win_probability"])
-    return {
-        pid: {"neo_final_rank": i, "win_pct": rec["win_probability"] * 100, "player_name": rec["playerName"]}
-        for i, (pid, rec) in enumerate(ordered, 1)
-    }
 
 
 def _forecast_records_to_by_id(records: list[dict]) -> dict[str, dict]:
@@ -1266,11 +1335,16 @@ def build_hitejinro_round_verification(round_number: int, *, content_root: Path 
     from klpga.neo_win.final_partial_evidence_validator import compare_forecast_to_outcome
 
     confirmed = _hitejinro_confirmed_outcome(round_number, content_root=content_root)
+    # Reads the persisted POST_R1/POST_R2_FORECAST.json files (never
+    # recomputes inline) -- the prior stage's file in every case, since
+    # verifying round N against a forecast that already KNOWS round N's
+    # own real score would be circular/leaking: R1/R2 both check against
+    # POST_R1_FORECAST (the only real forecast that exists before R2
+    # happens), R3 checks against POST_R2_FORECAST.
     if round_number in (1, 2):
-        forecast_by_id = _hitejinro_m4_forecast_by_id()
+        forecast_by_id = _forecast_records_to_by_id(load_post_r1_forecast(content_root)["records"])
     else:
-        forecast = build_hitejinro_post_r2_forecast(content_root=content_root)
-        forecast_by_id = _forecast_records_to_by_id(forecast["records"])
+        forecast_by_id = _forecast_records_to_by_id(load_post_r2_forecast(content_root)["records"])
 
     # A real player absent from the forecast (e.g. DATA_INSUFFICIENT,
     # excluded from load_m4_by_id's PASS-only filter) cannot be scored
@@ -1303,12 +1377,26 @@ def build_round_page(round_number: int) -> Path:
     win.final_real_page/final_partial_evidence_validator already use
     for KB's FINAL page, called here) just before </main>, same
     splice technique scripts/192's HOME mirror already uses. FR (4)
-    has no real outcome yet, so no verification is built for it."""
+    has no real outcome yet, so no verification is built for it.
+
+    NEO Verification Spec (2026-10-03, "R1 페이지는 POST_R1_FORECAST만
+    읽는다... 각 라운드 페이지가 PRE 확률이나 다른 라운드 Forecast를
+    읽는 것은 금지한다"): writes this round's own dedicated forecast
+    file (write_post_r1/r2/r3_forecast) FIRST, then render_round_page
+    reads ONLY that one file's path (hitejinro_round_page.render_
+    round_page's own content_root-scoped load_post_r{n}_forecast call)
+    -- never another round's file, never the raw PRE path directly."""
     stage_key, _label = STAGE_LABELS[round_number]
     repo_root = _ROOT.parent
     tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
     start, end = tourney["start_date"], tourney["end_date"]
     date_range = f"{start[:4]}.{start[4:6]}.{start[6:8]} — {end[4:6]}.{end[6:8]}"
+    if round_number == 1:
+        write_post_r1_forecast(content_root=CONTENT)
+    elif round_number == 2:
+        write_post_r2_forecast(content_root=CONTENT)
+    elif round_number == 3:
+        write_post_r3_forecast(content_root=CONTENT)
     html = render_round_page(
         round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
     )

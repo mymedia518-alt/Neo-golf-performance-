@@ -24,7 +24,9 @@ import re
 import pytest
 
 from klpga.neo_win import hitejinro_round_pipeline as _rp
-from klpga.neo_win.hitejinro_round_pipeline import cross_validate_against_round, parse_leaderboard, raw_evidence_path
+from klpga.neo_win.hitejinro_round_pipeline import (
+    cross_validate_against_round, parse_leaderboard, raw_evidence_path, write_post_r2_forecast,
+)
 from klpga.neo_win.hitejinro_round_page import _advancement_summary, _status_family, render_round_page
 
 pytestmark = pytest.mark.round_pipeline
@@ -349,6 +351,7 @@ def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
     (tmp_content / "2026100005_LEADERBOARD.json").write_text(
         _json.dumps(real_board, ensure_ascii=False), encoding="utf-8",
     )
+    write_post_r2_forecast(content_root=tmp_content)
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
         content_root=tmp_content,
@@ -429,6 +432,7 @@ def test_dns_section_renders_on_r2_page_when_a_real_dns_record_exists(tmp_path, 
         if src.is_file():
             (tmp_path / name).write_bytes(src.read_bytes())
     (tmp_path / "2026100005_LEADERBOARD.json").write_text(_json.dumps(real_board, ensure_ascii=False), encoding="utf-8")
+    write_post_r2_forecast(content_root=tmp_path)
 
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04", content_root=tmp_path,
@@ -462,6 +466,7 @@ def test_dq_section_renders_on_r2_page_when_a_real_dq_record_exists(tmp_path, mo
         if src.is_file():
             (tmp_path / name).write_bytes(src.read_bytes())
     (tmp_path / "2026100005_LEADERBOARD.json").write_text(_json.dumps(real_board, ensure_ascii=False), encoding="utf-8")
+    write_post_r2_forecast(content_root=tmp_path)
 
     html = render_round_page(
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04", content_root=tmp_path,
