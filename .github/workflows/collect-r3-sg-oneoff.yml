@@ -1,0 +1,111 @@
+name: "Collect R3 SG -- HITEJINRO 2026100005 (on-demand, one-off)"
+
+# Manually dispatched only. Runs scripts/collect_current_round_evidence.py
+# for real -- real network access to klpga.co.kr (the agent sandbox
+# cannot reach it directly) -- fetching the official round-3 leaderboard,
+# per-player scorecards, and Strokes Gained (sg-official.html/sg.json),
+# the same script+flags the operator already ran locally via PowerShell.
+# Publishes raw output to the orphan branch collector-output/2026100005-r3
+# (git-publish pattern, same as neo-sync.yml's reader/<gameCode> branch)
+# so it never touches neo-website-v2's own tree/history directly.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "Official KLPGA gameCode"
+        required: false
+        default: "2026100005"
+      round:
+        description: "Round number to collect"
+        required: false
+        default: "3"
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: klpga_pipeline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml tenacity
+
+      - name: Run collect_current_round_evidence.py (real network)
+        id: collect
+        env:
+          PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
+        run: |
+          set +e
+          python scripts/collect_current_round_evidence.py \
+            --game-code "${{ inputs.game_code }}" \
+            --round "${{ inputs.round }}" \
+            --output "r3_sg_collect_output"
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: List what was actually collected
+        if: always()
+        run: |
+          {
+            echo "## R3 SG collection output"
+            echo ""
+            if [ -d "r3_sg_collect_output" ]; then
+              echo '```'
+              ls -la r3_sg_collect_output/
+              echo '```'
+              for f in sg-official.html sg.json tournament.json; do
+                if [ -f "r3_sg_collect_output/$f" ]; then
+                  echo "### $f (first 500 bytes)"
+                  echo '```'
+                  head -c 500 "r3_sg_collect_output/$f"
+                  echo ""
+                  echo '```'
+                fi
+              done
+            else
+              echo "No output directory was created."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Git-publish raw output to collector-output/<gameCode>-r<round> branch
+        if: always()
+        run: |
+          git config --global user.name "neo-sg-collect-bot"
+          git config --global user.email "neo-sg-collect-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-r${{ inputs.round }}"
+          SRC="$GITHUB_WORKSPACE/klpga_pipeline/r3_sg_collect_output"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          if [ -d "$SRC" ]; then
+            cp -r "$SRC"/. "$PUBLISH_DIR/__out/" 2>/dev/null || true
+          fi
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "R3 SG collection output (game_code=${{ inputs.game_code }}, round=${{ inputs.round }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
+
+      - name: Fail the job if collection did not succeed
+        if: ${{ steps.collect.outputs.exit_code != '0' }}
+        run: |
+          echo "collect_current_round_evidence.py exited with code ${{ steps.collect.outputs.exit_code }} -- see the job summary above."
+          exit 1
