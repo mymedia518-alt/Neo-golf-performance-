@@ -1363,29 +1363,31 @@ def build_hitejinro_round_verification(round_number: int, *, content_root: Path 
     )
 
 
-def build_round_page(round_number: int) -> Path:
+def build_round_page(round_number: int, *, include_internal: bool = False) -> Path:
     """Render and write this round's public page (docs/tournaments/
     2026/{GAME_CODE}/{r1,r2,r3,fr}/index.html) via the one shared
     renderer, klpga.neo_win.hitejinro_round_page.render_round_page --
     extracted from scripts/196-199_build_hitejinro_r*_page.py, which
     each duplicated the same five lines (load TOURNAMENT_INFO, format
     date_range, render, write) differing only in round_number and
-    output path. Those four scripts now call this function instead.
+    output path. Those four scripts now call this function instead
+    (always with the default include_internal=False, the real public
+    build).
 
-    round_number 1-3 also splice in the real NEO Verification section
-    (build_hitejinro_round_verification -- the same engine klpga.neo_
-    win.final_real_page/final_partial_evidence_validator already use
-    for KB's FINAL page, called here) just before </main>, same
-    splice technique scripts/192's HOME mirror already uses. FR (4)
-    has no real outcome yet, so no verification is built for it.
-
-    NEO Verification Spec (2026-10-03, "R1 페이지는 POST_R1_FORECAST만
-    읽는다... 각 라운드 페이지가 PRE 확률이나 다른 라운드 Forecast를
-    읽는 것은 금지한다"): writes this round's own dedicated forecast
-    file (write_post_r1/r2/r3_forecast) FIRST, then render_round_page
-    reads ONLY that one file's path (hitejinro_round_page.render_
-    round_page's own content_root-scoped load_post_r{n}_forecast call)
-    -- never another round's file, never the raw PRE path directly."""
+    PUBLIC/INTERNAL SPLIT (2026-10-03, "R3 페이지는 공개 페이지다...
+    R3 리더보드까지만 출력한다... 데이터와 JSON은 그대로 유지하고 공개
+    HTML에서만 숨긴다"): the real leaderboard table (this function's
+    own render_round_page call) is ALWAYS public, unchanged. The NEO
+    Verification section (build_hitejinro_round_verification -- the
+    same engine klpga.neo_win.final_real_page/final_partial_evidence_
+    validator already use for KB's FINAL page) is only spliced in when
+    include_internal=True -- never written to docs/ (the deployed,
+    public tree) by the real public build path. Nothing is deleted:
+    every build_hitejinro_* function, every POST_R{n}_FORECAST.json
+    file, still exists and still computes/persists the real data
+    exactly as before; only the PUBLIC HTML assembly stops including
+    it by default. See build_hitejinro_internal_report (scripts/
+    operator-only entry point) for the include_internal=True path."""
     stage_key, _label = STAGE_LABELS[round_number]
     repo_root = _ROOT.parent
     tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
@@ -1400,7 +1402,7 @@ def build_round_page(round_number: int) -> Path:
     html = render_round_page(
         round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
     )
-    if round_number in (1, 2, 3):
+    if include_internal and round_number in (1, 2, 3):
         from klpga.neo_win.hitejinro_round_page import render_hitejinro_verification_html
         verification = build_hitejinro_round_verification(round_number)
         assert "</main>" in html
@@ -1411,34 +1413,32 @@ def build_round_page(round_number: int) -> Path:
     return out_path
 
 
-def build_r3_results_page() -> Path:
-    """R3's own page is build_round_page(3) -- which now also splices
-    in the real NEO Verification section automatically (see build_
-    round_page's own docstring) -- PLUS SG 분석 / 코스 분석, spliced in
-    just before </main>, same technique scripts/192's HOME mirror
-    already uses for its own <main> extraction.
+def build_r3_results_page(*, include_internal: bool = False) -> Path:
+    """R3's own PUBLIC page: build_round_page(3, include_internal=
+    include_internal) -- the real leaderboard table, always public,
+    unchanged. PUBLIC/INTERNAL SPLIT (2026-10-03, "R3 페이지는 공개
+    페이지다. R3 리더보드 아래의 모든 내부 자료를 숨긴다... R3
+    리더보드까지만 출력한다... 내부 자료는 삭제하지 않는다. Renderer에서
+    비공개 처리하고, 운영자 모드에서만 출력 가능하도록 유지한다"): SG
+    분석/코스 분석 (and, via build_round_page, NEO 검증) are only
+    spliced in when include_internal=True -- the real public build
+    (scripts, this function's own default) never writes them to
+    docs/. Nothing is deleted: build_r3_sg_intelligence/build_r3_
+    course_analysis/build_hitejinro_round_verification and every
+    POST_R{n}_FORECAST.json file still compute and persist the exact
+    same real data; only whether the PUBLIC HTML includes them changed.
+    See build_hitejinro_internal_report for the operator-only
+    include_internal=True entry point (writes to internal_output/,
+    never to docs/)."""
+    out_path = build_round_page(3, include_internal=include_internal)
+    if not include_internal:
+        return out_path
 
-    NEO Verification Spec (2026-10-03, "final_real_page.py는 FR 전용
-    검증 모듈이다... 공통 부분을 추출해 R1~R3에서도 쓸 수 있는 공통
-    Verification Engine으로 분리한다. Verification 삭제는 금지한다"):
-    klpga.neo_win.final_partial_evidence_validator.run_extended_
-    comparison (KB's own real FINAL call path, unchanged) had its real,
-    round-agnostic core extracted into compare_forecast_to_outcome --
-    the exact same Top20/Top10/Top5 set precision/recall (topk_set_
-    comparison), winner-hit/log-loss/Brier/reciprocal-rank, and rank_
-    delta/biggest_movers machinery KB's FINAL page already uses,
-    called here with R3's own real post-R2-forecast-vs-real-R3-outcome
-    pair (see build_hitejinro_round_verification). Hana's win/top5/
-    top10/top20 leaderboard columns are a separate, real thing (the
-    main table's own columns, sourced from klpga.neo_win.round_
-    update_r2/round_update_r3 directly -- see hitejinro_round_page.
-    render_round_page's own m4_by_id/conditioned_by_id wiring)."""
     from klpga.neo_win.hitejinro_round_page import (
         render_r3_course_analysis_html,
         render_r3_sg_intelligence_html,
     )
 
-    out_path = build_round_page(3)
     html = out_path.read_text(encoding="utf-8")
     sections_html = (
         render_r3_sg_intelligence_html(build_r3_sg_intelligence())
@@ -1446,6 +1446,51 @@ def build_r3_results_page() -> Path:
     )
     assert "</main>" in html
     html = html.replace("</main>", sections_html + "</main>")
+    out_path.write_text(html, encoding="utf-8", newline="\n")
+    return out_path
+
+
+def build_hitejinro_internal_report(round_number: int = 3, *, out_dir: Path | None = None) -> Path:
+    """Operator/Admin-only entry point (2026-10-03 PUBLIC/INTERNAL
+    SPLIT): the FULL internal page (real leaderboard + NEO 검증 + SG
+    분석 + 코스 분석, round_number 3's complete set) rendered to a
+    file OUTSIDE docs/ (internal_output/, gitignored-equivalent --
+    never deployed, never linked from the public site) so an operator
+    can inspect every internal section without it ever reaching the
+    live, public GitHub Pages build. Reuses every real build_* function
+    unchanged -- this is assembly only, never a new computation."""
+    from klpga.neo_win.hitejinro_round_page import (
+        render_hitejinro_verification_html,
+        render_r3_course_analysis_html,
+        render_r3_sg_intelligence_html,
+    )
+
+    out_dir = out_dir or (_ROOT / "internal_output")
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    stage_key, _label = STAGE_LABELS[round_number]
+    tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
+    start, end = tourney["start_date"], tourney["end_date"]
+    date_range = f"{start[:4]}.{start[4:6]}.{start[6:8]} — {end[4:6]}.{end[6:8]}"
+    if round_number == 1:
+        write_post_r1_forecast(content_root=CONTENT)
+    elif round_number == 2:
+        write_post_r2_forecast(content_root=CONTENT)
+    elif round_number == 3:
+        write_post_r3_forecast(content_root=CONTENT)
+    html = render_round_page(
+        round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
+    )
+    sections_html = render_hitejinro_verification_html(round_number, build_hitejinro_round_verification(round_number))
+    if round_number == 3:
+        sections_html += (
+            render_r3_sg_intelligence_html(build_r3_sg_intelligence())
+            + render_r3_course_analysis_html(build_r3_course_analysis())
+        )
+    assert "</main>" in html
+    html = html.replace("</main>", sections_html + "</main>")
+
+    out_path = out_dir / f"{GAME_CODE}_{stage_key}_internal.html"
     out_path.write_text(html, encoding="utf-8", newline="\n")
     return out_path
 
