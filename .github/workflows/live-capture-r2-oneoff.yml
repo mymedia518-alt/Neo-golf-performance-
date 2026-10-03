@@ -18,6 +18,10 @@ on:
         description: "URL to capture"
         required: false
         default: "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+      post_data:
+        description: "Optional: application/x-www-form-urlencoded body. When set, the raw-bytes fetch step below sends a POST with this body instead of a GET (needed for KLPGA's own /load/... AJAX endpoints, which are POST-only). Never changes the two Playwright screenshot steps, which always GET the URL as a browser would."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -45,6 +49,7 @@ jobs:
       - name: Fetch raw HTTP response body (exact bytes currently served)
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
+          CAPTURE_POST_DATA: ${{ github.event.inputs.post_data }}
         run: |
           mkdir -p live_capture
           python - <<'PY'
@@ -53,10 +58,17 @@ jobs:
           import urllib.request
 
           url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          post_data = os.environ.get("CAPTURE_POST_DATA") or ""
           out = pathlib.Path("live_capture")
           out.mkdir(exist_ok=True)
 
-          req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+          headers = {"User-Agent": "Mozilla/5.0"}
+          data = None
+          if post_data:
+              data = post_data.encode("utf-8")
+              headers["Content-Type"] = "application/x-www-form-urlencoded"
+              headers["X-Requested-With"] = "XMLHttpRequest"
+          req = urllib.request.Request(url, data=data, headers=headers, method="POST" if data else "GET")
           with urllib.request.urlopen(req, timeout=30) as resp:
               raw = resp.read()
               headers = dict(resp.getheaders())
