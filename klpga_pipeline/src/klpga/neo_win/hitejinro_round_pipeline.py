@@ -652,8 +652,8 @@ def parse_in_progress_state(round_number: int, *, raw_path: Path | None = None) 
 
 
 _SG_ROW_RE = re.compile(
-    r'<tr data-sgrank="(\d+)" data-teetogreenrank="\d+" data-driverrank="\d+" '
-    r'data-approachrank="\d+" data-aroundrank="\d+" data-putterrank="\d+">\s*'
+    r'<tr\s+data-sgrank="(\d+)"\s+data-teetogreenrank="\d+"\s+data-driverrank="\d+"\s+'
+    r'data-approachrank="\d+"\s+data-aroundrank="\d+"\s+data-putterrank="\d+"\s*>\s*'
     r'<td[^>]*>\d+</td>\s*<td[^>]*>([^<]+)</td>\s*'
     r'<td[^>]*>([-\d.]+)<span[^>]*>[^<]*</span></td>\s*'
     r'<td[^>]*>([-\d.]+)<span[^>]*>[^<]*</span></td>\s*'
@@ -1014,6 +1014,153 @@ def build_r3_neo_verification(content_root: Path | None = None) -> dict:
     }
 
 
+def hole_scorecard_raw_path(round_number: int) -> Path:
+    """Where the operator-saved per-hole scorecard capture (collector's
+    own real scorecards.json, {player_id: [{round, hole, par, strokes,
+    relative_to_par}, ...]}) is expected for this round -- only R3 has
+    one as of 2026-10-03 (collected via collect_current_round_evidence.py
+    on GitHub Actions, real network, 61/61 reconciled)."""
+    label = _round_label(round_number)
+    return EVIDENCE_DIR / f"HITEJINRO_{GAME_CODE}_{label}_HOLE_SCORECARDS_RAW.json"
+
+
+def build_r3_sg_intelligence(content_root: Path | None = None) -> dict:
+    """SG 분석 (Player Intelligence): this round's real official Strokes
+    Gained (HITEJINRO_2026100005_R3_SG_V1.json, from parse_sg(3) against
+    the real R3 sg-official.html capture) joined to each player's real
+    R3 finish rank. klpga.co.kr's own SG table is a single-round snapshot
+    every time (every existing R1/R2/R3 capture carries rounds==1 for
+    every row) -- 'total' etc. here are this round's own SG, never a
+    cumulative-through-tournament figure."""
+    content_root = content_root or CONTENT
+    sg_path = content_root / f"HITEJINRO_{GAME_CODE}_R3_SG_V1.json"
+    sg_doc = json.loads(sg_path.read_text(encoding="utf-8"))
+    board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+    rank_by_id = {r["player_id"]: r["finish_position_numeric"] for r in board["records"] if r.get("status") is None}
+
+    rows = sorted(sg_doc["records"], key=lambda r: r["sg_rank"])
+    for r in rows:
+        r["r3_rank"] = rank_by_id.get(r["player_id"])
+
+    return {
+        "round_number": 3,
+        "population_count": len(rows),
+        "rows": rows,
+        "sg_leader": rows[0] if rows else None,
+    }
+
+
+def build_r3_course_analysis(content_root: Path | None = None) -> dict:
+    """코스 분석: real per-hole R3 results for every one of the 61
+    real active players (HITEJINRO_2026100005_R3_HOLE_SCORECARDS_RAW.json
+    -- collect_current_round_evidence.py's own real scorecards.json,
+    per-hole par/strokes/relative_to_par, round 3 only here). Hardest/
+    easiest holes are the real field-average relative_to_par, nothing
+    modeled or estimated."""
+    content_root = content_root or CONTENT
+    path = hole_scorecard_raw_path(3)
+    raw = json.loads(path.read_text(encoding="utf-8"))
+
+    by_hole: dict[int, list[dict]] = {}
+    for player_id, records in raw.items():
+        for rec in records:
+            if rec["round"] != 3:
+                continue
+            by_hole.setdefault(rec["hole"], []).append(rec)
+
+    holes = []
+    for hole_num in sorted(by_hole):
+        recs = by_hole[hole_num]
+        pars = {rec["par"] for rec in recs}
+        assert len(pars) == 1, f"hole {hole_num} has inconsistent par across players: {pars}"
+        par = pars.pop()
+        n = len(recs)
+        avg_to_par = sum(rec["relative_to_par"] for rec in recs) / n
+        better = sum(1 for rec in recs if rec["relative_to_par"] < 0)
+        worse = sum(1 for rec in recs if rec["relative_to_par"] > 0)
+        holes.append({
+            "hole": hole_num,
+            "par": par,
+            "player_count": n,
+            "avg_to_par": round(avg_to_par, 3),
+            "better_than_par": better,
+            "worse_than_par": worse,
+        })
+
+    by_difficulty = sorted(holes, key=lambda h: -h["avg_to_par"])
+    field_total_to_par = sum(h["avg_to_par"] * h["player_count"] for h in holes)
+    field_total_rounds = holes[0]["player_count"] if holes else 0
+
+    return {
+        "round_number": 3,
+        "holes": sorted(holes, key=lambda h: h["hole"]),
+        "hardest_holes": by_difficulty[:3],
+        "easiest_holes": by_difficulty[::-1][:3],
+        "field_player_count": field_total_rounds,
+        "field_avg_to_par_per_round": round(field_total_to_par / field_total_rounds, 2) if field_total_rounds else None,
+    }
+
+
+def build_r3_sg_form_trend(content_root: Path | None = None) -> dict:
+    """R4 Preview가 기대는 real signal: R1/R2/R3 각 라운드 자체 SG
+    (모두 단독-라운드 스냅샷 -- klpga 공식 SG 테이블 자체가 매 라운드
+    rounds==1 로 저장되는 real 사실) 를 라운드별로 나열해 실제 폼 추이를
+    보여준다. 세 라운드 모두에 real SG 기록이 있는 선수만 포함 -- 한
+    라운드라도 없으면(R1_CUT 등) 추이를 날조하지 않고 제외한다."""
+    content_root = content_root or CONTENT
+    sg_by_round: dict[int, dict[str, dict]] = {}
+    for n in (1, 2, 3):
+        doc = json.loads((content_root / f"HITEJINRO_{GAME_CODE}_R{n}_SG_V1.json").read_text(encoding="utf-8"))
+        sg_by_round[n] = {r["player_id"]: r for r in doc["records"]}
+
+    common_ids = set(sg_by_round[1]) & set(sg_by_round[2]) & set(sg_by_round[3])
+    rows = []
+    for pid in common_ids:
+        r1, r2, r3 = sg_by_round[1][pid], sg_by_round[2][pid], sg_by_round[3][pid]
+        rows.append({
+            "player_id": pid,
+            "player_name": r3["official_display_name"],
+            "r1_total": r1["total"],
+            "r2_total": r2["total"],
+            "r3_total": r3["total"],
+            "change_r2_to_r3": round(r3["total"] - r2["total"], 2),
+        })
+    rows.sort(key=lambda r: -r["r3_total"])
+    rising = sorted(rows, key=lambda r: -r["change_r2_to_r3"])[:5]
+    falling = sorted(rows, key=lambda r: r["change_r2_to_r3"])[:5]
+
+    return {
+        "population_count": len(rows),
+        "rows": rows,
+        "rising": rising,
+        "falling": falling,
+    }
+
+
+def build_r3_r4_preview(content_root: Path | None = None) -> dict:
+    """R4 Preview: 정적 M4 사전 모델은 재계산하지 않는다 (round마다
+    recompute하는 인프라가 존재하지 않음 -- hitejinro_player_metrics.
+    load_m4_by_id는 단일 사전 스냅샷). 대신 R3 종료 시점의 real 순위와
+    real SG 폼 추이(build_r3_sg_form_trend)만을 'R4 참고 지표'로 제공하고,
+    이것이 새로운 확률 모델이 아님을 페이지에 명시한다."""
+    content_root = content_root or CONTENT
+    board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+    active = sorted(
+        (r for r in board["records"] if r.get("status") is None),
+        key=lambda r: r["finish_position_numeric"],
+    )
+    trend = build_r3_sg_form_trend(content_root=content_root)
+
+    return {
+        "leaderboard_top5": [
+            {"player_id": r["player_id"], "player_name": r["player_name"], "rank": r["finish_position_numeric"], "score_to_par": r["score_to_par"]}
+            for r in active[:5]
+        ],
+        "sg_momentum_rising": trend["rising"],
+        "sg_momentum_falling": trend["falling"],
+    }
+
+
 def build_round_page(round_number: int) -> Path:
     """Render and write this round's public page (docs/tournaments/
     2026/{GAME_CODE}/{r1,r2,r3,fr}/index.html) via the one shared
@@ -1037,25 +1184,34 @@ def build_round_page(round_number: int) -> Path:
 
 
 def build_r3_results_page() -> Path:
-    """R3's own page is build_round_page(3) PLUS the real NEO 검증
-    section (2026-10-03 mission: "R3 페이지는 단순 공식 리더보드가
-    아니다... 검증 섹션이 없으면 R3 페이지는 완료가 아니다") -- spliced
-    in just before </main>, same technique scripts/192's HOME mirror
-    already uses for its own <main> extraction. SG 분석/코스 분석/SG
-    기반 R4 Preview are NOT included here: no real round-3 SG or
-    scorecard evidence exists in this checkout (checked -- only a
-    stale, unrelated September capture with no HITEJINRO game_code was
-    found, not real evidence). Fabricating those sections would
-    violate this project's own never-fabricate rule. Re-run this once
-    real R3 SG/scorecard evidence lands to add them for real."""
-    from klpga.neo_win.hitejinro_round_page import render_r3_neo_verification_html
+    """R3's own page is build_round_page(3) PLUS NEO 검증 / SG 분석 /
+    코스 분석 / R4 Preview -- spliced in just before </main>, same
+    technique scripts/192's HOME mirror already uses for its own <main>
+    extraction. 2026-10-03: real R3 SG (sg-official.html, 61/61
+    reconciled) and real per-hole scorecards were collected via
+    scripts/collect_current_round_evidence.py on GitHub Actions (real
+    network) -- see HITEJINRO_2026100005_R3_SG_RAW.html and
+    _R3_HOLE_SCORECARDS_RAW.json in incoming_evidence/2026100005/. R4
+    Preview does NOT recompute the static M4 pre-tournament model (no
+    mid-tournament recompute infra exists) -- it is real R3 standings +
+    real round-over-round SG momentum only, labeled as such."""
+    from klpga.neo_win.hitejinro_round_page import (
+        render_r3_course_analysis_html,
+        render_r3_neo_verification_html,
+        render_r3_r4_preview_html,
+        render_r3_sg_intelligence_html,
+    )
 
     out_path = build_round_page(3)
     html = out_path.read_text(encoding="utf-8")
-    verification = build_r3_neo_verification()
-    verification_html = render_r3_neo_verification_html(verification)
+    sections_html = (
+        render_r3_neo_verification_html(build_r3_neo_verification())
+        + render_r3_sg_intelligence_html(build_r3_sg_intelligence())
+        + render_r3_course_analysis_html(build_r3_course_analysis())
+        + render_r3_r4_preview_html(build_r3_r4_preview())
+    )
     assert "</main>" in html
-    html = html.replace("</main>", verification_html + "</main>")
+    html = html.replace("</main>", sections_html + "</main>")
     out_path.write_text(html, encoding="utf-8", newline="\n")
     return out_path
 
