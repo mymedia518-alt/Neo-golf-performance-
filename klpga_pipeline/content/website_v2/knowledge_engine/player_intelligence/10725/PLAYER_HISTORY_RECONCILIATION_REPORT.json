@@ -1,0 +1,15 @@
+{
+  "conflicts_detected": 0,
+  "found_in_live": 2,
+  "found_in_reader": 0,
+  "found_in_warehouse": 33,
+  "in_progress_excluded_from_finished_totals": 1,
+  "merged": 2,
+  "missing": 0,
+  "resolved": [
+    "2026090002 (Hana): mean of real R1-R4 SG Total (0.6525) matches the official 4-round cumulative SG Total (0.65) within tolerance -- confirms the warehouse's 'tournament_cumulative = mean of rounds' convention holds here too. Official cumulative used directly (not re-derived) since it is itself a primary official computation.",
+    "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (28) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
+  ],
+  "status": "RECONCILED_OK",
+  "total_tournaments": 35
+}

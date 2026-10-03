@@ -1730,6 +1730,17 @@ def _skill_chain_html(why_now: Optional[dict], current_snapshot: Optional[dict],
     field is missing -- never a chain with an invented link."""
     if not (why_now and current_snapshot and current_vs_career and career_current):
         return ""
+    # Bug fix (2026-10-03): the guard above only checked the four dicts
+    # were truthy, not that the two specific current_snapshot fields
+    # this function actually formats (gir_rate, average_score) were
+    # themselves non-None -- a player whose current_snapshot exists but
+    # has a real, genuinely-absent gir_rate/average_score (e.g. a
+    # playerCode not covered by the totalRecord snapshot this field
+    # comes from) crashed here with TypeError, contradicting this
+    # function's own docstring ("Renders nothing when any required
+    # real field is missing"). Restores that documented contract.
+    if current_snapshot.get("gir_rate") is None or current_snapshot.get("average_score") is None:
+        return ""
     stages = [
         ("스킬", f'{why_now["lead_component"].removeprefix("SG ")} {why_now["lead_delta"]:+.2f}'),
         ("스코어링 기회", f'GIR {current_snapshot["gir_rate"]:.1f}%'),
