@@ -36,7 +36,6 @@ from html import escape as _esc
 from pathlib import Path
 
 from klpga.neo_win.hitejinro_player_metrics import (
-    conditioned_m4_probabilities,
     load_current_form_by_id,
     load_m4_by_id,
     neo_band_by_id,
@@ -499,14 +498,25 @@ def render_round_page(
     current_form_by_id = load_current_form_by_id(all_ids)
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
-    # BUG FIX (2026-10-03, "라운드가 진행되어도 확률 변화가 거의 없다"):
-    # win/top5/top10/top20 for a real still-alive player now come from
-    # this round's real-elimination-conditioned renormalization, not
-    # the raw frozen PRE snapshot -- see conditioned_m4_probabilities's
-    # own docstring for why (no real per-round model refit is possible
-    # in this environment; this is an exact PL conditioning on real
-    # elimination facts instead, not a new fitted model).
-    conditioned_by_id = conditioned_m4_probabilities(round_number, content_root=content_root)
+    # NEO Verification Spec (2026-10-03, "비교 기준은 하나금융그룹
+    # 챔피언십이다... 새로운 로직을 만들지 않는다"): 하나금융 자신의
+    # real pipeline -- R1은 Monte Carlo 없이 정적 사전 모델 그대로,
+    # R2/R3+는 klpga.neo_win.round_update_r2/round_update_r3를 그대로
+    # 호출하는 hitejinro_round_pipeline.build_hitejinro_post_r2_forecast/
+    # build_hitejinro_post_r3_forecast -- 를 그대로 따른다. R1은 m4_by_id
+    # 자체가 이미 "정적, Monte Carlo 없음"이므로 별도 변환이 필요 없다.
+    if round_number == 1:
+        conditioned_by_id = {
+            pid: {"win_probability": r["win_probability"], "top5_probability": r["top5_probability"],
+                  "top10_probability": r["top10_probability"], "top20_probability": r["top20_probability"]}
+            for pid, r in m4_by_id.items()
+        }
+    elif round_number == 2:
+        from klpga.neo_win.hitejinro_round_pipeline import build_hitejinro_post_r2_forecast
+        conditioned_by_id = {r["player_id"]: r for r in build_hitejinro_post_r2_forecast(content_root=content_root)["records"]}
+    else:
+        from klpga.neo_win.hitejinro_round_pipeline import build_hitejinro_post_r3_forecast
+        conditioned_by_id = {r["player_id"]: r for r in build_hitejinro_post_r3_forecast(content_root=content_root)["records"]}
 
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + (4 if round_number >= 3 else 5)
 
@@ -657,66 +667,6 @@ def render_round_page(
     return header + stage_nav + table_section + footer
 
 
-def render_r3_neo_verification_html(v: dict) -> str:
-    """② NEO 검증 (2026-10-03 mission): real pre-R3 M4 predictions vs
-    the real R3 outcome -- hitejinro_round_pipeline.build_r3_neo_
-    verification's own real, directly-computed numbers only. Never a
-    narrative guess at WHY a prediction missed; only the real score/
-    rank facts (operator: "예측 실패 원인" means the real data showing
-    the miss, not a fabricated explanation)."""
-    cp = v["cut_prediction"]
-    wc = v["win_candidate"]
-
-    topn_rows = "".join(
-        f"<tr><td>TOP{n}</td><td>{d['hit']}/{d['total']}</td>"
-        f"<td>{round(100 * d['hit'] / d['total'], 1)}%</td></tr>"
-        for n, d in v["topn_hitrates"].items()
-    )
-
-    real_wp = wc["real_leader_pre_r3_win_probability"]
-    real_wp_text = f"{real_wp * 100:.2f}%" if real_wp is not None else "데이터 부족"
-    win_html = (
-        f"<p>실제 R3 종료 선두: <b>{_esc(wc['real_leader']['player_name'])}</b> "
-        f"({format_to_par(wc['real_leader']['score_to_par'])}) -- R2 종료 시점 사전 우승확률 {real_wp_text}</p>"
-        f"<p>사전 우승확률 1위: <b>{_esc(wc['predicted_leader']['player_name'])}</b> "
-        f"({wc['predicted_leader']['pre_r3_win_probability'] * 100:.2f}%) -- "
-        f"실제 R3 결과: {_esc(wc['predicted_leader_real_status'] or ('순위 ' + str(wc['predicted_leader_real_rank'])))}</p>"
-    )
-
-    def _rank_rows(items: list[dict]) -> str:
-        return "".join(
-            f"<tr><td>{_esc(c['player_name'])}</td><td>{c['r2_rank']}</td><td>{c['r3_rank']}</td>"
-            f"<td>{'+' if c['change'] > 0 else ''}{c['change']}</td></tr>"
-            for c in items
-        )
-
-    return (
-        "<section class='panel' id='neo-verification'>"
-        "<h2>NEO 검증 -- 예측을 공개하고 실제 결과로 검증한다</h2>"
-        f"<p class='meta'>R2 종료 시점 NEO 사전 예측(M4 모델, {v['population_count']}명 대상) vs 실제 R3 결과 비교</p>"
-        "<h3>컷 예측 검증</h3>"
-        f"<p>{cp['correct']}/{cp['total']}명 정확 ({cp['accuracy_pct']}%) -- "
-        "R2 종료 시점 컷 통과확률 50% 이상을 '통과 예측'으로 판정</p>"
-        "<h3>TOP20 / TOP10 / TOP5 적중률</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>구간</th><th>적중</th><th>적중률</th></tr></thead>"
-        f"<tbody>{topn_rows}</tbody></table></div>"
-        "<h3>우승후보 적중 여부</h3>"
-        f"{win_html}"
-        "<h3>순위 변동 -- 상승 TOP5</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 순위</th><th>R3 순위</th><th>변동</th></tr></thead>"
-        f"<tbody>{_rank_rows(v['risers'])}</tbody></table></div>"
-        "<h3>순위 변동 -- 하락 TOP5</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 순위</th><th>R3 순위</th><th>변동</th></tr></thead>"
-        f"<tbody>{_rank_rows(v['fallers'])}</tbody></table></div>"
-        "<h3>예측 실패 원인 (실제 데이터)</h3>"
-        f"<p>사전 우승확률 1위 {_esc(wc['predicted_leader']['player_name'])}는 실제 R3 종료 시점 "
-        f"{_esc(wc['predicted_leader_real_status'] or ('순위 ' + str(wc['predicted_leader_real_rank'])))}에 그쳤고, "
-        f"실제 선두 {_esc(wc['real_leader']['player_name'])}의 사전 우승확률은 {real_wp_text}에 불과했다 -- "
-        "두 수치 모두 R2 종료 시점 M4 모델의 실제 출력값이며, 사후 재구성이 아니다.</p>"
-        "</section>"
-    )
-
-
 def render_r3_sg_intelligence_html(d: dict) -> str:
     """SG 분석 (Player Intelligence): hitejinro_round_pipeline.build_r3_
     sg_intelligence's real, parsed Strokes Gained rows -- Total/OTT/
@@ -768,90 +718,3 @@ def render_r3_course_analysis_html(d: dict) -> str:
     )
 
 
-def render_fr_preview_html(preview: dict) -> str:
-    """FR Preview: a REAL Monte Carlo re-run (hitejinro_round_pipeline.
-    simulate_hitejinro_round_preview) over the real R1-R3 scores + real
-    official SG -- NOT the frozen PRE M4 snapshot and NOT conditioned_
-    m4_probabilities's renormalization (NEO Verification Spec,
-    2026-10-03: "conditioned_m4_probabilities()는 보조 계산으로만
-    유지한다. R3 Preview 생성에는 사용하지 않는다. 반드시 Monte Carlo를
-    다시 실행한다")."""
-    rows = "".join(
-        f"<tr><td>{i}</td><td>{_esc(r['player_name'])}</td>"
-        f"<td>{format_to_par(r['known_total_to_par'])}</td>"
-        f"<td>{pct(r['win_probability'])}</td><td>{pct(r['top5_probability'])}</td>"
-        f"<td>{pct(r['top10_probability'])}</td><td>{pct(r['top20_probability'])}</td>"
-        f"<td>{_esc(r['expected_source'])}</td></tr>"
-        for i, r in enumerate(preview["records"][:20], 1)
-    )
-    return (
-        "<section class='panel' id='fr-preview'>"
-        "<h2>FR Preview</h2>"
-        f"<p class='meta'>R3 종료 시점 real Monte Carlo 재실행 -- {preview['population_count']}명 대상, "
-        f"{preview['n_simulations']:,}회 시뮬레이션, 잔여 {preview['remaining_rounds']}라운드. "
-        "정적 사전 모델(M4)을 그대로 쓰지 않고, 실제 R1-R3 스코어 + 공식 SG를 반영해 다시 계산한 결과.</p>"
-        "<div class='table-wrap'><table class='data'><thead><tr>"
-        "<th>순위</th><th>선수</th><th>R1-R3 합계</th><th>우승확률</th><th>TOP5</th><th>TOP10</th><th>TOP20</th><th>기대라운드 산출근거</th>"
-        f"</tr></thead><tbody>{rows}</tbody></table></div>"
-        "</section>"
-    )
-
-
-def render_neo_verification_v2_html(v: dict) -> str:
-    """NEO Verification Spec (2026-10-03): ① 확률 변화 ② SG 변화
-    ③ 적중률 ④ 실패 원인 ⑤ 성공 원인 ⑥ 모델 개선 포인트, built from
-    hitejinro_round_pipeline.build_hitejinro_neo_verification -- the
-    REAL Monte Carlo preview (SG-informed) generated at the end of the
-    PRIOR round, checked against this round's now-real outcome."""
-    pc = v["probability_change"]
-    real_wp = pc["real_leader"]["pre_win_probability"]
-    real_wp_text = pct(real_wp) if real_wp is not None else "데이터 부족"
-    pred_wp = pc["predicted_leader"]["pre_win_probability"]
-    pred_wp_text = pct(pred_wp) if pred_wp is not None else "데이터 부족"
-
-    topn_rows = "".join(
-        f"<tr><td>TOP{n}</td><td>{d['hit']}/{d['total']}</td>"
-        f"<td>{round(100 * d['hit'] / d['total'], 1)}%</td></tr>"
-        for n, d in v["topn_hitrates"].items()
-    )
-
-    def _sg_rows(items: list[dict]) -> str:
-        return "".join(
-            f"<tr><td>{_esc(c['player_name'])}</td><td>{c['prev_sg_total']:+.2f}</td>"
-            f"<td>{c['current_sg_total']:+.2f}</td><td>{c['change']:+.2f}</td></tr>"
-            for c in items
-        )
-
-    def _case_rows(items: list[dict]) -> str:
-        return "".join(
-            f"<tr><td>{_esc(c['player_name'])}</td><td>{pct(c['pre_win_probability'])}</td><td>{c['real_rank']}</td></tr>"
-            for c in items
-        )
-
-    return (
-        "<section class='panel' id='neo-verification-v2'>"
-        f"<h2>NEO Verification -- R{v['outcome_round']} 결과 검증</h2>"
-        f"<p class='meta'>예측 출처: {_esc(v['preview_label'])}</p>"
-        "<h3>① 확률 변화</h3>"
-        f"<p>실제 R{v['outcome_round']} 종료 선두: <b>{_esc(pc['real_leader']['player_name'] or '')}</b> "
-        f"(예측 시점 우승확률 {real_wp_text}) -- 예측 우승확률 1위: <b>{_esc(pc['predicted_leader']['player_name'] or '')}</b> "
-        f"({pred_wp_text}) -- 실제 결과 순위 {pc['predicted_leader_real_rank']}</p>"
-        "<h3>② SG 변화 -- 상승 TOP5</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>이전 SG</th><th>현재 SG</th><th>변화</th></tr></thead>"
-        f"<tbody>{_sg_rows(v['sg_change_top5'])}</tbody></table></div>"
-        "<h3>② SG 변화 -- 하락 TOP5</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>이전 SG</th><th>현재 SG</th><th>변화</th></tr></thead>"
-        f"<tbody>{_sg_rows(v['sg_change_bottom5'])}</tbody></table></div>"
-        "<h3>③ 적중률 (TOP20/TOP10/TOP5)</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>구간</th><th>적중</th><th>적중률</th></tr></thead>"
-        f"<tbody>{topn_rows}</tbody></table></div>"
-        "<h3>④ 실패 원인 (예측 TOP10 중 실제 TOP20 밖)</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>예측 우승확률</th><th>실제 순위</th></tr></thead>"
-        f"<tbody>{_case_rows(v['failure_cases'])}</tbody></table></div>"
-        "<h3>⑤ 성공 원인 (예측 TOP10 중 실제 TOP20 이내)</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>예측 우승확률</th><th>실제 순위</th></tr></thead>"
-        f"<tbody>{_case_rows(v['success_cases'])}</tbody></table></div>"
-        "<h3>⑥ 모델 개선 포인트</h3>"
-        f"<p>{_esc(v['model_improvement_note'])}</p>"
-        "</section>"
-    )

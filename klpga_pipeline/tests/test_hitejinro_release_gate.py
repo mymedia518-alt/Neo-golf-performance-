@@ -225,30 +225,27 @@ requires_r3_leaderboard_evidence = pytest.mark.skipif(
 
 
 @requires_r3_leaderboard_evidence
-def test_r3_neo_verification_numbers_are_internally_consistent():
-    """Bug class this guards: the NEO 검증 section (2026-10-03 mission
-    -- "예측을 공개하고 실제 결과로 검증한다") silently drifting out of
-    arithmetic self-consistency (e.g. accuracy_pct not matching
-    correct/total, a topN hit count exceeding N) -- every number here
-    must be real and internally coherent, not just present."""
-    from klpga.neo_win.hitejinro_round_pipeline import build_r3_neo_verification
+def test_hitejinro_post_forecasts_are_internally_consistent():
+    """Bug class this guards: NEO Verification Spec (2026-10-03,
+    "비교 기준은 하나금융그룹 챔피언십이다") -- HITEJINRO's R2/R3+
+    forecast now literally calls klpga.neo_win.round_update_r2/
+    round_update_r3 (same real engine Hana's own live pages use), via
+    build_hitejinro_post_r2_forecast/build_hitejinro_post_r3_forecast.
+    Every probability must stay a real, internally coherent value --
+    never negative, never above 1, win <= top5 <= top10 <= top20 per
+    player (the same monotonicity simulate_finish_tiers-style Monte
+    Carlo always guarantees)."""
+    from klpga.neo_win.hitejinro_round_pipeline import (
+        build_hitejinro_post_r2_forecast,
+        build_hitejinro_post_r3_forecast,
+    )
 
-    v = build_r3_neo_verification()
-    cp = v["cut_prediction"]
-    assert 0 <= cp["correct"] <= cp["total"]
-    assert cp["accuracy_pct"] == round(100 * cp["correct"] / cp["total"], 1)
-
-    for n, d in v["topn_hitrates"].items():
-        assert d["total"] == n
-        assert 0 <= d["hit"] <= n
-        assert len(d["real"]) == n
-        assert d["hit"] == len(set(d["real"]) & set(d["predicted"]))
-
-    assert len(v["risers"]) <= 5
-    assert len(v["fallers"]) <= 5
-    # risers sorted descending by change, fallers ascending (most negative first)
-    assert [c["change"] for c in v["risers"]] == sorted((c["change"] for c in v["risers"]), reverse=True)
-    assert [c["change"] for c in v["fallers"]] == sorted((c["change"] for c in v["fallers"]))
+    for forecast in (build_hitejinro_post_r2_forecast(), build_hitejinro_post_r3_forecast()):
+        assert forecast["records"], "forecast population must not be empty"
+        for r in forecast["records"]:
+            chain = [r["win_probability"], r["top5_probability"], r["top10_probability"], r["top20_probability"]]
+            assert all(0.0 <= v <= 1.0 for v in chain), r
+            assert all(a <= b + 1e-9 for a, b in zip(chain, chain[1:])), r
 
 
 @requires_r3_leaderboard_evidence
