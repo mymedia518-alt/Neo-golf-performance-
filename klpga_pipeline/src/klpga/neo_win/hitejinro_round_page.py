@@ -36,6 +36,7 @@ from html import escape as _esc
 from pathlib import Path
 
 from klpga.neo_win.hitejinro_player_metrics import (
+    conditioned_m4_probabilities,
     load_current_form_by_id,
     load_m4_by_id,
     neo_band_by_id,
@@ -233,7 +234,7 @@ def load_leaderboard(content_root: Path) -> dict:
 
 def _render_row_html(
     r: dict, *, round_number: int, in_progress: dict[str, dict] | None,
-    rank_counts: dict[int, int], band_by_id: dict, m4_by_id: dict,
+    rank_counts: dict[int, int], band_by_id: dict, m4_by_id: dict, conditioned_by_id: dict,
     nationality_by_id: dict[str, str], sponsor_cache: dict[str, str],
     show_hole_progress: bool,
 ) -> str:
@@ -376,10 +377,18 @@ def _render_row_html(
     elif pid in m4_by_id:
         m4 = m4_by_id[pid]
         cut_cell = pct(m4["cut_probability"])
-        top20_cell = pct(m4["top20_probability"])
-        top10_cell = pct(m4["top10_probability"])
-        top5_cell = pct(m4["top5_probability"])
-        win_cell = pct(m4["win_probability"])
+        # BUG FIX (2026-10-03): TOP20/TOP10/TOP5/우승확률 now come from
+        # this round's real-elimination-conditioned renormalization
+        # (conditioned_m4_probabilities), not the raw frozen PRE value
+        # -- every real still-alive player is always present here (same
+        # "status is None" population that reaches this branch). cut_
+        # probability alone stays the raw PRE value (a separate,
+        # round-scoped logistic model, not part of this conditioning).
+        cond = conditioned_by_id[pid]
+        top20_cell = pct(cond["top20_probability"])
+        top10_cell = pct(cond["top10_probability"])
+        top5_cell = pct(cond["top5_probability"])
+        win_cell = pct(cond["win_probability"])
         metric_class = "win"
     else:
         cut_cell = top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
@@ -490,6 +499,14 @@ def render_round_page(
     current_form_by_id = load_current_form_by_id(all_ids)
     band_by_id = neo_band_by_id(current_form_by_id)
     m4_by_id = load_m4_by_id()
+    # BUG FIX (2026-10-03, "라운드가 진행되어도 확률 변화가 거의 없다"):
+    # win/top5/top10/top20 for a real still-alive player now come from
+    # this round's real-elimination-conditioned renormalization, not
+    # the raw frozen PRE snapshot -- see conditioned_m4_probabilities's
+    # own docstring for why (no real per-round model refit is possible
+    # in this environment; this is an exact PL conditioning on real
+    # elimination facts instead, not a new fitted model).
+    conditioned_by_id = conditioned_m4_probabilities(round_number, content_root=content_root)
 
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + (4 if round_number >= 3 else 5)
 
@@ -515,7 +532,8 @@ def render_round_page(
     ]
     row_kwargs = dict(
         round_number=round_number, in_progress=in_progress, rank_counts=rank_counts,
-        band_by_id=band_by_id, m4_by_id=m4_by_id, nationality_by_id=nationality_by_id,
+        band_by_id=band_by_id, m4_by_id=m4_by_id, conditioned_by_id=conditioned_by_id,
+        nationality_by_id=nationality_by_id,
         sponsor_cache=sponsor_cache, show_hole_progress=show_hole_progress,
     )
     # 2026-10-02 "EVIDENCE INSUFFICIENT" mission: the "R2 컷 통과"
