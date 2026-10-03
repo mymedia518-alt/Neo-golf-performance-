@@ -681,3 +681,91 @@ def render_r3_neo_verification_html(v: dict) -> str:
         "두 수치 모두 R2 종료 시점 M4 모델의 실제 출력값이며, 사후 재구성이 아니다.</p>"
         "</section>"
     )
+
+
+def render_r3_sg_intelligence_html(d: dict) -> str:
+    """SG 분석 (Player Intelligence): hitejinro_round_pipeline.build_r3_
+    sg_intelligence's real, parsed Strokes Gained rows -- Total/OTT/
+    APP/ARG/PUTT per player, this round's own real official SG table,
+    nothing estimated."""
+    leader = d["sg_leader"]
+    rows_html = "".join(
+        f"<tr><td>{r['sg_rank']}</td><td>{_esc(r['official_display_name'])}</td>"
+        f"<td>{r['r3_rank'] if r['r3_rank'] is not None else '-'}</td>"
+        f"<td>{r['total']:+.2f}</td><td>{r['off_the_tee']:+.2f}</td>"
+        f"<td>{r['approach']:+.2f}</td><td>{r['around_green']:+.2f}</td>"
+        f"<td>{r['putting']:+.2f}</td></tr>"
+        for r in d["rows"]
+    )
+    return (
+        "<section class='panel' id='sg-intelligence'>"
+        "<h2>SG 분석 (Strokes Gained)</h2>"
+        f"<p class='meta'>R3 공식 Strokes Gained, {d['population_count']}명 -- 라운드 자체 SG(단일 라운드 기준)</p>"
+        + (f"<p>R3 SG 1위: <b>{_esc(leader['official_display_name'])}</b> (Total {leader['total']:+.2f})</p>" if leader else "")
+        + "<div class='table-wrap'><table class='data'><thead><tr>"
+        "<th>SG순위</th><th>선수</th><th>R3순위</th><th>Total</th><th>OTT</th><th>APP</th><th>ARG</th><th>PUTT</th>"
+        f"</tr></thead><tbody>{rows_html}</tbody></table></div>"
+        "</section>"
+    )
+
+
+def render_r3_course_analysis_html(d: dict) -> str:
+    """코스 분석: hitejinro_round_pipeline.build_r3_course_analysis's
+    real per-hole R3 field averages (collect_current_round_evidence.py's
+    real scorecards.json, 61명 전원)."""
+    def _hole_rows(items: list[dict]) -> str:
+        return "".join(
+            f"<tr><td>{h['hole']}</td><td>Par {h['par']}</td><td>{h['avg_to_par']:+.2f}</td>"
+            f"<td>{h['better_than_par']}/{h['player_count']}</td></tr>"
+            for h in items
+        )
+
+    return (
+        "<section class='panel' id='course-analysis'>"
+        "<h2>코스 분석</h2>"
+        f"<p class='meta'>R3 전체 {d['field_player_count']}명 실제 홀별 스코어 -- 평균 {d['field_avg_to_par_per_round']:+.2f}타/라운드</p>"
+        "<h3>가장 어려운 홀 TOP3</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>홀</th><th>파</th><th>평균 스코어</th><th>버디 이상</th></tr></thead>"
+        f"<tbody>{_hole_rows(d['hardest_holes'])}</tbody></table></div>"
+        "<h3>가장 쉬운 홀 TOP3</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>홀</th><th>파</th><th>평균 스코어</th><th>버디 이상</th></tr></thead>"
+        f"<tbody>{_hole_rows(d['easiest_holes'])}</tbody></table></div>"
+        "</section>"
+    )
+
+
+def render_r3_r4_preview_html(d: dict) -> str:
+    """R4 Preview: real R3 standings + real round-over-round SG momentum
+    only (hitejinro_round_pipeline.build_r3_r4_preview) -- explicitly
+    NOT a recomputed win-probability model; the static pre-tournament
+    M4 snapshot is never recalculated mid-event, and this section does
+    not pretend otherwise."""
+    def _lb_rows(items: list[dict]) -> str:
+        return "".join(
+            f"<tr><td>{r['rank']}</td><td>{_esc(r['player_name'])}</td><td>{format_to_par(r['score_to_par'])}</td></tr>"
+            for r in items
+        )
+
+    def _momentum_rows(items: list[dict]) -> str:
+        return "".join(
+            f"<tr><td>{_esc(r['player_name'])}</td><td>{r['r2_total']:+.2f}</td>"
+            f"<td>{r['r3_total']:+.2f}</td><td>{r['change_r2_to_r3']:+.2f}</td></tr>"
+            for r in items
+        )
+
+    return (
+        "<section class='panel' id='r4-preview'>"
+        "<h2>R4 Preview</h2>"
+        "<p class='meta'>※ 사전 모델(M4)은 재계산하지 않음 -- 아래는 R3 종료 시점 real 순위와 "
+        "라운드별 real SG 변화만을 보여주는 참고 지표이며, 새로운 우승확률 모델이 아니다.</p>"
+        "<h3>R3 종료 순위 TOP5</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>순위</th><th>선수</th><th>스코어</th></tr></thead>"
+        f"<tbody>{_lb_rows(d['leaderboard_top5'])}</tbody></table></div>"
+        "<h3>SG 상승 모멘텀 TOP5 (R2 → R3)</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 SG</th><th>R3 SG</th><th>변화</th></tr></thead>"
+        f"<tbody>{_momentum_rows(d['sg_momentum_rising'])}</tbody></table></div>"
+        "<h3>SG 하락 모멘텀 TOP5 (R2 → R3)</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 SG</th><th>R3 SG</th><th>변화</th></tr></thead>"
+        f"<tbody>{_momentum_rows(d['sg_momentum_falling'])}</tbody></table></div>"
+        "</section>"
+    )

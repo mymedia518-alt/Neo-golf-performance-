@@ -1,0 +1,945 @@
+{
+  "schema_version": "hitejinro_round_sg_v2",
+  "game_code": "2026100005",
+  "round_number": 3,
+  "as_of": "2026-10-03",
+  "purpose": "ROUND-SCOPED Strokes Gained observed through this round -- not merged into historical_sg_warehouse_corrected_v2.json by this function; see merge_sg_into_warehouse for the separate, explicit merge step.",
+  "source_raw": {
+    "path": "klpga_pipeline/content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R3_SG_RAW.html",
+    "sha256": "e180b8a26f8b7ac5b4ac04c98e97724666cbdffae5904e04a27b9213be5f746c",
+    "saved_from_url": "https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026100005"
+  },
+  "identity_join": {
+    "method": "exact display-name match, used only after independently verifying the join is a true 1:1 bijection for this exact population (both sides duplicate-free, set-equal)",
+    "population_count": 61,
+    "bijection_verified": true
+  },
+  "not_yet_complete_excluded": [
+    {
+      "player_id": "9937",
+      "player_name": "황유나"
+    },
+    {
+      "player_id": "8972",
+      "player_name": "조정민"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희"
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영"
+    },
+    {
+      "player_id": "8430",
+      "player_name": "조은채"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아"
+    },
+    {
+      "player_id": "12080",
+      "player_name": "양아연 1012(A)"
+    },
+    {
+      "player_id": "8234",
+      "player_name": "이주미"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2"
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경"
+    },
+    {
+      "player_id": "8386",
+      "player_name": "성은정"
+    },
+    {
+      "player_id": "9174",
+      "player_name": "강가율"
+    },
+    {
+      "player_id": "9750",
+      "player_name": "홍정민"
+    },
+    {
+      "player_id": "10727",
+      "player_name": "황민정"
+    },
+    {
+      "player_id": "11040",
+      "player_name": "이세영"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현"
+    },
+    {
+      "player_id": "12038",
+      "player_name": "이지민"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉"
+    },
+    {
+      "player_id": "11469",
+      "player_name": "이윤서"
+    },
+    {
+      "player_id": "9136",
+      "player_name": "조혜림"
+    },
+    {
+      "player_id": "10139",
+      "player_name": "양효리"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유"
+    },
+    {
+      "player_id": "8840",
+      "player_name": "정수빈"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2"
+    },
+    {
+      "player_id": "13386",
+      "player_name": "에리카 윤 스미스(I)"
+    },
+    {
+      "player_id": "10178",
+      "player_name": "김희지"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지"
+    },
+    {
+      "player_id": "9277",
+      "player_name": "김아현"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원"
+    },
+    {
+      "player_id": "10867",
+      "player_name": "양서후"
+    },
+    {
+      "player_id": "8434",
+      "player_name": "김지영2"
+    },
+    {
+      "player_id": "12078",
+      "player_name": "임선아 1108(A)"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우"
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미"
+    },
+    {
+      "player_id": "11076",
+      "player_name": "조하리"
+    },
+    {
+      "player_id": "11978",
+      "player_name": "이수민 0906(A)"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영"
+    },
+    {
+      "player_id": "9401",
+      "player_name": "마다솜"
+    }
+  ],
+  "coverage": {
+    "player_count": 61,
+    "duplicate_player_ids": 0
+  },
+  "records": [
+    {
+      "player_id": "11066",
+      "official_display_name": "유서연2",
+      "sg_rank": 1,
+      "total": 7.54,
+      "tee_to_green": 2.8,
+      "off_the_tee": 0.45,
+      "approach": 2.79,
+      "around_green": -0.43,
+      "putting": 4.74,
+      "rounds": 1
+    },
+    {
+      "player_id": "9449",
+      "official_display_name": "이지현3",
+      "sg_rank": 2,
+      "total": 6.57,
+      "tee_to_green": 2.37,
+      "off_the_tee": 0.12,
+      "approach": 2.71,
+      "around_green": -0.47,
+      "putting": 4.19,
+      "rounds": 1
+    },
+    {
+      "player_id": "8589",
+      "official_display_name": "배소현",
+      "sg_rank": 3,
+      "total": 6.37,
+      "tee_to_green": 4.64,
+      "off_the_tee": 0.47,
+      "approach": 2.84,
+      "around_green": 1.34,
+      "putting": 1.72,
+      "rounds": 1
+    },
+    {
+      "player_id": "10531",
+      "official_display_name": "현세린",
+      "sg_rank": 4,
+      "total": 5.54,
+      "tee_to_green": 1.31,
+      "off_the_tee": -1.21,
+      "approach": 2.2,
+      "around_green": 0.33,
+      "putting": 4.23,
+      "rounds": 1
+    },
+    {
+      "player_id": "9082",
+      "official_display_name": "전예성",
+      "sg_rank": 5,
+      "total": 3.74,
+      "tee_to_green": 1.91,
+      "off_the_tee": -1.12,
+      "approach": 3.09,
+      "around_green": -0.06,
+      "putting": 1.83,
+      "rounds": 1
+    },
+    {
+      "player_id": "9134",
+      "official_display_name": "서어진",
+      "sg_rank": 6,
+      "total": 3.52,
+      "tee_to_green": 2.96,
+      "off_the_tee": 0.8,
+      "approach": 1.87,
+      "around_green": 0.28,
+      "putting": 0.56,
+      "rounds": 1
+    },
+    {
+      "player_id": "9465",
+      "official_display_name": "안지현",
+      "sg_rank": 7,
+      "total": 3.47,
+      "tee_to_green": 2.54,
+      "off_the_tee": 0.57,
+      "approach": 1.96,
+      "around_green": 0.0,
+      "putting": 0.94,
+      "rounds": 1
+    },
+    {
+      "player_id": "10083",
+      "official_display_name": "마서영",
+      "sg_rank": 8,
+      "total": 3.44,
+      "tee_to_green": 3.72,
+      "off_the_tee": 0.02,
+      "approach": 2.45,
+      "around_green": 1.24,
+      "putting": -0.28,
+      "rounds": 1
+    },
+    {
+      "player_id": "9784",
+      "official_display_name": "이예원",
+      "sg_rank": 8,
+      "total": 3.44,
+      "tee_to_green": 1.25,
+      "off_the_tee": 0.91,
+      "approach": 0.31,
+      "around_green": 0.03,
+      "putting": 2.19,
+      "rounds": 1
+    },
+    {
+      "player_id": "9820",
+      "official_display_name": "정윤지",
+      "sg_rank": 10,
+      "total": 3.35,
+      "tee_to_green": 2.43,
+      "off_the_tee": 0.9,
+      "approach": 1.54,
+      "around_green": 0.0,
+      "putting": 0.92,
+      "rounds": 1
+    },
+    {
+      "player_id": "10081",
+      "official_display_name": "김민주",
+      "sg_rank": 11,
+      "total": 2.68,
+      "tee_to_green": 2.61,
+      "off_the_tee": 0.41,
+      "approach": 1.57,
+      "around_green": 0.64,
+      "putting": 0.07,
+      "rounds": 1
+    },
+    {
+      "player_id": "10577",
+      "official_display_name": "최예본",
+      "sg_rank": 12,
+      "total": 2.67,
+      "tee_to_green": 0.85,
+      "off_the_tee": 0.79,
+      "approach": 1.9,
+      "around_green": -1.83,
+      "putting": 1.81,
+      "rounds": 1
+    },
+    {
+      "player_id": "8884",
+      "official_display_name": "윤화영",
+      "sg_rank": 13,
+      "total": 2.52,
+      "tee_to_green": 4.19,
+      "off_the_tee": -0.06,
+      "approach": 1.2,
+      "around_green": 3.05,
+      "putting": -1.67,
+      "rounds": 1
+    },
+    {
+      "player_id": "9389",
+      "official_display_name": "전우리",
+      "sg_rank": 14,
+      "total": 2.46,
+      "tee_to_green": 1.02,
+      "off_the_tee": 0.49,
+      "approach": -0.36,
+      "around_green": 0.89,
+      "putting": 1.44,
+      "rounds": 1
+    },
+    {
+      "player_id": "9113",
+      "official_display_name": "노승희",
+      "sg_rank": 15,
+      "total": 2.42,
+      "tee_to_green": 1.1,
+      "off_the_tee": 0.47,
+      "approach": 1.55,
+      "around_green": -0.92,
+      "putting": 1.32,
+      "rounds": 1
+    },
+    {
+      "player_id": "10586",
+      "official_display_name": "홍진영2",
+      "sg_rank": 16,
+      "total": 2.4,
+      "tee_to_green": 1.7,
+      "off_the_tee": 0.97,
+      "approach": 1.1,
+      "around_green": -0.37,
+      "putting": 0.71,
+      "rounds": 1
+    },
+    {
+      "player_id": "9115",
+      "official_display_name": "유해란",
+      "sg_rank": 17,
+      "total": 2.32,
+      "tee_to_green": 2.48,
+      "off_the_tee": -0.76,
+      "approach": 3.45,
+      "around_green": -0.21,
+      "putting": -0.16,
+      "rounds": 1
+    },
+    {
+      "player_id": "10109",
+      "official_display_name": "고지원",
+      "sg_rank": 18,
+      "total": 2.29,
+      "tee_to_green": 3.89,
+      "off_the_tee": 0.92,
+      "approach": 2.27,
+      "around_green": 0.7,
+      "putting": -1.6,
+      "rounds": 1
+    },
+    {
+      "player_id": "11042",
+      "official_display_name": "홍현지",
+      "sg_rank": 19,
+      "total": 1.54,
+      "tee_to_green": -0.59,
+      "off_the_tee": -0.41,
+      "approach": -0.25,
+      "around_green": 0.07,
+      "putting": 2.13,
+      "rounds": 1
+    },
+    {
+      "player_id": "10138",
+      "official_display_name": "임진영",
+      "sg_rank": 20,
+      "total": 1.46,
+      "tee_to_green": 1.97,
+      "off_the_tee": -0.12,
+      "approach": 0.98,
+      "around_green": 1.1,
+      "putting": -0.51,
+      "rounds": 1
+    },
+    {
+      "player_id": "11640",
+      "official_display_name": "성아진",
+      "sg_rank": 21,
+      "total": 1.44,
+      "tee_to_green": -1.28,
+      "off_the_tee": -0.01,
+      "approach": -1.12,
+      "around_green": -0.16,
+      "putting": 2.72,
+      "rounds": 1
+    },
+    {
+      "player_id": "8838",
+      "official_display_name": "김우정",
+      "sg_rank": 22,
+      "total": 1.42,
+      "tee_to_green": 1.53,
+      "off_the_tee": 0.01,
+      "approach": 0.87,
+      "around_green": 0.66,
+      "putting": -0.11,
+      "rounds": 1
+    },
+    {
+      "player_id": "8300",
+      "official_display_name": "김수지",
+      "sg_rank": 23,
+      "total": 1.38,
+      "tee_to_green": 0.46,
+      "off_the_tee": 0.35,
+      "approach": 1.33,
+      "around_green": -1.21,
+      "putting": 0.93,
+      "rounds": 1
+    },
+    {
+      "player_id": "10095",
+      "official_display_name": "방신실",
+      "sg_rank": 24,
+      "total": 1.2,
+      "tee_to_green": 0.81,
+      "off_the_tee": -1.22,
+      "approach": 2.11,
+      "around_green": -0.08,
+      "putting": 0.39,
+      "rounds": 1
+    },
+    {
+      "player_id": "9235",
+      "official_display_name": "최은우",
+      "sg_rank": 25,
+      "total": 0.91,
+      "tee_to_green": 1.15,
+      "off_the_tee": 0.52,
+      "approach": 0.48,
+      "around_green": 0.14,
+      "putting": -0.23,
+      "rounds": 1
+    },
+    {
+      "player_id": "8392",
+      "official_display_name": "이다연",
+      "sg_rank": 26,
+      "total": 0.87,
+      "tee_to_green": 0.25,
+      "off_the_tee": -0.01,
+      "approach": 0.5,
+      "around_green": -0.24,
+      "putting": 0.62,
+      "rounds": 1
+    },
+    {
+      "player_id": "9089",
+      "official_display_name": "김소정",
+      "sg_rank": 27,
+      "total": 0.63,
+      "tee_to_green": 2.45,
+      "off_the_tee": 0.5,
+      "approach": 2.19,
+      "around_green": -0.25,
+      "putting": -1.82,
+      "rounds": 1
+    },
+    {
+      "player_id": "9000",
+      "official_display_name": "김지수",
+      "sg_rank": 28,
+      "total": 0.55,
+      "tee_to_green": 0.04,
+      "off_the_tee": 0.19,
+      "approach": -0.94,
+      "around_green": 0.79,
+      "putting": 0.51,
+      "rounds": 1
+    },
+    {
+      "player_id": "9708",
+      "official_display_name": "이재윤",
+      "sg_rank": 29,
+      "total": 0.51,
+      "tee_to_green": 0.98,
+      "off_the_tee": 0.44,
+      "approach": 1.02,
+      "around_green": -0.47,
+      "putting": -0.47,
+      "rounds": 1
+    },
+    {
+      "player_id": "9705",
+      "official_display_name": "홍지원",
+      "sg_rank": 30,
+      "total": 0.08,
+      "tee_to_green": 0.08,
+      "off_the_tee": -0.16,
+      "approach": -0.4,
+      "around_green": 0.64,
+      "putting": 0.01,
+      "rounds": 1
+    },
+    {
+      "player_id": "9759",
+      "official_display_name": "이율린",
+      "sg_rank": 31,
+      "total": -0.23,
+      "tee_to_green": -0.73,
+      "off_the_tee": -0.34,
+      "approach": 0.93,
+      "around_green": -1.32,
+      "putting": 0.5,
+      "rounds": 1
+    },
+    {
+      "player_id": "9431",
+      "official_display_name": "박보겸",
+      "sg_rank": 32,
+      "total": -0.29,
+      "tee_to_green": 0.94,
+      "off_the_tee": 0.47,
+      "approach": 1.17,
+      "around_green": -0.7,
+      "putting": -1.23,
+      "rounds": 1
+    },
+    {
+      "player_id": "9990",
+      "official_display_name": "윤수아",
+      "sg_rank": 32,
+      "total": -0.29,
+      "tee_to_green": 1.68,
+      "off_the_tee": 0.12,
+      "approach": 0.44,
+      "around_green": 1.11,
+      "putting": -1.97,
+      "rounds": 1
+    },
+    {
+      "player_id": "8881",
+      "official_display_name": "성유진",
+      "sg_rank": 34,
+      "total": -0.33,
+      "tee_to_green": 1.68,
+      "off_the_tee": 0.38,
+      "approach": 1.1,
+      "around_green": 0.2,
+      "putting": -2.0,
+      "rounds": 1
+    },
+    {
+      "player_id": "10790",
+      "official_display_name": "김하은2",
+      "sg_rank": 35,
+      "total": -0.37,
+      "tee_to_green": 1.28,
+      "off_the_tee": 0.78,
+      "approach": 0.55,
+      "around_green": -0.04,
+      "putting": -1.65,
+      "rounds": 1
+    },
+    {
+      "player_id": "8179",
+      "official_display_name": "박성현",
+      "sg_rank": 36,
+      "total": -0.57,
+      "tee_to_green": -2.9,
+      "off_the_tee": 0.62,
+      "approach": -1.58,
+      "around_green": -1.95,
+      "putting": 2.34,
+      "rounds": 1
+    },
+    {
+      "player_id": "11134",
+      "official_display_name": "서교림",
+      "sg_rank": 37,
+      "total": -0.67,
+      "tee_to_green": 1.52,
+      "off_the_tee": 0.65,
+      "approach": 0.49,
+      "around_green": 0.37,
+      "putting": -2.19,
+      "rounds": 1
+    },
+    {
+      "player_id": "10097",
+      "official_display_name": "김민선7",
+      "sg_rank": 38,
+      "total": -0.87,
+      "tee_to_green": -1.49,
+      "off_the_tee": -1.31,
+      "approach": 1.44,
+      "around_green": -1.61,
+      "putting": 0.62,
+      "rounds": 1
+    },
+    {
+      "player_id": "8380",
+      "official_display_name": "김새로미",
+      "sg_rank": 39,
+      "total": -1.15,
+      "tee_to_green": -4.09,
+      "off_the_tee": 0.59,
+      "approach": -2.17,
+      "around_green": -2.52,
+      "putting": 2.94,
+      "rounds": 1
+    },
+    {
+      "player_id": "11447",
+      "official_display_name": "한아름",
+      "sg_rank": 40,
+      "total": -1.4,
+      "tee_to_green": 0.32,
+      "off_the_tee": -2.76,
+      "approach": 2.05,
+      "around_green": 1.03,
+      "putting": -1.72,
+      "rounds": 1
+    },
+    {
+      "player_id": "9145",
+      "official_display_name": "임희정",
+      "sg_rank": 41,
+      "total": -1.89,
+      "tee_to_green": -0.52,
+      "off_the_tee": 0.05,
+      "approach": -0.9,
+      "around_green": 0.33,
+      "putting": -1.37,
+      "rounds": 1
+    },
+    {
+      "player_id": "10725",
+      "official_display_name": "김민솔",
+      "sg_rank": 42,
+      "total": -1.99,
+      "tee_to_green": -1.83,
+      "off_the_tee": -0.66,
+      "approach": -0.38,
+      "around_green": -0.78,
+      "putting": -0.16,
+      "rounds": 1
+    },
+    {
+      "player_id": "9765",
+      "official_display_name": "정소이",
+      "sg_rank": 43,
+      "total": -2.09,
+      "tee_to_green": -2.94,
+      "off_the_tee": -0.91,
+      "approach": -2.31,
+      "around_green": 0.28,
+      "putting": 0.85,
+      "rounds": 1
+    },
+    {
+      "player_id": "11770",
+      "official_display_name": "짜라위 분짠(I)",
+      "sg_rank": 44,
+      "total": -2.1,
+      "tee_to_green": -3.06,
+      "off_the_tee": -0.69,
+      "approach": -1.62,
+      "around_green": -0.74,
+      "putting": 0.95,
+      "rounds": 1
+    },
+    {
+      "player_id": "9652",
+      "official_display_name": "이세희",
+      "sg_rank": 45,
+      "total": -2.4,
+      "tee_to_green": -1.78,
+      "off_the_tee": 0.12,
+      "approach": -1.36,
+      "around_green": -0.54,
+      "putting": -0.62,
+      "rounds": 1
+    },
+    {
+      "player_id": "8859",
+      "official_display_name": "이승연",
+      "sg_rank": 46,
+      "total": -2.45,
+      "tee_to_green": -0.1,
+      "off_the_tee": 0.86,
+      "approach": 0.15,
+      "around_green": -1.11,
+      "putting": -2.35,
+      "rounds": 1
+    },
+    {
+      "player_id": "11060",
+      "official_display_name": "안재희",
+      "sg_rank": 47,
+      "total": -2.53,
+      "tee_to_green": 0.96,
+      "off_the_tee": 0.83,
+      "approach": 0.11,
+      "around_green": 0.02,
+      "putting": -3.49,
+      "rounds": 1
+    },
+    {
+      "player_id": "10022",
+      "official_display_name": "손예빈",
+      "sg_rank": 48,
+      "total": -2.58,
+      "tee_to_green": -2.83,
+      "off_the_tee": -0.77,
+      "approach": -2.28,
+      "around_green": 0.22,
+      "putting": 0.25,
+      "rounds": 1
+    },
+    {
+      "player_id": "8243",
+      "official_display_name": "장은수",
+      "sg_rank": 49,
+      "total": -2.74,
+      "tee_to_green": -2.76,
+      "off_the_tee": 0.2,
+      "approach": -3.29,
+      "around_green": 0.32,
+      "putting": 0.02,
+      "rounds": 1
+    },
+    {
+      "player_id": "8284",
+      "official_display_name": "최예림",
+      "sg_rank": 50,
+      "total": -3.09,
+      "tee_to_green": -3.23,
+      "off_the_tee": -2.98,
+      "approach": -1.31,
+      "around_green": 1.06,
+      "putting": 0.15,
+      "rounds": 1
+    },
+    {
+      "player_id": "11143",
+      "official_display_name": "김시현",
+      "sg_rank": 51,
+      "total": -3.32,
+      "tee_to_green": 0.5,
+      "off_the_tee": 0.08,
+      "approach": -0.05,
+      "around_green": 0.47,
+      "putting": -3.82,
+      "rounds": 1
+    },
+    {
+      "player_id": "10002",
+      "official_display_name": "김민별",
+      "sg_rank": 52,
+      "total": -3.33,
+      "tee_to_green": -2.6,
+      "off_the_tee": -0.07,
+      "approach": -1.84,
+      "around_green": -0.69,
+      "putting": -0.73,
+      "rounds": 1
+    },
+    {
+      "player_id": "9135",
+      "official_display_name": "신다인",
+      "sg_rank": 53,
+      "total": -3.37,
+      "tee_to_green": -2.43,
+      "off_the_tee": 0.8,
+      "approach": -2.76,
+      "around_green": -0.47,
+      "putting": -0.94,
+      "rounds": 1
+    },
+    {
+      "player_id": "10726",
+      "official_display_name": "김가희2",
+      "sg_rank": 54,
+      "total": -3.48,
+      "tee_to_green": -4.22,
+      "off_the_tee": 0.7,
+      "approach": -5.76,
+      "around_green": 0.84,
+      "putting": 0.74,
+      "rounds": 1
+    },
+    {
+      "player_id": "10296",
+      "official_display_name": "문정민",
+      "sg_rank": 55,
+      "total": -3.53,
+      "tee_to_green": -0.64,
+      "off_the_tee": 1.51,
+      "approach": -1.81,
+      "around_green": -0.34,
+      "putting": -2.89,
+      "rounds": 1
+    },
+    {
+      "player_id": "8772",
+      "official_display_name": "박민지",
+      "sg_rank": 55,
+      "total": -3.53,
+      "tee_to_green": 0.59,
+      "off_the_tee": 0.78,
+      "approach": -0.86,
+      "around_green": 0.67,
+      "putting": -4.12,
+      "rounds": 1
+    },
+    {
+      "player_id": "9483",
+      "official_display_name": "한지원",
+      "sg_rank": 57,
+      "total": -3.74,
+      "tee_to_green": -5.29,
+      "off_the_tee": 0.26,
+      "approach": -5.01,
+      "around_green": -0.54,
+      "putting": 1.56,
+      "rounds": 1
+    },
+    {
+      "player_id": "8277",
+      "official_display_name": "최민경",
+      "sg_rank": 58,
+      "total": -4.64,
+      "tee_to_green": -3.72,
+      "off_the_tee": -1.69,
+      "approach": -3.56,
+      "around_green": 1.54,
+      "putting": -0.92,
+      "rounds": 1
+    },
+    {
+      "player_id": "9426",
+      "official_display_name": "한진선",
+      "sg_rank": 59,
+      "total": -4.71,
+      "tee_to_green": -4.25,
+      "off_the_tee": -0.64,
+      "approach": -4.45,
+      "around_green": 0.83,
+      "putting": -0.45,
+      "rounds": 1
+    },
+    {
+      "player_id": "10481",
+      "official_display_name": "이서윤4",
+      "sg_rank": 60,
+      "total": -5.89,
+      "tee_to_green": -3.01,
+      "off_the_tee": -1.84,
+      "approach": -0.8,
+      "around_green": -0.37,
+      "putting": -2.88,
+      "rounds": 1
+    },
+    {
+      "player_id": "9111",
+      "official_display_name": "박서현",
+      "sg_rank": 61,
+      "total": -9.23,
+      "tee_to_green": -6.67,
+      "off_the_tee": -0.36,
+      "approach": -5.57,
+      "around_green": -0.74,
+      "putting": -2.56,
+      "rounds": 1
+    }
+  ]
+}
