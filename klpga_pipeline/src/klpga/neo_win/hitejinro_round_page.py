@@ -768,38 +768,90 @@ def render_r3_course_analysis_html(d: dict) -> str:
     )
 
 
-def render_r3_r4_preview_html(d: dict) -> str:
-    """R4 Preview: real R3 standings + real round-over-round SG momentum
-    only (hitejinro_round_pipeline.build_r3_r4_preview) -- explicitly
-    NOT a recomputed win-probability model; the static pre-tournament
-    M4 snapshot is never recalculated mid-event, and this section does
-    not pretend otherwise."""
-    def _lb_rows(items: list[dict]) -> str:
+def render_fr_preview_html(preview: dict) -> str:
+    """FR Preview: a REAL Monte Carlo re-run (hitejinro_round_pipeline.
+    simulate_hitejinro_round_preview) over the real R1-R3 scores + real
+    official SG -- NOT the frozen PRE M4 snapshot and NOT conditioned_
+    m4_probabilities's renormalization (NEO Verification Spec,
+    2026-10-03: "conditioned_m4_probabilities()는 보조 계산으로만
+    유지한다. R3 Preview 생성에는 사용하지 않는다. 반드시 Monte Carlo를
+    다시 실행한다")."""
+    rows = "".join(
+        f"<tr><td>{i}</td><td>{_esc(r['player_name'])}</td>"
+        f"<td>{format_to_par(r['known_total_to_par'])}</td>"
+        f"<td>{pct(r['win_probability'])}</td><td>{pct(r['top5_probability'])}</td>"
+        f"<td>{pct(r['top10_probability'])}</td><td>{pct(r['top20_probability'])}</td>"
+        f"<td>{_esc(r['expected_source'])}</td></tr>"
+        for i, r in enumerate(preview["records"][:20], 1)
+    )
+    return (
+        "<section class='panel' id='fr-preview'>"
+        "<h2>FR Preview</h2>"
+        f"<p class='meta'>R3 종료 시점 real Monte Carlo 재실행 -- {preview['population_count']}명 대상, "
+        f"{preview['n_simulations']:,}회 시뮬레이션, 잔여 {preview['remaining_rounds']}라운드. "
+        "정적 사전 모델(M4)을 그대로 쓰지 않고, 실제 R1-R3 스코어 + 공식 SG를 반영해 다시 계산한 결과.</p>"
+        "<div class='table-wrap'><table class='data'><thead><tr>"
+        "<th>순위</th><th>선수</th><th>R1-R3 합계</th><th>우승확률</th><th>TOP5</th><th>TOP10</th><th>TOP20</th><th>기대라운드 산출근거</th>"
+        f"</tr></thead><tbody>{rows}</tbody></table></div>"
+        "</section>"
+    )
+
+
+def render_neo_verification_v2_html(v: dict) -> str:
+    """NEO Verification Spec (2026-10-03): ① 확률 변화 ② SG 변화
+    ③ 적중률 ④ 실패 원인 ⑤ 성공 원인 ⑥ 모델 개선 포인트, built from
+    hitejinro_round_pipeline.build_hitejinro_neo_verification -- the
+    REAL Monte Carlo preview (SG-informed) generated at the end of the
+    PRIOR round, checked against this round's now-real outcome."""
+    pc = v["probability_change"]
+    real_wp = pc["real_leader"]["pre_win_probability"]
+    real_wp_text = pct(real_wp) if real_wp is not None else "데이터 부족"
+    pred_wp = pc["predicted_leader"]["pre_win_probability"]
+    pred_wp_text = pct(pred_wp) if pred_wp is not None else "데이터 부족"
+
+    topn_rows = "".join(
+        f"<tr><td>TOP{n}</td><td>{d['hit']}/{d['total']}</td>"
+        f"<td>{round(100 * d['hit'] / d['total'], 1)}%</td></tr>"
+        for n, d in v["topn_hitrates"].items()
+    )
+
+    def _sg_rows(items: list[dict]) -> str:
         return "".join(
-            f"<tr><td>{r['rank']}</td><td>{_esc(r['player_name'])}</td><td>{format_to_par(r['score_to_par'])}</td></tr>"
-            for r in items
+            f"<tr><td>{_esc(c['player_name'])}</td><td>{c['prev_sg_total']:+.2f}</td>"
+            f"<td>{c['current_sg_total']:+.2f}</td><td>{c['change']:+.2f}</td></tr>"
+            for c in items
         )
 
-    def _momentum_rows(items: list[dict]) -> str:
+    def _case_rows(items: list[dict]) -> str:
         return "".join(
-            f"<tr><td>{_esc(r['player_name'])}</td><td>{r['r2_total']:+.2f}</td>"
-            f"<td>{r['r3_total']:+.2f}</td><td>{r['change_r2_to_r3']:+.2f}</td></tr>"
-            for r in items
+            f"<tr><td>{_esc(c['player_name'])}</td><td>{pct(c['pre_win_probability'])}</td><td>{c['real_rank']}</td></tr>"
+            for c in items
         )
 
     return (
-        "<section class='panel' id='r4-preview'>"
-        "<h2>R4 Preview</h2>"
-        "<p class='meta'>※ 사전 모델(M4)은 재계산하지 않음 -- 아래는 R3 종료 시점 real 순위와 "
-        "라운드별 real SG 변화만을 보여주는 참고 지표이며, 새로운 우승확률 모델이 아니다.</p>"
-        "<h3>R3 종료 순위 TOP5</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>순위</th><th>선수</th><th>스코어</th></tr></thead>"
-        f"<tbody>{_lb_rows(d['leaderboard_top5'])}</tbody></table></div>"
-        "<h3>SG 상승 모멘텀 TOP5 (R2 → R3)</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 SG</th><th>R3 SG</th><th>변화</th></tr></thead>"
-        f"<tbody>{_momentum_rows(d['sg_momentum_rising'])}</tbody></table></div>"
-        "<h3>SG 하락 모멘텀 TOP5 (R2 → R3)</h3>"
-        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>R2 SG</th><th>R3 SG</th><th>변화</th></tr></thead>"
-        f"<tbody>{_momentum_rows(d['sg_momentum_falling'])}</tbody></table></div>"
+        "<section class='panel' id='neo-verification-v2'>"
+        f"<h2>NEO Verification -- R{v['outcome_round']} 결과 검증</h2>"
+        f"<p class='meta'>예측 출처: {_esc(v['preview_label'])}</p>"
+        "<h3>① 확률 변화</h3>"
+        f"<p>실제 R{v['outcome_round']} 종료 선두: <b>{_esc(pc['real_leader']['player_name'] or '')}</b> "
+        f"(예측 시점 우승확률 {real_wp_text}) -- 예측 우승확률 1위: <b>{_esc(pc['predicted_leader']['player_name'] or '')}</b> "
+        f"({pred_wp_text}) -- 실제 결과 순위 {pc['predicted_leader_real_rank']}</p>"
+        "<h3>② SG 변화 -- 상승 TOP5</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>이전 SG</th><th>현재 SG</th><th>변화</th></tr></thead>"
+        f"<tbody>{_sg_rows(v['sg_change_top5'])}</tbody></table></div>"
+        "<h3>② SG 변화 -- 하락 TOP5</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>이전 SG</th><th>현재 SG</th><th>변화</th></tr></thead>"
+        f"<tbody>{_sg_rows(v['sg_change_bottom5'])}</tbody></table></div>"
+        "<h3>③ 적중률 (TOP20/TOP10/TOP5)</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>구간</th><th>적중</th><th>적중률</th></tr></thead>"
+        f"<tbody>{topn_rows}</tbody></table></div>"
+        "<h3>④ 실패 원인 (예측 TOP10 중 실제 TOP20 밖)</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>예측 우승확률</th><th>실제 순위</th></tr></thead>"
+        f"<tbody>{_case_rows(v['failure_cases'])}</tbody></table></div>"
+        "<h3>⑤ 성공 원인 (예측 TOP10 중 실제 TOP20 이내)</h3>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>선수</th><th>예측 우승확률</th><th>실제 순위</th></tr></thead>"
+        f"<tbody>{_case_rows(v['success_cases'])}</tbody></table></div>"
+        "<h3>⑥ 모델 개선 포인트</h3>"
+        f"<p>{_esc(v['model_improvement_note'])}</p>"
         "</section>"
     )
