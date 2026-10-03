@@ -26,7 +26,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 import re
+import statistics
 from datetime import date, datetime, timezone
 from pathlib import Path
 
@@ -1101,63 +1103,269 @@ def build_r3_course_analysis(content_root: Path | None = None) -> dict:
     }
 
 
-def build_r3_sg_form_trend(content_root: Path | None = None) -> dict:
-    """R4 Preview가 기대는 real signal: R1/R2/R3 각 라운드 자체 SG
-    (모두 단독-라운드 스냅샷 -- klpga 공식 SG 테이블 자체가 매 라운드
-    rounds==1 로 저장되는 real 사실) 를 라운드별로 나열해 실제 폼 추이를
-    보여준다. 세 라운드 모두에 real SG 기록이 있는 선수만 포함 -- 한
-    라운드라도 없으면(R1_CUT 등) 추이를 날조하지 않고 제외한다."""
-    content_root = content_root or CONTENT
-    sg_by_round: dict[int, dict[str, dict]] = {}
-    for n in (1, 2, 3):
-        doc = json.loads((content_root / f"HITEJINRO_{GAME_CODE}_R{n}_SG_V1.json").read_text(encoding="utf-8"))
-        sg_by_round[n] = {r["player_id"]: r for r in doc["records"]}
+COURSE_PAR = 72  # real: 유해란 215 strokes / 3 rounds, score_to_par -1 -> 216/3=72. Confirmed constant across R1-R3 captures.
 
-    common_ids = set(sg_by_round[1]) & set(sg_by_round[2]) & set(sg_by_round[3])
-    rows = []
-    for pid in common_ids:
-        r1, r2, r3 = sg_by_round[1][pid], sg_by_round[2][pid], sg_by_round[3][pid]
-        rows.append({
-            "player_id": pid,
-            "player_name": r3["official_display_name"],
-            "r1_total": r1["total"],
-            "r2_total": r2["total"],
-            "r3_total": r3["total"],
-            "change_r2_to_r3": round(r3["total"] - r2["total"], 2),
+
+def _real_alive_ids(round_number: int, board: dict) -> list[str]:
+    """Real player_ids still mathematically in the field AT round_number
+    -- status is None (currently active), or eliminated at a round
+    STRICTLY LATER than round_number (they played round_number for
+    real). Same real elimination facts (status/status_round) as
+    hitejinro_player_metrics.conditioned_m4_probabilities, shared logic
+    duplicated here (not imported) to keep this module's own
+    round-agnostic promise -- it must not depend on the page-rendering
+    module."""
+    ids = []
+    for r in board["records"]:
+        status = r.get("status")
+        status_round = r.get("status_round")
+        if status is None or (status_round is not None and round_number <= status_round):
+            ids.append(str(r["player_id"]))
+    return ids
+
+
+def simulate_hitejinro_round_preview(
+    as_of_round: int, *, content_root: Path | None = None, n_simulations: int = 60000, seed: int = 20261001,
+) -> dict:
+    """NEO Verification Spec (2026-10-03, "이번 하이트진로는 KB
+    메이저와 동일한 검증 구조로 맞춘다"): a REAL Monte Carlo re-run for
+    every round transition -- generalizes klpga.neo_win.round_update_r2.
+    simulate_post_round2 / round_update_r3.simulate_post_round3's own
+    validated mechanics (same per-draw algorithm: real known-round
+    to-par scores are fixed, Normal-distributed draws fill the
+    remaining rounds, rank, tally win/top5/top10/top20) from their
+    hardcoded "exactly 2" / "exactly 1" remaining-round cases to any
+    as_of_round (1=post-R1 "R2 Preview", 2=post-R2 "R3 Preview",
+    3=post-R3 "FR Preview") -- not a new algorithm, the same one with
+    its round count no longer hardcoded.
+
+    공식 SG 반영 (real, not fabricated): each alive player's expected
+    future-round score-to-par is -mean(their own real official SG
+    total for every round completed so far) when any such SG exists --
+    the exact sign convention klpga.neo_win.post_r2_forecast.
+    _expected_round already uses for KB's own PRE-window SG ("SG > 0
+    means better than field, negated for the to-par adjustment"),
+    applied here to REAL current-tournament SG instead of a PRE window
+    snapshot. This is NOT the walk-forward-fitted R1SG_R2SG regression
+    klpga.neo_win.current_sg_walk_forward explored for Hana -- that
+    requires a populated cross-tournament warehouse
+    (tournament_master/player_event/player_round) to fit and validate
+    against, and klpga_pipeline/data/klpga.sqlite has 0 rows in every
+    one of those tables in this environment (confirmed again here) --
+    so no regression coefficient can be honestly fit or reproduced.
+    Falls back to the frozen PRE M4 feature (prior_avg_round_score_to_par)
+    only for a player with zero real SG yet; spread is always the PRE
+    population-mean fallback (no real per-player variance estimate is
+    stable from 1-3 data points).
+
+    Never estimates for an eliminated player: only players still
+    mathematically alive at as_of_round (_real_alive_ids) are
+    simulated; everyone else is absent from `records`, same convention
+    round_update_r2/r3 use for a real, confirmed-CUT player."""
+    if as_of_round not in (1, 2, 3):
+        raise ValueError(f"as_of_round must be 1, 2, or 3 (PRE is round 0, read via load_m4_by_id), got {as_of_round}")
+    content_root = content_root or CONTENT
+    from klpga.neo_win.hitejinro_player_metrics import load_m4_by_id
+
+    board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+    m4 = load_m4_by_id()
+    sg_by_round: dict[int, dict[str, dict]] = {}
+    for n in range(1, as_of_round + 1):
+        sg_path = content_root / f"HITEJINRO_{GAME_CODE}_R{n}_SG_V1.json"
+        if sg_path.is_file():
+            doc = json.loads(sg_path.read_text(encoding="utf-8"))
+            sg_by_round[n] = {r["player_id"]: r for r in doc["records"]}
+
+    known_known_scores = [m4[pid]["features"]["prior_avg_round_score_to_par"] for pid in m4 if "features" in m4[pid] and m4[pid]["features"].get("prior_avg_round_score_to_par") is not None]
+    pop_mean_expected = statistics.mean(known_known_scores) if known_known_scores else 0.0
+    pop_spread = 3.0  # same documented population fallback round_update_r2/r3 use when no real consistency figure exists
+
+    board_by_id = {str(r["player_id"]): r for r in board["records"]}
+    alive_ids = _real_alive_ids(as_of_round, board)
+    remaining_rounds = 4 - as_of_round
+
+    records = []
+    for pid in alive_ids:
+        row = board_by_id[pid]
+        known_scores = [row.get(f"r{n}_score") for n in range(1, as_of_round + 1)]
+        if any(s is None for s in known_scores):
+            continue  # real data gap -- excluded, never a fabricated fill-in
+        known_total_to_par = sum(s - COURSE_PAR for s in known_scores)
+
+        sg_values = [sg_by_round[n][pid]["total"] for n in range(1, as_of_round + 1) if n in sg_by_round and pid in sg_by_round[n]]
+        if sg_values:
+            expected = -statistics.mean(sg_values)
+            expected_source = f"real_sg_mean_r1-r{as_of_round}"
+        else:
+            prior = (m4.get(pid, {}).get("features") or {}).get("prior_avg_round_score_to_par")
+            expected = prior if prior is not None else pop_mean_expected
+            expected_source = "pre_m4_feature" if prior is not None else "population_fallback"
+
+        records.append({
+            "player_id": pid, "player_name": row["player_name"],
+            "known_total_to_par": known_total_to_par,
+            "expected_round_score_to_par": expected, "expected_source": expected_source,
+            "spread": pop_spread,
         })
-    rows.sort(key=lambda r: -r["r3_total"])
-    rising = sorted(rows, key=lambda r: -r["change_r2_to_r3"])[:5]
-    falling = sorted(rows, key=lambda r: r["change_r2_to_r3"])[:5]
+
+    rng = random.Random(seed)
+    wins = {r["player_id"]: 0.0 for r in records}
+    top5 = {r["player_id"]: 0 for r in records}
+    top10 = {r["player_id"]: 0 for r in records}
+    top20 = {r["player_id"]: 0 for r in records}
+    for _ in range(n_simulations):
+        totals = []
+        for r in records:
+            future = sum(rng.normalvariate(r["expected_round_score_to_par"], r["spread"]) for _ in range(remaining_rounds))
+            totals.append((r["player_id"], r["known_total_to_par"] + future))
+        totals.sort(key=lambda t: t[1])
+        if totals:
+            best = totals[0][1]
+            leaders = [code for code, score in totals if score == best]
+            for code in leaders:
+                wins[code] += 1.0 / len(leaders)
+        for rank, (code, _score) in enumerate(totals, start=1):
+            if rank <= 5:
+                top5[code] += 1
+            if rank <= 10:
+                top10[code] += 1
+            if rank <= 20:
+                top20[code] += 1
+
+    for r in records:
+        pid = r["player_id"]
+        r["win_probability"] = wins[pid] / n_simulations
+        r["top5_probability"] = top5[pid] / n_simulations
+        r["top10_probability"] = top10[pid] / n_simulations
+        r["top20_probability"] = top20[pid] / n_simulations
 
     return {
-        "population_count": len(rows),
-        "rows": rows,
-        "rising": rising,
-        "falling": falling,
+        "as_of_round": as_of_round,
+        "preview_for_round": as_of_round + 1,
+        "remaining_rounds": remaining_rounds,
+        "population_count": len(records),
+        "n_simulations": n_simulations,
+        "seed": seed,
+        "simulation_engine": "hitejinro_round_pipeline.simulate_hitejinro_round_preview "
+                              "(generalized klpga.neo_win.round_update_r2/round_update_r3 mechanics)",
+        "records": sorted(records, key=lambda r: -r["win_probability"]),
     }
 
 
-def build_r3_r4_preview(content_root: Path | None = None) -> dict:
-    """R4 Preview: 정적 M4 사전 모델은 재계산하지 않는다 (round마다
-    recompute하는 인프라가 존재하지 않음 -- hitejinro_player_metrics.
-    load_m4_by_id는 단일 사전 스냅샷). 대신 R3 종료 시점의 real 순위와
-    real SG 폼 추이(build_r3_sg_form_trend)만을 'R4 참고 지표'로 제공하고,
-    이것이 새로운 확률 모델이 아님을 페이지에 명시한다."""
+def _round_end_real_rank(round_number: int, *, content_root: Path) -> dict[str, int]:
+    """Real end-of-round rank for every player who had one in that
+    round's own raw leaderboard capture (excludes the real '999'
+    excluded-marker rows) -- round 3 reads LEADERBOARD.json's own
+    already-merged finish_position_numeric (same real field R3's page
+    itself renders) since R3 IS the latest real outcome; R1/R2 re-parse
+    their own raw captures directly (same technique build_r3_neo_
+    verification already uses for R2's real rank)."""
+    if round_number == 3:
+        board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+        return {
+            str(r["player_id"]): r["finish_position_numeric"]
+            for r in board["records"] if r.get("status") is None
+        }
+    html = raw_evidence_path(round_number, "LEADERBOARD").read_text(encoding="utf-8")
+    return {m.group(1): int(m.group(2)) for m in _LEADERBOARD_ROW_RE.finditer(html) if m.group(2) != "999"}
+
+
+def build_hitejinro_neo_verification(outcome_round: int, *, content_root: Path | None = None) -> dict:
+    """NEO Verification Spec's required ①~⑥, for the transition that
+    produced `outcome_round`'s real result -- i.e. the preview
+    generated at the END of round (outcome_round - 1) (PRE's static M4
+    if outcome_round==1), checked against outcome_round's now-real,
+    known outcome. Every number is a real, directly-computed
+    comparison -- ④/⑤ never a narrative guess, only the real rank/
+    score facts, same discipline build_r3_neo_verification already
+    established."""
     content_root = content_root or CONTENT
+    from klpga.neo_win.hitejinro_player_metrics import load_m4_by_id
+
+    if outcome_round not in (1, 2, 3):
+        raise ValueError(f"outcome_round must be 1, 2, or 3, got {outcome_round}")
+
+    if outcome_round == 1:
+        m4 = load_m4_by_id()
+        preview_by_id = {
+            pid: {
+                "win_probability": rec["win_probability"], "top20_probability": rec["top20_probability"],
+                "top10_probability": rec["top10_probability"], "top5_probability": rec["top5_probability"],
+                "expected_source": "pre_m4_static_snapshot",
+            }
+            for pid, rec in m4.items()
+        }
+        preview_label = "PRE M4 (사전 모델, SG 없음)"
+    else:
+        preview = simulate_hitejinro_round_preview(outcome_round - 1, content_root=content_root)
+        preview_by_id = {r["player_id"]: r for r in preview["records"]}
+        preview_label = f"R{outcome_round - 1} 종료 시점 NEO Monte Carlo 재실행 (공식 SG 반영)"
+
+    real_rank = _round_end_real_rank(outcome_round, content_root=content_root)
+    real_by_rank = sorted(real_rank.items(), key=lambda kv: kv[1])
     board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
-    active = sorted(
-        (r for r in board["records"] if r.get("status") is None),
-        key=lambda r: r["finish_position_numeric"],
-    )
-    trend = build_r3_sg_form_trend(content_root=content_root)
+    name_by_id = {str(r["player_id"]): r["player_name"] for r in board["records"]}
+
+    topn_hitrates = {}
+    for n in (20, 10, 5):
+        real_ids = {pid for pid, rank in real_by_rank[:n]}
+        pop = [pid for pid in preview_by_id if pid in real_rank]
+        pred_ids = {pid for pid in sorted(pop, key=lambda pid: -preview_by_id[pid]["win_probability"])[:n]}
+        topn_hitrates[n] = {"hit": len(real_ids & pred_ids), "total": n}
+
+    real_leader_id = real_by_rank[0][0] if real_by_rank else None
+    predicted_leader_id = max(preview_by_id, key=lambda pid: preview_by_id[pid]["win_probability"]) if preview_by_id else None
+
+    sg_by_round: dict[int, dict[str, dict]] = {}
+    for n in range(1, outcome_round + 1):
+        sg_path = content_root / f"HITEJINRO_{GAME_CODE}_R{n}_SG_V1.json"
+        if sg_path.is_file():
+            doc = json.loads(sg_path.read_text(encoding="utf-8"))
+            sg_by_round[n] = {r["player_id"]: r["total"] for r in doc["records"]}
+    sg_change = []
+    if outcome_round - 1 in sg_by_round and outcome_round in sg_by_round:
+        prev_sg, cur_sg = sg_by_round[outcome_round - 1], sg_by_round[outcome_round]
+        for pid in set(prev_sg) & set(cur_sg):
+            sg_change.append({
+                "player_id": pid, "player_name": name_by_id.get(pid, pid),
+                "prev_sg_total": prev_sg[pid], "current_sg_total": cur_sg[pid],
+                "change": round(cur_sg[pid] - prev_sg[pid], 2),
+            })
+    sg_change.sort(key=lambda c: -c["change"])
+
+    success_cases = []
+    failure_cases = []
+    for pid in sorted(preview_by_id, key=lambda pid: -preview_by_id[pid]["win_probability"])[:10]:
+        if pid not in real_rank:
+            continue
+        case = {
+            "player_id": pid, "player_name": name_by_id.get(pid, pid),
+            "pre_win_probability": preview_by_id[pid]["win_probability"],
+            "real_rank": real_rank[pid],
+        }
+        (success_cases if real_rank[pid] <= 20 else failure_cases).append(case)
 
     return {
-        "leaderboard_top5": [
-            {"player_id": r["player_id"], "player_name": r["player_name"], "rank": r["finish_position_numeric"], "score_to_par": r["score_to_par"]}
-            for r in active[:5]
-        ],
-        "sg_momentum_rising": trend["rising"],
-        "sg_momentum_falling": trend["falling"],
+        "outcome_round": outcome_round,
+        "preview_label": preview_label,
+        "probability_change": {
+            "real_leader": {"player_id": real_leader_id, "player_name": name_by_id.get(real_leader_id), "pre_win_probability": preview_by_id.get(real_leader_id, {}).get("win_probability")},
+            "predicted_leader": {"player_id": predicted_leader_id, "player_name": name_by_id.get(predicted_leader_id), "pre_win_probability": preview_by_id.get(predicted_leader_id, {}).get("win_probability")},
+            "predicted_leader_real_rank": real_rank.get(predicted_leader_id),
+        },
+        "sg_change_top5": sg_change[:5],
+        "sg_change_bottom5": sg_change[-5:][::-1] if sg_change else [],
+        "topn_hitrates": topn_hitrates,
+        "success_cases": success_cases[:5],
+        "failure_cases": failure_cases[:5],
+        "model_improvement_note": (
+            "SG는 real 부호 규칙(-mean(SG))만 반영 -- 교차-대회 학습 웨어하우스"
+            "(tournament_master/player_event/player_round, klpga_pipeline/data/klpga.sqlite)가 "
+            "이 환경에 0행으로 존재하여 klpga.neo_win.current_sg_walk_forward식 회귀계수 적합/검증은 "
+            "불가능함 (재확인됨). NEO_DATA_ROOT가 실제 웨어하우스를 가리키는 환경에서 "
+            "walk-forward 5기준 게이트(Wilcoxon p<0.05, bootstrap CI, 부호 일관성, 분할-검증)를 "
+            "통과하면 회귀계수 기반 모델로 승격 가능."
+        ),
     }
 
 
@@ -1184,31 +1392,39 @@ def build_round_page(round_number: int) -> Path:
 
 
 def build_r3_results_page() -> Path:
-    """R3's own page is build_round_page(3) PLUS NEO 검증 / SG 분석 /
-    코스 분석 / R4 Preview -- spliced in just before </main>, same
+    """R3's own page is build_round_page(3) PLUS NEO 검증(PRE 기준) /
+    NEO Verification(R2 Monte Carlo 기준, Spec 2026-10-03) / SG 분석 /
+    코스 분석 / FR Preview -- spliced in just before </main>, same
     technique scripts/192's HOME mirror already uses for its own <main>
-    extraction. 2026-10-03: real R3 SG (sg-official.html, 61/61
-    reconciled) and real per-hole scorecards were collected via
-    scripts/collect_current_round_evidence.py on GitHub Actions (real
-    network) -- see HITEJINRO_2026100005_R3_SG_RAW.html and
-    _R3_HOLE_SCORECARDS_RAW.json in incoming_evidence/2026100005/. R4
-    Preview does NOT recompute the static M4 pre-tournament model (no
-    mid-tournament recompute infra exists) -- it is real R3 standings +
-    real round-over-round SG momentum only, labeled as such."""
+    extraction.
+
+    NEO Verification Spec (2026-10-03, "이번 하이트진로는 KB 메이저와
+    동일한 검증 구조로 맞춘다"): FR Preview is now a REAL Monte Carlo
+    re-run (simulate_hitejinro_round_preview(3), real R1-R3 scores +
+    real official SG as the expected-round signal) -- NOT the static
+    PRE M4 snapshot, and NOT conditioned_m4_probabilities (kept as an
+    auxiliary calculation for the main leaderboard's TOP20/10/5/우승
+    columns only, never used here). build_hitejinro_neo_verification(3)
+    checks the R2-generated preview against R3's now-real outcome (①
+    확률 변화 ② SG 변화 ③ 적중률 ④ 실패 원인 ⑤ 성공 원인 ⑥ 모델 개선
+    포인트) -- kept alongside, not replacing, the existing PRE-vs-R3
+    NEO 검증 section (a different, still-real comparison)."""
     from klpga.neo_win.hitejinro_round_page import (
+        render_neo_verification_v2_html,
         render_r3_course_analysis_html,
         render_r3_neo_verification_html,
-        render_r3_r4_preview_html,
         render_r3_sg_intelligence_html,
+        render_fr_preview_html,
     )
 
     out_path = build_round_page(3)
     html = out_path.read_text(encoding="utf-8")
     sections_html = (
         render_r3_neo_verification_html(build_r3_neo_verification())
+        + render_neo_verification_v2_html(build_hitejinro_neo_verification(3))
         + render_r3_sg_intelligence_html(build_r3_sg_intelligence())
         + render_r3_course_analysis_html(build_r3_course_analysis())
-        + render_r3_r4_preview_html(build_r3_r4_preview())
+        + render_fr_preview_html(simulate_hitejinro_round_preview(3))
     )
     assert "</main>" in html
     html = html.replace("</main>", sections_html + "</main>")
