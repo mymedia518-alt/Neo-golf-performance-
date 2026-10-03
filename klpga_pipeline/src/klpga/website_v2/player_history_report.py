@@ -2566,6 +2566,162 @@ def _not_available_html(items: list) -> str:
     )
 
 
+def _official_statistics_v2_html(record: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- renders `official_detail_record`
+    exactly as official_detail_enrichment.py wrote it. No new
+    calculation: every value here is a plain pass-through of that
+    already-computed dict. A None value (a real, confirmed-empty
+    server response -- see that module's docstring) renders as "데이터
+    없음", never a guessed 0."""
+    if not record:
+        return ""
+
+    def _stat(label: str, value, unit: str = "", plus: bool = False) -> str:
+        display = "데이터 없음" if value is None else f'{_fmt(value, plus=plus)}{unit}'
+        return f'<div class="ph-stat-tile"><span class="ph-stat-tile__label">{escape(label)}</span><span class="ph-stat-tile__value">{escape(display)}</span></div>'
+
+    tiles = (
+        _stat("평균타수", record.get("average_score"))
+        + _stat("GIR", record.get("gir_rate"), "%")
+        + _stat("페어웨이 안착률", record.get("fairway_hit_rate"), "%")
+        + _stat("드라이브 거리", record.get("avg_driving_distance"), "yds")
+        + _stat("평균퍼팅", record.get("avg_putts"))
+        + _stat("버디율", record.get("birdie_rate"), "%")
+        + _stat("파브레이크율", record.get("par_break_rate"), "%")
+        + _stat("리커버리율", record.get("recovery_rate"), "%")
+        + _stat("벙커세이브율", record.get("bunker_save_rate"), "%")
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="ph-official-statistics-v2" open>'
+        '<summary class="section-heading"><h2>공식 기록 (Official Statistics)</h2></summary>'
+        f'<div class="pi-section__body"><div class="ph-stat-grid">{tiles}</div>'
+        '<p class="note">KLPGA 공식 시즌 집계 (publicRecordSeasonDetail) 그대로입니다.</p></div></details>'
+    )
+
+
+def _sg_profile_v2_html(components: Optional[list], arrows: Optional[list]) -> str:
+    """NEO Player History Engine V2 -- SG Profile. Reuses
+    `current_skill_vs_career.components` (OTT/APP/ARG/PUTT, already
+    computed by the existing engine, never rendered anywhere on this
+    page until now) for the current values, and `why_now.arrows`
+    (already-computed UP/DOWN per component) for the trend -- no new
+    calculation performed here."""
+    if not components:
+        return ""
+    arrow_by_component = {a["component"]: a for a in (arrows or [])}
+    rows = []
+    for c in components:
+        name = c.get("component", "")
+        arrow = arrow_by_component.get(name)
+        trend = _ARROW.get(arrow["direction"], "—") if arrow else "—"
+        rows.append(
+            '<tr>'
+            f'<td>{escape(name)}</td>'
+            f'<td>{_fmt(c.get("current_value"))}</td>'
+            f'<td>{_fmt(c.get("career_average"))}</td>'
+            f'<td>{_fmt(c.get("delta_vs_career_average"))}</td>'
+            f'<td class="ph-chain-arrow">{trend}</td>'
+            '</tr>'
+        )
+    return (
+        '<details class="evidence-detail pi-section" id="ph-sg-profile-v2" open>'
+        '<summary class="section-heading"><h2>SG Profile</h2></summary>'
+        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
+        '<th>구성요소</th><th>현재 시즌</th><th>커리어 평균</th><th>차이</th><th>SG Trend</th>'
+        f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div></details>'
+    )
+
+
+def _round_momentum_v2_html(momentum: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- renders `round_momentum` exactly
+    as official_detail_enrichment.compute_round_momentum() wrote it
+    (real per-round totals from a real scorecard fetch). Renders
+    nothing when no round was ever collected for this player, never a
+    placeholder row."""
+    rounds = (momentum or {}).get("rounds") or []
+    if not rounds:
+        return ""
+    rows = "".join(
+        f'<tr><td>{escape(str(r["game_code"]))}</td><td>R{r["round"]}</td>'
+        f'<td>{_fmt(r.get("out_strokes"), plus=False)}</td><td>{_fmt(r.get("in_strokes"), plus=False)}</td>'
+        f'<td>{_fmt(r.get("total_strokes"), plus=False)}</td></tr>'
+        for r in rounds
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="ph-round-momentum-v2" open>'
+        '<summary class="section-heading"><h2>Round Momentum</h2></summary>'
+        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
+        '<th>대회</th><th>라운드</th><th>OUT</th><th>IN</th><th>TOTAL</th>'
+        f'</tr></thead><tbody>{rows}</tbody></table>'
+        '<p class="note">실제 홀별 스코어카드(scoreDetail)로 수집된 라운드만 표시합니다.</p></div></details>'
+    )
+
+
+def _player_dna_v2_html(dna: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- renders `player_dna` exactly as
+    official_detail_enrichment.derive_player_dna() wrote it: a
+    read-through of this player's own existing career_dna, not a new
+    classification."""
+    if not dna or not dna.get("foundation"):
+        return ""
+    return (
+        '<details class="evidence-detail pi-section" id="ph-player-dna-v2" open>'
+        '<summary class="section-heading"><h2>Player DNA</h2></summary>'
+        '<div class="pi-section__body"><div class="piq-audit">'
+        + _chip(f'주력: {dna["foundation"]} ({_fmt(dna.get("foundation_share_pct"), plus=False)}%)', positive=True)
+        + (_chip(f'가장 안정적: {dna["most_consistent_component"]}') if dna.get("most_consistent_component") else "")
+        + (_chip(f'가장 변동 큼: {dna["most_volatile_component"]}', negative=True) if dna.get("most_volatile_component") else "")
+        + (_chip(f'가장 빠르게 성장: {dna["fastest_growing_component"]}') if dna.get("fastest_growing_component") else "")
+        + '</div></div></details>'
+    )
+
+
+def _course_fit_score_v2_html(fit_scores: Optional[list]) -> str:
+    """NEO Player History Engine V2 -- renders `course_fit_score`
+    exactly as official_detail_enrichment.derive_course_fit_score()
+    wrote it: this player's own real avg SG Total per course, with no
+    invented difficulty weighting (see that function's own docstring
+    for why)."""
+    if not fit_scores:
+        return ""
+    rows = "".join(
+        f'<tr><td>{escape(str(row.get("course") or "—"))}</td><td>{row.get("appearances")}</td>'
+        f'<td>{_fmt(row.get("avg_sg_total"))}</td><td>{_fmt(row.get("best_sg_total"))}</td>'
+        f'<td>{_fmt(row.get("worst_sg_total"))}</td></tr>'
+        for row in fit_scores
+    )
+    return (
+        '<details class="evidence-detail pi-section" id="ph-course-fit-score-v2" open>'
+        '<summary class="section-heading"><h2>Course Fit Score</h2></summary>'
+        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
+        '<th>대회</th><th>출전</th><th>평균 SG Total</th><th>최고</th><th>최저</th>'
+        f'</tr></thead><tbody>{rows}</tbody></table>'
+        '<p class="note">코스 난이도 가중치는 전체 필드 기준선이 없어 적용하지 않았습니다 (실측 SG Total만 표시).</p></div></details>'
+    )
+
+
+def _neo_evaluation_v2_html(player_dna: Optional[dict], why_now: Optional[dict], current_form_indicator: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- NEO Evaluation. A plain
+    concatenation of three already-computed real sentences/values
+    (player_dna.foundation, why_now.sentence, current_form_indicator
+    .trend) -- no new judgment or calculation is performed here."""
+    if not (player_dna and player_dna.get("foundation")) and not why_now:
+        return ""
+    parts = []
+    if player_dna and player_dna.get("foundation"):
+        parts.append(f'주력은 {player_dna["foundation"]}입니다 (커리어 SG Total의 {_fmt(player_dna.get("foundation_share_pct"), plus=False)}%).')
+    if why_now and why_now.get("sentence"):
+        parts.append(why_now["sentence"])
+    if current_form_indicator and current_form_indicator.get("trend"):
+        trend_ko = {"UP": "상승", "DOWN": "하락", "FLAT": "보합"}.get(current_form_indicator["trend"], current_form_indicator["trend"])
+        parts.append(f'최근 5개 대회 평균 SG는 직전 5개 대비 {trend_ko} 흐름입니다.')
+    return (
+        '<details class="evidence-detail pi-section" id="ph-neo-evaluation-v2" open>'
+        '<summary class="section-heading"><h2>NEO Evaluation</h2></summary>'
+        f'<div class="pi-section__body"><p class="piq-current-detail">{" ".join(escape(p) for p in parts)}</p></div></details>'
+    )
+
+
 def _hero_html(doc: dict) -> str:
     return (
         '<header class="pi-hero hero-data">'
@@ -2645,16 +2801,21 @@ def render_player_history_html(
         + _story_layer_html(doc)                                                                 # V71 Layer 1: Story
         + _current_form_hero_html(doc.get("current_vs_career"), doc.get("current_snapshot"), doc.get("current_form_indicator"))  # 1
         + _official_snapshot_html(doc.get("current_snapshot"))                                 # 1 (subordinate, restored by V50.1)
+        + _official_statistics_v2_html(doc.get("official_detail_record"))                      # 1 (subordinate -- NEO Player History Engine V2)
         + _why_now_html(doc.get("why_now"), doc.get("current_snapshot"), doc.get("current_vs_career"), doc.get("career_story", {}).get("current"))  # 2
         + _recent_form_html(doc.get("recent_form_5", []), doc.get("recent_form_10", []), doc.get("recent_form_20"))  # 3
         + _in_progress_html(doc.get("current_tournament_in_progress"), doc.get("hole_history"))  # 3 (subordinate, only if confirmed live)
         + _player_identity_html(doc.get("player_identity"))                                     # 4
         + _player_dna_radar_html(doc.get("player_dna_radar", []), doc.get("career_dna"))        # 4 (subordinate -- moved beside identity)
         + _dna_growth_velocity_html(doc.get("player_dna_growth"))                              # 4 (subordinate, restored by V50.1)
+        + _sg_profile_v2_html(doc.get("current_skill_vs_career", {}).get("components"), doc.get("why_now", {}).get("arrows"))  # 4 (subordinate -- NEO Player History Engine V2)
+        + _player_dna_v2_html(doc.get("player_dna"))                                           # 4 (subordinate -- NEO Player History Engine V2)
         + _course_profile_html(doc.get("course_profile"), doc.get("tournament_history"))        # 5
+        + _course_fit_score_v2_html(doc.get("course_fit_score"))                               # 5 (subordinate -- NEO Player History Engine V2)
         + _round_history_html(doc["round_history"])                                            # 6
         + _round_history_detail_html(doc.get("round_history"))                                 # 6 (subordinate, restored by V50.1)
         + _hole_history_html(doc.get("hole_history"), doc.get("tournament_history"))           # 6 (subordinate)
+        + _round_momentum_v2_html(doc.get("round_momentum"))                                   # 6 (subordinate -- NEO Player History Engine V2)
         + _career_story_html(doc.get("career_story"), doc["career_overview"])                  # 7
         + _career_evolution_html(doc["career_evolution"])                                      # 7 (subordinate, restored by V50.1)
         + _season_replay_html(doc["season_replay"], doc["tournament_history"])                 # 7 (subordinate)
@@ -2663,6 +2824,7 @@ def render_player_history_html(
         + _technical_stats_html(doc.get("technical_stats_2025"))                               # 7 (subordinate, restored by V50.1)
         + _tournament_trend_html(doc["tournament_history"])                                    # 7 (subordinate)
         + _tournament_table_html(doc["tournament_history"])                                    # 7 (subordinate, collapsed)
+        + _neo_evaluation_v2_html(doc.get("player_dna"), doc.get("why_now"), doc.get("current_form_indicator"))  # 9 -- NEO Player History Engine V2
         + _data_trust_html(doc.get("page_confidence"), doc.get("provenance_summary"), data_quality_url)  # 8
     )
     return f'<div class="ph-page">{body}</div>'

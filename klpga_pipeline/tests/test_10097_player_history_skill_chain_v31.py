@@ -151,6 +151,11 @@ def test_no_new_top_level_section_ids_were_introduced():
         "ph-season-replay", "ph-career-rolling-trend", "ph-career-heartbeat", "ph-technical-stats-2025",
         "ph-tournament-trend", "ph-tournament-history", "ph-round-history", "ph-hole-history",
         "ph-course-profile", "ph-player-dna-radar", "ph-career-dna", "ph-reconciliation", "ph-not-available",
+        # NEO Player History Engine V2 (2026-10-03): official_detail_record /
+        # round_momentum / player_dna / course_fit_score, rendered generically
+        # for any player_id -- see klpga.website_v2.official_detail_enrichment.
+        "ph-official-statistics-v2", "ph-sg-profile-v2", "ph-round-momentum-v2",
+        "ph-player-dna-v2", "ph-course-fit-score-v2", "ph-neo-evaluation-v2",
     }
     found_ids = set(re.findall(r'<details class="[^"]*pi-section[^"]*" id="(ph-[a-z0-9-]+)"', html))
     assert found_ids <= known_ids, f"new section id(s) introduced: {found_ids - known_ids}"
