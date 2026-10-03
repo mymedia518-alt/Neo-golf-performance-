@@ -1182,6 +1182,113 @@ def build_hitejinro_post_r3_forecast(content_root: Path | None = None, *, n_simu
     }
 
 
+def _hitejinro_confirmed_outcome(round_number: int, *, content_root: Path | None = None) -> list[dict]:
+    """Real end-of-round standing in the {"player_id", "player_name",
+    "final_rank", "position_from", "position_to"} shape klpga.neo_win.
+    final_partial_evidence_validator.compare_forecast_to_outcome/
+    topk_set_comparison already expect (same real shape KB's own
+    operator-confirmed FINAL evidence uses). Round 3 reads LEADERBOARD.
+    json's own finish_position_numeric (the real field R3's page itself
+    shows); R1/R2 re-parse their own raw leaderboard captures directly
+    (same _LEADERBOARD_ROW_RE technique this module already uses for R2's
+    real rank elsewhere)."""
+    content_root = content_root or CONTENT
+    if round_number == 3:
+        board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+        return [
+            {
+                "player_id": str(r["player_id"]), "player_name": r["player_name"],
+                "final_rank": str(r["finish_position_numeric"]),
+                "position_from": r["finish_position_numeric"], "position_to": r["finish_position_numeric"],
+            }
+            for r in board["records"] if r.get("status") is None
+        ]
+    html = raw_evidence_path(round_number, "LEADERBOARD").read_text(encoding="utf-8")
+    records = []
+    for m in _LEADERBOARD_ROW_RE.finditer(html):
+        pid, rank, name = m.group(1), m.group(2), m.group(3)
+        if rank == "999":
+            continue
+        rank_int = int(rank)
+        records.append({
+            "player_id": pid, "player_name": name,
+            "final_rank": rank, "position_from": rank_int, "position_to": rank_int,
+        })
+    return records
+
+
+def _hitejinro_m4_forecast_by_id() -> dict[str, dict]:
+    """The static PRE M4 forecast, reshaped into the {"neo_final_rank",
+    "win_pct", "player_name"} shape compare_forecast_to_outcome expects
+    -- the real Hana-style R1 forecast (no Monte Carlo, same frozen
+    snapshot load_m4_by_id already returns)."""
+    from klpga.neo_win.hitejinro_player_metrics import load_m4_by_id
+    m4 = load_m4_by_id()
+    ordered = sorted(m4.items(), key=lambda kv: -kv[1]["win_probability"])
+    return {
+        pid: {"neo_final_rank": i, "win_pct": rec["win_probability"] * 100, "player_name": rec["playerName"]}
+        for i, (pid, rec) in enumerate(ordered, 1)
+    }
+
+
+def _forecast_records_to_by_id(records: list[dict]) -> dict[str, dict]:
+    """Reshapes build_hitejinro_post_r2_forecast/post_r3_forecast's own
+    real records into the same {"neo_final_rank", "win_pct",
+    "player_name"} shape."""
+    ordered = sorted(records, key=lambda r: -r["win_probability"])
+    return {
+        r["player_id"]: {"neo_final_rank": i, "win_pct": r["win_probability"] * 100, "player_name": r["player_name"]}
+        for i, r in enumerate(ordered, 1)
+    }
+
+
+def build_hitejinro_round_verification(round_number: int, *, content_root: Path | None = None):
+    """NEO Verification Spec (2026-10-03, "final_real_page.py의 검증
+    구조를 분석해 공통 Verification Engine으로 분리하고, R1~R3에서도
+    현재 라운드 기준으로 호출한다"): calls klpga.neo_win.final_partial_
+    evidence_validator.compare_forecast_to_outcome -- the exact engine
+    extracted from KB's own real FINAL verification (topk_set_
+    comparison's Top20/Top10/Top5 set precision/recall, winner-hit/
+    log-loss/Brier/reciprocal-rank, rank_delta/biggest_movers) -- with
+    each round's own real, NON-LEAKING forecast-vs-outcome pair instead
+    of R3-forecast-vs-FINAL:
+      - R1/R2: the static PRE M4 forecast (no later forecast exists
+        before these rounds in Hana's own real architecture either,
+        confirmed by direct investigation -- round_update_r2 itself
+        requires real R1+R2 scores as its known-round input, so it
+        cannot predict R2 without already knowing R2) vs that round's
+        real end-of-round standing.
+      - R3: the real post-R2 forecast (klpga.neo_win.round_update_r2.
+        simulate_post_round2, built from real R1+R2 only -- never
+        leaks R3's own score) vs R3's real standing. Exactly mirrors
+        KB's own R3-forecast-vs-FINAL pattern, one stage earlier."""
+    content_root = content_root or CONTENT
+    from klpga.neo_win.final_partial_evidence_validator import compare_forecast_to_outcome
+
+    confirmed = _hitejinro_confirmed_outcome(round_number, content_root=content_root)
+    if round_number in (1, 2):
+        forecast_by_id = _hitejinro_m4_forecast_by_id()
+    else:
+        forecast = build_hitejinro_post_r2_forecast(content_root=content_root)
+        forecast_by_id = _forecast_records_to_by_id(forecast["records"])
+
+    # A real player absent from the forecast (e.g. DATA_INSUFFICIENT,
+    # excluded from load_m4_by_id's PASS-only filter) cannot be scored
+    # against a prediction that doesn't exist for them -- excluded here,
+    # same "missing, never guessed" convention this codebase already
+    # applies everywhere else (round_update_r2's own missing_r2_players).
+    # topk_set_comparison's own _positions_gapless_through check already
+    # and correctly reports supported=False for any k a resulting gap
+    # affects -- never silently patched over.
+    confirmed = [r for r in confirmed if r["player_id"] in forecast_by_id]
+
+    tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
+    return compare_forecast_to_outcome(
+        forecast_by_id, confirmed,
+        target_event_id=GAME_CODE, target_game_code=GAME_CODE, target_start_date=tourney["start_date"],
+    )
+
+
 def build_round_page(round_number: int) -> Path:
     """Render and write this round's public page (docs/tournaments/
     2026/{GAME_CODE}/{r1,r2,r3,fr}/index.html) via the one shared
@@ -1189,7 +1296,14 @@ def build_round_page(round_number: int) -> Path:
     extracted from scripts/196-199_build_hitejinro_r*_page.py, which
     each duplicated the same five lines (load TOURNAMENT_INFO, format
     date_range, render, write) differing only in round_number and
-    output path. Those four scripts now call this function instead."""
+    output path. Those four scripts now call this function instead.
+
+    round_number 1-3 also splice in the real NEO Verification section
+    (build_hitejinro_round_verification -- the same engine klpga.neo_
+    win.final_real_page/final_partial_evidence_validator already use
+    for KB's FINAL page, called here) just before </main>, same
+    splice technique scripts/192's HOME mirror already uses. FR (4)
+    has no real outcome yet, so no verification is built for it."""
     stage_key, _label = STAGE_LABELS[round_number]
     repo_root = _ROOT.parent
     tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
@@ -1198,6 +1312,11 @@ def build_round_page(round_number: int) -> Path:
     html = render_round_page(
         round_number, tournament_name=tourney["event_name"], date_range=date_range, content_root=CONTENT,
     )
+    if round_number in (1, 2, 3):
+        from klpga.neo_win.hitejinro_round_page import render_hitejinro_verification_html
+        verification = build_hitejinro_round_verification(round_number)
+        assert "</main>" in html
+        html = html.replace("</main>", render_hitejinro_verification_html(round_number, verification) + "</main>")
     out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / stage_key / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html, encoding="utf-8", newline="\n")
@@ -1205,34 +1324,27 @@ def build_round_page(round_number: int) -> Path:
 
 
 def build_r3_results_page() -> Path:
-    """R3's own page is build_round_page(3) PLUS SG 분석 / 코스 분석 --
-    spliced in just before </main>, same technique scripts/192's HOME
-    mirror already uses for its own <main> extraction.
+    """R3's own page is build_round_page(3) -- which now also splices
+    in the real NEO Verification section automatically (see build_
+    round_page's own docstring) -- PLUS SG 분석 / 코스 분석, spliced in
+    just before </main>, same technique scripts/192's HOME mirror
+    already uses for its own <main> extraction.
 
-    NEO Verification Spec (2026-10-03, "비교 기준은 하나금융그룹
-    챔피언십이다... 새로운 로직을 만들지 않는다"): Hana's own real,
-    live R1/R2/R3 pages have NO separate "NEO 검증"/"NEO
-    Verification"/"Preview" section at all (confirmed by direct
-    investigation of scripts/151, 159, 160, 166, 170, 174, 181). The
-    only real "NEO 검증" implementation anywhere in this repo (all 54
-    branches checked) is klpga.neo_win.final_real_page.
-    render_final_real_page + final_partial_evidence_validator.
-    run_extended_comparison, used exclusively by KB's scripts/131_
-    build_kb_final_page.py -- a POST-FINAL comparison requiring real,
-    operator-confirmed FINAL(4R) leaderboard evidence as input, which
-    does not exist for HITEJINRO yet (FR has not been played). It is
-    therefore genuinely not connectable here today; once real FR/FINAL
-    evidence exists, build_hitejinro_post_r3_forecast's own records
-    (win_probability/player_name, same shape load_pre_final_snapshot
-    already produces for KB) are the ready-made input for that exact
-    same, unmodified pipeline. Hana's win/top5/top10/top20 forecast
-    meanwhile is just the main leaderboard table's own columns, sourced
-    from a round-appropriate forecast file built by calling klpga.neo_
-    win.round_update_r2/round_update_r3 directly (see hitejinro_round_
-    page.render_round_page's own m4_by_id/conditioned_by_id wiring,
-    and build_hitejinro_post_r2_forecast/build_hitejinro_post_r3_
-    forecast above) -- so this page adds no extra verification/preview
-    section either, matching Hana exactly."""
+    NEO Verification Spec (2026-10-03, "final_real_page.py는 FR 전용
+    검증 모듈이다... 공통 부분을 추출해 R1~R3에서도 쓸 수 있는 공통
+    Verification Engine으로 분리한다. Verification 삭제는 금지한다"):
+    klpga.neo_win.final_partial_evidence_validator.run_extended_
+    comparison (KB's own real FINAL call path, unchanged) had its real,
+    round-agnostic core extracted into compare_forecast_to_outcome --
+    the exact same Top20/Top10/Top5 set precision/recall (topk_set_
+    comparison), winner-hit/log-loss/Brier/reciprocal-rank, and rank_
+    delta/biggest_movers machinery KB's FINAL page already uses,
+    called here with R3's own real post-R2-forecast-vs-real-R3-outcome
+    pair (see build_hitejinro_round_verification). Hana's win/top5/
+    top10/top20 leaderboard columns are a separate, real thing (the
+    main table's own columns, sourced from klpga.neo_win.round_
+    update_r2/round_update_r3 directly -- see hitejinro_round_page.
+    render_round_page's own m4_by_id/conditioned_by_id wiring)."""
     from klpga.neo_win.hitejinro_round_page import (
         render_r3_course_analysis_html,
         render_r3_sg_intelligence_html,

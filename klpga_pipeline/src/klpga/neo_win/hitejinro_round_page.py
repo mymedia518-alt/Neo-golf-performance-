@@ -718,3 +718,44 @@ def render_r3_course_analysis_html(d: dict) -> str:
     )
 
 
+def render_hitejinro_verification_html(round_number: int, v) -> str:
+    """NEO Verification Spec (2026-10-03): renders klpga.neo_win.
+    hitejinro_round_pipeline.build_hitejinro_round_verification's
+    ExtendedFinalComparison result -- the SAME real Verification Engine
+    (klpga.neo_win.final_partial_evidence_validator.compare_forecast_
+    to_outcome, extracted from and still used unmodified by KB's own
+    FINAL page) and the SAME section/markup structure klpga.neo_win.
+    final_real_page.render_final_real_page already uses for its
+    "NEO 검증"/"주요 순위 변동" sections -- never a new verification
+    design, only this round's own real forecast-vs-outcome numbers."""
+    from klpga.neo_win.final_partial_evidence_validator import biggest_movers
+
+    overestimated, underestimated = biggest_movers(v, n=5)
+
+    def _topk_row(k: int) -> str:
+        t = v.topk[k]
+        if not t.supported:
+            return f"<tr><td>Top{k}</td><td colspan='2'>{_esc(t.reason)}</td></tr>"
+        return f"<tr><td>Top{k}</td><td>{t.precision * 100:.0f}%</td><td>{t.recall * 100:.0f}%</td></tr>"
+
+    def _mover_item(c) -> str:
+        arrow = "▲" if c.rank_delta > 0 else "▼"
+        return f"<li>{_esc(c.player_name)} <span class='win'>{arrow} NEO 예상 {c.neo_predicted_rank}위 → 실제 {c.actual_position_from}위</span></li>"
+
+    rise_html = "".join(_mover_item(c) for c in underestimated)
+    fall_html = "".join(_mover_item(c) for c in overestimated)
+    hit_text = "적중" if v.winner_hit else "실패"
+
+    return (
+        "<section class='product-section' id='neo-verification'>"
+        f"<h2>NEO 검증</h2><p class='note'>R{round_number} 실제 결과 기준</p>"
+        f"<p>우승 예측 {hit_text}: 실제 1위 {_esc(v.winner_name)} "
+        f"(NEO 예상 순위 {v.winner_neo_probability_rank}위, 확률 {v.winner_neo_win_probability_pct:.1f}%)</p>"
+        "<div class='table-wrap'><table class='data'><thead><tr><th>구간</th><th>정밀도</th><th>재현율</th></tr></thead>"
+        f"<tbody>{''.join(_topk_row(k) for k in (5, 10, 20))}</tbody></table></div>"
+        "<h3>상승</h3><ul>" + rise_html + "</ul>"
+        "<h3>하락</h3><ul>" + fall_html + "</ul>"
+        "</section>"
+    )
+
+

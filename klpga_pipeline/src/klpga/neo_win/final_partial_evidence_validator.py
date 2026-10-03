@@ -253,18 +253,36 @@ class ExtendedFinalComparison:
     blocked_metrics: list
 
 
-def run_extended_comparison(context: TournamentContext, operator_evidence: dict) -> ExtendedFinalComparison:
-    if operator_evidence.get("full_field_recovered"):
-        raise PartialEvidenceBlocked(
-            "this module is for PARTIAL (operator-tier, incomplete-field) evidence only -- "
-            "a full-field recovery should go through final_truth.py / final_validator.py instead"
-        )
-    snapshot = load_pre_final_snapshot(context)
-    forecast_by_id = {str(r["player_id"]): r for r in snapshot["records"]}
-
-    confirmed = operator_evidence.get("confirmed_records") or []
+def compare_forecast_to_outcome(
+    forecast_by_id: dict,
+    confirmed: list,
+    *,
+    target_event_id: str,
+    target_game_code: str,
+    target_start_date: str,
+    unsupported_full_field_metrics: list | None = None,
+) -> ExtendedFinalComparison:
+    """NEO Verification Spec (2026-10-03, "final_real_page.py는 FR
+    전용 검증 모듈이다... 공통 부분을 추출해 Top20/Top10/Top5/Winner/
+    Rank Delta/Biggest Movers를 R1/R2/R3에서도 쓸 수 있는 공통
+    Verification Engine으로 분리한다"): the real, round-agnostic core
+    of run_extended_comparison, extracted unchanged -- every line below
+    is exactly what run_extended_comparison itself used to do, just
+    taking `forecast_by_id`/`confirmed` as direct parameters instead of
+    deriving them from a FINAL-only TournamentContext/operator_evidence
+    pair. run_extended_comparison (FINAL/KB's own real call path,
+    klpga.neo_win.final_real_page.render_final_real_page's input) is
+    now a thin wrapper around this -- its own external behavior,
+    signature, and every validation check are unchanged. Any round's
+    own real forecast (e.g. hitejinro_round_pipeline.build_hitejinro_
+    post_r2_forecast/build_hitejinro_post_r3_forecast's records) vs
+    that round's own real outcome can call this directly, reusing the
+    identical Top20/Top10/Top5 set-precision/recall (topk_set_
+    comparison), winner-hit/log-loss/Brier/reciprocal-rank (klpga.
+    models.metrics), and rank_delta/biggest_movers machinery FINAL
+    already validated -- never a new verification algorithm."""
     if not confirmed:
-        raise PartialEvidenceBlocked("operator evidence has zero confirmed records")
+        raise PartialEvidenceBlocked("zero confirmed records")
 
     winner_records = [r for r in confirmed if str(r.get("final_rank")) == "1"]
     if len(winner_records) != 1:
@@ -275,12 +293,12 @@ def run_extended_comparison(context: TournamentContext, operator_evidence: dict)
         raise PartialEvidenceBlocked("confirmed winner has no player_id match -- cannot score without identity")
     winner_id = str(winner_id)
     if winner_id not in forecast_by_id:
-        raise PartialEvidenceBlocked(f"confirmed winner player_id={winner_id!r} has no entry in the frozen R3 forecast")
+        raise PartialEvidenceBlocked(f"confirmed winner player_id={winner_id!r} has no entry in the forecast")
 
     raw_probabilities = {pid: float(r["win_pct"]) / 100.0 for pid, r in forecast_by_id.items()}
     prediction = make_prediction(
-        target_event_id=context.game_code, target_game_code=context.game_code,
-        target_start_date=context.start_date, raw_probabilities=raw_probabilities,
+        target_event_id=target_event_id, target_game_code=target_game_code,
+        target_start_date=target_start_date, raw_probabilities=raw_probabilities,
         winner=winner_id, prior_events_n_by_player={},
     )
 
@@ -295,7 +313,7 @@ def run_extended_comparison(context: TournamentContext, operator_evidence: dict)
         pid = str(pid)
         fr = forecast_by_id.get(pid)
         if fr is None:
-            raise PartialEvidenceBlocked(f"confirmed player_id={pid!r} ({rec.get('player_name')}) has no entry in the frozen R3 forecast")
+            raise PartialEvidenceBlocked(f"confirmed player_id={pid!r} ({rec.get('player_name')}) has no entry in the forecast")
         predicted_rank = int(fr["neo_final_rank"])
         position_from = rec.get("position_from")
         confirmed_comparisons.append(ConfirmedPlayerComparison(
@@ -322,7 +340,31 @@ def run_extended_comparison(context: TournamentContext, operator_evidence: dict)
         reciprocal_rank=reciprocal_rank(prediction), field_size=prediction.field_size,
         positions_confirmed_gapless_through=gapless_through, topk=topk,
         confirmed_players=confirmed_comparisons, unmatched_confirmed_names=unmatched,
-        blocked_metrics=list(operator_evidence.get("unsupported_full_field_metrics") or []),
+        blocked_metrics=list(unsupported_full_field_metrics or []),
+    )
+
+
+def run_extended_comparison(context: TournamentContext, operator_evidence: dict) -> ExtendedFinalComparison:
+    """FINAL-only (klpga.neo_win.final_real_page.render_final_real_page's
+    real input, called exclusively by KB's scripts/131_build_kb_final_
+    page.py) -- unchanged external behavior. Now a thin wrapper: loads
+    the frozen pre-FINAL forecast snapshot and the operator-confirmed
+    FINAL evidence, then delegates every real comparison to compare_
+    forecast_to_outcome (see that function's own docstring)."""
+    if operator_evidence.get("full_field_recovered"):
+        raise PartialEvidenceBlocked(
+            "this module is for PARTIAL (operator-tier, incomplete-field) evidence only -- "
+            "a full-field recovery should go through final_truth.py / final_validator.py instead"
+        )
+    snapshot = load_pre_final_snapshot(context)
+    forecast_by_id = {str(r["player_id"]): r for r in snapshot["records"]}
+    confirmed = operator_evidence.get("confirmed_records") or []
+
+    return compare_forecast_to_outcome(
+        forecast_by_id, confirmed,
+        target_event_id=context.game_code, target_game_code=context.game_code,
+        target_start_date=context.start_date,
+        unsupported_full_field_metrics=operator_evidence.get("unsupported_full_field_metrics"),
     )
 
 
