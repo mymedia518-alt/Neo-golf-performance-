@@ -101,10 +101,19 @@ def _extract_asset_version(html: str) -> str | None:
 
 
 _LEADERBOARD_ROW_RE = re.compile(
-    r'<li id="favoritItem_(\d+)"[^>]*data-rank="([^"]*)" data-name="([^"]*)" '
-    r'data-totunderpar="([^"]*)" data-inghole="([^"]*)" data-todayunderpar="([^"]*)" '
-    r'data-score="([^"]*)" data-round1score="([^"]*)" data-round2score="([^"]*)" '
-    r'data-round3score="([^"]*)" data-round4score="([^"]*)" data-updown="([^"]*)"'
+    # 2026-10-03: attribute separators are \s+ (not a literal single
+    # space) -- the official site renders this li's attributes on one
+    # line in some real captures (R1/R2, saved post-render) but spread
+    # across several lines/tabs in others (R3, collected via klpga.
+    # neo_reader's own real network client) -- both are the SAME real
+    # DOM, just formatted differently by whatever saved them. \s+
+    # matches either real shape unchanged; it does not loosen what
+    # counts as a match (still requires every exact attribute name/
+    # order), only how much real whitespace may separate them.
+    r'<li id="favoritItem_(\d+)"[^>]*data-rank="([^"]*)"\s+data-name="([^"]*)"\s+'
+    r'data-totunderpar="([^"]*)"\s+data-inghole="([^"]*)"\s+data-todayunderpar="([^"]*)"\s+'
+    r'data-score="([^"]*)"\s+data-round1score="([^"]*)"\s+data-round2score="([^"]*)"\s+'
+    r'data-round3score="([^"]*)"\s+data-round4score="([^"]*)"\s+data-updown="([^"]*)"'
 )
 
 
@@ -399,6 +408,84 @@ def cross_validate_against_round(
         if r.get("status") is None and pid not in found_ids
     ]
     return {"contradictions": contradictions, "needs_verification": needs_verification}
+
+
+def apply_r3_results(*, raw_path: Path | None = None) -> Path:
+    """Apply the real, COMPLETED round-3 leaderboard (2026-10-03) --
+    independently collected via klpga.neo_reader's real network client
+    (GitHub Actions runner; this sandbox cannot reach klpga.co.kr
+    directly) and confirmed round 3 is genuinely over for every active
+    player (every row's own real round3score, never "0"/not-played).
+
+    NOT a generic parse_leaderboard(3) run: this site's real behavior
+    for a player cut after R2 is to omit them from R3's own leaderboard
+    DOM entirely, with no CUT/컷오프 text anywhere to carry-forward-
+    prove (confirmed: zero occurrences of any of the 41 real R2_CUT
+    player_ids anywhere in this round-3 capture) -- parse_leaderboard's
+    own carry-forward mechanism would raise for exactly this reason
+    (no earlier round's raw evidence proves a textual WD/DQ/CUT for
+    them either). Those 41 players' status was already correctly
+    derived from the real confirmed R3 field list (derive_r2_cut_from_
+    confirmed_r3_field, score-boundary-verified) -- this function only
+    updates the real round-3 outcome (finish_position/score_to_par/
+    r3_score) for the 61 players who actually appear in this capture,
+    and leaves every other record (R1_CUT/R2_CUT/WD) completely
+    untouched.
+
+    SAFETY CHECK (fails closed): the 61 player_ids in this capture
+    must be EXACTLY the active (status=None) population already in
+    LEADERBOARD.json -- any mismatch (a player this capture shows who
+    LEADERBOARD.json doesn't have as active, or vice versa) means the
+    two real evidence sources disagree, and this function refuses
+    rather than silently picking one."""
+    raw_path = raw_path or raw_evidence_path(3, "LEADERBOARD")
+    html = raw_path.read_text(encoding="utf-8")
+    matches = list(_LEADERBOARD_ROW_RE.finditer(html))
+    if not matches:
+        raise AssertionError(f"{raw_path} parsed to zero real rows -- refusing to apply R3 results from empty evidence")
+
+    if not LEADERBOARD_PATH.is_file():
+        raise FileNotFoundError(f"no {LEADERBOARD_PATH} yet -- parse_leaderboard(2) must run first.")
+    board = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))
+    records = board["records"]
+    by_id = {r["player_id"]: r for r in records}
+
+    capture_ids = {m.group(1) for m in matches}
+    active_ids = {r["player_id"] for r in records if r.get("status") is None}
+    if capture_ids != active_ids:
+        raise AssertionError(
+            f"R3 capture's real player set does not match the active (status=None) population in "
+            f"{LEADERBOARD_PATH} -- only in capture: {sorted(capture_ids - active_ids)}, "
+            f"only in board: {sorted(active_ids - capture_ids)}. Refusing to apply."
+        )
+
+    not_yet_complete = []
+    for m in matches:
+        player_id, rank, name, totunderpar, inghole, todayunderpar, score, r1, r2, r3, r4, updown = m.groups()
+        record = by_id[player_id]
+        incomplete = rank == "999"
+        if incomplete:
+            not_yet_complete.append({"player_id": player_id, "player_name": name})
+            continue
+        record["finish_position"] = rank
+        record["finish_position_numeric"] = int(rank)
+        record["score_to_par"] = _int_or_none(totunderpar)
+        record["r3_score"] = _int_or_none(r3)
+
+    if not_yet_complete:
+        raise AssertionError(
+            f"R3 capture claims to be the completed round but {len(not_yet_complete)} player(s) still show "
+            f"rank=999 (not finished): {not_yet_complete}. Refusing to apply as a final result."
+        )
+
+    board["final_round"] = 3
+    board["as_of"] = date.today().isoformat()
+    board["r3_results_source_raw"] = {
+        "path": str(raw_path.relative_to(_ROOT.parent)),
+        "sha256": hashlib.sha256(raw_path.read_bytes()).hexdigest(),
+    }
+    LEADERBOARD_PATH.write_text(json.dumps(board, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return LEADERBOARD_PATH
 
 
 def derive_r2_cut_from_confirmed_r3_field(*, raw_path: Path | None = None) -> Path:
@@ -852,6 +939,81 @@ def merge_sg_into_warehouse(round_number: int) -> dict:
     }
 
 
+def build_r3_neo_verification(content_root: Path | None = None) -> dict:
+    """NEO's own pre-R3 predictions (hitejinro_player_metrics.
+    load_m4_by_id -- a static, pre-tournament model snapshot, never
+    recomputed mid-event) checked against the real R3 outcome
+    (2026100005_LEADERBOARD.json after apply_r3_results). Every number
+    here is a real, directly-computed comparison -- never a narrative
+    guess at WHY a prediction missed, only the real score facts.
+
+    2026-10-03 mission ("NEO GOLF DATA의 핵심은 '예측을 공개하고 실제
+    결과로 검증한다'"): population is every player who was still alive
+    for the R3 cut decision (status in (None, "R2_CUT") after R2 --
+    i.e. not already R1_CUT/WD) who also has a real M4 record."""
+    from klpga.neo_win.hitejinro_player_metrics import load_m4_by_id
+    content_root = content_root or CONTENT
+
+    board = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))
+    records = board["records"]
+    m4 = load_m4_by_id()
+
+    pop = [r for r in records if r.get("status") in (None, "R2_CUT") and r["player_id"] in m4]
+    cut_correct = sum(
+        1 for r in pop if (m4[r["player_id"]]["cut_probability"] >= 0.5) == (r.get("status") is None)
+    )
+
+    active = [r for r in records if r.get("status") is None]
+    active_by_rank = sorted(active, key=lambda r: r["finish_position_numeric"])
+
+    topn_hitrates = {}
+    for n in (20, 10, 5):
+        real_ids = {r["player_id"] for r in active_by_rank[:n]}
+        pred_ids = {
+            r["player_id"]
+            for r in sorted(pop, key=lambda r: -m4[r["player_id"]][f"top{n}_probability"])[:n]
+        }
+        hit = len(real_ids & pred_ids)
+        topn_hitrates[n] = {"real": sorted(real_ids), "predicted": sorted(pred_ids), "hit": hit, "total": n}
+
+    real_leader = active_by_rank[0]
+    predicted_leader = max(pop, key=lambda r: m4[r["player_id"]]["win_probability"])
+    predicted_leader_real = next((r for r in records if r["player_id"] == predicted_leader["player_id"]), None)
+
+    r2_html = raw_evidence_path(2, "LEADERBOARD").read_text(encoding="utf-8")
+    r2_rank_by_id = {m.group(1): int(m.group(2)) for m in _LEADERBOARD_ROW_RE.finditer(r2_html) if m.group(2) != "999"}
+    rank_changes = []
+    for r in active:
+        pid = r["player_id"]
+        if pid not in r2_rank_by_id:
+            continue
+        r2_rank = r2_rank_by_id[pid]
+        r3_rank = r["finish_position_numeric"]
+        rank_changes.append({
+            "player_id": pid, "player_name": r["player_name"],
+            "r2_rank": r2_rank, "r3_rank": r3_rank, "change": r2_rank - r3_rank,
+        })
+    rank_changes.sort(key=lambda c: -c["change"])
+
+    return {
+        "population_count": len(pop),
+        "cut_prediction": {
+            "correct": cut_correct, "total": len(pop),
+            "accuracy_pct": round(100 * cut_correct / len(pop), 1) if pop else None,
+        },
+        "topn_hitrates": topn_hitrates,
+        "win_candidate": {
+            "real_leader": {"player_id": real_leader["player_id"], "player_name": real_leader["player_name"], "score_to_par": real_leader["score_to_par"]},
+            "real_leader_pre_r3_win_probability": m4.get(real_leader["player_id"], {}).get("win_probability"),
+            "predicted_leader": {"player_id": predicted_leader["player_id"], "player_name": predicted_leader["player_name"], "pre_r3_win_probability": m4[predicted_leader["player_id"]]["win_probability"]},
+            "predicted_leader_real_status": predicted_leader_real.get("status") if predicted_leader_real else None,
+            "predicted_leader_real_rank": predicted_leader_real.get("finish_position") if predicted_leader_real else None,
+        },
+        "risers": rank_changes[:5],
+        "fallers": rank_changes[-5:][::-1],
+    }
+
+
 def build_round_page(round_number: int) -> Path:
     """Render and write this round's public page (docs/tournaments/
     2026/{GAME_CODE}/{r1,r2,r3,fr}/index.html) via the one shared
@@ -870,6 +1032,30 @@ def build_round_page(round_number: int) -> Path:
     )
     out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / stage_key / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(html, encoding="utf-8", newline="\n")
+    return out_path
+
+
+def build_r3_results_page() -> Path:
+    """R3's own page is build_round_page(3) PLUS the real NEO 검증
+    section (2026-10-03 mission: "R3 페이지는 단순 공식 리더보드가
+    아니다... 검증 섹션이 없으면 R3 페이지는 완료가 아니다") -- spliced
+    in just before </main>, same technique scripts/192's HOME mirror
+    already uses for its own <main> extraction. SG 분석/코스 분석/SG
+    기반 R4 Preview are NOT included here: no real round-3 SG or
+    scorecard evidence exists in this checkout (checked -- only a
+    stale, unrelated September capture with no HITEJINRO game_code was
+    found, not real evidence). Fabricating those sections would
+    violate this project's own never-fabricate rule. Re-run this once
+    real R3 SG/scorecard evidence lands to add them for real."""
+    from klpga.neo_win.hitejinro_round_page import render_r3_neo_verification_html
+
+    out_path = build_round_page(3)
+    html = out_path.read_text(encoding="utf-8")
+    verification = build_r3_neo_verification()
+    verification_html = render_r3_neo_verification_html(verification)
+    assert "</main>" in html
+    html = html.replace("</main>", verification_html + "</main>")
     out_path.write_text(html, encoding="utf-8", newline="\n")
     return out_path
 

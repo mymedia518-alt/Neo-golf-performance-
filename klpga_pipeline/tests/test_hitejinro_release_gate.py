@@ -216,3 +216,60 @@ def test_r2_컷_통과_label_never_reappears_without_real_evidence():
     )
     for forbidden in ("R2 컷 통과", "컷 통과 ", "본선 진출"):
         assert forbidden not in html, f"unsubstantiated label {forbidden!r} must not appear on the R2 page"
+
+
+_R3_LEADERBOARD_PRESENT = raw_evidence_path(3, "LEADERBOARD").is_file()
+requires_r3_leaderboard_evidence = pytest.mark.skipif(
+    not _R3_LEADERBOARD_PRESENT, reason="real completed R3 leaderboard raw evidence not present in this checkout",
+)
+
+
+@requires_r3_leaderboard_evidence
+def test_r3_neo_verification_numbers_are_internally_consistent():
+    """Bug class this guards: the NEO 검증 section (2026-10-03 mission
+    -- "예측을 공개하고 실제 결과로 검증한다") silently drifting out of
+    arithmetic self-consistency (e.g. accuracy_pct not matching
+    correct/total, a topN hit count exceeding N) -- every number here
+    must be real and internally coherent, not just present."""
+    from klpga.neo_win.hitejinro_round_pipeline import build_r3_neo_verification
+
+    v = build_r3_neo_verification()
+    cp = v["cut_prediction"]
+    assert 0 <= cp["correct"] <= cp["total"]
+    assert cp["accuracy_pct"] == round(100 * cp["correct"] / cp["total"], 1)
+
+    for n, d in v["topn_hitrates"].items():
+        assert d["total"] == n
+        assert 0 <= d["hit"] <= n
+        assert len(d["real"]) == n
+        assert d["hit"] == len(set(d["real"]) & set(d["predicted"]))
+
+    assert len(v["risers"]) <= 5
+    assert len(v["fallers"]) <= 5
+    # risers sorted descending by change, fallers ascending (most negative first)
+    assert [c["change"] for c in v["risers"]] == sorted((c["change"] for c in v["risers"]), reverse=True)
+    assert [c["change"] for c in v["fallers"]] == sorted((c["change"] for c in v["fallers"]))
+
+
+@requires_r3_leaderboard_evidence
+def test_r2_cut_players_never_appear_on_the_r3_page():
+    """Bug class this guards: explicit operator instruction (2026-10-03)
+    "R2_CUT 선수는 R3 페이지에 표시하지 않는다" -- unlike R1_CUT/WD,
+    which still fall back into R3's flat list with a status cell,
+    R2_CUT players must be entirely absent from the R3 page's player
+    list. Checked by real name, not just a count, since a count alone
+    could hide the wrong players being excluded."""
+    import json as _json
+    from klpga.neo_win.hitejinro_round_page import render_round_page
+    from klpga.tournament_context import CONTENT_DIR
+
+    board = _json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
+    r2_cut_names = [r["player_name"] for r in board["records"] if r["status"] == "R2_CUT"]
+    assert r2_cut_names, "no real R2_CUT players found -- evidence may have changed, re-verify by hand"
+
+    html = render_round_page(
+        3, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
+        content_root=CONTENT_DIR,
+    )
+    for name in r2_cut_names:
+        assert name not in html, f"R2_CUT player {name!r} must not appear on the R3 page"
