@@ -39,15 +39,32 @@ def _sha256(path: Path) -> str:
 
 
 @requires_warehouse
-def test_r2_projection_matches_every_legacy_field_of_the_real_leaderboard():
+def test_r2_projection_matches_every_legacy_field_of_the_real_leaderboard(tmp_path, monkeypatch):
     """Evidence Warehouse + Round Transition Engine + Projection Builder
     must reproduce, for all 108 real entrants, the exact same
     finish_position/scores/withdrawn/disqualified/missed_cut values the
     live pipeline's own parse_leaderboard(2) already produced -- proof
     the two are computing the same real facts, not just coincidentally
-    similar ones."""
+    similar ones.
+
+    2026-10-03: production's 2026100005_LEADERBOARD.json now carries a
+    SECOND, separate real step layered on top of parse_leaderboard(2)
+    -- derive_r2_cut_from_confirmed_r3_field(), which this frozen
+    projection_builder.py was never updated to replay (same documented
+    "explicitly froze projection_builder.py" precedent as the xfail
+    test just below, for the newer status/status_round fields). So
+    this test now reproduces parse_leaderboard(2) FRESH, in isolation,
+    as its own comparison target -- its real, original, narrower claim
+    -- instead of reading the current production file, which has
+    legitimately moved one real step further than what projection_
+    builder.py replays."""
+    from klpga.neo_win import hitejinro_round_pipeline as _rp
+
+    monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_path / "LEADERBOARD.json")
+    _rp.parse_leaderboard(2)
+    current = json.loads((tmp_path / "LEADERBOARD.json").read_text(encoding="utf-8"))
+
     projection = pb.build_projection(2, warehouse_root=_WAREHOUSE, content_root=_CONTENT)
-    current = json.loads((_CONTENT / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
 
     proj_by_id = {r["player_id"]: r for r in projection["records"]}
     cur_by_id = {r["player_id"]: r for r in current["records"]}

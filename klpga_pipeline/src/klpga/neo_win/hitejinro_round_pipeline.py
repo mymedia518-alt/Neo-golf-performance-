@@ -401,6 +401,85 @@ def cross_validate_against_round(
     return {"contradictions": contradictions, "needs_verification": needs_verification}
 
 
+def derive_r2_cut_from_confirmed_r3_field(*, raw_path: Path | None = None) -> Path:
+    """Derive R2_CUT status from a real, officially-confirmed R3 FIELD
+    list -- never from R3 RESULTS (2026-10-03 mission: "R3 결과를
+    기다리지 않는다... R3 출전 확정 데이터를 사용한다"). This is NOT
+    the Set Difference inference rejected 2026-10-02: that mistake
+    computed CUT by diffing R2's active set against a RESULTS page
+    that could be incomplete for reasons unrelated to any real cut
+    (an unrelated partial AJAX load). Here the input is a single real
+    capture of the CONFIRMED R3 starting field itself -- its own rows
+    all carry round3score=="0" (not yet played), confirming this is a
+    pre-round field list, not a results page -- and a player's absence
+    from it is trusted ONLY after the safety check below confirms the
+    field's own boundary is score-clean, never on say-so alone.
+
+    SAFETY CHECK (fails closed): among R2's active (status=None)
+    population, every real score_to_par value must be either WHOLLY
+    present in the confirmed field or WHOLLY absent. A tied-score group
+    split between present/absent is the signature of an arbitrary
+    technical truncation (e.g. a partial AJAX load cutting a tie group
+    in half), not a real score-based cut -- this function refuses to
+    proceed if it finds one. (Real verification for this tournament's
+    actual 2026-10-03 capture: score_to_par<=9 wholly present (61
+    players), score_to_par>=10 wholly absent (41 players) -- zero split
+    groups.)
+
+    Mutates LEADERBOARD.json: every active record whose player_id is
+    absent from the confirmed field gets status="R2_CUT",
+    status_round=2, missed_cut=True. Every other record (already
+    R1_CUT/WD/DQ/DNS, or present in the field) is untouched --
+    finish_position/score_to_par/r{n}_score are never touched, they
+    stay the real R2 values parse_leaderboard(2) already wrote."""
+    raw_path = raw_path or raw_evidence_path(3, "LEADERBOARD_INPROGRESS")
+    html = raw_path.read_text(encoding="utf-8")
+    confirmed_ids = {m.group(1) for m in _LEADERBOARD_ROW_RE.finditer(html)}
+    if not confirmed_ids:
+        raise AssertionError(
+            f"{raw_path} parsed to zero confirmed R3 field players -- refusing to derive R2_CUT from empty evidence"
+        )
+
+    if not LEADERBOARD_PATH.is_file():
+        raise FileNotFoundError(f"no {LEADERBOARD_PATH} yet -- parse_leaderboard(2) must run first.")
+    board = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8"))
+    records = board["records"]
+    active = [r for r in records if r.get("status") is None]
+
+    by_score: dict[int, set[bool]] = {}
+    for r in active:
+        sp = r.get("score_to_par")
+        if sp is None:
+            continue
+        by_score.setdefault(sp, set()).add(r["player_id"] in confirmed_ids)
+    split = {sp: sorted(present) for sp, present in by_score.items() if len(present) > 1}
+    if split:
+        raise AssertionError(
+            f"confirmed R3 field at {raw_path} splits a tied score_to_par group across present/absent "
+            f"({sorted(split)}) -- this is the signature of a technical truncation, not a real score-based "
+            f"cut. Refusing to derive R2_CUT from it."
+        )
+
+    cut_ids = {r["player_id"] for r in active if r["player_id"] not in confirmed_ids}
+    for r in records:
+        if r["player_id"] in cut_ids:
+            r["status"] = "R2_CUT"
+            r["status_round"] = 2
+            r["missed_cut"] = True
+
+    board["r2_cut_derivation"] = {
+        "method": "confirmed_r3_field_list (not R3 results) -- score-boundary-verified, 2026-10-03",
+        "source_raw": {
+            "path": str(raw_path.relative_to(_ROOT.parent)),
+            "sha256": hashlib.sha256(raw_path.read_bytes()).hexdigest(),
+        },
+        "confirmed_field_count": len(confirmed_ids),
+        "r2_cut_count": len(cut_ids),
+    }
+    LEADERBOARD_PATH.write_text(json.dumps(board, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return LEADERBOARD_PATH
+
+
 _DETAIL_RE = re.compile(
     r'_gamecode="' + re.escape(GAME_CODE) + r'" _playercode="(\d+)"[^>]*_round="(\d+)" _hole="(\d*)" _level="([^"]*)"'
 )

@@ -89,7 +89,19 @@ _INLINE_RANKED_STATUSES = {STATUS_R2_CUT}
 # WD/DQ -- 2026-10-02 "공식 DOM 그대로 파싱" mission added it as its
 # own real status (hitejinro_round_pipeline._status_state), so it
 # needs the same sectioned treatment here.
-_SECTIONED_STATUSES = (STATUS_R1_CUT, STATUS_WD, STATUS_DQ, STATUS_DNS)
+#
+# 2026-10-03 mission: R2_CUT now ALSO gets pulled into its own R2-page
+# section ("R3 미출전"), per operator instruction -- the R2 page is
+# "R2 종료 시점의 최종 상태를 보여주는 페이지" and must show every real
+# outcome decided by then, R2_CUT included (derived from a real,
+# confirmed R3 field list -- hitejinro_round_pipeline.
+# derive_r2_cut_from_confirmed_r3_field -- never Set Difference against
+# R3 RESULTS). This only changes which GROUP a R2_CUT row is pulled
+# into on the R2 page; _INLINE_RANKED_STATUSES below (unchanged) still
+# keeps its real rank/total + badge inside that section, and R3/FR
+# still never section it (same "CUT 섹션을 생성하지 않는다" rule,
+# untouched -- use_sections is still round_number==2 only).
+_SECTIONED_STATUSES = (STATUS_R1_CUT, STATUS_R2_CUT, STATUS_WD, STATUS_DQ, STATUS_DNS)
 
 
 def _status_family(status: str | None) -> str | None:
@@ -129,10 +141,19 @@ def _advancement_summary(records: list[dict]) -> dict | None:
     which render no CUT LINE banner at all rather than a zero/empty one.
 
     cut_line_score is the worst (highest) real r1_score among players
-    whose status is None (not cut/withdrawn/disqualified) -- i.e. the
-    real threshold this tournament's own cut actually landed on,
-    re-derived from the field every time this is called, never a
-    remembered constant."""
+    who were NOT cut after R1 (status != R1_CUT) -- i.e. the real R1
+    threshold this tournament's own cut actually landed on, re-derived
+    from the field every time this is called, never a remembered
+    constant. 2026-10-03 fix: this used to read "status is None"
+    specifically, which silently meant "survived R1" ONLY until the
+    same day R2_CUT started being derived too -- once a real R2_CUT
+    population exists, "status is None" means "survived R1 AND R2",
+    a narrower set whose own max r1_score is no longer the real R1
+    cutline (it would silently drop to whatever R1 score the worst
+    REMAINING active player has, understating the real R1 threshold).
+    R2_CUT players still carry a real r1_score from before they were
+    ever cut, so they belong in this R1-only calculation same as an
+    active player does."""
     cut = [r for r in records if r.get("status") in _CUT_STATUSES]
     if not cut:
         return None
@@ -140,7 +161,8 @@ def _advancement_summary(records: list[dict]) -> dict | None:
     disqualified = [r for r in records if r.get("status") == STATUS_DQ]
     dns = [r for r in records if r.get("status") == STATUS_DNS]
     advanced = [r for r in records if r.get("status") is None]
-    advancing_r1_scores = [r["r1_score"] for r in advanced if r.get("r1_score") is not None]
+    survived_r1 = [r for r in records if r.get("status") != STATUS_R1_CUT]
+    advancing_r1_scores = [r["r1_score"] for r in survived_r1 if r.get("r1_score") is not None]
     return {
         "cut_line_score": max(advancing_r1_scores) if advancing_r1_scores else None,
         "advanced_count": len(advanced),
@@ -261,7 +283,20 @@ def _render_row_html(
     round_cells = []
     for k in (1, 2, 3, 4):
         real_score = r.get(f"r{k}_score")
-        if in_progress is not None and k == round_number:
+        # 2026-10-03 fix: a player already carrying a REAL persisted
+        # status from BEFORE round_number even started (e.g. R2_CUT
+        # going into the R3 START page) must show that status's own
+        # label in its first-missed-round column even when in_progress
+        # is given and that column IS round_number -- in_progress's
+        # per-player data only covers players who are actually part of
+        # THIS round's field; a status-bearing player's correct
+        # explanation is their own real status, not in_progress's
+        # generic "live is None -> '-'" fallback (confirmed bug: 41
+        # real R2_CUT players on the R3 START page were showing a bare
+        # "-" in the R3 column instead of "3R 탈락").
+        if k <= round_number and status and k == _first_missed_round(r):
+            cell = _status_display_label(status, r)
+        elif in_progress is not None and k == round_number:
             # round_number has no real score of its own yet -- show
             # ONLY what in_progress's real per-player state carries,
             # never fall back to real_score (that's the PREVIOUS
@@ -282,18 +317,15 @@ def _render_row_html(
             # to-par differential -- format_to_par is only for an
             # already-relative-to-par value (score_to_par above).
             cell = str(real_score)
-        elif k <= round_number and status and k == _first_missed_round(r):
-            # Operational fix (2026-10-02): show the status label
-            # ONLY in the first round column this player actually
-            # couldn't play, qualified with WHICH round the real
-            # cut/WD/DQ applies to (_status_display_label) -- a bare
-            # "CUT" repeated in every later round column read, in
-            # the R2 column specifically, as if round 2 itself
-            # produced that outcome. Real evidence this session:
-            # 조하리/이수민/이소영 never played R2 at all; their
-            # real cut was decided on R1's score alone.
-            cell = _status_display_label(status, r)
         elif k <= round_number and status:
+            # A round this player couldn't play, but NOT their own
+            # first-missed-round column (that's handled above) -- e.g.
+            # the R4/FR columns for someone cut after R2. Operational
+            # fix (2026-10-02): the status label appears ONLY once, in
+            # the first column it actually explains, qualified with
+            # WHICH round the real cut/WD/DQ applies to
+            # (_status_display_label) -- never repeated in every later
+            # column as if that later round itself produced the outcome.
             cell = "-"
         else:
             cell = "-"
@@ -443,19 +475,21 @@ def render_round_page(
     summary = _advancement_summary(records)
     total_cols = 3 + 4 + (1 if round_number == 1 else 0) + 5
 
-    # 2026-10-02 "R2 Renderer 재설계" mission. Real evidence this
-    # tournament has today: R1_CUT (조하리/이수민/이소영, real, 3명),
-    # WD (고지우/황정미/마다솜, real, 3명), R2_CUT (none yet -- real
-    # count is 0, so its section is correctly ABSENT below, never an
-    # empty placeholder). Sectioning (its own rank-less group, pulled
-    # out of the ranked table) applies ONLY on round_number == 2, and
-    # ONLY to the 4 statuses with no real rank of their own
-    # (_SECTIONED_STATUSES: R1_CUT/WD/DQ/DNS). R2_CUT never sections --
-    # it keeps a real rank (see _render_row_html) and merges straight
-    # into the one ranked list on every round page. On R3/FR
-    # ("CUT 섹션을 생성하지 않는다"), R1_CUT/WD/DQ/DNS fall back into
-    # that same flat list too, with their existing status-replaces-
-    # rank/total cell -- just with no divider/header around them.
+    # 2026-10-02 "R2 Renderer 재설계" mission, extended 2026-10-03.
+    # Real evidence this tournament has: R1_CUT (조하리/이수민/이소영,
+    # 3명), WD (고지우/황정미/마다솜, 3명), R2_CUT (derived from a real
+    # confirmed R3 field list -- hitejinro_round_pipeline.
+    # derive_r2_cut_from_confirmed_r3_field -- 41명). Sectioning (each
+    # status's own rank-less-or-real-rank group, pulled out of the main
+    # ranked table) applies ONLY on round_number == 2
+    # (_SECTIONED_STATUSES: R1_CUT/R2_CUT/WD/DQ/DNS). R2_CUT's own
+    # section keeps its real rank/total + inline badge
+    # (_INLINE_RANKED_STATUSES, unchanged) since those players DID
+    # complete R2; only its GROUPING moved. On R3/FR ("CUT 섹션을
+    # 생성하지 않는다"), every one of these statuses falls back into
+    # the one flat list instead, with their existing status-replaces-
+    # rank/total (or, for R2_CUT, real-rank+badge) cell -- just with no
+    # divider/header around them.
     use_sections = round_number == 2
     inline_rows = [
         r for r in played
@@ -494,6 +528,17 @@ def render_round_page(
             header += f" · {len(r1_cut_group)}명"
             rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
             rows_html.extend(_render_row_html(r, **row_kwargs) for r in r1_cut_group)
+
+        # 2026-10-03 mission: R2_CUT's own section, "R3 미출전" -- these
+        # players DID complete R2 (real rank/total), so unlike R1_CUT's
+        # section their rows still show that real rank/total + a small
+        # inline "CUT" badge (_INLINE_RANKED_STATUSES, unchanged) rather
+        # than a bare "CUT" placeholder -- only the GROUPING is new.
+        r2_cut_group = [r for r in played if r.get("status") == STATUS_R2_CUT]
+        if r2_cut_group:
+            header = f"R3 미출전 · {len(r2_cut_group)}명"
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{total_cols}'>{_esc(header)}</td></tr>")
+            rows_html.extend(_render_row_html(r, **row_kwargs) for r in r2_cut_group)
 
         for section_status, section_label in ((STATUS_WD, "WD"), (STATUS_DQ, "DQ"), (STATUS_DNS, "DNS")):
             group = [r for r in played if r.get("status") == section_status]

@@ -1021,11 +1021,11 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8972",
@@ -1037,11 +1037,11 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9487",
@@ -1053,11 +1053,11 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9130",
@@ -1069,11 +1069,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9391",
@@ -1085,11 +1085,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8883",
@@ -1101,11 +1101,11 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8430",
@@ -1117,11 +1117,11 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9183",
@@ -1133,11 +1133,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9714",
@@ -1149,11 +1149,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11057",
@@ -1165,11 +1165,11 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "12080",
@@ -1181,11 +1181,11 @@
       "r2_score": 75,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8234",
@@ -1197,11 +1197,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "6916",
@@ -1213,11 +1213,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8811",
@@ -1229,11 +1229,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "1521",
@@ -1245,11 +1245,11 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9723",
@@ -1261,11 +1261,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8386",
@@ -1277,11 +1277,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9174",
@@ -1293,11 +1293,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9750",
@@ -1309,11 +1309,11 @@
       "r2_score": 76,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10727",
@@ -1325,11 +1325,11 @@
       "r2_score": 82,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11040",
@@ -1341,11 +1341,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8770",
@@ -1357,11 +1357,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9702",
@@ -1373,11 +1373,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9436",
@@ -1389,11 +1389,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "12038",
@@ -1405,11 +1405,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10789",
@@ -1421,11 +1421,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11469",
@@ -1437,11 +1437,11 @@
       "r2_score": 77,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9136",
@@ -1453,11 +1453,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10139",
@@ -1469,11 +1469,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11045",
@@ -1485,11 +1485,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8318",
@@ -1501,11 +1501,11 @@
       "r2_score": 78,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8840",
@@ -1517,11 +1517,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11216",
@@ -1533,11 +1533,11 @@
       "r2_score": 79,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "13386",
@@ -1549,11 +1549,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10178",
@@ -1565,11 +1565,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11056",
@@ -1581,11 +1581,11 @@
       "r2_score": 83,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "9277",
@@ -1597,11 +1597,11 @@
       "r2_score": 80,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "11073",
@@ -1613,11 +1613,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10867",
@@ -1629,11 +1629,11 @@
       "r2_score": 81,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "8434",
@@ -1645,11 +1645,11 @@
       "r2_score": 84,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "12078",
@@ -1661,11 +1661,11 @@
       "r2_score": 84,
       "r3_score": null,
       "r4_score": null,
-      "status": null,
-      "status_round": null,
+      "status": "R2_CUT",
+      "status_round": 2,
       "withdrawn": false,
       "disqualified": false,
-      "missed_cut": false
+      "missed_cut": true
     },
     {
       "player_id": "10112",
@@ -1764,5 +1764,14 @@
       "status": "WD",
       "status_round": null
     }
-  ]
+  ],
+  "r2_cut_derivation": {
+    "method": "confirmed_r3_field_list (not R3 results) -- score-boundary-verified, 2026-10-03",
+    "source_raw": {
+      "path": "klpga_pipeline/content/website_v2/incoming_evidence/2026100005/HITEJINRO_2026100005_R3_LEADERBOARD_INPROGRESS_RAW.html",
+      "sha256": "c2282b79648bca405af83e33c7bf996cb5634092fd20963ebafbb18e66d1c553"
+    },
+    "confirmed_field_count": 61,
+    "r2_cut_count": 41
+  }
 }

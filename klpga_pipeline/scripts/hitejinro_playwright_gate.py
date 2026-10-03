@@ -37,7 +37,7 @@ FORBIDDEN_LABELS = ("R2 컷 통과", "본선 진출")
 # wording -- "R2 종료 · R1 컷 확정 · CUT · WD", "3R 진출 {n}명", etc.)
 # must never reappear; the table starts directly under the <h2> title.
 FORBIDDEN_MARKUP = ("cut-line-banner",)
-REQUIRED_SECTION_ORDER = ("R2 미출전", "WD · ")
+REQUIRED_SECTION_ORDER = ("R2 미출전", "R3 미출전", "WD · ")
 
 
 def _check_viewport(browser, name: str, viewport: dict) -> list[str]:

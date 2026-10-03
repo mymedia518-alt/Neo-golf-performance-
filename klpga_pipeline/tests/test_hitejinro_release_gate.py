@@ -49,20 +49,77 @@ def test_r1_cut_threshold_is_grounded_in_real_course_par():
 
 
 @requires_r2_leaderboard_evidence
-def test_no_silent_36_hole_cumulative_cut():
-    """Bug class this guards: silently introducing a second, 36-hole-
-    style cut (like Hana's real, different rule) without new evidence
-    ever proving one exists for THIS tournament. While this board's
-    final_round is still 2, zero real R2_CUT records must exist --
-    R2_CUT can only ever be produced once round-3 evidence is parsed
-    (hitejinro_round_pipeline._status_state's own round_number gate)."""
+def test_r2_cut_is_always_traceable_to_a_score_boundary_verified_field_list():
+    """Bug class this guards: a real R2_CUT population appearing with
+    no real, checkable provenance behind it -- silently hand-edited,
+    or derived by some other (e.g. Set Difference against R3 RESULTS,
+    explicitly rejected 2026-10-02) method. 2026-10-03: this
+    tournament's real 41 R2_CUT records ARE legitimate (derived from a
+    real confirmed R3 field list via hitejinro_round_pipeline.
+    derive_r2_cut_from_confirmed_r3_field, which refuses to run at all
+    if the field's own score boundary isn't clean -- see
+    test_derive_r2_cut_refuses_a_split_tie_group below for that
+    safety check's own regression guard) -- so this test only requires
+    that whenever a real R2_CUT record exists, the board's own
+    r2_cut_derivation metadata names that real method, never silence
+    or a different one."""
     from klpga.tournament_context import CONTENT_DIR
 
     board = json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
-    if board["final_round"] != 2:
-        pytest.skip("final_round has advanced past 2 -- this guard is R2-state-specific")
     r2_cut = [r for r in board["records"] if r["status"] == "R2_CUT"]
-    assert r2_cut == [], f"unexpected R2_CUT record(s) while final_round==2: {r2_cut}"
+    if not r2_cut:
+        pytest.skip("no real R2_CUT records in this checkout yet")
+    derivation = board.get("r2_cut_derivation")
+    assert derivation is not None, "real R2_CUT records exist but board carries no r2_cut_derivation provenance"
+    assert derivation["method"].startswith("confirmed_r3_field_list"), (
+        f"R2_CUT must be derived from a confirmed field list, never Set Difference against results: {derivation['method']!r}"
+    )
+    assert derivation["r2_cut_count"] == len(r2_cut)
+
+
+def test_derive_r2_cut_refuses_a_split_tie_group():
+    """Regression guard for derive_r2_cut_from_confirmed_r3_field's own
+    safety check: a confirmed-field capture that splits a tied
+    score_to_par group across present/absent is the signature of an
+    arbitrary technical truncation (e.g. a partial AJAX load cutting a
+    tie group in half), not a real score-based cut -- the function
+    must refuse (raise), never silently derive R2_CUT from it. Proven
+    with a synthetic board + synthetic field HTML, not real data (this
+    exact failure mode has never occurred in this tournament's real
+    evidence -- see the test above for the real, clean case)."""
+    import tempfile
+    from pathlib import Path as _Path
+    from klpga.neo_win import hitejinro_round_pipeline as rp
+
+    synthetic_board = {
+        "schema_version": "hitejinro_round_leaderboard_v2", "game_code": "2026100005", "final_round": 2,
+        "records": [
+            {"player_id": "1", "player_name": "A", "status": None, "score_to_par": 5, "finish_position": "1", "finish_position_numeric": 1},
+            {"player_id": "2", "player_name": "B", "status": None, "score_to_par": 5, "finish_position": "1", "finish_position_numeric": 1},
+            {"player_id": "3", "player_name": "C", "status": None, "score_to_par": 6, "finish_position": "3", "finish_position_numeric": 3},
+        ],
+    }
+    # Synthetic R3 field HTML: player 1 present, player 2 (same tied
+    # score_to_par==5 as player 1) absent -- a split tie group.
+    synthetic_field_html = (
+        '<li id="favoritItem_1" data-rank="1" data-name="A" data-totunderpar="5" data-inghole="1" '
+        'data-todayunderpar="0" data-score="" data-round1score="70" data-round2score="75" '
+        'data-round3score="0" data-round4score="" data-updown="0">'
+    )
+    with tempfile.TemporaryDirectory() as td:
+        tmp = _Path(td)
+        board_path = tmp / "LEADERBOARD.json"
+        board_path.write_text(json.dumps(synthetic_board), encoding="utf-8")
+        field_path = tmp / "field.html"
+        field_path.write_text(synthetic_field_html, encoding="utf-8")
+
+        original_path = rp.LEADERBOARD_PATH
+        rp.LEADERBOARD_PATH = board_path
+        try:
+            with pytest.raises(AssertionError, match="splits a tied score_to_par group"):
+                rp.derive_r2_cut_from_confirmed_r3_field(raw_path=field_path)
+        finally:
+            rp.LEADERBOARD_PATH = original_path
 
 
 def test_set_difference_inference_never_comes_back():
@@ -86,28 +143,39 @@ def test_home_mirrors_the_current_stage_page_exactly():
     """Bug class this guards: HOME silently drifting out of sync with
     the real current-stage page (confirmed this session via byte-
     identical rebuilds after every mission) -- HOME's own <main>...
-    </main> must be byte-identical to the real current stage page's
-    (docs/index.html mirrors docs/.../r2/index.html verbatim, per
-    scripts/192_promote_hitejinro_home.py's own real mechanism)."""
+    </main> must be byte-identical to whichever stage page is actually
+    current (docs/index.html mirrors docs/.../{stage}/index.html
+    verbatim, per scripts/192_promote_hitejinro_home.py's own real
+    mechanism). 2026-10-03: generalized off a hardcoded "R2" check --
+    the current stage advanced to R3 the same day, and this guard must
+    keep working for whichever stage is real next, never silently
+    skip forever once R2 stops being current."""
+    import re as _re
     from pathlib import Path
 
     repo_root = Path(__file__).resolve().parents[2]
     home_path = repo_root / "docs" / "index.html"
-    r2_path = repo_root / "docs" / "tournaments" / "2026" / "2026100005" / "r2" / "index.html"
-    if not (home_path.is_file() and r2_path.is_file()):
-        pytest.skip("docs/index.html or the real R2 page isn't built in this checkout")
+    if not home_path.is_file():
+        pytest.skip("docs/index.html isn't built in this checkout")
+    home_html = home_path.read_text(encoding="utf-8")
 
     def _main(html: str) -> str:
         assert "<main>" in html and "</main>" in html
         return "<main>" + html.split("<main>", 1)[1].rsplit("</main>", 1)[0] + "</main>"
 
-    home_html = home_path.read_text(encoding="utf-8")
-    r2_html = r2_path.read_text(encoding="utf-8")
-    # HOME is only a mirror of R2 while R2 genuinely is the current
-    # stage (confirmed via the real nav: R2 marked aria-current).
-    if "aria-current='page'>R2</a>" not in home_html:
-        pytest.skip("R2 is not the current stage mirrored onto HOME in this checkout")
-    assert _main(home_html) == _main(r2_html), "HOME's <main> has drifted from the real current stage page's <main>"
+    # The real current stage is whichever stage-nav tab HOME's mirrored
+    # <main> itself marks aria-current (PRE/R1/R2/R3/FR) -- read from
+    # HOME's own content, never assumed.
+    m = _re.search(r"aria-current='page'>([A-Z0-9]+)</a>", home_html)
+    if m is None:
+        pytest.skip("HOME's mirrored <main> carries no stage-nav aria-current marker in this checkout")
+    stage_key = {"PRE": "pre", "R1": "r1", "R2": "r2", "R3": "r3", "FR": "fr"}.get(m.group(1))
+    assert stage_key is not None, f"unrecognized stage-nav label {m.group(1)!r}"
+    stage_path = repo_root / "docs" / "tournaments" / "2026" / "2026100005" / stage_key / "index.html"
+    if not stage_path.is_file():
+        pytest.skip(f"the real {stage_key} page isn't built in this checkout")
+    stage_html = stage_path.read_text(encoding="utf-8")
+    assert _main(home_html) == _main(stage_html), f"HOME's <main> has drifted from the real current stage ({stage_key}) page's <main>"
 
 
 def test_css_wrap_fix_rule_is_present():
