@@ -1,0 +1,1450 @@
+<!DOCTYPE html><html lang="ko" style="--vh: 7.2px;"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="블루헤런, 골프장">
+    <meta name="description" content="블루헤런에 오신것을 환영합니다. 실시간예약 및 안내 제공">
+    <title>블루헤런</title>
+    <meta property="og:type" content="website"> 
+	<meta property="og:title" content="블루헤런">
+	<meta property="og:description" content="블루헤런에 오신것을 환영합니다. 실시간예약 및 안내 제공">
+	<meta property="og:image" content="https://www.blueheron.co.kr/static/pc/images/common/ogimage.png">
+	<meta property="og:url" content="https://www.blueheron.co.kr">
+	<!-- custom favicon 설정 -->
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="/static/pc/origin/assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="/static/pc/origin/assets/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/pc/origin/assets/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/pc/origin/assets/images/apple-touch-icon-114x114.png">
+
+    <script type="text/javascript" src="/static/common/libs/jquery-1.12.4.min.js" charset="UTF-8"></script>
+    <!-- ui -->
+    <script type="text/javascript" src="/static/common_control/js/ui.js?ver=20260519" data-ver="20260519"></script><link rel="stylesheet" href="/static/common_control/css/type_1.css?ver=20260519">
+    <!-- css -->
+    <script type="text/javascript" src="/static/pc/js/include_css.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><link rel="stylesheet" href="/static/pc/css/cm_ui.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/cm_default.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/custom/cm_default.css?ver=20260519"><link rel="stylesheet" href="/static/common/css/type_1.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/custom/cm_sub.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/custom/cm_reservation.css?ver=20260519">
+    <!-- js -->
+    <script type="text/javascript" src="/static/pc/js/include_js.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/jquery.min.js" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/jquery-ui.js" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/librarys.min.js" charset="UTF-8"></script><script type="text/javascript" src="/static/pc/js/libs/loading-bar.min.js"></script><script type="text/javascript" src="/static/pc/js/ui.custom.js?ver=20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/pc/js/ui.common.js?ver=20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/common/js/common.js?ver=20260519"></script><script type="text/javascript" src="/static/pc/js/libs/swiper.jquery.min.js" charset="UTF-8"></script><script src="/static/pc/js/custom/sub.js?ver=20260519"></script>
+    
+    <script type="text/javascript" src="/static/pc/origin/setting.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><link rel="shortcut icon" href="/static/pc/origin/assets/images/favicon.png"><link rel="apple-touch-icon" href="/static/pc/origin/assets/images/apple-touch-icon.png"><link rel="apple-touch-icon" sizes="72x72" href="/static/pc/origin/assets/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="114x114" href="/static/pc/origin/assets/images/apple-touch-icon-114x114.png"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/OpenSans-Regular.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Light.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Regular.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Bold.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/TitilliumWeb-Light.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/TitilliumWeb-Bold.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/normalize.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/animate.min.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/common.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/sub.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/page.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/daterangepicker.css"><script src="/static/pc/origin/assets/js/jquery-3.3.1.min.js"></script><script src="/static/pc/origin/assets/js/moment.min.js"></script><script src="/static/pc/origin/assets/js/daterangepicker.js"></script><script src="/static/pc/origin/assets/js/common.js"></script><script src="/static/pc/origin/assets/js/active.js"></script><script src="/static/pc/origin/assets/js/link.js"></script><script src="/static/pc/origin/assets/js/sub.js"></script><script src="/static/pc/origin/assets/js/page.js"></script><script async="" src="https://www.googletagmanager.com/gtag/js?id=G-DTWT8SDM7P"></script>
+
+    <script>
+        
+            goSSL();
+        
+
+        //page_type
+	    //ui_custom.page_type.init();
+
+        //--basic Customizing(origin)-s
+        var mPage;
+
+        $(document).ready(function() {
+            //setProtocol();
+
+            initHeader();
+
+            initHeaderListener();
+        });
+
+        function setProtocol() {
+            if (document.location.protocol == 'http:') {
+                var sUrl = document.location.href;
+                sUrl = sUrl.replace('http:', 'https:');
+                sUrl = sUrl.replace('www.domain.co.kr', 'domain.co.kr');
+
+                document.location.href = sUrl;
+            }
+        }
+
+        function initHeader() {
+            mPage = "";
+            var open = "";
+
+            if ((mPage != "" || open == "Y") && "" == "") {
+                $('.loginWrap').slideToggle(400);
+            }
+        }
+
+        function initHeaderListener() {
+            $(".nav li").hover(function() {
+                $(this).children("ul").stop().delay(200).animate({
+                    height: "toggle",
+                    opacity: "toggle"
+                }, 200);
+            });
+
+            var chkId = getCookie("chkSaveId");
+            var id = getCookie("cookieId");
+
+            if (chkId != null && chkId != "") {
+                $("#chkSaveId").attr('checked', true);
+            }
+
+            if (id != null && id != "") {
+                $("#txtHeaderId").val(id);
+            }
+
+            $("#txtHeaderId").keypress(function(event) {
+                if (event.keyCode == 13) {
+                    doLogin();
+                }
+            });
+
+            $("#txtHeaderPw").keypress(function(event) {
+                if (event.keyCode == 13) {
+                    doLogin();
+                }
+            });
+        }
+
+        function doLogin() {
+            var sUrl = "/controller/MemberController.asp";
+            var params = {};
+
+            var id = $("#txtHeaderId").val();
+            var pw = $("#txtHeaderPw").val();
+
+            if (id == "") {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            if (pw == "") {
+                alert("비밀번호를 입력하세요.");
+                return;
+            }
+
+            params["method"] = "doLogin";
+            params["coDiv"] = globals.coDiv;
+            params["id"] = id;
+            params["pw"] = pw;
+
+            mAjax(sUrl, params, "POST", true, function(data) {
+                if (data.resultCode == "0000") {
+                    var chkSaveId = $('input:checkbox[id="chkSaveId"]').is(":checked");
+
+                    if (chkSaveId) {
+                        setCookie("cookieId", $("#txtHeaderId").val(), 365);
+                        setCookie("chkSaveId", true, 365);
+                    } else {
+                        setCookie("cookieId", "", 365);
+                        setCookie("chkSaveId", "", 365);
+                    }
+
+                    if (mPage != "") {
+                        location.href = mPage;
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    alert(data.resultMessage);
+                }
+            });
+        }
+
+        function doLogout() {
+            var sUrl = "/Controller/MemberController.asp";
+            var params = {};
+
+            params["method"] = "doLogout";
+
+            mAjax(sUrl, params, "POST", true, function(data) {
+                if (data.resultCode == "0000") {
+                    alert("로그아웃 되었습니다.");
+                    location.href = "/index.asp"
+                }
+            });
+        }
+
+        function onlyMainMenu(val) {
+            if (val == "1") {
+                $("#onlyMain").show();
+            } else(
+                $("#onlyMain").hide()
+            )
+        }
+        //--basic Customizing(origin)-e
+        
+        
+		$(document).ajaxError(function(event, request, settings, thrownError) {
+			if (request.status == 555) {
+				alert('다른 환경에서 접속되었습니다');
+				location.reload(true);
+				
+			}else if(request.status == 556){
+				alert('로그아웃되었습니다.\n로그인을 다시 해주시기 바랍니다.');
+				location.reload(true);
+				
+			}
+		});
+        
+    </script>
+</head>
+<body class="blueheron_st">
+
+	
+    <div class="lds-ring dp-none"><div></div><div></div><div></div><div></div></div>
+    
+    <div id="wrapper" class="wrapper">
+        <!-- SkipNav -->
+        <div id="skipNav">
+            <a href="#gnb">주요 메뉴 바로가기</a>
+            <a href="#content">컨텐트 바로가기</a>
+        </div>
+        <!-- //SkipNav -->
+        
+        
+        <!-- 
+        <div class="right_area">
+            <a href="#sec0" class="btn right_btn right_menu aside-menu-open full" aria-controls="asideMenu" aria-expanded="false"><span><i class="ico ico-menu white"></i>메뉴</span></a>
+            <a href="/board/notice" class="btn right_btn right_notice"><span><i class="ico ico-notice white"></i>공지사항</span></a>
+            <a href="/reservation/golf" class="btn right_btn right_res"><span><i class="ico ico-res white"></i>실시간예약</span></a>
+        </div>
+ 		-->
+ 		
+        <!-- header -->
+        
+
+
+
+
+
+
+        <!-- Header -->
+		<header>
+			<div class="wrap">
+				<div id="header-navigation">
+					<h1 id="header-navigation-ci"><a href="/">블루헤런</a></h1>
+					<div id="header-navigation-left">
+						<div class="menu">
+							메뉴
+						</div>
+					</div>
+					<!-- 로그인 했을 때(class) : login -->
+					<div id="header-navigation-right" class="">
+						<div class="button">
+							<ul>
+								<li class="hitejinroChampionship" onclick="location.href='/swp/magazine/championship/th25'">
+									<div class="icon"></div>
+									<div class="text">
+										Hitejinro<br>
+										Championship
+									</div>
+								</li>
+								<li class="jobOpening" onclick="location.href='/board/jobInfo'">
+									<div class="icon"></div>
+									<div class="text">
+										Job<br>
+										Opening
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="course">
+							코스
+						</div>
+						<div class="reservation" onclick="location.href='/reservation/golf'">
+							예약
+						</div>
+						
+							
+							
+								<div class="login" onclick="location.href='/member/login'">
+									로그인
+								</div>
+							
+						
+						
+					</div>
+				</div>
+				
+			</div>
+		</header>
+
+		<div id="menu" class="animated fadeIn">
+			<div class="wrap">
+				<div id="menu-close">
+					닫기
+				</div>
+				<div class="inner_container">
+					<div class="outer">
+						<div class="inner">
+							<h2 id="menu-ci">
+								블루헤런
+							</h2>
+							<div id="menu-member">
+								<ul>
+									
+										
+										
+											<li onclick="location.href='/member/login'">
+												로그인
+											</li>
+											<li onclick="location.href='/member/joinStep1'">
+												회원가입
+											</li>
+											<li onclick="location.href='/member/findIdPw'">
+												아이디/비밀번호 찾기
+											</li>
+										
+									
+								</ul>
+							</div>
+							<div id="menu-navigation">
+								<ul class="main">
+									<li class="mainItem about">
+										<a href="/swp/about/greetings">
+											<div class="mainText">
+												About
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem greetings">
+												<a href="/swp/about/greetings">
+													<div class="subText">
+														인사말
+													</div>
+												</a>
+											</li>
+											<li class="subItem overview">
+												<a href="/swp/about/overview">
+													<div class="subText">
+														클럽개요
+													</div>
+												</a>
+											</li>
+											<li class="subItem amenities">
+												<a href="/swp/about/amenities">
+													<div class="subText">
+														부대시설
+													</div>
+												</a>
+											</li>
+											<li class="subItem way">
+												<a href="/swp/about/way">
+													<div class="subText">
+														오시는길
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem course">
+										<a href="/swp/course/outline">
+											<div class="mainText">
+												Course
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem outline">
+												<a href="/swp/course/outline">
+													<div class="subText">
+														코스개요
+													</div>
+												</a>
+											</li>
+											<li class="subItem information">
+												<a href="/swp/course/west/hole01">
+													<div class="subText">
+														코스안내
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem reservation">
+										<a href="/reservation/golf">
+											<div class="mainText">
+												reservation
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem guide">
+												<a href="/swp/reservations/guide">
+													<div class="subText">
+														예약방법
+													</div>
+												</a>
+											</li>
+											<li class="subItem normal">
+												<a href="/reservation/golf">
+													<div class="subText">
+														실시간예약
+													</div>
+												</a>
+											</li>
+											<li class="subItem weekend">
+												<a href="/reservation/resLot">
+													<div class="subText">
+														주말추첨신청
+													</div>
+												</a>
+											</li>
+											<li class="subItem status">
+												<a href="/reservation/resList">
+													<div class="subText">
+														예약확인 및 변경/취소
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem information">
+										<a href="/board/notice">
+											<div class="mainText">
+												Info
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem notice">
+												<a href="/board/notice">
+													<div class="subText">
+														공지사항
+													</div>
+												</a>
+											</li>
+											<li class="subItem use">
+												<a href="/swp/information/use/use">
+													<div class="subText">
+														이용안내
+													</div>
+												</a>
+											</li>
+											<li class="subItem gallery">
+												<a href="/board/photo">
+													<div class="subText">
+														포토갤러리
+													</div>
+												</a>
+											</li>
+											<li class="subItem reference">
+												<a href="/board/pds">
+													<div class="subText">
+														자료실
+													</div>
+												</a>
+											</li>
+											<!--
+											<li class="subItem qa">
+											  <div class="subText">
+												Q&amp;A
+											  </div>
+											</li>
+											-->
+										</ul>
+									</li>
+									<li class="mainItem magazine">
+										<a href="/swp/magazine/championship/th25">
+											<div class="mainText">
+												Magazine
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem championship">
+												<a href="/swp/magazine/championship/th25">
+													<div class="subText">
+														하이트진로 챔피언십
+													</div>
+												</a>
+											</li>
+											<li class="subItem affiliate">
+												<a href="/swp/magazine/affiliate">
+													<div class="subText">
+														하이트진로 소속프로
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem recruit">
+										<a href="/swp/recruit/procedure">
+											<div class="mainText">
+												Recruit
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem procedure">
+												<a href="/swp/recruit/procedure">
+													<div class="subText">
+														채용절차
+													</div>
+												</a>
+											</li>
+											<li class="subItem careers">
+												<a href="/board/jobInfo">
+													<div class="subText">
+														채용공고
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="course" class="animated fadeIn">
+			<div class="wrap">
+				<div id="course-close">
+					닫기
+				</div>
+				<div class="inner_container">
+					<div class="outer">
+						<div class="inner">
+							<h2 id="course-title">
+								<div class="title">
+									코스소개
+								</div>
+								<div class="content">
+									전략성이 풍부한 블루헤런의 코스를 소개합니다.
+								</div>
+							</h2>
+							<div id="course-map">
+								<div id="course-map-hole">
+									<div class="west">
+										<ul>
+											<li class="hole01">
+												1
+											</li>
+											<li class="hole02">
+												2
+											</li>
+											<li class="hole03">
+												3
+											</li>
+											<li class="hole04">
+												4
+											</li>
+											<li class="hole05">
+												5
+											</li>
+											<li class="hole06">
+												6
+											</li>
+											<li class="hole07">
+												7
+											</li>
+											<li class="hole08">
+												8
+											</li>
+											<li class="hole09">
+												9
+											</li>
+										</ul>
+									</div>
+									<div class="east">
+										<ul>
+											<li class="hole01">
+												1
+											</li>
+											<li class="hole02">
+												2
+											</li>
+											<li class="hole03">
+												3
+											</li>
+											<li class="hole04">
+												4
+											</li>
+											<li class="hole05">
+												5
+											</li>
+											<li class="hole06">
+												6
+											</li>
+											<li class="hole07">
+												7
+											</li>
+											<li class="hole08">
+												8
+											</li>
+											<li class="hole09">
+												9
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div id="course-map-title">
+									<div class="west">
+										<div class="box">
+											<div class="title">
+												West Course
+											</div>
+											<div class="content">
+												<ul>
+													<li>
+														<div class="number">
+															36
+														</div>
+														<div class="name">
+															Par
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															9
+														</div>
+														<div class="name">
+															Hole
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															3,499
+														</div>
+														<div class="name">
+															Yard
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="hole">
+											<select id="course-map-title-west-hole" name="course-map-title-west-hole">
+												<option value="null" disabled="disabled" selected="selected">
+													West Course
+												</option>
+												<option value="hole01">
+													Hole 1
+												</option>
+												<option value="hole02">
+													Hole 2
+												</option>
+												<option value="hole03">
+													Hole 3
+												</option>
+												<option value="hole04">
+													Hole 4
+												</option>
+												<option value="hole05">
+													Hole 5
+												</option>
+												<option value="hole06">
+													Hole 6
+												</option>
+												<option value="hole07">
+													Hole 7
+												</option>
+												<option value="hole08">
+													Hole 8
+												</option>
+												<option value="hole09">
+													Hole 9
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="east">
+										<div class="box">
+											<div class="title">
+												East Course
+											</div>
+											<div class="content">
+												<ul>
+													<li>
+														<div class="number">
+															36
+														</div>
+														<div class="name">
+															Par
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															9
+														</div>
+														<div class="name">
+															Hole
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															3,541
+														</div>
+														<div class="name">
+															Yard
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="hole">
+											<select id="course-map-title-east-hole" name="course-map-title-east-hole">
+												<option value="null" disabled="disabled" selected="selected">
+													East Course
+												</option>
+												<option value="hole01">
+													Hole 1
+												</option>
+												<option value="hole02">
+													Hole 2
+												</option>
+												<option value="hole03">
+													Hole 3
+												</option>
+												<option value="hole04">
+													Hole 4
+												</option>
+												<option value="hole05">
+													Hole 5
+												</option>
+												<option value="hole06">
+													Hole 6
+												</option>
+												<option value="hole07">
+													Hole 7
+												</option>
+												<option value="hole08">
+													Hole 8
+												</option>
+												<option value="hole09">
+													Hole 9
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!--// header -->
+
+        <!-- container -->
+        
+
+
+
+
+
+
+<!-- Container -->
+<div class="container">
+    <!-- Content -->
+    <div id="content" class="content">
+        
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+		
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+		
+		
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+		 
+	
+ 
+
+<div class="content-header">
+	<span class="bg course bgLoad-01"></span>
+	<div class="tit-wrap">
+        <em class="tit_s">COURSE</em>
+    </div>
+
+    <div id="main-navigation">
+        <div class="wrap">
+            <div class="inner_container">
+    
+                <div id="main-navigation-home">
+                    홈으로
+                </div>
+                <div id="main-navigation-depth01">
+                    <div class="p-select p-pc">
+                        <!-- 활성(Class) : i-active -->
+                        <div id="depth1_menu" class="ui-select">
+                            <form id="depth1_menu_form">
+                            <div id="depth1_menu_open" class="i-value">
+                                <input type="text" name="depth1_menu_name" value="About" readonly="">
+                            </div>
+                            <div class="i-list">
+                                <div class="i-wrap">
+                                    <ul class="i-body">
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="about" data-url="/swp/about/greetings">
+                                                <div class="i-item">
+                                                    About
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="course" data-url="/swp/course/outline">
+                                                <div class="i-item">
+                                                    Course
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="reservations" data-url="/reservation/golf">
+                                                <div class="i-item">
+                                                    Reservation
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="information" data-url="/board/notice">
+                                                <div class="i-item">
+                                                    Information
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="magazine" data-url="/swp/magazine/championship/th22">
+                                                <div class="i-item">
+                                                    Magazine
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="recruit" data-url="/swp/recruit/procedure">
+                                                <div class="i-item">
+                                                    Recruit
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="terms" data-url="/swp/terms/use">
+                                                <div class="i-item">
+                                                    Terms
+                                                </div>
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label>
+                                                <input type="radio" name="depth1" value="member" data-url="/myContents/myInfo">
+                                                <div class="i-item">
+                                                    Member
+                                                </div>
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                            
+                <div id="main-navigation-depth02">
+                    <div class="p-select p-pc">
+                        <!-- 활성(Class) : i-active -->
+                        <div id="depth2_menu" class="ui-select">
+                            <form id="depth2_menu_form">
+                            <div id="depth2_menu_open" class="i-value">
+                                <input type="text" name="depth2_menu_name" readonly="">
+                            </div>
+                            <div class="i-list">
+                                <div class="i-wrap">
+                                    <ul class="i-body">
+                                        
+                                        	
+												
+												
+												
+													<li>
+		                                                <label>
+		                                                    <input type="radio" name="depth2" value="코스개요" data-pages="/swp/course/outline" data-title="코스개요">
+		                                                    <div class="i-item">
+		                                                        코스개요
+		                                                    </div>
+		                                                </label>
+		                                            </li>
+												
+											
+                                            
+                                        
+                                        	
+												
+												
+												
+													<li>
+		                                                <label>
+		                                                    <input type="radio" name="depth2" value="코스안내" data-pages="/swp/course/west/hole01" data-title="코스안내">
+		                                                    <div class="i-item">
+		                                                        코스안내
+		                                                    </div>
+		                                                </label>
+		                                            </li>
+												
+											
+                                            
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    menuCode_set('course');
+</script>
+        
+        <div class="content-body west1" id="course_hole">
+            <div id="main-body">
+                <h3 id="main-body-title">
+                    <div class="inner_container">
+                        <div class="title">
+                            코스안내
+                        </div>
+                        <div class="content">
+                            블루헤런의 코스를 안내해드립니다.
+                        </div>
+                    </div>
+                </h3>
+                <h4 id="main-body-depth03">
+                    <div class="inner_container">
+                        <div class="web dep3">
+                            <ul>
+                                <li class="west active" data-menuindex="0">
+                                West
+                                </li>
+                                <li class="east" data-menuindex="1">
+                                    <a href="/swp/course/east/hole01">East</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </h4>
+                <h5 id="main-body-hole">
+                    <div class="inner_container">
+                        <div class="web">
+                            <ul class="west">
+                                <li class="hole01 active">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole01">1H</a>
+                                    </div>
+                                </li>
+                                <li class="hole02">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole02">2H</a>
+                                    </div>
+                                </li>
+                                <li class="hole03">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole03">3H</a>
+                                    </div>
+                                </li>
+                                <li class="hole04">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole04">4H</a>
+                                    </div>
+                                </li>
+                                <li class="hole05">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole05">5H</a>
+                                    </div>
+                                </li>
+                                <li class="hole06">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole06">6H</a>
+                                    </div>
+                                </li>
+                                <li class="hole07">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole07">7H</a>
+                                    </div>
+                                </li>
+                                <li class="hole08">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole08">8H</a>
+                                    </div>
+                                </li>
+                                <li class="hole09">
+                                    <div class="item">
+                                        <a href="/swp/course/west/hole09">9H</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mobile west">
+                            <select id="main-body-hole-select" name="main-body-hole-select">
+                                <option value="hole01">
+                                    Hole 1
+                                </option>
+                                <option value="hole02">
+                                    Hole 2
+                                </option>
+                                <option value="hole03">
+                                    Hole 3
+                                </option>
+                                <option value="hole04">
+                                    Hole 4
+                                </option>
+                                <option value="hole05">
+                                    Hole 5
+                                </option>
+                                <option value="hole06">
+                                    Hole 6
+                                </option>
+                                <option value="hole07">
+                                    Hole 7
+                                </option>
+                                <option value="hole08">
+                                    Hole 8
+                                </option>
+                                <option value="hole09">
+                                    Hole 9
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </h5>
+                <div id="main-body-content">
+                    <div id="main-body-content-information">
+                        <div class="inner_container">
+                            <div class="left">
+                                <div class="title">
+                                    West Hole 1
+                                </div>
+                                <div class="caption">
+                                    <ul>
+                                        <li>
+                                            <div class="number">
+                                            5
+                                            </div>
+                                            <div class="name">
+                                            Par
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="number">
+                                            15
+                                            </div>
+                                            <div class="name">
+                                            Hdcp
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="number">
+                                            565
+                                            </div>
+                                            <div class="name">
+                                            Yard
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="table">
+                                    <table>
+                                        <colgroup>
+                                            <col>
+                                            <col>
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                Blue
+                                            </th>
+                                            <th>
+                                                White
+                                            </th>
+                                            <th>
+                                                Gold
+                                            </th>
+                                            <th>
+                                                Red
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    565YD
+                                                </td>
+                                                <td>
+                                                    545YD
+                                                </td>
+                                                <td>
+                                                    533YD
+                                                </td>
+                                                <td>
+                                                    449YD
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="title">
+                                    Pro Tip
+                                </div>
+                                <div class="tip">
+                                    티에서 보면 우측의 원시림의 자연풍치가 코스 허리를 휘어질 듯 길게 조성되어 티샷 후 페어웨이 우측 랜딩지역에 있는 경사면을 잘 이용 할 수 있다. 세컨샷은 100YD 지점 좌,우측의 벙커를 피하여 공략하는 것이 좋으나 장타자들은 그린 80YD 앞 우측 벙커를 넘겨치면 거리에 이득을 볼 수 있다.
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="visual">
+                                코스맵
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="main-body-content-video">
+                        <div class="inner_container">
+                            <div class="title">
+                                코스영상
+                            </div>
+                            <div class="content">
+                                <iframe src="https://www.youtube.com/embed/sKpmk0h4mWk" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen=""></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <!-- //Content -->
+</div>
+<!-- //Container -->
+        <!--// container-->
+
+        <!-- footer -->
+        
+
+
+
+
+
+
+
+<!-- Footer -->
+
+
+
+
+
+
+
+
+<footer>
+    <div class="wrap">
+        <div id="footer-navigation">
+            <div class="container">
+                <div id="footer-navigation-terms">
+                    <ul>
+                        <li class="use">
+                            <a href="/swp/terms/use">이용약관</a>
+                        </li>
+                        <li class="privacy">
+                            <a href="/swp/terms/privacy">개인정보처리방침</a>
+                        </li>
+                        <li class="video">
+                            <a href="/swp/terms/video">영상정보기기 운영·관리방침</a>
+                        </li>
+                        <li class="way">
+                            <a href="/swp/about/way">오시는길</a>
+                        </li>
+                        <li class="biz">
+                            <a href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1268164682" target="_blank">
+                                사업자정보확인
+                                <i></i>
+                            </a>
+                        </li>
+                        <li class="biz" style="margin-left: 15px;">
+                            <a href="https://ethics.hitejinro.com/main/main.asp" target="_blank">
+                                윤리경영
+                                <i></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="footer-navigation-familySite">
+                    <select id="footer-navigation-familySite-select" name="footer-navigation-familySite-select">
+                        <option value="null" disabled="disabled" selected="selected">
+                            패밀리사이트
+                        </option>
+                        <option value="group">
+                            하이트진로
+                        </option>
+                        <option value="holdings">
+                            하이트진로 홀딩스
+                        </option>
+                        <option value="america">
+                            하이트진로 아메리카
+                        </option>
+                        <option value="beverage">
+                            하이트진로 음료㈜
+                        </option>
+                        <option value="japan">
+                            하이트진로 재팬
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="footer-information">
+            <address class="information">
+                <div class="inc">
+                    블루헤런 주식회사
+                </div>
+                <div class="info">
+                    대표이사 권오삼 / 경기도 여주시 대신면 고달사로 67
+                </div>
+                <div class="contact">
+                    대표전화 031-880-0700 / 이메일 blueherongc@hanmail.net
+                </div>
+                <div class="biz">
+                    사업자등록번호 126-81-64682 / 통신판매업신고 2009-경기여주-0049
+                </div>
+            </address>
+            <div class="copyright">
+                Copyright BLUEHERON, Inc. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="dimmer"></div>
+
+<script>
+$(function(){
+    /*document.getElementById("terms_in-01").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-03.html"></object>';
+    document.getElementById("terms_in-02").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-01.html"></object>';
+    document.getElementById("terms_in-03").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-02.html"></object>';*/
+    //document.getElementById("terms_in-04").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-05.html"></object>';
+    $('#terms_in-01').load('/static/pc/agreeform/agreeform-01.html', function() {});
+    $('#terms_in-02').load('/static/pc/agreeform/agreeform-02.html', function() {});
+});
+</script>
+        <!--// footer -->
+    
+    </div>
+	<div id="ie_chk" class="ie_chk_area dp-none">
+		<button type="button" onclick="javascript:popHide('ie_chk')" class="btn-close"><span class="blind">현재창 닫기</span></button>
+		<div class="con">
+			<p class="tit">
+				<img src="/static/pc/images/common/ico_ie.png" alt="ie">
+				본사이트는 <strong>Internet Explorer 11</strong>버전<br>에 <strong class="color-01">최적화</strong> 되어 있습니다.
+			</p>
+			<span>
+				<p class="btxt">‘Explorer 11이하’ 에서는 사용이 원활하지 않을 수 있습니다.</p>
+				<p class="btxt">Internet Explorer 11은 2022년 6월 15일부터 사용 및 지원이 중지됩니다. Microsoft Edge 사용을 권장합니다.</p>
+				<p class="txt">Explorer를 최신 버전으로 업데이트 하시거나, <br><strong class="color-01">Chrome, 네이버 Whale</strong> 등의 브라우저를 이용해 주시기 바랍니다.</p>
+				<a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank" title="새창열림" class="btn-upgrade">지금 업그레이드</a>
+				<p class="chk-uclose"><input type="checkbox" name="ie_chk_close" id="ie_chk_close" onclick="popHide('ie_chk')"><label for="ie_chk_close">일주일간 표시 안하기</label></p>
+			</span>			
+		</div>
+	</div>
+	<script type="text/javascript">
+	//익스플로러 중지 안내 활성화
+	var agent = navigator.userAgent.toLowerCase();
+	
+	function ie_setCookie(name, value, days) {
+        if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+        } else {
+               var expires = "";
+        }
+        
+        document.cookie = name + "=" + value + expires + "; path=/";
+	}
+
+	 
+	//일주일간 표시 안하기
+	function ie_getCookie(name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        
+        for (i = 0; i < ARRcookies.length; i++) {     
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            
+            x = x.replace(/^\s+|\s+$/g, "");
+
+            if (x == name) {
+                    return unescape(y);
+            }
+        }
+	}
+	
+	//ie_chk 레이어팝업 닫기
+	function popHide(pop_id){
+		//document.getElementById(pop_id).style.display = "none";
+		$("#"+pop_id).hide(1000);
+		ie_setCookie('ie_chk_close', 'close', 7); //7일 후 만료
+	}
+
+	$(window).ready(function(){ 
+        var ie_Pchk = ie_getCookie('ie_chk_close');
+        //console.log(ie_Pchk);
+        if( ie_Pchk == 'close'){
+        	$("#"+pop_id).hide(1000);
+        }else{
+            if((navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)){
+    			$('#ie_chk').removeClass('dp-none');
+            }
+    	}
+    });
+    </script>
+
+</body></html>
