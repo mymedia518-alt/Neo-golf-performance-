@@ -1,0 +1,101 @@
+name: "Verify Shot Tracker before full-field expansion (on-demand, one-off)"
+
+# Manually dispatched only. Runs neo_klpga_shot_source/verify_before_expansion.py
+# for real against klpga.co.kr: (1) cross-checks shotTrackerList's row
+# count for one hole against the REAL official per-hole score shown on
+# the player-detail page's own scorecard, and (2) cross-validates
+# getGroupShotTracker against getShotTracker for the same group/hole,
+# field by field. Full-field expansion is gated on BOTH passing.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      player_code:
+        default: "9115"
+      round:
+        default: "4"
+      hole:
+        default: "18"
+      official_par:
+        description: "Real official par for this hole (from the site's own scorecard)"
+        default: "5"
+      official_strokes:
+        description: "Real official strokes for this player/round/hole (from the site's own scorecard)"
+        default: "5"
+      group_no:
+        description: "Real groupNo for this player/round (from confirmed evidence)"
+        default: "21"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run verify_before_expansion.py (real network)
+        id: verify
+        run: |
+          set +e
+          python verify_before_expansion.py \
+            --game "${{ inputs.game_code }}" --player "${{ inputs.player_code }}" \
+            --round "${{ inputs.round }}" --hole "${{ inputs.hole }}" \
+            --official-par "${{ inputs.official_par }}" --official-strokes "${{ inputs.official_strokes }}" \
+            --group-no "${{ inputs.group_no }}" --cookie "${{ inputs.cookie }}" \
+            --out verify_result.json
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Shot Tracker pre-expansion verification"
+            if [ -f verify_result.json ]; then
+              echo '```json'
+              cat verify_result.json
+              echo '```'
+            else
+              echo "verify_before_expansion.py did not produce output."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish verify_result.json to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-verify-bot"
+          git config --global user.email "neo-shot-tracker-verify-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-verify-before-expansion"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/verify_result.json"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -f "$SRC" ] && cp "$SRC" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Pre-expansion verification output (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
+
+      - name: Fail the job if verification errored
+        if: ${{ steps.verify.outputs.exit_code != '0' }}
+        run: |
+          echo "verify_before_expansion.py exited with code ${{ steps.verify.outputs.exit_code }}."
+          exit 1
