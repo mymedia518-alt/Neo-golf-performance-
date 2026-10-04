@@ -1,0 +1,297 @@
+{
+  "status": "FR_FINAL",
+  "event_summary": {
+    "tournament_name": "제26회 하이트진로 챔피언십",
+    "start_date": "20261001",
+    "end_date": "20261004",
+    "winner_name": "유해란",
+    "winner_score_to_par": -4,
+    "winner_rounds": [
+      73,
+      69,
+      73,
+      69
+    ],
+    "field_size": 61
+  },
+  "leaderboard_top10": [
+    {
+      "rank": "1",
+      "player_name": "유해란",
+      "score_to_par": -4,
+      "rounds": [
+        73,
+        69,
+        73,
+        69
+      ]
+    },
+    {
+      "rank": "2",
+      "player_name": "김민주",
+      "score_to_par": 0,
+      "rounds": [
+        73,
+        73,
+        72,
+        70
+      ]
+    },
+    {
+      "rank": "2",
+      "player_name": "김민솔",
+      "score_to_par": 0,
+      "rounds": [
+        70,
+        70,
+        77,
+        71
+      ]
+    },
+    {
+      "rank": "4",
+      "player_name": "이지현3",
+      "score_to_par": 1,
+      "rounds": [
+        72,
+        79,
+        68,
+        70
+      ]
+    },
+    {
+      "rank": "5",
+      "player_name": "이다연",
+      "score_to_par": 2,
+      "rounds": [
+        72,
+        75,
+        74,
+        69
+      ]
+    },
+    {
+      "rank": "5",
+      "player_name": "최예본",
+      "score_to_par": 2,
+      "rounds": [
+        75,
+        73,
+        72,
+        70
+      ]
+    },
+    {
+      "rank": "5",
+      "player_name": "김소정",
+      "score_to_par": 2,
+      "rounds": [
+        74,
+        71,
+        74,
+        71
+      ]
+    },
+    {
+      "rank": "5",
+      "player_name": "서어진",
+      "score_to_par": 2,
+      "rounds": [
+        71,
+        75,
+        71,
+        73
+      ]
+    },
+    {
+      "rank": "9",
+      "player_name": "홍진영2",
+      "score_to_par": 3,
+      "rounds": [
+        74,
+        74,
+        72,
+        71
+      ]
+    },
+    {
+      "rank": "9",
+      "player_name": "이예원",
+      "score_to_par": 3,
+      "rounds": [
+        75,
+        71,
+        71,
+        74
+      ]
+    }
+  ],
+  "neo_prediction_summary": {
+    "winner_hit": true,
+    "winner_neo_win_probability_pct": 37.0,
+    "winner_neo_probability_rank": 1
+  },
+  "sg_highlight": {
+    "winner_name": "유해란",
+    "strongest_category": "approach",
+    "strongest_value": 3.06,
+    "weakest_category": "around_green",
+    "weakest_value": 0.37,
+    "sg_top5": [
+      {
+        "sg_rank": 1,
+        "player_name": "유해란",
+        "total": 4.68,
+        "off_the_tee": 0.81,
+        "approach": 3.06,
+        "around_green": 0.37,
+        "putting": 0.44
+      },
+      {
+        "sg_rank": 2,
+        "player_name": "이지현3",
+        "total": 3.58,
+        "off_the_tee": -0.03,
+        "approach": 1.89,
+        "around_green": 0.42,
+        "putting": 1.3
+      },
+      {
+        "sg_rank": 3,
+        "player_name": "김민솔",
+        "total": 3.49,
+        "off_the_tee": 1.02,
+        "approach": 1.52,
+        "around_green": -0.04,
+        "putting": 1.0
+      },
+      {
+        "sg_rank": 4,
+        "player_name": "김민주",
+        "total": 3.34,
+        "off_the_tee": 0.43,
+        "approach": 2.0,
+        "around_green": 0.25,
+        "putting": 0.66
+      },
+      {
+        "sg_rank": 5,
+        "player_name": "김소정",
+        "total": 3.09,
+        "off_the_tee": 0.55,
+        "approach": 1.83,
+        "around_green": 0.15,
+        "putting": 0.55
+      }
+    ]
+  },
+  "course_highlight": {
+    "hardest_holes": [
+      {
+        "hole": 1,
+        "par": 4,
+        "player_count": 61,
+        "avg_to_par": 0.361,
+        "better_than_par": 3,
+        "worse_than_par": 25,
+        "birdie_rate": 4.9,
+        "bogey_rate": 41.0,
+        "double_bogey_rate": 0.0
+      },
+      {
+        "hole": 15,
+        "par": 4,
+        "player_count": 61,
+        "avg_to_par": 0.328,
+        "better_than_par": 3,
+        "worse_than_par": 20,
+        "birdie_rate": 4.9,
+        "bogey_rate": 27.9,
+        "double_bogey_rate": 4.9
+      },
+      {
+        "hole": 12,
+        "par": 4,
+        "player_count": 61,
+        "avg_to_par": 0.295,
+        "better_than_par": 3,
+        "worse_than_par": 18,
+        "birdie_rate": 4.9,
+        "bogey_rate": 24.6,
+        "double_bogey_rate": 4.9
+      }
+    ],
+    "easiest_holes": [
+      {
+        "hole": 7,
+        "par": 5,
+        "player_count": 61,
+        "avg_to_par": -0.295,
+        "better_than_par": 20,
+        "worse_than_par": 2,
+        "birdie_rate": 32.8,
+        "bogey_rate": 3.3,
+        "double_bogey_rate": 0.0
+      },
+      {
+        "hole": 8,
+        "par": 4,
+        "player_count": 61,
+        "avg_to_par": -0.098,
+        "better_than_par": 11,
+        "worse_than_par": 5,
+        "birdie_rate": 18.0,
+        "bogey_rate": 8.2,
+        "double_bogey_rate": 0.0
+      },
+      {
+        "hole": 5,
+        "par": 3,
+        "player_count": 61,
+        "avg_to_par": -0.066,
+        "better_than_par": 7,
+        "worse_than_par": 3,
+        "birdie_rate": 11.5,
+        "bogey_rate": 4.9,
+        "double_bogey_rate": 0.0
+      }
+    ],
+    "field_avg_to_par_per_round": 1.69
+  },
+  "biggest_movers": {
+    "underestimated_by_neo": [
+      {
+        "player_name": "마서영",
+        "neo_predicted_rank": 56,
+        "actual_rank": 16
+      },
+      {
+        "player_name": "이재윤",
+        "neo_predicted_rank": 59,
+        "actual_rank": 27
+      },
+      {
+        "player_name": "성유진",
+        "neo_predicted_rank": 47,
+        "actual_rank": 27
+      }
+    ],
+    "overestimated_by_neo": [
+      {
+        "player_name": "김새로미",
+        "neo_predicted_rank": 37,
+        "actual_rank": 55
+      },
+      {
+        "player_name": "이승연",
+        "neo_predicted_rank": 13,
+        "actual_rank": 27
+      },
+      {
+        "player_name": "윤수아",
+        "neo_predicted_rank": 24,
+        "actual_rank": 37
+      }
+    ]
+  }
+}

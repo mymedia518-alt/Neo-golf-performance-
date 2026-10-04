@@ -1,0 +1,17 @@
+{
+  "winner": "유해란",
+  "winner_score_to_par": -4,
+  "winner_rounds": [
+    73,
+    69,
+    73,
+    69
+  ],
+  "neo_called_winner": true,
+  "neo_win_probability_pct": 37.0,
+  "top_sg_strength": "approach +3.06",
+  "top_surprise_positive": "마서영 NEO 56위 예측 -> 실제 16위",
+  "top_surprise_negative": "김새로미 NEO 37위 예측 -> 실제 55위",
+  "hardest_hole": "1번 홀 (Par4, 평균 +0.36)",
+  "field_avg_to_par_per_round": 1.69
+}
