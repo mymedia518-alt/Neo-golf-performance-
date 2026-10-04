@@ -1,0 +1,67 @@
+name: "Fetch official final standings (on-demand, one-off)"
+
+# Manually dispatched only. Fetches the REAL round-4 (final) leaderboard
+# HTML and parses official rank + per-round scores for every player --
+# used to select 3 case-study players by OFFICIAL RESULT ONLY, before
+# any derived-metric analysis is looked at.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      final_round:
+        default: "4"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch official standings (real network)
+        run: |
+          python fetch_official_standings.py --game "${{ inputs.game_code }}" \
+            --final-round "${{ inputs.final_round }}" --cookie "${{ inputs.cookie }}" \
+            --out standings.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Official standings -- game_code=${{ inputs.game_code }}, final_round=${{ inputs.final_round }}"
+            [ -f standings.json ] && { echo '```json'; cat standings.json; echo '```'; }
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-standings-bot"
+          git config --global user.email "neo-standings-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-official-standings"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/standings.json"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -f "$SRC" ] && cp "$SRC" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Official standings (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
