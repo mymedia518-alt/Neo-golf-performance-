@@ -120,13 +120,15 @@ def run_round(game_code: str, stage: str) -> dict:
     if pi_batch.errors:
         raise SystemExit(f"Player Intelligence regeneration had errors, refusing to continue: {pi_batch.errors}")
 
-    # FINAL closure policy (2026-10-04): FR's public page also gets the
-    # NEO 검증/SG 분석/코스 분석 sections (build_round_page's own
-    # include_internal splice, same real functions R3's internal-only
-    # report already used) -- this tournament's analogue of KB
-    # 2026090003's real public FINAL page. R1/R2/R3 keep include_internal
-    # =False here, unchanged (2026-10-03 PUBLIC/INTERNAL SPLIT policy).
-    page_path = build_round_page(round_number, include_internal=(stage == "FR"))
+    # PUBLIC/INTERNAL SPLIT (2026-10-03 policy, reaffirmed 2026-10-04
+    # operator instruction: "NEO Verification/SG Analysis/Course
+    # Analysis/Player Intelligence 전부 건드리지 않는다. 필요하면
+    # 숨기고 FR 홈페이지 완성만 한다."): every round's public page,
+    # including FR, stays include_internal=False -- NEO 검증/SG 분석/
+    # 코스 분석 remain internal-only, never spliced into the public
+    # site. Nothing computed by those functions is deleted; only the
+    # public HTML assembly never includes them.
+    page_path = build_round_page(round_number, include_internal=False)
     _run_script("192_promote_hitejinro_home.py")
 
     return {
