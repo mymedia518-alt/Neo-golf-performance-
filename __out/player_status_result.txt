@@ -1,0 +1,62 @@
+
+================================================================================
+ROUND 1: player 9401 -- FOUND (2 occurrence(s))
+================================================================================
+-- occurrence 0 --
+s>
+				</li>
+				
+				<li id="favoritItem_9401" style="display:none;"
+	                     	class="table-drop" 
+	                     	data-rank="999" data-name="마다솜" data-totunderpar="0" data-inghole="10"
+	                     	data-todayunderpar="0" data-score="0" 
+	                     	data-round1score="0" data-round2score="" data-round3score="" data-round4score=""
+	                     	data-updown="999" 
+	                     	
+				>
+					<details>
+						<summary>
+							<div class="table-accordion" id="btnDetail" 
+	                                 	_gameCode="2026100005" _playerCode="9401" _playerName="마다솜" _playerEngName="MA Dasom" 
+	                                 	_groupNo="20" _playerImg="01439.png" _round="1" _hole="10" _level="FU"
+	                                 	_ballModelT
+
+-- occurrence 1 --
+
+					</li>
+				
+					
+					<!-- 예상 CUT -->
+					
+					
+					
+	
+					<li class="table-drop" 
+	                      	data-rank="999" data-name="마다솜" data-totunderpar="999" data-inghole="10"
+	                      	data-todayunderpar="999" data-score="0" 
+	                      	data-round1score="0" data-round2score="" data-round3score="" data-round4score=""
+	                      	data-updown="999"
+	                     	>
+						<details>
+							<summary>
+                         		<div class="table-accordion" id="btnDetail" 
+                         			_gameCode="2026100005" _playerCode="9401" _playerName="마다솜" _playerEngName="MA Dasom" 
+                         			_groupNo="20" _playerImg="01439.png" _round="1" _hole="10" _level="FU"
+                         			_ballModelText="Pro V1"
+
+
+
+================================================================================
+ROUND 2: player 9401 -- ABSENT (0 occurrence(s))
+================================================================================
+(round 2 leaderboard contained 214 data-rank occurrences total -- confirms this round's HTML is real/non-empty)
+
+================================================================================
+ROUND 3: player 9401 -- ABSENT (0 occurrence(s))
+================================================================================
+(round 3 leaderboard contained 122 data-rank occurrences total -- confirms this round's HTML is real/non-empty)
+
+================================================================================
+ROUND 4: player 9401 -- ABSENT (0 occurrence(s))
+================================================================================
+(round 4 leaderboard contained 122 data-rank occurrences total -- confirms this round's HTML is real/non-empty)

@@ -1,0 +1,81 @@
+{
+  "game_code": "2026100005",
+  "cases": [
+    {
+      "round": 1,
+      "hole": 1,
+      "found_group": 1,
+      "groupShotTrackerList_type": "dict",
+      "nested_json_strings": [],
+      "per_player": {
+        "8380": {
+          "player_shots": 5,
+          "group_shots": 5,
+          "mismatches": []
+        },
+        "8277": {
+          "player_shots": 4,
+          "group_shots": 4,
+          "mismatches": []
+        },
+        "9136": {
+          "player_shots": 4,
+          "group_shots": 4,
+          "mismatches": []
+        }
+      },
+      "PASS": true
+    },
+    {
+      "round": 2,
+      "hole": 9,
+      "found_group": 1,
+      "groupShotTrackerList_type": "dict",
+      "nested_json_strings": [],
+      "per_player": {
+        "9820": {
+          "player_shots": 4,
+          "group_shots": 4,
+          "mismatches": []
+        },
+        "9759": {
+          "player_shots": 3,
+          "group_shots": 3,
+          "mismatches": []
+        },
+        "9183": {
+          "player_shots": 3,
+          "group_shots": 3,
+          "mismatches": []
+        }
+      },
+      "PASS": true
+    },
+    {
+      "round": 3,
+      "hole": 5,
+      "found_group": 1,
+      "groupShotTrackerList_type": "dict",
+      "nested_json_strings": [],
+      "per_player": {
+        "8838": {
+          "player_shots": 4,
+          "group_shots": 4,
+          "mismatches": []
+        },
+        "10097": {
+          "player_shots": 3,
+          "group_shots": 3,
+          "mismatches": []
+        },
+        "10790": {
+          "player_shots": 3,
+          "group_shots": 3,
+          "mismatches": []
+        }
+      },
+      "PASS": true
+    }
+  ],
+  "ALL_PASS": true
+}
