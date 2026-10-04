@@ -1,0 +1,77 @@
+name: "Discover KLPGA players for Shot Tracker collection (on-demand, one-off)"
+
+# Manually dispatched only. Runs neo_klpga_shot_source/discover_players.py
+# for real against klpga.co.kr's roundLeaderboard endpoint (the agent
+# sandbox has no direct network path there) to find the real player field
+# and which rounds each player actually appears in, before any full-field
+# Shot Tracker collection is attempted.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "KLPGA gameCode"
+        required: false
+        default: "2026100005"
+      rounds:
+        description: "Rounds to query"
+        required: false
+        default: "1,2,3,4"
+      cookie:
+        description: "Optional Cookie header"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run discover_players.py (real network)
+        run: |
+          python discover_players.py --game "${{ inputs.game_code }}" --rounds "${{ inputs.rounds }}" \
+            --cookie "${{ inputs.cookie }}" --out players.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## KLPGA player discovery -- game_code=${{ inputs.game_code }}"
+            if [ -f players.json ]; then
+              echo '```json'
+              python -c "import json; d=json.load(open('players.json')); print(json.dumps({k:v for k,v in d.items() if k!='players'}, ensure_ascii=False, indent=2))"
+              echo '```'
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish players.json to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-discover-bot"
+          git config --global user.email "neo-shot-tracker-discover-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-players"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/players.json"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -f "$SRC" ] && cp "$SRC" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Player discovery output (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
