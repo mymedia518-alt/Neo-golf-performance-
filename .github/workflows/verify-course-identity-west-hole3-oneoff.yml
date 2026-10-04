@@ -1,0 +1,69 @@
+name: "Verify Blue Heron West Hole 3 via course-map widget click (on-demand, one-off)"
+
+# Manually dispatched only. The headless-browser homepage trace found a
+# real course-map widget (div.west li.hole01..hole09, matching a
+# <select id="course-map-title-west-hole">) -- confirms the real site
+# organizes the course as West 9 + East 9. This drives that picker to
+# "hole03" (West Hole 3) and records whatever real content/network
+# request the click actually triggers.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright --quiet
+          python -m playwright install --with-deps chromium
+
+      - name: Click West Hole 3 and capture real result
+        run: |
+          python verify_course_identity_west_hole3.py --out-dir course_identity_check_west_hole3
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron West Hole 3 click result"
+            if [ -f course_identity_check_west_hole3/west_hole3_click_result.json ]; then
+              cat course_identity_check_west_hole3/west_hole3_click_result.json
+            else
+              echo "No result file produced."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/course-identity-west-hole3"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/course_identity_check_west_hole3"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron West Hole 3 click result" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
