@@ -1,0 +1,3558 @@
+{
+  "angle1_ranking_reversal": [
+    {
+      "type": "bottom_beat_top",
+      "round": 1,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "박서현_score_to_par": -1,
+      "박서현_states": "1|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "6|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "6|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|9|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 5,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "9|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "12|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 6,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|9|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|2|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 1,
+      "hole": 10,
+      "par": 5,
+      "classification": "DEFEND",
+      "박서현_score_to_par": 0,
+      "박서현_states": "2|1|2|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|1|2|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 10,
+      "par": 5,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|2|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|1|2|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 13,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 1,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "박서현_score_to_par": 0,
+      "박서현_states": "1|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|3|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|3|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 1,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "박서현_score_to_par": -1,
+      "박서현_states": "3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "3|3|3|10",
+      "diff": 2
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "5|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "3|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 17,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|12|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 1,
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "박서현_score_to_par": -1,
+      "박서현_states": "2|1|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|1|12|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 1,
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|1|12|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|9|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "6|2|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 2,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "박서현_score_to_par": 0,
+      "박서현_states": "1|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|12|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|12|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 5,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "9|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 8,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 10,
+      "par": 5,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|1|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 2,
+      "유해란_states": "2|2|2|3|3|10",
+      "diff": 2
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 13,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": -1,
+      "이재윤_states": "1|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 17,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 2,
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|2|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "2|2|12|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 4,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|1|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 5,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 3,
+      "hole": 6,
+      "par": 4,
+      "classification": "DEFEND",
+      "박서현_score_to_par": 0,
+      "박서현_states": "1|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "7|8|1|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 6,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "7|8|1|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "6|1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 8,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 9,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|3|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 11,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|1|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|12|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 15,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|12|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "1|2|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 3,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": -1,
+      "이재윤_states": "3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|2|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 5,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 6,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": -1,
+      "이재윤_states": "1|3|10",
+      "유해란_score_to_par": -1,
+      "유해란_states": "1|3|10",
+      "diff": 0
+    },
+    {
+      "type": "bottom_beat_top",
+      "round": 4,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "박서현_score_to_par": -1,
+      "박서현_states": "1|1|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|1|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": -1,
+      "이재윤_states": "2|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|1|3|3|10",
+      "diff": 1
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 8,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|2|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 9,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 11,
+      "par": 3,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|2|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|12|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 13,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 1,
+      "이재윤_states": "2|12|3|3|10",
+      "유해란_score_to_par": 1,
+      "유해란_states": "2|3|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 15,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "2|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 17,
+      "par": 4,
+      "classification": "CONTROL",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "1|12|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "1|3|3|10",
+      "diff": 0
+    },
+    {
+      "type": "mid_matched_or_beat_top",
+      "round": 4,
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "이재윤_score_to_par": 0,
+      "이재윤_states": "2|1|3|3|10",
+      "유해란_score_to_par": 0,
+      "유해란_states": "6|1|2|3|10",
+      "diff": 0
+    }
+  ],
+  "angle2_same_input_different_output": [
+    {
+      "round": 3,
+      "hole": 8,
+      "par": 4,
+      "classification": "DEFEND",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": 3,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 3,
+      "full_sequences": {
+        "9111": "1|5|8|2|12|3|10",
+        "9115": "1|3|3|10",
+        "9708": "1|3|3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 4,
+      "par": 5,
+      "classification": "ATTACK",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 1,
+        "9115": -1,
+        "9708": 0
+      },
+      "score_spread": 2,
+      "full_sequences": {
+        "9111": "1|2|3|3|3|10",
+        "9115": "1|1|3|10",
+        "9708": "2|2|3|3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 9,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 2,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 2,
+      "full_sequences": {
+        "9111": "2|3|3|3|3|10",
+        "9115": "2|3|3|10",
+        "9708": "1|3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": -1,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|3|10",
+        "9115": "6|3|3|10",
+        "9708": "2|3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 2,
+      "par": 3,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "3",
+        "9115": "3",
+        "9708": "3"
+      },
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": -1,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "3|3|10",
+        "9115": "3|10",
+        "9708": "3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 4,
+      "par": 5,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": 0,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|2|3|3|10",
+        "9115": "1|1|3|3|10",
+        "9708": "1|1|2|3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 9,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "False",
+        "9115": "False",
+        "9708": "False"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|12|3|10",
+        "9115": "2|2|3|10",
+        "9708": "2|2|3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": 1,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|3|3|10",
+        "9115": "1|3|3|3|10",
+        "9708": "1|3|3|10"
+      }
+    },
+    {
+      "round": 1,
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "2",
+        "9115": "2",
+        "9708": "2"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": -1,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "2|1|3|10",
+        "9115": "2|1|12|3|10",
+        "9708": "2|1|3|3|10"
+      }
+    },
+    {
+      "round": 2,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": -1,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "2|1|3|3|10",
+        "9115": "2|1|3|10",
+        "9708": "1|2|3|3|10"
+      }
+    },
+    {
+      "round": 2,
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": 1,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|12|12|3|10",
+        "9115": "1|3|3|10",
+        "9708": "1|3|3|3|10"
+      }
+    },
+    {
+      "round": 3,
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "2|3|3|10",
+        "9115": "1|3|3|10",
+        "9708": "1|3|3|3|10"
+      }
+    },
+    {
+      "round": 3,
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "False",
+        "9115": "False",
+        "9708": "False"
+      },
+      "score_to_par": {
+        "9111": 1,
+        "9115": 1,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|2|3|3|10",
+        "9115": "2|2|12|3|10",
+        "9708": "2|2|3|10"
+      }
+    },
+    {
+      "round": 3,
+      "hole": 10,
+      "par": 5,
+      "classification": "DEFEND",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 1,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "2|1|3|3|3|10",
+        "9115": "1|1|3|3|10",
+        "9708": "2|1|3|3|3|10"
+      }
+    },
+    {
+      "round": 3,
+      "hole": 13,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": 1,
+        "9115": 0,
+        "9708": 1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|3|3|3|10",
+        "9115": "1|3|3|10",
+        "9708": "1|12|3|3|10"
+      }
+    },
+    {
+      "round": 3,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "3",
+        "9115": "3",
+        "9708": "3"
+      },
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": 0,
+        "9708": -1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "3|3|10",
+        "9115": "3|3|10",
+        "9708": "3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": -1,
+        "9115": 0,
+        "9708": -1
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|1|3|10",
+        "9115": "1|1|3|3|10",
+        "9708": "2|2|3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "same_first_shot_state": false,
+      "first_shot_state": null,
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "False",
+        "9115": "False",
+        "9708": "False"
+      },
+      "score_to_par": {
+        "9111": 1,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "2|2|3|3|10",
+        "9115": "1|12|3|10",
+        "9708": "2|2|3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 16,
+      "par": 3,
+      "classification": "ATTACK",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "3",
+        "9115": "3",
+        "9708": "3"
+      },
+      "same_gir_outcome": true,
+      "gir": {
+        "9111": "True",
+        "9115": "True",
+        "9708": "True"
+      },
+      "score_to_par": {
+        "9111": 0,
+        "9115": -1,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "3|3|10",
+        "9115": "3|10",
+        "9708": "3|3|10"
+      }
+    },
+    {
+      "round": 4,
+      "hole": 17,
+      "par": 4,
+      "classification": "CONTROL",
+      "same_first_shot_state": true,
+      "first_shot_state": {
+        "9111": "1",
+        "9115": "1",
+        "9708": "1"
+      },
+      "same_gir_outcome": false,
+      "gir": null,
+      "score_to_par": {
+        "9111": 1,
+        "9115": 0,
+        "9708": 0
+      },
+      "score_spread": 1,
+      "full_sequences": {
+        "9111": "1|3|3|3|10",
+        "9115": "1|3|3|10",
+        "9708": "1|12|3|10"
+      }
+    }
+  ],
+  "angle3_good_start_bad_score": {
+    "three_player_cases": [
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "3",
+        "score_to_par": 2,
+        "states": "1|9|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "FW_Hit_to_Double+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "6",
+        "score_to_par": 1,
+        "states": "1|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "15",
+        "score_to_par": 1,
+        "states": "1|5|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "2",
+        "hole": "4",
+        "score_to_par": 1,
+        "states": "2|1|2|3|3|10",
+        "tags": [
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "2",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "1|12|12|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "3",
+        "score_to_par": 1,
+        "states": "1|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "8",
+        "score_to_par": 3,
+        "states": "1|5|8|2|12|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "FW_Hit_to_Double+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "9",
+        "score_to_par": 2,
+        "states": "1|5|8|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "FW_Hit_to_Double+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "10",
+        "score_to_par": 1,
+        "states": "2|1|3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "13",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "15",
+        "score_to_par": 1,
+        "states": "2|3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "3",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "4",
+        "score_to_par": 1,
+        "states": "1|2|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "9",
+        "score_to_par": 2,
+        "states": "2|3|3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "2|12|3|3|10",
+        "tags": [
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "17",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "18",
+        "score_to_par": 1,
+        "states": "2|1|2|3|3|10",
+        "tags": [
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "10",
+        "score_to_par": 1,
+        "states": "1|1|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "16",
+        "score_to_par": 1,
+        "states": "3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "2",
+        "hole": "3",
+        "score_to_par": 1,
+        "states": "1|12|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "3",
+        "hole": "9",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "3",
+        "hole": "15",
+        "score_to_par": 1,
+        "states": "1|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "4",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "2|3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "1",
+        "hole": "4",
+        "score_to_par": 1,
+        "states": "1|1|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "4",
+        "score_to_par": 1,
+        "states": "1|2|2|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+",
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "1",
+        "score_to_par": 1,
+        "states": "1|3|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+",
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "10",
+        "score_to_par": 1,
+        "states": "2|1|3|3|3|10",
+        "tags": [
+          "GIR_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "13",
+        "score_to_par": 1,
+        "states": "1|12|3|3|10",
+        "tags": [
+          "FW_Hit_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "2",
+        "score_to_par": 1,
+        "states": "2|3|3|10",
+        "tags": [
+          "ATTACKhole_to_Bogey+"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "14",
+        "score_to_par": 1,
+        "states": "2|12|3|3|10",
+        "tags": [
+          "ATTACKhole_to_Bogey+"
+        ]
+      }
+    ],
+    "field_summary": {
+      "FW_Hit_to_Bogey+": {
+        "occurrences": 520,
+        "n_eligible_holes": 2802,
+        "rate": 0.185581727337616,
+        "distinct_players_affected": 106
+      },
+      "FW_Hit_to_Double+": {
+        "occurrences": 52,
+        "n_eligible_holes": 2802,
+        "rate": 0.018558172733761598,
+        "distinct_players_affected": 39
+      },
+      "GIR_to_Bogey+": {
+        "occurrences": 314,
+        "n_eligible_holes": 3610,
+        "rate": 0.08698060941828255,
+        "distinct_players_affected": 99
+      },
+      "ATTACKhole_to_Bogey+": {
+        "occurrences": 374,
+        "n_eligible_holes": 1986,
+        "rate": 0.18831822759315206,
+        "distinct_players_affected": 105
+      }
+    }
+  },
+  "angle4_bad_start_good_score": {
+    "three_player_cases": [
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "9",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "10",
+        "score_to_par": 0,
+        "states": "2|1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "12",
+        "score_to_par": 0,
+        "states": "2|2|12|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "1",
+        "hole": "18",
+        "score_to_par": -1,
+        "states": "2|1|3|10",
+        "tags": [
+          "FWMiss_to_Birdie",
+          "Rough_to_Birdie"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "2",
+        "hole": "8",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "2",
+        "hole": "13",
+        "score_to_par": 0,
+        "states": "6|12|3|10",
+        "tags": [
+          "Bunker_to_ParOrBetter",
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "2",
+        "score_to_par": 0,
+        "states": "12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "7",
+        "score_to_par": 0,
+        "states": "1|1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "11",
+        "score_to_par": 0,
+        "states": "2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "17",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "3",
+        "hole": "18",
+        "score_to_par": 0,
+        "states": "2|1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "2",
+        "score_to_par": 0,
+        "states": "12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "6",
+        "score_to_par": 0,
+        "states": "2|9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9111",
+        "player_name": "박서현(BOTTOM,#61)",
+        "round": "4",
+        "hole": "13",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "1",
+        "score_to_par": 0,
+        "states": "6|3|3|10",
+        "tags": [
+          "Bunker_to_ParOrBetter"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "3",
+        "score_to_par": 0,
+        "states": "1|9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "5",
+        "score_to_par": 0,
+        "states": "12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "6",
+        "score_to_par": 0,
+        "states": "2|9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "9",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "11",
+        "score_to_par": 0,
+        "states": "2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "17",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "1",
+        "hole": "18",
+        "score_to_par": 0,
+        "states": "2|1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "2",
+        "hole": "1",
+        "score_to_par": 0,
+        "states": "6|2|3|10",
+        "tags": [
+          "Bunker_to_ParOrBetter",
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "2",
+        "hole": "7",
+        "score_to_par": -1,
+        "states": "2|1|3|10",
+        "tags": [
+          "FWMiss_to_Birdie",
+          "Rough_to_Birdie"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "3",
+        "hole": "7",
+        "score_to_par": 0,
+        "states": "6|1|3|3|10",
+        "tags": [
+          "Bunker_to_ParOrBetter"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "3",
+        "hole": "12",
+        "score_to_par": 0,
+        "states": "2|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "3",
+        "hole": "17",
+        "score_to_par": -1,
+        "states": "6|3|10",
+        "tags": [
+          "FWMiss_to_Birdie",
+          "Bunker_to_ParOrBetter"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "4",
+        "hole": "3",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "4",
+        "hole": "8",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "4",
+        "hole": "12",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9115",
+        "player_name": "유해란(TOP,#1)",
+        "round": "4",
+        "hole": "18",
+        "score_to_par": 0,
+        "states": "6|1|2|3|10",
+        "tags": [
+          "Bunker_to_ParOrBetter",
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "1",
+        "hole": "5",
+        "score_to_par": 0,
+        "states": "9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "1",
+        "hole": "8",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "1",
+        "hole": "16",
+        "score_to_par": 0,
+        "states": "5|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "1",
+        "hole": "17",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "1",
+        "score_to_par": 0,
+        "states": "2|9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "2",
+        "score_to_par": 0,
+        "states": "2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "5",
+        "score_to_par": 0,
+        "states": "9|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "6",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "9",
+        "score_to_par": 0,
+        "states": "2|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "2",
+        "hole": "10",
+        "score_to_par": 0,
+        "states": "1|1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "3",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "4",
+        "score_to_par": 0,
+        "states": "1|1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "12",
+        "score_to_par": 0,
+        "states": "2|1|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "3",
+        "hole": "15",
+        "score_to_par": 0,
+        "states": "2|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "1",
+        "score_to_par": 0,
+        "states": "1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "3",
+        "score_to_par": 0,
+        "states": "1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "7",
+        "score_to_par": -1,
+        "states": "2|2|3|10",
+        "tags": [
+          "FWMiss_to_Birdie",
+          "Rough_to_Birdie"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "8",
+        "score_to_par": 0,
+        "states": "1|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "12",
+        "score_to_par": 0,
+        "states": "2|2|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      },
+      {
+        "player_code": "9708",
+        "player_name": "이재윤(MID,#27)",
+        "round": "4",
+        "hole": "17",
+        "score_to_par": 0,
+        "states": "1|12|3|10",
+        "tags": [
+          "GIRMiss_to_Par"
+        ]
+      }
+    ],
+    "field_summary": {
+      "GIRMiss_to_Par": {
+        "occurrences": 1157,
+        "n_eligible": 2348,
+        "rate": 0.4927597955706985
+      },
+      "FWMiss_to_Birdie": {
+        "occurrences": 123,
+        "n_eligible": 1832,
+        "rate": 0.06713973799126638
+      },
+      "Rough_to_Birdie": {
+        "occurrences": 118,
+        "n_eligible": 1668,
+        "rate": 0.07074340527577938
+      },
+      "Bunker_to_ParOrBetter": {
+        "occurrences": 76,
+        "n_eligible": 129,
+        "rate": 0.5891472868217055
+      }
+    },
+    "three_player_recovery_rank": {
+      "9115": {
+        "rate": 0.6842105263157895,
+        "n": 19,
+        "field_rank_of_107_players": 5
+      },
+      "9708": {
+        "rate": 0.6551724137931034,
+        "n": 29,
+        "field_rank_of_107_players": 9
+      },
+      "9111": {
+        "rate": 0.43333333333333335,
+        "n": 30,
+        "field_rank_of_107_players": 68
+      }
+    }
+  },
+  "angle5_fairway_paradox": [
+    {
+      "hole": 8,
+      "par": 4,
+      "classification": "DEFEND",
+      "fw_hit_avg_score": 0.14893617021276595,
+      "fw_hit_n": 188,
+      "fw_miss_avg_score": 0.6993006993006993,
+      "fw_miss_n": 143,
+      "fw_hit_bogey_or_worse_rate": 0.22340425531914893,
+      "gap_fw_hit_minus_fw_miss": -0.5503645290879333
+    },
+    {
+      "hole": 12,
+      "par": 4,
+      "classification": "DEFEND",
+      "fw_hit_avg_score": 0.1511627906976744,
+      "fw_hit_n": 172,
+      "fw_miss_avg_score": 0.6226415094339622,
+      "fw_miss_n": 159,
+      "fw_hit_bogey_or_worse_rate": 0.23837209302325582,
+      "gap_fw_hit_minus_fw_miss": -0.4714787187362878
+    },
+    {
+      "hole": 13,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": -0.030837004405286344,
+      "fw_hit_n": 227,
+      "fw_miss_avg_score": 0.4326923076923077,
+      "fw_miss_n": 104,
+      "fw_hit_bogey_or_worse_rate": 0.09251101321585903,
+      "gap_fw_hit_minus_fw_miss": -0.46352931209759407
+    },
+    {
+      "hole": 10,
+      "par": 5,
+      "classification": "DEFEND",
+      "fw_hit_avg_score": 0.08241758241758242,
+      "fw_hit_n": 182,
+      "fw_miss_avg_score": 0.5167785234899329,
+      "fw_miss_n": 149,
+      "fw_hit_bogey_or_worse_rate": 0.15384615384615385,
+      "gap_fw_hit_minus_fw_miss": -0.4343609410723505
+    },
+    {
+      "hole": 9,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": -0.10526315789473684,
+      "fw_hit_n": 152,
+      "fw_miss_avg_score": 0.3240223463687151,
+      "fw_miss_n": 179,
+      "fw_hit_bogey_or_worse_rate": 0.05921052631578947,
+      "gap_fw_hit_minus_fw_miss": -0.4292855042634519
+    },
+    {
+      "hole": 6,
+      "par": 4,
+      "classification": "DEFEND",
+      "fw_hit_avg_score": 0.18446601941747573,
+      "fw_hit_n": 206,
+      "fw_miss_avg_score": 0.544,
+      "fw_miss_n": 125,
+      "fw_hit_bogey_or_worse_rate": 0.25728155339805825,
+      "gap_fw_hit_minus_fw_miss": -0.3595339805825243
+    },
+    {
+      "hole": 17,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": -0.00558659217877095,
+      "fw_hit_n": 179,
+      "fw_miss_avg_score": 0.34868421052631576,
+      "fw_miss_n": 152,
+      "fw_hit_bogey_or_worse_rate": 0.13966480446927373,
+      "gap_fw_hit_minus_fw_miss": -0.3542708027050867
+    },
+    {
+      "hole": 14,
+      "par": 4,
+      "classification": "ATTACK",
+      "fw_hit_avg_score": 0.11637931034482758,
+      "fw_hit_n": 232,
+      "fw_miss_avg_score": 0.41414141414141414,
+      "fw_miss_n": 99,
+      "fw_hit_bogey_or_worse_rate": 0.21551724137931033,
+      "gap_fw_hit_minus_fw_miss": -0.2977621037965866
+    },
+    {
+      "hole": 15,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": 0.15544041450777202,
+      "fw_hit_n": 193,
+      "fw_miss_avg_score": 0.39855072463768115,
+      "fw_miss_n": 138,
+      "fw_hit_bogey_or_worse_rate": 0.23316062176165803,
+      "gap_fw_hit_minus_fw_miss": -0.24311031012990914
+    },
+    {
+      "hole": 1,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": 0.2558139534883721,
+      "fw_hit_n": 172,
+      "fw_miss_avg_score": 0.49056603773584906,
+      "fw_miss_n": 159,
+      "fw_hit_bogey_or_worse_rate": 0.3023255813953488,
+      "gap_fw_hit_minus_fw_miss": -0.23475208424747696
+    },
+    {
+      "hole": 4,
+      "par": 5,
+      "classification": "ATTACK",
+      "fw_hit_avg_score": 0.01327433628318584,
+      "fw_hit_n": 226,
+      "fw_miss_avg_score": 0.23809523809523808,
+      "fw_miss_n": 105,
+      "fw_hit_bogey_or_worse_rate": 0.16371681415929204,
+      "gap_fw_hit_minus_fw_miss": -0.22482090181205225
+    },
+    {
+      "hole": 18,
+      "par": 5,
+      "classification": "ATTACK",
+      "fw_hit_avg_score": -0.05056179775280899,
+      "fw_hit_n": 178,
+      "fw_miss_avg_score": 0.16339869281045752,
+      "fw_miss_n": 153,
+      "fw_hit_bogey_or_worse_rate": 0.11797752808988764,
+      "gap_fw_hit_minus_fw_miss": -0.2139604905632665
+    },
+    {
+      "hole": 7,
+      "par": 5,
+      "classification": "ATTACK",
+      "fw_hit_avg_score": -0.15,
+      "fw_hit_n": 220,
+      "fw_miss_avg_score": 0.036036036036036036,
+      "fw_miss_n": 111,
+      "fw_hit_bogey_or_worse_rate": 0.08636363636363636,
+      "gap_fw_hit_minus_fw_miss": -0.18603603603603602
+    },
+    {
+      "hole": 3,
+      "par": 4,
+      "classification": "CONTROL",
+      "fw_hit_avg_score": 0.24363636363636362,
+      "fw_hit_n": 275,
+      "fw_miss_avg_score": 0.39285714285714285,
+      "fw_miss_n": 56,
+      "fw_hit_bogey_or_worse_rate": 0.28,
+      "gap_fw_hit_minus_fw_miss": -0.14922077922077923
+    }
+  ],
+  "angle6_miss_location": [
+    {
+      "hole": 14,
+      "par": 4,
+      "rough_tee_shots_n": 97,
+      "cluster_gir_rates": {
+        "A": [
+          0.37142857142857144,
+          35
+        ],
+        "B": [
+          0.6060606060606061,
+          33
+        ],
+        "C": [
+          0.13793103448275862,
+          29
+        ]
+      },
+      "spread": 0.46812957157784746
+    },
+    {
+      "hole": 1,
+      "par": 4,
+      "rough_tee_shots_n": 118,
+      "cluster_gir_rates": {
+        "B": [
+          0.5272727272727272,
+          55
+        ],
+        "A": [
+          0.125,
+          40
+        ],
+        "C": [
+          0.34782608695652173,
+          23
+        ]
+      },
+      "spread": 0.4022727272727272
+    },
+    {
+      "hole": 17,
+      "par": 4,
+      "rough_tee_shots_n": 139,
+      "cluster_gir_rates": {
+        "C": [
+          0.23255813953488372,
+          43
+        ],
+        "A": [
+          0.45901639344262296,
+          61
+        ],
+        "B": [
+          0.5714285714285714,
+          35
+        ]
+      },
+      "spread": 0.3388704318936877
+    },
+    {
+      "hole": 3,
+      "par": 4,
+      "rough_tee_shots_n": 56,
+      "cluster_gir_rates": {
+        "B": [
+          0.13636363636363635,
+          22
+        ],
+        "C": [
+          0.25,
+          12
+        ],
+        "A": [
+          0.45454545454545453,
+          22
+        ]
+      },
+      "spread": 0.3181818181818182
+    },
+    {
+      "hole": 10,
+      "par": 5,
+      "rough_tee_shots_n": 138,
+      "cluster_gir_rates": {
+        "A": [
+          0.5535714285714286,
+          56
+        ],
+        "C": [
+          0.2702702702702703,
+          37
+        ],
+        "B": [
+          0.5111111111111111,
+          45
+        ]
+      },
+      "spread": 0.2833011583011583
+    },
+    {
+      "hole": 15,
+      "par": 4,
+      "rough_tee_shots_n": 138,
+      "cluster_gir_rates": {
+        "A": [
+          0.45161290322580644,
+          62
+        ],
+        "B": [
+          0.34375,
+          32
+        ],
+        "C": [
+          0.18181818181818182,
+          44
+        ]
+      },
+      "spread": 0.2697947214076246
+    },
+    {
+      "hole": 9,
+      "par": 4,
+      "rough_tee_shots_n": 179,
+      "cluster_gir_rates": {
+        "C": [
+          0.4827586206896552,
+          58
+        ],
+        "B": [
+          0.6896551724137931,
+          58
+        ],
+        "A": [
+          0.4603174603174603,
+          63
+        ]
+      },
+      "spread": 0.22933771209633286
+    },
+    {
+      "hole": 6,
+      "par": 4,
+      "rough_tee_shots_n": 120,
+      "cluster_gir_rates": {
+        "A": [
+          0.2765957446808511,
+          47
+        ],
+        "C": [
+          0.06451612903225806,
+          31
+        ],
+        "B": [
+          0.23809523809523808,
+          42
+        ]
+      },
+      "spread": 0.212079615648593
+    },
+    {
+      "hole": 7,
+      "par": 5,
+      "rough_tee_shots_n": 92,
+      "cluster_gir_rates": {
+        "A": [
+          0.7142857142857143,
+          42
+        ],
+        "B": [
+          0.9130434782608695,
+          23
+        ],
+        "C": [
+          0.7777777777777778,
+          27
+        ]
+      },
+      "spread": 0.1987577639751552
+    },
+    {
+      "hole": 18,
+      "par": 5,
+      "rough_tee_shots_n": 142,
+      "cluster_gir_rates": {
+        "A": [
+          0.5254237288135594,
+          59
+        ],
+        "B": [
+          0.7209302325581395,
+          43
+        ],
+        "C": [
+          0.65,
+          40
+        ]
+      },
+      "spread": 0.19550650374458012
+    },
+    {
+      "hole": 13,
+      "par": 4,
+      "rough_tee_shots_n": 71,
+      "cluster_gir_rates": {
+        "B": [
+          0.4583333333333333,
+          24
+        ],
+        "A": [
+          0.32,
+          25
+        ],
+        "C": [
+          0.2727272727272727,
+          22
+        ]
+      },
+      "spread": 0.1856060606060606
+    },
+    {
+      "hole": 12,
+      "par": 4,
+      "rough_tee_shots_n": 145,
+      "cluster_gir_rates": {
+        "A": [
+          0.23636363636363636,
+          55
+        ],
+        "B": [
+          0.4107142857142857,
+          56
+        ],
+        "C": [
+          0.3235294117647059,
+          34
+        ]
+      },
+      "spread": 0.17435064935064934
+    },
+    {
+      "hole": 8,
+      "par": 4,
+      "rough_tee_shots_n": 138,
+      "cluster_gir_rates": {
+        "A": [
+          0.25925925925925924,
+          54
+        ],
+        "C": [
+          0.11904761904761904,
+          42
+        ],
+        "B": [
+          0.2857142857142857,
+          42
+        ]
+      },
+      "spread": 0.16666666666666666
+    },
+    {
+      "hole": 4,
+      "par": 5,
+      "rough_tee_shots_n": 95,
+      "cluster_gir_rates": {
+        "A": [
+          0.5714285714285714,
+          42
+        ],
+        "C": [
+          0.6086956521739131,
+          23
+        ],
+        "B": [
+          0.7,
+          30
+        ]
+      },
+      "spread": 0.12857142857142856
+    },
+    {
+      "hole": 2,
+      "par": 3,
+      "rough_tee_shots_n": 40,
+      "cluster_gir_rates": {
+        "B": [
+          0.0,
+          13
+        ],
+        "C": [
+          0.0,
+          13
+        ],
+        "A": [
+          0.0,
+          14
+        ]
+      },
+      "spread": 0.0
+    },
+    {
+      "hole": 5,
+      "par": 3,
+      "rough_tee_shots_n": 39,
+      "cluster_gir_rates": {
+        "A": [
+          0.0,
+          15
+        ],
+        "B": [
+          0.0,
+          12
+        ],
+        "C": [
+          0.0,
+          12
+        ]
+      },
+      "spread": 0.0
+    },
+    {
+      "hole": 11,
+      "par": 3,
+      "rough_tee_shots_n": 97,
+      "cluster_gir_rates": {
+        "C": [
+          0.0,
+          31
+        ],
+        "A": [
+          0.0,
+          35
+        ],
+        "B": [
+          0.0,
+          31
+        ]
+      },
+      "spread": 0.0
+    },
+    {
+      "hole": 16,
+      "par": 3,
+      "rough_tee_shots_n": 24,
+      "cluster_gir_rates": {
+        "A": [
+          0.0,
+          10
+        ],
+        "B": [
+          0.0,
+          7
+        ],
+        "C": [
+          0.0,
+          7
+        ]
+      },
+      "spread": 0.0
+    }
+  ],
+  "angle7_gap_concentration": {
+    "total_events": 39,
+    "total_gap": 30,
+    "top5_events": [
+      {
+        "round": 3,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 3
+      },
+      {
+        "round": 1,
+        "hole": 3,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 1,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 2
+      },
+      {
+        "round": 2,
+        "hole": 11,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 4,
+        "classification": "ATTACK",
+        "diff": 2
+      }
+    ],
+    "top5_sum": 11,
+    "top5_share": 0.36666666666666664,
+    "top10_events": [
+      {
+        "round": 3,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 3
+      },
+      {
+        "round": 1,
+        "hole": 3,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 1,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 2
+      },
+      {
+        "round": 2,
+        "hole": 11,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 4,
+        "classification": "ATTACK",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 9,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 10,
+        "classification": "DEFEND",
+        "diff": 2
+      },
+      {
+        "round": 1,
+        "hole": 2,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 6,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 13,
+        "classification": "CONTROL",
+        "diff": 1
+      }
+    ],
+    "top10_sum": 18,
+    "top10_share": 0.6,
+    "all_events_sorted": [
+      {
+        "round": 3,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 3
+      },
+      {
+        "round": 1,
+        "hole": 3,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 1,
+        "hole": 8,
+        "classification": "DEFEND",
+        "diff": 2
+      },
+      {
+        "round": 2,
+        "hole": 11,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 4,
+        "classification": "ATTACK",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 9,
+        "classification": "CONTROL",
+        "diff": 2
+      },
+      {
+        "round": 4,
+        "hole": 10,
+        "classification": "DEFEND",
+        "diff": 2
+      },
+      {
+        "round": 1,
+        "hole": 2,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 6,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 13,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 15,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 2,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 4,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 5,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 6,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 7,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 9,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 14,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 2,
+        "hole": 15,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 2,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 9,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 10,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 13,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 17,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 3,
+        "hole": 18,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 3,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 6,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 12,
+        "classification": "DEFEND",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 16,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 17,
+        "classification": "CONTROL",
+        "diff": 1
+      },
+      {
+        "round": 4,
+        "hole": 18,
+        "classification": "ATTACK",
+        "diff": 1
+      },
+      {
+        "round": 1,
+        "hole": 1,
+        "classification": "CONTROL",
+        "diff": -1
+      },
+      {
+        "round": 1,
+        "hole": 10,
+        "classification": "DEFEND",
+        "diff": -1
+      },
+      {
+        "round": 1,
+        "hole": 14,
+        "classification": "ATTACK",
+        "diff": -1
+      },
+      {
+        "round": 1,
+        "hole": 18,
+        "classification": "ATTACK",
+        "diff": -1
+      },
+      {
+        "round": 2,
+        "hole": 3,
+        "classification": "CONTROL",
+        "diff": -1
+      },
+      {
+        "round": 3,
+        "hole": 6,
+        "classification": "DEFEND",
+        "diff": -1
+      },
+      {
+        "round": 4,
+        "hole": 7,
+        "classification": "ATTACK",
+        "diff": -1
+      },
+      {
+        "round": 1,
+        "hole": 16,
+        "classification": "ATTACK",
+        "diff": -2
+      }
+    ]
+  },
+  "angle8_surprising_similarity": [
+    {
+      "metric": "FWMiss_to_GIR_rate",
+      "유해란": 0.45,
+      "박서현": 0.44,
+      "abs_diff": 0.010000000000000009
+    },
+    {
+      "metric": "Rough_to_GIR_rate",
+      "유해란": 0.42857142857142855,
+      "박서현": 0.4782608695652174,
+      "abs_diff": 0.04968944099378886
+    },
+    {
+      "metric": "fw_hit_rate",
+      "유해란": 0.6428571428571429,
+      "박서현": 0.5535714285714286,
+      "abs_diff": 0.0892857142857143
+    },
+    {
+      "metric": "FWHit_to_ParOrBetter_rate",
+      "유해란": 0.8611111111111112,
+      "박서현": 0.6451612903225806,
+      "abs_diff": 0.21594982078853053
+    },
+    {
+      "metric": "Bunker_to_GIR_rate",
+      "유해란": 0.6,
+      "박서현": 0.0,
+      "abs_diff": 0.6
+    }
+  ],
+  "angle9_middle_player": [
+    {
+      "metric": "fw_hit_rate",
+      "유해란": 0.6428571428571429,
+      "이재윤": 0.5714285714285714,
+      "박서현": 0.5535714285714286,
+      "이재윤_closer_to": "BOTTOM",
+      "dist_to_top": 0.07142857142857151,
+      "dist_to_bottom": 0.017857142857142794
+    },
+    {
+      "metric": "gir_rate",
+      "유해란": 0.7361111111111112,
+      "이재윤": 0.5972222222222222,
+      "박서현": 0.5833333333333334,
+      "이재윤_closer_to": "BOTTOM",
+      "dist_to_top": 0.13888888888888895,
+      "dist_to_bottom": 0.01388888888888884
+    },
+    {
+      "metric": "FW_to_GIR_rate",
+      "유해란": 0.8333333333333334,
+      "이재윤": 0.6875,
+      "박서현": 0.6451612903225806,
+      "이재윤_closer_to": "BOTTOM",
+      "dist_to_top": 0.14583333333333337,
+      "dist_to_bottom": 0.04233870967741937
+    },
+    {
+      "metric": "FWMiss_to_GIR_rate",
+      "유해란": 0.45,
+      "이재윤": 0.5,
+      "박서현": 0.44,
+      "이재윤_closer_to": "TOP",
+      "dist_to_top": 0.04999999999999999,
+      "dist_to_bottom": 0.06
+    },
+    {
+      "metric": "Rough_to_GIR_rate",
+      "유해란": 0.42857142857142855,
+      "이재윤": 0.5,
+      "박서현": 0.4782608695652174,
+      "이재윤_closer_to": "BOTTOM",
+      "dist_to_top": 0.07142857142857145,
+      "dist_to_bottom": 0.021739130434782594
+    },
+    {
+      "metric": "GIRMiss_to_ParSave_rate",
+      "유해란": 0.6842105263157895,
+      "이재윤": 0.6551724137931034,
+      "박서현": 0.43333333333333335,
+      "이재윤_closer_to": "TOP",
+      "dist_to_top": 0.029038112522686066,
+      "dist_to_bottom": 0.22183908045977008
+    },
+    {
+      "metric": "FWHit_to_ParOrBetter_rate",
+      "유해란": 0.8611111111111112,
+      "이재윤": 0.84375,
+      "박서현": 0.6451612903225806,
+      "이재윤_closer_to": "TOP",
+      "dist_to_top": 0.01736111111111116,
+      "dist_to_bottom": 0.19858870967741937
+    },
+    {
+      "metric": "FWMiss_to_ParOrBetter_rate",
+      "유해란": 0.8,
+      "이재윤": 0.7916666666666666,
+      "박서현": 0.56,
+      "이재윤_closer_to": "TOP",
+      "dist_to_top": 0.008333333333333415,
+      "dist_to_bottom": 0.23166666666666658
+    }
+  ],
+  "angle10_counterexamples": {
+    "field_n": 107,
+    "field_avg_score": 0.2477933541017653,
+    "field_median_score": 0.19444444444444445,
+    "median_fw_hit_rate": 0.6071428571428571,
+    "median_gir_rate": 0.5972222222222222,
+    "median_FWMiss_to_GIR_rate": 0.4,
+    "low_fw_hit_but_good_score": [
+      {
+        "player_code": "9089",
+        "player_name": "",
+        "avg_score_to_par": 0.027777777777777776,
+        "fw_hit_rate": 0.5535714285714286,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6944444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.6,
+        "FWMiss_to_GIR_n": 25
+      },
+      {
+        "player_code": "8300",
+        "player_name": "",
+        "avg_score_to_par": 0.05555555555555555,
+        "fw_hit_rate": 0.5892857142857143,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.30434782608695654,
+        "FWMiss_to_GIR_n": 23
+      },
+      {
+        "player_code": "9431",
+        "player_name": "",
+        "avg_score_to_par": 0.05555555555555555,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5555555555555556,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.375,
+        "FWMiss_to_GIR_n": 24
+      },
+      {
+        "player_code": "10531",
+        "player_name": "",
+        "avg_score_to_par": 0.06944444444444445,
+        "fw_hit_rate": 0.5,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.625,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.5,
+        "FWMiss_to_GIR_n": 28
+      },
+      {
+        "player_code": "11143",
+        "player_name": "",
+        "avg_score_to_par": 0.06944444444444445,
+        "fw_hit_rate": 0.5,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5972222222222222,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.39285714285714285,
+        "FWMiss_to_GIR_n": 28
+      },
+      {
+        "player_code": "8589",
+        "player_name": "",
+        "avg_score_to_par": 0.08333333333333333,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6944444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.625,
+        "FWMiss_to_GIR_n": 24
+      },
+      {
+        "player_code": "10095",
+        "player_name": "",
+        "avg_score_to_par": 0.09722222222222222,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6944444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.6666666666666666,
+        "FWMiss_to_GIR_n": 24
+      },
+      {
+        "player_code": "8179",
+        "player_name": "",
+        "avg_score_to_par": 0.125,
+        "fw_hit_rate": 0.44642857142857145,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6388888888888888,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.4838709677419355,
+        "FWMiss_to_GIR_n": 31
+      },
+      {
+        "player_code": "9465",
+        "player_name": "",
+        "avg_score_to_par": 0.125,
+        "fw_hit_rate": 0.5535714285714286,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.56,
+        "FWMiss_to_GIR_n": 25
+      },
+      {
+        "player_code": "9708",
+        "player_name": "",
+        "avg_score_to_par": 0.125,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5972222222222222,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.5,
+        "FWMiss_to_GIR_n": 24
+      }
+    ],
+    "low_gir_but_good_score": [
+      {
+        "player_code": "9431",
+        "player_name": "",
+        "avg_score_to_par": 0.05555555555555555,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5555555555555556,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.375,
+        "FWMiss_to_GIR_n": 24
+      },
+      {
+        "player_code": "8838",
+        "player_name": "",
+        "avg_score_to_par": 0.1388888888888889,
+        "fw_hit_rate": 0.5357142857142857,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5694444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.38461538461538464,
+        "FWMiss_to_GIR_n": 26
+      },
+      {
+        "player_code": "9426",
+        "player_name": "",
+        "avg_score_to_par": 0.1388888888888889,
+        "fw_hit_rate": 0.6607142857142857,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5833333333333334,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.3157894736842105,
+        "FWMiss_to_GIR_n": 19
+      },
+      {
+        "player_code": "10002",
+        "player_name": "",
+        "avg_score_to_par": 0.1527777777777778,
+        "fw_hit_rate": 0.6607142857142857,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5833333333333334,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.3684210526315789,
+        "FWMiss_to_GIR_n": 19
+      },
+      {
+        "player_code": "11042",
+        "player_name": "",
+        "avg_score_to_par": 0.1527777777777778,
+        "fw_hit_rate": 0.5535714285714286,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5694444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.48,
+        "FWMiss_to_GIR_n": 25
+      },
+      {
+        "player_code": "10022",
+        "player_name": "",
+        "avg_score_to_par": 0.18055555555555555,
+        "fw_hit_rate": 0.42857142857142855,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5138888888888888,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.375,
+        "FWMiss_to_GIR_n": 32
+      }
+    ],
+    "high_gir_but_bad_score": [
+      {
+        "player_code": "10139",
+        "player_name": "",
+        "avg_score_to_par": 0.4444444444444444,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 28,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 36,
+        "FWMiss_to_GIR_rate": 0.3333333333333333,
+        "FWMiss_to_GIR_n": 12
+      },
+      {
+        "player_code": "10727",
+        "player_name": "",
+        "avg_score_to_par": 0.3333333333333333,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 28,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 36,
+        "FWMiss_to_GIR_rate": 0.25,
+        "FWMiss_to_GIR_n": 12
+      },
+      {
+        "player_code": "9174",
+        "player_name": "",
+        "avg_score_to_par": 0.3333333333333333,
+        "fw_hit_rate": 0.4642857142857143,
+        "fw_hit_rate_n": 28,
+        "gir_rate": 0.6111111111111112,
+        "gir_rate_n": 36,
+        "FWMiss_to_GIR_rate": 0.4,
+        "FWMiss_to_GIR_n": 15
+      },
+      {
+        "player_code": "9723",
+        "player_name": "",
+        "avg_score_to_par": 0.3055555555555556,
+        "fw_hit_rate": 0.6785714285714286,
+        "fw_hit_rate_n": 28,
+        "gir_rate": 0.6388888888888888,
+        "gir_rate_n": 36,
+        "FWMiss_to_GIR_rate": 0.4444444444444444,
+        "FWMiss_to_GIR_n": 9
+      },
+      {
+        "player_code": "11060",
+        "player_name": "",
+        "avg_score_to_par": 0.25,
+        "fw_hit_rate": 0.5,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.625,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.35714285714285715,
+        "FWMiss_to_GIR_n": 28
+      },
+      {
+        "player_code": "8243",
+        "player_name": "",
+        "avg_score_to_par": 0.2361111111111111,
+        "fw_hit_rate": 0.625,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6111111111111112,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.3333333333333333,
+        "FWMiss_to_GIR_n": 21
+      },
+      {
+        "player_code": "8380",
+        "player_name": "",
+        "avg_score_to_par": 0.20833333333333334,
+        "fw_hit_rate": 0.5535714285714286,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6111111111111112,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.32,
+        "FWMiss_to_GIR_n": 25
+      },
+      {
+        "player_code": "9145",
+        "player_name": "",
+        "avg_score_to_par": 0.20833333333333334,
+        "fw_hit_rate": 0.625,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.625,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.6190476190476191,
+        "FWMiss_to_GIR_n": 21
+      }
+    ],
+    "low_fw_miss_to_gir_but_good_score": [
+      {
+        "player_code": "11066",
+        "player_name": "",
+        "avg_score_to_par": 0.041666666666666664,
+        "fw_hit_rate": 0.625,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.38095238095238093,
+        "FWMiss_to_GIR_n": 21
+      },
+      {
+        "player_code": "8300",
+        "player_name": "",
+        "avg_score_to_par": 0.05555555555555555,
+        "fw_hit_rate": 0.5892857142857143,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.30434782608695654,
+        "FWMiss_to_GIR_n": 23
+      },
+      {
+        "player_code": "9431",
+        "player_name": "",
+        "avg_score_to_par": 0.05555555555555555,
+        "fw_hit_rate": 0.5714285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5555555555555556,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.375,
+        "FWMiss_to_GIR_n": 24
+      },
+      {
+        "player_code": "11143",
+        "player_name": "",
+        "avg_score_to_par": 0.06944444444444445,
+        "fw_hit_rate": 0.5,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5972222222222222,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.39285714285714285,
+        "FWMiss_to_GIR_n": 28
+      },
+      {
+        "player_code": "9082",
+        "player_name": "",
+        "avg_score_to_par": 0.08333333333333333,
+        "fw_hit_rate": 0.75,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6388888888888888,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.35714285714285715,
+        "FWMiss_to_GIR_n": 14
+      },
+      {
+        "player_code": "8284",
+        "player_name": "",
+        "avg_score_to_par": 0.1111111111111111,
+        "fw_hit_rate": 0.6428571428571429,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5972222222222222,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.3,
+        "FWMiss_to_GIR_n": 20
+      },
+      {
+        "player_code": "9235",
+        "player_name": "",
+        "avg_score_to_par": 0.1111111111111111,
+        "fw_hit_rate": 0.7321428571428571,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6666666666666666,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.26666666666666666,
+        "FWMiss_to_GIR_n": 15
+      },
+      {
+        "player_code": "9820",
+        "player_name": "",
+        "avg_score_to_par": 0.125,
+        "fw_hit_rate": 0.6964285714285714,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.6388888888888888,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.29411764705882354,
+        "FWMiss_to_GIR_n": 17
+      },
+      {
+        "player_code": "8838",
+        "player_name": "",
+        "avg_score_to_par": 0.1388888888888889,
+        "fw_hit_rate": 0.5357142857142857,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5694444444444444,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.38461538461538464,
+        "FWMiss_to_GIR_n": 26
+      },
+      {
+        "player_code": "9426",
+        "player_name": "",
+        "avg_score_to_par": 0.1388888888888889,
+        "fw_hit_rate": 0.6607142857142857,
+        "fw_hit_rate_n": 56,
+        "gir_rate": 0.5833333333333334,
+        "gir_rate_n": 72,
+        "FWMiss_to_GIR_rate": 0.3157894736842105,
+        "FWMiss_to_GIR_n": 19
+      }
+    ]
+  }
+}
