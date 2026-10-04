@@ -26,6 +26,10 @@ on:
         description: "Optional comma-separated element ids. When set, each Desktop/Mobile Playwright capture ALSO scrolls to every id (if present in the DOM) and takes one extra viewport screenshot per id (desktop_<id>.png / mobile_<id>.png), plus writes live_capture/visibility_report.json: per id, whether it exists in the DOM, its computed display/visibility/offsetHeight, and its nearest ancestor <details> open state -- so a missing element on screen can be told apart as DOM-absent vs CSS-hidden vs a collapsed <details>. Default empty = no change to existing behavior."
         required: false
         default: ""
+      dump_rendered_html:
+        description: "When 'true', the Desktop Playwright capture step ALSO writes live_capture/rendered.html = page.content() after goto(wait_until='networkidle') + a short settle delay -- the real post-JS DOM, for a page (e.g. klpga.co.kr's own JSP+AJAX leaderboard pages) whose player rows are injected client-side and are therefore absent from the plain urllib fetch in the 'raw HTTP response body' step above. Default 'false' = no change to existing behavior."
+        required: false
+        default: "false"
 
 permissions:
   contents: write
@@ -99,6 +103,7 @@ jobs:
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
           SCROLL_TO_IDS: ${{ github.event.inputs.scroll_to_ids }}
+          DUMP_RENDERED_HTML: ${{ github.event.inputs.dump_rendered_html }}
         run: |
           mkdir -p live_capture
           xvfb-run -a --server-args="-screen 0 1440x960x24" python - <<'PY'
@@ -110,6 +115,7 @@ jobs:
 
           url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
           ids = [s.strip() for s in (os.environ.get("SCROLL_TO_IDS") or "").split(",") if s.strip()]
+          dump_rendered_html = (os.environ.get("DUMP_RENDERED_HTML") or "false").strip().lower() == "true"
 
           with sync_playwright() as p:
               browser = p.chromium.launch(
@@ -120,6 +126,9 @@ jobs:
               page = context.new_page()
               page.goto(url, wait_until="networkidle", timeout=30000)
               time.sleep(1.5)
+              if dump_rendered_html:
+                  with open("live_capture/rendered.html", "w", encoding="utf-8") as f:
+                      f.write(page.content())
               subprocess.run(["scrot", "-o", "live_capture/desktop_with_addressbar.png"], check=True)
 
               report = {}
