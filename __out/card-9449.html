@@ -1,0 +1,2302 @@
+
+
+
+
+
+
+<style type="text/css">
+
+	.shot-table-striped {
+		border-collapse: separate;
+		border-spacing: 0;
+	}
+
+	.shot-table-striped thead {
+		position: static;
+	}
+
+	.shot-table-striped thead tr {
+		position: static;
+	}
+
+	.shot-table-striped thead th {
+		position: static;
+		top: 0;
+		z-index: 20;
+		background-color: #878D96;
+		color: #FFF;
+		background-clip: padding-box;
+	}
+	
+	@media (max-width: 1200px) {
+	.table-scorecard th:first-child, .table-scorecard td:first-child {
+		position: static !important;
+	}
+
+</style>
+
+<script type="text/javascript">
+
+var activeHole="18";
+var activeRound="4";
+var activeHole_group="18";
+var map3dResourceYN = "Y";
+var activePlayerIndex="1";
+
+$(document).ready(function(){
+	
+	/* ## init event ## */
+	// 정규투어
+	if("Y" == "Y"){
+		setHoleActive()
+		getShotTracker();
+		getGroupShotTracker();
+	}
+
+	// 샷트래커 진행 안하는 대회
+	if("Y" == "N" ){
+		$("#tracker-one").removeClass("show active");
+		$("#tracker-four").addClass("show active");
+	}
+	
+});
+
+
+
+$(document).off("click", "[id=tracker-one]>.nav-round-wrapper button").on("click", "[id=tracker-one]>.nav-round-wrapper button", function(event){
+	activeRound = $(this).attr("_round");
+	getShotTracker();
+});
+
+$(document).off("click", "[id=btnHole]").on("click", "[id=btnHole]", function(event){
+	activeHole = $(this).attr("_hole");
+	activeRound = $("#round2-tabContent").children(".active").attr("_round");
+	
+	$("[id=tbodyShotTrackerScore]>tr>td").removeClass("active");
+	$("[id=tbodyShotTrackerScore]>tr").each(function(){
+		$(this).children(":eq("+(activeHole<=9?activeHole:Number(activeHole)+1)+")").addClass("active")
+	});
+	getShotTracker();
+});
+
+$(document).off("click", "[id=btnHole_group]").on("click", "[id=btnHole_group]", function(event){
+	activeHole_group = $(this).attr("_hole");
+	
+	$("[id=tbodyShotTrackerScore_group]>tr>td").removeClass("active");
+	$("[id=tbodyShotTrackerScore_group]>tr").each(function(){
+		$(this).children(":eq("+(activeHole_group<=9?activeHole_group:Number(activeHole_group)+1)+")").addClass("active")
+	});
+	getGroupShotTracker();
+});
+
+
+$(document).off("click", "[id=btnName]").on("click", "[id=btnName]", function(event){
+	
+	activePlayerIndex = $(this).attr("_index");
+	
+	$("[id=btnName]").find("button").removeClass("active");
+	$("[id=btnName][_index="+activePlayerIndex+"]").find("button").addClass("active");
+	
+	$("[id=trShotState]").css("display","none");
+	$("[id=trShotState][data-index="+activePlayerIndex+"]").css("display","");
+});
+
+
+
+$(document).off("click", "[id=tracker-three-tab]").on("click", "[id=tracker-three-tab]", function(event){
+	
+	$("[id=round4-tabContent]").children().remove();
+	
+	var params = new Object();
+	params.playerCode = "9449";
+	params.gameCode = "2026100005";
+	params.playerName = "이지현3";
+	params.playerEngName = "LEE Jihyeon3";
+	
+	//params.round = $(this).attr("_round");
+	
+	$("[id=round4-tabContent]").load("/load/leaderboard/playerStats", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+	
+});
+
+function setHoleActive(){
+	$("[id=tbodyShotTrackerScore]>tr>td").removeClass("active");
+	$("[id=tbodyShotTrackerScore]>tr").each(function(){
+		$(this).children(":eq("+(activeHole<=9?activeHole:Number(activeHole)+1)+")").addClass("active");
+	});
+	$("[id=tbodyShotTrackerScore_group]>tr>td").removeClass("active");
+	$("[id=tbodyShotTrackerScore_group]>tr").each(function(){
+		$(this).children(":eq("+(activeHole_group<=9?activeHole_group:Number(activeHole_group)+1)+")").addClass("active");
+	});
+}
+
+function getShotTracker(){
+	
+	var gameCode = "2026100005";
+	$.ajax({
+		"url" : "/ajax/leaderboard/getShotTracker"
+	    , "type"  : "POST"
+	    , "async" : false
+	    , "data"  : {
+	    	gameCode : "2026100005"
+	    	, round : activeRound
+	    	, hole : activeHole
+	    	, playerCode : "9449"
+  		}
+		, success: function(res,ststus,xhr) {
+			
+			var evalData 		= eval(res);
+			var shotTrackerList	= evalData.shotTrackerList;
+			var baseHoleInfo	= evalData.baseHoleInfo;
+			
+			var holeInfo		= evalData.holeInfo;
+			$("#holeInfo_holeNo").html(holeInfo.hole);
+			$("#holeInfo_par").html(holeInfo.stdScore);
+			if("1" == '1'){
+				$("#holeInfo_yds").html(holeInfo.yds);
+				$("#holeInfo_meter").html(holeInfo.meter);
+			}
+			if(holeInfo.avgScore != 0){
+				$("#holeInfo_difficult").html((holeInfo.count>1?"T":"")+holeInfo.rank);
+				$("#holeInfo_avgScore").html(holeInfo.avgScore);	
+			} else {
+				$("#holeInfo_difficult").html("-");
+				$("#holeInfo_avgScore").html("-");
+			}
+			
+			var hole_html = "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden;'><g class='player1'>";
+			var green_html = "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden;'><g class='player1'>";
+			var state_html = "";
+				
+			var bi_sy = 0;
+			var bi_sx = 0;
+			var bi_gpy = 0;
+			var bi_gpx = 0;
+			var bi_gx = 0;
+			var bi_gy = 0;
+			
+			if(baseHoleInfo != null){
+				bi_sy = baseHoleInfo.bi_sy == null?0:baseHoleInfo.bi_sy;
+				bi_sx = baseHoleInfo.bi_sx == null?0:baseHoleInfo.bi_sx;
+				bi_gpy = baseHoleInfo.bi_gpy == null?0:baseHoleInfo.bi_gpy;
+				bi_gpx = baseHoleInfo.bi_gpx == null?0:baseHoleInfo.bi_gpx;
+				bi_gx = baseHoleInfo.bi_gx == null?0:baseHoleInfo.bi_gx;
+				bi_gy = baseHoleInfo.bi_gy == null?0:baseHoleInfo.bi_gy;
+			}
+			
+			for(var i = 0; i < shotTrackerList.length; i++){
+				
+				var v = shotTrackerList[i];
+				var x = (390-(v.pp_y*2))*1.815;
+				var y = (v.pp_x*2)*1.815;
+				var x_g = (390-(v.pp_greeny*2))*1.815;
+				var y_g = (v.pp_greenx*2)*1.815;
+				
+				if(i==0){
+					// 전체
+					hole_html += "<circle cx='"+(390-bi_sy)*1.815+"' cy='"+bi_sx*1.815+"' r='4.611'></circle>";
+					hole_html += "<path d='M"+ (390-bi_sy)*1.815 +" "+ bi_sx*1.815 +" L"+ x +" "+ y +"' h></path>";
+					hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+					
+					// 그린
+					green_html += "<path d='M"+ (390-bi_gpy) +" "+ bi_gpx +" L"+ x_g +" "+ y_g +"' g></path>";
+					green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+					
+					// 거리
+					if((v.pp_state!="4" && v.pp_state!="7" && v.pp_state!="8") && !(v.pp_state=="5")){
+						hole_html += '<rect x="'+(((((390-bi_sy)*1.815)+x)/2)-25)+'" y="'+((((bi_sx*1.815)+y)/2)-13)+'" width="50" height="25" rx="10" fill="#ffffff" stroke-width="2"></rect>';
+						hole_html += '<text text-anchor="middle" x="'+(((((390-bi_sy)*1.815)+x)/2)-25)+'" y="'+((((bi_sx*1.815)+y)/2)-13)+'" dx="24" dy="19" font-weight="600" font-size="18">'+v.pp_distanceLen+'</text>';
+					}
+					
+				} else {
+					
+					// 전체
+					var pre_x = (390-(shotTrackerList[i-1].pp_y*2))*1.815;
+					var pre_y = (shotTrackerList[i-1].pp_x*2)*1.815;
+					hole_html += "<path d='M"+ pre_x +" "+ pre_y +" L"+ x +" "+ y +"' h></path>";
+					hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+					
+					// 그린
+					var pre_x_g = (390-(shotTrackerList[i-1].pp_greeny*2))*1.815;
+					var pre_y_g = (shotTrackerList[i-1].pp_greenx*2)*1.815;
+					green_html += "<path d='M"+ pre_x_g +" "+ pre_y_g +" L"+ x_g +" "+ y_g +"' g></path>";
+					green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+					
+					// 거리
+					if(v.pp_state!="4" && v.pp_state!="5" && v.pp_state!="7" && v.pp_state!="8" && shotTrackerList[i-1].pp_distance > 100  ){
+						hole_html += '<rect x="'+(((pre_x+x)/2)-25)+'" y="'+(((pre_y+y)/2)-13)+'" width="50" height="25" rx="10" fill="#ffffff" stroke-width="2"></rect>';
+						hole_html += '<text text-anchor="middle" x="'+(((pre_x+x)/2)-25)+'" y="'+(((pre_y+y)/2)-13)+'" dx="24" dy="19" font-weight="600" font-size="18">'+v.pp_distanceLen+'</text>';	
+					}
+				}
+				
+				// 샷정보
+				state_html += "<tr>";
+				state_html += 	"<td>"+v.shot+"</td>";
+				state_html += 	"<td class='td-video'>";
+				/* if(v.shotVideoYN == "Y") {
+					state_html += "<button class='btn btn-video p-0' id='btnShotVideo' data-bs-toggle='modal' data-bs-target='#mediaModal'"
+						+" data-player-code='"+v.playerCode+"' data-game-code='"+v.gameCode+"' data-round='"+v.round+"' data-hole='"+v.hole+"' data-shot='"+v.shot+"'>";
+					state_html +=	"<img src='/resources/web/images/btn-videoarrow.svg'></button>";
+				} */
+				state_html += 	"</td>";
+				state_html += 	"<td>"+v.pp_distanceLen+"</td>";
+				switch(v.pp_state){
+					case "1" : state_html += 	"<td>페어웨이</td>"; break;
+					case "2" : state_html += 	"<td>러프</td>"; break;
+					case "3" : state_html += 	"<td>그린</td>"; break;
+					case "4" : state_html += 	"<td>OB</td>"; break;
+					case "5" : state_html += 	"<td>페널티구역</td>"; break;
+					case "6" : state_html += 	"<td>벙커</td>"; break;
+					case "7" : state_html += 	"<td>분실구</td>"; break;
+					case "8" : state_html += 	"<td>벌타</td>"; break;
+					case "9" : state_html += 	"<td>그린주변벙커</td>"; break;
+					case "10" : state_html += 	"<td>홀인</td>"; break;
+					case "12" : state_html += 	"<td>프린지</td>"; break;
+				}
+				
+				if(v.pp_state == "10"){
+					var scoreText = shotTrackerScoreText(shotTrackerList.length, holeInfo.stdScore);
+					state_html += 	"<td colspan='"+(map3dResourceYN == "Y" ? '2':'1')+"'><button class='btn btn-sm btn-outline-gray rounded-pill w-100' style='cursor: default; font-weight: bold; color:#212529;'>"+scoreText+"</button></td>";
+					
+				} else {
+					state_html += 	"<td>"+v.pp_distance+"</td>";
+					if(map3dResourceYN == "Y") {
+						state_html += 	"<td>";
+						if(v.pp_altitude !== undefined && v.pp_altitude != "999.0" && v.pp_state != "10" && v.pp_state != "7" ){
+							state_html += 	"<span class='"+(v.pp_altitude == 0 ? '': (v.pp_altitude > 0 ? 'text-red' : 'text-blue'))+"'>"+(v.pp_altitude > 0 ? '+':'')+v.pp_altitude+"</span>";	
+						}
+						state_html += 	"</td>";
+					}
+				}
+				state_html += "</tr>";
+			}
+			
+			// 홀컵위치
+			if(bi_gy != 0 && bi_gx != 0){
+				green_html += "<image href='/resources/web/images/holeCup.png' x='"+(390-bi_gy-4)*1.815+"' y='"+(bi_gx-30)*1.815+"' />";	
+			}
+			
+			hole_html += "</g></svg>";
+			green_html += "</g></svg>";
+			
+			hole_html += '<div class="map-hole-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026100005/'+activeHole+'.png?ver=2026-10-02_1" style="width:100%;"></div>';
+			green_html += '<div class="map-green-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026100005/'+activeHole+'_G.png?ver=2026-10-02_1" style="width:100%;"></div>';
+			
+			$("#divShotTracker_hole").html(hole_html);
+			$("#divShotTracker_green").html(green_html);
+			$("[id=tbodyShotState]").html(state_html);
+			
+			// iOS sfari sticky 버그 대응
+			$(".shot-table-striped").each(function(){
+				var rowCount = $(this).find("tbody > tr").length;
+				if(rowCount < 2){
+					$(this).find("thead th").css("position", "static");
+				} else {
+					$(this).find("thead th").css("position", "sticky");
+				}
+			});
+			
+			
+		}
+		, error:function(request,status,error){
+	    }
+	});
+}
+
+
+
+function getGroupShotTracker(){
+	
+	$.ajax({
+		  "url"   : "/ajax/leaderboard/getGroupShotTracker"
+	    , "type"  : "POST"
+	    , "async" : false
+	    , "data"  : {
+	    	gameCode : "2026100005"
+	    	, round : "4"
+	    	, hole : activeHole_group
+	    	, groupNo : "17"
+    	}
+		, success: function(res,ststus,xhr) {
+			
+			var evalData 		= eval(res);
+			var baseHoleInfo	= evalData.baseHoleInfo;
+			var groupPlayerList	= evalData.groupPlayerList;
+			var groupShotTrackerList = evalData.groupShotTrackerList;
+
+			var holeInfo		= evalData.holeInfo;
+			$("#holeInfo_group_holeNo").html(holeInfo.hole);
+			$("#holeInfo_group_par").html(holeInfo.stdScore);
+			if("1" == '1'){
+				$("#holeInfo_group_yds").html(holeInfo.yds);
+				$("#holeInfo_group_meter").html(holeInfo.meter);
+			}
+			if(holeInfo.avgScore != 0){
+				$("#holeInfo_group_difficult").html((holeInfo.count>1?"T":"")+holeInfo.rank);
+				$("#holeInfo_group_avgScore").html(holeInfo.avgScore);	
+			} else {
+				$("#holeInfo_group_difficult").html("-");
+				$("#holeInfo_group_avgScore").html("-");
+			}
+			
+			var hole_html = "";
+			var green_html = "";
+			var state_html ="";
+			
+			var bi_sy = 0;
+			var bi_sx = 0;
+			var bi_gpy = 0;
+			var bi_gpx = 0;
+			var bi_gx = 0;
+			var bi_gy = 0;
+			
+			if(baseHoleInfo != null){
+				bi_sy = baseHoleInfo.bi_sy == null?0:baseHoleInfo.bi_sy;
+				bi_sx = baseHoleInfo.bi_sx == null?0:baseHoleInfo.bi_sx;
+				bi_gpy = baseHoleInfo.bi_gpy == null?0:baseHoleInfo.bi_gpy;
+				bi_gpx = baseHoleInfo.bi_gpx == null?0:baseHoleInfo.bi_gpx;
+				bi_gx = baseHoleInfo.bi_gx == null?0:baseHoleInfo.bi_gx;
+				bi_gy = baseHoleInfo.bi_gy == null?0:baseHoleInfo.bi_gy;
+			}
+			
+			hole_html += "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden'>"
+			green_html += "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden'>"
+			
+			for(var i=0; i<groupPlayerList.length; i++){
+				
+				var shotTrackerList = groupShotTrackerList[i];
+				
+				hole_html +=  "<g class='player"+(i+1)+"'>";
+				green_html += "<g class='player"+(i+1)+"'>";
+				
+				for(var j = 0; j < shotTrackerList.length; j++){
+					
+					var v = shotTrackerList[j];
+					var x = (390-(v.pp_y*2))*1.815;
+					var y = (v.pp_x*2)*1.815;
+					var x_g = (390-(v.pp_greeny*2))*1.815;
+					var y_g = (v.pp_greenx*2)*1.815;
+					
+					if(j==0){
+						// 전체
+						hole_html += "<circle cx='"+(390-bi_sy)*1.815+"' cy='"+bi_sx*1.815+"' r='4.611'></circle>";
+						hole_html += "<path d='M"+ (390-bi_sy)*1.815 +" "+ bi_sx*1.815 +" L"+ x +" "+ y +"' h></path>";
+						hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+						// 그린
+						green_html += "<path d='M"+ (390-bi_gpy)*1.815 +" "+ bi_gpx*1.815 +" L"+ x_g +" "+ y_g +"' g></path>";
+						green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+						
+					} else {
+						// 전체
+						var pre_x = (390-(shotTrackerList[j-1].pp_y*2))*1.815;
+						var pre_y = (shotTrackerList[j-1].pp_x*2)*1.815;
+						hole_html += "<path d='M"+ pre_x +" "+ pre_y +" L"+ x +" "+ y +"' h></path>";
+						hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+						// 그린
+						var pre_x_g = (390-(shotTrackerList[j-1].pp_greeny*2))*1.815;
+						var pre_y_g = (shotTrackerList[j-1].pp_greenx*2)*1.815;
+						green_html += "<path d='M"+ pre_x_g +" "+ pre_y_g +" L"+ x_g +" "+ y_g +"' g></path>";
+						green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+					}
+					
+					// 샷정보
+					state_html += "<tr id='trShotState' data-index='"+(i+1)+"' style='"+(activePlayerIndex == (i+1) ? '':'display:none;')+"'>";
+					state_html += 	"<td>"+v.shot+"</td>";
+					state_html += 	"<td class='td-video'>";
+					/* if(v.shotVideoYN == "Y") {
+						state_html += "<button class='btn btn-video p-0' id='btnShotVideo' data-bs-toggle='modal' data-bs-target='#mediaModal'"
+							+" data-player-code='"+v.playerCode+"' data-game-code='"+v.gameCode+"' data-round='"+v.round+"' data-hole='"+v.hole+"' data-shot='"+v.shot+"'>";
+						state_html +=	"<img src='/resources/web/images/btn-videoarrow.svg'></button>";
+					} */
+					state_html += 	"</td>";
+					state_html += 	"<td>"+v.pp_distanceLen+"</td>";
+					switch(v.pp_state){
+						case "1" : state_html += 	"<td>페어웨이</td>"; break;
+						case "2" : state_html += 	"<td>러프</td>"; break;
+						case "3" : state_html += 	"<td>그린</td>"; break;
+						case "4" : state_html += 	"<td>OB</td>"; break;
+						case "5" : state_html += 	"<td>페널티구역</td>"; break;
+						case "6" : state_html += 	"<td>벙커</td>"; break;
+						case "7" : state_html += 	"<td>분실구</td>"; break;
+						case "8" : state_html += 	"<td>벌타</td>"; break;
+						case "9" : state_html += 	"<td>그린주변벙커</td>"; break;
+						case "10" : state_html += 	"<td>홀인</td>"; break;
+						case "12" : state_html += 	"<td>프린지</td>"; break;
+					}
+					if(v.pp_state == "10"){
+						var scoreText = shotTrackerScoreText(shotTrackerList.length, holeInfo.stdScore);
+						state_html += 	"<td colspan='"+(map3dResourceYN == "Y" ? '2':'1')+"'><button class='btn btn-sm btn-outline-gray rounded-pill w-100' style='cursor: default; font-weight: bold; color:#212529;'>"+scoreText+"</button></td>";
+						
+					} else {
+						state_html += 	"<td>"+v.pp_distance+"</td>";
+						if(map3dResourceYN == "Y") {
+							state_html += 	"<td>";
+							if(v.pp_altitude !== undefined && v.pp_altitude != "999.0" && v.pp_state != "10" && v.pp_state != "7" ){
+								state_html += 	"<span class='"+(v.pp_altitude == 0 ? '': (v.pp_altitude > 0 ? 'text-red' : 'text-blue'))+"'>"+(v.pp_altitude > 0 ? '+':'')+v.pp_altitude+"</span>";	
+							}
+							state_html += 	"</td>";
+						}
+					}
+					state_html += "</tr>";
+
+				}
+				hole_html += "</g>";
+				green_html += "</g>";
+			}
+			
+			// 거리
+			for(var i=0; i<groupPlayerList.length; i++){
+				var shotTrackerList = groupShotTrackerList[i];
+				hole_html +=  "<g class='player"+(i+1)+"'>";
+				
+				// 거리
+				for(var j = 0; j < shotTrackerList.length; j++){
+					var v = shotTrackerList[j];
+					var x = (390-(v.pp_y*2))*1.815;
+					var y = (v.pp_x*2)*1.815;
+					var x_g = (390-(v.pp_greeny*2))*1.815;
+					var y_g = (v.pp_greenx*2)*1.815;
+					
+					if(j==0){
+						var rectX = 0;
+						var rectY = 0;
+						var tmpX = (390-bi_sy)*1.815;
+						var tmpY = bi_sx*1.815;
+						if((i+1)==1){
+							rectX = (3*tmpX + x)/4-25;
+							rectY = (3*tmpY + y)/4-13;
+						}
+						else if((i+1)==2){
+							rectX = (tmpX + x)/2-25;
+							rectY = (tmpY + y)/2-13;
+						}
+						else if((i+1)==3){
+							rectX = (tmpX + 3*x)/4-25;
+							rectY = (tmpY + 3*y)/4-13;
+						}
+						if((v.pp_state!="4" && v.pp_state!="7" && v.pp_state!="8") && !(v.pp_state=="5")){
+							hole_html += '<rect x="'+rectX+'" y="'+rectY+'" width="50" height="25" rx="10" fill="#ffffff" stroke-width="2"></rect>';
+							hole_html += '<text text-anchor="middle" x="'+rectX+'" y="'+rectY+'" dx="24" dy="19" font-weight="600" font-size="18">'+v.pp_distanceLen+'</text>';
+						}
+					}
+
+				}
+				hole_html += "</g>";
+			}
+			
+			// 홀컵위치
+			if(bi_gy != 0 && bi_gx != 0){
+				green_html += "<image href='/resources/web/images/holeCup.png' x='"+(390-bi_gy-4)*1.815+"' y='"+(bi_gx-30)*1.815+"' />";	
+			}
+			
+			hole_html += "</svg>";
+			green_html += "</svg>";
+			
+			hole_html += '<div class="map-hole-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026100005/'+activeHole_group+'.png?ver=2026-10-02_1" style="width:100%;"></div>';
+			green_html += '<div class="map-green-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026100005/'+activeHole_group+'_G.png?ver=2026-10-02_1" style="width:100%;"></div>';
+			
+			$("#divShotTracker_hole_group").html(hole_html);
+			$("#divShotTracker_green_group").html(green_html);
+			$("[id=divShotState_group]").html(state_html);
+			
+			// iOS sfari sticky 버그 대응
+			$(".shot-table-striped").each(function(){
+				var rowCount = $(this).find("tbody > tr").length;
+				if(rowCount < 2){
+					$(this).find("thead th").css("position", "static");
+				} else {
+					$(this).find("thead th").css("position", "sticky");
+				}
+			});
+			
+		}
+		, error:function(request,status,error){
+	    }
+	});
+}
+
+
+$(document).off("click", "[id=media-archive-tab]").on("click", "[id=media-archive-tab]", function(event){
+
+	var year = new Date().getFullYear();
+	$.ajax({
+		  url : "/ajax/media/getNaverNewsList"
+		, type : "POST"
+		, data : {
+			  searchWord : "KLPGA "+year+"이지현3"
+			, listSize : "10"
+			, pageNum : 1
+		}
+		, datatype : "json"
+		, async : true
+		, success : function(res, status, xhr) {
+			
+			
+			var news = JSON.parse(res.news);
+			var list = news.items;
+			
+			var listHtml = "";
+			for (var i=0;i<list.length;i++) {
+				var dateString = list[i].pubDate;
+				var dateObj = new Date(dateString);
+				var year = dateObj.getFullYear();
+				var month = ("0" + (dateObj.getMonth() + 1)).slice(-2);
+				var day = ("0" + dateObj.getDate()).slice(-2);
+				var formattedDate = year + "." + month + "." + day;
+				
+				listHtml += '<div class="co-12 col-lg-6">';
+				listHtml += ' <div class="entry-archive">';
+				listHtml += '  <h3>';
+				listHtml += '   <a href="'+list[i].link+'" target="_blank" class="article-more">'+list[i].title+'</a>';
+				listHtml += '  </h3>';
+				listHtml += '  <p class="date">'+formattedDate+'</p>';
+				listHtml += ' </div>';
+				listHtml += '</div>';
+			}
+			
+				$("#mediaDiv").html(listHtml);
+			
+		}
+		, error : function(request, status, error) {
+			//alert(error);
+		}
+	}).fail(function(errObj) {
+		try {
+			console.error(errObj);
+		} catch (e) {
+		}
+	}); //ajax
+	
+});
+
+
+// 샷비디오 Event
+$(document).off("click", "[id=btnShotVideo]").on("click", "[id=btnShotVideo]", function(event){
+
+	var params = new Object();
+	params.playerCode = $(this).data("playerCode");
+	params.gameCode = $(this).data("gameCode");
+	params.round = $(this).data("round");
+	params.hole = $(this).data("hole");
+	params.shot = $(this).data("shot");
+	
+	$("#mediaModal").find("div").load("/load/shotVideo", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+});
+
+function btn3D () {
+	round = $("#round2-tab").find(".active").attr("_round");		
+	go3dMap('2026100005','9449',round, activeHole);	
+}
+
+$(document).on("hide.bs.modal", "[id=mediaModal]", function(event){
+	$("#mediaModal").find("div").html("");
+});
+
+
+</script>
+
+<span class="details-pannel">
+		
+    <div class="pannel-header">
+		<div class="row">
+		    <div class="col-12 col-lg-4">
+			<div class="profile-box"  onclick="location.href='">
+			    <div class="avatar-xl bg-img-top" style="background-image: url('https://cdn.klpga.co.kr/PHOTOIMG/SM/01125.png?ver=2026-10-02_1')">
+			    	<a href="/web/profile/mainRecord?playerCode=9449"><img src="/resources/web/images/blank-square.png"></a>
+			    </div>
+			    <a href="/web/profile/mainRecord?playerCode=9449">
+					<h4 class="player-name" style="padding-top: 2.1rem;">이지현3</h4>
+			    </a>
+			</div>
+			<!-- 모바일 볼 링크 -->
+			<div class="ball mc-only">
+				
+			</div>
+		    </div>
+		    <div class="col-12 col-lg-8">
+			<!------------------------------------------------------------------------------->
+			<!------------------------------ 선수상세보기 탭메뉴 ------------------------------>
+			<!------------------------------------------------------------------------------->
+			<ul class="nav nav-pills nav-round-lg" id="tracker-tab" role="tablist">
+				
+				<!-- 샷트래커 진행 -->
+				
+			    <li class="nav-item" role="presentation">
+				<button class="nav-link active" id="tracker-one-tab" data-bs-toggle="pill" data-bs-target="#tracker-one" type="button" role="tab" aria-controls="tracker-one" aria-selected="true">샷트래커</button>
+			    </li>
+			    <li class="nav-item" role="presentation">
+				<button class="nav-link" id="tracker-two-tab" data-bs-toggle="pill" data-bs-target="#tracker-two" type="button" role="tab" aria-controls="tracker-two" aria-selected="false">조별보기</button>
+			    </li>
+			    <li class="nav-item" role="presentation">
+				<button class="nav-link" id="tracker-three-tab" data-bs-toggle="pill" data-bs-target="#tracker-three" type="button" role="tab" aria-controls="tracker-three" aria-selected="false">STATS</button>
+			    </li>
+			    <li class="nav-item" role="presentation">
+				<button class="nav-link" id="tracker-four-tab" data-bs-toggle="pill" data-bs-target="#tracker-four" type="button" role="tab" aria-controls="tracker-four" aria-selected="false">스코어카드</button>
+			    </li>
+			    <li class="nav-item" role="presentation">
+				<button class="nav-link" id="tracker-five-tab" data-bs-toggle="pill" data-bs-target="#tracker-five" type="button" role="tab" aria-controls="tracker-five" aria-selected="false">미디어</button>
+			    </li>
+			    
+			    
+			    <!-- 샷트래커 진행안함 -->
+			    
+			    
+			</ul>
+		    </div>
+		</div>
+    </div> <!-- end .pannel-header -->
+    
+    <div class="pannel-body">
+		<div class="row">
+		    <div class="col-12 col-lg-12"></div>
+		    
+		    
+		    <div class="col-12 col-lg-12">
+			
+			<!------------------------------------------------------------------------------->
+			<!----------------------------- 선수상세보기 탭컨텐츠 ----------------------------->
+			<!------------------------------------------------------------------------------->
+			<div class="tab-content" id="tracker-tabContent">
+	
+			    <!--************************************ 샷트래커 ************************************-->
+			    <div class="tab-pane fade show active" id="tracker-one" role="tabpanel" aria-labelledby="tracker-one-tab">
+				
+					<!---------------------------- 샷트래커 > 라운드 탭메뉴2 ---------------------------->
+					<div class="nav-round-wrapper">
+					    <ul class="nav nav-pills nav-round-sm mb-3" id="round2-tab" role="tablist">
+					    
+							<li class="nav-item" role="presentation">
+								<button class="nav-link " id="round2-one-tab" data-bs-toggle="pill" data-bs-target="#round2-one" type="button" role="tab" aria-controls="round2-one" aria-selected="true" _round="1">1R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link " id="round2-two-tab" data-bs-toggle="pill" data-bs-target="#round2-two" type="button" role="tab" aria-controls="round2-two" aria-selected="false" _round="2">2R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link " id="round2-three-tab" data-bs-toggle="pill" data-bs-target="#round2-three" type="button" role="tab" aria-controls="round2-three" aria-selected="false" _round="3">3R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+								<button class="nav-link active" id="round2-four-tab" data-bs-toggle="pill" data-bs-target="#round2-four" type="button" role="tab" aria-controls="round2-four" aria-selected="false" _round="4">FR</button>
+							</li>
+							
+					    </ul>
+					    <!-- 모바일용 3D 버튼 -->
+					    <!-- <div class="btn-3D mc-only"> -->
+					    
+					    <div class="btn-3D" style='top: 0.1em;right: 0rem;'>
+					    	<a onclick="btn3D()">
+					    		<button class="btn btn-sm btn-grayradial font-sfpro text-blue">cmpro<span class="text-danger">3D</span>
+					    		</button>
+					    	</a>
+					    	
+					    </div>
+					    
+					</div>
+		
+					<!---------------------------- 샷트래커 > 라운드 탭메뉴2 컨텐츠 시작 ---------------------------->
+					<div class="tab-content" id="round2-tabContent">
+					
+						
+							<div class=
+								
+									"tab-pane fade " id="round2-one" role="tabpanel" aria-labelledby="round2-one-tab"
+									
+									
+									
+								
+								_round="1"
+							>
+							
+								<!---------- 라운드별 스코어카드 시작 ---------->
+								<div class="table table-scorecard">
+								    <table>
+										<thead>
+										    <tr>
+												<th class="title">HOLE</th>
+												
+													<th id="btnHole" _hole="1">1</th>
+													
+												
+													<th id="btnHole" _hole="2">2</th>
+													
+												
+													<th id="btnHole" _hole="3">3</th>
+													
+												
+													<th id="btnHole" _hole="4">4</th>
+													
+												
+													<th id="btnHole" _hole="5">5</th>
+													
+												
+													<th id="btnHole" _hole="6">6</th>
+													
+												
+													<th id="btnHole" _hole="7">7</th>
+													
+												
+													<th id="btnHole" _hole="8">8</th>
+													
+												
+													<th id="btnHole" _hole="9">9</th>
+													
+														<th>OUT</th>
+													
+												
+													<th id="btnHole" _hole="10">10</th>
+													
+												
+													<th id="btnHole" _hole="11">11</th>
+													
+												
+													<th id="btnHole" _hole="12">12</th>
+													
+												
+													<th id="btnHole" _hole="13">13</th>
+													
+												
+													<th id="btnHole" _hole="14">14</th>
+													
+												
+													<th id="btnHole" _hole="15">15</th>
+													
+												
+													<th id="btnHole" _hole="16">16</th>
+													
+												
+													<th id="btnHole" _hole="17">17</th>
+													
+												
+													<th id="btnHole" _hole="18">18</th>
+													
+												
+												<th>IN</th>
+												<th>TOT</th>
+										    </tr>
+										</thead>
+										<tbody id="tbodyShotTrackerScore" _round="1">
+											<tr class="bg-lightgray">
+												<td class="title">PAR</td>
+												<td id="btnHole">4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>4</td>
+												<td>4</td>
+												<td class="out">36</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td class="in">36</td>
+												<td class="total">72</td>
+										    </tr>
+										    <tr>
+												<td class="title">Score</td>
+												<td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="bogeys">6</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="out" style="font-weight: bold;">
+		                                        	
+		                                        		37
+		                                        	
+		                                        </td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in" style="font-weight: bold;">
+		                                        	
+		                                        		35
+		                                        	
+		                                        </td>
+												<td class="total" style="font-weight: bold;">72</td>
+										    </tr>
+										    <tr>
+												<td class="title">Status</td>
+												<td>E</td>
+												<td>E</td>
+												<td>E</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td class="out">-</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>E</td>
+												<td>E</td>
+												<td class="in">-</td>
+												<td class="total">-</td>
+										    </tr>
+										    
+										</tbody>
+								    </table>
+								</div> <!-- end .table-scorecard -->
+							</div>
+						
+							<div class=
+								
+									
+									"tab-pane fade " id="round2-two" role="tabpanel" aria-labelledby="round2-two-tab"
+									
+									
+								
+								_round="2"
+							>
+							
+								<!---------- 라운드별 스코어카드 시작 ---------->
+								<div class="table table-scorecard">
+								    <table>
+										<thead>
+										    <tr>
+												<th class="title">HOLE</th>
+												
+													<th id="btnHole" _hole="1">1</th>
+													
+												
+													<th id="btnHole" _hole="2">2</th>
+													
+												
+													<th id="btnHole" _hole="3">3</th>
+													
+												
+													<th id="btnHole" _hole="4">4</th>
+													
+												
+													<th id="btnHole" _hole="5">5</th>
+													
+												
+													<th id="btnHole" _hole="6">6</th>
+													
+												
+													<th id="btnHole" _hole="7">7</th>
+													
+												
+													<th id="btnHole" _hole="8">8</th>
+													
+												
+													<th id="btnHole" _hole="9">9</th>
+													
+														<th>OUT</th>
+													
+												
+													<th id="btnHole" _hole="10">10</th>
+													
+												
+													<th id="btnHole" _hole="11">11</th>
+													
+												
+													<th id="btnHole" _hole="12">12</th>
+													
+												
+													<th id="btnHole" _hole="13">13</th>
+													
+												
+													<th id="btnHole" _hole="14">14</th>
+													
+												
+													<th id="btnHole" _hole="15">15</th>
+													
+												
+													<th id="btnHole" _hole="16">16</th>
+													
+												
+													<th id="btnHole" _hole="17">17</th>
+													
+												
+													<th id="btnHole" _hole="18">18</th>
+													
+												
+												<th>IN</th>
+												<th>TOT</th>
+										    </tr>
+										</thead>
+										<tbody id="tbodyShotTrackerScore" _round="2">
+											<tr class="bg-lightgray">
+												<td class="title">PAR</td>
+												<td id="btnHole">4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>4</td>
+												<td>4</td>
+												<td class="out">36</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td class="in">36</td>
+												<td class="total">72</td>
+										    </tr>
+										    <tr>
+												<td class="title">Score</td>
+												<td class="bogeys">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="bogeys">6</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="out" style="font-weight: bold;">
+		                                        	
+		                                        		39
+		                                        	
+		                                        </td>
+		                                        <td class="Dbogeys">7</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">2</td>
+		                                        <td class="Dbogeys">6</td>
+		                                        <td class="bogeys">6</td>
+		                                        <td class="in" style="font-weight: bold;">
+		                                        	
+		                                        		40
+		                                        	
+		                                        </td>
+												<td class="total" style="font-weight: bold;">79</td>
+										    </tr>
+										    <tr>
+												<td class="title">Status</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td>+2</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td class="out">-</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+4</td>
+												<td>+6</td>
+												<td>+7</td>
+												<td class="in">-</td>
+												<td class="total">-</td>
+										    </tr>
+										    
+										</tbody>
+								    </table>
+								</div> <!-- end .table-scorecard -->
+							</div>
+						
+							<div class=
+								
+									
+									
+									"tab-pane fade " id="round2-three" role="tabpanel" aria-labelledby="round2-three-tab"
+									
+								
+								_round="3"
+							>
+							
+								<!---------- 라운드별 스코어카드 시작 ---------->
+								<div class="table table-scorecard">
+								    <table>
+										<thead>
+										    <tr>
+												<th class="title">HOLE</th>
+												
+													<th id="btnHole" _hole="1">1</th>
+													
+												
+													<th id="btnHole" _hole="2">2</th>
+													
+												
+													<th id="btnHole" _hole="3">3</th>
+													
+												
+													<th id="btnHole" _hole="4">4</th>
+													
+												
+													<th id="btnHole" _hole="5">5</th>
+													
+												
+													<th id="btnHole" _hole="6">6</th>
+													
+												
+													<th id="btnHole" _hole="7">7</th>
+													
+												
+													<th id="btnHole" _hole="8">8</th>
+													
+												
+													<th id="btnHole" _hole="9">9</th>
+													
+														<th>OUT</th>
+													
+												
+													<th id="btnHole" _hole="10">10</th>
+													
+												
+													<th id="btnHole" _hole="11">11</th>
+													
+												
+													<th id="btnHole" _hole="12">12</th>
+													
+												
+													<th id="btnHole" _hole="13">13</th>
+													
+												
+													<th id="btnHole" _hole="14">14</th>
+													
+												
+													<th id="btnHole" _hole="15">15</th>
+													
+												
+													<th id="btnHole" _hole="16">16</th>
+													
+												
+													<th id="btnHole" _hole="17">17</th>
+													
+												
+													<th id="btnHole" _hole="18">18</th>
+													
+												
+												<th>IN</th>
+												<th>TOT</th>
+										    </tr>
+										</thead>
+										<tbody id="tbodyShotTrackerScore" _round="3">
+											<tr class="bg-lightgray">
+												<td class="title">PAR</td>
+												<td id="btnHole">4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>4</td>
+												<td>4</td>
+												<td class="out">36</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td class="in">36</td>
+												<td class="total">72</td>
+										    </tr>
+										    <tr>
+												<td class="title">Score</td>
+												<td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="out" style="font-weight: bold;">
+		                                        	
+		                                        		34
+		                                        	
+		                                        </td>
+		                                        <td class="birdies">4</td>
+		                                        <td class="bogeys">4</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in" style="font-weight: bold;">
+		                                        	
+		                                        		34
+		                                        	
+		                                        </td>
+												<td class="total" style="font-weight: bold;">68</td>
+										    </tr>
+										    <tr>
+												<td class="title">Status</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+4</td>
+												<td>+4</td>
+												<td>+4</td>
+												<td>+3</td>
+												<td class="out">-</td>
+												<td>+6</td>
+												<td>+7</td>
+												<td>+6</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td>+5</td>
+												<td class="in">-</td>
+												<td class="total">-</td>
+										    </tr>
+										    
+										</tbody>
+								    </table>
+								</div> <!-- end .table-scorecard -->
+							</div>
+						
+							<div class=
+								
+									
+									
+									
+									"tab-pane fade show active" id="round2-four" role="tabpanel" aria-labelledby="round2-four-tab"
+								
+								_round="4"
+							>
+							
+								<!---------- 라운드별 스코어카드 시작 ---------->
+								<div class="table table-scorecard">
+								    <table>
+										<thead>
+										    <tr>
+												<th class="title">HOLE</th>
+												
+													<th id="btnHole" _hole="1">1</th>
+													
+												
+													<th id="btnHole" _hole="2">2</th>
+													
+												
+													<th id="btnHole" _hole="3">3</th>
+													
+												
+													<th id="btnHole" _hole="4">4</th>
+													
+												
+													<th id="btnHole" _hole="5">5</th>
+													
+												
+													<th id="btnHole" _hole="6">6</th>
+													
+												
+													<th id="btnHole" _hole="7">7</th>
+													
+												
+													<th id="btnHole" _hole="8">8</th>
+													
+												
+													<th id="btnHole" _hole="9">9</th>
+													
+														<th>OUT</th>
+													
+												
+													<th id="btnHole" _hole="10">10</th>
+													
+												
+													<th id="btnHole" _hole="11">11</th>
+													
+												
+													<th id="btnHole" _hole="12">12</th>
+													
+												
+													<th id="btnHole" _hole="13">13</th>
+													
+												
+													<th id="btnHole" _hole="14">14</th>
+													
+												
+													<th id="btnHole" _hole="15">15</th>
+													
+												
+													<th id="btnHole" _hole="16">16</th>
+													
+												
+													<th id="btnHole" _hole="17">17</th>
+													
+												
+													<th id="btnHole" _hole="18">18</th>
+													
+												
+												<th>IN</th>
+												<th>TOT</th>
+										    </tr>
+										</thead>
+										<tbody id="tbodyShotTrackerScore" _round="4">
+											<tr class="bg-lightgray">
+												<td class="title">PAR</td>
+												<td id="btnHole">4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td>4</td>
+												<td>4</td>
+												<td class="out">36</td>
+												<td>5</td>
+												<td>3</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>4</td>
+												<td>3</td>
+												<td>4</td>
+												<td>5</td>
+												<td class="in">36</td>
+												<td class="total">72</td>
+										    </tr>
+										    <tr>
+												<td class="title">Score</td>
+												<td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="birdies">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="out" style="font-weight: bold;">
+		                                        	
+		                                        		35
+		                                        	
+		                                        </td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">2</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in" style="font-weight: bold;">
+		                                        	
+		                                        		35
+		                                        	
+		                                        </td>
+												<td class="total" style="font-weight: bold;">70</td>
+										    </tr>
+										    <tr>
+												<td class="title">Status</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+4</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+2</td>
+												<td>+2</td>
+												<td class="out">-</td>
+												<td>+2</td>
+												<td>+2</td>
+												<td>+2</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+3</td>
+												<td>+2</td>
+												<td>+1</td>
+												<td>+1</td>
+												<td class="in">-</td>
+												<td class="total">-</td>
+										    </tr>
+										    
+										</tbody>
+								    </table>
+								</div> <!-- end .table-scorecard -->
+							</div>
+						    
+				    	<div class="table-legend mb-3">
+						    <ul class="d-flex justify-content-end">
+								<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-eagles.svg" style="width: 1rem;"></span>이글이하</li>
+                                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-birdies.svg" style="width: 1rem;"></span>버디</li>
+                                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-bogeys.svg" style="width: 1rem;"></span>보기</li>
+                                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-Dbogeys.svg" style="width: 1rem;"></span>더블보기 이상</li>
+						    </ul>
+						</div>
+					</div>
+					
+					<!------------------------------------------------------ 홀별정보 ------------------------------------------------------>
+					<div class="card tracker-card">
+						<div class="card-header px-0 bg-white pb-0">
+							<div class="container">
+								<div class="row">
+									<div class="col-12 col-lg-8">
+										<!-- 홀넘버 -->
+										<div class="scroll">
+											<table class="table border-0 text-center mb-0" style="max-width: 550px;">
+												<tbody>
+													<tr>
+														<td class="fw-bold" style="width: 15%;">HOLE</td>
+														<td style="width: 15%;">Par</td>
+														<td style="width: 15%;">Yds</td>
+														<td style="width: 15%;">M</td>
+														<td style="width: 15%;">홀난이도</td>
+														<td style="width: auto;">평균타수</td>
+													</tr>
+												</tbody>
+											</table>
+											<hr class="m-0" />
+											<table class="table border-0 text-center mb-0" style="max-width: 550px;">
+												<tbody>
+													<tr>
+														<td style="width: 15%;"><h2 class="position-relative"><span id="holeInfo_holeNo" class="position-absolute start-0 fs-2 badge bg-red rounded-pill" style="line-height: 1.4; top: -0.25rem; width: 46px; height: 46px; padding-left: 0; padding-right: 0;"></span></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_par"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_yds"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_meter"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_difficult"></h2></td>
+														<td style="width: auto"><h2 class="my-2" id="holeInfo_avgScore"></h2></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="col-12 col-lg-4">
+										<!-- 홀/그린 탭메뉴 -->
+										<div class="card-header-nav my-3">
+											<ul class="nav nav-pills nav-switch" id="map-tab" role="tablist">
+												<li class="nav-item w-auto" role="presentation">
+													<button class="nav-link active" id="map-hole-tab" data-bs-toggle="pill" data-bs-target="#map-hole" type="button" role="tab" aria-controls="map-hole" aria-selected="true">HOLE</button>
+												</li>
+												<li class="nav-item w-auto" role="presentation">
+													<button class="nav-link" id="map-green-tab" data-bs-toggle="pill" data-bs-target="#map-green" type="button" role="tab" aria-controls="map-green" aria-selected="false">GREEN</button>
+												</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div> <!-- end .container -->
+						</div> <!-- end .card-header -->
+						
+						<div class="card-body pt-0">
+							<!-- 홀/그린 탭 컨텐츠 -->
+							<div class="tab-content" id="map-tabContent">
+						
+								<!-- HOLE -->
+								<div class="tab-pane fade show active" id="map-hole" role="tabpanel" aria-labelledby="map-hole-tab">
+									<div class="row">
+										<div class="col-12 col-lg-8">
+											<!-- 홀 지도이미지 -->
+											<div class="map-wrapper" id="divShotTracker_hole" style="width: 100%;">
+						                    </div>
+						                </div>
+						                <div class="col-12 col-lg-4">
+						                    <!-- 샷 테이블 -->
+						                    <div class="d-flex justify-content-between align-items-center mt-4">
+						                        <h4><span class="inline-icon rounded-pill boxshadow"><img src="/resources/web/images/shottable-liveicon.svg"></span>실시간 샷 상황</h4>
+						                        <div class="dropdown-table-info">
+						                            <button class="btn btn-table-info" onclick="tableinfo(this)"></button>
+						                            <ul class="table-info" style="display: none;">
+						                                <li>* 거리단위는 야드(yds)입니다.</li>
+						                                
+						                                <li>* 고도차 : 남은 거리 위치에서 핀 위치까지의 고도차<br>(+오르막, -내리막)</li>
+						                                
+						                            </ul>
+						                        </div>
+						                    </div>
+						                    <div class="table shot-table-striped">
+												<table>
+													<thead>
+														<tr>
+															<th colspan="2">SHOT</th>
+															<th>비거리</th>
+															<th>볼 위치</th>
+															<th>남은거리</th>
+															
+															<th>고도차</th>
+															
+														</tr>
+													</thead>
+													<tbody id="tbodyShotState">
+													</tbody>
+												</table>
+											</div> <!-- end .shot-table -->
+											
+											<!-- 샷트래커 하단 배너영역 
+						                    <div class="shot-table-banner">
+						                        <img src="/resources/web/images/banner-shottable.png" class="rounded-5">
+						                    </div>
+						                     -->
+						                </div>
+						            </div>
+						        </div>
+						        <!-- GREEN -->
+						        <div class="tab-pane fade" id="map-green" role="tabpanel" aria-labelledby="map-green-tab">
+						            <div class="row">
+						                <div class="col-12 col-lg-8">
+						                    <!-- 그린 지도이미지 -->
+						                    <div class="map-wrapper rounded-10 overflow-hidden"  id="divShotTracker_green" style="width: 100%;">
+						                        
+						                    </div>
+						                </div>
+						                <div class="col-12 col-lg-4">
+						                    <!-- 샷 테이블 -->
+						                    <div class="d-flex justify-content-between align-items-center mt-4">
+						                        <h4><span class="inline-icon rounded-pill boxshadow"><img src="/resources/web/images/shottable-liveicon.svg"></span>실시간 샷 상황</h4>
+						                        <div class="dropdown-table-info">
+						                            <button class="btn btn-table-info" onclick="tableinfo(this)"></button>
+						                            <ul class="table-info" style="display: none;">
+						                                <li>* 거리단위는 야드(yds)입니다.</li>
+						                                
+						                                <li>* 고도차 : 남은 거리 위치에서 핀 위치까지의 고도차<br>(+오르막, -내리막)</li>
+						                                
+						                            </ul>
+						                        </div>
+						                    </div>
+						                    <div class="table shot-table-striped">
+						                        <table>
+													<thead>
+														<tr>
+															<th colspan="2">SHOT</th>
+															<th>비거리</th>
+															<th>볼 위치</th>
+															<th>남은거리</th>
+															
+															<th>고도차</th>
+															
+														</tr>
+													</thead>
+													<tbody id="tbodyShotState">
+													</tbody>
+												</table>
+											</div> <!-- end .shot-table -->
+											<!-- 샷트래커하단 배너영역
+											<div class="shot-table-banner">
+												<img src="/resources/web/images/banner-shottable.png" class="rounded-5">
+											</div>
+											 -->
+										</div>
+									</div>
+								</div> <!-- end map-green -->
+							</div>
+						</div> <!-- end .card-body -->
+						
+					</div> <!-- end .traker-card -->
+			    </div>
+			    <!--********************************** end 샷트래커 **********************************-->
+	
+			    <!--************************************ 조별보기 ************************************-->
+			    <div class="tab-pane fade" id="tracker-two" role="tabpanel" aria-labelledby="tracker-two-tab">
+			    
+			    	<h4 class="table-title"></h4>
+	
+					<!---------------------------- 조별보기 > 라운드 탭메뉴3 컨텐츠 시작 ---------------------------->
+					<div class="tab-content" id="round3-tabContent">
+					    
+					    <div class="tab-pane fade show active" id="round3-one" role="tabpanel" aria-labelledby="round3-one-tab">
+						
+							<!---------- 조별보기 스코어카드 시작 ---------->
+							<div class="table table-scorecard team">
+							    <table>
+									<thead>
+									    <tr>
+											<th class="title">HOLE</th>
+											
+												<th id="btnHole_group" _hole="1">1</th>
+												
+											
+												<th id="btnHole_group" _hole="2">2</th>
+												
+											
+												<th id="btnHole_group" _hole="3">3</th>
+												
+											
+												<th id="btnHole_group" _hole="4">4</th>
+												
+											
+												<th id="btnHole_group" _hole="5">5</th>
+												
+											
+												<th id="btnHole_group" _hole="6">6</th>
+												
+											
+												<th id="btnHole_group" _hole="7">7</th>
+												
+											
+												<th id="btnHole_group" _hole="8">8</th>
+												
+											
+												<th id="btnHole_group" _hole="9">9</th>
+												
+													<th>OUT</th>
+												
+											
+												<th id="btnHole_group" _hole="10">10</th>
+												
+											
+												<th id="btnHole_group" _hole="11">11</th>
+												
+											
+												<th id="btnHole_group" _hole="12">12</th>
+												
+											
+												<th id="btnHole_group" _hole="13">13</th>
+												
+											
+												<th id="btnHole_group" _hole="14">14</th>
+												
+											
+												<th id="btnHole_group" _hole="15">15</th>
+												
+											
+												<th id="btnHole_group" _hole="16">16</th>
+												
+											
+												<th id="btnHole_group" _hole="17">17</th>
+												
+											
+												<th id="btnHole_group" _hole="18">18</th>
+												
+											
+											<th>IN</th>
+											<th>TOT</th>
+									    </tr>
+									</thead>
+									<tbody id="tbodyShotTrackerScore_group">
+										<tr class="bg-lightgray">
+											<td class="title">PAR</td>
+											<td>4</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td>4</td>
+											<td>4</td>
+											<td class="out">36</td>
+											<td>5</td>
+											<td>3</td>
+											<td>4</td>
+											<td>4</td>
+											<td>4</td>
+											<td>4</td>
+											<td>3</td>
+											<td>4</td>
+											<td>5</td>
+											<td class="in">36</td>
+											<td class="total">72</td>
+									    </tr>
+									    
+									    	<tr>
+												<td class="title"><span class="dot1">●</span><span class="name1" id="btnName" _index="1"><button class="btn active">김민주</button></span></td> <!-- active -->
+												<td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">4</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="out">
+		                                        	
+		                                        		34
+		                                        	
+		                                        </td>
+		                                        <td class="par">5</td>
+		                                        <td class="bogeys">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">2</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in">
+		                                        	
+		                                        		36
+		                                        	
+		                                        </td>
+												<td class="total">70</td>
+										    </tr>
+									    
+									    	<tr>
+												<td class="title"><span class="dot2">●</span><span class="name2" id="btnName" _index="2"><button class="btn ">김수지</button></span></td> <!-- active -->
+												<td class="bogeys">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="out">
+		                                        	
+		                                        		37
+		                                        	
+		                                        </td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in">
+		                                        	
+		                                        		37
+		                                        	
+		                                        </td>
+												<td class="total">74</td>
+										    </tr>
+									    
+									    	<tr>
+												<td class="title"><span class="dot3">●</span><span class="name3" id="btnName" _index="3"><button class="btn ">이지현3</button></span></td> <!-- active -->
+												<td class="par">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="birdies">4</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">5</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="out">
+		                                        	
+		                                        		35
+		                                        	
+		                                        </td>
+		                                        <td class="par">5</td>
+		                                        <td class="par">3</td>
+		                                        <td class="par">4</td>
+		                                        <td class="bogeys">5</td>
+		                                        <td class="par">4</td>
+		                                        <td class="par">4</td>
+		                                        <td class="birdies">2</td>
+		                                        <td class="birdies">3</td>
+		                                        <td class="par">5</td>
+		                                        <td class="in">
+		                                        	
+		                                        		35
+		                                        	
+		                                        </td>
+												<td class="total">70</td>
+										    </tr>
+									    
+									</tbody>
+							    </table>
+							</div> <!-- end .table-scorecard -->
+		
+					    </div>
+						<!-- 
+					    <div class="tab-pane fade" id="round3-two" role="tabpanel" aria-labelledby="round3-two-tab">조별보기 2R</div>
+					    <div class="tab-pane fade" id="round3-three" role="tabpanel" aria-labelledby="round3-three-tab">조별보기 3R</div>
+					    <div class="tab-pane fade" id="round3-four" role="tabpanel" aria-labelledby="round3-four-tab">조별보기 FR</div>
+					     -->
+					</div>
+		
+					<!----------------- 조별보기 > 홀별정보 ----------------->
+					<div class="card tracker-card">
+	                    <div class="card-header px-0 bg-white pb-0">
+	                        <div class="container">
+	                            <div class="row">
+	                                <div class="col-12 col-lg-8">
+	                                    <!-- 홀넘버 -->
+	                                    <div class="scroll">
+	                                        <table class="table border-0 text-center mb-0" style="max-width: 550px;">
+	                                            <tbody><tr>
+	                                                <td class="fw-bold" style="width: 15%;">HOLE</td>
+	                                                <td style="width: 15%;">Par</td>
+	                                                <td style="width: 15%;">Yds</td>
+	                                                <td style="width: 15%;">M</td>
+	                                                <td style="width: 15%;">홀난이도</td>
+	                                                <td style="width: auto;">평균타수</td>
+	                                            </tr>
+	                                        </tbody></table>
+	                                        <hr class="m-0">
+	                                        
+	                                        <table class="table border-0 text-center mb-0" style="max-width: 550px;">
+												<tbody>
+													<tr>
+														<td style="width: 15%;"><h2 class="position-relative"><span id="holeInfo_group_holeNo" class="position-absolute start-0 fs-2 badge bg-red rounded-pill" style="line-height: 1.4; top: -0.25rem; width: 46px; height: 46px; padding-left: 0; padding-right: 0;"></span></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_group_par"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_group_yds"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_group_meter"></h2></td>
+														<td style="width: 15%;"><h2 class="my-2" id="holeInfo_group_difficult"></h2></td>
+														<td style="width: auto"><h2 class="my-2" id="holeInfo_group_avgScore"></h2></td>
+													</tr>
+												</tbody>
+											</table>
+	                                    </div>
+	                                </div>
+	                                <div class="col-12 col-lg-4">
+	                                    <!-- 홀/그린 탭메뉴 -->
+	                                    <div class="card-header-nav my-3">
+	                                        <ul class="nav nav-pills nav-switch" id="teammap-tab" role="tablist">
+	                                            <li class="nav-item" role="presentation">
+	                                            <button class="nav-link active" id="teammap-hole-tab" data-bs-toggle="pill" data-bs-target="#group-hole" type="button" role="tab" aria-controls="teammap-hole" aria-selected="true">HOLE</button>
+	                                            </li>
+	                                            <li class="nav-item" role="presentation">
+	                                            <button class="nav-link" id="teammap-green-tab" data-bs-toggle="pill" data-bs-target="#group-green" type="button" role="tab" aria-controls="teammap-green" aria-selected="false">GREEN</button>
+	                                            </li>
+	                                        </ul>
+	                                    </div>
+	                                </div>
+	                            </div> <!-- end .card-header -->
+	                        </div>
+	                    </div>
+	                
+	                    <div class="card-body pt-0">
+	                        <!-- 조별보기 홀/그린 탭 컨텐츠 -->
+	                        <div class="tab-content" id="map-tabContent">
+	
+	                            <!-- HOLE -->
+	                            <div class="tab-pane fade active show" id="group-hole" role="tabpanel" aria-labelledby="teammap-hole-tab">
+	                                <div class="row">
+	                                    <div class="col-12 col-lg-8">
+	                                        <!-- 홀 지도이미지 -->
+	                                        <div class="map-wrapper" id="divShotTracker_hole_group" style="width: 100%;">
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-12 col-lg-4">
+	                                        <!-- 팀 플레이어 -->
+	                                        <table class="table table-scorecard rounded-10 overflow-hidden">
+	                                            <tbody>
+	                                                <tr>
+	                                                
+	                                                	<td class="title"><span class="dot1">●</span><span class="name1 w-auto" id="btnName" _index="1"><button class="btn active">김민주</button></span></td>
+													
+	                                                	<td class="title"><span class="dot2">●</span><span class="name2 w-auto" id="btnName" _index="2"><button class="btn ">김수지</button></span></td>
+													
+	                                                	<td class="title"><span class="dot3">●</span><span class="name3 w-auto" id="btnName" _index="3"><button class="btn ">이지현3</button></span></td>
+													
+	                                                </tr>
+	                                            </tbody>
+	                                        </table>
+	                                        <!-- 샷 테이블 -->
+	                                        <div class="d-flex justify-content-between align-items-center mt-4">
+	                                            <h4><span class="inline-icon rounded-pill boxshadow"><img src="/resources/web/images/shottable-liveicon.svg"></span>실시간 샷 상황</h4>
+	                                            <div class="dropdown-table-info">
+	                                                <button class="btn btn-table-info" onclick="tableinfo(this)"></button>
+	                                                <ul class="table-info" style="display: none;">
+	                                                    <li>* 거리단위는 야드(yds)입니다.</li>
+	                                                    <li>* 고도차 : 남은 거리 위치에서 핀 위치까지의 고도차<br>(+오르막, -내리막)</li>
+	                                                </ul>
+	                                            </div>
+	                                        </div>
+	                                        <div class="table shot-table-striped">
+	                                            <table>
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th colspan="2">SHOT</th>
+	                                                        <th>비거리</th>
+	                                                        <th>볼 위치</th>
+	                                                        <th>남은거리</th>
+	                                                        <th>고도차</th>
+	                                                    </tr>
+	                                                </thead>
+	                                                <tbody id="divShotState_group">
+	                                                </tbody>
+	                                            </table>
+	                                        </div> <!-- end .shot-table -->
+											<!-- 샷트래커 하단 배너영역
+	                                        <div class="shot-table-banner">
+	                                            <img src="/resources/web/images/banner-shottable.png" class="rounded-5">
+	                                        </div>
+ 											-->
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <!-- GREEN -->
+	                            <div class="tab-pane fade" id="group-green" role="tabpanel" aria-labelledby="teammap-green-tab">
+	                                <div class="row">
+	                                    <div class="col-12 col-lg-8">
+	                                        <!-- 그린 지도이미지 -->
+	                                        <div class="map-wrapper rounded-10 overflow-hidden" id="divShotTracker_green_group" style="width: 100%;">
+	                                        </div>
+	                                    </div>
+	                                    <div class="col-12 col-lg-4">
+	                                        <!-- 팀 플레이어 -->
+	                                        <table class="table table-scorecard rounded-10 overflow-hidden">
+	                                            <tbody>
+	                                                <tr>
+														
+	                                                	<td class="title"><span class="dot1">●</span><span class="name1 w-auto" id="btnName" _index="1"><button class="btn active">김민주</button></span></td>
+														
+	                                                	<td class="title"><span class="dot2">●</span><span class="name2 w-auto" id="btnName" _index="2"><button class="btn ">김수지</button></span></td>
+														
+	                                                	<td class="title"><span class="dot3">●</span><span class="name3 w-auto" id="btnName" _index="3"><button class="btn ">이지현3</button></span></td>
+														
+	                                                </tr>
+	                                            </tbody>
+	                                        </table>
+	                                        <!-- 샷 테이블 -->
+	                                        <div class="d-flex justify-content-between align-items-center mt-4">
+	                                            <h4><span class="inline-icon rounded-pill boxshadow"><img src="/resources/web/images/shottable-liveicon.svg"></span>실시간 샷 상황</h4>
+	                                            <div class="dropdown-table-info">
+	                                                <button class="btn btn-table-info" onclick="tableinfo(this)"></button>
+	                                                <ul class="table-info" style="display: none;">
+	                                                    <li>* 거리단위는 야드(yds)입니다.</li>
+	                                                    <li>* 고도차 : 남은 거리 위치에서 핀 위치까지의 고도차<br>(+오르막, -내리막)</li>
+	                                                </ul>
+	                                            </div>
+	                                        </div>
+	                                        <div class="table shot-table-striped">
+	                                            <table>
+	                                                <thead>
+	                                                    <tr>
+	                                                        <th colspan="2">SHOT</th>
+	                                                        <th>비거리</th>
+	                                                        <th>볼 위치</th>
+	                                                        <th>남은거리</th>
+	                                                        <th>고도차</th>
+	                                                    </tr>
+	                                                </thead>
+	                                                <tbody id="divShotState_group">
+	                                                </tbody>
+	                                            </table>
+	                                        </div> <!-- end .shot-table -->
+	                                        <!-- 샷트래커 하단배너
+	                                        <div class="shot-table-banner">
+	                                            <img src="/resources/web/images/banner-shottable.png" class="rounded-5">
+	                                        </div>
+	                                         -->
+	                                    </div>
+	                                </div>
+	                            </div> <!-- end map-green -->
+	                        </div>
+	                
+	                    </div> <!-- end .card-body -->
+					</div> <!-- end .traker-card -->
+	
+			    </div>
+			    <!--********************************* end 조별보기 *********************************-->
+	
+	
+			    <!--************************************ STATS ************************************-->
+			    <div class="tab-pane fade" id="tracker-three" role="tabpanel" aria-labelledby="tracker-three-tab">
+	
+					<!---------------------------- STATS > 라운드 탭메뉴4 ---------------------------->
+					<div class="nav-round-wrapper">
+							
+					    <ul class="nav nav-pills nav-round-sm mb-3" id="round4-tab" role="tablist">
+							<li class="nav-item" role="presentation" style="">
+							    <button class="nav-link active" id="round4-one-tab" data-bs-toggle="pill" data-bs-target="#round4-one" type="button" role="tab" aria-controls="round4-one" aria-selected="true">1R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+							    <button class="nav-link" id="round4-two-tab" data-bs-toggle="pill" data-bs-target="#round4-two" type="button" role="tab" aria-controls="round4-two" aria-selected="false">2R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+							    <button class="nav-link" id="round4-three-tab" data-bs-toggle="pill" data-bs-target="#round4-three" type="button" role="tab" aria-controls="round4-three" aria-selected="false">3R</button>
+							</li>
+							<li class="nav-item" role="presentation" style="">
+							    <button class="nav-link" id="round4-four-tab" data-bs-toggle="pill" data-bs-target="#round4-four" type="button" role="tab" aria-controls="round4-four" aria-selected="false">FR</button>
+							</li>
+							<li class="nav-item" role="presentation">
+							    <button class="nav-link" id="round4-five-tab" data-bs-toggle="pill" data-bs-target="#round4-five" type="button" role="tab" aria-controls="round4-five" aria-selected="false">1R~FR</button>
+							</li>
+					    </ul>
+					</div>
+	
+					<!---------------------------- STATS > 라운드 탭메뉴4 컨텐츠 시작 ---------------------------->
+					<div class="tab-content" id="round4-tabContent">
+						
+					    
+					</div> <!-- end .round4-tabContent-->
+	
+	
+	
+			    </div>
+			    <!--********************************** end STATS **********************************-->
+	
+			    <!--************************************ 스코어카드 ************************************-->
+			    <div class="tab-pane fade" id="tracker-four" role="tabpanel" aria-labelledby="tracker-four-tab">
+				
+					<h4 class="table-title"></h4>
+	
+					<div class="table table-scorecard">
+					    <table>
+							<thead>
+							    <tr>
+								<th class="title">HOLE</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>OUT</th>
+								<th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>IN</th><th>TOT</th>
+							    </tr>
+							</thead>
+							<tbody>
+							    <tr class="bg-lightgray">
+									<td class="title">PAR</td>
+									<td>4</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td>4</td>
+									<td>4</td>
+									<td class="out">36</td>
+									<td>5</td>
+									<td>3</td>
+									<td>4</td>
+									<td>4</td>
+									<td>4</td>
+									<td>4</td>
+									<td>3</td>
+									<td>4</td>
+									<td>5</td>
+									<td class="in">36</td>
+									<td class="total">72</td>
+							    </tr>
+							    
+							    	
+							    	<tr>
+										<td class="title">1R</td>
+										<td class="par">4</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="bogeys">6</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">5</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="out">
+                                        	
+                                        		37
+                                        	
+                                        </td>
+                                        <td class="par">5</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">3</td>
+                                        <td class="birdies">3</td>
+                                        <td class="par">5</td>
+                                        <td class="in">
+                                        	
+                                        		35
+                                        	
+                                        </td>
+										<td class="total">72</td>
+								    </tr>
+								    
+							    
+							    	
+							    	<tr>
+										<td class="title">2R</td>
+										<td class="bogeys">5</td>
+                                        <td class="par">3</td>
+                                        <td class="bogeys">5</td>
+                                        <td class="bogeys">6</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">5</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="out">
+                                        	
+                                        		39
+                                        	
+                                        </td>
+                                        <td class="Dbogeys">7</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="birdies">2</td>
+                                        <td class="Dbogeys">6</td>
+                                        <td class="bogeys">6</td>
+                                        <td class="in">
+                                        	
+                                        		40
+                                        	
+                                        </td>
+										<td class="total">79</td>
+								    </tr>
+								    
+							    
+							    	
+							    	<tr>
+										<td class="title">3R</td>
+										<td class="par">4</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">5</td>
+                                        <td class="par">3</td>
+                                        <td class="birdies">3</td>
+                                        <td class="par">5</td>
+                                        <td class="par">4</td>
+                                        <td class="birdies">3</td>
+                                        <td class="out">
+                                        	
+                                        		34
+                                        	
+                                        </td>
+                                        <td class="birdies">4</td>
+                                        <td class="bogeys">4</td>
+                                        <td class="birdies">3</td>
+                                        <td class="birdies">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">5</td>
+                                        <td class="in">
+                                        	
+                                        		34
+                                        	
+                                        </td>
+										<td class="total">68</td>
+								    </tr>
+								    
+							    
+							    	
+							    	<tr>
+										<td class="title">FR</td>
+										<td class="par">4</td>
+                                        <td class="par">3</td>
+                                        <td class="bogeys">5</td>
+                                        <td class="birdies">4</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="par">5</td>
+                                        <td class="birdies">3</td>
+                                        <td class="par">4</td>
+                                        <td class="out">
+                                        	
+                                        		35
+                                        	
+                                        </td>
+                                        <td class="par">5</td>
+                                        <td class="par">3</td>
+                                        <td class="par">4</td>
+                                        <td class="bogeys">5</td>
+                                        <td class="par">4</td>
+                                        <td class="par">4</td>
+                                        <td class="birdies">2</td>
+                                        <td class="birdies">3</td>
+                                        <td class="par">5</td>
+                                        <td class="in">
+                                        	
+                                        		35
+                                        	
+                                        </td>
+										<td class="total">70</td>
+								    </tr>
+								    
+							    
+							</tbody>
+					    </table>
+					</div>
+	
+			    </div>
+			    <!--********************************** end 스코어카드 **********************************-->
+	
+			    <!--************************************ 미디어 ************************************-->
+			    <div class="tab-pane fade" id="tracker-five" role="tabpanel" aria-labelledby="tracker-five-tab">
+	
+				<!-- <h4 class="table-title pb-0">미디어</h4> -->
+				
+				<div class="card tracker-card">
+				    <div class="card-header">
+					<!-- 미디어 탭메뉴-->
+					<ul class="nav nav-pills nav-media" id="media-tab" role="tablist">
+					    <!-- <li class="nav-item" role="presentation">
+						<button class="nav-link" id="media-video-tab" data-bs-toggle="pill" data-bs-target="#media-video" type="button" role="tab" aria-controls="media-video" aria-selected="true">동영상</button>
+					    </li> -->
+					    <li class="nav-item" role="presentation">
+						<button class="nav-link active" id="media-photo-tab" data-bs-toggle="pill" data-bs-target="#media-photo" type="button" role="tab" aria-controls="media-photo" aria-selected="false">사진</button>
+					    </li>
+					    <li class="nav-item" role="presentation">
+						<button class="nav-link" id="media-archive-tab" data-bs-toggle="pill" data-bs-target="#media-archive" type="button" role="tab" aria-controls="media-archive" aria-selected="false">기사</button>
+					    </li>
+					</ul>
+				    </div> <!-- end .card-header -->
+				
+				    <div class="card-body">
+					<!-- 미디어 탭 컨텐츠 -->
+					<div class="tab-content" id="media-tabContent">
+	
+					    <!-- 미디어 > 동영상 -->
+					    
+	
+					    <!-- 미디어 > 사진 -->
+					    <div class="tab-pane fade show active" id="media-photo" role="tabpanel" aria-labelledby="media-photo-tab">
+							
+						<!-- 사진 슬라이더 -->
+						<div class="swiper leaderboard-photo-swiper">
+						    <div class="photoDiv swiper-wrapper">
+						    	
+						    		<div class="photoIndex swiper-slide" data-file="2026/10/20261004-38.jpg">
+									    <div class="swiper-thumb" style="background-image: url('https://cdn.klpga.co.kr/DATA/2026/10/thumbNail_20261004-38.jpg')">
+										<a class="photoDetail" href="javascript:void(0);" data-bs-target="#photoModal" data-bs-toggle="modal"><img src="/resources/web/images/blank-media.png"></a>
+									    </div>
+									    <div class="swiper-caption">
+										<h4>이지현3 제26회 하이트진로 챔피언십 FR 4번홀 티샷</h4>
+										<div class="swiper-date"></div>
+									    </div>
+									</div>
+						    	
+						    		<div class="photoIndex swiper-slide" data-file="2026/10/20261004-37.jpg">
+									    <div class="swiper-thumb" style="background-image: url('https://cdn.klpga.co.kr/DATA/2026/10/thumbNail_20261004-37.jpg')">
+										<a class="photoDetail" href="javascript:void(0);" data-bs-target="#photoModal" data-bs-toggle="modal"><img src="/resources/web/images/blank-media.png"></a>
+									    </div>
+									    <div class="swiper-caption">
+										<h4>이지현3 제26회 하이트진로 챔피언십 FR 1번홀 티샷</h4>
+										<div class="swiper-date"></div>
+									    </div>
+									</div>
+						    	
+						    		<div class="photoIndex swiper-slide" data-file="2026/10/20261004-36.jpg">
+									    <div class="swiper-thumb" style="background-image: url('https://cdn.klpga.co.kr/DATA/2026/10/thumbNail_20261004-36.jpg')">
+										<a class="photoDetail" href="javascript:void(0);" data-bs-target="#photoModal" data-bs-toggle="modal"><img src="/resources/web/images/blank-media.png"></a>
+									    </div>
+									    <div class="swiper-caption">
+										<h4>이지현3 제26회 하이트진로 챔피언십 FR 1번홀 세컨샷</h4>
+										<div class="swiper-date"></div>
+									    </div>
+									</div>
+						    	
+						    		<div class="photoIndex swiper-slide" data-file="2026/10/20261001-1-49.JPG">
+									    <div class="swiper-thumb" style="background-image: url('https://cdn.klpga.co.kr/DATA/2026/10/thumbNail_20261001-1-49.JPG')">
+										<a class="photoDetail" href="javascript:void(0);" data-bs-target="#photoModal" data-bs-toggle="modal"><img src="/resources/web/images/blank-media.png"></a>
+									    </div>
+									    <div class="swiper-caption">
+										<h4>이지현3 제26회 하이트진로 챔피언십 1R 1번홀 티샷</h4>
+										<div class="swiper-date"></div>
+									    </div>
+									</div>
+						    	
+						    		<div class="photoIndex swiper-slide" data-file="2026/10/20261001-1-48.JPG">
+									    <div class="swiper-thumb" style="background-image: url('https://cdn.klpga.co.kr/DATA/2026/10/thumbNail_20261001-1-48.JPG')">
+										<a class="photoDetail" href="javascript:void(0);" data-bs-target="#photoModal" data-bs-toggle="modal"><img src="/resources/web/images/blank-media.png"></a>
+									    </div>
+									    <div class="swiper-caption">
+										<h4>이지현3 제26회 하이트진로 챔피언십 1R 1번홀 세컨샷</h4>
+										<div class="swiper-date"></div>
+									    </div>
+									</div>
+						    	
+						    </div>
+						</div>
+	
+						<div class="leaderboard-photo-button-wrapper">
+						    <div class="swiper-button-next"></div>
+						    <div class="swiper-button-prev"></div>
+						</div>
+	
+						<!-- Initialize Swiper -->
+						<script>
+						    var swiper = new Swiper(".leaderboard-photo-swiper", {
+							slidesPerView: 3,
+							spaceBetween: 20,
+							navigation: {
+							nextEl: ".leaderboard-photo-button-wrapper .swiper-button-next",
+							prevEl: ".leaderboard-photo-button-wrapper .swiper-button-prev",
+							},
+							observer: true,
+							observeParents: true,
+							breakpoints: {
+							    1200: {
+							    slidesPerView: 1,
+							    spaceBetween: 20,
+							    },
+							},
+						    });
+						</script>
+	
+						<div class="container text-center">
+						    <button class="btn btn-circlearrow" onclick="location.href='/web/media/photo'" type="button">더보기</button>
+						</div>
+	
+					    </div>
+	
+					    <!-- 미디어 > 기사 -->
+					    <div class="tab-pane fade" id="media-archive" role="tabpanel" aria-labelledby="media-archive-tab">
+							
+						<div id="mediaDiv" class="row">
+							
+						</div>
+	
+						<div class="container text-center">
+						    <button onclick="location.href='/web/profile/mediaNews?playerCode=9449'" class="btn btn-circlearrow" type="button">더보기</button>
+						</div>
+	
+					    </div>
+					    <!-- end 미디어 > 기사 -->
+	
+					</div>
+					<!-- end 미디어 탭 컨텐츠 -->
+	
+				    </div> <!-- end .card-body -->
+				</div> <!-- end .traker-card -->
+	
+			    </div>
+			    <!--********************************** end 미디어 **********************************-->
+	
+			</div>
+			<!------------------------------------------------------------------------------->
+			<!--------------------------- end 선수상세보기 탭컨텐츠 --------------------------->
+			<!------------------------------------------------------------------------------->
+				
+			
+	
+		    </div>
+		</div> <!-- end .row -->
+    </div> <!-- end .pannel-body -->
+</span>
+
+
