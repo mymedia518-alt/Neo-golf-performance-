@@ -1,6 +1,45 @@
 from __future__ import annotations
 import argparse, json
+from pathlib import Path
 from collector import fetch, load_json, PLAYER_ENDPOINT, GROUP_ENDPOINT
+
+_RAW_DUMP_DIR = None  # set by main() before any verify_* call
+
+
+def _dump_raw(name, raw_bytes):
+    if _RAW_DUMP_DIR is None:
+        return
+    p = Path(_RAW_DUMP_DIR) / name
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(raw_bytes)
+
+
+def _normalize_shot_entries(entries):
+    """The real response's list elements have not been confirmed to be
+    flat shot dicts -- handle that discovery here instead of crashing,
+    and report exactly what was actually found."""
+    normalized = []
+    shapes_seen = set()
+    for e in entries:
+        if isinstance(e, dict):
+            shapes_seen.add("dict")
+            normalized.append(e)
+        elif isinstance(e, str):
+            shapes_seen.add("str(json-encoded?)")
+            try:
+                parsed = json.loads(e)
+            except json.JSONDecodeError:
+                shapes_seen.add("str(not-json)")
+                continue
+            if isinstance(parsed, dict):
+                normalized.append(parsed)
+            elif isinstance(parsed, list):
+                for inner in parsed:
+                    if isinstance(inner, dict):
+                        normalized.append(inner)
+        else:
+            shapes_seen.add(type(e).__name__)
+    return normalized, sorted(shapes_seen)
 
 def verify_official_score(game, player, rnd, hole, official_par, official_strokes, cookie=None):
     """① Cross-check shotTrackerList row count for one hole against the
@@ -9,8 +48,12 @@ def verify_official_score(game, player, rnd, hole, official_par, official_stroke
     row count == official strokes, final row's pp_state should be '10'
     (HOLED) whenever the hole was completed."""
     status, raw = fetch(PLAYER_ENDPOINT, game, rnd, hole, player=player, cookie=cookie)
+    _dump_raw(f"player_{player}_R{rnd}_H{hole:02d}.json", raw)
     obj = load_json(raw)
-    shots = obj.get("shotTrackerList") or []
+    shots_raw = obj.get("shotTrackerList") or []
+    shots, shapes = _normalize_shot_entries(shots_raw)
+    if shapes not in ([], ["dict"]):
+        print(f"WARN official_score_cross_check: unexpected shotTrackerList element shapes: {shapes}")
     shot_numbers = sorted(int(s["shot"]) for s in shots)
     last = max(shots, key=lambda s: int(s["shot"])) if shots else None
     result = {
@@ -43,12 +86,25 @@ def verify_group_vs_player(game, rnd, hole, group_no, player_codes=None, cookie=
     real group's full membership is discovered from groupPlayerList
     rather than assumed."""
     gstatus, graw = fetch(GROUP_ENDPOINT, game, rnd, hole, group_no=group_no, cookie=cookie)
+    _dump_raw(f"group_{group_no}_R{rnd}_H{hole:02d}.json", graw)
     gobj = load_json(graw)
-    group_player_list = gobj.get("groupPlayerList") or []
-    group_shots = gobj.get("groupShotTrackerList") or []
+    group_player_list_raw = gobj.get("groupPlayerList") or []
+    group_player_list, gpl_shapes = _normalize_shot_entries(group_player_list_raw)
+    group_shots_raw = gobj.get("groupShotTrackerList") or []
+    group_shots, gst_shapes = _normalize_shot_entries(group_shots_raw)
+    shape_warnings = []
+    if gpl_shapes not in ([], ["dict"]):
+        shape_warnings.append(f"groupPlayerList element shapes: {gpl_shapes}")
+    if gst_shapes not in ([], ["dict"]):
+        shape_warnings.append(f"groupShotTrackerList element shapes: {gst_shapes}")
+    for w in shape_warnings:
+        print(f"WARN group_vs_player_cross_validation: {w}")
     group_by_player = {}
     for s in group_shots:
-        group_by_player.setdefault(str(s.get("playerCode")), []).append(s)
+        pc = s.get("playerCode")
+        if pc is None:
+            continue
+        group_by_player.setdefault(str(pc), []).append(s)
 
     if not player_codes:
         discovered = []
@@ -64,8 +120,13 @@ def verify_group_vs_player(game, rnd, hole, group_no, player_codes=None, cookie=
     all_pass = True
     for pc in player_codes:
         pstatus, praw = fetch(PLAYER_ENDPOINT, game, rnd, hole, player=pc, cookie=cookie)
+        _dump_raw(f"player_{pc}_R{rnd}_H{hole:02d}.json", praw)
         pobj = load_json(praw)
-        player_shots = sorted((pobj.get("shotTrackerList") or []), key=lambda s: int(s["shot"]))
+        player_shots_raw = pobj.get("shotTrackerList") or []
+        player_shots_norm, ps_shapes = _normalize_shot_entries(player_shots_raw)
+        if ps_shapes not in ([], ["dict"]):
+            print(f"WARN group_vs_player_cross_validation: player {pc} shotTrackerList element shapes: {ps_shapes}")
+        player_shots = sorted(player_shots_norm, key=lambda s: int(s["shot"]))
         g_shots_for_player = sorted(group_by_player.get(str(pc), []), key=lambda s: int(s["shot"]))
 
         mismatches = []
@@ -91,15 +152,18 @@ def verify_group_vs_player(game, rnd, hole, group_no, player_codes=None, cookie=
     return {
         "check": "group_vs_player_cross_validation",
         "game": game, "round": rnd, "hole": hole, "group_no": group_no,
+        "shape_warnings": shape_warnings,
         "group_player_list_raw": group_player_list,
+        "group_shots_found_after_normalization": len(group_shots),
         "group_response_player_codes": sorted(group_by_player.keys()),
         "players_checked": list(player_codes),
         "per_player": per_player_results,
-        "PASS": all_pass,
+        "PASS": all_pass and not shape_warnings,
     }
 
 
 def main():
+    global _RAW_DUMP_DIR
     ap = argparse.ArgumentParser()
     ap.add_argument("--game", required=True)
     ap.add_argument("--player", required=True)
@@ -111,7 +175,9 @@ def main():
     ap.add_argument("--group-player-codes", default="", help="comma-separated playerCodes to check (optional -- auto-discovered from groupPlayerList if omitted)")
     ap.add_argument("--cookie")
     ap.add_argument("--out", required=True)
+    ap.add_argument("--raw-dump-dir", default="verify_raw_dump", help="directory to save every raw response fetched during verification, regardless of outcome")
     a = ap.parse_args()
+    _RAW_DUMP_DIR = a.raw_dump_dir
 
     check1 = verify_official_score(a.game, a.player, a.round, a.hole, a.official_par, a.official_strokes, a.cookie)
     explicit_codes = [c for c in a.group_player_codes.split(",") if c] or None
