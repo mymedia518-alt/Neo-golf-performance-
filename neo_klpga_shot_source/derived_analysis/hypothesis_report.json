@@ -1,0 +1,43 @@
+{
+  "eligible_player_count": 107,
+  "eligibility_rule": ">= 10 par4/5 holes analyzed AND >= 3 FW-miss holes",
+  "correlations": {
+    "fw_hit_rate_vs_score": {
+      "r": -0.5109405453637716,
+      "n": 107
+    },
+    "gir_rate_vs_score": {
+      "r": -0.8210470220817689,
+      "n": 107
+    },
+    "fw_miss_to_gir_vs_score": {
+      "r": -0.5544294458607747,
+      "n": 107
+    },
+    "fw_hit_to_gir_vs_score": {
+      "r": -0.5673217697168002,
+      "n": 107
+    },
+    "rough_to_gir_vs_score": {
+      "r": -0.5191652501126802,
+      "n": 107
+    },
+    "gir_miss_to_par_save_vs_score": {
+      "r": -0.7699504838817145,
+      "n": 107
+    }
+  },
+  "group_comparison_by_FWMiss_to_GIR": {
+    "low_FWMiss_to_GIR_group": {
+      "n": 53,
+      "avg_score_to_par": 0.3273060796645702
+    },
+    "high_FWMiss_to_GIR_group": {
+      "n": 53,
+      "avg_score_to_par": 0.16850104821802936
+    },
+    "difference_strokes": -0.15880503144654085
+  },
+  "verdict": "CONFIRMED",
+  "verdict_reason": "fw_miss_to_gir_vs_score r=-0.554 (n=107) meets |r|>=0.3 with expected sign, comparable to or stronger than fw_hit_rate alone (r=-0.5109405453637716)"
+}
