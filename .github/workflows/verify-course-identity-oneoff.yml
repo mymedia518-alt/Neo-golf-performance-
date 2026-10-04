@@ -1,0 +1,80 @@
+name: "Verify Blue Heron course identity for KLPGA Hole 12 (on-demand, one-off)"
+
+# Manually dispatched only. Independent check: does gameCode=2026100005
+# hole=12's klpga.co.kr background image actually correspond to Blue
+# Heron Golf Club's real West Hole 3? Fetches the official Blue Heron
+# CC website's course-guide pages (and klpga.co.kr's own tournament
+# course-info page, if findable) for real par/yardage/hazard data to
+# compare against -- coordinate registration alone does not establish
+# this.
+
+on:
+  workflow_dispatch:
+    inputs:
+      extra_urls:
+        description: "additional semicolon-separated URLs to try"
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch Blue Heron official site pages (real network)
+        run: |
+          python verify_course_identity.py --out-dir course_identity_check
+
+      - name: Try extra URLs if provided
+        if: ${{ inputs.extra_urls != '' }}
+        run: |
+          python - <<'PY'
+          import os
+          from verify_course_identity import fetch
+          urls = os.environ.get("EXTRA_URLS", "").split(";")
+          for u in urls:
+              u = u.strip()
+              if u:
+                  print(fetch(u, "course_identity_check"))
+          PY
+        env:
+          EXTRA_URLS: ${{ inputs.extra_urls }}
+
+      - name: Report what was actually fetched
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron course identity check -- fetched pages"
+            find course_identity_check -name "*.html" -exec echo "### {}" \; -exec sh -c 'wc -c "{}"; head -c 400 "{}"; echo' \;
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/course-identity-check"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/course_identity_check"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron course identity check raw pages" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
