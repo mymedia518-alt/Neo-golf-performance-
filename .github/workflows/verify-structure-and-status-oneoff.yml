@@ -1,0 +1,88 @@
+name: "Verify group-shape across samples + player status (on-demand, one-off)"
+
+# Manually dispatched only. Two independent real checks against
+# klpga.co.kr, requested before trusting the full-field group-based
+# collector:
+#   1) spotcheck_group_shape.py -- confirms groupShotTrackerList's
+#      shape and lossless equivalence against getShotTracker for NEW
+#      (round, hole) samples beyond the single one already checked.
+#   2) inspect_player_status.py -- confirms one player's real
+#      tournament-ending status from the literal roundLeaderboard HTML
+#      (never inferred from absence alone).
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      spotcheck_cases:
+        description: "semicolon-separated round:hole pairs"
+        default: "1:1;2:9;3:5"
+      status_player_code:
+        description: "playerCode to confirm real status for"
+        default: "9401"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Spot-check groupShotTrackerList shape across new samples (real network)
+        run: |
+          python spotcheck_group_shape.py --game "${{ inputs.game_code }}" \
+            --cases "${{ inputs.spotcheck_cases }}" --cookie "${{ inputs.cookie }}" \
+            --dump-dir spotcheck_raw_dump --out spotcheck_result.json
+
+      - name: Confirm real status for player (real network)
+        run: |
+          python inspect_player_status.py --game "${{ inputs.game_code }}" \
+            --player "${{ inputs.status_player_code }}" --rounds "1,2,3,4" \
+            --cookie "${{ inputs.cookie }}" | tee player_status_result.txt
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Group-shape spot-check + player status -- game_code=${{ inputs.game_code }}"
+            echo "### spotcheck_result.json"
+            [ -f spotcheck_result.json ] && { echo '```json'; cat spotcheck_result.json; echo '```'; }
+            echo "### player ${{ inputs.status_player_code }} status"
+            [ -f player_status_result.txt ] && { echo '```'; cat player_status_result.txt; echo '```'; }
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish raw dump + results to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-verify-bot"
+          git config --global user.email "neo-shot-tracker-verify-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-structure-and-status"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          for f in spotcheck_result.json player_status_result.txt; do
+            [ -f "$SRC/$f" ] && cp "$SRC/$f" "$PUBLISH_DIR/__out/"
+          done
+          [ -d "$SRC/spotcheck_raw_dump" ] && cp -r "$SRC/spotcheck_raw_dump" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Group-shape spot-check + player status (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
