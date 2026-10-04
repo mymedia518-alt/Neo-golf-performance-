@@ -1,0 +1,1715 @@
+{
+  "hole": 12,
+  "par": 4,
+  "game_code": "2026100005",
+  "round_pins_real": {
+    "1": {
+      "pin_x": 93.0,
+      "pin_y": 115.0,
+      "n": 107,
+      "stdev_x": 0.0,
+      "stdev_y": 0.0
+    },
+    "2": {
+      "pin_x": 63.0,
+      "pin_y": 80.0,
+      "n": 102,
+      "stdev_x": 0.0,
+      "stdev_y": 0.0
+    },
+    "3": {
+      "pin_x": 83.0,
+      "pin_y": 114.0,
+      "n": 61,
+      "stdev_x": 0.0,
+      "stdev_y": 0.0
+    },
+    "4": {
+      "pin_x": 68.0,
+      "pin_y": 122.0,
+      "n": 61,
+      "stdev_x": 0.0,
+      "stdev_y": 0.0
+    }
+  },
+  "tee_zone_thresholds": {
+    "f1": -0.025270243293358655,
+    "f2": 0.046959568287439565,
+    "l1": -2.991646311087569,
+    "l2": 1.7571940534569161
+  },
+  "pin_distance_crosscheck_computed_vs_official_field": {
+    "n": 331,
+    "mean_abs_diff": 32.18762591659291,
+    "max_abs_diff": 452.3077612289238
+  },
+  "counterexample_census": {
+    "FW Hit -> Birdie+": {
+      "n": 16,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10002",
+        "round": 3,
+        "tee_zone": "MID-LAT2",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 155.0,
+        "approach_lie": "GREEN",
+        "pin_distance": 4.2,
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "FW Hit -> Bogey": {
+      "n": 40,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10083",
+        "round": 1,
+        "tee_zone": "MID-LAT2",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 153.8,
+        "approach_lie": "ROUGH",
+        "pin_distance": 20.4,
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "FW Hit -> Double+": {
+      "n": 1,
+      "representative_chain": {
+        "player": null,
+        "player_code": "9487",
+        "round": 2,
+        "tee_zone": "LONG-LAT3",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 158.1,
+        "approach_lie": "ROUGH",
+        "pin_distance": 18.2,
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6,
+        "score_to_par": 2
+      }
+    },
+    "FW Hit -> Par": {
+      "n": 115,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10022",
+        "round": 4,
+        "tee_zone": "SHORT-LAT2",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 162.4,
+        "approach_lie": "ROUGH",
+        "pin_distance": 23.5,
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    },
+    "FW Miss -> Birdie+": {
+      "n": 4,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10081",
+        "round": 2,
+        "tee_zone": "MID-LAT1",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 164.0,
+        "approach_lie": "GREEN",
+        "pin_distance": 4.3,
+        "shot_state_sequence": [
+          "2",
+          "3",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "FW Miss -> Bogey": {
+      "n": 57,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10022",
+        "round": 1,
+        "tee_zone": "SHORT-LAT3",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 202.7,
+        "approach_lie": "FAIRWAY",
+        "pin_distance": 68.9,
+        "shot_state_sequence": [
+          "2",
+          "1",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "FW Miss -> Double+": {
+      "n": 20,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10022",
+        "round": 3,
+        "tee_zone": "SHORT-LAT1",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 175.2,
+        "approach_lie": "ROUGH",
+        "pin_distance": 40.6,
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6,
+        "score_to_par": 2
+      }
+    },
+    "FW Miss -> Par": {
+      "n": 78,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10002",
+        "round": 1,
+        "tee_zone": "LONG-LAT1",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 143.5,
+        "approach_lie": "FRINGE",
+        "pin_distance": 11.1,
+        "shot_state_sequence": [
+          "2",
+          "12",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    },
+    "GIR -> Birdie+": {
+      "n": 17,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10002",
+        "round": 3,
+        "tee_zone": "MID-LAT2",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 155.0,
+        "approach_lie": "GREEN",
+        "pin_distance": 4.2,
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "GIR -> Bogey": {
+      "n": 26,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10095",
+        "round": 2,
+        "tee_zone": "LONG-LAT3",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 161.3,
+        "approach_lie": "GREEN",
+        "pin_distance": 16.2,
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "GIR -> Par": {
+      "n": 130,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10081",
+        "round": 1,
+        "tee_zone": "LONG-LAT3",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 142.1,
+        "approach_lie": "GREEN",
+        "pin_distance": 10.2,
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    },
+    "GIR Miss -> Bogey": {
+      "n": 71,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10022",
+        "round": 1,
+        "tee_zone": "SHORT-LAT3",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 202.7,
+        "approach_lie": "FAIRWAY",
+        "pin_distance": 68.9,
+        "shot_state_sequence": [
+          "2",
+          "1",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "GIR Miss -> Double+": {
+      "n": 24,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10002",
+        "round": 4,
+        "tee_zone": "MID-LAT3",
+        "tee_lie": "FAIRWAY",
+        "tee_remaining_distance": 149.3,
+        "approach_lie": "FRINGE",
+        "pin_distance": 6.0,
+        "shot_state_sequence": [
+          "1",
+          "12",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "GIR Miss -> Par Save": {
+      "n": 63,
+      "representative_chain": {
+        "player": null,
+        "player_code": "10002",
+        "round": 1,
+        "tee_zone": "LONG-LAT1",
+        "tee_lie": "ROUGH",
+        "tee_remaining_distance": 143.5,
+        "approach_lie": "FRINGE",
+        "pin_distance": 11.1,
+        "shot_state_sequence": [
+          "2",
+          "12",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    }
+  },
+  "zone_x_round_table": [
+    {
+      "zone": "LONG-LAT1",
+      "round": 1,
+      "n": 13,
+      "avg_score_to_par": 0.3076923076923077,
+      "GIR_pct": 0.46153846153846156,
+      "BogeyPlus_pct": 0.3076923076923077,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT1",
+      "round": 2,
+      "n": 9,
+      "avg_score_to_par": 0.2222222222222222,
+      "GIR_pct": 0.4444444444444444,
+      "BogeyPlus_pct": 0.2222222222222222,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT1",
+      "round": 3,
+      "n": 3,
+      "avg_score_to_par": 0.3333333333333333,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.3333333333333333,
+      "LOW_SAMPLE": true
+    },
+    {
+      "zone": "LONG-LAT1",
+      "round": 4,
+      "n": 6,
+      "avg_score_to_par": 0.6666666666666666,
+      "GIR_pct": 0.16666666666666666,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT2",
+      "round": 1,
+      "n": 13,
+      "avg_score_to_par": 0.15384615384615385,
+      "GIR_pct": 0.8461538461538461,
+      "BogeyPlus_pct": 0.3076923076923077,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT2",
+      "round": 2,
+      "n": 11,
+      "avg_score_to_par": 0.18181818181818182,
+      "GIR_pct": 0.8181818181818182,
+      "BogeyPlus_pct": 0.36363636363636365,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT2",
+      "round": 3,
+      "n": 8,
+      "avg_score_to_par": 0.375,
+      "GIR_pct": 0.875,
+      "BogeyPlus_pct": 0.375,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT2",
+      "round": 4,
+      "n": 10,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.4,
+      "BogeyPlus_pct": 0.1,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT3",
+      "round": 1,
+      "n": 7,
+      "avg_score_to_par": 0.14285714285714285,
+      "GIR_pct": 0.7142857142857143,
+      "BogeyPlus_pct": 0.14285714285714285,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT3",
+      "round": 2,
+      "n": 15,
+      "avg_score_to_par": 0.6666666666666666,
+      "GIR_pct": 0.6,
+      "BogeyPlus_pct": 0.4666666666666667,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "LONG-LAT3",
+      "round": 3,
+      "n": 3,
+      "avg_score_to_par": 0.3333333333333333,
+      "GIR_pct": 0.6666666666666666,
+      "BogeyPlus_pct": 0.3333333333333333,
+      "LOW_SAMPLE": true
+    },
+    {
+      "zone": "LONG-LAT3",
+      "round": 4,
+      "n": 9,
+      "avg_score_to_par": 0.1111111111111111,
+      "GIR_pct": 0.6666666666666666,
+      "BogeyPlus_pct": 0.1111111111111111,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT1",
+      "round": 1,
+      "n": 12,
+      "avg_score_to_par": 0.4166666666666667,
+      "GIR_pct": 0.16666666666666666,
+      "BogeyPlus_pct": 0.4166666666666667,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT1",
+      "round": 2,
+      "n": 16,
+      "avg_score_to_par": 0.3125,
+      "GIR_pct": 0.5625,
+      "BogeyPlus_pct": 0.4375,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT1",
+      "round": 3,
+      "n": 6,
+      "avg_score_to_par": 0.16666666666666666,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.16666666666666666,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT1",
+      "round": 4,
+      "n": 6,
+      "avg_score_to_par": 0.6666666666666666,
+      "GIR_pct": 0.5,
+      "BogeyPlus_pct": 0.6666666666666666,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT2",
+      "round": 1,
+      "n": 11,
+      "avg_score_to_par": 0.36363636363636365,
+      "GIR_pct": 0.6363636363636364,
+      "BogeyPlus_pct": 0.36363636363636365,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT2",
+      "round": 2,
+      "n": 11,
+      "avg_score_to_par": 0.18181818181818182,
+      "GIR_pct": 0.6363636363636364,
+      "BogeyPlus_pct": 0.36363636363636365,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT2",
+      "round": 3,
+      "n": 6,
+      "avg_score_to_par": -0.3333333333333333,
+      "GIR_pct": 1.0,
+      "BogeyPlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT2",
+      "round": 4,
+      "n": 10,
+      "avg_score_to_par": -0.1,
+      "GIR_pct": 0.8,
+      "BogeyPlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT3",
+      "round": 1,
+      "n": 9,
+      "avg_score_to_par": 0.2222222222222222,
+      "GIR_pct": 0.6666666666666666,
+      "BogeyPlus_pct": 0.2222222222222222,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT3",
+      "round": 2,
+      "n": 10,
+      "avg_score_to_par": 0.4,
+      "GIR_pct": 0.8,
+      "BogeyPlus_pct": 0.4,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT3",
+      "round": 3,
+      "n": 9,
+      "avg_score_to_par": 0.1111111111111111,
+      "GIR_pct": 0.6666666666666666,
+      "BogeyPlus_pct": 0.2222222222222222,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "MID-LAT3",
+      "round": 4,
+      "n": 6,
+      "avg_score_to_par": 0.5,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT1",
+      "round": 1,
+      "n": 19,
+      "avg_score_to_par": 0.3684210526315789,
+      "GIR_pct": 0.5263157894736842,
+      "BogeyPlus_pct": 0.2631578947368421,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT1",
+      "round": 2,
+      "n": 12,
+      "avg_score_to_par": 1,
+      "GIR_pct": 0.16666666666666666,
+      "BogeyPlus_pct": 0.5833333333333334,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT1",
+      "round": 3,
+      "n": 6,
+      "avg_score_to_par": 0.3333333333333333,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.3333333333333333,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT1",
+      "round": 4,
+      "n": 3,
+      "avg_score_to_par": 0.6666666666666666,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.3333333333333333,
+      "LOW_SAMPLE": true
+    },
+    {
+      "zone": "SHORT-LAT2",
+      "round": 1,
+      "n": 7,
+      "avg_score_to_par": 0.14285714285714285,
+      "GIR_pct": 0.7142857142857143,
+      "BogeyPlus_pct": 0.14285714285714285,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT2",
+      "round": 2,
+      "n": 7,
+      "avg_score_to_par": 0.2857142857142857,
+      "GIR_pct": 0.8571428571428571,
+      "BogeyPlus_pct": 0.2857142857142857,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT2",
+      "round": 3,
+      "n": 10,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.6,
+      "BogeyPlus_pct": 0.1,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT2",
+      "round": 4,
+      "n": 6,
+      "avg_score_to_par": 0.5,
+      "GIR_pct": 0.3333333333333333,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT3",
+      "round": 1,
+      "n": 16,
+      "avg_score_to_par": 0.6875,
+      "GIR_pct": 0.25,
+      "BogeyPlus_pct": 0.625,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT3",
+      "round": 2,
+      "n": 11,
+      "avg_score_to_par": 1.6363636363636365,
+      "GIR_pct": 0.0,
+      "BogeyPlus_pct": 1.0,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT3",
+      "round": 3,
+      "n": 10,
+      "avg_score_to_par": 0.6,
+      "GIR_pct": 0.3,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": false
+    },
+    {
+      "zone": "SHORT-LAT3",
+      "round": 4,
+      "n": 5,
+      "avg_score_to_par": 0.4,
+      "GIR_pct": 0.2,
+      "BogeyPlus_pct": 0.4,
+      "LOW_SAMPLE": false
+    }
+  ],
+  "fairway_effect_control_by_lateral_zone": {
+    "LAT1": {
+      "FW_hit_only": {
+        "n": 4,
+        "avg_score_to_par": 0.25,
+        "GIR_pct": 0.75,
+        "LOW_SAMPLE": true
+      },
+      "not_FW_only": {
+        "n": 107,
+        "avg_score_to_par": 0.4485981308411215,
+        "GIR_pct": 0.37383177570093457,
+        "LOW_SAMPLE": false
+      }
+    },
+    "LAT2": {
+      "FW_hit_only": {
+        "n": 108,
+        "avg_score_to_par": 0.1388888888888889,
+        "GIR_pct": 0.7222222222222222,
+        "LOW_SAMPLE": false
+      },
+      "not_FW_only": {
+        "n": 2,
+        "avg_score_to_par": 0.5,
+        "GIR_pct": 0.0,
+        "LOW_SAMPLE": true
+      }
+    },
+    "LAT3": {
+      "FW_hit_only": {
+        "n": 60,
+        "avg_score_to_par": 0.16666666666666666,
+        "GIR_pct": 0.75,
+        "LOW_SAMPLE": false
+      },
+      "not_FW_only": {
+        "n": 50,
+        "avg_score_to_par": 1,
+        "GIR_pct": 0.14,
+        "LOW_SAMPLE": false
+      }
+    }
+  },
+  "short_lat3_vs_long_lat3_interaction": {
+    "SHORT-LAT3": {
+      "n": 42,
+      "avg_score_to_par": 0.8809523809523809,
+      "BogeyPlus_pct": 0.6666666666666666,
+      "FW_pct": 0.2857142857142857,
+      "Bunker_approach_pct": 0.047619047619047616
+    },
+    "LONG-LAT3": {
+      "n": 34,
+      "avg_score_to_par": 0.38235294117647056,
+      "BogeyPlus_pct": 0.29411764705882354,
+      "FW_pct": 0.7058823529411765,
+      "Bunker_approach_pct": 0.0
+    },
+    "SHORT-LAT1": {
+      "n": 40,
+      "avg_score_to_par": 0.575,
+      "BogeyPlus_pct": 0.375,
+      "FW_pct": 0.025,
+      "Bunker_approach_pct": 0.05
+    },
+    "LONG-LAT1": {
+      "n": 31,
+      "avg_score_to_par": 0.3548387096774194,
+      "BogeyPlus_pct": 0.3225806451612903,
+      "FW_pct": 0.03225806451612903,
+      "Bunker_approach_pct": 0.0
+    },
+    "SHORT-LAT2": {
+      "n": 30,
+      "avg_score_to_par": 0.2,
+      "BogeyPlus_pct": 0.23333333333333334,
+      "FW_pct": 0.9666666666666667,
+      "Bunker_approach_pct": 0.0
+    },
+    "LONG-LAT2": {
+      "n": 42,
+      "avg_score_to_par": 0.16666666666666666,
+      "BogeyPlus_pct": 0.2857142857142857,
+      "FW_pct": 0.9761904761904762,
+      "Bunker_approach_pct": 0.0
+    }
+  },
+  "three_case_study_players_full_12case_reconstruction": {
+    "9115": {
+      "label": "유해란(TOP,#1,-4)",
+      "rounds": [
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 1,
+          "tee_zone": "LONG-LAT2",
+          "frac_down_line": 0.23479871768855645,
+          "lateral_offset": -2.898316285093656,
+          "tee_x": 81.0,
+          "tee_y": 67.0,
+          "tee_lie": "FAIRWAY",
+          "tee_remaining_distance_official": 114.3,
+          "round_pin_x": 93.0,
+          "round_pin_y": 115.0,
+          "approach_green_x": 92.0,
+          "approach_green_y": 101.0,
+          "approach_lie": "GREEN",
+          "pin_dx": -1.0,
+          "pin_dy": -14.0,
+          "pin_distance_computed": 14.035668847618199,
+          "pin_distance_official": 6.4,
+          "gir": true,
+          "miss_lie": null,
+          "gir_miss_outcome": null,
+          "fw_hit": true,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "1",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 2,
+          "tee_zone": "LONG-LAT1",
+          "frac_down_line": 0.12766082183875185,
+          "lateral_offset": -12.316172830273665,
+          "tee_x": 92.0,
+          "tee_y": 71.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 154.8,
+          "round_pin_x": 63.0,
+          "round_pin_y": 80.0,
+          "approach_green_x": 83.0,
+          "approach_green_y": 171.0,
+          "approach_lie": "ROUGH",
+          "pin_dx": 20.0,
+          "pin_dy": 91.0,
+          "pin_distance_computed": 93.17188417113823,
+          "pin_distance_official": 43.4,
+          "gir": false,
+          "miss_lie": "ROUGH",
+          "gir_miss_outcome": "Double+",
+          "fw_hit": false,
+          "recovery_strokes": 4,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "shot_state_sequence": [
+            "2",
+            "2",
+            "2",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 3,
+          "tee_zone": "LONG-LAT1",
+          "frac_down_line": 0.21128687662632464,
+          "lateral_offset": -4.533454614757442,
+          "tee_x": 83.0,
+          "tee_y": 68.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 120.0,
+          "round_pin_x": 83.0,
+          "round_pin_y": 114.0,
+          "approach_green_x": 85.0,
+          "approach_green_y": 139.0,
+          "approach_lie": "FRINGE",
+          "pin_dx": 2.0,
+          "pin_dy": 25.0,
+          "pin_distance_computed": 25.079872407968907,
+          "pin_distance_official": 11.6,
+          "gir": false,
+          "miss_lie": "FRINGE",
+          "gir_miss_outcome": "ParSave",
+          "fw_hit": false,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "2",
+            "12",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 4,
+          "tee_zone": "LONG-LAT2",
+          "frac_down_line": 0.21831960929947344,
+          "lateral_offset": 0.5451145841367899,
+          "tee_x": 78.0,
+          "tee_y": 69.0,
+          "tee_lie": "FAIRWAY",
+          "tee_remaining_distance_official": 116.5,
+          "round_pin_x": 68.0,
+          "round_pin_y": 122.0,
+          "approach_green_x": 59.0,
+          "approach_green_y": 128.0,
+          "approach_lie": "FRINGE",
+          "pin_dx": -9.0,
+          "pin_dy": 6.0,
+          "pin_distance_computed": 10.816653826391969,
+          "pin_distance_official": 4.8,
+          "gir": false,
+          "miss_lie": "FRINGE",
+          "gir_miss_outcome": "ParSave",
+          "fw_hit": true,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "1",
+            "12",
+            "3",
+            "10"
+          ]
+        }
+      ]
+    },
+    "9708": {
+      "label": "이재윤(MID,#27,+9)",
+      "rounds": [
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 1,
+          "tee_zone": "LONG-LAT2",
+          "frac_down_line": 0.19480776823724164,
+          "lateral_offset": -1.0900237455269952,
+          "tee_x": 80.0,
+          "tee_y": 70.0,
+          "tee_lie": "FAIRWAY",
+          "tee_remaining_distance_official": 120.1,
+          "round_pin_x": 93.0,
+          "round_pin_y": 115.0,
+          "approach_green_x": 88.0,
+          "approach_green_y": 122.0,
+          "approach_lie": "GREEN",
+          "pin_dx": -5.0,
+          "pin_dy": 7.0,
+          "pin_distance_computed": 8.602325267042627,
+          "pin_distance_official": 3.9,
+          "gir": true,
+          "miss_lie": null,
+          "gir_miss_outcome": null,
+          "fw_hit": true,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "1",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 2,
+          "tee_zone": "LONG-LAT3",
+          "frac_down_line": 0.2018405009103904,
+          "lateral_offset": 3.988545453367237,
+          "tee_x": 75.0,
+          "tee_y": 71.0,
+          "tee_lie": "FAIRWAY",
+          "tee_remaining_distance_official": 140.4,
+          "round_pin_x": 63.0,
+          "round_pin_y": 80.0,
+          "approach_green_x": 43.0,
+          "approach_green_y": 81.0,
+          "approach_lie": "GREEN",
+          "pin_dx": -20.0,
+          "pin_dy": 1.0,
+          "pin_distance_computed": 20.024984394500787,
+          "pin_distance_official": 9.6,
+          "gir": true,
+          "miss_lie": null,
+          "gir_miss_outcome": null,
+          "fw_hit": true,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "1",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 3,
+          "tee_zone": "SHORT-LAT3",
+          "frac_down_line": -0.2816950483903306,
+          "lateral_offset": 14.288752633517621,
+          "tee_x": 74.0,
+          "tee_y": 104.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 201.5,
+          "round_pin_x": 83.0,
+          "round_pin_y": 114.0,
+          "approach_green_x": 146.0,
+          "approach_green_y": 347.0,
+          "approach_lie": "FAIRWAY",
+          "pin_dx": 63.0,
+          "pin_dy": 233.0,
+          "pin_distance_computed": 241.36694056974744,
+          "pin_distance_official": 112.5,
+          "gir": false,
+          "miss_lie": "FAIRWAY",
+          "gir_miss_outcome": "ParSave",
+          "fw_hit": false,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "2",
+            "1",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 4,
+          "tee_zone": "LONG-LAT1",
+          "frac_down_line": 0.10948742505556602,
+          "lateral_offset": -5.7123749131655615,
+          "tee_x": 86.0,
+          "tee_y": 74.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 136.1,
+          "round_pin_x": 68.0,
+          "round_pin_y": 122.0,
+          "approach_green_x": 46.0,
+          "approach_green_y": 123.0,
+          "approach_lie": "ROUGH",
+          "pin_dx": -22.0,
+          "pin_dy": 1.0,
+          "pin_distance_computed": 22.02271554554524,
+          "pin_distance_official": 10.0,
+          "gir": false,
+          "miss_lie": "ROUGH",
+          "gir_miss_outcome": "ParSave",
+          "fw_hit": false,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "2",
+            "2",
+            "3",
+            "10"
+          ]
+        }
+      ]
+    },
+    "9111": {
+      "label": "박서현(BOTTOM,#61,+26)",
+      "rounds": [
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 1,
+          "tee_zone": "MID-LAT1",
+          "frac_down_line": -0.013154645437901432,
+          "lateral_offset": -4.406965417851523,
+          "tee_x": 87.0,
+          "tee_y": 82.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 153.3,
+          "round_pin_x": 93.0,
+          "round_pin_y": 115.0,
+          "approach_green_x": 62.0,
+          "approach_green_y": 152.0,
+          "approach_lie": "ROUGH",
+          "pin_dx": -31.0,
+          "pin_dy": 37.0,
+          "pin_distance_computed": 48.27007354458868,
+          "pin_distance_official": 22.7,
+          "gir": false,
+          "miss_lie": "ROUGH",
+          "gir_miss_outcome": "ParSave",
+          "fw_hit": false,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "2",
+            "2",
+            "12",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 2,
+          "tee_zone": "SHORT-LAT1",
+          "frac_down_line": -0.03060868757240462,
+          "lateral_offset": -8.243369719884676,
+          "tee_x": 91.0,
+          "tee_y": 82.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 177.6,
+          "round_pin_x": 63.0,
+          "round_pin_y": 80.0,
+          "approach_green_x": 34.0,
+          "approach_green_y": 54.0,
+          "approach_lie": "ROUGH",
+          "pin_dx": -29.0,
+          "pin_dy": -26.0,
+          "pin_distance_computed": 38.948684188300895,
+          "pin_distance_official": 18.0,
+          "gir": false,
+          "miss_lie": "ROUGH",
+          "gir_miss_outcome": "Double+",
+          "fw_hit": false,
+          "recovery_strokes": 4,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "shot_state_sequence": [
+            "2",
+            "2",
+            "3",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 3,
+          "tee_zone": "SHORT-LAT1",
+          "frac_down_line": -0.06623612649009365,
+          "lateral_offset": -5.475976104809727,
+          "tee_x": 89.0,
+          "tee_y": 85.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 162.7,
+          "round_pin_x": 83.0,
+          "round_pin_y": 114.0,
+          "approach_green_x": 65.0,
+          "approach_green_y": 115.0,
+          "approach_lie": "GREEN",
+          "pin_dx": -18.0,
+          "pin_dy": 1.0,
+          "pin_distance_computed": 18.027756377319946,
+          "pin_distance_official": 8.2,
+          "gir": true,
+          "miss_lie": null,
+          "gir_miss_outcome": null,
+          "fw_hit": false,
+          "recovery_strokes": 2,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "shot_state_sequence": [
+            "2",
+            "3",
+            "3",
+            "10"
+          ]
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 4,
+          "tee_zone": "MID-LAT1",
+          "frac_down_line": 0.020778505085684774,
+          "lateral_offset": -4.013991985048817,
+          "tee_x": 86.0,
+          "tee_y": 80.0,
+          "tee_lie": "ROUGH",
+          "tee_remaining_distance_official": 149.1,
+          "round_pin_x": 68.0,
+          "round_pin_y": 122.0,
+          "approach_green_x": 98.0,
+          "approach_green_y": 161.0,
+          "approach_lie": "ROUGH",
+          "pin_dx": 30.0,
+          "pin_dy": 39.0,
+          "pin_distance_computed": 49.20365840057018,
+          "pin_distance_official": 23.0,
+          "gir": false,
+          "miss_lie": "ROUGH",
+          "gir_miss_outcome": "Bogey",
+          "fw_hit": false,
+          "recovery_strokes": 3,
+          "strokes": 5,
+          "score_to_par": 1,
+          "score_bucket": "Bogey",
+          "shot_state_sequence": [
+            "2",
+            "2",
+            "3",
+            "3",
+            "10"
+          ]
+        }
+      ]
+    }
+  },
+  "layer1_course_truth_note": "see zone_x_round_table + fairway_effect_control + interaction for field-wide observed outcome distribution",
+  "layer2_player_truth": {
+    "9115": {
+      "label": "유해란(TOP,#1,-4)",
+      "hole12_sample_n": 4,
+      "hole12_LOW_SAMPLE": true,
+      "tournament_wide_72holes": {
+        "fw_hit_rate": "0.6428571428571429",
+        "fw_hit_rate_n": "56",
+        "gir_rate": "0.7361111111111112",
+        "gir_rate_n": "72",
+        "FWMiss_to_GIR_rate": "0.45",
+        "FWMiss_to_GIR_n": "20",
+        "GIRMiss_to_ParSave_rate": "0.6842105263157895",
+        "GIRMiss_to_ParSave_n": "19"
+      },
+      "shot_shape": "UNKNOWN (Shot Tracker carries no ball-flight-shape field)"
+    },
+    "9708": {
+      "label": "이재윤(MID,#27,+9)",
+      "hole12_sample_n": 4,
+      "hole12_LOW_SAMPLE": true,
+      "tournament_wide_72holes": {
+        "fw_hit_rate": "0.5714285714285714",
+        "fw_hit_rate_n": "56",
+        "gir_rate": "0.5972222222222222",
+        "gir_rate_n": "72",
+        "FWMiss_to_GIR_rate": "0.5",
+        "FWMiss_to_GIR_n": "24",
+        "GIRMiss_to_ParSave_rate": "0.6551724137931034",
+        "GIRMiss_to_ParSave_n": "29"
+      },
+      "shot_shape": "UNKNOWN (Shot Tracker carries no ball-flight-shape field)"
+    },
+    "9111": {
+      "label": "박서현(BOTTOM,#61,+26)",
+      "hole12_sample_n": 4,
+      "hole12_LOW_SAMPLE": true,
+      "tournament_wide_72holes": {
+        "fw_hit_rate": "0.5535714285714286",
+        "fw_hit_rate_n": "56",
+        "gir_rate": "0.5833333333333334",
+        "gir_rate_n": "72",
+        "FWMiss_to_GIR_rate": "0.44",
+        "FWMiss_to_GIR_n": "25",
+        "GIRMiss_to_ParSave_rate": "0.43333333333333335",
+        "GIRMiss_to_ParSave_n": "30"
+      },
+      "shot_shape": "UNKNOWN (Shot Tracker carries no ball-flight-shape field)"
+    }
+  },
+  "layer3_player_x_course_recommendation": {
+    "9115": {
+      "label": "유해란(TOP,#1,-4)",
+      "field_evidence_all_zones": {
+        "LONG-LAT1": {
+          "n": 31,
+          "avg_score_to_par": 0.3548387096774194,
+          "GIR_pct": 0.3870967741935484,
+          "BogeyPlus_pct": 0.3225806451612903,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.375,
+          "GIR_pct": 0.4,
+          "BogeyPlus_pct": 0.425,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT2": {
+          "n": 38,
+          "avg_score_to_par": 0.07894736842105263,
+          "GIR_pct": 0.7368421052631579,
+          "BogeyPlus_pct": 0.21052631578947367,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.29411764705882354,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.3235294117647059,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT3": {
+          "n": 42,
+          "avg_score_to_par": 0.8809523809523809,
+          "GIR_pct": 0.19047619047619047,
+          "BogeyPlus_pct": 0.6666666666666666,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.575,
+          "GIR_pct": 0.375,
+          "BogeyPlus_pct": 0.375,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT2": {
+          "n": 30,
+          "avg_score_to_par": 0.2,
+          "GIR_pct": 0.6333333333333333,
+          "BogeyPlus_pct": 0.23333333333333334,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.38235294117647056,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.29411764705882354,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT2": {
+          "n": 42,
+          "avg_score_to_par": 0.16666666666666666,
+          "GIR_pct": 0.7380952380952381,
+          "BogeyPlus_pct": 0.2857142857142857,
+          "LOW_SAMPLE": false
+        }
+      },
+      "player_evidence_hole12_zones_actually_used": {
+        "LONG-LAT2": {
+          "n": 2,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            1,
+            4
+          ],
+          "scores_to_par": [
+            0,
+            0
+          ],
+          "avg_score_to_par": 0
+        },
+        "LONG-LAT1": {
+          "n": 2,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            2,
+            3
+          ],
+          "scores_to_par": [
+            2,
+            0
+          ],
+          "avg_score_to_par": 1
+        }
+      },
+      "sample_size_note": "player evidence n<=4 per zone on this single hole -- LOW_SAMPLE, not a field-level claim",
+      "counter_evidence": null,
+      "uncertainty": "player-specific target zone cannot be statistically confirmed from n<=4; field_evidence shows population-level outcome distribution only, not a guarantee for this specific player"
+    },
+    "9708": {
+      "label": "이재윤(MID,#27,+9)",
+      "field_evidence_all_zones": {
+        "LONG-LAT1": {
+          "n": 31,
+          "avg_score_to_par": 0.3548387096774194,
+          "GIR_pct": 0.3870967741935484,
+          "BogeyPlus_pct": 0.3225806451612903,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.375,
+          "GIR_pct": 0.4,
+          "BogeyPlus_pct": 0.425,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT2": {
+          "n": 38,
+          "avg_score_to_par": 0.07894736842105263,
+          "GIR_pct": 0.7368421052631579,
+          "BogeyPlus_pct": 0.21052631578947367,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.29411764705882354,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.3235294117647059,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT3": {
+          "n": 42,
+          "avg_score_to_par": 0.8809523809523809,
+          "GIR_pct": 0.19047619047619047,
+          "BogeyPlus_pct": 0.6666666666666666,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.575,
+          "GIR_pct": 0.375,
+          "BogeyPlus_pct": 0.375,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT2": {
+          "n": 30,
+          "avg_score_to_par": 0.2,
+          "GIR_pct": 0.6333333333333333,
+          "BogeyPlus_pct": 0.23333333333333334,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.38235294117647056,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.29411764705882354,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT2": {
+          "n": 42,
+          "avg_score_to_par": 0.16666666666666666,
+          "GIR_pct": 0.7380952380952381,
+          "BogeyPlus_pct": 0.2857142857142857,
+          "LOW_SAMPLE": false
+        }
+      },
+      "player_evidence_hole12_zones_actually_used": {
+        "LONG-LAT2": {
+          "n": 1,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            1
+          ],
+          "scores_to_par": [
+            0
+          ],
+          "avg_score_to_par": 0
+        },
+        "LONG-LAT3": {
+          "n": 1,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            2
+          ],
+          "scores_to_par": [
+            0
+          ],
+          "avg_score_to_par": 0
+        },
+        "SHORT-LAT3": {
+          "n": 1,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            3
+          ],
+          "scores_to_par": [
+            0
+          ],
+          "avg_score_to_par": 0
+        },
+        "LONG-LAT1": {
+          "n": 1,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            4
+          ],
+          "scores_to_par": [
+            0
+          ],
+          "avg_score_to_par": 0
+        }
+      },
+      "sample_size_note": "player evidence n<=4 per zone on this single hole -- LOW_SAMPLE, not a field-level claim",
+      "counter_evidence": null,
+      "uncertainty": "player-specific target zone cannot be statistically confirmed from n<=4; field_evidence shows population-level outcome distribution only, not a guarantee for this specific player"
+    },
+    "9111": {
+      "label": "박서현(BOTTOM,#61,+26)",
+      "field_evidence_all_zones": {
+        "LONG-LAT1": {
+          "n": 31,
+          "avg_score_to_par": 0.3548387096774194,
+          "GIR_pct": 0.3870967741935484,
+          "BogeyPlus_pct": 0.3225806451612903,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.375,
+          "GIR_pct": 0.4,
+          "BogeyPlus_pct": 0.425,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT2": {
+          "n": 38,
+          "avg_score_to_par": 0.07894736842105263,
+          "GIR_pct": 0.7368421052631579,
+          "BogeyPlus_pct": 0.21052631578947367,
+          "LOW_SAMPLE": false
+        },
+        "MID-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.29411764705882354,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.3235294117647059,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT3": {
+          "n": 42,
+          "avg_score_to_par": 0.8809523809523809,
+          "GIR_pct": 0.19047619047619047,
+          "BogeyPlus_pct": 0.6666666666666666,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT1": {
+          "n": 40,
+          "avg_score_to_par": 0.575,
+          "GIR_pct": 0.375,
+          "BogeyPlus_pct": 0.375,
+          "LOW_SAMPLE": false
+        },
+        "SHORT-LAT2": {
+          "n": 30,
+          "avg_score_to_par": 0.2,
+          "GIR_pct": 0.6333333333333333,
+          "BogeyPlus_pct": 0.23333333333333334,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT3": {
+          "n": 34,
+          "avg_score_to_par": 0.38235294117647056,
+          "GIR_pct": 0.6470588235294118,
+          "BogeyPlus_pct": 0.29411764705882354,
+          "LOW_SAMPLE": false
+        },
+        "LONG-LAT2": {
+          "n": 42,
+          "avg_score_to_par": 0.16666666666666666,
+          "GIR_pct": 0.7380952380952381,
+          "BogeyPlus_pct": 0.2857142857142857,
+          "LOW_SAMPLE": false
+        }
+      },
+      "player_evidence_hole12_zones_actually_used": {
+        "MID-LAT1": {
+          "n": 2,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            1,
+            4
+          ],
+          "scores_to_par": [
+            0,
+            1
+          ],
+          "avg_score_to_par": 0.5
+        },
+        "SHORT-LAT1": {
+          "n": 2,
+          "LOW_SAMPLE": true,
+          "rounds_used": [
+            2,
+            3
+          ],
+          "scores_to_par": [
+            2,
+            0
+          ],
+          "avg_score_to_par": 1
+        }
+      },
+      "sample_size_note": "player evidence n<=4 per zone on this single hole -- LOW_SAMPLE, not a field-level claim",
+      "counter_evidence": null,
+      "uncertainty": "player-specific target zone cannot be statistically confirmed from n<=4; field_evidence shows population-level outcome distribution only, not a guarantee for this specific player"
+    }
+  },
+  "haeran_counterexample_rows": [
+    {
+      "player_code": "9115",
+      "player_name": null,
+      "round": 1,
+      "tee_zone": "LONG-LAT2",
+      "frac_down_line": 0.23479871768855645,
+      "lateral_offset": -2.898316285093656,
+      "tee_x": 81.0,
+      "tee_y": 67.0,
+      "tee_lie": "FAIRWAY",
+      "tee_remaining_distance_official": 114.3,
+      "round_pin_x": 93.0,
+      "round_pin_y": 115.0,
+      "approach_green_x": 92.0,
+      "approach_green_y": 101.0,
+      "approach_lie": "GREEN",
+      "pin_dx": -1.0,
+      "pin_dy": -14.0,
+      "pin_distance_computed": 14.035668847618199,
+      "pin_distance_official": 6.4,
+      "gir": true,
+      "miss_lie": null,
+      "gir_miss_outcome": null,
+      "fw_hit": true,
+      "recovery_strokes": 2,
+      "strokes": 4,
+      "score_to_par": 0,
+      "score_bucket": "Par",
+      "shot_state_sequence": [
+        "1",
+        "3",
+        "3",
+        "10"
+      ]
+    },
+    {
+      "player_code": "9115",
+      "player_name": null,
+      "round": 2,
+      "tee_zone": "LONG-LAT1",
+      "frac_down_line": 0.12766082183875185,
+      "lateral_offset": -12.316172830273665,
+      "tee_x": 92.0,
+      "tee_y": 71.0,
+      "tee_lie": "ROUGH",
+      "tee_remaining_distance_official": 154.8,
+      "round_pin_x": 63.0,
+      "round_pin_y": 80.0,
+      "approach_green_x": 83.0,
+      "approach_green_y": 171.0,
+      "approach_lie": "ROUGH",
+      "pin_dx": 20.0,
+      "pin_dy": 91.0,
+      "pin_distance_computed": 93.17188417113823,
+      "pin_distance_official": 43.4,
+      "gir": false,
+      "miss_lie": "ROUGH",
+      "gir_miss_outcome": "Double+",
+      "fw_hit": false,
+      "recovery_strokes": 4,
+      "strokes": 6,
+      "score_to_par": 2,
+      "score_bucket": "Double+",
+      "shot_state_sequence": [
+        "2",
+        "2",
+        "2",
+        "3",
+        "3",
+        "10"
+      ]
+    },
+    {
+      "player_code": "9115",
+      "player_name": null,
+      "round": 3,
+      "tee_zone": "LONG-LAT1",
+      "frac_down_line": 0.21128687662632464,
+      "lateral_offset": -4.533454614757442,
+      "tee_x": 83.0,
+      "tee_y": 68.0,
+      "tee_lie": "ROUGH",
+      "tee_remaining_distance_official": 120.0,
+      "round_pin_x": 83.0,
+      "round_pin_y": 114.0,
+      "approach_green_x": 85.0,
+      "approach_green_y": 139.0,
+      "approach_lie": "FRINGE",
+      "pin_dx": 2.0,
+      "pin_dy": 25.0,
+      "pin_distance_computed": 25.079872407968907,
+      "pin_distance_official": 11.6,
+      "gir": false,
+      "miss_lie": "FRINGE",
+      "gir_miss_outcome": "ParSave",
+      "fw_hit": false,
+      "recovery_strokes": 2,
+      "strokes": 4,
+      "score_to_par": 0,
+      "score_bucket": "Par",
+      "shot_state_sequence": [
+        "2",
+        "12",
+        "3",
+        "10"
+      ]
+    },
+    {
+      "player_code": "9115",
+      "player_name": null,
+      "round": 4,
+      "tee_zone": "LONG-LAT2",
+      "frac_down_line": 0.21831960929947344,
+      "lateral_offset": 0.5451145841367899,
+      "tee_x": 78.0,
+      "tee_y": 69.0,
+      "tee_lie": "FAIRWAY",
+      "tee_remaining_distance_official": 116.5,
+      "round_pin_x": 68.0,
+      "round_pin_y": 122.0,
+      "approach_green_x": 59.0,
+      "approach_green_y": 128.0,
+      "approach_lie": "FRINGE",
+      "pin_dx": -9.0,
+      "pin_dy": 6.0,
+      "pin_distance_computed": 10.816653826391969,
+      "pin_distance_official": 4.8,
+      "gir": false,
+      "miss_lie": "FRINGE",
+      "gir_miss_outcome": "ParSave",
+      "fw_hit": true,
+      "recovery_strokes": 2,
+      "strokes": 4,
+      "score_to_par": 0,
+      "score_bucket": "Par",
+      "shot_state_sequence": [
+        "1",
+        "12",
+        "3",
+        "10"
+      ]
+    }
+  ],
+  "old_green_side_miss_analysis_json": "DISCARDED -- assumed pin at origin (0,0), disproven by real per-round pin positions; do not use"
+}

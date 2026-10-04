@@ -1,0 +1,910 @@
+{
+  "game_code": "2026100005",
+  "method": "every real HOLED shot's (green_x,green_y) for a given (round,hole) must agree exactly (pstdev==0); the shared value is the real pin",
+  "per_round": {
+    "1": {
+      "EXPECTED": 18,
+      "COLLECTED": 18,
+      "VERIFIED": 18,
+      "SOURCE_GAP": 0,
+      "INCONSISTENT": 0
+    },
+    "2": {
+      "EXPECTED": 18,
+      "COLLECTED": 18,
+      "VERIFIED": 18,
+      "SOURCE_GAP": 0,
+      "INCONSISTENT": 0
+    },
+    "3": {
+      "EXPECTED": 18,
+      "COLLECTED": 18,
+      "VERIFIED": 18,
+      "SOURCE_GAP": 0,
+      "INCONSISTENT": 0
+    },
+    "4": {
+      "EXPECTED": 18,
+      "COLLECTED": 18,
+      "VERIFIED": 18,
+      "SOURCE_GAP": 0,
+      "INCONSISTENT": 0
+    }
+  },
+  "total": {
+    "EXPECTED": 72,
+    "COLLECTED": 72,
+    "VERIFIED": 72,
+    "SOURCE_GAP": 0,
+    "INCONSISTENT": 0
+  },
+  "verdict_PIN_DATA_STATUS": "PASS",
+  "pins": {
+    "R1H1": {
+      "pin_x": 51.0,
+      "pin_y": 61.0
+    },
+    "R1H2": {
+      "pin_x": 74.0,
+      "pin_y": 144.0
+    },
+    "R1H3": {
+      "pin_x": 36.0,
+      "pin_y": 100.0
+    },
+    "R1H4": {
+      "pin_x": 94.0,
+      "pin_y": 111.0
+    },
+    "R1H5": {
+      "pin_x": 47.0,
+      "pin_y": 69.0
+    },
+    "R1H6": {
+      "pin_x": 84.0,
+      "pin_y": 83.0
+    },
+    "R1H7": {
+      "pin_x": 45.0,
+      "pin_y": 130.0
+    },
+    "R1H8": {
+      "pin_x": 96.0,
+      "pin_y": 89.0
+    },
+    "R1H9": {
+      "pin_x": 84.0,
+      "pin_y": 97.0
+    },
+    "R1H10": {
+      "pin_x": 88.0,
+      "pin_y": 115.0
+    },
+    "R1H11": {
+      "pin_x": 50.0,
+      "pin_y": 94.0
+    },
+    "R1H12": {
+      "pin_x": 93.0,
+      "pin_y": 115.0
+    },
+    "R1H13": {
+      "pin_x": 84.0,
+      "pin_y": 92.0
+    },
+    "R1H14": {
+      "pin_x": 70.0,
+      "pin_y": 117.0
+    },
+    "R1H15": {
+      "pin_x": 58.0,
+      "pin_y": 114.0
+    },
+    "R1H16": {
+      "pin_x": 50.0,
+      "pin_y": 58.0
+    },
+    "R1H17": {
+      "pin_x": 48.0,
+      "pin_y": 120.0
+    },
+    "R1H18": {
+      "pin_x": 92.0,
+      "pin_y": 79.0
+    },
+    "R2H1": {
+      "pin_x": 47.0,
+      "pin_y": 106.0
+    },
+    "R2H2": {
+      "pin_x": 93.0,
+      "pin_y": 95.0
+    },
+    "R2H3": {
+      "pin_x": 69.0,
+      "pin_y": 100.0
+    },
+    "R2H4": {
+      "pin_x": 36.0,
+      "pin_y": 93.0
+    },
+    "R2H5": {
+      "pin_x": 77.0,
+      "pin_y": 141.0
+    },
+    "R2H6": {
+      "pin_x": 31.0,
+      "pin_y": 111.0
+    },
+    "R2H7": {
+      "pin_x": 89.0,
+      "pin_y": 103.0
+    },
+    "R2H8": {
+      "pin_x": 44.0,
+      "pin_y": 121.0
+    },
+    "R2H9": {
+      "pin_x": 45.0,
+      "pin_y": 96.0
+    },
+    "R2H10": {
+      "pin_x": 57.0,
+      "pin_y": 65.0
+    },
+    "R2H11": {
+      "pin_x": 35.0,
+      "pin_y": 119.0
+    },
+    "R2H12": {
+      "pin_x": 63.0,
+      "pin_y": 80.0
+    },
+    "R2H13": {
+      "pin_x": 88.0,
+      "pin_y": 112.0
+    },
+    "R2H14": {
+      "pin_x": 39.0,
+      "pin_y": 83.0
+    },
+    "R2H15": {
+      "pin_x": 31.0,
+      "pin_y": 130.0
+    },
+    "R2H16": {
+      "pin_x": 85.0,
+      "pin_y": 132.0
+    },
+    "R2H17": {
+      "pin_x": 87.0,
+      "pin_y": 87.0
+    },
+    "R2H18": {
+      "pin_x": 39.0,
+      "pin_y": 110.0
+    },
+    "R3H1": {
+      "pin_x": 89.0,
+      "pin_y": 99.0
+    },
+    "R3H2": {
+      "pin_x": 38.0,
+      "pin_y": 72.0
+    },
+    "R3H3": {
+      "pin_x": 48.0,
+      "pin_y": 79.0
+    },
+    "R3H4": {
+      "pin_x": 94.0,
+      "pin_y": 95.0
+    },
+    "R3H5": {
+      "pin_x": 74.0,
+      "pin_y": 77.0
+    },
+    "R3H6": {
+      "pin_x": 65.0,
+      "pin_y": 69.0
+    },
+    "R3H7": {
+      "pin_x": 63.0,
+      "pin_y": 79.0
+    },
+    "R3H8": {
+      "pin_x": 90.0,
+      "pin_y": 116.0
+    },
+    "R3H9": {
+      "pin_x": 56.0,
+      "pin_y": 142.0
+    },
+    "R3H10": {
+      "pin_x": 50.0,
+      "pin_y": 85.0
+    },
+    "R3H11": {
+      "pin_x": 58.0,
+      "pin_y": 111.0
+    },
+    "R3H12": {
+      "pin_x": 83.0,
+      "pin_y": 114.0
+    },
+    "R3H13": {
+      "pin_x": 39.0,
+      "pin_y": 84.0
+    },
+    "R3H14": {
+      "pin_x": 68.0,
+      "pin_y": 108.0
+    },
+    "R3H15": {
+      "pin_x": 56.0,
+      "pin_y": 79.0
+    },
+    "R3H16": {
+      "pin_x": 73.0,
+      "pin_y": 101.0
+    },
+    "R3H17": {
+      "pin_x": 44.0,
+      "pin_y": 104.0
+    },
+    "R3H18": {
+      "pin_x": 74.0,
+      "pin_y": 113.0
+    },
+    "R4H1": {
+      "pin_x": 45.0,
+      "pin_y": 80.0
+    },
+    "R4H2": {
+      "pin_x": 63.0,
+      "pin_y": 138.0
+    },
+    "R4H3": {
+      "pin_x": 72.0,
+      "pin_y": 82.0
+    },
+    "R4H4": {
+      "pin_x": 40.0,
+      "pin_y": 105.0
+    },
+    "R4H5": {
+      "pin_x": 89.0,
+      "pin_y": 124.0
+    },
+    "R4H6": {
+      "pin_x": 73.0,
+      "pin_y": 113.0
+    },
+    "R4H7": {
+      "pin_x": 84.0,
+      "pin_y": 80.0
+    },
+    "R4H8": {
+      "pin_x": 38.0,
+      "pin_y": 108.0
+    },
+    "R4H9": {
+      "pin_x": 42.0,
+      "pin_y": 113.0
+    },
+    "R4H10": {
+      "pin_x": 80.0,
+      "pin_y": 97.0
+    },
+    "R4H11": {
+      "pin_x": 94.0,
+      "pin_y": 91.0
+    },
+    "R4H12": {
+      "pin_x": 68.0,
+      "pin_y": 122.0
+    },
+    "R4H13": {
+      "pin_x": 59.0,
+      "pin_y": 79.0
+    },
+    "R4H14": {
+      "pin_x": 83.0,
+      "pin_y": 117.0
+    },
+    "R4H15": {
+      "pin_x": 81.0,
+      "pin_y": 77.0
+    },
+    "R4H16": {
+      "pin_x": 57.0,
+      "pin_y": 125.0
+    },
+    "R4H17": {
+      "pin_x": 75.0,
+      "pin_y": 110.0
+    },
+    "R4H18": {
+      "pin_x": 48.0,
+      "pin_y": 83.0
+    }
+  },
+  "per_round_hole_table": [
+    {
+      "round": 1,
+      "hole": 1,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 51.0,
+      "pin_y": 61.0
+    },
+    {
+      "round": 1,
+      "hole": 2,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 74.0,
+      "pin_y": 144.0
+    },
+    {
+      "round": 1,
+      "hole": 3,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 36.0,
+      "pin_y": 100.0
+    },
+    {
+      "round": 1,
+      "hole": 4,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 94.0,
+      "pin_y": 111.0
+    },
+    {
+      "round": 1,
+      "hole": 5,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 47.0,
+      "pin_y": 69.0
+    },
+    {
+      "round": 1,
+      "hole": 6,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 84.0,
+      "pin_y": 83.0
+    },
+    {
+      "round": 1,
+      "hole": 7,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 45.0,
+      "pin_y": 130.0
+    },
+    {
+      "round": 1,
+      "hole": 8,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 96.0,
+      "pin_y": 89.0
+    },
+    {
+      "round": 1,
+      "hole": 9,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 84.0,
+      "pin_y": 97.0
+    },
+    {
+      "round": 1,
+      "hole": 10,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 88.0,
+      "pin_y": 115.0
+    },
+    {
+      "round": 1,
+      "hole": 11,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 50.0,
+      "pin_y": 94.0
+    },
+    {
+      "round": 1,
+      "hole": 12,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 93.0,
+      "pin_y": 115.0
+    },
+    {
+      "round": 1,
+      "hole": 13,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 84.0,
+      "pin_y": 92.0
+    },
+    {
+      "round": 1,
+      "hole": 14,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 70.0,
+      "pin_y": 117.0
+    },
+    {
+      "round": 1,
+      "hole": 15,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 58.0,
+      "pin_y": 114.0
+    },
+    {
+      "round": 1,
+      "hole": 16,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 50.0,
+      "pin_y": 58.0
+    },
+    {
+      "round": 1,
+      "hole": 17,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 48.0,
+      "pin_y": 120.0
+    },
+    {
+      "round": 1,
+      "hole": 18,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 92.0,
+      "pin_y": 79.0
+    },
+    {
+      "round": 2,
+      "hole": 1,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 47.0,
+      "pin_y": 106.0
+    },
+    {
+      "round": 2,
+      "hole": 2,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 93.0,
+      "pin_y": 95.0
+    },
+    {
+      "round": 2,
+      "hole": 3,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 69.0,
+      "pin_y": 100.0
+    },
+    {
+      "round": 2,
+      "hole": 4,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 36.0,
+      "pin_y": 93.0
+    },
+    {
+      "round": 2,
+      "hole": 5,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 77.0,
+      "pin_y": 141.0
+    },
+    {
+      "round": 2,
+      "hole": 6,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 31.0,
+      "pin_y": 111.0
+    },
+    {
+      "round": 2,
+      "hole": 7,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 89.0,
+      "pin_y": 103.0
+    },
+    {
+      "round": 2,
+      "hole": 8,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 44.0,
+      "pin_y": 121.0
+    },
+    {
+      "round": 2,
+      "hole": 9,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 45.0,
+      "pin_y": 96.0
+    },
+    {
+      "round": 2,
+      "hole": 10,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 57.0,
+      "pin_y": 65.0
+    },
+    {
+      "round": 2,
+      "hole": 11,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 35.0,
+      "pin_y": 119.0
+    },
+    {
+      "round": 2,
+      "hole": 12,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 63.0,
+      "pin_y": 80.0
+    },
+    {
+      "round": 2,
+      "hole": 13,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 88.0,
+      "pin_y": 112.0
+    },
+    {
+      "round": 2,
+      "hole": 14,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 39.0,
+      "pin_y": 83.0
+    },
+    {
+      "round": 2,
+      "hole": 15,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 31.0,
+      "pin_y": 130.0
+    },
+    {
+      "round": 2,
+      "hole": 16,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 85.0,
+      "pin_y": 132.0
+    },
+    {
+      "round": 2,
+      "hole": 17,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 87.0,
+      "pin_y": 87.0
+    },
+    {
+      "round": 2,
+      "hole": 18,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 39.0,
+      "pin_y": 110.0
+    },
+    {
+      "round": 3,
+      "hole": 1,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 89.0,
+      "pin_y": 99.0
+    },
+    {
+      "round": 3,
+      "hole": 2,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 38.0,
+      "pin_y": 72.0
+    },
+    {
+      "round": 3,
+      "hole": 3,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 48.0,
+      "pin_y": 79.0
+    },
+    {
+      "round": 3,
+      "hole": 4,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 94.0,
+      "pin_y": 95.0
+    },
+    {
+      "round": 3,
+      "hole": 5,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 74.0,
+      "pin_y": 77.0
+    },
+    {
+      "round": 3,
+      "hole": 6,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 65.0,
+      "pin_y": 69.0
+    },
+    {
+      "round": 3,
+      "hole": 7,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 63.0,
+      "pin_y": 79.0
+    },
+    {
+      "round": 3,
+      "hole": 8,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 90.0,
+      "pin_y": 116.0
+    },
+    {
+      "round": 3,
+      "hole": 9,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 56.0,
+      "pin_y": 142.0
+    },
+    {
+      "round": 3,
+      "hole": 10,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 50.0,
+      "pin_y": 85.0
+    },
+    {
+      "round": 3,
+      "hole": 11,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 58.0,
+      "pin_y": 111.0
+    },
+    {
+      "round": 3,
+      "hole": 12,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 83.0,
+      "pin_y": 114.0
+    },
+    {
+      "round": 3,
+      "hole": 13,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 39.0,
+      "pin_y": 84.0
+    },
+    {
+      "round": 3,
+      "hole": 14,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 68.0,
+      "pin_y": 108.0
+    },
+    {
+      "round": 3,
+      "hole": 15,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 56.0,
+      "pin_y": 79.0
+    },
+    {
+      "round": 3,
+      "hole": 16,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 73.0,
+      "pin_y": 101.0
+    },
+    {
+      "round": 3,
+      "hole": 17,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 44.0,
+      "pin_y": 104.0
+    },
+    {
+      "round": 3,
+      "hole": 18,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 74.0,
+      "pin_y": 113.0
+    },
+    {
+      "round": 4,
+      "hole": 1,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 45.0,
+      "pin_y": 80.0
+    },
+    {
+      "round": 4,
+      "hole": 2,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 63.0,
+      "pin_y": 138.0
+    },
+    {
+      "round": 4,
+      "hole": 3,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 72.0,
+      "pin_y": 82.0
+    },
+    {
+      "round": 4,
+      "hole": 4,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 40.0,
+      "pin_y": 105.0
+    },
+    {
+      "round": 4,
+      "hole": 5,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 89.0,
+      "pin_y": 124.0
+    },
+    {
+      "round": 4,
+      "hole": 6,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 73.0,
+      "pin_y": 113.0
+    },
+    {
+      "round": 4,
+      "hole": 7,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 84.0,
+      "pin_y": 80.0
+    },
+    {
+      "round": 4,
+      "hole": 8,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 38.0,
+      "pin_y": 108.0
+    },
+    {
+      "round": 4,
+      "hole": 9,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 42.0,
+      "pin_y": 113.0
+    },
+    {
+      "round": 4,
+      "hole": 10,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 80.0,
+      "pin_y": 97.0
+    },
+    {
+      "round": 4,
+      "hole": 11,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 94.0,
+      "pin_y": 91.0
+    },
+    {
+      "round": 4,
+      "hole": 12,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 68.0,
+      "pin_y": 122.0
+    },
+    {
+      "round": 4,
+      "hole": 13,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 59.0,
+      "pin_y": 79.0
+    },
+    {
+      "round": 4,
+      "hole": 14,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 83.0,
+      "pin_y": 117.0
+    },
+    {
+      "round": 4,
+      "hole": 15,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 81.0,
+      "pin_y": 77.0
+    },
+    {
+      "round": 4,
+      "hole": 16,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 57.0,
+      "pin_y": 125.0
+    },
+    {
+      "round": 4,
+      "hole": 17,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 75.0,
+      "pin_y": 110.0
+    },
+    {
+      "round": 4,
+      "hole": 18,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 48.0,
+      "pin_y": 83.0
+    }
+  ]
+}
