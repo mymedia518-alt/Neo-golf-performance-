@@ -62,25 +62,69 @@ klpga_pipeline/src/klpga/
 
 ## 4. 선수 한 명을 수집하는 전체 파이프라인
 
+### 4.1 최초 수집 (신규 선수, 실제 네트워크 필요 — GitHub Actions)
+
 ```
-python scripts/build_player_report.py --player-id <id>
-    (기존, 변경 없음 — reconcile + PLAYER_HISTORY.json 1차 생성)
-        │
-        ▼
 official_detail_enrichment.run_official_detail_enrichment(player_id, player_name)
     1. collect_official_season_detail()   → publicRecordSeasonDetail 실제 POST
     2. collect_official_scorecards()      → scoreDetail 실제 POST (PLAYER_HISTORY.json의
                                              tournament_history[*].game_code 재사용,
                                              새 game_code 추측 없음)
     3. PLAYER_PROFILE_RAW.json 저장        (원본 증거 계층, 재수집 없이 재계산 가능)
-    4. 기존 PLAYER_HISTORY.json 읽기 → enrich_player_history_doc() → 같은 경로에 다시 저장
 ```
 
-`PoliteHttpClient`가 실제 네트워크를 쓰므로 이 전체 파이프라인은
-**GitHub Actions 러너에서 실행**해야 한다 (Claude 샌드박스는 klpga.co.kr
-차단). `fetch_*`/`parse_*` 함수는 완전히 분리되어 있어, 이미 받아둔 raw
-HTML이 있으면 `parse_*`만 샌드박스에서도 실행·검증 가능하다 (이번 세션은
-이 방식으로 4명 전원의 파서 정확성을 실측 검증했다).
+`PoliteHttpClient`가 실제 네트워크를 쓰므로 이 단계는 **GitHub Actions
+러너에서 실행**해야 한다 (Claude 샌드박스는 klpga.co.kr 차단).
+`fetch_*`/`parse_*` 함수는 완전히 분리되어 있어, 이미 받아둔 raw HTML이
+있으면 `parse_*`만 샌드박스에서도 실행·검증 가능하다 (이번 세션은 이
+방식으로 5명 전원 — 유현주 8436, 유해란 9115, 서교림 11134, 김민솔
+10725, 김민선7 10097 — 의 파서 정확성을 실측 검증했다).
+
+### 4.2 매번 리포트를 빌드할 때 — 엔진이 보장하는 순서 (2026-10-04 확정)
+
+`build_player_report.py`는 PLAYER_HISTORY.json을 **다시 생성할 때마다**
+official_detail_enrichment를 반드시 거치도록, 아래 순서를 코드로
+강제한다:
+
+```
+python scripts/build_player_report.py --player-id <id>
+        │
+        ▼
+[1/4] build_10097_player_history.main()
+      reconcile + 창고 데이터만으로 PLAYER_HISTORY.json 1차 생성
+      (official_detail_enrichment를 전혀 모름 — 여기서 멈추면
+       official_detail_record 등 5개 필드가 전부 사라진다)
+        │
+        ▼
+[2/4] official_detail_enrichment.reapply_cached_official_detail_enrichment(player_id)
+      PLAYER_PROFILE_RAW.json이 존재하는가?
+        있으면 → enrich_player_history_doc() 재적용, PLAYER_HISTORY.json
+                 덮어쓰기 (재수집 없음, 네트워크 없음, 선수별 분기 없음)
+        없으면 → 아무것도 하지 않고 스킵 (로그만 출력)
+        │
+        ▼
+[3/4] page_188.build_one(player_id)   → docs/player/<id>/index.html
+        │
+        ▼
+[4/4] page_189.build_one(player_id)   → docs/player/<id>/data-quality/index.html
+```
+
+즉 실제 실행 순서는
+`build_player_report.py → PLAYER_HISTORY(1차) → official_detail_enrichment
+→ PLAYER_HISTORY(최종) → HTML` 이며, [2/4]가 PLAYER_HISTORY.json을 HTML
+빌드 **전에** 다시 덮어쓰므로 [3/4]/[4/4]가 읽는 PLAYER_HISTORY.json은
+항상 enrichment가 반영된 최종본이다. `reapply_cached_official_detail_
+enrichment`는 `player_id`만 받고, 그 안에서 분기하는 조건은
+"이 player_id의 PLAYER_PROFILE_RAW.json이 존재하는가" 하나뿐이다 —
+이름/ID로 분기하는 코드는 없다.
+
+**2026-10-04 검증**: 10097(김민선7)의 PLAYER_PROFILE_RAW.json을 신규
+생성한 뒤 코드 변경 없이 `build_player_report.py --player-id 10097`을
+그대로 실행 — 첫 실행에 자동으로 enrichment가 적용되고
+`docs/player/10097/index.html`에 `ph-neo-snapshot`이 처음으로 등장함을
+확인했다. 이어서 10725/8436/9115/11134도 동일 스크립트로 재실행해
+전원 "re-applied" 로그와 함께 PLAYER_HISTORY.json이 수렴함을 재확인했다
+(10097 포함 5명 전원 동일 엔진).
 
 ## 5. PLAYER_HISTORY.json에 추가된 필드 (기존 필드는 전부 유지)
 
