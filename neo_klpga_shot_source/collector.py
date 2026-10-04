@@ -76,9 +76,33 @@ def load_json(raw):
     txt = raw.decode("utf-8-sig").strip()
     return json.loads(txt)
 
+_KNOWN_SHOT_FIELDS = {"playerCode", "gameCode", "round", "hole", "shot", "pp_state", "pp_distance",
+                      "pp_distanceLen", "pp_altitude", "pp_x", "pp_y", "pp_greenx", "pp_greeny",
+                      "playerName", "shotVideoYN"}
+
+def _insert_shots(con, root, game, rnd, hole, source_id, shots, fallback_player=None):
+    unknown_log = root / "logs" / game / "unknown_pp_state.jsonl"
+    extra_fields_seen = set()
+    for v in shots:
+        extra_fields_seen |= (set(v.keys()) - _KNOWN_SHOT_FIELDS)
+        sc = str(v.get("pp_state")) if v.get("pp_state") is not None else None
+        ko, en = map_state(sc, unknown_log)
+        vals = (game, str(v.get("playerCode") or fallback_player), v.get("playerName"), int(v.get("round") or rnd),
+                int(v.get("hole") or hole), int(v["shot"]), sc, ko, en, f(v.get("pp_distance")),
+                f(v.get("pp_distanceLen")), f(v.get("pp_altitude")), f(v.get("pp_x")), f(v.get("pp_y")),
+                f(v.get("pp_greenx")), f(v.get("pp_greeny")), v.get("shotVideoYN"), source_id,
+                json.dumps(v, ensure_ascii=False, separators=(",", ":")))
+        con.execute("INSERT OR REPLACE INTO klpga_player_shot VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", vals)
+    if extra_fields_seen:
+        extra_log = root / "logs" / game / "extra_fields_seen.jsonl"
+        extra_log.parent.mkdir(parents=True, exist_ok=True)
+        with extra_log.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"ts": now_iso(), "round": rnd, "hole": hole, "player": fallback_player,
+                                  "extra_fields": sorted(extra_fields_seen)}, ensure_ascii=False) + "\n")
+    return len(shots)
+
 def normalize_player(db, root, game, player, rnd, hole, status, raw_path, digest, obj):
     source_id = str(uuid.uuid4())
-    unknown_log = root / "logs" / game / "unknown_pp_state.jsonl"
     con = sqlite3.connect(db)
     con.executescript(Path(__file__).with_name("schema.sql").read_text(encoding="utf-8"))
     con.execute("INSERT OR IGNORE INTO klpga_shot_raw_manifest VALUES(?,?,?,?,?,?,?,?,?,?,?)",
@@ -87,28 +111,38 @@ def normalize_player(db, root, game, player, rnd, hole, status, raw_path, digest
         (game, PLAYER_ENDPOINT, player, rnd, hole, digest)).fetchone()
     source_id = row[0]
     shots = obj.get("shotTrackerList") or []
-    known_fields = {"playerCode", "gameCode", "round", "hole", "shot", "pp_state", "pp_distance",
-                    "pp_distanceLen", "pp_altitude", "pp_x", "pp_y", "pp_greenx", "pp_greeny",
-                    "playerName", "shotVideoYN"}
-    extra_fields_seen = set()
-    for v in shots:
-        extra_fields_seen |= (set(v.keys()) - known_fields)
-        sc = str(v.get("pp_state")) if v.get("pp_state") is not None else None
-        ko, en = map_state(sc, unknown_log)
-        vals = (game, str(v.get("playerCode") or player), v.get("playerName"), int(v.get("round") or rnd),
-                int(v.get("hole") or hole), int(v["shot"]), sc, ko, en, f(v.get("pp_distance")),
-                f(v.get("pp_distanceLen")), f(v.get("pp_altitude")), f(v.get("pp_x")), f(v.get("pp_y")),
-                f(v.get("pp_greenx")), f(v.get("pp_greeny")), v.get("shotVideoYN"), source_id,
-                json.dumps(v, ensure_ascii=False, separators=(",", ":")))
-        con.execute("INSERT OR REPLACE INTO klpga_player_shot VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", vals)
+    n = _insert_shots(con, root, game, rnd, hole, source_id, shots, fallback_player=player)
     con.commit(); con.close()
-    if extra_fields_seen:
-        extra_log = root / "logs" / game / "extra_fields_seen.jsonl"
-        extra_log.parent.mkdir(parents=True, exist_ok=True)
-        with extra_log.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({"ts": now_iso(), "round": rnd, "hole": hole, "player": player,
-                                  "extra_fields": sorted(extra_fields_seen)}, ensure_ascii=False) + "\n")
-    return len(shots)
+    return n
+
+def normalize_group(db, root, game, group_no, rnd, hole, status, raw_path, digest, obj):
+    """CONFIRMED real shape (verify_before_expansion.py, 2026-10-04):
+    groupShotTrackerList is a JSON object keyed by small integer-string
+    indices, each value a list of that group member's own shot dicts
+    (each shot dict self-identifies its real playerCode)."""
+    source_id = str(uuid.uuid4())
+    con = sqlite3.connect(db)
+    con.executescript(Path(__file__).with_name("schema.sql").read_text(encoding="utf-8"))
+    con.execute("INSERT OR IGNORE INTO klpga_shot_raw_manifest VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+        (source_id, game, GROUP_ENDPOINT, None, group_no, rnd, hole, now_iso(), status, digest, str(raw_path)))
+    row = con.execute("SELECT source_id FROM klpga_shot_raw_manifest WHERE game_code=? AND endpoint=? AND group_no=? AND round=? AND hole=? AND sha256=?",
+        (game, GROUP_ENDPOINT, group_no, rnd, hole, digest)).fetchone()
+    source_id = row[0]
+    container = obj.get("groupShotTrackerList") or {}
+    shots = []
+    if isinstance(container, dict):
+        for v in container.values():
+            if isinstance(v, list):
+                shots.extend(s for s in v if isinstance(s, dict))
+    elif isinstance(container, list):
+        for v in container:
+            if isinstance(v, dict):
+                shots.append(v)
+            elif isinstance(v, list):
+                shots.extend(s for s in v if isinstance(s, dict))
+    n = _insert_shots(con, root, game, rnd, hole, source_id, shots, fallback_player=None)
+    con.commit(); con.close()
+    return n
 
 def collect_player(game, player, rounds, holes, root, db, cookie=None, sleep=0.35):
     total = 0
@@ -125,6 +159,28 @@ def collect_player(game, player, rounds, holes, root, db, cookie=None, sleep=0.3
             except Exception as e:
                 results.append({"round": rnd, "hole": hole, "status": "FAIL", "error": str(e)})
                 print(f"FAIL {game} player={player} R{rnd} H{hole:02d}: {e}")
+            time.sleep(sleep)
+    return total, results
+
+def collect_group(game, group_no, rounds, holes, root, db, cookie=None, sleep=0.35):
+    """Group-endpoint collection path, adopted as primary after real
+    completeness verification (verify_before_expansion.py) confirmed
+    getGroupShotTracker returns field-for-field identical shots to
+    getShotTracker for every real member of a real group/hole."""
+    total = 0
+    results = []
+    for rnd in rounds:
+        for hole in holes:
+            try:
+                status, raw = fetch(GROUP_ENDPOINT, game, rnd, hole, group_no=group_no, cookie=cookie)
+                path, digest = save_raw(root, game, "group_shot", group_no, rnd, hole, status, raw)
+                n = normalize_group(db, root, game, group_no, rnd, hole, status, path, digest, load_json(raw))
+                total += n
+                results.append({"round": rnd, "hole": hole, "status": "PASS", "shots": n})
+                print(f"PASS {game} group={group_no} R{rnd} H{hole:02d} shots={n}")
+            except Exception as e:
+                results.append({"round": rnd, "hole": hole, "status": "FAIL", "error": str(e)})
+                print(f"FAIL {game} group={group_no} R{rnd} H{hole:02d}: {e}")
             time.sleep(sleep)
     return total, results
 
