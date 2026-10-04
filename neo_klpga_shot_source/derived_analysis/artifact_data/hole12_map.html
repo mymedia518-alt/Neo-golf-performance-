@@ -1,0 +1,287 @@
+<title>Hole 12 Course Map</title>
+<style>
+/* Layout: hero course map (real hole image + SVG data overlay) on top,
+   zone stat grid below it, player legend + scenario narrative at the
+   bottom -- summary (map) before detail (table/narrative), per
+   dashboard-UI convention. */
+:root{
+  --bg:#f6f4ef; --surface:#ffffff; --surface-2:#eeebe3; --border:#dcd6c8;
+  --fg:#1d2420; --fg-muted:#5b6660; --accent:#b8860b;
+  --hv:#1f7a5c; --hv-bg:#dcf0e6; --neutral:#8a7b4f; --neutral-bg:#ece6d2;
+  --hc:#a4342a; --hc-bg:#f5ddd8;
+  --p1:#1d5fb8; --p2:#7b3fb0; --p3:#c05a1e;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --disp:'Oswald',sans-serif; --body:'Inter',sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15181a; --surface:#1d2124; --surface-2:#242a2d; --border:#343c3f;
+    --fg:#eef0ee; --fg-muted:#9aa3a0; --accent:#d4a339;
+    --hv:#3fae84; --hv-bg:#1b3a2d; --neutral:#b7a35f; --neutral-bg:#33301f;
+    --hc:#e2695d; --hc-bg:#3c2320;
+    --p1:#5c9bf0; --p2:#b486e6; --p3:#f0924f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15181a; --surface:#1d2124; --surface-2:#242a2d; --border:#343c3f;
+  --fg:#eef0ee; --fg-muted:#9aa3a0; --accent:#d4a339;
+  --hv:#3fae84; --hv-bg:#1b3a2d; --neutral:#b7a35f; --neutral-bg:#33301f;
+  --hc:#e2695d; --hc-bg:#3c2320;
+  --p1:#5c9bf0; --p2:#b486e6; --p3:#f0924f;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);margin:0;padding-inline:16px;padding-block:20px 40px}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(22px,5vw,32px);letter-spacing:.3px;margin:0 0 4px;text-wrap:balance}
+.sub{color:var(--fg-muted);font-size:14px;margin:0 0 18px}
+.badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.badge{font-family:var(--mono);font-size:11px;letter-spacing:.04em;padding:4px 9px;border-radius:999px;border:1px solid var(--border);color:var(--fg-muted);background:var(--surface)}
+.badge.verified{color:var(--hv);border-color:var(--hv);background:var(--hv-bg)}
+
+.notice{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--fg-muted);margin-bottom:20px;line-height:1.55}
+.notice b{color:var(--fg)}
+
+.map-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:22px}
+.map-stage{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#2a3024}
+.map-stage img{display:block;width:100%;height:auto}
+.map-stage svg{position:absolute;inset:0;width:100%;height:100%}
+.map-legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12px;color:var(--fg-muted)}
+.map-legend .item{display:flex;align-items:center;gap:6px}
+.swatch{width:12px;height:12px;border-radius:3px;display:inline-block;flex:none}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none;border:1.5px solid #fff}
+
+.section-title{font-family:var(--disp);font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-muted);margin:0 0 10px}
+
+.zone-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:24px}
+.zone-card{border:1px solid var(--border);border-radius:10px;padding:10px 11px;background:var(--surface)}
+.zone-card .zn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.03em;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.zone-card .tag{font-size:9px;padding:1px 6px;border-radius:999px;letter-spacing:.04em}
+.tag.HIGH-VALUE{background:var(--hv-bg);color:var(--hv)}
+.tag.NEUTRAL{background:var(--neutral-bg);color:var(--neutral)}
+.tag.HIGH-COST{background:var(--hc-bg);color:var(--hc)}
+.zone-card .stat-row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--fg-muted);font-family:var(--mono);font-variant-numeric:tabular-nums}
+.zone-card .stat-row b{color:var(--fg);font-weight:600}
+.zone-card .n{font-size:10.5px;color:var(--fg-muted);margin-top:4px}
+.zone-card.HIGH-VALUE{border-color:var(--hv)}
+.zone-card.HIGH-COST{opacity:.82}
+
+.flow{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:14px;background:var(--surface);padding:18px 20px;margin-bottom:22px}
+.flow .step{display:grid;grid-template-columns:86px 1fr;gap:14px;padding:12px 0;border-bottom:1px dashed var(--border)}
+.flow .step:last-child{border-bottom:none}
+.flow .label{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--fg-muted);text-transform:uppercase;padding-top:2px}
+.flow .content{font-size:14px;line-height:1.6}
+.flow .content b{color:var(--accent)}
+.flow .content .tiny{display:block;font-family:var(--mono);font-size:12px;color:var(--fg-muted);margin-top:3px}
+
+.player-tabs{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.player-tab{font-family:var(--body);font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;gap:7px;color:var(--fg)}
+.player-tab[aria-pressed="true"]{border-color:currentColor}
+.player-tab .dot{border:none}
+
+.caveats{font-size:12px;color:var(--fg-muted);border-top:1px solid var(--border);padding-top:14px;margin-top:8px;line-height:1.6}
+.caveats li{margin-bottom:4px}
+</style>
+
+<div class="wrap">
+  <h1>Hole 12 &mdash; Course Management Map</h1>
+  <p class="sub">하이트진로 챔피언십 2026100005 &middot; Par 4, 410yds &middot; 실제 Shot Tracker 좌표 기반, 331개 실제 티샷</p>
+
+  <div class="badge-row">
+    <span class="badge verified">COORDINATE REGISTRATION: VERIFIED</span>
+    <span class="badge">n=331 real tee shots</span>
+    <span class="badge">4 rounds &times; 3 players highlighted</span>
+  </div>
+
+  <div class="notice">
+    <b>좌표 정합 방법:</b> 실제 KLPGA 사이트가 샷 좌표를 홀 배경 이미지에 겹쳐 그릴 때 쓰는 JS 변환식을 소스에서 직접 확인했습니다 &mdash;
+    <code style="font-family:var(--mono)">x=(390&minus;pp_y&times;2)&times;1.815, y=(pp_x&times;2)&times;1.815</code>, viewBox 708&times;471.
+    실제 받아온 홀 이미지는 650&times;433px로, viewBox와 가로세로 비율이 거의 정확히 일치합니다(1.503 vs 1.501) &mdash; 그대로 스케일만 적용했습니다.
+    Tee 마커는 baseHoleInfo의 실측 bi_sx/bi_sy(4라운드 평균), Green/Hole 마커는 실제 홀아웃(HOLED) 샷 좌표 331개의 중심점입니다.
+    가짜 페어웨이/벙커 윤곽선은 그리지 않았습니다 &mdash; 이미지에 보이는 실제 코스 형태 그대로입니다.
+  </div>
+
+  <div class="map-card">
+    <div class="player-tabs" id="playerTabs"></div>
+    <div class="map-stage">
+      <img src="hole_12.png" alt="Hole 12 real course image" id="holeImg">
+      <svg id="overlay" viewBox="0 0 650 433" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="map-legend">
+      <span class="item"><span class="swatch" style="background:var(--hv-bg);border:1px solid var(--hv)"></span>OBSERVED HIGH-VALUE ZONE</span>
+      <span class="item"><span class="swatch" style="background:var(--neutral-bg);border:1px solid var(--neutral)"></span>NEUTRAL / UNCERTAIN ZONE</span>
+      <span class="item"><span class="swatch" style="background:var(--hc-bg);border:1px solid var(--hc)"></span>HIGH-COST ZONE</span>
+      <span class="item"><span class="dot" style="background:#9ca39c"></span>전체 필드 실제 티샷 (n=331)</span>
+      <span class="item"><span class="dot" style="background:var(--p1)"></span>유해란 (1위)</span>
+      <span class="item"><span class="dot" style="background:var(--p2)"></span>이재윤 (27위)</span>
+      <span class="item"><span class="dot" style="background:var(--p3)"></span>박서현 (61위)</span>
+    </div>
+  </div>
+
+  <div class="section-title">9개 후보 구역 &mdash; 실제 결과 (ELIMINATION 적용 후)</div>
+  <div class="zone-grid" id="zoneGrid"></div>
+
+  <div class="section-title">Hole 공략 시나리오 &mdash; 박서현 vs 유해란</div>
+  <div class="flow">
+    <div class="step">
+      <div class="label">Tee</div>
+      <div class="content">실제 티샷: 4라운드 전부 <b>LAT1 구역</b> (SHORT 2회, MID 2회) &mdash; 한 번도 LONG에 도달하지 못함.
+        <span class="tiny">R1 MID-LAT1 &middot; R2 SHORT-LAT1 &middot; R3 SHORT-LAT1 &middot; R4 MID-LAT1</span></div>
+    </div>
+    <div class="step">
+      <div class="label">실제 착탄</div>
+      <div class="content">LAT1 구역 실제 결과(n=71, SHORT-LAT1+MID-LAT1): FW 적중률 4%, GIR 39%, <b>Bogey+ 40%</b>, avg score_to_par <b>+0.40</b></div>
+    </div>
+    <div class="step">
+      <div class="label">실제 결과</div>
+      <div class="content">4라운드 스코어: 파&middot;더블보기(+2)&middot;파&middot;보기(+1) &mdash; 합계 <b>+3</b></div>
+    </div>
+    <div class="step">
+      <div class="label">다른 구역 실측</div>
+      <div class="content">같은 홀 MID-LAT2 구역 실제 결과(n=38): FW 100%, GIR 74%, Bogey+ <b>21%</b>, avg score_to_par <b>+0.08</b> &mdash; 박서현이 4라운드 동안 단 한 번도 도달하지 못한 구역.</div>
+    </div>
+    <div class="step">
+      <div class="label">NEO 대안</div>
+      <div class="content">RECOMMENDED: <b>MID-LAT2</b>. LAT1 방향 미스는 이 홀에서 명확한 HIGH-COST (근거: 위 실측 수치, 사후 조정 없음).
+        <span class="tiny">참고: 유해란도 이 구역에 4라운드 중 0회 도달(LONG-LAT2 2회, LONG-LAT1 2회 &mdash; 그중 1회 더블보기) &mdash; 우승자도 완벽하지 않았다는 사실을 숨기지 않음.</span></div>
+    </div>
+  </div>
+
+  <ul class="caveats">
+    <li><b>AIM POINT는 UNKNOWN.</b> 선수가 어디를 조준했는지는 데이터에 없음 &mdash; 위 지도는 ACTUAL LANDING과 RECOMMENDED ZONE만 비교합니다.</li>
+    <li><b>구질(드로우/페이드/스트레이트)은 UNKNOWN.</b> Shot Tracker에 볼 플라이트 정보가 없어 특정하지 않았습니다.</li>
+    <li>HIGH-VALUE ZONE은 "정답"이 아니라 "이 구역에 착탄한 실제 샷들의 관측 결과가 상대적으로 좋았다"는 뜻입니다.</li>
+    <li>SHORT-LAT3 구역은 실제 벙커 착탄 29%(n=42)가 관측된 유일한 구역입니다 &mdash; 코스 지도가 아니라 실측 결과로 추정한 벙커 위치입니다.</li>
+  </ul>
+</div>
+
+<script>
+const DATA = {{DATA_JSON}};
+
+const PLAYERS = {
+  '9115': {name:'유해란', color:'var(--p1)', hex:'#1d5fb8'},
+  '9708': {name:'이재윤', color:'var(--p2)', hex:'#7b3fb0'},
+  '9111': {name:'박서현', color:'var(--p3)', hex:'#c05a1e'},
+};
+const CLASS_COLOR = {
+  'HIGH-VALUE': {fill:'var(--hv-bg)', stroke:'var(--hv)'},
+  'NEUTRAL': {fill:'var(--neutral-bg)', stroke:'var(--neutral)'},
+  'HIGH-COST': {fill:'var(--hc-bg)', stroke:'var(--hc)'},
+};
+
+let activeFilter = 'all';
+
+function svgEl(tag, attrs){
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tag);
+  for(const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+
+function renderOverlay(){
+  const svg = document.getElementById('overlay');
+  svg.innerHTML = '';
+
+  // Zone shaded regions (approximate quad per zone using the 4 boundary
+  // lines -- only long_lines/lat_lines are drawn as true data; zone
+  // fills are a visual grouping aid, not a claimed exact boundary).
+  const g = svgEl('g', {opacity:'0.14'});
+  svg.appendChild(g);
+
+  // Zone boundary lines (real data: longitudinal + lateral tercile cuts)
+  const lineGroup = svgEl('g', {stroke:'#ffffff', 'stroke-width':'1', 'stroke-dasharray':'4 4', opacity:'0.55'});
+  DATA.zone_lines.long_lines.concat(DATA.zone_lines.lat_lines).forEach(l=>{
+    lineGroup.appendChild(svgEl('line', {x1:l[0][0], y1:l[0][1], x2:l[1][0], y2:l[1][1]}));
+  });
+  svg.appendChild(lineGroup);
+
+  // Zone labels with classification color
+  for(const zone in DATA.zone_centers){
+    const [cx, cy] = DATA.zone_centers[zone];
+    const cls = DATA.classification[zone];
+    const col = CLASS_COLOR[cls];
+    const stats = DATA.zone_stats[zone];
+    const grp = svgEl('g');
+    grp.appendChild(svgEl('circle', {cx, cy, r: zone===DATA.recommended ? 15 : 11, fill: col.fill, stroke: col.stroke, 'stroke-width': zone===DATA.recommended?2:1}));
+    const t = svgEl('text', {x:cx, y:cy-16, 'text-anchor':'middle', 'font-size':'9', 'font-family':'IBM Plex Mono, monospace', fill: col.stroke, 'font-weight':'600'});
+    t.textContent = zone;
+    grp.appendChild(t);
+    svg.appendChild(grp);
+  }
+
+  // Field-wide tee shots (faint)
+  const fieldGroup = svgEl('g', {opacity:'0.45'});
+  DATA.field_shots.forEach(s=>{
+    if(PLAYERS[s.player_code]) return; // drawn separately, on top
+    fieldGroup.appendChild(svgEl('circle', {cx:s.px, cy:s.py, r:2.1, fill:'#9ca39c'}));
+  });
+  svg.appendChild(fieldGroup);
+
+  // Tee + Green markers
+  svg.appendChild(svgEl('circle', {cx:DATA.tee.px, cy:DATA.tee.py, r:6, fill:'#fff', stroke:'#2a3024', 'stroke-width':2}));
+  svg.appendChild((()=>{const t=svgEl('text',{x:DATA.tee.px, y:DATA.tee.py-10, 'text-anchor':'middle','font-size':'10','font-family':'IBM Plex Mono, monospace',fill:'#fff','font-weight':'700'});t.textContent='TEE';return t;})());
+  svg.appendChild(svgEl('circle', {cx:DATA.green.px, cy:DATA.green.py, r:6, fill:'#fff', stroke:'#2a3024', 'stroke-width':2}));
+  svg.appendChild((()=>{const t=svgEl('text',{x:DATA.green.px, y:DATA.green.py-10, 'text-anchor':'middle','font-size':'10','font-family':'IBM Plex Mono, monospace',fill:'#fff','font-weight':'700'});t.textContent='GREEN';return t;})());
+
+  // Highlighted player shots, connected by round order for visual path context
+  for(const pc in PLAYERS){
+    if(activeFilter!=='all' && activeFilter!==pc) continue;
+    const info = PLAYERS[pc];
+    const shots = DATA.field_shots.filter(s=>s.player_code===pc).sort((a,b)=>a.round-b.round);
+    shots.forEach(s=>{
+      const c = svgEl('circle', {cx:s.px, cy:s.py, r:7, fill:info.hex, stroke:'#fff', 'stroke-width':1.6});
+      svg.appendChild(c);
+      const t = svgEl('text', {x:s.px, y:s.py+3, 'text-anchor':'middle','font-size':'8','font-family':'IBM Plex Mono, monospace',fill:'#fff','font-weight':'700'});
+      t.textContent = 'R'+s.round;
+      svg.appendChild(t);
+    });
+  }
+}
+
+function renderZoneGrid(){
+  const grid = document.getElementById('zoneGrid');
+  grid.innerHTML = '';
+  const order = ['LONG-LAT1','LONG-LAT2','LONG-LAT3','MID-LAT1','MID-LAT2','MID-LAT3','SHORT-LAT1','SHORT-LAT2','SHORT-LAT3'];
+  order.forEach(zone=>{
+    const s = DATA.zone_stats[zone];
+    const cls = DATA.classification[zone];
+    const card = document.createElement('div');
+    card.className = 'zone-card ' + cls;
+    card.innerHTML = `
+      <div class="zn">${zone}<span class="tag ${cls}">${cls}</span></div>
+      <div class="stat-row"><span>avg score_to_par</span><b>${s.avg_score_to_par>=0?'+':''}${s.avg_score_to_par.toFixed(3)}</b></div>
+      <div class="stat-row"><span>GIR%</span><b>${(s.GIR_pct*100).toFixed(0)}%</b></div>
+      <div class="stat-row"><span>Par-or-Better%</span><b>${(s.ParOrBetter_pct*100).toFixed(0)}%</b></div>
+      <div class="stat-row"><span>Bogey+%</span><b>${(s.BogeyPlus_pct*100).toFixed(0)}%</b></div>
+      ${s.Bunker_pct>0?`<div class="stat-row"><span>Bunker%</span><b>${(s.Bunker_pct*100).toFixed(0)}%</b></div>`:''}
+      <div class="n">n=${s.n}${DATA.eliminated_zones[zone]?' &mdash; 제거: '+DATA.eliminated_zones[zone]:''}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderPlayerTabs(){
+  const tabs = document.getElementById('playerTabs');
+  tabs.innerHTML = '';
+  const allBtn = document.createElement('button');
+  allBtn.className = 'player-tab'; allBtn.setAttribute('aria-pressed', activeFilter==='all');
+  allBtn.innerHTML = '전체 보기';
+  allBtn.onclick = () => { activeFilter='all'; renderPlayerTabs(); renderOverlay(); };
+  tabs.appendChild(allBtn);
+  for(const pc in PLAYERS){
+    const info = PLAYERS[pc];
+    const btn = document.createElement('button');
+    btn.className='player-tab'; btn.style.color = activeFilter===pc?info.hex:'';
+    btn.setAttribute('aria-pressed', activeFilter===pc);
+    btn.innerHTML = `<span class="dot" style="background:${info.hex}"></span>${info.name}`;
+    btn.onclick = () => { activeFilter = (activeFilter===pc)?'all':pc; renderPlayerTabs(); renderOverlay(); };
+    tabs.appendChild(btn);
+  }
+}
+
+renderPlayerTabs();
+renderZoneGrid();
+const img = document.getElementById('holeImg');
+if(img.complete) renderOverlay(); else img.onload = renderOverlay;
+</script>
