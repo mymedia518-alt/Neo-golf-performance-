@@ -22,6 +22,7 @@ from html import escape
 from typing import Optional
 
 from klpga.website_v2 import player_history_terms as terms
+from klpga.website_v2.analytics import line_chart_svg
 from klpga.website_v2.player_provider import load_player_history
 
 
@@ -1818,6 +1819,27 @@ def _why_now_html(
         for a in why_now["arrows"]
     )
     skill_chain_html = _skill_chain_html(why_now, current_snapshot, current_vs_career, career_current)
+    # NEO Player History Engine V2.1 (2026-10-04): "3~5줄, 사람이 읽는
+    # 문장으로, 통계 나열 금지." A short prose paragraph built from the
+    # exact same real fields the arrow grid/skill chain below already
+    # render -- no new field, no new computation, just sentences instead
+    # of a second table of numbers.
+    weakest_arrow = next((a for a in why_now["arrows"] if a["component"] == weakest_component), None)
+    narrative_sentences = [why_now["sentence"]]
+    if weakest_arrow:
+        narrative_sentences.append(
+            f'반대로 {weakest_arrow["component"].removeprefix("SG ")}는 {weakest_arrow["delta"]:+.2f}로 '
+            f'네 지표 중 가장 약한 흐름을 보이고 있습니다.'
+        )
+    if current_vs_career and current_vs_career.get("delta_vs_career_average") is not None:
+        delta = current_vs_career["delta_vs_career_average"]
+        compare = "앞서" if delta >= 0 else "뒤처져"
+        narrative_sentences.append(f'이번 시즌 SG Total은 커리어 평균보다 {abs(delta):.2f} {compare} 있습니다.')
+    if career_current:
+        wins, top10 = career_current.get("wins"), career_current.get("top10")
+        if wins is not None and top10 is not None:
+            narrative_sentences.append(f'이 흐름은 이번 시즌 {wins}승 · Top10 {top10}회라는 실제 결과로 이어졌습니다.')
+    narrative_html = "".join(f'<p class="piq-current-detail">{escape(s)}</p>' for s in narrative_sentences)
     # MISSION V72 (2026-09-28): "Remove duplicated narrative. If the
     # Story layer already tells the conclusion, the detailed section
     # below becomes evidence only." The Story layer's own card already
@@ -1828,6 +1850,7 @@ def _why_now_html(
         '<details class="evidence-detail pi-section" id="ph-why-now" open>'
         f'<summary class="section-heading"><h2>{terms.PAGE_WHY_NOW_TITLE}</h2></summary>'
         '<div class="pi-section__body">'
+        f'{narrative_html}'
         f'<div class="ph-arrow-grid">{arrow_cards}</div>'
         f'{skill_chain_html}'
         '</div></details>'
@@ -2566,18 +2589,35 @@ def _not_available_html(items: list) -> str:
     )
 
 
+_TREND_KO = {"UP": "상승", "DOWN": "하락", "FLAT": "보합"}
+# Standard golf terminology: which round number is "무빙데이"/"파이널
+# 라운드" depends on the total rounds scheduled, not a fixed R3/R4 --
+# but every tournament this project collects is a real 2-4 round event,
+# so the LAST collected round of a given game_code is always the real
+# Final Round, and the second-to-last (when at least 3 rounds exist) is
+# the real Moving Day -- a deterministic position rule, not a guess.
+def _round_momentum_tag(round_number: int, max_round_for_game: int) -> str:
+    if round_number == max_round_for_game and max_round_for_game >= 2:
+        return "Final Round"
+    if max_round_for_game >= 3 and round_number == max_round_for_game - 1:
+        return "Moving Day"
+    return ""
+
+
 def _official_statistics_v2_html(record: Optional[dict]) -> str:
     """NEO Player History Engine V2 -- renders `official_detail_record`
     exactly as official_detail_enrichment.py wrote it. No new
     calculation: every value here is a plain pass-through of that
     already-computed dict. A None value (a real, confirmed-empty
-    server response -- see that module's docstring) renders as "데이터
-    없음", never a guessed 0."""
+    server response -- see that module's docstring) renders as "공식
+    데이터 수집 예정" (V2.1, 2026-10-04 -- "없음"이 아니라 아직 Reader가
+    이 선수/항목을 수집하지 않았다는 뜻임을 명확히 한다), never a
+    guessed 0."""
     if not record:
         return ""
 
     def _stat(label: str, value, unit: str = "", plus: bool = False) -> str:
-        display = "데이터 없음" if value is None else f'{_fmt(value, plus=plus)}{unit}'
+        display = "공식 데이터 수집 예정" if value is None else f'{_fmt(value, plus=plus)}{unit}'
         return f'<div class="ph-stat-tile"><span class="ph-stat-tile__label">{escape(label)}</span><span class="ph-stat-tile__value">{escape(display)}</span></div>'
 
     tiles = (
@@ -2599,13 +2639,15 @@ def _official_statistics_v2_html(record: Optional[dict]) -> str:
     )
 
 
-def _sg_profile_v2_html(components: Optional[list], arrows: Optional[list]) -> str:
+def _sg_profile_v2_html(components: Optional[list], arrows: Optional[list], season_rows: Optional[list]) -> str:
     """NEO Player History Engine V2 -- SG Profile. Reuses
     `current_skill_vs_career.components` (OTT/APP/ARG/PUTT, already
-    computed by the existing engine, never rendered anywhere on this
-    page until now) for the current values, and `why_now.arrows`
-    (already-computed UP/DOWN per component) for the trend -- no new
-    calculation performed here."""
+    computed by the existing engine) for Season/Career/최근 변화량, and
+    `why_now.arrows` for the trend arrow -- no new calculation. V2.1
+    (2026-10-04) adds a real per-season line chart per component, built
+    from `career_story.season_rows` (already-computed real per-season
+    SG averages, never charted on this page before) via the existing
+    `line_chart_svg` helper -- no new chart engine."""
     if not components:
         return ""
     arrow_by_component = {a["component"]: a for a in (arrows or [])}
@@ -2623,12 +2665,34 @@ def _sg_profile_v2_html(components: Optional[list], arrows: Optional[list]) -> s
             f'<td class="ph-chain-arrow">{trend}</td>'
             '</tr>'
         )
+    charts_html = ""
+    season_rows = season_rows or []
+    if season_rows:
+        sorted_seasons = sorted(season_rows, key=lambda r: r["season"])
+        field_by_component = {"SG OTT": "sg_ott", "SG APP": "sg_app", "SG ARG": "sg_arg", "SG PUTT": "sg_putt"}
+        chart_blocks = []
+        for c in components:
+            field = field_by_component.get(c.get("component", ""))
+            if not field:
+                continue
+            # line_chart_svg's own display formatting only rounds for
+            # unit="%" or dense=True (see klpga.website_v2.analytics) --
+            # neither applies to a plain SG value, so the raw float is
+            # rounded here before charting (display only; the table
+            # above this chart still shows the real unrounded _fmt()
+            # values from current_skill_vs_career).
+            series = [{"stage": str(r["season"]), "value": round(r[field], 2) if r.get(field) is not None else None} for r in sorted_seasons]
+            svg = line_chart_svg(title=f'{c["component"]} 시즌 추이', player="", series=series, unit="")
+            if svg:
+                chart_blocks.append(f'<div class="ph-sg-chart">{svg}</div>')
+        if chart_blocks:
+            charts_html = f'<div class="ph-sg-chart-grid">{"".join(chart_blocks)}</div>'
     return (
         '<details class="evidence-detail pi-section" id="ph-sg-profile-v2" open>'
         '<summary class="section-heading"><h2>SG Profile</h2></summary>'
-        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
-        '<th>구성요소</th><th>현재 시즌</th><th>커리어 평균</th><th>차이</th><th>SG Trend</th>'
-        f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div></details>'
+        '<div class="pi-section__body"><div class="table-scroll"><table class="data-table"><thead><tr>'
+        '<th>구성요소</th><th>Season</th><th>Career</th><th>최근 변화량</th><th>SG Trend</th>'
+        f'</tr></thead><tbody>{"".join(rows)}</tbody></table></div>{charts_html}</div></details>'
     )
 
 
@@ -2637,41 +2701,72 @@ def _round_momentum_v2_html(momentum: Optional[dict]) -> str:
     as official_detail_enrichment.compute_round_momentum() wrote it
     (real per-round totals from a real scorecard fetch). Renders
     nothing when no round was ever collected for this player, never a
-    placeholder row."""
+    placeholder row. V2.1 (2026-10-04) tags each game_code's own last
+    round "Final Round" and (when 3+ rounds exist) second-to-last
+    "Moving Day" -- a deterministic position rule (see
+    _round_momentum_tag), never a guessed label."""
     rounds = (momentum or {}).get("rounds") or []
     if not rounds:
         return ""
-    rows = "".join(
-        f'<tr><td>{escape(str(r["game_code"]))}</td><td>R{r["round"]}</td>'
-        f'<td>{_fmt(r.get("out_strokes"), plus=False)}</td><td>{_fmt(r.get("in_strokes"), plus=False)}</td>'
-        f'<td>{_fmt(r.get("total_strokes"), plus=False)}</td></tr>'
-        for r in rounds
-    )
+    max_round_by_game: dict[str, int] = {}
+    for r in rounds:
+        max_round_by_game[r["game_code"]] = max(max_round_by_game.get(r["game_code"], 0), r["round"])
+
+    def _row(r: dict) -> str:
+        tag = _round_momentum_tag(r["round"], max_round_by_game[r["game_code"]])
+        tag_html = _chip(tag) if tag else ""
+        return (
+            f'<tr><td>{escape(str(r["game_code"]))}</td><td>R{r["round"]} {tag_html}</td>'
+            f'<td>{_fmt(r.get("out_strokes"), plus=False)}</td><td>{_fmt(r.get("in_strokes"), plus=False)}</td>'
+            f'<td>{_fmt(r.get("total_strokes"), plus=False)}</td></tr>'
+        )
+
+    rows = "".join(_row(r) for r in rounds)
     return (
         '<details class="evidence-detail pi-section" id="ph-round-momentum-v2" open>'
         '<summary class="section-heading"><h2>Round Momentum</h2></summary>'
-        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
+        '<div class="pi-section__body"><div class="table-scroll"><table class="data-table"><thead><tr>'
         '<th>대회</th><th>라운드</th><th>OUT</th><th>IN</th><th>TOTAL</th>'
-        f'</tr></thead><tbody>{rows}</tbody></table>'
+        f'</tr></thead><tbody>{rows}</tbody></table></div>'
         '<p class="note">실제 홀별 스코어카드(scoreDetail)로 수집된 라운드만 표시합니다.</p></div></details>'
     )
 
 
-def _player_dna_v2_html(dna: Optional[dict]) -> str:
-    """NEO Player History Engine V2 -- renders `player_dna` exactly as
-    official_detail_enrichment.derive_player_dna() wrote it: a
-    read-through of this player's own existing career_dna, not a new
-    classification."""
+def _player_dna_v2_html(dna: Optional[dict], components: Optional[list], current_form_indicator: Optional[dict], page_confidence: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- renders `player_dna` (Primary
+    DNA, a read-through of this player's own existing career_dna, not
+    a new classification). V2.1 (2026-10-04) adds: Secondary DNA (the
+    SG component with the second-highest current_value among the same
+    `current_skill_vs_career.components` this page's SG Profile table
+    already shows -- a plain ranking of already-real numbers, not a
+    new classification engine), Current Trend (current_form_indicator
+    .trend, already computed), Confidence (page_confidence
+    .trustworthy_pct, already computed)."""
     if not dna or not dna.get("foundation"):
         return ""
+    secondary_html = ""
+    if components:
+        ranked = sorted((c for c in components if c.get("current_value") is not None), key=lambda c: c["current_value"], reverse=True)
+        secondary = next((c for c in ranked if c.get("component") != dna["foundation"]), None)
+        if secondary:
+            secondary_html = _chip(f'보조: {secondary["component"]} ({_fmt(secondary["current_value"])})')
+    trend_html = ""
+    if current_form_indicator and current_form_indicator.get("trend"):
+        trend_html = _chip(f'Current Trend: {_TREND_KO.get(current_form_indicator["trend"], current_form_indicator["trend"])}')
+    confidence_html = ""
+    if page_confidence and page_confidence.get("trustworthy_pct") is not None:
+        confidence_html = _chip(f'Confidence: {page_confidence["trustworthy_pct"]:.1f}% ({page_confidence.get("trust_band", "")})')
     return (
         '<details class="evidence-detail pi-section" id="ph-player-dna-v2" open>'
         '<summary class="section-heading"><h2>Player DNA</h2></summary>'
         '<div class="pi-section__body"><div class="piq-audit">'
-        + _chip(f'주력: {dna["foundation"]} ({_fmt(dna.get("foundation_share_pct"), plus=False)}%)', positive=True)
+        + _chip(f'Primary: {dna["foundation"]} ({_fmt(dna.get("foundation_share_pct"), plus=False)}%)', positive=True)
+        + secondary_html
         + (_chip(f'가장 안정적: {dna["most_consistent_component"]}') if dna.get("most_consistent_component") else "")
         + (_chip(f'가장 변동 큼: {dna["most_volatile_component"]}', negative=True) if dna.get("most_volatile_component") else "")
         + (_chip(f'가장 빠르게 성장: {dna["fastest_growing_component"]}') if dna.get("fastest_growing_component") else "")
+        + trend_html
+        + confidence_html
         + '</div></div></details>'
     )
 
@@ -2681,7 +2776,8 @@ def _course_fit_score_v2_html(fit_scores: Optional[list]) -> str:
     exactly as official_detail_enrichment.derive_course_fit_score()
     wrote it: this player's own real avg SG Total per course, with no
     invented difficulty weighting (see that function's own docstring
-    for why)."""
+    for why). Only courses this player has already played are shown --
+    never a guessed fit for an unplayed course."""
     if not fit_scores:
         return ""
     rows = "".join(
@@ -2692,43 +2788,111 @@ def _course_fit_score_v2_html(fit_scores: Optional[list]) -> str:
     )
     return (
         '<details class="evidence-detail pi-section" id="ph-course-fit-score-v2" open>'
-        '<summary class="section-heading"><h2>Course Fit Score</h2></summary>'
-        '<div class="pi-section__body"><table class="data-table"><thead><tr>'
+        '<summary class="section-heading"><h2>Course Fit</h2></summary>'
+        '<div class="pi-section__body"><div class="table-scroll"><table class="data-table"><thead><tr>'
         '<th>대회</th><th>출전</th><th>평균 SG Total</th><th>최고</th><th>최저</th>'
-        f'</tr></thead><tbody>{rows}</tbody></table>'
-        '<p class="note">코스 난이도 가중치는 전체 필드 기준선이 없어 적용하지 않았습니다 (실측 SG Total만 표시).</p></div></details>'
+        f'</tr></thead><tbody>{rows}</tbody></table></div>'
+        '<p class="note">현재 실측 가능한 코스만 표시합니다 (코스 난이도 가중치는 전체 필드 기준선이 없어 미적용). '
+        '향후 Tournament Engine과 동일한 Course Fit 산식을 공유할 예정입니다.</p></div></details>'
     )
 
 
-def _neo_evaluation_v2_html(player_dna: Optional[dict], why_now: Optional[dict], current_form_indicator: Optional[dict]) -> str:
-    """NEO Player History Engine V2 -- NEO Evaluation. A plain
-    concatenation of three already-computed real sentences/values
-    (player_dna.foundation, why_now.sentence, current_form_indicator
-    .trend) -- no new judgment or calculation is performed here."""
+def _neo_evaluation_v2_html(player_dna: Optional[dict], why_now: Optional[dict], current_form_indicator: Optional[dict], player_dna_growth: Optional[dict]) -> str:
+    """NEO Player History Engine V2 -- NEO Evaluation. V2.1 (2026-10-04)
+    restructures this into four explicitly labeled blocks -- Strength /
+    Weakness / Current Trend / Future Potential -- each a plain
+    read-through of an already-computed real field, never a new
+    judgment: Strength = player_dna.foundation (already this player's
+    real primary SG component), Weakness = player_dna
+    .most_volatile_component (already computed), Current Trend =
+    current_form_indicator.trend (already computed), Future Potential
+    = the component with the highest growth_velocity_per_season in
+    `player_dna_growth` (already computed by the existing engine,
+    never rendered on this page before -- the highest value among
+    already-real numbers, not a new forecast)."""
     if not (player_dna and player_dna.get("foundation")) and not why_now:
         return ""
-    parts = []
+    blocks = []
     if player_dna and player_dna.get("foundation"):
-        parts.append(f'주력은 {player_dna["foundation"]}입니다 (커리어 SG Total의 {_fmt(player_dna.get("foundation_share_pct"), plus=False)}%).')
-    if why_now and why_now.get("sentence"):
-        parts.append(why_now["sentence"])
+        blocks.append(("Strength", f'{player_dna["foundation"]} (커리어 SG Total의 {_fmt(player_dna.get("foundation_share_pct"), plus=False)}%)'))
+    if player_dna and player_dna.get("most_volatile_component"):
+        blocks.append(("Weakness", f'{player_dna["most_volatile_component"]} (가장 변동이 큰 구성요소)'))
     if current_form_indicator and current_form_indicator.get("trend"):
-        trend_ko = {"UP": "상승", "DOWN": "하락", "FLAT": "보합"}.get(current_form_indicator["trend"], current_form_indicator["trend"])
-        parts.append(f'최근 5개 대회 평균 SG는 직전 5개 대비 {trend_ko} 흐름입니다.')
+        trend_ko = _TREND_KO.get(current_form_indicator["trend"], current_form_indicator["trend"])
+        blocks.append(("Current Trend", f'최근 5개 대회 평균 SG {trend_ko} ({current_form_indicator.get("delta", 0):+.2f})'))
+    if player_dna_growth:
+        best = max(
+            ((name, v) for name, v in player_dna_growth.items() if v.get("growth_velocity_per_season") is not None),
+            key=lambda item: item[1]["growth_velocity_per_season"], default=None,
+        )
+        if best:
+            name, v = best
+            blocks.append(("Future Potential", f'{name} 영역의 시즌당 성장 속도가 가장 빠릅니다 ({v["growth_velocity_per_season"]:+.1f}%p/시즌).'))
+    why_now_sentence = f'<p class="piq-current-detail">{escape(why_now["sentence"])}</p>' if why_now and why_now.get("sentence") else ""
+    blocks_html = "".join(
+        f'<div class="ph-chain-stage"><div class="ph-chain-stage-lbl">{escape(label)}</div><div class="ph-chain-stage-num" style="font-size:1rem;font-weight:600">{escape(value)}</div></div>'
+        for label, value in blocks
+    )
     return (
         '<details class="evidence-detail pi-section" id="ph-neo-evaluation-v2" open>'
         '<summary class="section-heading"><h2>NEO Evaluation</h2></summary>'
-        f'<div class="pi-section__body"><p class="piq-current-detail">{" ".join(escape(p) for p in parts)}</p></div></details>'
+        f'<div class="pi-section__body">{why_now_sentence}<div class="ph-skill-chain" style="flex-wrap:wrap">{blocks_html}</div></div></details>'
     )
 
 
+def _neo_snapshot_html(doc: dict) -> str:
+    """NEO Player History Engine V2.1 (2026-10-04) -- the Hero's own
+    "NEO Snapshot" summary card row: Current Form, Player DNA, SG 핵심,
+    최근 경기 흐름, Course Fit. Every value is a plain read-through of a
+    field already rendered in full further down the page (current_form
+    _indicator, player_dna, why_now.lead_component, recent_form_5,
+    course_fit_score) -- this is a compact index into them, not a new
+    computation."""
+    current_form_indicator = doc.get("current_form_indicator")
+    player_dna = doc.get("player_dna")
+    why_now = doc.get("why_now")
+    recent_form_5 = doc.get("recent_form_5") or []
+    course_fit_score = doc.get("course_fit_score") or []
+
+    cards = []
+    if current_form_indicator and current_form_indicator.get("trend"):
+        trend_ko = _TREND_KO.get(current_form_indicator["trend"], current_form_indicator["trend"])
+        cards.append(("Current Form", f'{trend_ko} ({current_form_indicator.get("delta", 0):+.2f})'))
+    if player_dna and player_dna.get("foundation"):
+        cards.append(("Player DNA", player_dna["foundation"]))
+    if why_now and why_now.get("lead_component"):
+        cards.append(("SG 핵심", f'{why_now["lead_component"]} {why_now.get("lead_delta", 0):+.2f}'))
+    if recent_form_5:
+        last = recent_form_5[-1]
+        recent_label = "우승" if last.get("is_win") else ("Top10" if last.get("is_top10") else f'{last.get("rank", "—")}위')
+        cards.append(("최근 경기 흐름", f'최근 대회 {recent_label}'))
+    if course_fit_score:
+        best_course = max((c for c in course_fit_score if c.get("avg_sg_total") is not None), key=lambda c: c["avg_sg_total"], default=None)
+        if best_course:
+            cards.append(("Course Fit", f'{best_course["course"]} ({_fmt(best_course["avg_sg_total"])})'))
+    if not cards:
+        return ""
+    cards_html = "".join(
+        f'<div class="ph-chain-stage"><div class="ph-chain-stage-lbl">{escape(label)}</div><div class="ph-chain-stage-num" style="font-size:0.95rem;font-weight:600">{escape(value)}</div></div>'
+        for label, value in cards
+    )
+    return f'<div class="ph-neo-snapshot ph-skill-chain" style="flex-wrap:wrap;margin-top:1rem">{cards_html}</div>'
+
+
 def _hero_html(doc: dict) -> str:
+    # NEO Player History Engine V2.1 (2026-10-04): "선수 사진/소속"은
+    # 이 JSON 어디에도 실측 필드가 없다 (mainRecord의 "소속" 셀은 아직
+    # Reader가 파싱하지 않는, fetch-only 상태 -- klpga.collectors.
+    # player_profile 모듈 docstring 참조). 하드코딩/추측 금지 원칙상
+    # 추가하지 않는다. 대신 이미 전부 실측인 NEO Snapshot 카드 행을 Hero
+    # 바로 아래 붙인다.
     return (
         '<header class="pi-hero hero-data">'
         f'<p class="section-label">{terms.HERO_TITLE}</p>'
         f'<h1>{escape(doc["player_name"])}</h1>'
         f'<p class="pi-hero__meta">{escape(terms.HERO_SUBTITLE)}</p>'
         f'{_page_confidence_chip_html(doc.get("page_confidence"))}'
+        f'{_neo_snapshot_html(doc)}'
         "</header>"
     )
 
@@ -2808,8 +2972,8 @@ def render_player_history_html(
         + _player_identity_html(doc.get("player_identity"))                                     # 4
         + _player_dna_radar_html(doc.get("player_dna_radar", []), doc.get("career_dna"))        # 4 (subordinate -- moved beside identity)
         + _dna_growth_velocity_html(doc.get("player_dna_growth"))                              # 4 (subordinate, restored by V50.1)
-        + _sg_profile_v2_html(doc.get("current_skill_vs_career", {}).get("components"), doc.get("why_now", {}).get("arrows"))  # 4 (subordinate -- NEO Player History Engine V2)
-        + _player_dna_v2_html(doc.get("player_dna"))                                           # 4 (subordinate -- NEO Player History Engine V2)
+        + _sg_profile_v2_html(doc.get("current_skill_vs_career", {}).get("components"), doc.get("why_now", {}).get("arrows"), doc.get("career_story", {}).get("season_rows"))  # 4 (subordinate -- NEO Player History Engine V2)
+        + _player_dna_v2_html(doc.get("player_dna"), doc.get("current_skill_vs_career", {}).get("components"), doc.get("current_form_indicator"), doc.get("page_confidence"))  # 4 (subordinate -- NEO Player History Engine V2)
         + _course_profile_html(doc.get("course_profile"), doc.get("tournament_history"))        # 5
         + _course_fit_score_v2_html(doc.get("course_fit_score"))                               # 5 (subordinate -- NEO Player History Engine V2)
         + _round_history_html(doc["round_history"])                                            # 6
@@ -2824,7 +2988,7 @@ def render_player_history_html(
         + _technical_stats_html(doc.get("technical_stats_2025"))                               # 7 (subordinate, restored by V50.1)
         + _tournament_trend_html(doc["tournament_history"])                                    # 7 (subordinate)
         + _tournament_table_html(doc["tournament_history"])                                    # 7 (subordinate, collapsed)
-        + _neo_evaluation_v2_html(doc.get("player_dna"), doc.get("why_now"), doc.get("current_form_indicator"))  # 9 -- NEO Player History Engine V2
+        + _neo_evaluation_v2_html(doc.get("player_dna"), doc.get("why_now"), doc.get("current_form_indicator"), doc.get("player_dna_growth"))  # 9 -- NEO Player History Engine V2
         + _data_trust_html(doc.get("page_confidence"), doc.get("provenance_summary"), data_quality_url)  # 8
     )
     return f'<div class="ph-page">{body}</div>'
