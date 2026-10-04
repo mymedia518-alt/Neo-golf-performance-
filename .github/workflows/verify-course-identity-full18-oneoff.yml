@@ -1,0 +1,70 @@
+name: "Verify Blue Heron full 18-hole yardage/par sequence (on-demand, one-off)"
+
+# Manually dispatched only. Decisive COURSE IDENTITY step: a single
+# hole's yardage match (West Hole 3 = 410YD = KLPGA Tournament H12's own
+# 410yd) could in principle be coincidence. This walks the real
+# course-map widget through all 9 West holes and all 9 East holes,
+# capturing each real title/par/yardage/tip, for a full systematic
+# comparison against KLPGA's own already-collected per-hole yardage
+# (Tournament H1-18).
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright --quiet
+          python -m playwright install --with-deps chromium
+
+      - name: Walk all 18 holes and capture real data
+        run: |
+          python verify_course_identity_full_18.py --out-dir course_identity_full_18
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron full 18-hole real yardage/par"
+            if [ -f course_identity_full_18/full_18_results.json ]; then
+              cat course_identity_full_18/full_18_results.json
+            else
+              echo "No result file produced."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/course-identity-full18"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/course_identity_full_18"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron full 18-hole real yardage/par sequence" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
