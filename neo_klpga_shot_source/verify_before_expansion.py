@@ -14,32 +14,68 @@ def _dump_raw(name, raw_bytes):
     p.write_bytes(raw_bytes)
 
 
-def _normalize_shot_entries(entries):
-    """The real response's list elements have not been confirmed to be
-    flat shot dicts -- handle that discovery here instead of crashing,
-    and report exactly what was actually found."""
+def _flatten_shot_container(container):
+    """Flatten a shotTrackerList / groupShotTrackerList field into a
+    flat list of shot dicts, without assuming its real shape in
+    advance -- reports exactly what shapes were actually encountered.
+
+    CONFIRMED real shapes (via raw-dump evidence, 2026-10-04):
+    - shotTrackerList (per-player endpoint): a plain list of shot dicts.
+    - groupShotTrackerList (group endpoint): a JSON OBJECT keyed by
+      small integer-string keys ('0','1','2',...), one key per group
+      member, each value a LIST of that player's own shot dicts (each
+      shot dict already self-identifies its playerCode, so the outer
+      key is never relied on for identity)."""
     normalized = []
     shapes_seen = set()
-    for e in entries:
+
+    def _walk(e, depth):
         if isinstance(e, dict):
             shapes_seen.add("dict")
             normalized.append(e)
-        elif isinstance(e, str):
+        elif isinstance(e, list):
+            shapes_seen.add("list")
+            for item in e:
+                _walk(item, depth + 1)
+        elif isinstance(e, str) and depth == 0:
+            # Only attempt JSON-string decoding at the top level -- a
+            # shot dict's own string field values must never be parsed.
             shapes_seen.add("str(json-encoded?)")
             try:
                 parsed = json.loads(e)
             except json.JSONDecodeError:
                 shapes_seen.add("str(not-json)")
-                continue
-            if isinstance(parsed, dict):
-                normalized.append(parsed)
-            elif isinstance(parsed, list):
-                for inner in parsed:
-                    if isinstance(inner, dict):
-                        normalized.append(inner)
+                return
+            _walk(parsed, depth)
         else:
             shapes_seen.add(type(e).__name__)
+
+    if isinstance(container, dict):
+        for v in container.values():
+            _walk(v, 0)
+    else:
+        for e in container:
+            _walk(e, 0)
+
     return normalized, sorted(shapes_seen)
+
+
+def _as_flat_dict_list(container):
+    """For response fields confirmed to be a plain list of plain
+    dicts (e.g. groupPlayerList) -- no shot-container unwrapping, just
+    records anything that is NOT a dict as a shape warning rather than
+    silently dropping or misparsing it."""
+    if isinstance(container, dict):
+        return [], [f"dict(unexpected top-level shape, keys={sorted(container.keys())})"]
+    items, shapes = [], set()
+    for e in container:
+        if isinstance(e, dict):
+            shapes.add("dict")
+            items.append(e)
+        else:
+            shapes.add(type(e).__name__)
+    return items, sorted(shapes)
+
 
 def verify_official_score(game, player, rnd, hole, official_par, official_strokes, cookie=None):
     """① Cross-check shotTrackerList row count for one hole against the
@@ -51,7 +87,7 @@ def verify_official_score(game, player, rnd, hole, official_par, official_stroke
     _dump_raw(f"player_{player}_R{rnd}_H{hole:02d}.json", raw)
     obj = load_json(raw)
     shots_raw = obj.get("shotTrackerList") or []
-    shots, shapes = _normalize_shot_entries(shots_raw)
+    shots, shapes = _flatten_shot_container(shots_raw)
     if shapes not in ([], ["dict"]):
         print(f"WARN official_score_cross_check: unexpected shotTrackerList element shapes: {shapes}")
     shot_numbers = sorted(int(s["shot"]) for s in shots)
@@ -89,13 +125,16 @@ def verify_group_vs_player(game, rnd, hole, group_no, player_codes=None, cookie=
     _dump_raw(f"group_{group_no}_R{rnd}_H{hole:02d}.json", graw)
     gobj = load_json(graw)
     group_player_list_raw = gobj.get("groupPlayerList") or []
-    group_player_list, gpl_shapes = _normalize_shot_entries(group_player_list_raw)
+    group_player_list, gpl_shapes = _as_flat_dict_list(group_player_list_raw)
     group_shots_raw = gobj.get("groupShotTrackerList") or []
-    group_shots, gst_shapes = _normalize_shot_entries(group_shots_raw)
+    group_shots, gst_shapes = _flatten_shot_container(group_shots_raw)
     shape_warnings = []
     if gpl_shapes not in ([], ["dict"]):
         shape_warnings.append(f"groupPlayerList element shapes: {gpl_shapes}")
-    if gst_shapes not in ([], ["dict"]):
+    # Confirmed real shape: groupShotTrackerList is a dict keyed by small
+    # integer-string indices, each value a list of shot dicts -- so both
+    # "list" and "dict" are the expected, confirmed shapes here.
+    if gst_shapes not in ([], ["dict"], ["dict", "list"]):
         shape_warnings.append(f"groupShotTrackerList element shapes: {gst_shapes}")
     for w in shape_warnings:
         print(f"WARN group_vs_player_cross_validation: {w}")
@@ -123,7 +162,7 @@ def verify_group_vs_player(game, rnd, hole, group_no, player_codes=None, cookie=
         _dump_raw(f"player_{pc}_R{rnd}_H{hole:02d}.json", praw)
         pobj = load_json(praw)
         player_shots_raw = pobj.get("shotTrackerList") or []
-        player_shots_norm, ps_shapes = _normalize_shot_entries(player_shots_raw)
+        player_shots_norm, ps_shapes = _flatten_shot_container(player_shots_raw)
         if ps_shapes not in ([], ["dict"]):
             print(f"WARN group_vs_player_cross_validation: player {pc} shotTrackerList element shapes: {ps_shapes}")
         player_shots = sorted(player_shots_norm, key=lambda s: int(s["shot"]))
