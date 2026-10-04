@@ -1,0 +1,50 @@
+{
+  "game_code": "2026100005",
+  "rounds_processed": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "total_players_in_field": 108,
+  "completed_player_rounds": 331,
+  "attempted_groups": 113,
+  "completed_groups_no_hole_failures": 113,
+  "raw_requests": 2034,
+  "total_player_round_hole_rows": 5958,
+  "total_shot_rows": 24993,
+  "FAIL": [],
+  "WARN": [],
+  "missing_player_rounds": [
+    {
+      "player_code": "8240",
+      "player_name": "황정미",
+      "round": 2
+    },
+    {
+      "player_code": "10112",
+      "player_name": "고지우",
+      "round": 2
+    },
+    {
+      "player_code": "11076",
+      "player_name": "조하리",
+      "round": 2
+    },
+    {
+      "player_code": "11978",
+      "player_name": "이수민 0906(A)",
+      "round": 2
+    },
+    {
+      "player_code": "8246",
+      "player_name": "이소영",
+      "round": 2
+    },
+    {
+      "player_code": "9401",
+      "player_name": "마다솜",
+      "round": 1
+    }
+  ]
+}
