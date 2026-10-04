@@ -1,0 +1,94 @@
+{
+  "official_score_cross_check": {
+    "check": "official_score_cross_check",
+    "game": "2026100005",
+    "player": "9115",
+    "round": 4,
+    "hole": 18,
+    "official_par": 5,
+    "official_strokes": 5,
+    "shotTrackerList_row_count": 5,
+    "shot_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "shot_numbers_sequential_from_1": true,
+    "last_shot_pp_state": "10",
+    "last_shot_is_holed": true,
+    "row_count_matches_official_strokes": true,
+    "PASS": true
+  },
+  "group_vs_player_cross_validation": {
+    "check": "group_vs_player_cross_validation",
+    "game": "2026100005",
+    "round": 4,
+    "hole": 18,
+    "group_no": "21",
+    "shape_warnings": [],
+    "group_player_list_raw": [
+      {
+        "playerEngName": "RYU Haeran",
+        "playerName": "유해란",
+        "playerCode": "9115",
+        "startTime": "10:20",
+        "pp_pcode": "00009115",
+        "groupNo": 21
+      },
+      {
+        "playerEngName": "YOO Seoyeon2",
+        "playerName": "유서연2",
+        "playerCode": "11066",
+        "startTime": "10:20",
+        "pp_pcode": "00011066",
+        "groupNo": 21
+      },
+      {
+        "playerEngName": "LEE Yewon",
+        "playerName": "이예원",
+        "playerCode": "9784",
+        "startTime": "10:20",
+        "pp_pcode": "00009784",
+        "groupNo": 21
+      }
+    ],
+    "group_shots_found_after_normalization": 15,
+    "group_response_player_codes": [
+      "11066",
+      "9115",
+      "9784"
+    ],
+    "players_checked": [
+      "9115",
+      "11066",
+      "9784"
+    ],
+    "per_player": {
+      "9115": {
+        "player_shot_count": 5,
+        "group_shot_count_for_player": 5,
+        "player_in_group_response": true,
+        "mismatches": [],
+        "PASS": true
+      },
+      "11066": {
+        "player_shot_count": 5,
+        "group_shot_count_for_player": 5,
+        "player_in_group_response": true,
+        "mismatches": [],
+        "PASS": true
+      },
+      "9784": {
+        "player_shot_count": 5,
+        "group_shot_count_for_player": 5,
+        "player_in_group_response": true,
+        "mismatches": [],
+        "PASS": true
+      }
+    },
+    "PASS": true
+  },
+  "OVERALL_PASS": true
+}
