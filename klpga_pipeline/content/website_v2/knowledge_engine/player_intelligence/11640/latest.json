@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:30:16.944744+00:00",
-    "input_signature": "ab0b9c9eafcb5e63a0655256a590a8d656fe6648de0844a3a9e1d12d7567f298",
+    "generated_at": "2026-10-04T10:41:20.997198+00:00",
+    "input_signature": "3fab9881cf216982e46ab0f4256725f3abbf4609188aa7794fb9859be14c6c23",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,17 +9,17 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 4.27,
+        "sg_total": 1.08,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.9549999999999998,
+    "long_term_sg": -0.6399999999999999,
     "rate_stats": {},
-    "recent_10_sg": 0.9549999999999998,
-    "recent_5_sg": 0.9549999999999998,
-    "volatility": 3.3149999999999995
+    "recent_10_sg": -0.6399999999999999,
+    "recent_5_sg": -0.6399999999999999,
+    "volatility": 1.72
   },
   "evolution": {
     "citations": [],
@@ -34,7 +34,7 @@
     "sample_count": 2
   },
   "neo_verdict": {
-    "summary": "성아진은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +4.27로 강세를 보였습니다."
+    "summary": "성아진은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.08로 강세를 보였습니다."
   },
   "player_dna": {
     "axes": [
@@ -69,11 +69,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.655,
-    "avg_arg": 0.0,
-    "avg_ott": 0.8600000000000001,
-    "avg_putt": 1.75,
-    "avg_total": 0.9549999999999998,
+    "avg_app": -1.445,
+    "avg_arg": -0.715,
+    "avg_ott": 0.5800000000000001,
+    "avg_putt": 0.94,
+    "avg_total": -0.6399999999999999,
     "season": 2026
   },
   "sources": [
@@ -113,10 +113,10 @@
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 4.27
+          "value": 1.08
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +4.27로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.08로 강세를 보였습니다."
     },
     {
       "citations": [

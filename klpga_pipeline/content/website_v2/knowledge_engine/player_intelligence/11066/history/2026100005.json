@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:53.274019+00:00",
-    "input_signature": "313d95def3274e0f6ec36111038e60ee5994dacdcd42afaad852b6e1e1154b19",
+    "generated_at": "2026-10-04T10:40:58.900203+00:00",
+    "input_signature": "30bfbf1418fafdc5c9f51e7057326f93023812e6420c7b0319cd4c40ff5167f7",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 1.19,
+        "sg_total": 2.78,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.16085714285714287,
+    "long_term_sg": 0.18357142857142858,
     "rate_stats": {
       "average_putts": 29.5714,
       "average_score": 71.3143,
@@ -25,9 +25,9 @@
       "par_save_rate": 87.5397,
       "recovery_rate": 67.655
     },
-    "recent_10_sg": 1.6760000000000002,
-    "recent_5_sg": 1.934,
-    "volatility": 1.1305679988395214
+    "recent_10_sg": 1.8350000000000002,
+    "recent_5_sg": 2.252,
+    "volatility": 1.1623962319278225
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.3252380952380958
+        "value": 1.4009523809523814
       }
     ],
-    "narrative": "2023시즌 SG Total +0.58에서 2026시즌 +1.33로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.58에서 2026시즌 +1.40로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_arg"
       },
       {
-        "avg_total": 1.3252380952380958,
-        "delta_from_prev": -0.9647619047619043,
+        "avg_total": 1.4009523809523814,
+        "delta_from_prev": -0.8890476190476186,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_arg"
@@ -92,7 +92,7 @@
     "sample_count": 70
   },
   "neo_verdict": {
-    "summary": "유서연2은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 5개 대회 SG Total(+1.93)이 장기 평균(+0.16) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "유서연2은(는) 공격적인 버디 메이커(Birdie Hunter) 유형입니다. 최근 5개 대회 SG Total(+2.25)이 장기 평균(+0.18) 대비 뚜렷한 상승세를 보이고 있습니다."
   },
   "player_dna": {
     "axes": [
@@ -138,11 +138,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.7914285714285713,
-    "avg_arg": -0.13428571428571429,
-    "avg_ott": -0.047619047619047616,
-    "avg_putt": 0.7161904761904763,
-    "avg_total": 1.3252380952380958,
+    "avg_app": 0.788095238095238,
+    "avg_arg": -0.09904761904761905,
+    "avg_ott": -0.04857142857142857,
+    "avg_putt": 0.7609523809523809,
+    "avg_total": 1.4009523809523814,
     "season": 2026
   },
   "sources": [
@@ -185,7 +185,7 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.047619047619047616
+          "value": -0.04857142857142857
         }
       ],
       "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.05로 악화되었습니다."
@@ -197,20 +197,20 @@
         {
           "field_path": "recent_5_sg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.934
+          "value": 2.252
         }
       ],
-      "text": "최근 5개 대회 SG Total(+1.93)이 장기 평균(+0.16) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "최근 5개 대회 SG Total(+2.25)이 장기 평균(+0.18) 대비 뚜렷한 상승세를 보이고 있습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.19
+          "value": 2.78
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.19로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.78로 강세를 보였습니다."
     },
     {
       "citations": [

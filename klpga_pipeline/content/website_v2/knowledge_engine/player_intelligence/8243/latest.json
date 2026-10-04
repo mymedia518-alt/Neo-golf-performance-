@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:30:01.267866+00:00",
-    "input_signature": "66f34976d534fbc4aee3121da6d493b627a1e402b05fb99fea77ed1c725ccdf6",
+    "generated_at": "2026-10-04T10:41:09.048632+00:00",
+    "input_signature": "c1a44f97c6babc3e850875e43176059812ee4760ab2bae2cb1f5cf87d81b4c04",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": -1.74,
+        "sg_total": -1.64,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -0.31100000000000005,
+    "long_term_sg": -0.3093333333333334,
     "rate_stats": {
       "average_putts": 30.3043,
       "average_score": 71.3771,
@@ -25,9 +25,9 @@
       "par_save_rate": 87.6006,
       "recovery_rate": 62.4615
     },
-    "recent_10_sg": 0.7040000000000001,
-    "recent_5_sg": 0.45,
-    "volatility": 1.8208031195052363
+    "recent_10_sg": 0.7140000000000002,
+    "recent_5_sg": 0.4700000000000001,
+    "volatility": 1.8075795971408837
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.9840909090909092
+        "value": 0.9886363636363636
       }
     ],
-    "narrative": "2023시즌 SG Total -0.05에서 2026시즌 +0.98로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.05에서 2026시즌 +0.99로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 0.9840909090909092,
-        "delta_from_prev": 1.2240909090909091,
+        "avg_total": 0.9886363636363636,
+        "delta_from_prev": 1.2286363636363635,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -92,7 +92,7 @@
     "sample_count": 60
   },
   "neo_verdict": {
-    "summary": "장은수은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.28로 반전에 성공했습니다."
+    "summary": "장은수은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.34로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.5549999999999998,
-    "avg_arg": 0.2040909090909091,
-    "avg_ott": -0.05681818181818183,
-    "avg_putt": 0.28181818181818186,
-    "avg_total": 0.9840909090909092,
+    "avg_app": 0.5759090909090908,
+    "avg_arg": 0.12227272727272731,
+    "avg_ott": -0.049090909090909095,
+    "avg_putt": 0.3386363636363637,
+    "avg_total": 0.9886363636363636,
     "season": 2026
   },
   "sources": [
@@ -184,10 +184,10 @@
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -1.74
+          "value": -1.64
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total -1.74로 부진했습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total -1.64로 부진했습니다."
     }
   ],
   "why_wins": [
@@ -196,10 +196,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.28181818181818186
+          "value": 0.3386363636363637
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.28로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.34로 반전에 성공했습니다."
     }
   ]
 }

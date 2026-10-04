@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:32.240102+00:00",
-    "input_signature": "56c2b1db0782b517b11cfb1817f536a8b017e5ad4a434d9fd79038d35bb9a5d4",
+    "generated_at": "2026-10-04T10:40:43.371217+00:00",
+    "input_signature": "db2df803f6f3ddb8ea33ac77bbb4ab23988c82f49a3a8135aac85c7666181eef",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 5.73,
+        "sg_total": 3.09,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -0.8780434782608696,
+    "long_term_sg": -0.9354347826086957,
     "rate_stats": {
       "average_putts": 30.5556,
       "average_score": 73.3326,
@@ -25,9 +25,9 @@
       "par_save_rate": 80.5556,
       "recovery_rate": 51.8868
     },
-    "recent_10_sg": 0.004000000000000092,
-    "recent_5_sg": -0.029999999999999895,
-    "volatility": 2.49055897340336
+    "recent_10_sg": -0.25999999999999995,
+    "recent_5_sg": -0.558,
+    "volatility": 1.9511073778754464
   },
   "evolution": {
     "citations": [
@@ -44,10 +44,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.5695454545454546
+        "value": -0.6895454545454546
       }
     ],
-    "narrative": "2023시즌 SG Total -0.98에서 2026시즌 -0.57로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.98에서 2026시즌 -0.69로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -65,8 +65,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": -0.5695454545454546,
-        "delta_from_prev": 1.1454545454545453,
+        "avg_total": -0.6895454545454546,
+        "delta_from_prev": 1.0254545454545454,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_arg"
@@ -80,7 +80,7 @@
     "sample_count": 46
   },
   "neo_verdict": {
-    "summary": "김소정은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +5.73로 강세를 보였습니다."
+    "summary": "김소정은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +3.09로 강세를 보였습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,11 +115,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.36500000000000005,
-    "avg_arg": -0.46772727272727277,
-    "avg_ott": -0.2799999999999999,
-    "avg_putt": -0.18545454545454546,
-    "avg_total": -0.5695454545454546,
+    "avg_app": 0.31454545454545463,
+    "avg_arg": -0.47181818181818186,
+    "avg_ott": -0.29590909090909084,
+    "avg_putt": -0.23545454545454544,
+    "avg_total": -0.6895454545454546,
     "season": 2026
   },
   "sources": [
@@ -159,10 +159,10 @@
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 5.73
+          "value": 3.09
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +5.73로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +3.09로 강세를 보였습니다."
     }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:33.159162+00:00",
-    "input_signature": "19221803667d114e0b133cacce6a4dfd9d0689bea9acad9e96218b48b3b86019",
+    "generated_at": "2026-10-04T10:40:44.328633+00:00",
+    "input_signature": "817949d43beaeb909fb0dd7b5cb8ce3a291518b0f131b71c90338adf85ba7b93",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 4.8,
+        "sg_total": 1.07,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.05357142857142857,
+    "long_term_sg": 0.015510204081632659,
     "rate_stats": {
       "average_putts": 31.1833,
       "average_score": 72.7,
@@ -25,9 +25,9 @@
       "par_save_rate": 84.537,
       "recovery_rate": 64.094
     },
-    "recent_10_sg": -0.15499999999999997,
-    "recent_5_sg": 0.708,
-    "volatility": 1.9962176735015646
+    "recent_10_sg": -0.5279999999999999,
+    "recent_5_sg": -0.038000000000000034,
+    "volatility": 1.241215533257621
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.1933333333333333
+        "value": -0.3709523809523809
       }
     ],
-    "narrative": "2023시즌 SG Total +0.40에서 2026시즌 -0.19로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +0.40에서 2026시즌 -0.37로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -0.1933333333333333,
-        "delta_from_prev": -0.06511904761904766,
+        "avg_total": -0.3709523809523809,
+        "delta_from_prev": -0.24273809523809528,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_putt"
@@ -92,7 +92,7 @@
     "sample_count": 98
   },
   "neo_verdict": {
-    "summary": "김우정은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.71)이 장기 평균(+0.05) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "김우정은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.41로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.4957142857142857,
-    "avg_arg": -0.11238095238095241,
-    "avg_ott": -0.18333333333333326,
-    "avg_putt": -0.39285714285714285,
-    "avg_total": -0.1933333333333333,
+    "avg_app": 0.4095238095238095,
+    "avg_arg": -0.140952380952381,
+    "avg_ott": -0.20428571428571424,
+    "avg_putt": -0.43476190476190474,
+    "avg_total": -0.3709523809523809,
     "season": 2026
   },
   "sources": [
@@ -175,10 +175,10 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.39285714285714285
+          "value": -0.43476190476190474
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.39로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.43로 악화되었습니다."
     },
     {
       "citations": [
@@ -195,32 +195,22 @@
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.708
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+0.71)이 장기 평균(+0.05) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.4957142857142857
+          "value": 0.4095238095238095
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.50로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.41로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 4.8
+          "value": 1.07
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +4.80로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.07로 강세를 보였습니다."
     }
   ]
 }

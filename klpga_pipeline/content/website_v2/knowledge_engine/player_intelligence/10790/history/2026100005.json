@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:35.713836+00:00",
-    "input_signature": "96ca5322efddcd44c49872fd6ed97d5ff424a7c2eb86b1d17ed0d93d66a96e68",
+    "generated_at": "2026-10-04T10:40:47.747259+00:00",
+    "input_signature": "cd244ecc70f0060cd7c5ed9643aa302629983f82b6a3b7c4328922e9b4754641",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 3.2,
+        "sg_total": 0.85,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -0.3959999999999998,
+    "long_term_sg": -0.4899999999999999,
     "rate_stats": {
       "average_putts": 30.2542,
       "average_score": 72.5763,
@@ -25,9 +25,9 @@
       "par_save_rate": 83.71,
       "recovery_rate": 57.6687
     },
-    "recent_10_sg": -0.07299999999999991,
-    "recent_5_sg": 0.9339999999999999,
-    "volatility": 2.0961729413385717
+    "recent_10_sg": -0.30799999999999994,
+    "recent_5_sg": 0.46399999999999997,
+    "volatility": 1.8310259419243629
   },
   "evolution": {
     "citations": [
@@ -39,10 +39,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.12045454545454543
+        "value": -0.22727272727272727
       }
     ],
-    "narrative": "2025시즌 SG Total -2.42에서 2026시즌 -0.12로 상승 추세입니다.",
+    "narrative": "2025시즌 SG Total -2.42에서 2026시즌 -0.23로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -53,8 +53,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.12045454545454543,
-        "delta_from_prev": 2.296212121212121,
+        "avg_total": -0.22727272727272727,
+        "delta_from_prev": 2.1893939393939394,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -68,7 +68,7 @@
     "sample_count": 25
   },
   "neo_verdict": {
-    "summary": "김하은2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.13로 반전에 성공했습니다."
+    "summary": "김하은2은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.08로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -103,11 +103,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.1340909090909091,
-    "avg_arg": 0.0618181818181818,
-    "avg_ott": -0.1954545454545455,
-    "avg_putt": -0.12045454545454551,
-    "avg_total": -0.12045454545454543,
+    "avg_app": 0.07818181818181817,
+    "avg_arg": 0.019090909090909075,
+    "avg_ott": -0.16727272727272727,
+    "avg_putt": -0.15727272727272734,
+    "avg_total": -0.22727272727272727,
     "season": 2026
   },
   "sources": [
@@ -136,30 +136,30 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.1340909090909091
+          "value": 0.07818181818181817
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.13로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.08로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.0618181818181818
+          "value": 0.019090909090909075
         }
       ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.06로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.02로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 3.2
+          "value": 0.85
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +3.20로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.85로 강세를 보였습니다."
     }
   ]
 }

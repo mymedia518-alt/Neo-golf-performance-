@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:30:12.630193+00:00",
-    "input_signature": "92f602839c36e200075f61222d3815d8de3295f36813855e1eb5de7aafe6ae67",
+    "generated_at": "2026-10-04T10:41:19.460685+00:00",
+    "input_signature": "a9ed5a92ea14042fd110327087943366bc6f26a1d6df77af004637955dc9c6dc",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 3.47,
+        "sg_total": 2.62,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.12869999999999995,
+    "long_term_sg": 0.12019999999999996,
     "rate_stats": {
       "average_putts": 30.381,
       "average_score": 71.7778,
@@ -25,9 +25,9 @@
       "par_save_rate": 87.3898,
       "recovery_rate": 70.4403
     },
-    "recent_10_sg": 0.79,
-    "recent_5_sg": 0.3340000000000002,
-    "volatility": 1.9522141275997364
+    "recent_10_sg": 0.7050000000000001,
+    "recent_5_sg": 0.16400000000000015,
+    "volatility": 1.8494769530870072
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.7804545454545457
+        "value": 0.741818181818182
       }
     ],
-    "narrative": "2023시즌 SG Total -0.42에서 2026시즌 +0.78로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.42에서 2026시즌 +0.74로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.7804545454545457,
-        "delta_from_prev": 0.45616883116883133,
+        "avg_total": 0.741818181818182,
+        "delta_from_prev": 0.41753246753246764,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
@@ -138,11 +138,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.25000000000000006,
-    "avg_arg": 0.12272727272727267,
-    "avg_ott": 0.3481818181818181,
-    "avg_putt": 0.061818181818181855,
-    "avg_total": 0.7804545454545457,
+    "avg_app": 0.14136363636363639,
+    "avg_arg": 0.1554545454545454,
+    "avg_ott": 0.31636363636363635,
+    "avg_putt": 0.13090909090909095,
+    "avg_total": 0.741818181818182,
     "season": 2026
   },
   "sources": [
@@ -194,22 +194,22 @@
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
+          "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.3340000000000002
+          "value": 0.13090909090909095
         }
       ],
-      "text": "최근 5개 대회 SG Total(+0.33)이 장기 평균(+0.13) 대비 뚜렷한 상승세를 보이고 있습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.13로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_putt",
+          "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.061818181818181855
+          "value": 2.62
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.06로 반전에 성공했습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.62로 강세를 보였습니다."
     }
   ]
 }

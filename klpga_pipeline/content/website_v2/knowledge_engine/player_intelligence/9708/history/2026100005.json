@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:56.959181+00:00",
-    "input_signature": "906e7cc3fdd3c97cb2fc14a307070bf21da6f143edb0d6ba700b0e49d78f2630",
+    "generated_at": "2026-10-04T10:41:05.758069+00:00",
+    "input_signature": "0ab8121532d87dde153bc057df73a814e6c5798775772d97a757c49ca9a584b8",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 1.67,
+        "sg_total": 1.27,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -0.29673469387755114,
+    "long_term_sg": -0.3048979591836736,
     "rate_stats": {
       "average_putts": 30.1228,
       "average_score": 72.8421,
@@ -25,9 +25,9 @@
       "par_save_rate": 82.1637,
       "recovery_rate": 54.7988
     },
-    "recent_10_sg": -0.8199999999999997,
-    "recent_5_sg": -0.782,
-    "volatility": 2.3163548950884016
+    "recent_10_sg": -0.8599999999999998,
+    "recent_5_sg": -0.8620000000000001,
+    "volatility": 2.276115111324557
   },
   "evolution": {
     "citations": [
@@ -39,10 +39,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.4619047619047619
+        "value": -0.4809523809523809
       }
     ],
-    "narrative": "2025시즌 SG Total -0.17에서 2026시즌 -0.46로 하락 추세입니다.",
+    "narrative": "2025시즌 SG Total -0.17에서 2026시즌 -0.48로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -53,8 +53,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": -0.4619047619047619,
-        "delta_from_prev": -0.289047619047619,
+        "avg_total": -0.4809523809523809,
+        "delta_from_prev": -0.308095238095238,
         "season": 2026,
         "strongest_component": "avg_putt",
         "weakest_component": "avg_ott"
@@ -68,7 +68,7 @@
     "sample_count": 49
   },
   "neo_verdict": {
-    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.48로 반전에 성공했습니다."
+    "summary": "이재윤은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.41로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -103,11 +103,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.10333333333333329,
-    "avg_arg": -0.3561904761904763,
-    "avg_ott": -0.4780952380952381,
-    "avg_putt": 0.4766666666666667,
-    "avg_total": -0.4619047619047619,
+    "avg_app": -0.09095238095238092,
+    "avg_arg": -0.32238095238095243,
+    "avg_ott": -0.47857142857142854,
+    "avg_putt": 0.41285714285714287,
+    "avg_total": -0.4809523809523809,
     "season": 2026
   },
   "sources": [
@@ -146,7 +146,7 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.4780952380952381
+          "value": -0.47857142857142854
         }
       ],
       "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.48로 악화되었습니다."
@@ -158,20 +158,20 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.4766666666666667
+          "value": 0.41285714285714287
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.48로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.41로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.67
+          "value": 1.27
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.67로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.27로 강세를 보였습니다."
     }
   ]
 }

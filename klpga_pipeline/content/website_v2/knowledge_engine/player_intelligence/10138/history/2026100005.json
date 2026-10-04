@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:30:00.201961+00:00",
-    "input_signature": "99c6cccddfb7937c93a1089b2c7dda504f7d0de1a6f067aa881997a0d4954f27",
+    "generated_at": "2026-10-04T10:41:08.994433+00:00",
+    "input_signature": "036b3f3524b95fa2ebe93b1fc55626d40ed7d884865522afcbec85891afd01e5",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 1.58,
+        "sg_total": 1.54,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.2730263157894738,
+    "long_term_sg": 0.2725000000000001,
     "rate_stats": {
       "average_putts": 30.8039,
       "average_score": 72.3533,
@@ -25,9 +25,9 @@
       "par_save_rate": 84.3137,
       "recovery_rate": 58.2031
     },
-    "recent_10_sg": -0.229,
-    "recent_5_sg": -0.418,
-    "volatility": 1.4223814537598556
+    "recent_10_sg": -0.233,
+    "recent_5_sg": -0.426,
+    "volatility": 1.4173358811516767
   },
   "evolution": {
     "citations": [
@@ -49,7 +49,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.25736842105263164
+        "value": 0.25526315789473686
       }
     ],
     "narrative": "2023시즌 SG Total +0.11에서 2026시즌 +0.26로 상승 추세입니다.",
@@ -77,11 +77,11 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.25736842105263164,
-        "delta_from_prev": 0.08699805068226119,
+        "avg_total": 0.25526315789473686,
+        "delta_from_prev": 0.08489278752436641,
         "season": 2026,
         "strongest_component": "avg_app",
-        "weakest_component": "avg_arg"
+        "weakest_component": "avg_putt"
       }
     ]
   },
@@ -92,7 +92,7 @@
     "sample_count": 76
   },
   "neo_verdict": {
-    "summary": "임진영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.17로 반전에 성공했습니다."
+    "summary": "임진영은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.26로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.17,
-    "avg_arg": -0.027368421052631545,
-    "avg_ott": 0.1363157894736842,
-    "avg_putt": -0.022105263157894704,
-    "avg_total": 0.25736842105263164,
+    "avg_app": 0.25894736842105265,
+    "avg_arg": -0.04473684210526313,
+    "avg_ott": 0.10894736842105263,
+    "avg_putt": -0.06842105263157891,
+    "avg_total": 0.25526315789473686,
     "season": 2026
   },
   "sources": [
@@ -148,10 +148,20 @@
         {
           "field_path": "seasons[2026].avg_arg",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.027368421052631545
+          "value": -0.04473684210526313
         }
       ],
-      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.03로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Around-the-Green이(가) 2026시즌 -0.04로 악화되었습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.06842105263157891
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.07로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -160,20 +170,20 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.17
+          "value": 0.25894736842105265
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.17로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.26로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.58
+          "value": 1.54
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.58로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.54로 강세를 보였습니다."
     }
   ]
 }

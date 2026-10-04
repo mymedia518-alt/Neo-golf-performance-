@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:57.959230+00:00",
-    "input_signature": "a09e5f015919aea3b78b2c2400824a5b59a9eb2df24963c469dc8407859465d8",
+    "generated_at": "2026-10-04T10:41:05.743714+00:00",
+    "input_signature": "0c54d764d104bc22553cd7fd98e55bb2b4b2f06abd0c2ede84bf1fe4f9ba545d",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 0.42,
+        "sg_total": 0.39,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -1.5861643835616441,
+    "long_term_sg": -1.5865753424657538,
     "rate_stats": {
       "average_putts": 30.1579,
       "average_score": 73.2625,
@@ -25,9 +25,9 @@
       "par_save_rate": 80.9942,
       "recovery_rate": 50.3145
     },
-    "recent_10_sg": -1.084,
-    "recent_5_sg": -1.5699999999999998,
-    "volatility": 1.788520058595933
+    "recent_10_sg": -1.087,
+    "recent_5_sg": -1.576,
+    "volatility": 1.786018196995764
   },
   "evolution": {
     "citations": [
@@ -44,7 +44,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -0.758095238095238
+        "value": -0.7595238095238095
       }
     ],
     "narrative": "2024시즌 SG Total -3.22에서 2026시즌 -0.76로 상승 추세입니다.",
@@ -65,8 +65,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": -0.758095238095238,
-        "delta_from_prev": 0.04476190476190467,
+        "avg_total": -0.7595238095238095,
+        "delta_from_prev": 0.043333333333333224,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -80,7 +80,7 @@
     "sample_count": 73
   },
   "neo_verdict": {
-    "summary": "이율린은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.42로 강세를 보였습니다."
+    "summary": "이율린은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.06로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -115,11 +115,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.41952380952380963,
-    "avg_arg": -0.09619047619047619,
-    "avg_ott": -1.031904761904762,
-    "avg_putt": -0.04857142857142859,
-    "avg_total": -0.758095238095238,
+    "avg_app": 0.34333333333333343,
+    "avg_arg": -0.09142857142857143,
+    "avg_ott": -1.0661904761904764,
+    "avg_putt": 0.05619047619047618,
+    "avg_total": -0.7595238095238095,
     "season": 2026
   },
   "sources": [
@@ -163,12 +163,22 @@
     {
       "citations": [
         {
-          "field_path": "course_history[]",
+          "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.42
+          "value": 0.05619047619047618
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.42로 강세를 보였습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.06로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "course_history[]",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 0.39
+        }
+      ],
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.39로 강세를 보였습니다."
     }
   ]
 }

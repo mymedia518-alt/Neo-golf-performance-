@@ -248,6 +248,7 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
         }
 
     carried_forward: dict[str, dict] = {}
+    carried_forward_verbatim: set[str] = set()
     for pid in entrant_ids - parsed_ids:
         proof = None
         for earlier_round in range(1, round_number):
@@ -258,13 +259,32 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
             if status_text:
                 proof = (earlier_round, status_text)
                 break
-        if proof is None:
-            raise AssertionError(
-                f"{label} leaderboard is missing official entrant {pid} and no earlier round's raw "
-                f"evidence proves a real WD/DQ/CUT for them -- refusing to silently drop a player. "
-                f"Never fabricated."
-            )
-        carried_forward[pid] = {"proof_round": proof[0], "status_text": proof[1]}
+        if proof is not None:
+            carried_forward[pid] = {"proof_round": proof[0], "status_text": proof[1]}
+            continue
+        # FR fix (2026-10-04): R2_CUT's real status was never proven via
+        # literal on-page WD/DQ/CUT text in the first place -- it was
+        # derived once, when R3 was first built, from the real
+        # difference between R2's active field and R3's own confirmed
+        # real field (derive_r2_cut_from_confirmed_r3_field). That real
+        # status is already persisted in the current on-disk
+        # LEADERBOARD.json (existing_board) -- reused here verbatim as
+        # this round's own carry-forward proof for a player who is, for
+        # the same real reason, still absent from THIS round's DOM too.
+        # Never guessed: only a player whose EXISTING real status is
+        # already one of the four real terminal states qualifies;
+        # anyone else absent with no proof at all still raises below,
+        # unchanged.
+        prior = (existing_board or {}).get(pid)
+        if prior is not None and prior.get("status") in ("WD", "DQ", "R1_CUT", "R2_CUT"):
+            carried_forward_verbatim.add(pid)
+            continue
+        raise AssertionError(
+            f"{label} leaderboard is missing official entrant {pid} and no earlier round's raw "
+            f"evidence proves a real WD/DQ/CUT for them, and their existing on-disk status is not "
+            f"already a real terminal one either -- refusing to silently drop a player. Never "
+            f"fabricated."
+        )
 
     records = []
     not_yet_complete = []
@@ -338,6 +358,14 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
         record["carried_forward_from_round"] = info["proof_round"]
         records.append(record)
 
+    for pid in carried_forward_verbatim:
+        # Copied verbatim, including its already-real status/status_round
+        # -- never re-derived, since no status_text exists to re-derive
+        # it from (see this player's own real proof above).
+        record = dict(existing_board[pid])
+        record["carried_forward_from_round"] = record.get("status_round")
+        records.append(record)
+
     assert len(records) == len(entrants)
     assert len({r["player_id"] for r in records}) == len(records), "duplicate player_id after parse"
 
@@ -359,6 +387,18 @@ def parse_leaderboard(round_number: int, *, raw_path: Path | None = None) -> Pat
         },
         "records": records,
     }
+    # FIX (2026-10-04, found while building FR): this round's rewrite
+    # of LEADERBOARD.json previously dropped any top-level provenance
+    # key it doesn't itself manage (e.g. r2_cut_derivation,
+    # r3_results_source_raw -- real audit metadata an earlier round's
+    # own build already wrote). Preserving every such key the existing
+    # file already carries -- never overwriting a key this function
+    # DOES manage (schema_version/game_code/final_round/as_of/
+    # source_raw/coverage/records), so this round's own real values for
+    # those always win.
+    existing_doc = json.loads(LEADERBOARD_PATH.read_text(encoding="utf-8")) if LEADERBOARD_PATH.is_file() else {}
+    for key, value in existing_doc.items():
+        out.setdefault(key, value)
     LEADERBOARD_PATH.write_text(json.dumps(out, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return LEADERBOARD_PATH
 
@@ -695,8 +735,22 @@ def parse_sg(round_number: int, *, raw_path: Path | None = None) -> Path:
     )
 
     matches = list(_SG_ROW_RE.finditer(raw_html))
+    # FR fix (2026-10-04): confirmed by direct inspection, the real FR
+    # SG capture's own "rounds" column shows the site reverting to a
+    # full-tournament view at FINAL -- all 107 real entrants ever
+    # cumulative-SG'd (61 with rounds==4, 41 R2_CUT with rounds==2, 5
+    # R1_CUT with rounds==1), not narrowed to the round's own active
+    # population the way R1/R2/R3's own captures already were. Rows
+    # for a player absent from this round's completed roster are real
+    # historical rows for a DIFFERENT population (an earlier round's),
+    # not corruption -- excluded here before the bijection check below,
+    # never silently kept or guessed at. No-op for R1/R2/R3 (every real
+    # existing capture for those rounds already matches 1:1, confirmed
+    # by this project's own already-committed R1/R2/R3 SG files).
+    matches = [m for m in matches if m.group(2) in name_to_id]
     assert len(matches) == len(completed), (
-        f"expected {len(completed)} SG table rows (completed-{label} count), parsed {len(matches)}"
+        f"expected {len(completed)} SG table rows (completed-{label} count) after excluding other "
+        f"rounds' historical rows, parsed {len(matches)}"
     )
 
     sg_names = [m.group(2) for m in matches]
@@ -951,47 +1005,80 @@ def hole_scorecard_raw_path(round_number: int) -> Path:
     return EVIDENCE_DIR / f"HITEJINRO_{GAME_CODE}_{label}_HOLE_SCORECARDS_RAW.json"
 
 
-def build_r3_sg_intelligence(content_root: Path | None = None) -> dict:
+def build_r3_sg_intelligence(content_root: Path | None = None, *, round_number: int = 3) -> dict:
     """SG 분석 (Player Intelligence): this round's real official Strokes
-    Gained (HITEJINRO_2026100005_R3_SG_V1.json, from parse_sg(3) against
-    the real R3 sg-official.html capture) joined to each player's real
-    R3 finish rank. klpga.co.kr's own SG table is a single-round snapshot
-    every time (every existing R1/R2/R3 capture carries rounds==1 for
-    every row) -- 'total' etc. here are this round's own SG, never a
-    cumulative-through-tournament figure."""
+    Gained (HITEJINRO_2026100005_R{round_number}_SG_V1.json, from
+    parse_sg(round_number) against that round's real sg-official.html
+    capture) joined to each player's real finish rank for that round.
+    klpga.co.kr's own SG table is a single-round snapshot every time
+    (every existing R1/R2/R3 capture carries rounds==1 for every row)
+    -- 'total' etc. here are this round's own SG, never a cumulative-
+    through-tournament figure. round_number defaults to 3 (R3, the
+    original/only real caller before FR); pass round_number=4 for FR --
+    same real engine, same real data shape, no new verification logic.
+    Also identifies the real tournament winner's own SG row (the
+    player with finish_position_numeric==1) and, for that player only,
+    the SG category (OTT/APP/ARG/PUTT) with the highest and lowest real
+    value -- a direct read of her own already-real numbers, never a new
+    computation ("우승 원인 분석": 우승자가 어느 영역에서 가장 앞섰는지는
+    그 선수 자신의 real SG 네 항목 중 최댓값/최솟값일 뿐이다)."""
     content_root = content_root or CONTENT
-    sg_path = content_root / f"HITEJINRO_{GAME_CODE}_R3_SG_V1.json"
+    label = _round_label(round_number)
+    sg_path = content_root / f"HITEJINRO_{GAME_CODE}_{label}_SG_V1.json"
     sg_doc = json.loads(sg_path.read_text(encoding="utf-8"))
     board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
     rank_by_id = {r["player_id"]: r["finish_position_numeric"] for r in board["records"] if r.get("status") is None}
 
     rows = sorted(sg_doc["records"], key=lambda r: r["sg_rank"])
     for r in rows:
-        r["r3_rank"] = rank_by_id.get(r["player_id"])
+        r["round_rank"] = rank_by_id.get(r["player_id"])
+
+    winner_sg = next((r for r in rows if r["round_rank"] == 1), None)
+    winner_cause = None
+    if winner_sg is not None:
+        categories = {
+            "off_the_tee": winner_sg["off_the_tee"], "approach": winner_sg["approach"],
+            "around_green": winner_sg["around_green"], "putting": winner_sg["putting"],
+        }
+        winner_cause = {
+            "player_name": winner_sg["official_display_name"],
+            "strongest_category": max(categories, key=categories.get),
+            "strongest_value": max(categories.values()),
+            "weakest_category": min(categories, key=categories.get),
+            "weakest_value": min(categories.values()),
+        }
 
     return {
-        "round_number": 3,
+        "round_number": round_number,
         "population_count": len(rows),
         "rows": rows,
         "sg_leader": rows[0] if rows else None,
+        "winner_sg": winner_sg,
+        "winner_cause": winner_cause,
     }
 
 
-def build_r3_course_analysis(content_root: Path | None = None) -> dict:
-    """코스 분석: real per-hole R3 results for every one of the 61
-    real active players (HITEJINRO_2026100005_R3_HOLE_SCORECARDS_RAW.json
-    -- collect_current_round_evidence.py's own real scorecards.json,
-    per-hole par/strokes/relative_to_par, round 3 only here). Hardest/
-    easiest holes are the real field-average relative_to_par, nothing
-    modeled or estimated."""
+def build_r3_course_analysis(content_root: Path | None = None, *, round_number: int = 3) -> dict:
+    """코스 분석: real per-hole results for every real active player
+    (HITEJINRO_2026100005_{R3,FR,...}_HOLE_SCORECARDS_RAW.json --
+    collect_current_round_evidence.py's own real scorecards.json,
+    per-hole par/strokes/relative_to_par). Hardest/easiest holes are
+    the real field-average relative_to_par, nothing modeled or
+    estimated. round_number defaults to 3; pass round_number=4 for FR
+    -- same real engine, same real per-hole data shape, no new
+    verification logic. Also buckets each hole's real relative_to_par
+    values into the same birdie/bogey/double-bogey-or-worse categories
+    already used elsewhere in this codebase (official_detail_
+    enrichment.py's _SCORE_CLASS_LABELS) -- a real per-shot
+    classification, never estimated."""
     content_root = content_root or CONTENT
-    path = hole_scorecard_raw_path(3)
+    path = hole_scorecard_raw_path(round_number)
     raw = json.loads(path.read_text(encoding="utf-8"))
 
     by_hole: dict[int, list[dict]] = {}
     for player_id, records in raw.items():
         for rec in records:
-            if rec["round"] != 3:
+            if rec["round"] != round_number:
                 continue
             by_hole.setdefault(rec["hole"], []).append(rec)
 
@@ -1005,6 +1092,9 @@ def build_r3_course_analysis(content_root: Path | None = None) -> dict:
         avg_to_par = sum(rec["relative_to_par"] for rec in recs) / n
         better = sum(1 for rec in recs if rec["relative_to_par"] < 0)
         worse = sum(1 for rec in recs if rec["relative_to_par"] > 0)
+        birdie_or_better = sum(1 for rec in recs if rec["relative_to_par"] <= -1)
+        bogey = sum(1 for rec in recs if rec["relative_to_par"] == 1)
+        double_bogey_or_worse = sum(1 for rec in recs if rec["relative_to_par"] >= 2)
         holes.append({
             "hole": hole_num,
             "par": par,
@@ -1012,6 +1102,9 @@ def build_r3_course_analysis(content_root: Path | None = None) -> dict:
             "avg_to_par": round(avg_to_par, 3),
             "better_than_par": better,
             "worse_than_par": worse,
+            "birdie_rate": round(birdie_or_better / n * 100, 1),
+            "bogey_rate": round(bogey / n * 100, 1),
+            "double_bogey_rate": round(double_bogey_or_worse / n * 100, 1),
         })
 
     by_difficulty = sorted(holes, key=lambda h: -h["avg_to_par"])
@@ -1019,7 +1112,7 @@ def build_r3_course_analysis(content_root: Path | None = None) -> dict:
     field_total_rounds = holes[0]["player_count"] if holes else 0
 
     return {
-        "round_number": 3,
+        "round_number": round_number,
         "holes": sorted(holes, key=lambda h: h["hole"]),
         "hardest_holes": by_difficulty[:3],
         "easiest_holes": by_difficulty[::-1][:3],
@@ -1276,7 +1369,12 @@ def _hitejinro_confirmed_outcome(round_number: int, *, content_root: Path | None
     (same _LEADERBOARD_ROW_RE technique this module already uses for R2's
     real rank elsewhere)."""
     content_root = content_root or CONTENT
-    if round_number == 3:
+    if round_number in (3, 4):
+        # FR (round 4) reads LEADERBOARD.json exactly like R3 -- same
+        # real finish_position_numeric field, same status is None
+        # filter (parse_leaderboard(4) populates it identically to
+        # parse_leaderboard(3), just for the tournament's terminal
+        # round instead of an intermediate one).
         board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
         return [
             {
@@ -1330,21 +1428,32 @@ def build_hitejinro_round_verification(round_number: int, *, content_root: Path 
       - R3: the real post-R2 forecast (klpga.neo_win.round_update_r2.
         simulate_post_round2, built from real R1+R2 only -- never
         leaks R3's own score) vs R3's real standing. Exactly mirrors
-        KB's own R3-forecast-vs-FINAL pattern, one stage earlier."""
+        KB's own R3-forecast-vs-FINAL pattern, one stage earlier.
+      - FR: the real post-R3 forecast (klpga.neo_win.round_update_r3.
+        simulate_post_round3, built from real R1+R2+R3 only -- never
+        leaks FR's own score) vs FR's real final standing. This is
+        hitejinro's own exact analogue of KB's actual FINAL verification
+        (KB's real FINAL closure compared its post-R3 forecast to its
+        real FINAL result via this same compare_forecast_to_outcome
+        engine -- see scripts/130_kb_2026090003_extended_final_
+        comparison.py)."""
     content_root = content_root or CONTENT
     from klpga.neo_win.final_partial_evidence_validator import compare_forecast_to_outcome
 
     confirmed = _hitejinro_confirmed_outcome(round_number, content_root=content_root)
-    # Reads the persisted POST_R1/POST_R2_FORECAST.json files (never
-    # recomputes inline) -- the prior stage's file in every case, since
-    # verifying round N against a forecast that already KNOWS round N's
-    # own real score would be circular/leaking: R1/R2 both check against
-    # POST_R1_FORECAST (the only real forecast that exists before R2
-    # happens), R3 checks against POST_R2_FORECAST.
+    # Reads the persisted POST_R1/POST_R2/POST_R3_FORECAST.json files
+    # (never recomputes inline) -- the prior stage's file in every
+    # case, since verifying round N against a forecast that already
+    # KNOWS round N's own real score would be circular/leaking: R1/R2
+    # both check against POST_R1_FORECAST (the only real forecast that
+    # exists before R2 happens), R3 checks against POST_R2_FORECAST,
+    # FR checks against POST_R3_FORECAST.
     if round_number in (1, 2):
         forecast_by_id = _forecast_records_to_by_id(load_post_r1_forecast(content_root)["records"])
-    else:
+    elif round_number == 3:
         forecast_by_id = _forecast_records_to_by_id(load_post_r2_forecast(content_root)["records"])
+    else:
+        forecast_by_id = _forecast_records_to_by_id(load_post_r3_forecast(content_root)["records"])
 
     # A real player absent from the forecast (e.g. DATA_INSUFFICIENT,
     # excluded from load_m4_by_id's PASS-only filter) cannot be scored
@@ -1421,11 +1530,26 @@ def build_round_page(round_number: int, *, include_internal: bool = False) -> Pa
             "</ol></nav><section class='panel leaderboard-panel'",
             "</ol></nav>" + video_html + "<section class='panel leaderboard-panel'",
         )
-    if include_internal and round_number in (1, 2, 3):
+    if include_internal and round_number in (1, 2, 3, 4):
         from klpga.neo_win.hitejinro_round_page import render_hitejinro_verification_html
         verification = build_hitejinro_round_verification(round_number)
         assert "</main>" in html
         html = html.replace("</main>", render_hitejinro_verification_html(round_number, verification) + "</main>")
+    if include_internal and round_number == 4:
+        # FR/FINAL closure policy (2026-10-04, this tournament's own
+        # analogue of KB 2026090003's real public FINAL-page NEO
+        # verification, scripts/130-131_kb_2026090003_*): unlike R1-R3
+        # (2026-10-03 PUBLIC/INTERNAL SPLIT, still unchanged -- these
+        # stay internal-only), the terminal FR stage also gets SG 분석
+        # + 코스 분석 spliced into the PUBLIC page, same real functions/
+        # markup R3's own internal report already used. No new
+        # verification method, only a different stage's own public/
+        # internal default (set by run_round_pipeline.py's caller, not
+        # here).
+        from klpga.neo_win.hitejinro_round_page import render_r3_course_analysis_html, render_r3_sg_intelligence_html
+        sg_html = render_r3_sg_intelligence_html(build_r3_sg_intelligence(round_number=4))
+        course_html = render_r3_course_analysis_html(build_r3_course_analysis(round_number=4))
+        html = html.replace("</main>", sg_html + course_html + "</main>")
     out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / stage_key / "index.html"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html, encoding="utf-8", newline="\n")

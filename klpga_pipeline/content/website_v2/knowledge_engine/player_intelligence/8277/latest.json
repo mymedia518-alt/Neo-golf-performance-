@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:30:07.404075+00:00",
-    "input_signature": "c7bb3dbd9ee0625ce28a262a171d5e7cdf9d57f7784c72e89d4aba648a302511",
+    "generated_at": "2026-10-04T10:41:14.484344+00:00",
+    "input_signature": "a5df430a0863deae97ffae4b68803eae29ba20d6f7bae90da6a4a838f4ef888a",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": -0.59,
+        "sg_total": -0.87,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.29639175257731964,
+    "long_term_sg": 0.2935051546391753,
     "rate_stats": {
       "average_putts": 30.1053,
       "average_score": 72.193,
@@ -25,9 +25,9 @@
       "par_save_rate": 85.575,
       "recovery_rate": 64.7436
     },
-    "recent_10_sg": 0.10200000000000005,
-    "recent_5_sg": -0.24599999999999994,
-    "volatility": 1.166831607388144
+    "recent_10_sg": 0.07400000000000004,
+    "recent_5_sg": -0.30199999999999994,
+    "volatility": 1.186298444743143
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.20000000000000004
+        "value": 0.18600000000000003
       }
     ],
-    "narrative": "2023시즌 SG Total -0.31에서 2026시즌 +0.20로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.31에서 2026시즌 +0.19로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_ott"
       },
       {
-        "avg_total": 0.20000000000000004,
-        "delta_from_prev": -0.2977777777777777,
+        "avg_total": 0.18600000000000003,
+        "delta_from_prev": -0.3117777777777777,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.3765000000000001,
-    "avg_arg": 0.09549999999999999,
-    "avg_ott": -0.4734999999999999,
-    "avg_putt": 0.20299999999999993,
-    "avg_total": 0.20000000000000004,
+    "avg_app": 0.32750000000000007,
+    "avg_arg": 0.07299999999999998,
+    "avg_ott": -0.45249999999999996,
+    "avg_putt": 0.23949999999999996,
+    "avg_total": 0.18600000000000003,
     "season": 2026
   },
   "sources": [

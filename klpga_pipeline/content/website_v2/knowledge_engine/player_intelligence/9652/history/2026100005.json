@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:56.865611+00:00",
-    "input_signature": "a584b193273e217ba163505403458f38740409ea8c7dbd9c7df5698954631143",
+    "generated_at": "2026-10-04T10:41:02.275837+00:00",
+    "input_signature": "b4f93a1e598ce3d932b67ae74ea961c22fe3c8a842f6c340067cb07de2cec2f3",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 3.36,
+        "sg_total": -0.31,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.13988764044943816,
+    "long_term_sg": 0.0986516853932584,
     "rate_stats": {
       "average_putts": 30.1017,
       "average_score": 71.9153,
@@ -25,9 +25,9 @@
       "par_save_rate": 85.5932,
       "recovery_rate": 64.2633
     },
-    "recent_10_sg": 0.882,
-    "recent_5_sg": 0.86,
-    "volatility": 1.6421680790954376
+    "recent_10_sg": 0.5150000000000001,
+    "recent_5_sg": 0.12600000000000003,
+    "volatility": 1.445705710025384
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.4736842105263159
+        "value": 0.2805263157894738
       }
     ],
-    "narrative": "2023시즌 SG Total -0.54에서 2026시즌 +0.47로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.54에서 2026시즌 +0.28로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 0.4736842105263159,
-        "delta_from_prev": -0.1063157894736842,
+        "avg_total": 0.2805263157894738,
+        "delta_from_prev": -0.2994736842105263,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_arg"
@@ -92,7 +92,7 @@
     "sample_count": 89
   },
   "neo_verdict": {
-    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 최근 5개 대회 SG Total(+0.86)이 장기 평균(+0.14) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "이세희은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.03로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.16315789473684209,
-    "avg_arg": 0.001052631578947352,
-    "avg_ott": 0.256842105263158,
-    "avg_putt": 0.05105263157894738,
-    "avg_total": 0.4736842105263159,
+    "avg_app": 0.029473684210526308,
+    "avg_arg": -0.003157894736842122,
+    "avg_ott": 0.22578947368421062,
+    "avg_putt": 0.026842105263157896,
+    "avg_total": 0.2805263157894738,
     "season": 2026
   },
   "sources": [
@@ -153,37 +153,28 @@
     }
   ],
   "weaknesses": [],
-  "why_loses": [],
+  "why_loses": [
+    {
+      "citations": [
+        {
+          "field_path": "seasons[].avg_arg",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 61.570247933884296
+        }
+      ],
+      "text": "최근 4시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(상위 38%)로 구조적 약점입니다."
+    }
+  ],
   "why_wins": [
-    {
-      "citations": [
-        {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.86
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+0.86)이 장기 평균(+0.14) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "seasons[2026].avg_arg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.001052631578947352
-        }
-      ],
-      "text": "2025시즌 약점이던 SG Around-the-Green이(가) 2026시즌 +0.00로 반전에 성공했습니다."
-    },
     {
       "citations": [
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.05105263157894738
+          "value": 0.026842105263157896
         }
       ],
-      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Putting이(가) 2026시즌 +0.03로 반전에 성공했습니다."
     }
   ]
 }

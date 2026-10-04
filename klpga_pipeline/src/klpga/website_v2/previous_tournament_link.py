@@ -27,7 +27,18 @@ ROOT = Path(__file__).resolve().parents[3]  # klpga_pipeline/
 REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
 
-STAGE_PRIORITY = ("final", "r3", "r2", "r1", "pre")
+STAGE_PRIORITY = ("final", "fr", "r3", "r2", "r1", "pre")
+# BUG FIX (2026-10-04, found while closing HiteJinro/2026100005's FR):
+# this tuple's own docstring above already promised FR/FINAL coverage,
+# but "fr" (HiteJinro's own terminal-stage key, klpga.neo_win.
+# hitejinro_round_page.STAGE_LABELS[4] == ("fr","FR")) was never
+# actually listed -- only KB's terminal key "final" was. Confirmed via
+# run_round_pipeline.py's own playwright_verify: after building
+# docs/tournaments/2026/2026100005/fr/index.html for real, this
+# function still reported "r3" as the most advanced stage, because the
+# for-loop above never checked "fr" at all. Purely additive: every
+# other tournament's own terminal key ("final") is untouched and still
+# checked first.
 
 
 def latest_published_stage_url(url_base: str, *, repo_root: Path = REPO_ROOT) -> str:

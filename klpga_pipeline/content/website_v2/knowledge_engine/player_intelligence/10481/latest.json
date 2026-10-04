@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:53.461410+00:00",
-    "input_signature": "fa34d0aec479ea1bf79a5a62edcf30c5950a15c948f9119ec4fbba17426fe821",
+    "generated_at": "2026-10-04T10:41:02.341128+00:00",
+    "input_signature": "ebdcc60292f05ed8aa334accc252e2bbcc0542f8225d4b49ded36b60a85405b4",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 2.29,
+        "sg_total": -0.29,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -1.8890909090909092,
+    "long_term_sg": -2.0063636363636363,
     "rate_stats": {
       "average_putts": 30.9636,
       "average_score": 74.1102,
@@ -25,9 +25,9 @@
       "par_save_rate": 78.7879,
       "recovery_rate": 51.0264
     },
-    "recent_10_sg": -1.998,
-    "recent_5_sg": -1.1720000000000002,
-    "volatility": 2.1350213113690457
+    "recent_10_sg": -2.256,
+    "recent_5_sg": -1.688,
+    "volatility": 1.7160372956320036
   },
   "evolution": {
     "citations": [
@@ -39,10 +39,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": -1.9390476190476194
+        "value": -2.061904761904762
       }
     ],
-    "narrative": "2025시즌 SG Total -0.84에서 2026시즌 -1.94로 하락 추세입니다.",
+    "narrative": "2025시즌 SG Total -0.84에서 2026시즌 -2.06로 하락 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -53,8 +53,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": -1.9390476190476194,
-        "delta_from_prev": -1.0990476190476195,
+        "avg_total": -2.061904761904762,
+        "delta_from_prev": -1.2219047619047623,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_app"
@@ -68,7 +68,7 @@
     "sample_count": 22
   },
   "neo_verdict": {
-    "summary": "이서윤4은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.29로 강세를 보였습니다."
+    "summary": "이서윤4은(는) 균형형(Balanced) 유형입니다. 최근 2시즌 연속 SG Around-the-Green이(가) 필드 평균 이하(하위 19%)로 구조적 약점입니다."
   },
   "player_dna": {
     "axes": [
@@ -103,11 +103,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -1.2076190476190474,
-    "avg_arg": -0.3623809523809523,
-    "avg_ott": -0.00047619047619050834,
-    "avg_putt": -0.36809523809523814,
-    "avg_total": -1.9390476190476194,
+    "avg_app": -1.1738095238095236,
+    "avg_arg": -0.43333333333333324,
+    "avg_ott": 0.010952380952380922,
+    "avg_putt": -0.4652380952380953,
+    "avg_total": -2.061904761904762,
     "season": 2026
   },
   "sources": [
@@ -160,22 +160,11 @@
         {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -1.2076190476190474
+          "value": -1.1738095238095236
         }
       ],
-      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -1.21로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Approach이(가) 2026시즌 -1.17로 악화되었습니다."
     }
   ],
-  "why_wins": [
-    {
-      "citations": [
-        {
-          "field_path": "course_history[]",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 2.29
-        }
-      ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.29로 강세를 보였습니다."
-    }
-  ]
+  "why_wins": []
 }

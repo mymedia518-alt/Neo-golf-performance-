@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:41.641546+00:00",
-    "input_signature": "4f9a4a2d250cf7511a31b669b302688e57e70fb93c9c74c888e3300d2f289e50",
+    "generated_at": "2026-10-04T10:40:51.241374+00:00",
+    "input_signature": "e2778de25eb148f228a7a1664fba0fe467401b45bc03fa4b9bf945eb907c8b84",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 2.17,
+        "sg_total": 2.08,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": -0.015252525252525273,
+    "long_term_sg": -0.01616161616161618,
     "rate_stats": {
       "average_putts": 30.3621,
       "average_score": 72.0862,
@@ -25,9 +25,9 @@
       "par_save_rate": 84.6743,
       "recovery_rate": 61.4379
     },
-    "recent_10_sg": 1.21,
-    "recent_5_sg": 1.9780000000000002,
-    "volatility": 1.8189172603502337
+    "recent_10_sg": 1.201,
+    "recent_5_sg": 1.9600000000000002,
+    "volatility": 1.8143618712924938
   },
   "evolution": {
     "citations": [
@@ -49,7 +49,7 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.044500000000000005
+        "value": 0.040000000000000015
       }
     ],
     "narrative": "2023시즌 SG Total -0.04에서 2026시즌 +0.04로 상승 추세입니다.",
@@ -77,8 +77,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.044500000000000005,
-        "delta_from_prev": -0.261425925925926,
+        "avg_total": 0.040000000000000015,
+        "delta_from_prev": -0.26592592592592595,
         "season": 2026,
         "strongest_component": "avg_arg",
         "weakest_component": "avg_putt"
@@ -92,7 +92,7 @@
     "sample_count": 99
   },
   "neo_verdict": {
-    "summary": "박보겸은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.17로 강세를 보였습니다."
+    "summary": "박보겸은(는) 균형형(Balanced) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.05로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -127,11 +127,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": -0.06800000000000002,
-    "avg_arg": 0.492,
-    "avg_ott": 0.02100000000000003,
-    "avg_putt": -0.4000000000000001,
-    "avg_total": 0.044500000000000005,
+    "avg_app": 0.04949999999999999,
+    "avg_arg": 0.445,
+    "avg_ott": -0.027999999999999976,
+    "avg_putt": -0.42650000000000005,
+    "avg_total": 0.040000000000000015,
     "season": 2026
   },
   "sources": [
@@ -152,24 +152,44 @@
     {
       "citations": [
         {
-          "field_path": "seasons[2026].avg_putt",
+          "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.4000000000000001
+          "value": -0.027999999999999976
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.40로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.03로 악화되었습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "seasons[2026].avg_putt",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": -0.42650000000000005
+        }
+      ],
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.43로 악화되었습니다."
     }
   ],
   "why_wins": [
     {
       "citations": [
         {
-          "field_path": "course_history[]",
+          "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 2.17
+          "value": 0.04949999999999999
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.17로 강세를 보였습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.05로 반전에 성공했습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "course_history[]",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 2.08
+        }
+      ],
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +2.08로 강세를 보였습니다."
     },
     {
       "citations": [

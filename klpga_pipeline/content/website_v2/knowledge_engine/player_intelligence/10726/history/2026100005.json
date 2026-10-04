@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:27.432516+00:00",
-    "input_signature": "68783aa1e847553f5a7fe18fd3db59c7a02777cc5edece7fec40d00b1af59eb8",
+    "generated_at": "2026-10-04T10:40:39.389144+00:00",
+    "input_signature": "6e8b8a4fbd4765b1219781f411fcd2c2ba76f4c18ce7e605700b5770812624bc",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 5.12,
+        "sg_total": 0.58,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.6331818181818182,
+    "long_term_sg": 0.42681818181818176,
     "rate_stats": {
       "average_putts": 30.8,
       "average_score": 72.1,
@@ -25,9 +25,9 @@
       "par_save_rate": 84.0741,
       "recovery_rate": 59.9327
     },
-    "recent_10_sg": 0.030000000000000072,
-    "recent_5_sg": -0.36999999999999994,
-    "volatility": 2.2073694751898696
+    "recent_10_sg": -0.42399999999999993,
+    "recent_5_sg": -1.278,
+    "volatility": 1.4511388631002893
   },
   "evolution": {
     "citations": [],
@@ -42,7 +42,7 @@
     "sample_count": 22
   },
   "neo_verdict": {
-    "summary": "김가희2은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +5.12로 강세를 보였습니다."
+    "summary": "김가희2은(는) 균형형(Balanced) 유형입니다. 이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.58로 강세를 보였습니다."
   },
   "player_dna": {
     "axes": [
@@ -77,11 +77,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.19090909090909092,
-    "avg_arg": 0.025454545454545466,
-    "avg_ott": 0.6,
-    "avg_putt": -0.1840909090909091,
-    "avg_total": 0.6331818181818182,
+    "avg_app": -0.030909090909090907,
+    "avg_arg": 0.07090909090909091,
+    "avg_ott": 0.5772727272727273,
+    "avg_putt": -0.19136363636363637,
+    "avg_total": 0.42681818181818176,
     "season": 2026
   },
   "sources": [
@@ -120,10 +120,10 @@
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 5.12
+          "value": 0.58
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +5.12로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.58로 강세를 보였습니다."
     },
     {
       "citations": [

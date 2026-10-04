@@ -93,20 +93,24 @@ def test_legacy_fields_stay_byte_identical_to_the_real_production_file(tmp_path,
     every existing consumer reading finish_position/scores/withdrawn/
     disqualified/missed_cut must see exactly what it saw before this
     mission, for all 108 real entrants, not just a handful of spot
-    checks. 2026-10-03: production now runs a THIRD real step after
+    checks. 2026-10-03: production ran a THIRD real step after
     parse_leaderboard(2) -- derive_r2_cut_from_confirmed_r3_field()
     (changes missed_cut for 41 real R2_CUT players), then apply_r3_
     results() (changes finish_position/finish_position_numeric/
     score_to_par/r3_score for the 61 real active players, from the
-    real completed round-3 leaderboard) -- so this test now reproduces
-    the full real three-step pipeline before comparing, not just its
-    first step."""
+    real completed round-3 leaderboard). 2026-10-04: production now
+    runs a FOURTH real step, parse_leaderboard(4) (the generic FR
+    close, against the real FR leaderboard raw evidence this test
+    reads from the same real EVIDENCE_DIR -- never a tmp/fabricated
+    copy), so this test reproduces the full real four-step pipeline
+    before comparing, not just the first three."""
     from klpga.neo_win.hitejinro_round_pipeline import apply_r3_results, derive_r2_cut_from_confirmed_r3_field
 
     monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_path / "LEADERBOARD.json")
     parse_leaderboard(2)
     derive_r2_cut_from_confirmed_r3_field()
-    out_path = apply_r3_results()
+    apply_r3_results()
+    out_path = parse_leaderboard(4)
     new_doc = json.loads(out_path.read_text(encoding="utf-8"))
 
     from klpga.tournament_context import CONTENT_DIR
@@ -331,14 +335,19 @@ def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
     "CUT" (same-day "섹션 제목 단순화" mission) -- only the GROUPING
     changed, the real-rank+badge row treatment inside that section did
     not. Exercised with one synthetic record layered onto the real
-    (now 42-R2_CUT) board, isolating one exact row's fields."""
+    (now 42-R2_CUT) board, isolating one exact row's fields. Rank 200
+    (2026-10-04, was 55): FR's real final ranks now occupy 1-102 with
+    several real ties, and 55 itself became a real 2-way tie once FR
+    finished -- picked a rank number no real player can ever hold so
+    this synthetic row's own "T" vs plain-rank assertion stays
+    deterministic regardless of how the real board's own ties shift."""
     from klpga.tournament_context import CONTENT_DIR
     import json as _json
 
     real_board = _json.loads((CONTENT_DIR / "2026100005_LEADERBOARD.json").read_text(encoding="utf-8"))
     synthetic = dict(real_board["records"][0])
     synthetic.update(
-        player_id="99999", player_name="테스트선수", finish_position="55", finish_position_numeric=55,
+        player_id="99999", player_name="테스트선수", finish_position="200", finish_position_numeric=200,
         score_to_par=5, status="R2_CUT", status_round=2, withdrawn=False, disqualified=False, missed_cut=True,
         r1_score=75, r2_score=80, r3_score=None, r4_score=None,
     )
@@ -356,15 +365,15 @@ def test_r2_cut_section_keeps_a_real_rank_and_a_badge(tmp_path, monkeypatch):
         2, tournament_name="제26회 하이트진로 챔피언십", date_range="2026.10.01 — 10.04",
         content_root=tmp_content,
     )
-    # Real rank (55), real total (+5) -- never replaced by "CUT" text,
-    # even inside R2_CUT's own section.
-    assert "<td data-label='순위'>55</td>" in html
+    # Synthetic rank (200), real total (+5) -- never replaced by "CUT"
+    # text, even inside R2_CUT's own section.
+    assert "<td data-label='순위'>200</td>" in html
     assert "<td data-label='합계'>+5</td>" in html
     assert "<span class='status-badge'>CUT</span>" in html
     # This synthetic row sits AFTER the R2_CUT section's own divider
     # (42 = 41 real + this 1 synthetic), not inline in the main ranked
     # list above it.
-    assert html.index("CUT · 42명") < html.index("<td data-label='순위'>55</td>")
+    assert html.index("CUT · 42명") < html.index("<td data-label='순위'>200</td>")
 
 
 @requires_r2_leaderboard_evidence

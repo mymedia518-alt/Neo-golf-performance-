@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:45.108577+00:00",
-    "input_signature": "b926d17cc41d1618580f9fd072eea04ae1d20a17873e6540cb8c557a67b37a92",
+    "generated_at": "2026-10-04T10:40:53.693486+00:00",
+    "input_signature": "842a6efaaa7558b607de12879d96137393ff757ef6d6b831ef6cf487e5b9778e",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": -3.88,
+        "sg_total": 1.59,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 1.4693406593406595,
+    "long_term_sg": 1.5294505494505495,
     "rate_stats": {
       "average_putts": 29.4921,
       "average_score": 71.1746,
@@ -25,9 +25,9 @@
       "par_save_rate": 86.6843,
       "recovery_rate": 62.1118
     },
-    "recent_10_sg": 1.113,
-    "recent_5_sg": 0.9540000000000001,
-    "volatility": 2.136277369631575
+    "recent_10_sg": 1.6600000000000001,
+    "recent_5_sg": 2.048,
+    "volatility": 1.3394849756529559
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 1.1160000000000003
+        "value": 1.3895000000000004
       }
     ],
-    "narrative": "2023시즌 SG Total +1.23에서 2026시즌 +1.12로 하락 추세입니다.",
+    "narrative": "2023시즌 SG Total +1.23에서 2026시즌 +1.39로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_putt"
       },
       {
-        "avg_total": 1.1160000000000003,
-        "delta_from_prev": -1.1255999999999997,
+        "avg_total": 1.3895000000000004,
+        "delta_from_prev": -0.8520999999999996,
         "season": 2026,
         "strongest_component": "avg_app",
         "weakest_component": "avg_ott"
@@ -138,11 +138,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.5415,
-    "avg_arg": 0.22199999999999998,
-    "avg_ott": -0.07900000000000003,
-    "avg_putt": 0.4294999999999999,
-    "avg_total": 1.1160000000000003,
+    "avg_app": 0.7470000000000001,
+    "avg_arg": 0.2685,
+    "avg_ott": -0.10650000000000004,
+    "avg_putt": 0.4784999999999999,
+    "avg_total": 1.3895000000000004,
     "season": 2026
   },
   "sources": [
@@ -185,20 +185,10 @@
         {
           "field_path": "seasons[2026].avg_ott",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.07900000000000003
+          "value": -0.10650000000000004
         }
       ],
-      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.08로 악화되었습니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "course_history[]",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": -3.88
-        }
-      ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total -3.88로 부진했습니다."
+      "text": "2025시즌 강점이던 SG Off-the-Tee이(가) 2026시즌 -0.11로 악화되었습니다."
     }
   ],
   "why_wins": [
@@ -215,22 +205,22 @@
     {
       "citations": [
         {
+          "field_path": "course_history[]",
+          "source": "historical_sg_warehouse_corrected.json",
+          "value": 1.59
+        }
+      ],
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +1.59로 강세를 보였습니다."
+    },
+    {
+      "citations": [
+        {
           "field_path": "birdie_rate",
           "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
           "value": 94.0
         }
       ],
       "text": "버디율이(가) 필드 상위 6%에 해당하는 엘리트 수준입니다."
-    },
-    {
-      "citations": [
-        {
-          "field_path": "par_break_rate",
-          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
-          "value": 93.33333333333333
-        }
-      ],
-      "text": "파브레이크율이(가) 필드 상위 7%에 해당하는 엘리트 수준입니다."
     }
   ]
 }

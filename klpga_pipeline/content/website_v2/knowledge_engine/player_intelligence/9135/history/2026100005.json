@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "generated_at": "2026-10-02T10:29:49.590139+00:00",
-    "input_signature": "4bc52d8f61dd411815db4051b7f546949984815898b1b6cc9f12241a349f3963",
+    "generated_at": "2026-10-04T10:40:57.278025+00:00",
+    "input_signature": "8b47098df09ca6a705dac53097d2585a02d7c03254af242de3e8d53d31ad9e7b",
     "tournament_game_code": "2026100005"
   },
   "course_fit": {
@@ -9,13 +9,13 @@
       {
         "game_code": "2026100005",
         "season": 2026,
-        "sg_total": 4.52,
+        "sg_total": 0.95,
         "tournament": "제26회 하이트진로 챔피언십"
       }
     ]
   },
   "current_form": {
-    "long_term_sg": 0.01894736842105262,
+    "long_term_sg": -0.028026315789473694,
     "rate_stats": {
       "average_putts": 30.5231,
       "average_score": 71.4,
@@ -25,9 +25,9 @@
       "par_save_rate": 86.4103,
       "recovery_rate": 62.0339
     },
-    "recent_10_sg": 1.448,
-    "recent_5_sg": 1.47,
-    "volatility": 1.7259536494355807
+    "recent_10_sg": 1.091,
+    "recent_5_sg": 0.756,
+    "volatility": 1.3901615014090989
   },
   "evolution": {
     "citations": [
@@ -49,10 +49,10 @@
       {
         "field_path": "seasons[2026].avg_total",
         "source": "historical_sg_warehouse_corrected_v2.json",
-        "value": 0.955
+        "value": 0.7927272727272726
       }
     ],
-    "narrative": "2023시즌 SG Total -0.68에서 2026시즌 +0.95로 상승 추세입니다.",
+    "narrative": "2023시즌 SG Total -0.68에서 2026시즌 +0.79로 상승 추세입니다.",
     "status": "OK",
     "steps": [
       {
@@ -77,8 +77,8 @@
         "weakest_component": "avg_app"
       },
       {
-        "avg_total": 0.955,
-        "delta_from_prev": 0.979642857142857,
+        "avg_total": 0.7927272727272726,
+        "delta_from_prev": 0.8173701298701297,
         "season": 2026,
         "strongest_component": "avg_ott",
         "weakest_component": "avg_putt"
@@ -92,7 +92,7 @@
     "sample_count": 76
   },
   "neo_verdict": {
-    "summary": "신다인은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 최근 5개 대회 SG Total(+1.47)이 장기 평균(+0.02) 대비 뚜렷한 상승세를 보이고 있습니다."
+    "summary": "신다인은(는) 정교한 아이언 플레이어(Precision Ball-Striker) 유형입니다. 2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.39로 반전에 성공했습니다."
   },
   "player_dna": {
     "axes": [
@@ -138,11 +138,11 @@
   },
   "schema_version": "player_intelligence_generator_v2",
   "shot_profile": {
-    "avg_app": 0.3772727272727272,
-    "avg_arg": -0.06136363636363639,
-    "avg_ott": 0.7095454545454548,
-    "avg_putt": -0.06909090909090913,
-    "avg_total": 0.955,
+    "avg_app": 0.3909090909090909,
+    "avg_arg": -0.10636363636363638,
+    "avg_ott": 0.7309090909090912,
+    "avg_putt": -0.22090909090909092,
+    "avg_total": 0.7927272727272726,
     "season": 2026
   },
   "sources": [
@@ -185,42 +185,42 @@
         {
           "field_path": "seasons[2026].avg_putt",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": -0.06909090909090913
+          "value": -0.22090909090909092
         }
       ],
-      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.07로 악화되었습니다."
+      "text": "2025시즌 강점이던 SG Putting이(가) 2026시즌 -0.22로 악화되었습니다."
     }
   ],
   "why_wins": [
     {
       "citations": [
         {
-          "field_path": "recent_5_sg",
-          "source": "historical_sg_warehouse_corrected.json",
-          "value": 1.47
-        }
-      ],
-      "text": "최근 5개 대회 SG Total(+1.47)이 장기 평균(+0.02) 대비 뚜렷한 상승세를 보이고 있습니다."
-    },
-    {
-      "citations": [
-        {
           "field_path": "seasons[2026].avg_app",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 0.3772727272727272
+          "value": 0.3909090909090909
         }
       ],
-      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.38로 반전에 성공했습니다."
+      "text": "2025시즌 약점이던 SG Approach이(가) 2026시즌 +0.39로 반전에 성공했습니다."
     },
     {
       "citations": [
         {
           "field_path": "course_history[]",
           "source": "historical_sg_warehouse_corrected.json",
-          "value": 4.52
+          "value": 0.95
         }
       ],
-      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +4.52로 강세를 보였습니다."
+      "text": "이 대회 시리즈 과거 1회 출전에서 평균 SG Total +0.95로 강세를 보였습니다."
+    },
+    {
+      "citations": [
+        {
+          "field_path": "sg_ott",
+          "source": "OFFICIAL_SG_NORMALIZED.json / OFFICIAL_PROFILE_NORMALIZED.json",
+          "value": 97.93388429752066
+        }
+      ],
+      "text": "SG Off-the-Tee이(가) 필드 상위 2%에 해당하는 엘리트 수준입니다."
     }
   ]
 }
