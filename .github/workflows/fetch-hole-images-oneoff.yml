@@ -1,0 +1,74 @@
+name: "Fetch real KLPGA hole background images (on-demand, one-off)"
+
+# Manually dispatched only. Fetches real hole overview/green images for
+# use as Course Management Artifact map backgrounds. URL pattern
+# confirmed from the real site's own rendering code
+# (evidence_playerDetail_9115.html), not guessed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      holes:
+        description: "comma-separated hole numbers"
+        default: "12"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch hole images (real network)
+        run: |
+          python fetch_hole_images.py --game "${{ inputs.game_code }}" --holes "${{ inputs.holes }}" \
+            --cookie "${{ inputs.cookie }}" --out-dir hole_images
+
+      - name: Report image dimensions
+        if: always()
+        run: |
+          pip install pillow --quiet
+          python - <<'PY'
+          import glob
+          from PIL import Image
+          for f in sorted(glob.glob("hole_images/*.png")):
+              try:
+                  im = Image.open(f)
+                  print(f"{f}: {im.size}")
+              except Exception as e:
+                  print(f"{f}: FAILED TO OPEN ({e})")
+          PY
+
+      - name: Publish images to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-hole-images-bot"
+          git config --global user.email "neo-hole-images-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-hole-images"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/hole_images"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Hole background images (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
