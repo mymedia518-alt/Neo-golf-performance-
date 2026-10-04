@@ -1,0 +1,245 @@
+{
+  "player_id": "9115",
+  "player_name": "유해란",
+  "season_detail": {
+    "raw_sections": {
+      "상금 포인트": {
+        "상금": {
+          "value": null,
+          "detail": {
+            "수령 대회수": null
+          }
+        },
+        "대상포인트": {
+          "value": null,
+          "detail": {
+            "포인트 획득 대회수": null
+          }
+        },
+        "신인상포인트": {
+          "value": null,
+          "detail": {
+            "포인트 획득 대회수": null
+          }
+        }
+      },
+      "스코어": {
+        "평균타수": {
+          "value": null,
+          "detail": {
+            "전체타수": null,
+            "라운드수": null
+          }
+        },
+        "홀인원": {
+          "value": null,
+          "detail": {}
+        },
+        "이글": {
+          "value": null,
+          "detail": {}
+        },
+        "평균버디": {
+          "value": null,
+          "detail": {
+            "전체 버디수": null,
+            "라운드수": null
+          }
+        },
+        "파3평균버디": {
+          "value": null,
+          "detail": {
+            "파3 전체 버디수": null,
+            "파3 홀수": null
+          }
+        },
+        "파4평균버디": {
+          "value": null,
+          "detail": {
+            "파4 전체 버디수": null,
+            "파4 홀수": null
+          }
+        },
+        "파5평균버디": {
+          "value": null,
+          "detail": {
+            "파5 전체 버디수": null,
+            "파5 홀수": null
+          }
+        },
+        "버디율": {
+          "value": null,
+          "detail": {
+            "전체 버디수": null,
+            "라운드수": null
+          }
+        },
+        "파브레이크율": {
+          "value": null,
+          "detail": {
+            "라운드당 평균 파브레이크수": null,
+            "총파브레이크수": null
+          }
+        },
+        "파3성적": {
+          "value": null,
+          "detail": {
+            "파3 전체 타수": null,
+            "파3 홀수": null
+          }
+        },
+        "파4성적": {
+          "value": null,
+          "detail": {
+            "파4 전체 타수": null,
+            "파4 홀수": null
+          }
+        },
+        "파5성적": {
+          "value": null,
+          "detail": {
+            "파5 전체 타수": null,
+            "파5 홀수": null
+          }
+        }
+      },
+      "기술": {
+        "페어웨이 안착률": {
+          "value": null,
+          "detail": {
+            "페어웨이 안착 수": null,
+            "전체 측정 홀": null
+          }
+        },
+        "드라이브 거리": {
+          "value": null,
+          "detail": {
+            "전체 비거리": null,
+            "전체 측정 홀": null
+          }
+        },
+        "평균퍼팅": {
+          "value": null,
+          "detail": {}
+        },
+        "파3평균퍼팅": {
+          "value": null,
+          "detail": {}
+        },
+        "파4평균퍼팅": {
+          "value": null,
+          "detail": {}
+        },
+        "파5평균퍼팅": {
+          "value": null,
+          "detail": {}
+        },
+        "그린적중률": {
+          "value": null,
+          "detail": {
+            "그린적중수": null
+          }
+        },
+        "파3그린적중률": {
+          "value": null,
+          "detail": {
+            "파3 그린적중수": null
+          }
+        },
+        "파4그린적중률": {
+          "value": null,
+          "detail": {
+            "파4 그린적중수": null
+          }
+        },
+        "파5그린적중률": {
+          "value": null,
+          "detail": {
+            "파5 그린적중수": null
+          }
+        },
+        "벙커세이브율": {
+          "value": null,
+          "detail": {
+            "라운드당 평균 벙커세이브수": null,
+            "총 벙커세이브수": null
+          }
+        },
+        "리커버리율": {
+          "value": null,
+          "detail": {
+            "라운드당 평균 리커버리수": null,
+            "총 리커버리수": null
+          }
+        },
+        "드라이빙 지수": {
+          "value": null,
+          "detail": {
+            "드라이브 순위": null,
+            "페어웨이 순위": null
+          }
+        },
+        "아이언샷 지수": {
+          "value": null,
+          "detail": {
+            "성공수": null,
+            "시도수": null
+          }
+        }
+      },
+      "기타종합": {
+        "톱텐 피니쉬율": {
+          "value": null,
+          "detail": {
+            "총 톱텐피니쉬 수": null,
+            "참가대회수": null
+          }
+        },
+        "60타대 라운드 획득률": {
+          "value": null,
+          "detail": {
+            "총 60타대 라운드 획득수": null,
+            "라운드수": null
+          }
+        },
+        "필드샷과 퍼팅 비율": {
+          "value": null,
+          "detail": {
+            "퍼팅률": null,
+            "라운드수": null
+          }
+        },
+        "히팅 능력 지수": {
+          "value": null,
+          "detail": {
+            "드라이버 거리 순위": null,
+            "그린적중률 순위": null
+          }
+        },
+        "종합 능력 지수": {
+          "value": null,
+          "detail": {
+            "평균 파 순위": null,
+            "평균 퍼팅 순위": null
+          }
+        }
+      }
+    },
+    "normalized": {
+      "average_score": null,
+      "avg_birdie_per_round": null,
+      "birdie_rate": null,
+      "par_break_rate": null,
+      "eagle_count": null,
+      "hole_in_one_count": null,
+      "fairway_hit_rate": null,
+      "avg_driving_distance": null,
+      "avg_putts": null,
+      "gir_rate": null,
+      "bunker_save_rate": null,
+      "recovery_rate": null
+    }
+  },
+  "scorecards": {},
+  "source": "klpga.collectors.player_profile (publicRecordSeasonDetail + scoreDetail)"
+}

@@ -1,0 +1,514 @@
+{
+  "player_id": "8436",
+  "player_name": "유현주",
+  "season_detail": {
+    "raw_sections": {
+      "상금 포인트": {
+        "상금": {
+          "value": null,
+          "detail": {
+            "수령 대회수": null
+          }
+        },
+        "대상포인트": {
+          "value": null,
+          "detail": {
+            "포인트 획득 대회수": null
+          }
+        },
+        "신인상포인트": {
+          "value": null,
+          "detail": {
+            "포인트 획득 대회수": null
+          }
+        }
+      },
+      "스코어": {
+        "평균타수": {
+          "value": 77.625,
+          "detail": {
+            "전체타수": 621.0,
+            "라운드수": 8.0
+          }
+        },
+        "홀인원": {
+          "value": null,
+          "detail": {}
+        },
+        "이글": {
+          "value": null,
+          "detail": {}
+        },
+        "평균버디": {
+          "value": 0.875,
+          "detail": {
+            "전체 버디수": 7.0,
+            "라운드수": 8.0
+          }
+        },
+        "파3평균버디": {
+          "value": 2.9412,
+          "detail": {
+            "파3 전체 버디수": 1.0,
+            "파3 홀수": 34.0
+          }
+        },
+        "파4평균버디": {
+          "value": 3.9474,
+          "detail": {
+            "파4 전체 버디수": 3.0,
+            "파4 홀수": 76.0
+          }
+        },
+        "파5평균버디": {
+          "value": 8.8235,
+          "detail": {
+            "파5 전체 버디수": 3.0,
+            "파5 홀수": 34.0
+          }
+        },
+        "버디율": {
+          "value": 4.8611,
+          "detail": {
+            "전체 버디수": 7.0,
+            "라운드수": 8.0
+          }
+        },
+        "파브레이크율": {
+          "value": 4.8611,
+          "detail": {
+            "라운드당 평균 파브레이크수": 0.875,
+            "총파브레이크수": 7.0
+          }
+        },
+        "파3성적": {
+          "value": 3.2059,
+          "detail": {
+            "파3 전체 타수": 109.0,
+            "파3 홀수": 34.0
+          }
+        },
+        "파4성적": {
+          "value": 4.4474,
+          "detail": {
+            "파4 전체 타수": 338.0,
+            "파4 홀수": 76.0
+          }
+        },
+        "파5성적": {
+          "value": 5.1176,
+          "detail": {
+            "파5 전체 타수": 174.0,
+            "파5 홀수": 34.0
+          }
+        }
+      },
+      "기술": {
+        "페어웨이 안착률": {
+          "value": 60.0,
+          "detail": {
+            "페어웨이 안착 수": 66.0,
+            "전체 측정 홀": 110.0
+          }
+        },
+        "드라이브 거리": {
+          "value": 238.308,
+          "detail": {
+            "전체 비거리": 3574.6197,
+            "전체 측정 홀": 15.0
+          }
+        },
+        "평균퍼팅": {
+          "value": 32.25,
+          "detail": {}
+        },
+        "파3평균퍼팅": {
+          "value": 1.8824,
+          "detail": {}
+        },
+        "파4평균퍼팅": {
+          "value": 1.7105,
+          "detail": {}
+        },
+        "파5평균퍼팅": {
+          "value": 1.8824,
+          "detail": {}
+        },
+        "그린적중률": {
+          "value": 56.9444,
+          "detail": {
+            "그린적중수": 82.0
+          }
+        },
+        "파3그린적중률": {
+          "value": 70.5882,
+          "detail": {
+            "파3 그린적중수": 24.0
+          }
+        },
+        "파4그린적중률": {
+          "value": 42.1053,
+          "detail": {
+            "파4 그린적중수": 32.0
+          }
+        },
+        "파5그린적중률": {
+          "value": 76.4706,
+          "detail": {
+            "파5 그린적중수": 26.0
+          }
+        },
+        "벙커세이브율": {
+          "value": 0.0,
+          "detail": {
+            "라운드당 평균 벙커세이브수": 0.0,
+            "총 벙커세이브수": 0.0
+          }
+        },
+        "리커버리율": {
+          "value": 50.0,
+          "detail": {
+            "라운드당 평균 리커버리수": 3.875,
+            "총 리커버리수": 31.0
+          }
+        },
+        "드라이빙 지수": {
+          "value": null,
+          "detail": {
+            "드라이브 순위": null,
+            "페어웨이 순위": null
+          }
+        },
+        "아이언샷 지수": {
+          "value": 54.7619,
+          "detail": {
+            "성공수": 23.0,
+            "시도수": 42.0
+          }
+        }
+      },
+      "기타종합": {
+        "톱텐 피니쉬율": {
+          "value": null,
+          "detail": {
+            "총 톱텐피니쉬 수": null,
+            "참가대회수": null
+          }
+        },
+        "60타대 라운드 획득률": {
+          "value": null,
+          "detail": {
+            "총 60타대 라운드 획득수": null,
+            "라운드수": null
+          }
+        },
+        "필드샷과 퍼팅 비율": {
+          "value": 58.4541,
+          "detail": {
+            "퍼팅률": 41.5459,
+            "라운드수": 8.0
+          }
+        },
+        "히팅 능력 지수": {
+          "value": null,
+          "detail": {
+            "드라이버 거리 순위": null,
+            "그린적중률 순위": null
+          }
+        },
+        "종합 능력 지수": {
+          "value": null,
+          "detail": {
+            "평균 파 순위": 0.0,
+            "평균 퍼팅 순위": 0.0
+          }
+        }
+      }
+    },
+    "normalized": {
+      "average_score": 77.625,
+      "avg_birdie_per_round": 0.875,
+      "birdie_rate": 4.8611,
+      "par_break_rate": 4.8611,
+      "eagle_count": null,
+      "hole_in_one_count": null,
+      "fairway_hit_rate": 60.0,
+      "avg_driving_distance": 238.308,
+      "avg_putts": 32.25,
+      "gir_rate": 56.9444,
+      "bunker_save_rate": 0.0,
+      "recovery_rate": 50.0
+    }
+  },
+  "scorecards": {
+    "2026080002": {
+      "1": {
+        "holes": [
+          {
+            "hole": 1,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "E"
+          },
+          {
+            "hole": 2,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "E"
+          },
+          {
+            "hole": 3,
+            "par": 5.0,
+            "strokes": 6.0,
+            "class": "Bogey",
+            "status_to_par": "+1"
+          },
+          {
+            "hole": 4,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+1"
+          },
+          {
+            "hole": 5,
+            "par": 4.0,
+            "strokes": 5.0,
+            "class": "Bogey",
+            "status_to_par": "+2"
+          },
+          {
+            "hole": 6,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+2"
+          },
+          {
+            "hole": 7,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+2"
+          },
+          {
+            "hole": 8,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+2"
+          },
+          {
+            "hole": 9,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+2"
+          },
+          {
+            "hole": 10,
+            "par": 5.0,
+            "strokes": 6.0,
+            "class": "Bogey",
+            "status_to_par": "+3"
+          },
+          {
+            "hole": 11,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+3"
+          },
+          {
+            "hole": 12,
+            "par": 4.0,
+            "strokes": 7.0,
+            "class": "Double Bogey",
+            "status_to_par": "+6"
+          },
+          {
+            "hole": 13,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+6"
+          },
+          {
+            "hole": 14,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+6"
+          },
+          {
+            "hole": 15,
+            "par": 4.0,
+            "strokes": 5.0,
+            "class": "Bogey",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 16,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 17,
+            "par": 4.0,
+            "strokes": 5.0,
+            "class": "Bogey",
+            "status_to_par": "+8"
+          },
+          {
+            "hole": 18,
+            "par": 5.0,
+            "strokes": 4.0,
+            "class": "Birdie",
+            "status_to_par": "+7"
+          }
+        ],
+        "out_strokes": 38.0,
+        "in_strokes": 41.0,
+        "total_strokes": 79.0
+      },
+      "2": {
+        "holes": [
+          {
+            "hole": 1,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 2,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 3,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 4,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 5,
+            "par": 4.0,
+            "strokes": 5.0,
+            "class": "Bogey",
+            "status_to_par": "+8"
+          },
+          {
+            "hole": 6,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+8"
+          },
+          {
+            "hole": 7,
+            "par": 4.0,
+            "strokes": 5.0,
+            "class": "Bogey",
+            "status_to_par": "+9"
+          },
+          {
+            "hole": 8,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+9"
+          },
+          {
+            "hole": 9,
+            "par": 4.0,
+            "strokes": 6.0,
+            "class": "Double Bogey",
+            "status_to_par": "+11"
+          },
+          {
+            "hole": 10,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 11,
+            "par": 3.0,
+            "strokes": 4.0,
+            "class": "Bogey",
+            "status_to_par": "+8"
+          },
+          {
+            "hole": 12,
+            "par": 4.0,
+            "strokes": 3.0,
+            "class": "Birdie",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 13,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 14,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 15,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 16,
+            "par": 3.0,
+            "strokes": 3.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 17,
+            "par": 4.0,
+            "strokes": 4.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          },
+          {
+            "hole": 18,
+            "par": 5.0,
+            "strokes": 5.0,
+            "class": "Par",
+            "status_to_par": "+7"
+          }
+        ],
+        "out_strokes": 40.0,
+        "in_strokes": 36.0,
+        "total_strokes": 76.0
+      }
+    }
+  },
+  "source": "klpga.collectors.player_profile (publicRecordSeasonDetail + scoreDetail)"
+}

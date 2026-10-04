@@ -1,7 +1,7 @@
 {
   "career_dna": {
     "career_foundation": "SG OTT",
-    "career_foundation_share_pct": 76.9,
+    "career_foundation_share_pct": 71.6,
     "fastest_growing_component": "SG PUTT",
     "most_consistent_component": "SG OTT",
     "most_volatile_component": "SG PUTT",
@@ -19,16 +19,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.65,
+          "delta": 0.72,
           "from_season": 2025,
-          "growth_pct": 2459.5,
+          "growth_pct": 2724.3,
           "to_season": 2026
         }
       ],
       "label": "SG APP",
       "peak_season": {
         "season": 2026,
-        "value": 0.6194444444444444
+        "value": 0.6952631578947368
       },
       "series": [
         {
@@ -41,7 +41,7 @@
         },
         {
           "season": 2026,
-          "value": 0.6194444444444444
+          "value": 0.6952631578947368
         }
       ],
       "worst_season": {
@@ -59,16 +59,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.11,
+          "delta": 0.12,
           "from_season": 2025,
-          "growth_pct": 167.4,
+          "growth_pct": 182.6,
           "to_season": 2026
         }
       ],
       "label": "SG ARG",
       "peak_season": {
         "season": 2026,
-        "value": 0.045000000000000005
+        "value": 0.049473684210526316
       },
       "series": [
         {
@@ -81,7 +81,7 @@
         },
         {
           "season": 2026,
-          "value": 0.045000000000000005
+          "value": 0.049473684210526316
         }
       ],
       "worst_season": {
@@ -99,9 +99,9 @@
           "to_season": 2025
         },
         {
-          "delta": 0.06,
+          "delta": 0.09,
           "from_season": 2025,
-          "growth_pct": 5.5,
+          "growth_pct": 8.3,
           "to_season": 2026
         }
       ],
@@ -121,7 +121,7 @@
         },
         {
           "season": 2026,
-          "value": 1.1488888888888888
+          "value": 1.1757894736842105
         }
       ],
       "worst_season": {
@@ -139,16 +139,16 @@
           "to_season": 2025
         },
         {
-          "delta": 0.26,
+          "delta": 0.37,
           "from_season": 2025,
-          "growth_pct": 485.3,
+          "growth_pct": 690.7,
           "to_season": 2026
         }
       ],
       "label": "SG PUTT",
       "peak_season": {
         "season": 2026,
-        "value": 0.20833333333333331
+        "value": 0.3121052631578947
       },
       "series": [
         {
@@ -161,7 +161,7 @@
         },
         {
           "season": 2026,
-          "value": 0.20833333333333331
+          "value": 0.3121052631578947
         }
       ],
       "worst_season": {
@@ -179,16 +179,16 @@
           "to_season": 2025
         },
         {
-          "delta": 1.08,
+          "delta": 1.29,
           "from_season": 2025,
-          "growth_pct": 114.8,
+          "growth_pct": 137.1,
           "to_season": 2026
         }
       ],
       "label": "SG Total",
       "peak_season": {
         "season": 2026,
-        "value": 2.0194444444444444
+        "value": 2.230526315789474
       },
       "series": [
         {
@@ -201,7 +201,7 @@
         },
         {
           "season": 2026,
-          "value": 2.0194444444444444
+          "value": 2.230526315789474
         }
       ],
       "worst_season": {
@@ -213,75 +213,75 @@
   "career_form_story": [
     {
       "best_component": "SG PUTT",
-      "best_delta": 0.736,
-      "delta_vs_career_average": 1.061,
+      "best_delta": 0.675,
+      "delta_vs_career_average": 0.931,
       "end_season": 2025,
       "end_tournament": "하나금융그룹 챔피언십",
       "sample_size": 5,
       "stage": "시즌 초반",
       "start_season": 2025,
-      "start_tournament": "BC카드 · 한경 레이디스컵 2025",
+      "start_tournament": "메디힐 · 한국일보 챔피언십",
       "worst_component": "SG ARG",
-      "worst_delta": -0.119
+      "worst_delta": -0.123
     },
     {
       "best_component": "SG APP",
-      "best_delta": 1.139,
-      "delta_vs_career_average": 1.045,
+      "best_delta": 1.137,
+      "delta_vs_career_average": 1.521,
       "end_season": 2026,
-      "end_tournament": "제1회 DB 위민스 챔피언십",
+      "end_tournament": "2026 NH투자증권 레이디스 챔피언십",
       "sample_size": 5,
       "stage": "시즌 중반",
       "start_season": 2026,
       "start_tournament": "iM금융오픈 2026",
       "worst_component": "SG PUTT",
-      "worst_delta": -0.148
+      "worst_delta": 0.035
     },
     {
       "best_component": "SG PUTT",
-      "best_delta": 0.642,
-      "delta_vs_career_average": 1.531,
+      "best_delta": 0.793,
+      "delta_vs_career_average": 1.181,
       "end_season": 2026,
-      "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "end_tournament": "제26회 하이트진로 챔피언십",
       "sample_size": 5,
       "stage": "시즌 후반",
       "start_season": 2026,
-      "start_tournament": "제1회 DB 위민스 챔피언십",
-      "worst_component": "SG OTT",
-      "worst_delta": 0.073
+      "start_tournament": "메디힐 · 한국일보 챔피언십",
+      "worst_component": "SG ARG",
+      "worst_delta": -0.047
     },
     {
-      "best_component": "SG PUTT",
-      "best_delta": 0.642,
-      "delta_vs_career_average": 1.531,
+      "best_component": "SG APP",
+      "best_delta": 1.137,
+      "delta_vs_career_average": 1.521,
       "end_season": 2026,
-      "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "end_tournament": "2026 NH투자증권 레이디스 챔피언십",
       "sample_size": 5,
       "stage": "전성기",
       "start_season": 2026,
-      "start_tournament": "제1회 DB 위민스 챔피언십",
-      "worst_component": "SG OTT",
-      "worst_delta": 0.073
+      "start_tournament": "iM금융오픈 2026",
+      "worst_component": "SG PUTT",
+      "worst_delta": 0.035
     },
     {
       "best_component": "SG PUTT",
-      "best_delta": 0.188,
-      "delta_vs_career_average": 0.033,
+      "best_delta": 0.793,
+      "delta_vs_career_average": 1.181,
       "end_season": 2026,
-      "end_tournament": "하나금융그룹 챔피언십",
+      "end_tournament": "제26회 하이트진로 챔피언십",
       "sample_size": 5,
       "stage": "현재 폼",
       "start_season": 2026,
-      "start_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "start_tournament": "메디힐 · 한국일보 챔피언십",
       "worst_component": "SG ARG",
-      "worst_delta": -0.201
+      "worst_delta": -0.047
     }
   ],
   "career_heartbeat": {
     "beats": [
       {
-        "career_percentile": 18.2,
-        "delta_vs_career_average": -1.617,
+        "career_percentile": 17.6,
+        "delta_vs_career_average": -1.747,
         "game_code": "2024080016",
         "is_top10": false,
         "is_win": false,
@@ -290,8 +290,8 @@
         "tournament": "제13회 KG 레이디스 오픈"
       },
       {
-        "career_percentile": 27.3,
-        "delta_vs_career_average": -0.967,
+        "career_percentile": 26.5,
+        "delta_vs_career_average": -1.097,
         "game_code": "2024090007",
         "is_top10": false,
         "is_win": false,
@@ -300,8 +300,8 @@
         "tournament": "OK저축은행 읏맨 오픈"
       },
       {
-        "career_percentile": 48.5,
-        "delta_vs_career_average": -0.397,
+        "career_percentile": 47.1,
+        "delta_vs_career_average": -0.527,
         "game_code": "2025040001",
         "is_top10": false,
         "is_win": false,
@@ -310,8 +310,8 @@
         "tournament": "두산건설 We’ve 챔피언십"
       },
       {
-        "career_percentile": 45.5,
-        "delta_vs_career_average": -0.597,
+        "career_percentile": 44.1,
+        "delta_vs_career_average": -0.727,
         "game_code": "2025040004",
         "is_top10": false,
         "is_win": false,
@@ -320,8 +320,8 @@
         "tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십"
       },
       {
-        "career_percentile": 30.3,
-        "delta_vs_career_average": -0.947,
+        "career_percentile": 29.4,
+        "delta_vs_career_average": -1.077,
         "game_code": "2025060001",
         "is_top10": false,
         "is_win": false,
@@ -330,18 +330,8 @@
         "tournament": "2025 셀트리온 퀸즈 마스터즈"
       },
       {
-        "career_percentile": 90.9,
-        "delta_vs_career_average": 2.563,
-        "game_code": "2025060003",
-        "is_top10": true,
-        "is_win": true,
-        "season": 2025,
-        "sg_total": 4.03,
-        "tournament": "BC카드 · 한경 레이디스컵 2025"
-      },
-      {
-        "career_percentile": 78.8,
-        "delta_vs_career_average": 1.743,
+        "career_percentile": 76.5,
+        "delta_vs_career_average": 1.613,
         "game_code": "2025080001",
         "is_top10": true,
         "is_win": false,
@@ -350,8 +340,18 @@
         "tournament": "메디힐 · 한국일보 챔피언십"
       },
       {
-        "career_percentile": 72.7,
-        "delta_vs_career_average": 1.393,
+        "career_percentile": 88.2,
+        "delta_vs_career_average": 2.433,
+        "game_code": "2025060003",
+        "is_top10": true,
+        "is_win": true,
+        "season": 2025,
+        "sg_total": 4.03,
+        "tournament": "BC카드 · 한경 레이디스컵 2025"
+      },
+      {
+        "career_percentile": 70.6,
+        "delta_vs_career_average": 1.263,
         "game_code": "2025090001",
         "is_top10": true,
         "is_win": false,
@@ -360,8 +360,8 @@
         "tournament": "KB금융 스타챔피언십"
       },
       {
-        "career_percentile": 57.6,
-        "delta_vs_career_average": 0.483,
+        "career_percentile": 55.9,
+        "delta_vs_career_average": 0.353,
         "game_code": "2025090002",
         "is_top10": false,
         "is_win": false,
@@ -370,8 +370,8 @@
         "tournament": "OK저축은행 읏맨 오픈"
       },
       {
-        "career_percentile": 36.4,
-        "delta_vs_career_average": -0.877,
+        "career_percentile": 35.3,
+        "delta_vs_career_average": -1.007,
         "game_code": "2025090003",
         "is_top10": false,
         "is_win": false,
@@ -380,8 +380,8 @@
         "tournament": "하나금융그룹 챔피언십"
       },
       {
-        "career_percentile": 3.0,
-        "delta_vs_career_average": -2.757,
+        "career_percentile": 2.9,
+        "delta_vs_career_average": -2.887,
         "game_code": "2025090004",
         "is_top10": false,
         "is_win": false,
@@ -390,48 +390,8 @@
         "tournament": "제25회 하이트진로 챔피언십"
       },
       {
-        "career_percentile": 0.0,
-        "delta_vs_career_average": -3.187,
-        "game_code": "2025100002",
-        "is_top10": false,
-        "is_win": false,
-        "season": 2025,
-        "sg_total": -1.72,
-        "tournament": "대보 하우스디 챔피언십"
-      },
-      {
-        "career_percentile": 12.1,
-        "delta_vs_career_average": -2.057,
-        "game_code": "2025100003",
-        "is_top10": false,
-        "is_win": false,
-        "season": 2025,
-        "sg_total": -0.59,
-        "tournament": "상상인 · 한경 와우넷 오픈 2025"
-      },
-      {
-        "career_percentile": 60.6,
-        "delta_vs_career_average": 0.593,
-        "game_code": "2025100004",
-        "is_top10": false,
-        "is_win": false,
-        "season": 2025,
-        "sg_total": 2.06,
-        "tournament": "광남일보 · 해피니스 오픈"
-      },
-      {
-        "career_percentile": 42.4,
-        "delta_vs_career_average": -0.637,
-        "game_code": "2025100005",
-        "is_top10": false,
-        "is_win": false,
-        "season": 2025,
-        "sg_total": 0.83,
-        "tournament": "S-OIL 챔피언십 2025"
-      },
-      {
-        "career_percentile": 6.1,
-        "delta_vs_career_average": -2.687,
+        "career_percentile": 5.9,
+        "delta_vs_career_average": -2.817,
         "game_code": "2025100012",
         "is_top10": false,
         "is_win": false,
@@ -440,8 +400,48 @@
         "tournament": "K-FOOD 놀부·화미 마스터즈"
       },
       {
-        "career_percentile": 51.5,
-        "delta_vs_career_average": -0.297,
+        "career_percentile": 11.8,
+        "delta_vs_career_average": -2.187,
+        "game_code": "2025100003",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2025,
+        "sg_total": -0.59,
+        "tournament": "상상인 · 한경 와우넷 오픈 2025"
+      },
+      {
+        "career_percentile": 58.8,
+        "delta_vs_career_average": 0.463,
+        "game_code": "2025100004",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2025,
+        "sg_total": 2.06,
+        "tournament": "광남일보 · 해피니스 오픈"
+      },
+      {
+        "career_percentile": 41.2,
+        "delta_vs_career_average": -0.767,
+        "game_code": "2025100005",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2025,
+        "sg_total": 0.83,
+        "tournament": "S-OIL 챔피언십 2025"
+      },
+      {
+        "career_percentile": 0.0,
+        "delta_vs_career_average": -3.317,
+        "game_code": "2025100002",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2025,
+        "sg_total": -1.72,
+        "tournament": "대보 하우스디 챔피언십"
+      },
+      {
+        "career_percentile": 50.0,
+        "delta_vs_career_average": -0.427,
         "game_code": "2026030001",
         "is_top10": false,
         "is_win": false,
@@ -450,28 +450,8 @@
         "tournament": "리쥬란 챔피언십"
       },
       {
-        "career_percentile": 84.8,
-        "delta_vs_career_average": 2.443,
-        "game_code": "2026040001",
-        "is_top10": true,
-        "is_win": true,
-        "season": 2026,
-        "sg_total": 3.91,
-        "tournament": "iM금융오픈 2026"
-      },
-      {
-        "career_percentile": 60.6,
-        "delta_vs_career_average": 0.593,
-        "game_code": "2026040002",
-        "is_top10": false,
-        "is_win": false,
-        "season": 2026,
-        "sg_total": 2.06,
-        "tournament": "제2회 덕신EPC 챔피언십"
-      },
-      {
-        "career_percentile": 9.1,
-        "delta_vs_career_average": -2.247,
+        "career_percentile": 8.8,
+        "delta_vs_career_average": -2.377,
         "game_code": "2026040003",
         "is_top10": false,
         "is_win": false,
@@ -480,8 +460,18 @@
         "tournament": "더 시에나 오픈 2026"
       },
       {
-        "career_percentile": 81.8,
-        "delta_vs_career_average": 1.933,
+        "career_percentile": 82.4,
+        "delta_vs_career_average": 2.313,
+        "game_code": "2026040001",
+        "is_top10": true,
+        "is_win": true,
+        "season": 2026,
+        "sg_total": 3.91,
+        "tournament": "iM금융오픈 2026"
+      },
+      {
+        "career_percentile": 79.4,
+        "delta_vs_career_average": 1.803,
         "game_code": "2026040004",
         "is_top10": true,
         "is_win": false,
@@ -490,8 +480,18 @@
         "tournament": "넥센 · 세인트나인 Masters 2026"
       },
       {
-        "career_percentile": 87.9,
-        "delta_vs_career_average": 2.503,
+        "career_percentile": 58.8,
+        "delta_vs_career_average": 0.463,
+        "game_code": "2026040002",
+        "is_top10": false,
+        "is_win": false,
+        "season": 2026,
+        "sg_total": 2.06,
+        "tournament": "제2회 덕신EPC 챔피언십"
+      },
+      {
+        "career_percentile": 85.3,
+        "delta_vs_career_average": 2.373,
         "game_code": "2026040005",
         "is_top10": true,
         "is_win": false,
@@ -500,8 +500,8 @@
         "tournament": "제1회 DB 위민스 챔피언십"
       },
       {
-        "career_percentile": 66.7,
-        "delta_vs_career_average": 0.783,
+        "career_percentile": 64.7,
+        "delta_vs_career_average": 0.653,
         "game_code": "2026050001",
         "is_top10": false,
         "is_win": false,
@@ -510,8 +510,8 @@
         "tournament": "2026 NH투자증권 레이디스 챔피언십"
       },
       {
-        "career_percentile": 24.2,
-        "delta_vs_career_average": -1.067,
+        "career_percentile": 23.5,
+        "delta_vs_career_average": -1.197,
         "game_code": "2026050003",
         "is_top10": false,
         "is_win": false,
@@ -520,18 +520,8 @@
         "tournament": "제14회 E1 채리티 오픈"
       },
       {
-        "career_percentile": 100.0,
-        "delta_vs_career_average": 2.803,
-        "game_code": "2026060002",
-        "is_top10": true,
-        "is_win": true,
-        "season": 2026,
-        "sg_total": 4.27,
-        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
-      },
-      {
-        "career_percentile": 93.9,
-        "delta_vs_career_average": 2.633,
+        "career_percentile": 91.2,
+        "delta_vs_career_average": 2.503,
         "game_code": "2026060003",
         "is_top10": true,
         "is_win": true,
@@ -540,8 +530,8 @@
         "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회"
       },
       {
-        "career_percentile": 54.5,
-        "delta_vs_career_average": -0.207,
+        "career_percentile": 52.9,
+        "delta_vs_career_average": -0.337,
         "game_code": "2026060004",
         "is_top10": false,
         "is_win": false,
@@ -550,18 +540,18 @@
         "tournament": "인카금융 더헤븐 마스터즈"
       },
       {
-        "career_percentile": 33.3,
-        "delta_vs_career_average": -0.887,
-        "game_code": "2026070002",
-        "is_top10": false,
-        "is_win": false,
+        "career_percentile": 97.1,
+        "delta_vs_career_average": 2.673,
+        "game_code": "2026060002",
+        "is_top10": true,
+        "is_win": true,
         "season": 2026,
-        "sg_total": 0.58,
-        "tournament": "하이원리조트 여자오픈 2026"
+        "sg_total": 4.27,
+        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
       },
       {
-        "career_percentile": 69.7,
-        "delta_vs_career_average": 0.793,
+        "career_percentile": 67.6,
+        "delta_vs_career_average": 0.663,
         "game_code": "2026070003",
         "is_top10": false,
         "is_win": false,
@@ -570,28 +560,18 @@
         "tournament": "제16회 롯데 오픈"
       },
       {
-        "career_percentile": 75.8,
-        "delta_vs_career_average": 1.733,
-        "game_code": "2026080002",
-        "is_top10": true,
-        "is_win": true,
+        "career_percentile": 32.4,
+        "delta_vs_career_average": -1.017,
+        "game_code": "2026070002",
+        "is_top10": false,
+        "is_win": false,
         "season": 2026,
-        "sg_total": 3.2,
-        "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+        "sg_total": 0.58,
+        "tournament": "하이원리조트 여자오픈 2026"
       },
       {
-        "career_percentile": 97.0,
-        "delta_vs_career_average": 2.673,
-        "game_code": "2026080003",
-        "is_top10": true,
-        "is_win": true,
-        "season": 2026,
-        "sg_total": 4.14,
-        "tournament": "메디힐 · 한국일보 챔피언십"
-      },
-      {
-        "career_percentile": 15.2,
-        "delta_vs_career_average": -1.827,
+        "career_percentile": 14.7,
+        "delta_vs_career_average": -1.957,
         "game_code": "2026080004",
         "is_top10": false,
         "is_win": false,
@@ -600,8 +580,28 @@
         "tournament": "제13회 제주삼다수 마스터스"
       },
       {
-        "career_percentile": 21.2,
-        "delta_vs_career_average": -1.597,
+        "career_percentile": 94.1,
+        "delta_vs_career_average": 2.543,
+        "game_code": "2026080003",
+        "is_top10": true,
+        "is_win": true,
+        "season": 2026,
+        "sg_total": 4.14,
+        "tournament": "메디힐 · 한국일보 챔피언십"
+      },
+      {
+        "career_percentile": 73.5,
+        "delta_vs_career_average": 1.603,
+        "game_code": "2026080002",
+        "is_top10": true,
+        "is_win": true,
+        "season": 2026,
+        "sg_total": 3.2,
+        "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+      },
+      {
+        "career_percentile": 20.6,
+        "delta_vs_career_average": -1.727,
         "game_code": "2026090003",
         "is_top10": false,
         "is_win": false,
@@ -610,59 +610,48 @@
         "tournament": "KB금융 골든라이프 챔피언십"
       },
       {
-        "career_percentile": 39.4,
-        "delta_vs_career_average": -0.817,
+        "career_percentile": 38.2,
+        "delta_vs_career_average": -0.947,
         "game_code": "2026090002",
         "is_top10": false,
         "is_win": false,
         "season": 2026,
         "sg_total": 0.65,
         "tournament": "하나금융그룹 챔피언십"
+      },
+      {
+        "career_percentile": 100.0,
+        "delta_vs_career_average": 4.433,
+        "game_code": "2026100005",
+        "is_top10": true,
+        "is_win": false,
+        "season": 2026,
+        "sg_total": 6.03,
+        "tournament": "제26회 하이트진로 챔피언십"
       }
     ],
-    "career_average_sg_total": 1.467,
-    "sample_size": 34
+    "career_average_sg_total": 1.597,
+    "sample_size": 35
   },
   "career_overview": {
     "data_floor_note": "NEO가 확보한 김민솔 0606(A) 선수의 실측 SG 기록은 2024시즌부터 시작됩니다. 이는 선수 전체에 공통으로 적용되는 실측 시작 시점이며, 김민솔 0606(A) 선수의 실제 KLPGA 데뷔 시즌은 아닙니다. 이 시점 이전의 실측 기록은 아직 확인되지 않았습니다.",
     "earliest_season_on_record": 2024,
     "latest_tournament": {
-      "final_score_to_par": "+3",
-      "game_code": "2026090002",
-      "is_winner_per_official_source": false,
-      "rank": 28,
-      "rank_display": "28",
-      "round_scores": [
-        {
-          "round": 1,
-          "sg_total": -1.94
-        },
-        {
-          "round": 2,
-          "sg_total": 2.96
-        },
-        {
-          "round": 3,
-          "sg_total": -0.13
-        },
-        {
-          "round": 4,
-          "sg_total": 1.72
-        }
-      ],
-      "rounds_played": 4,
+      "game_code": "2026100005",
+      "rank": 4,
+      "rank_display": "4",
+      "rounds_played": 1,
       "season": 2026,
-      "sg_app": 0.26,
-      "sg_arg": -0.9,
-      "sg_ott": 1.38,
-      "sg_putt": -0.08,
-      "sg_total": 0.65,
+      "sg_app": 2.06,
+      "sg_arg": 0.13,
+      "sg_ott": 1.66,
+      "sg_putt": 2.18,
+      "sg_total": 6.03,
       "sources": [
-        "live_snapshot",
-        "supplemental"
+        "sg_warehouse"
       ],
       "status": "FINISHED",
-      "tournament": "하나금융그룹 챔피언십"
+      "tournament": "제26회 하이트진로 챔피언십"
     },
     "season_count": 3,
     "season_rows": [
@@ -695,109 +684,109 @@
         "wins": 1
       },
       {
-        "events": 18,
+        "events": 19,
         "season": 2026,
-        "sg_app": 0.6194444444444444,
-        "sg_arg": 0.045000000000000005,
-        "sg_ott": 1.1488888888888888,
-        "sg_putt": 0.20833333333333331,
-        "sg_sample_size": 18,
-        "sg_total": 2.0194444444444444,
-        "top10": 7,
-        "top20": 10,
-        "top5": 7,
+        "sg_app": 0.6952631578947368,
+        "sg_arg": 0.049473684210526316,
+        "sg_ott": 1.1757894736842105,
+        "sg_putt": 0.3121052631578947,
+        "sg_sample_size": 19,
+        "sg_total": 2.230526315789474,
+        "top10": 8,
+        "top20": 11,
+        "top5": 8,
         "wins": 5
       }
     ],
-    "total_events": 34,
-    "total_top10": 10,
-    "total_top20": 15,
-    "total_top5": 9,
+    "total_events": 35,
+    "total_top10": 11,
+    "total_top20": 16,
+    "total_top5": 10,
     "total_wins": 6
   },
   "career_rolling_trend": {
-    "career_average_sample_size": 34,
-    "career_average_sg_total": 1.467,
-    "career_median_sg_total": 1.12,
-    "note": "5개 대회 슬라이딩 구간(실측 SG 34개 대회 기준). 백분위는 선수 본인의 다른 구간 대비이며, 다른 선수와의 비교가 아닙니다.",
+    "career_average_sample_size": 35,
+    "career_average_sg_total": 1.597,
+    "career_median_sg_total": 1.17,
+    "note": "5개 대회 슬라이딩 구간(실측 SG 35개 대회 기준). 백분위는 선수 본인의 다른 구간 대비이며, 다른 선수와의 비교가 아닙니다.",
     "peak_window": {
       "decomposition": {
-        "app": 0.71,
-        "arg": 0.404,
+        "app": 1.494,
+        "arg": 0.158,
         "birdie": null,
         "birdie_bogey_gir_putts_note": "이 시기의 대회는 홀 단위 실측 기록이 없어 버디/보기/GIR/퍼트 수를 계산할 수 없습니다.",
         "birdie_bogey_gir_putts_status": "NOT_COLLECTED",
         "bogey": null,
         "gir": null,
-        "ott": 1.202,
-        "putt": 0.684,
+        "ott": 1.328,
+        "putt": 0.138,
         "putts": null,
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": 1.531,
+      "delta_vs_career_average": 1.521,
       "end_season": 2026,
-      "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
-      "moving_average_sg_total": 2.998,
+      "end_tournament": "2026 NH투자증권 레이디스 챔피언십",
+      "moving_average_sg_total": 3.118,
       "self_percentile": 100.0,
       "start_season": 2026,
-      "start_tournament": "제1회 DB 위민스 챔피언십",
-      "sustainability_tournaments": 13,
-      "sustainability_windows": 9,
-      "window_index": 21
+      "start_tournament": "iM금융오픈 2026",
+      "sustainability_tournaments": 14,
+      "sustainability_windows": 10,
+      "window_index": 18
     },
-    "recovery_time_note": "넥센 · 세인트나인 Masters 2026 즈음에는 이미 커리어 평균을 되찾은 상태였습니다.",
-    "recovery_time_tournament": "넥센 · 세인트나인 Masters 2026",
-    "recovery_time_windows": 8,
+    "recovery_time_note": "제2회 덕신EPC 챔피언십 즈음에는 이미 커리어 평균을 되찾은 상태였습니다.",
+    "recovery_time_tournament": "제2회 덕신EPC 챔피언십",
+    "recovery_time_windows": 5,
     "recovery_window": {
       "decomposition": {
-        "app": -0.732,
-        "arg": -0.052,
+        "app": -0.14,
+        "arg": -0.206,
         "birdie": null,
         "birdie_bogey_gir_putts_note": "이 시기의 대회는 홀 단위 실측 기록이 없어 버디/보기/GIR/퍼트 수를 계산할 수 없습니다.",
         "birdie_bogey_gir_putts_status": "NOT_COLLECTED",
         "bogey": null,
         "gir": null,
-        "ott": 1.1,
-        "putt": -0.506,
+        "ott": 0.836,
+        "putt": -0.138,
         "putts": null,
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": -1.657,
-      "delta_vs_slump": 0.022,
-      "end_season": 2025,
-      "end_tournament": "광남일보 · 해피니스 오픈",
-      "moving_average_sg_total": -0.19,
-      "self_percentile": 3.4,
+      "delta_vs_career_average": -1.247,
+      "delta_vs_slump": 0.478,
+      "end_season": 2026,
+      "end_tournament": "리쥬란 챔피언십",
+      "moving_average_sg_total": 0.35,
+      "self_percentile": 16.7,
       "start_season": 2025,
-      "start_tournament": "하나금융그룹 챔피언십",
-      "window_index": 9
+      "start_tournament": "상상인 · 한경 와우넷 오픈 2025",
+      "window_index": 12
     },
     "series": [
       {
         "end_season": 2025,
         "end_tournament": "2025 셀트리온 퀸즈 마스터즈",
         "moving_average_sg_total": 0.562,
-        "self_percentile": 20.7,
+        "self_percentile": 20.0,
         "start_season": 2024,
         "start_tournament": "제13회 KG 레이디스 오픈",
         "window_index": 0
       },
       {
         "end_season": 2025,
-        "end_tournament": "BC카드 · 한경 레이디스컵 2025",
-        "moving_average_sg_total": 1.398,
-        "self_percentile": 34.5,
+        "end_tournament": "메디힐 · 한국일보 챔피언십",
+        "moving_average_sg_total": 1.234,
+        "self_percentile": 33.3,
         "start_season": 2024,
         "start_tournament": "OK저축은행 읏맨 오픈",
         "window_index": 1
       },
       {
         "end_season": 2025,
-        "end_tournament": "메디힐 · 한국일보 챔피언십",
+        "end_tournament": "BC카드 · 한경 레이디스컵 2025",
         "moving_average_sg_total": 1.94,
-        "self_percentile": 51.7,
+        "self_percentile": 50.0,
         "start_season": 2025,
         "start_tournament": "두산건설 We’ve 챔피언십",
         "window_index": 2
@@ -806,7 +795,7 @@
         "end_season": 2025,
         "end_tournament": "KB금융 스타챔피언십",
         "moving_average_sg_total": 2.298,
-        "self_percentile": 75.9,
+        "self_percentile": 63.3,
         "start_season": 2025,
         "start_tournament": "크리스에프앤씨 제47회 KLPGA 챔피언십",
         "window_index": 3
@@ -815,7 +804,7 @@
         "end_season": 2025,
         "end_tournament": "OK저축은행 읏맨 오픈",
         "moving_average_sg_total": 2.514,
-        "self_percentile": 89.7,
+        "self_percentile": 86.7,
         "start_season": 2025,
         "start_tournament": "2025 셀트리온 퀸즈 마스터즈",
         "window_index": 4
@@ -824,25 +813,25 @@
         "end_season": 2025,
         "end_tournament": "하나금융그룹 챔피언십",
         "moving_average_sg_total": 2.528,
-        "self_percentile": 93.1,
+        "self_percentile": 90.0,
         "start_season": 2025,
-        "start_tournament": "BC카드 · 한경 레이디스컵 2025",
+        "start_tournament": "메디힐 · 한국일보 챔피언십",
         "window_index": 5
       },
       {
         "end_season": 2025,
         "end_tournament": "제25회 하이트진로 챔피언십",
-        "moving_average_sg_total": 1.464,
-        "self_percentile": 37.9,
+        "moving_average_sg_total": 1.628,
+        "self_percentile": 46.7,
         "start_season": 2025,
-        "start_tournament": "메디힐 · 한국일보 챔피언십",
+        "start_tournament": "BC카드 · 한경 레이디스컵 2025",
         "window_index": 6
       },
       {
         "end_season": 2025,
-        "end_tournament": "대보 하우스디 챔피언십",
-        "moving_average_sg_total": 0.478,
-        "self_percentile": 17.2,
+        "end_tournament": "K-FOOD 놀부·화미 마스터즈",
+        "moving_average_sg_total": 0.578,
+        "self_percentile": 23.3,
         "start_season": 2025,
         "start_tournament": "KB금융 스타챔피언십",
         "window_index": 7
@@ -850,8 +839,8 @@
       {
         "end_season": 2025,
         "end_tournament": "상상인 · 한경 와우넷 오픈 2025",
-        "moving_average_sg_total": -0.212,
-        "self_percentile": 0.0,
+        "moving_average_sg_total": -0.112,
+        "self_percentile": 3.3,
         "start_season": 2025,
         "start_tournament": "OK저축은행 읏맨 오픈",
         "window_index": 8
@@ -859,8 +848,8 @@
       {
         "end_season": 2025,
         "end_tournament": "광남일보 · 해피니스 오픈",
-        "moving_average_sg_total": -0.19,
-        "self_percentile": 3.4,
+        "moving_average_sg_total": -0.09,
+        "self_percentile": 6.7,
         "start_season": 2025,
         "start_tournament": "하나금융그룹 챔피언십",
         "window_index": 9
@@ -868,62 +857,62 @@
       {
         "end_season": 2025,
         "end_tournament": "S-OIL 챔피언십 2025",
-        "moving_average_sg_total": -0.142,
-        "self_percentile": 6.9,
+        "moving_average_sg_total": -0.042,
+        "self_percentile": 10.0,
         "start_season": 2025,
         "start_tournament": "제25회 하이트진로 챔피언십",
         "window_index": 10
       },
       {
         "end_season": 2025,
-        "end_tournament": "K-FOOD 놀부·화미 마스터즈",
+        "end_tournament": "대보 하우스디 챔피언십",
         "moving_average_sg_total": -0.128,
-        "self_percentile": 10.3,
+        "self_percentile": 0.0,
         "start_season": 2025,
-        "start_tournament": "대보 하우스디 챔피언십",
+        "start_tournament": "K-FOOD 놀부·화미 마스터즈",
         "window_index": 11
       },
       {
         "end_season": 2026,
         "end_tournament": "리쥬란 챔피언십",
-        "moving_average_sg_total": 0.45,
-        "self_percentile": 13.8,
+        "moving_average_sg_total": 0.35,
+        "self_percentile": 16.7,
         "start_season": 2025,
         "start_tournament": "상상인 · 한경 와우넷 오픈 2025",
         "window_index": 12
       },
       {
         "end_season": 2026,
-        "end_tournament": "iM금융오픈 2026",
-        "moving_average_sg_total": 1.35,
-        "self_percentile": 27.6,
+        "end_tournament": "더 시에나 오픈 2026",
+        "moving_average_sg_total": 0.312,
+        "self_percentile": 13.3,
         "start_season": 2025,
         "start_tournament": "광남일보 · 해피니스 오픈",
         "window_index": 13
       },
       {
         "end_season": 2026,
-        "end_tournament": "제2회 덕신EPC 챔피언십",
-        "moving_average_sg_total": 1.35,
-        "self_percentile": 27.6,
+        "end_tournament": "iM금융오픈 2026",
+        "moving_average_sg_total": 0.682,
+        "self_percentile": 26.7,
         "start_season": 2025,
         "start_tournament": "S-OIL 챔피언십 2025",
         "window_index": 14
       },
       {
         "end_season": 2026,
-        "end_tournament": "더 시에나 오픈 2026",
-        "moving_average_sg_total": 1.028,
-        "self_percentile": 24.1,
+        "end_tournament": "넥센 · 세인트나인 Masters 2026",
+        "moving_average_sg_total": 1.196,
+        "self_percentile": 30.0,
         "start_season": 2025,
-        "start_tournament": "K-FOOD 놀부·화미 마스터즈",
+        "start_tournament": "대보 하우스디 챔피언십",
         "window_index": 15
       },
       {
         "end_season": 2026,
-        "end_tournament": "넥센 · 세인트나인 Masters 2026",
+        "end_tournament": "제2회 덕신EPC 챔피언십",
         "moving_average_sg_total": 1.952,
-        "self_percentile": 55.2,
+        "self_percentile": 53.3,
         "start_season": 2026,
         "start_tournament": "리쥬란 챔피언십",
         "window_index": 16
@@ -932,145 +921,154 @@
         "end_season": 2026,
         "end_tournament": "제1회 DB 위민스 챔피언십",
         "moving_average_sg_total": 2.512,
-        "self_percentile": 86.2,
+        "self_percentile": 83.3,
         "start_season": 2026,
-        "start_tournament": "iM금융오픈 2026",
+        "start_tournament": "더 시에나 오픈 2026",
         "window_index": 17
       },
       {
         "end_season": 2026,
         "end_tournament": "2026 NH투자증권 레이디스 챔피언십",
-        "moving_average_sg_total": 2.18,
-        "self_percentile": 65.5,
+        "moving_average_sg_total": 3.118,
+        "self_percentile": 100.0,
         "start_season": 2026,
-        "start_tournament": "제2회 덕신EPC 챔피언십",
+        "start_tournament": "iM금융오픈 2026",
         "window_index": 18
       },
       {
         "end_season": 2026,
         "end_tournament": "제14회 E1 채리티 오픈",
-        "moving_average_sg_total": 1.848,
-        "self_percentile": 48.3,
+        "moving_average_sg_total": 2.416,
+        "self_percentile": 70.0,
         "start_season": 2026,
-        "start_tournament": "더 시에나 오픈 2026",
+        "start_tournament": "넥센 · 세인트나인 Masters 2026",
         "window_index": 19
       },
       {
         "end_season": 2026,
-        "end_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
-        "moving_average_sg_total": 2.858,
-        "self_percentile": 96.6,
+        "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+        "moving_average_sg_total": 2.556,
+        "self_percentile": 93.3,
         "start_season": 2026,
-        "start_tournament": "넥센 · 세인트나인 Masters 2026",
+        "start_tournament": "제2회 덕신EPC 챔피언십",
         "window_index": 20
       },
       {
         "end_season": 2026,
-        "end_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
-        "moving_average_sg_total": 2.998,
-        "self_percentile": 100.0,
+        "end_tournament": "인카금융 더헤븐 마스터즈",
+        "moving_average_sg_total": 2.396,
+        "self_percentile": 66.7,
         "start_season": 2026,
         "start_tournament": "제1회 DB 위민스 챔피언십",
         "window_index": 21
       },
       {
         "end_season": 2026,
-        "end_tournament": "인카금융 더헤븐 마스터즈",
+        "end_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "moving_average_sg_total": 2.456,
-        "self_percentile": 79.3,
+        "self_percentile": 73.3,
         "start_season": 2026,
         "start_tournament": "2026 NH투자증권 레이디스 챔피언십",
         "window_index": 22
       },
       {
         "end_season": 2026,
-        "end_tournament": "하이원리조트 여자오픈 2026",
-        "moving_average_sg_total": 2.122,
-        "self_percentile": 62.1,
+        "end_tournament": "제16회 롯데 오픈",
+        "moving_average_sg_total": 2.458,
+        "self_percentile": 76.7,
         "start_season": 2026,
         "start_tournament": "제14회 E1 채리티 오픈",
         "window_index": 23
       },
       {
         "end_season": 2026,
-        "end_tournament": "제16회 롯데 오픈",
+        "end_tournament": "하이원리조트 여자오픈 2026",
         "moving_average_sg_total": 2.494,
-        "self_percentile": 82.8,
+        "self_percentile": 80.0,
         "start_season": 2026,
-        "start_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
+        "start_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
         "window_index": 24
       },
       {
         "end_season": 2026,
-        "end_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
-        "moving_average_sg_total": 2.28,
-        "self_percentile": 69.0,
+        "end_tournament": "제13회 제주삼다수 마스터스",
+        "moving_average_sg_total": 1.602,
+        "self_percentile": 43.3,
         "start_season": 2026,
-        "start_tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+        "start_tournament": "인카금융 더헤븐 마스터즈",
         "window_index": 25
       },
       {
         "end_season": 2026,
         "end_tournament": "메디힐 · 한국일보 챔피언십",
-        "moving_average_sg_total": 2.288,
-        "self_percentile": 72.4,
+        "moving_average_sg_total": 2.178,
+        "self_percentile": 60.0,
         "start_season": 2026,
-        "start_tournament": "인카금융 더헤븐 마스터즈",
+        "start_tournament": "맥콜 · 모나 용평 오픈 with SBS Golf",
         "window_index": 26
       },
       {
         "end_season": 2026,
-        "end_tournament": "제13회 제주삼다수 마스터스",
+        "end_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
         "moving_average_sg_total": 1.964,
-        "self_percentile": 58.6,
+        "self_percentile": 56.7,
         "start_season": 2026,
-        "start_tournament": "하이원리조트 여자오픈 2026",
+        "start_tournament": "제16회 롯데 오픈",
         "window_index": 27
       },
       {
         "end_season": 2026,
         "end_tournament": "KB금융 골든라이프 챔피언십",
-        "moving_average_sg_total": 1.822,
-        "self_percentile": 44.8,
+        "moving_average_sg_total": 1.486,
+        "self_percentile": 36.7,
         "start_season": 2026,
-        "start_tournament": "제16회 롯데 오픈",
+        "start_tournament": "하이원리조트 여자오픈 2026",
         "window_index": 28
       },
       {
         "end_season": 2026,
         "end_tournament": "하나금융그룹 챔피언십",
         "moving_average_sg_total": 1.5,
-        "self_percentile": 41.4,
+        "self_percentile": 40.0,
         "start_season": 2026,
-        "start_tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+        "start_tournament": "제13회 제주삼다수 마스터스",
         "window_index": 29
+      },
+      {
+        "end_season": 2026,
+        "end_tournament": "제26회 하이트진로 챔피언십",
+        "moving_average_sg_total": 2.778,
+        "self_percentile": 96.7,
+        "start_season": 2026,
+        "start_tournament": "메디힐 · 한국일보 챔피언십",
+        "window_index": 30
       }
     ],
     "slump_window": {
       "decomposition": {
-        "app": -0.884,
-        "arg": -0.13,
+        "app": -0.442,
+        "arg": 0.146,
         "birdie": null,
         "birdie_bogey_gir_putts_note": "이 시기의 대회는 홀 단위 실측 기록이 없어 버디/보기/GIR/퍼트 수를 계산할 수 없습니다.",
         "birdie_bogey_gir_putts_status": "NOT_COLLECTED",
         "bogey": null,
         "gir": null,
-        "ott": 1.18,
-        "putt": -0.376,
+        "ott": 1.026,
+        "putt": -0.854,
         "putts": null,
         "sg_component_sample_size": 5,
         "sg_component_window_size": 5
       },
-      "delta_vs_career_average": -1.679,
+      "delta_vs_career_average": -1.725,
       "end_season": 2025,
-      "end_tournament": "상상인 · 한경 와우넷 오픈 2025",
-      "moving_average_sg_total": -0.212,
+      "end_tournament": "대보 하우스디 챔피언십",
+      "moving_average_sg_total": -0.128,
       "self_percentile": 0.0,
       "start_season": 2025,
-      "start_tournament": "OK저축은행 읏맨 오픈",
-      "window_index": 8
+      "start_tournament": "K-FOOD 놀부·화미 마스터즈",
+      "window_index": 11
     },
-    "total_windows": 30,
+    "total_windows": 31,
     "window_size": 5
   },
   "career_story": {
@@ -1079,12 +1077,7 @@
         "chapter": "최고 경기력",
         "milestones": [
           {
-            "detail": "1승 (이 시즌 실측)",
-            "label": "첫 우승",
-            "season": 2025
-          },
-          {
-            "detail": "+2.02, 우승 5회, 상위10위 7회",
+            "detail": "+2.23, 우승 5회, 상위10위 8회",
             "label": "커리어 최고 SG Total 시즌",
             "season": 2026
           }
@@ -1094,7 +1087,7 @@
         "chapter": "경기력 도약",
         "milestones": [
           {
-            "detail": "2025→2026 +1.08",
+            "detail": "2025→2026 +1.29",
             "label": "최대 SG Total 시즌 도약",
             "season": 2026
           }
@@ -1104,9 +1097,9 @@
         "chapter": "첫 우승",
         "milestones": [
           {
-            "detail": "+2.02 (커리어 평균 +1.05)",
-            "label": "커리어 평균 SG Total 최초 상회",
-            "season": 2026
+            "detail": "1승 (이 시즌 실측)",
+            "label": "첫 우승",
+            "season": 2025
           }
         ]
       },
@@ -1122,10 +1115,10 @@
       }
     ],
     "current": {
-      "events": 18,
+      "events": 19,
       "season": 2026,
-      "sg_total": 2.0194444444444444,
-      "top10": 7,
+      "sg_total": 2.230526315789474,
+      "top10": 8,
       "wins": 5
     },
     "season_rows": [
@@ -1158,17 +1151,17 @@
         "wins": 1
       },
       {
-        "events": 18,
+        "events": 19,
         "season": 2026,
-        "sg_app": 0.6194444444444444,
-        "sg_arg": 0.045000000000000005,
-        "sg_ott": 1.1488888888888888,
-        "sg_putt": 0.20833333333333331,
-        "sg_sample_size": 18,
-        "sg_total": 2.0194444444444444,
-        "top10": 7,
-        "top20": 10,
-        "top5": 7,
+        "sg_app": 0.6952631578947368,
+        "sg_arg": 0.049473684210526316,
+        "sg_ott": 1.1757894736842105,
+        "sg_putt": 0.3121052631578947,
+        "sg_sample_size": 19,
+        "sg_total": 2.230526315789474,
+        "top10": 8,
+        "top20": 11,
+        "top5": 8,
         "wins": 5
       }
     ]
@@ -1340,46 +1333,46 @@
     }
   },
   "current_form_indicator": {
-    "delta": -0.994,
-    "last5_avg_sg_total": 1.5,
+    "delta": 1.176,
+    "last5_avg_sg_total": 2.778,
     "last5_sample_size": 5,
-    "prev5_avg_sg_total": 2.494,
+    "prev5_avg_sg_total": 1.602,
     "prev5_sample_size": 5,
-    "trend": "DOWN"
+    "trend": "UP"
   },
   "current_skill_vs_career": {
     "components": [
       {
-        "career_average": 1.129,
-        "career_sample_size": 34,
+        "career_average": 1.144,
+        "career_sample_size": 35,
         "component": "SG OTT",
-        "current_value": 1.149,
-        "delta_vs_career_average": 0.02
+        "current_value": 1.176,
+        "delta_vs_career_average": 0.032
       },
       {
-        "career_average": 0.307,
-        "career_sample_size": 34,
+        "career_average": 0.357,
+        "career_sample_size": 35,
         "component": "SG APP",
-        "current_value": 0.619,
-        "delta_vs_career_average": 0.312
+        "current_value": 0.695,
+        "delta_vs_career_average": 0.338
       },
       {
-        "career_average": -0.009,
-        "career_sample_size": 34,
+        "career_average": -0.005,
+        "career_sample_size": 35,
         "component": "SG ARG",
-        "current_value": 0.045,
+        "current_value": 0.049,
         "delta_vs_career_average": 0.054
       },
       {
-        "career_average": 0.042,
-        "career_sample_size": 34,
+        "career_average": 0.103,
+        "career_sample_size": 35,
         "component": "SG PUTT",
-        "current_value": 0.208,
-        "delta_vs_career_average": 0.166
+        "current_value": 0.312,
+        "delta_vs_career_average": 0.209
       }
     ],
     "current_season": 2026,
-    "current_season_sample_size": 18
+    "current_season_sample_size": 19
   },
   "current_snapshot": {
     "as_of_note": "KLPGA 공식 2026시즌 스냅샷 1건입니다. 과거 시즌으로 확장하지 않습니다.",
@@ -1446,12 +1439,12 @@
     "tournament": "OK금융그룹 오픈"
   },
   "current_vs_career": {
-    "career_average_sample_size": 34,
-    "career_average_sg_total": 1.467,
+    "career_average_sample_size": 35,
+    "career_average_sg_total": 1.597,
     "current_season": 2026,
-    "current_season_sample_size": 18,
-    "current_season_sg_total": 2.019,
-    "delta_vs_career_average": 0.552
+    "current_season_sample_size": 19,
+    "current_season_sg_total": 2.231,
+    "delta_vs_career_average": 0.634
   },
   "data_confidence_roadmap": [
     {
@@ -1459,12 +1452,12 @@
       "title": "과거 시즌 기술 통계 확인 현황"
     },
     {
-      "field_count": 13,
-      "title": "홀 단위 기록 (버디·보기·GIR·퍼트 수)"
+      "field_count": 25,
+      "title": "기타 확인되지 않은 항목"
     },
     {
-      "field_count": 2,
-      "title": "기타 확인되지 않은 항목"
+      "field_count": 13,
+      "title": "홀 단위 기록 (버디·보기·GIR·퍼트 수)"
     },
     {
       "field_count": 1,
@@ -1520,7 +1513,7 @@
       "tier": "gap"
     }
   },
-  "generated_at": "2026-09-29T21:06:23.673037+00:00",
+  "generated_at": "2026-10-04T09:22:11.353932+00:00",
   "hole_history": {
     "capture_note": "이 대회 1개(2026120001)에서만 실측되어 있습니다. 커리어 전체 홀 단위 기록은 존재하지 않습니다.",
     "course": "포천아도니스",
@@ -1854,73 +1847,73 @@
   ],
   "page_confidence": {
     "estimated_fields": 0,
-    "headline": "이 페이지의 숫자는 거의 전부 실제 기록이거나, 실제 기록을 그대로 계산한 값입니다.",
-    "not_yet_available_fields": 16,
-    "real_or_calculated_fields": 588,
+    "headline": "이 페이지의 숫자는 대부분 실제 기록이거나, 실제 기록을 그대로 계산한 값입니다.",
+    "not_yet_available_fields": 39,
+    "real_or_calculated_fields": 565,
     "total_fields_checked": 604,
-    "trust_band": "매우 높음",
-    "trustworthy_pct": 97.4
+    "trust_band": "높음",
+    "trustworthy_pct": 93.5
   },
   "player_dna_growth": {
     "APPROACH": {
-      "career_mean_percentile": 70.6,
-      "growth_acceleration_per_season": 12.3,
-      "growth_velocity_per_season": 14.45,
+      "career_mean_percentile": 71.3,
+      "growth_acceleration_per_season": 14.5,
+      "growth_velocity_per_season": 15.55,
       "sample_size": 3,
       "seasons_used": [
         2024,
         2025,
         2026
       ],
-      "stability_stddev": 12.15
+      "stability_stddev": 13.15
     },
     "PUTTING": {
-      "career_mean_percentile": 51.4,
-      "growth_acceleration_per_season": -21.4,
-      "growth_velocity_per_season": 25.3,
+      "career_mean_percentile": 54.2,
+      "growth_acceleration_per_season": -13.0,
+      "growth_velocity_per_season": 29.5,
       "sample_size": 3,
       "seasons_used": [
         2024,
         2025,
         2026
       ],
-      "stability_stddev": 21.26
+      "stability_stddev": 24.28
     },
     "SCORING": {
-      "career_mean_percentile": 86.7,
-      "growth_acceleration_per_season": 0.7,
-      "growth_velocity_per_season": 10.95,
+      "career_mean_percentile": 87.0,
+      "growth_acceleration_per_season": 1.5,
+      "growth_velocity_per_season": 11.35,
       "sample_size": 3,
       "seasons_used": [
         2024,
         2025,
         2026
       ],
-      "stability_stddev": 8.94
+      "stability_stddev": 9.27
     },
     "TEE": {
-      "career_mean_percentile": 98.7,
-      "growth_acceleration_per_season": 1.9,
-      "growth_velocity_per_season": -0.15,
+      "career_mean_percentile": 98.6,
+      "growth_acceleration_per_season": 1.6,
+      "growth_velocity_per_season": -0.3,
       "sample_size": 3,
       "seasons_used": [
         2024,
         2025,
         2026
       ],
-      "stability_stddev": 0.46
+      "stability_stddev": 0.45
     },
     "쇼트게임": {
       "career_mean_percentile": 57.2,
-      "growth_acceleration_per_season": 14.8,
-      "growth_velocity_per_season": 12.7,
+      "growth_acceleration_per_season": 14.6,
+      "growth_velocity_per_season": 12.6,
       "sample_size": 3,
       "seasons_used": [
         2024,
         2025,
         2026
       ],
-      "stability_stddev": 10.94
+      "stability_stddev": 10.85
     }
   },
   "player_dna_radar": [
@@ -1929,7 +1922,7 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": 0.5,
+          "delta_vs_career_mean": 0.6,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 99.2,
           "population": 250,
@@ -1941,7 +1934,7 @@
         {
           "available": true,
           "axis": "APPROACH",
-          "delta_vs_career_mean": -12.4,
+          "delta_vs_career_mean": -13.1,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 58.2,
           "population": 250,
@@ -1965,7 +1958,7 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": -28.9,
+          "delta_vs_career_mean": -31.7,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 22.5,
           "population": 250,
@@ -1977,7 +1970,7 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": -10.8,
+          "delta_vs_career_mean": -11.1,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 75.9,
           "population": 250,
@@ -1994,7 +1987,7 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": -0.6,
+          "delta_vs_career_mean": -0.5,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 98.1,
           "population": 261,
@@ -2006,7 +1999,7 @@
         {
           "available": true,
           "axis": "APPROACH",
-          "delta_vs_career_mean": -4.1,
+          "delta_vs_career_mean": -4.8,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 66.5,
           "population": 261,
@@ -2030,7 +2023,7 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": 7.1,
+          "delta_vs_career_mean": 4.3,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 58.5,
           "population": 261,
@@ -2042,7 +2035,7 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": -0.2,
+          "delta_vs_career_mean": -0.5,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
           "percentile": 86.5,
           "population": 261,
@@ -2059,11 +2052,11 @@
         {
           "available": true,
           "axis": "TEE",
-          "delta_vs_career_mean": 0.2,
+          "delta_vs_career_mean": 0.0,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 98.9,
-          "population": 280,
-          "raw_value": 1.135,
+          "percentile": 98.6,
+          "population": 282,
+          "raw_value": 1.164,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_OTT"
@@ -2071,11 +2064,11 @@
         {
           "available": true,
           "axis": "APPROACH",
-          "delta_vs_career_mean": 16.5,
+          "delta_vs_career_mean": 18.0,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 87.1,
-          "population": 280,
-          "raw_value": 0.641,
+          "percentile": 89.3,
+          "population": 282,
+          "raw_value": 0.719,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_APP"
@@ -2083,11 +2076,11 @@
         {
           "available": true,
           "axis": "쇼트게임",
-          "delta_vs_career_mean": 15.2,
+          "delta_vs_career_mean": 15.0,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 72.4,
-          "population": 280,
-          "raw_value": 0.101,
+          "percentile": 72.2,
+          "population": 282,
+          "raw_value": 0.102,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_ARG"
@@ -2095,11 +2088,11 @@
         {
           "available": true,
           "axis": "PUTTING",
-          "delta_vs_career_mean": 21.7,
+          "delta_vs_career_mean": 27.3,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 73.1,
-          "population": 280,
-          "raw_value": 0.225,
+          "percentile": 81.5,
+          "population": 282,
+          "raw_value": 0.334,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_PUTT"
@@ -2107,11 +2100,11 @@
         {
           "available": true,
           "axis": "SCORING",
-          "delta_vs_career_mean": 11.1,
+          "delta_vs_career_mean": 11.6,
           "normalization_method": "season 내 선수 평균 SG 값의 백분위 (해당 시즌 실측 선수 전원 대비)",
-          "percentile": 97.8,
-          "population": 280,
-          "raw_value": 2.1,
+          "percentile": 98.6,
+          "population": 282,
+          "raw_value": 2.318,
           "season": 2026,
           "source": "historical_sg_warehouse_corrected_v2.json (tournament_cumulative, RETAINED)",
           "source_metric": "SG_TOTAL"
@@ -2123,9 +2116,9 @@
   "player_evolution": {
     "biggest_decline": null,
     "biggest_improvement": {
-      "delta": 1.08,
+      "delta": 1.29,
       "from_season": 2025,
-      "growth_pct": 114.8,
+      "growth_pct": 137.1,
       "to_season": 2026
     },
     "closest_to_plateau": {
@@ -2148,7 +2141,7 @@
     "consistency_component": "SG OTT",
     "consistency_note": "SG OTT은(는) 시즌마다 기복이 가장 적은 영역입니다.",
     "primary_component": "SG OTT",
-    "primary_share_pct": 76.9,
+    "primary_share_pct": 71.6,
     "primary_type": "볼 스트라이커",
     "winning_note": "우승할 때는 SG PUTT이(가) 특히 결정적이었습니다 (우승 대회 기여도 39.4%)."
   },
@@ -2165,17 +2158,17 @@
       "season": 2025
     },
     {
-      "detail": "+2.02 (커리어 평균 +1.05)",
+      "detail": "+2.23 (커리어 평균 +1.12)",
       "label": "커리어 평균 SG Total 최초 상회",
       "season": 2026
     },
     {
-      "detail": "2025→2026 +1.08",
+      "detail": "2025→2026 +1.29",
       "label": "최대 SG Total 시즌 도약",
       "season": 2026
     },
     {
-      "detail": "+2.02, 우승 5회, 상위10위 7회",
+      "detail": "+2.23, 우승 5회, 상위10위 8회",
       "label": "커리어 최고 SG Total 시즌",
       "season": 2026
     }
@@ -2642,8 +2635,8 @@
     },
     "career_overview.latest_tournament.final_score_to_par": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real final score relative to par"
+      "label": "NOT_COLLECTED",
+      "reason": "real final score relative to par -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "career_overview.latest_tournament.game_code": {
       "depends_on": [],
@@ -2652,8 +2645,8 @@
     },
     "career_overview.latest_tournament.is_winner_per_official_source": {
       "depends_on": [],
-      "label": "DERIVED",
-      "reason": "boolean: rank==1"
+      "label": "NOT_COLLECTED",
+      "reason": "boolean: rank==1 -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "career_overview.latest_tournament.rank": {
       "depends_on": [],
@@ -2667,13 +2660,13 @@
     },
     "career_overview.latest_tournament.round_scores[].round": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real round number"
+      "label": "NOT_COLLECTED",
+      "reason": "real round number -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "career_overview.latest_tournament.round_scores[].sg_total": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real per-round SG Total"
+      "label": "NOT_COLLECTED",
+      "reason": "real per-round SG Total -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "career_overview.latest_tournament.rounds_played": {
       "depends_on": [],
@@ -5247,88 +5240,88 @@
     },
     "technical_stats_2025.as_of_note": {
       "depends_on": [],
-      "label": "DERIVED",
-      "reason": "disclosure sentence naming the 2025 snapshot"
+      "label": "NOT_COLLECTED",
+      "reason": "disclosure sentence naming the 2025 snapshot -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].denominator": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured denominator behind a rate metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured denominator behind a rate metric -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].denominator_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for the denominator"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for the denominator -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static metric name"
+      "label": "NOT_COLLECTED",
+      "reason": "static metric name -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].measured_rounds": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real count of rounds this metric was captured over"
+      "label": "NOT_COLLECTED",
+      "reason": "real count of rounds this metric was captured over -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].measured_rounds_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for measured_rounds"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for measured_rounds -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].numerator": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured numerator behind a rate metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured numerator behind a rate metric -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].numerator_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static label for the numerator"
+      "label": "NOT_COLLECTED",
+      "reason": "static label for the numerator -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].rank": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured field rank for this metric"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured field rank for this metric -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].source_file": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real filename this metric was captured from"
+      "label": "NOT_COLLECTED",
+      "reason": "real filename this metric was captured from -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].value": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real captured metric value"
+      "label": "NOT_COLLECTED",
+      "reason": "real captured metric value -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.metrics[].value_label": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "static unit/format label for the value"
+      "label": "NOT_COLLECTED",
+      "reason": "static unit/format label for the value -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.player_id": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "playerCode on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "playerCode on the captured record -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.player_name": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "player name on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "player name on the captured record -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.schema_version": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "schema tag on the captured record"
+      "label": "NOT_COLLECTED",
+      "reason": "schema tag on the captured record -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.season": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real season this capture covers (2025 only)"
+      "label": "NOT_COLLECTED",
+      "reason": "real season this capture covers (2025 only) -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "technical_stats_2025.source_endpoint": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real KLPGA endpoint this was captured from"
+      "label": "NOT_COLLECTED",
+      "reason": "real KLPGA endpoint this was captured from -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].game_code": {
       "depends_on": [],
@@ -5362,8 +5355,8 @@
     },
     "tournament_history[].round_scores[].strokes": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "real strokes for this round"
+      "label": "NOT_COLLECTED",
+      "reason": "real strokes for this round -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].season": {
       "depends_on": [],
@@ -5372,8 +5365,8 @@
     },
     "tournament_history[].sg_components": {
       "depends_on": [],
-      "label": "MEASURED",
-      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below"
+      "label": "NOT_COLLECTED",
+      "reason": "whole object null when sg_ott is not present -- see the 4 leaf fields below -- not present for playerCode=10725 specifically (genuinely absent, not merely undocumented)."
     },
     "tournament_history[].sg_components.app": {
       "depends_on": [],
@@ -5446,18 +5439,25 @@
   "provenance_summary": {
     "rows": [
       {
-        "count": 332,
+        "count": 311,
         "detail": "KLPGA 공식 자료에서 그대로 가져온 값입니다.",
-        "pct": 55.0,
+        "pct": 51.5,
         "short": "공식 기록",
         "tier": "high"
       },
       {
-        "count": 256,
+        "count": 254,
         "detail": "실제 기록을 그대로 계산한 값입니다 (평균·합계 등). 실제 숫자에서 정확히 계산된 값입니다.",
-        "pct": 42.4,
+        "pct": 42.1,
         "short": "실측 기반 계산",
         "tier": "high"
+      },
+      {
+        "count": 23,
+        "detail": "존재할 가능성이 있지만 NEO가 아직 수집하지 못한 항목입니다.",
+        "pct": 3.8,
+        "short": "곧 추가 예정",
+        "tier": "gap"
       },
       {
         "count": 16,
@@ -5471,26 +5471,6 @@
   },
   "recent_form_10": [
     {
-      "game_code": "2026060002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 4.27,
-      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
-    },
-    {
-      "game_code": "2026060003",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 4.1,
-      "tournament": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회"
-    },
-    {
       "game_code": "2026060004",
       "is_top10": false,
       "is_win": false,
@@ -5501,14 +5481,14 @@
       "tournament": "인카금융 더헤븐 마스터즈"
     },
     {
-      "game_code": "2026070002",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 37,
+      "game_code": "2026060002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": 0.58,
-      "tournament": "하이원리조트 여자오픈 2026"
+      "sg_total": 4.27,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
     },
     {
       "game_code": "2026070003",
@@ -5521,14 +5501,24 @@
       "tournament": "제16회 롯데 오픈"
     },
     {
-      "game_code": "2026080002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
+      "game_code": "2026070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 37,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": 3.2,
-      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+      "sg_total": 0.58,
+      "tournament": "하이원리조트 여자오픈 2026"
+    },
+    {
+      "game_code": "2026080004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 66,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": -0.36,
+      "tournament": "제13회 제주삼다수 마스터스"
     },
     {
       "game_code": "2026080003",
@@ -5541,14 +5531,14 @@
       "tournament": "메디힐 · 한국일보 챔피언십"
     },
     {
-      "game_code": "2026080004",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 66,
+      "game_code": "2026080002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": -0.36,
-      "tournament": "제13회 제주삼다수 마스터스"
+      "sg_total": 3.2,
+      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
     },
     {
       "game_code": "2026090003",
@@ -5569,28 +5559,28 @@
       "sg_status": "COLLECTED",
       "sg_total": 0.65,
       "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2026100005",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 4,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": 6.03,
+      "tournament": "제26회 하이트진로 챔피언십"
     }
   ],
   "recent_form_20": [
     {
-      "game_code": "2025100005",
+      "game_code": "2025100002",
       "is_top10": false,
       "is_win": false,
-      "rank": 30,
+      "rank": 52,
       "season": 2025,
       "sg_status": "COLLECTED",
-      "sg_total": 0.83,
-      "tournament": "S-OIL 챔피언십 2025"
-    },
-    {
-      "game_code": "2025100012",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 76,
-      "season": 2025,
-      "sg_status": "COLLECTED",
-      "sg_total": -1.22,
-      "tournament": "K-FOOD 놀부·화미 마스터즈"
+      "sg_total": -1.72,
+      "tournament": "대보 하우스디 챔피언십"
     },
     {
       "game_code": "2026030001",
@@ -5603,26 +5593,6 @@
       "tournament": "리쥬란 챔피언십"
     },
     {
-      "game_code": "2026040001",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 3.91,
-      "tournament": "iM금융오픈 2026"
-    },
-    {
-      "game_code": "2026040002",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 19,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 2.06,
-      "tournament": "제2회 덕신EPC 챔피언십"
-    },
-    {
       "game_code": "2026040003",
       "is_top10": false,
       "is_win": false,
@@ -5633,6 +5603,16 @@
       "tournament": "더 시에나 오픈 2026"
     },
     {
+      "game_code": "2026040001",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": 3.91,
+      "tournament": "iM금융오픈 2026"
+    },
+    {
       "game_code": "2026040004",
       "is_top10": true,
       "is_win": false,
@@ -5641,6 +5621,16 @@
       "sg_status": "COLLECTED",
       "sg_total": 3.4,
       "tournament": "넥센 · 세인트나인 Masters 2026"
+    },
+    {
+      "game_code": "2026040002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 19,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": 2.06,
+      "tournament": "제2회 덕신EPC 챔피언십"
     },
     {
       "game_code": "2026040005",
@@ -5673,16 +5663,6 @@
       "tournament": "제14회 E1 채리티 오픈"
     },
     {
-      "game_code": "2026060002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 4.27,
-      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
-    },
-    {
       "game_code": "2026060003",
       "is_top10": true,
       "is_win": true,
@@ -5703,14 +5683,14 @@
       "tournament": "인카금융 더헤븐 마스터즈"
     },
     {
-      "game_code": "2026070002",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 37,
+      "game_code": "2026060002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": 0.58,
-      "tournament": "하이원리조트 여자오픈 2026"
+      "sg_total": 4.27,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
     },
     {
       "game_code": "2026070003",
@@ -5723,14 +5703,24 @@
       "tournament": "제16회 롯데 오픈"
     },
     {
-      "game_code": "2026080002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
+      "game_code": "2026070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 37,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": 3.2,
-      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+      "sg_total": 0.58,
+      "tournament": "하이원리조트 여자오픈 2026"
+    },
+    {
+      "game_code": "2026080004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 66,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": -0.36,
+      "tournament": "제13회 제주삼다수 마스터스"
     },
     {
       "game_code": "2026080003",
@@ -5743,14 +5733,14 @@
       "tournament": "메디힐 · 한국일보 챔피언십"
     },
     {
-      "game_code": "2026080004",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 66,
+      "game_code": "2026080002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": -0.36,
-      "tournament": "제13회 제주삼다수 마스터스"
+      "sg_total": 3.2,
+      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
     },
     {
       "game_code": "2026090003",
@@ -5771,20 +5761,20 @@
       "sg_status": "COLLECTED",
       "sg_total": 0.65,
       "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2026100005",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 4,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": 6.03,
+      "tournament": "제26회 하이트진로 챔피언십"
     }
   ],
   "recent_form_5": [
     {
-      "game_code": "2026080002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "season": 2026,
-      "sg_status": "COLLECTED",
-      "sg_total": 3.2,
-      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
-    },
-    {
       "game_code": "2026080003",
       "is_top10": true,
       "is_win": true,
@@ -5795,14 +5785,14 @@
       "tournament": "메디힐 · 한국일보 챔피언십"
     },
     {
-      "game_code": "2026080004",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 66,
+      "game_code": "2026080002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "season": 2026,
       "sg_status": "COLLECTED",
-      "sg_total": -0.36,
-      "tournament": "제13회 제주삼다수 마스터스"
+      "sg_total": 3.2,
+      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
     },
     {
       "game_code": "2026090003",
@@ -5823,13 +5813,23 @@
       "sg_status": "COLLECTED",
       "sg_total": 0.65,
       "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2026100005",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 4,
+      "season": 2026,
+      "sg_status": "COLLECTED",
+      "sg_total": 6.03,
+      "tournament": "제26회 하이트진로 챔피언십"
     }
   ],
   "reconciliation": {
     "conflicts_detected": 0,
     "found_in_live": 2,
     "found_in_reader": 0,
-    "found_in_warehouse": 33,
+    "found_in_warehouse": 34,
     "in_progress_excluded_from_finished_totals": 1,
     "merged": 2,
     "missing": 0,
@@ -5838,7 +5838,7 @@
       "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (28) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
     ],
     "status": "RECONCILED_OK",
-    "total_tournaments": 35
+    "total_tournaments": 36
   },
   "round_history": {
     "best_round": {
@@ -5919,31 +5919,27 @@
       },
       "quartiles": [
         {
-          "avg_sg_total": 1.62,
+          "avg_sg_total": 1.42,
           "events": 4,
           "quarter": 1
         },
         {
-          "avg_sg_total": 2.67,
+          "avg_sg_total": 2.95,
           "events": 3,
           "quarter": 2
         },
         {
-          "avg_sg_total": -0.81,
+          "avg_sg_total": -0.64,
           "events": 3,
           "quarter": 3
         },
         {
-          "avg_sg_total": 0.27,
+          "avg_sg_total": 0.15,
           "events": 4,
           "quarter": 4
         }
       ],
-      "recovery_next_event": {
-        "delta_vs_slump": 1.13,
-        "sg_total": -0.59,
-        "tournament": "상상인 · 한경 와우넷 오픈 2025"
-      },
+      "recovery_next_event": null,
       "season": 2025,
       "slump": {
         "sg_total": -1.72,
@@ -5953,7 +5949,7 @@
       "volatility_stddev": 1.69
     },
     {
-      "event_count": 18,
+      "event_count": 19,
       "named_windows": {
         "first": {
           "avg_sg_total": 1.95,
@@ -5964,15 +5960,15 @@
           "wins": 1
         },
         "last": {
-          "avg_sg_total": 1.5,
+          "avg_sg_total": 2.78,
           "events": 5,
           "label": "최근 5개 대회",
           "sg_sample_size": 5,
-          "top10": 2,
+          "top10": 3,
           "wins": 2
         },
         "middle": {
-          "avg_sg_total": 2.12,
+          "avg_sg_total": 2.46,
           "events": 5,
           "label": "중반 5개 대회",
           "sg_sample_size": 5,
@@ -5983,43 +5979,43 @@
         "window_size": 5
       },
       "peak": {
-        "sg_total": 4.27,
-        "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
+        "sg_total": 6.03,
+        "tournament": "제26회 하이트진로 챔피언십"
       },
       "quartiles": [
         {
-          "avg_sg_total": 1.59,
-          "events": 4,
+          "avg_sg_total": 1.95,
+          "events": 5,
           "quarter": 1
         },
         {
-          "avg_sg_total": 2.86,
+          "avg_sg_total": 2.4,
           "events": 5,
           "quarter": 2
         },
         {
-          "avg_sg_total": 2.28,
-          "events": 5,
+          "avg_sg_total": 1.69,
+          "events": 4,
           "quarter": 3
         },
         {
-          "avg_sg_total": 1.07,
-          "events": 4,
+          "avg_sg_total": 2.78,
+          "events": 5,
           "quarter": 4
         }
       ],
       "recovery_next_event": {
-        "delta_vs_slump": 4.18,
-        "sg_total": 3.4,
-        "tournament": "넥센 · 세인트나인 Masters 2026"
+        "delta_vs_slump": 4.69,
+        "sg_total": 3.91,
+        "tournament": "iM금융오픈 2026"
       },
       "season": 2026,
       "slump": {
         "sg_total": -0.78,
         "tournament": "더 시에나 오픈 2026"
       },
-      "top10_rate_pct": 38.9,
-      "volatility_stddev": 1.68
+      "top10_rate_pct": 42.1,
+      "volatility_stddev": 1.86
     }
   ],
   "source_document": "reconcile_10097_player_history.py (7-category reconciliation) + OFFICIAL_SG_NORMALIZED.json + OFFICIAL_PROFILE_NORMALIZED.json + official_sources.zip (2026120001)",
@@ -6027,7 +6023,7 @@
     "data_completeness": "PARTIAL",
     "data_completeness_detail": {
       "confirmed_available": [
-        "SG Total/OTT/APP/ARG/PUTT (2024-2026, 34 finished tournaments)",
+        "SG Total/OTT/APP/ARG/PUTT (2024-2026, 35 finished tournaments)",
         "이벤트/우승/상위10위 (2024-2026)",
         "현재 시즌 상금·평균 스코어·퍼트·GIR·버디율 (2026시즌 스냅샷 1건)"
       ],
@@ -6193,39 +6189,6 @@
       "tournament": "2025 셀트리온 퀸즈 마스터즈"
     },
     {
-      "game_code": "2025060003",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "round_scores": [
-        {
-          "round": 1,
-          "sg_total": 9.31
-        },
-        {
-          "round": 2,
-          "sg_total": 5.81
-        },
-        {
-          "round": 3,
-          "sg_total": -0.6
-        },
-        {
-          "round": 4,
-          "sg_total": 1.62
-        }
-      ],
-      "season": 2025,
-      "sg_components": {
-        "app": 1.79,
-        "arg": -0.11,
-        "ott": 0.6,
-        "putt": 1.76
-      },
-      "sg_total": 4.03,
-      "tournament": "BC카드 · 한경 레이디스컵 2025"
-    },
-    {
       "game_code": "2025080001",
       "is_top10": true,
       "is_win": false,
@@ -6257,6 +6220,39 @@
       },
       "sg_total": 3.21,
       "tournament": "메디힐 · 한국일보 챔피언십"
+    },
+    {
+      "game_code": "2025060003",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 9.31
+        },
+        {
+          "round": 2,
+          "sg_total": 5.81
+        },
+        {
+          "round": 3,
+          "sg_total": -0.6
+        },
+        {
+          "round": 4,
+          "sg_total": 1.62
+        }
+      ],
+      "season": 2025,
+      "sg_components": {
+        "app": 1.79,
+        "arg": -0.11,
+        "ott": 0.6,
+        "putt": 1.76
+      },
+      "sg_total": 4.03,
+      "tournament": "BC카드 · 한경 레이디스컵 2025"
     },
     {
       "game_code": "2025090001",
@@ -6379,33 +6375,29 @@
       "tournament": "제25회 하이트진로 챔피언십"
     },
     {
-      "game_code": "2025100002",
+      "game_code": "2025100012",
       "is_top10": false,
       "is_win": false,
-      "rank": 52,
+      "rank": 76,
       "round_scores": [
         {
           "round": 1,
-          "sg_total": -1.19
+          "sg_total": 2.19
         },
         {
           "round": 2,
-          "sg_total": 1.33
-        },
-        {
-          "round": 3,
-          "sg_total": -5.3
+          "sg_total": -4.63
         }
       ],
       "season": 2025,
       "sg_components": {
-        "app": -2.08,
-        "arg": 0.43,
-        "ott": 0.79,
-        "putt": -0.85
+        "app": -0.48,
+        "arg": 1.43,
+        "ott": 1.72,
+        "putt": -3.88
       },
-      "sg_total": -1.72,
-      "tournament": "대보 하우스디 챔피언십"
+      "sg_total": -1.22,
+      "tournament": "K-FOOD 놀부·화미 마스터즈"
     },
     {
       "game_code": "2025100003",
@@ -6503,29 +6495,33 @@
       "tournament": "S-OIL 챔피언십 2025"
     },
     {
-      "game_code": "2025100012",
+      "game_code": "2025100002",
       "is_top10": false,
       "is_win": false,
-      "rank": 76,
+      "rank": 52,
       "round_scores": [
         {
           "round": 1,
-          "sg_total": 2.19
+          "sg_total": -1.19
         },
         {
           "round": 2,
-          "sg_total": -4.63
+          "sg_total": 1.33
+        },
+        {
+          "round": 3,
+          "sg_total": -5.3
         }
       ],
       "season": 2025,
       "sg_components": {
-        "app": -0.48,
-        "arg": 1.43,
-        "ott": 1.72,
-        "putt": -3.88
+        "app": -2.08,
+        "arg": 0.43,
+        "ott": 0.79,
+        "putt": -0.85
       },
-      "sg_total": -1.22,
-      "tournament": "K-FOOD 놀부·화미 마스터즈"
+      "sg_total": -1.72,
+      "tournament": "대보 하우스디 챔피언십"
     },
     {
       "game_code": "2026030001",
@@ -6561,68 +6557,6 @@
       "tournament": "리쥬란 챔피언십"
     },
     {
-      "game_code": "2026040001",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "round_scores": [
-        {
-          "round": 1,
-          "sg_total": 7.54
-        },
-        {
-          "round": 2,
-          "sg_total": 1.81
-        },
-        {
-          "round": 3,
-          "sg_total": 4.13
-        },
-        {
-          "round": 4,
-          "sg_total": 2.15
-        }
-      ],
-      "season": 2026,
-      "sg_components": {
-        "app": 0.61,
-        "arg": 0.66,
-        "ott": 0.53,
-        "putt": 2.11
-      },
-      "sg_total": 3.91,
-      "tournament": "iM금융오픈 2026"
-    },
-    {
-      "game_code": "2026040002",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 19,
-      "round_scores": [
-        {
-          "round": 1,
-          "sg_total": -0.99
-        },
-        {
-          "round": 2,
-          "sg_total": 3.27
-        },
-        {
-          "round": 3,
-          "sg_total": 3.92
-        }
-      ],
-      "season": 2026,
-      "sg_components": {
-        "app": 1.37,
-        "arg": -0.41,
-        "ott": 0.74,
-        "putt": 0.36
-      },
-      "sg_total": 2.06,
-      "tournament": "제2회 덕신EPC 챔피언십"
-    },
-    {
       "game_code": "2026040003",
       "is_top10": false,
       "is_win": false,
@@ -6656,6 +6590,39 @@
       "tournament": "더 시에나 오픈 2026"
     },
     {
+      "game_code": "2026040001",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": 7.54
+        },
+        {
+          "round": 2,
+          "sg_total": 1.81
+        },
+        {
+          "round": 3,
+          "sg_total": 4.13
+        },
+        {
+          "round": 4,
+          "sg_total": 2.15
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.61,
+        "arg": 0.66,
+        "ott": 0.53,
+        "putt": 2.11
+      },
+      "sg_total": 3.91,
+      "tournament": "iM금융오픈 2026"
+    },
+    {
       "game_code": "2026040004",
       "is_top10": true,
       "is_win": false,
@@ -6683,6 +6650,35 @@
       },
       "sg_total": 3.4,
       "tournament": "넥센 · 세인트나인 Masters 2026"
+    },
+    {
+      "game_code": "2026040002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 19,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.99
+        },
+        {
+          "round": 2,
+          "sg_total": 3.27
+        },
+        {
+          "round": 3,
+          "sg_total": 3.92
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 1.37,
+        "arg": -0.41,
+        "ott": 0.74,
+        "putt": 0.36
+      },
+      "sg_total": 2.06,
+      "tournament": "제2회 덕신EPC 챔피언십"
     },
     {
       "game_code": "2026040005",
@@ -6776,35 +6772,6 @@
       "tournament": "제14회 E1 채리티 오픈"
     },
     {
-      "game_code": "2026060002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
-      "round_scores": [
-        {
-          "round": 1,
-          "sg_total": 6.83
-        },
-        {
-          "round": 2,
-          "sg_total": 2.93
-        },
-        {
-          "round": 3,
-          "sg_total": 3.06
-        }
-      ],
-      "season": 2026,
-      "sg_components": {
-        "app": 0.79,
-        "arg": 1.12,
-        "ott": 0.81,
-        "putt": 1.55
-      },
-      "sg_total": 4.27,
-      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
-    },
-    {
       "game_code": "2026060003",
       "is_top10": true,
       "is_win": true,
@@ -6867,37 +6834,33 @@
       "tournament": "인카금융 더헤븐 마스터즈"
     },
     {
-      "game_code": "2026070002",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 37,
+      "game_code": "2026060002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "round_scores": [
         {
           "round": 1,
-          "sg_total": -0.93
+          "sg_total": 6.83
         },
         {
           "round": 2,
-          "sg_total": 3.68
+          "sg_total": 2.93
         },
         {
           "round": 3,
-          "sg_total": -2.5
-        },
-        {
-          "round": 4,
-          "sg_total": 2.06
+          "sg_total": 3.06
         }
       ],
       "season": 2026,
       "sg_components": {
-        "app": -0.54,
-        "arg": 0.08,
-        "ott": 1.32,
-        "putt": -0.28
+        "app": 0.79,
+        "arg": 1.12,
+        "ott": 0.81,
+        "putt": 1.55
       },
-      "sg_total": 0.58,
-      "tournament": "하이원리조트 여자오픈 2026"
+      "sg_total": 4.27,
+      "tournament": "맥콜 · 모나 용평 오픈 with SBS Golf"
     },
     {
       "game_code": "2026070003",
@@ -6933,37 +6896,70 @@
       "tournament": "제16회 롯데 오픈"
     },
     {
-      "game_code": "2026080002",
-      "is_top10": true,
-      "is_win": true,
-      "rank": 1,
+      "game_code": "2026070002",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 37,
       "round_scores": [
         {
           "round": 1,
-          "sg_total": 5.21
+          "sg_total": -0.93
         },
         {
           "round": 2,
-          "sg_total": 3.7
+          "sg_total": 3.68
         },
         {
           "round": 3,
-          "sg_total": 1.85
+          "sg_total": -2.5
         },
         {
           "round": 4,
-          "sg_total": 2.04
+          "sg_total": 2.06
         }
       ],
       "season": 2026,
       "sg_components": {
-        "app": 1.29,
-        "arg": 0.13,
-        "ott": 1.41,
-        "putt": 0.37
+        "app": -0.54,
+        "arg": 0.08,
+        "ott": 1.32,
+        "putt": -0.28
       },
-      "sg_total": 3.2,
-      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
+      "sg_total": 0.58,
+      "tournament": "하이원리조트 여자오픈 2026"
+    },
+    {
+      "game_code": "2026080004",
+      "is_top10": false,
+      "is_win": false,
+      "rank": 66,
+      "round_scores": [
+        {
+          "round": 1,
+          "sg_total": -0.87
+        },
+        {
+          "round": 2,
+          "sg_total": 1.12
+        },
+        {
+          "round": 3,
+          "sg_total": -1.31
+        },
+        {
+          "round": 4,
+          "sg_total": -0.37
+        }
+      ],
+      "season": 2026,
+      "sg_components": {
+        "app": 0.2,
+        "arg": -0.66,
+        "ott": 1.26,
+        "putt": -1.15
+      },
+      "sg_total": -0.36,
+      "tournament": "제13회 제주삼다수 마스터스"
     },
     {
       "game_code": "2026080003",
@@ -6999,37 +6995,37 @@
       "tournament": "메디힐 · 한국일보 챔피언십"
     },
     {
-      "game_code": "2026080004",
-      "is_top10": false,
-      "is_win": false,
-      "rank": 66,
+      "game_code": "2026080002",
+      "is_top10": true,
+      "is_win": true,
+      "rank": 1,
       "round_scores": [
         {
           "round": 1,
-          "sg_total": -0.87
+          "sg_total": 5.21
         },
         {
           "round": 2,
-          "sg_total": 1.12
+          "sg_total": 3.7
         },
         {
           "round": 3,
-          "sg_total": -1.31
+          "sg_total": 1.85
         },
         {
           "round": 4,
-          "sg_total": -0.37
+          "sg_total": 2.04
         }
       ],
       "season": 2026,
       "sg_components": {
-        "app": 0.2,
-        "arg": -0.66,
-        "ott": 1.26,
-        "putt": -1.15
+        "app": 1.29,
+        "arg": 0.13,
+        "ott": 1.41,
+        "putt": 0.37
       },
-      "sg_total": -0.36,
-      "tournament": "제13회 제주삼다수 마스터스"
+      "sg_total": 3.2,
+      "tournament": "BC카드 · 한경 제48회 KLPGA 챔피언십"
     },
     {
       "game_code": "2026090003",
@@ -7079,18 +7075,34 @@
       },
       "sg_total": 0.65,
       "tournament": "하나금융그룹 챔피언십"
+    },
+    {
+      "game_code": "2026100005",
+      "is_top10": true,
+      "is_win": false,
+      "rank": 4,
+      "round_scores": null,
+      "season": 2026,
+      "sg_components": {
+        "app": 2.06,
+        "arg": 0.13,
+        "ott": 1.66,
+        "putt": 2.18
+      },
+      "sg_total": 6.03,
+      "tournament": "제26회 하이트진로 챔피언십"
     }
   ],
   "why_now": {
     "arrows": [
       {
         "component": "SG OTT",
-        "delta": 0.02,
+        "delta": 0.032,
         "direction": "UP"
       },
       {
         "component": "SG APP",
-        "delta": 0.312,
+        "delta": 0.338,
         "direction": "UP"
       },
       {
@@ -7100,12 +7112,12 @@
       },
       {
         "component": "SG PUTT",
-        "delta": 0.166,
+        "delta": 0.209,
         "direction": "UP"
       }
     ],
     "lead_component": "SG APP",
-    "lead_delta": 0.312,
+    "lead_delta": 0.338,
     "sentence": "최근 상승세는 주로 SG APP의 영향입니다."
   },
   "official_detail_record": {
@@ -7140,7 +7152,7 @@
   },
   "player_dna": {
     "foundation": "SG OTT",
-    "foundation_share_pct": 76.9,
+    "foundation_share_pct": 71.6,
     "most_consistent_component": "SG OTT",
     "most_volatile_component": "SG PUTT",
     "fastest_growing_component": "SG PUTT",

@@ -84,14 +84,34 @@ def build_player_report(player_id: str, player_name: str | None = None) -> dict:
     page_188 = _load_module("page_188_build_player_intelligence_production_page", ROOT / "scripts" / "188_build_player_intelligence_production_page.py")
     page_189 = _load_module("page_189_build_player_data_quality_production_page", ROOT / "scripts" / "189_build_player_data_quality_production_page.py")
 
-    print(f"=== [1/3] reconciling + building PLAYER_HISTORY.json for player_id={player_id} (player_name={player_name!r}) ===")
+    print(f"=== [1/4] reconciling + building PLAYER_HISTORY.json for player_id={player_id} (player_name={player_name!r}) ===")
     history_doc = build_history.main(player_id=player_id, player_name=player_name)
 
-    print(f"=== [2/3] building docs/player/{player_id}/index.html ===")
+    # BUG FIX (2026-10-04): build_history.main() above rebuilds
+    # PLAYER_HISTORY.json from the reconciled warehouses alone, with no
+    # knowledge of klpga.website_v2.official_detail_enrichment's own
+    # official_detail_record/hole_distribution/round_momentum/
+    # player_dna/course_fit_score keys -- confirmed by a real before/
+    # after SHA256 diff that a bare re-run of this script silently
+    # deleted all five from a player already enriched. This step
+    # re-applies that enrichment from this player's own already-
+    # persisted PLAYER_PROFILE_RAW.json (no network, no re-fetch) so
+    # the two pipelines can never drift apart again. No-ops (prints a
+    # skip line, changes nothing) for a player never enriched.
+    from klpga.website_v2.official_detail_enrichment import reapply_cached_official_detail_enrichment
+    print(f"=== [2/4] re-applying cached official-detail enrichment (if any) for player_id={player_id} ===")
+    enriched_doc = reapply_cached_official_detail_enrichment(player_id)
+    if enriched_doc is not None:
+        history_doc = enriched_doc
+        print("re-applied: official_detail_record/hole_distribution/round_momentum/player_dna/course_fit_score restored")
+    else:
+        print("skipped: no PLAYER_PROFILE_RAW.json for this player_id yet")
+
+    print(f"=== [3/4] building docs/player/{player_id}/index.html ===")
     intelligence_result = page_188.build_one(player_id)
     print(f"wrote {intelligence_result['path']}")
 
-    print(f"=== [3/3] building docs/player/{player_id}/data-quality/index.html ===")
+    print(f"=== [4/4] building docs/player/{player_id}/data-quality/index.html ===")
     data_quality_result = page_189.build_one(player_id)
     print(f"wrote {data_quality_result['path']}")
 

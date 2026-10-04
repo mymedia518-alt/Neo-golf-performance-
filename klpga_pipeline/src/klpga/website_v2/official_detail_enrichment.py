@@ -147,7 +147,10 @@ def compute_hole_distribution(scorecards: dict) -> dict:
             holes = round_data.get("holes") or []
             if not holes:
                 continue
-            source_rounds.append((game_code, round_number))
+            # Same int-normalization fix as compute_round_momentum
+            # above (round_number can arrive as a string after a
+            # PLAYER_PROFILE_RAW.json round-trip).
+            source_rounds.append((game_code, int(round_number)))
             for hole in holes:
                 cls = hole.get("class")
                 if cls in counts:
@@ -170,11 +173,25 @@ def compute_round_momentum(scorecards: dict) -> dict:
     specific set of rounds). Returns {"rounds": [{"game_code": str,
     "round": int, "total_strokes": float_or_None, "out_strokes":
     float_or_None, "in_strokes": float_or_None}, ...]}."""
+    # BUG FIX (2026-10-04): JSON object keys are always strings -- a
+    # round-trip through write_player_profile_raw()/
+    # load_player_profile_raw() (PLAYER_PROFILE_RAW.json) turns
+    # parse_score_detail_html()'s real int round-number keys into
+    # strings ("1" instead of 1), which broke a later int comparison
+    # in _round_momentum_v2_html (confirmed via a real TypeError on
+    # the one real player with real collected rounds in this module's
+    # own PLAYER_PROFILE_RAW.json evidence, the first time this
+    # function ran against reloaded-from-disk data
+    # rather than a freshly-parsed scorecard). Normalized to int here,
+    # once, so every caller downstream (including a later JSON
+    # round-trip) sees a real int, and so sorting by round number is
+    # numeric, not lexicographic (string-sorting "10" before "2").
     rounds_out = []
     for game_code, rounds in scorecards.items():
         if not isinstance(rounds, dict) or "error" in rounds:
             continue
-        for round_number, round_data in sorted(rounds.items()):
+        normalized_rounds = {int(round_number): round_data for round_number, round_data in rounds.items()}
+        for round_number, round_data in sorted(normalized_rounds.items()):
             rounds_out.append({
                 "game_code": game_code, "round": round_number,
                 "total_strokes": round_data.get("total_strokes"),
@@ -200,6 +217,15 @@ def write_player_profile_raw(
     }
     path.write_text(json.dumps(doc, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
+
+
+def load_player_profile_raw(player_id: str, *, content_root: Optional[Path] = None) -> Optional[dict]:
+    """Real doc in, or None if this player has no persisted
+    PLAYER_PROFILE_RAW.json yet -- never a fabricated empty doc."""
+    path = player_profile_raw_path(player_id, content_root=content_root)
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def derive_player_dna(player_history_doc: dict) -> dict:
@@ -310,6 +336,41 @@ def run_official_detail_enrichment(
     write_player_profile_raw(player_id, player_name, season_detail, scorecards, content_root=content_root)
 
     enriched = enrich_player_history_doc(history_doc, season_detail, scorecards)
+    path = player_history_path(player_id)
+    path.write_text(json.dumps(enriched, ensure_ascii=False, indent=2), encoding="utf-8")
+    return enriched
+
+
+def reapply_cached_official_detail_enrichment(player_id: str, *, content_root: Optional[Path] = None) -> Optional[dict]:
+    """BUG FIX (2026-10-04): scripts/build_10097_player_history.py's
+    build() -- called by every scripts/build_player_report.py run --
+    rebuilds PLAYER_HISTORY.json from the reconciled warehouses alone,
+    with no knowledge of this module's enrichment. A rebuild after
+    run_official_detail_enrichment() had already run therefore silently
+    DELETED official_detail_record/hole_distribution/round_momentum/
+    player_dna/course_fit_score from the file on disk -- confirmed via
+    a real before/after SHA256 diff (PLAYER_HISTORY.json for
+    a real reference player: 1711 lines changed, every V2 key gone) the first
+    time scripts/build_player_report.py was re-run after a real
+    enrichment pass.
+
+    This function is the real, no-network fix: it re-reads this
+    player's own already-persisted PLAYER_PROFILE_RAW.json (the raw
+    evidence layer -- no new fetch, no network needed) and re-applies
+    enrich_player_history_doc() to whatever PLAYER_HISTORY.json the
+    reconciliation build just wrote, so the two steps can never drift
+    apart again. Returns None (and changes nothing) when this player
+    has no PLAYER_PROFILE_RAW.json yet -- a player never enriched stays
+    exactly as before, never a fabricated/placeholder enrichment."""
+    from klpga.website_v2.player_provider import load_player_history, player_history_path
+
+    raw = load_player_profile_raw(player_id, content_root=content_root)
+    if raw is None:
+        return None
+    history_doc = load_player_history(player_id)
+    if history_doc is None:
+        return None
+    enriched = enrich_player_history_doc(history_doc, raw["season_detail"], raw["scorecards"])
     path = player_history_path(player_id)
     path.write_text(json.dumps(enriched, ensure_ascii=False, indent=2), encoding="utf-8")
     return enriched

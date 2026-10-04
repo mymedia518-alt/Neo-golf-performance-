@@ -2,7 +2,7 @@
   "conflicts_detected": 0,
   "found_in_live": 1,
   "found_in_reader": 0,
-  "found_in_warehouse": 49,
+  "found_in_warehouse": 50,
   "in_progress_excluded_from_finished_totals": 0,
   "merged": 1,
   "missing": 0,
@@ -11,5 +11,5 @@
     "2026090002 (Hana): Supplemental FINAL_TRUTH final_rank (15) and rounds_completed (4) merged with Live Snapshot per-round SG -- no conflict, complementary facts."
   ],
   "status": "RECONCILED_OK",
-  "total_tournaments": 50
+  "total_tournaments": 51
 }
