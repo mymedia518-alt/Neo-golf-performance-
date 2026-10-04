@@ -1,0 +1,103 @@
+name: "Collect KLPGA Shot Tracker -- full field via group endpoint (on-demand, one-off)"
+
+# Manually dispatched only. Runs for real against klpga.co.kr:
+#   1) discover_groups.py  -- probes real groupNo values per round
+#   2) discover_players.py -- real player field + rounds played
+#   3) collect_full_field.py -- group-endpoint collection for every
+#      discovered group/round/hole, normalized into one sqlite db
+#   4) validate.py -- integrity checks on the resulting table
+# Full-field expansion was explicitly gated on
+# verify-shot-tracker-before-expansion-oneoff.yml reporting
+# OVERALL_PASS=true first (confirmed before this workflow was added).
+# Publishes the final report + sqlite db to a dedicated orphan branch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      rounds:
+        description: "Rounds to collect"
+        default: "1,2,3,4"
+      max_group_no:
+        description: "Upper bound to probe for real group numbers"
+        default: "45"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Discover real groups per round
+        run: |
+          python discover_groups.py --game "${{ inputs.game_code }}" --rounds "${{ inputs.rounds }}" \
+            --max-group-no "${{ inputs.max_group_no }}" --cookie "${{ inputs.cookie }}" --out groups.json
+
+      - name: Discover real player field
+        run: |
+          python discover_players.py --game "${{ inputs.game_code }}" --rounds "${{ inputs.rounds }}" \
+            --cookie "${{ inputs.cookie }}" --out players.json
+
+      - name: Collect full field via group endpoint (real network)
+        run: |
+          python collect_full_field.py --game "${{ inputs.game_code }}" \
+            --groups groups.json --players players.json --rounds "${{ inputs.rounds }}" \
+            --root "./NEO_DATA_ROOT_LOCAL" --cookie "${{ inputs.cookie }}" --report-out report.json
+
+      - name: Validate normalized table
+        run: |
+          python validate.py "./NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" --game "${{ inputs.game_code }}" \
+            | tee validate_result.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Full-field Shot Tracker collection -- game_code=${{ inputs.game_code }}"
+            echo "### collection report"
+            [ -f report.json ] && { echo '```json'; cat report.json; echo '```'; }
+            echo "### validate.py"
+            [ -f validate_result.json ] && { echo '```'; cat validate_result.json; echo '```'; }
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish db + reports to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-full-field-bot"
+          git config --global user.email "neo-shot-tracker-full-field-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-shot-tracker-full-field"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          for f in groups.json players.json report.json validate_result.json; do
+            [ -f "$SRC/$f" ] && cp "$SRC/$f" "$PUBLISH_DIR/__out/"
+          done
+          [ -f "$SRC/NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" ] && cp "$SRC/NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" "$PUBLISH_DIR/__out/"
+          [ -d "$SRC/NEO_DATA_ROOT_LOCAL/logs" ] && cp -r "$SRC/NEO_DATA_ROOT_LOCAL/logs" "$PUBLISH_DIR/__out/"
+          # The immutable RAW archive itself must be retained durably, not
+          # just the normalized table derived from it -- this runner's
+          # workspace is destroyed at job end otherwise.
+          [ -d "$SRC/NEO_DATA_ROOT_LOCAL/raw" ] && cp -r "$SRC/NEO_DATA_ROOT_LOCAL/raw" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Full-field Shot Tracker collection (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
