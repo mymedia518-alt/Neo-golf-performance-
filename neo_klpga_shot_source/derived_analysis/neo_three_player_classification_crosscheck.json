@@ -1,0 +1,36 @@
+{
+  "per_player": {
+    "9115": {
+      "DEFEND": 0,
+      "CONTROL": 0,
+      "ATTACK": -4,
+      "computed_total": -4,
+      "official": -4,
+      "MATCH": true
+    },
+    "9708": {
+      "DEFEND": 0,
+      "CONTROL": 6,
+      "ATTACK": 3,
+      "computed_total": 9,
+      "official": 9,
+      "MATCH": true
+    },
+    "9111": {
+      "DEFEND": 10,
+      "CONTROL": 14,
+      "ATTACK": 2,
+      "computed_total": 26,
+      "official": 26,
+      "MATCH": true
+    }
+  },
+  "ALL_MATCH": true,
+  "top_vs_bottom_gap_decomposition": {
+    "gap_total_official": 30,
+    "gap_total_computed": 30,
+    "gap_DEFEND": 10,
+    "gap_CONTROL": 14,
+    "gap_ATTACK": 6
+  }
+}

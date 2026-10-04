@@ -76,6 +76,61 @@ All three players scored **par-or-better on all 12 played instances** (0 bogey-o
 
 **STEP 3 finding: the course-wide ATTACK/DEFEND classification holds up at the individual-player level, not just in aggregate** — Hole 8 produced real bogey-or-worse outcomes concentrated in the lower-ranked player, while Hole 7 was uniformly safe for all three regardless of skill tier.
 
+## STEP 4 — Full 18-hole DEFEND/CONTROL/ATTACK classification verification
+
+Extends (does not replace) the Hole 7/8 case study above. Classification
+as given:
+
+- DEFEND: 6, 8, 10, 12
+- CONTROL: 1, 3, 5, 9, 11, 13, 15, 17
+- ATTACK: 2, 4, 7, 14, 16, 18
+
+All figures below come from `neo_three_player_raw_reconstruction.csv`
+(itself independently re-derived from RAW with 0 mismatches in Step 2)
+— no new RAW fetch, no derived-CSV edits, no estimation.
+
+### Per-classification totals (4 rounds summed, n holes shown)
+
+| Player | Class | Σscore_to_par | Birdie+ | Par | Bogey | Dbl+ | FW Hit | FW Miss | GIR | FW Miss→GIR | GIR Miss→Par Save |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 유해란 | DEFEND (4H) | **0** | 4 | 9 | 2 | 1 | 11 | 5 | 9 | 0/5 | 4/7 |
+| 유해란 | CONTROL (8H) | **0** | 4 | 24 | 4 | 0 | 16 | 8 | 22 | 4/8 | 7/10 |
+| 유해란 | ATTACK (6H) | **−4** | 7 | 14 | 3 | 0 | 9 | 7 | 22 | 5/7 | 2/2 |
+| 이재윤 | DEFEND (4H) | **0** | 1 | 14 | 1 | 0 | 11 | 5 | 10 | 2/5 | 6/6 |
+| 이재윤 | CONTROL (8H) | **+6** | 1 | 24 | 7 | 0 | 10 | 14 | 16 | 6/14 | 10/16 |
+| 이재윤 | ATTACK (6H) | **+3** | 2 | 17 | 5 | 0 | 11 | 5 | 17 | 4/5 | 3/7 |
+| 박서현 | DEFEND (4H) | **+10** | 0 | 9 | 5 | 2 | 5 | 11 | 6 | 3/11 | 4/10 |
+| 박서현 | CONTROL (8H) | **+14** | 1 | 19 | 9 | 3 | 17 | 7 | 20 | 5/7 | 5/12 |
+| 박서현 | ATTACK (6H) | **+2** | 3 | 16 | 5 | 0 | 9 | 7 | 16 | 3/7 | 4/8 |
+
+### Mandatory cross-check: classification sum == official total_under_par
+
+| Player | DEFEND | CONTROL | ATTACK | Computed total | Official | Match |
+|---|---|---|---|---|---|---|
+| 유해란 | +0 | +0 | −4 | **−4** | −4 | ✅ |
+| 이재윤 | +0 | +6 | +3 | **+9** | +9 | ✅ |
+| 박서현 | +10 | +14 | +2 | **+26** | +26 | ✅ |
+
+**모든 선수 PASS — 추정이나 보정 없이 분류 합계가 공식 성적과 정확히 일치.**
+
+### 요구 1/2/3 — 분류별 타수 손익
+
+1. **DEFEND 4홀에서 잃은 타수:** 유해란 0 / 이재윤 0 / 박서현 **+10**
+2. **CONTROL 8홀에서 잃거나 번 타수:** 유해란 0 / 이재윤 +6 / 박서현 **+14**
+3. **ATTACK 6홀에서 번 타수:** 유해란 **−4** / 이재윤 +3 / 박서현 +2
+
+### 유해란 vs 박서현 30타 격차 분해
+
+```
+전체 격차 = +26 − (−4) = +30타
+         = DEFEND 격차(+10) + CONTROL 격차(+14) + ATTACK 격차(+6)
+         = +30타  ✓ 정확히 일치
+```
+
+**솔직한 실제 발견 (가설과 다른 부분을 그대로 보고):** 가장 큰 격차 원인은 DEFEND(미스 페널티가 가장 큰 홀들)가 아니라 **CONTROL 8홀(+14타, 전체 격차의 47%)**이다. DEFEND는 홀당 미스 페널티가 가장 크지만 홀 수가 4개뿐이라, 홀 수가 2배(8개)인 CONTROL에서의 누적 손실이 더 크게 작용했다. ATTACK에서도 유해란은 −4타를 벌었지만 박서현은 오히려 +2타를 잃어, 공격 기회를 살리는 능력 자체도 6타(격차의 20%)만큼 갈랐다. DEFEND는 +10타(33%)로 세 분류 중 가장 작은 비중이다 — "DEFEND 홀이 스코어를 가장 많이 가른다"는 단순 서사는 이 세 선수 비교에서는 성립하지 않으며, 실제 데이터를 그대로 보고한다.
+
+유해란은 DEFEND·CONTROL 양쪌에서 정확히 0(파당 정확히 보전), −4타 전부를 ATTACK 6홀에서만 벌었다 — 우승자의 실제 강점이 "위기관리"가 아니라 "공격 기회 전환"에 있었음을 보여주는 구체적 증거.
+
 ## Overall verification verdict
 
 Derived metrics **PASS** both the row-level RAW cross-check (Step 2, 0 mismatches) and the real-outcome cross-check (Step 1's score_to_par sum == official total_under_par). The tournament-wide hole classification (Step 3) is corroborated by concrete, individual real shot sequences, not just statistics. No evidence found that the derived layer misrepresents any of these 3 players' actual rounds.
