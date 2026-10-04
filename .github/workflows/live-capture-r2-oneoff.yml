@@ -22,6 +22,10 @@ on:
         description: "Optional: application/x-www-form-urlencoded body. When set, the raw-bytes fetch step below sends a POST with this body instead of a GET (needed for KLPGA's own /load/... AJAX endpoints, which are POST-only). Never changes the two Playwright screenshot steps, which always GET the URL as a browser would."
         required: false
         default: ""
+      scroll_to_ids:
+        description: "Optional comma-separated element ids. When set, each Desktop/Mobile Playwright capture ALSO scrolls to every id (if present in the DOM) and takes one extra viewport screenshot per id (desktop_<id>.png / mobile_<id>.png), plus writes live_capture/visibility_report.json: per id, whether it exists in the DOM, its computed display/visibility/offsetHeight, and its nearest ancestor <details> open state -- so a missing element on screen can be told apart as DOM-absent vs CSS-hidden vs a collapsed <details>. Default empty = no change to existing behavior."
+        required: false
+        default: ""
 
 permissions:
   contents: write
@@ -94,15 +98,18 @@ jobs:
       - name: Capture real browser window incl. address bar (Desktop)
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
+          SCROLL_TO_IDS: ${{ github.event.inputs.scroll_to_ids }}
         run: |
           mkdir -p live_capture
           xvfb-run -a --server-args="-screen 0 1440x960x24" python - <<'PY'
+          import json
           import os
           import subprocess
           import time
           from playwright.sync_api import sync_playwright
 
           url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          ids = [s.strip() for s in (os.environ.get("SCROLL_TO_IDS") or "").split(",") if s.strip()]
 
           with sync_playwright() as p:
               browser = p.chromium.launch(
@@ -114,12 +121,45 @@ jobs:
               page.goto(url, wait_until="networkidle", timeout=30000)
               time.sleep(1.5)
               subprocess.run(["scrot", "-o", "live_capture/desktop_with_addressbar.png"], check=True)
+
+              report = {}
+              for eid in ids:
+                  info = page.evaluate(
+                      """(id) => {
+                          const el = document.getElementById(id);
+                          if (!el) return {exists: false};
+                          const cs = getComputedStyle(el);
+                          const details = el.closest('details');
+                          return {
+                              exists: true,
+                              display: cs.display,
+                              visibility: cs.visibility,
+                              offsetHeight: el.offsetHeight,
+                              offsetWidth: el.offsetWidth,
+                              nearestDetailsOpen: details ? details.open : null,
+                              nearestDetailsId: details ? details.id : null,
+                          };
+                      }""",
+                      eid,
+                  )
+                  report[eid] = info
+                  if info.get("exists"):
+                      try:
+                          page.locator(f"#{eid}").scroll_into_view_if_needed(timeout=5000)
+                          time.sleep(0.6)
+                      except Exception as exc:
+                          info["scroll_error"] = str(exc)
+                      subprocess.run(["scrot", "-o", f"live_capture/desktop_{eid}.png"], check=True)
+              with open("live_capture/visibility_report.json", "w", encoding="utf-8") as f:
+                  json.dump(report, f, ensure_ascii=False, indent=2)
+              print(json.dumps(report, ensure_ascii=False, indent=2))
               browser.close()
           PY
 
       - name: Capture real browser window incl. address bar (Mobile-width)
         env:
           CAPTURE_URL: ${{ github.event.inputs.url }}
+          SCROLL_TO_IDS: ${{ github.event.inputs.scroll_to_ids }}
         run: |
           mkdir -p live_capture
           xvfb-run -a --server-args="-screen 0 430x950x24" python - <<'PY'
@@ -129,6 +169,7 @@ jobs:
           from playwright.sync_api import sync_playwright
 
           url = os.environ.get("CAPTURE_URL") or "https://neogolfdata.com/tournaments/2026/2026100005/r2/"
+          ids = [s.strip() for s in (os.environ.get("SCROLL_TO_IDS") or "").split(",") if s.strip()]
           mobile_ua = (
               "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) "
               "AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 "
@@ -145,6 +186,16 @@ jobs:
               page.goto(url, wait_until="networkidle", timeout=30000)
               time.sleep(1.5)
               subprocess.run(["scrot", "-o", "live_capture/mobile_with_addressbar.png"], check=True)
+
+              for eid in ids:
+                  exists = page.evaluate("(id) => !!document.getElementById(id)", eid)
+                  if exists:
+                      try:
+                          page.locator(f"#{eid}").scroll_into_view_if_needed(timeout=5000)
+                          time.sleep(0.6)
+                      except Exception:
+                          pass
+                      subprocess.run(["scrot", "-o", f"live_capture/mobile_{eid}.png"], check=True)
               browser.close()
           PY
 
