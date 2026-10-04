@@ -1,0 +1,85 @@
+name: "Verify Blue Heron course identity via headless browser (on-demand, one-off)"
+
+# Manually dispatched only. The plain-urllib fetch of blueheron.co.kr
+# reached the real site (HTTP 200) but only got a client-rendered JS
+# shell -- no hole-by-hole content in the static HTML. This drives a
+# real headless Chromium so the site's own JS executes, and records
+# every real network request it makes (XHR/fetch, JS bundles, image
+# assets, course/hole API calls) so the real West Hole 3
+# geometry/imagery can be found and compared against KLPGA's
+# hole_12.png. Independent of, and does not assume, coordinate
+# registration.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright --quiet
+          python -m playwright install --with-deps chromium
+
+      - name: Run headless-browser course-identity trace (real network)
+        run: |
+          python verify_course_identity_playwright.py --out-dir course_identity_check_playwright
+
+      - name: Report what was actually captured
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron course identity -- headless browser network trace"
+            if [ -f course_identity_check_playwright/playwright_course_identity_results.json ]; then
+              python - <<'PY'
+          import json
+          data = json.load(open("course_identity_check_playwright/playwright_course_identity_results.json"))
+          for r in data:
+              print(f"### {r.get('url')}")
+              print(f"status={r.get('status')} rendered_bytes={r.get('rendered_bytes')} total_requests={r.get('total_requests_observed')}")
+              print(f"keyword_hits_in_rendered_dom={r.get('keyword_hits_in_rendered_dom')}")
+              print(f"image_assets_in_rendered_dom={r.get('image_assets_in_rendered_dom')}")
+              print(f"script_requests={r.get('script_requests')}")
+              print(f"image_requests={r.get('image_requests')}")
+              if r.get('error'):
+                  print(f"error={r.get('error')}")
+              print()
+          PY
+            else
+              echo "No results file produced."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/course-identity-check-playwright"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/course_identity_check_playwright"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron course identity headless-browser trace" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
