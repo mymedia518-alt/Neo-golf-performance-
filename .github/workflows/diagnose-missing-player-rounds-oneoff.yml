@@ -1,0 +1,69 @@
+name: "Diagnose missing player-rounds from full-field collection (on-demand, one-off)"
+
+# Manually dispatched only. The full-field group-based collection
+# flagged 6 (player, round) pairs with zero shots covered. This
+# checks each directly via the per-player getShotTracker endpoint
+# (already-proven fallback) to determine whether real shot data
+# exists there (meaning group discovery missed a real group -- a bug)
+# or is genuinely empty everywhere (a real site-side data gap).
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100005"
+      pairs:
+        description: "semicolon-separated player:round pairs"
+        default: "8240:2;10112:2;11076:2;11978:2;8246:2;9401:1"
+      cookie:
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Diagnose each missing player-round (real network)
+        run: |
+          python diagnose_missing.py --game "${{ inputs.game_code }}" --pairs "${{ inputs.pairs }}" \
+            --cookie "${{ inputs.cookie }}" --out diagnose_result.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## Missing player-round diagnosis -- game_code=${{ inputs.game_code }}"
+            [ -f diagnose_result.json ] && { echo '```json'; cat diagnose_result.json; echo '```'; }
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish result to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-diagnose-bot"
+          git config --global user.email "neo-shot-tracker-diagnose-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-diagnose-missing"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/diagnose_result.json"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -f "$SRC" ] && cp "$SRC" "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Missing player-round diagnosis (game=${{ inputs.game_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
