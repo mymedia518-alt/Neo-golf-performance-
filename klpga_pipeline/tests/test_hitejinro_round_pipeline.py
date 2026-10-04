@@ -91,6 +91,15 @@ def test_parse_leaderboard_reproduces_the_real_r1_facts(tmp_path, monkeypatch):
 def test_parse_sg_is_a_verified_bijection_against_completed_r1_players(tmp_path, monkeypatch):
     tmp_leaderboard = tmp_path / "LEADERBOARD.json"
     monkeypatch.setattr(_rp, "LEADERBOARD_PATH", tmp_leaderboard)
+    # sg_output_path(1) == CONTENT / "HITEJINRO_..._R1_SG_V1.json" -- the
+    # REAL production SG file (operational-data protection rule, 2026-10-02:
+    # the global write guard in conftest.py caught this one too, after the
+    # similar LEADERBOARD_PATH issue above was fixed on its own). CONTENT is
+    # read fresh by sg_output_path() on every call, so redirecting it here
+    # doesn't disturb ENTRY_PATH/EVIDENCE_DIR/etc, which were already bound
+    # to the real CONTENT at import time and still correctly read the real
+    # R1 raw evidence this test exercises.
+    monkeypatch.setattr(_rp, "CONTENT", tmp_path)
     parse_leaderboard(1)  # SG join depends on LEADERBOARD.json already existing
     out_path = parse_sg(1)
     assert out_path == sg_output_path(1)
