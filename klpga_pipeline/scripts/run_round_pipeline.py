@@ -258,8 +258,25 @@ def commit_and_push(game_code: str, stage: str, stage_key: str | None) -> dict:
     message = f"HITE JINRO {stage}: official data pipeline run via run_round_pipeline.py"
     _git("commit", "-m", message)
     commit_hash = _git("rev-parse", "--short", "HEAD").strip()
+
+    # Sitemap regeneration (2026-10-04 SEO mission, generalized -- never
+    # tournament-specific): run AFTER the content commit above lands, so
+    # build_sitemap.py's own git-log-based lastmod picks up this run's
+    # real new commit instead of a stale prior one. A separate, tiny
+    # follow-up commit, never squashed into the content commit.
+    _run_script("build_sitemap.py")
+    _git("add", "--", "docs/sitemap.xml")
+    sitemap_staged = _git("diff", "--cached", "--name-only").strip()
+    sitemap_commit_hash = None
+    if sitemap_staged:
+        _git("commit", "-m", f"Regenerate sitemap.xml after HITE JINRO {stage}")
+        sitemap_commit_hash = _git("rev-parse", "--short", "HEAD").strip()
+
     _git("push", "-u", "origin", "neo-website-v2")
-    return {"committed": True, "commit": commit_hash, "staged_files": staged.splitlines()}
+    return {
+        "committed": True, "commit": commit_hash, "staged_files": staged.splitlines(),
+        "sitemap_commit": sitemap_commit_hash,
+    }
 
 
 def main() -> None:

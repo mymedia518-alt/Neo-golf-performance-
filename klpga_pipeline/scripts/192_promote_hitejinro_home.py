@@ -76,16 +76,32 @@ def _stage_main_html() -> str:
     return "<main>" + html.split("<main>", 1)[1].rsplit("</main>", 1)[0] + "</main>"
 
 
+def _stage_description() -> str | None:
+    """Real <meta name="description"> already written onto the stage
+    page HOME is mirroring (scripts/190/196-199's own SEO metadata) --
+    reused verbatim, never a second, independently-worded copy. None
+    if the stage page predates that field (never fabricates one)."""
+    if not STAGE_PAGE.is_file():
+        return None
+    html = STAGE_PAGE.read_text(encoding="utf-8")
+    import re
+    m = re.search(r'<meta name="description" content="([^"]*)"', html)
+    return m.group(1) if m else None
+
+
 def build() -> None:
     current_stage_href = CURRENT_STAGE_HREF
     main_html = _stage_main_html()
+    description = _stage_description() or "KLPGA 공식 데이터 기반 골프 분석"
 
     head = (
         f'<head><meta charset="utf-8">'
         f'<meta name="viewport" content="width=device-width,initial-scale=1">'
         f'<title>NEO GOLF DATA · {TOURNAMENT_NAME}</title>'
+        f'<meta name="description" content="{description}">'
+        f'<link rel="canonical" href="https://neogolfdata.com/">'
         f'<meta property="og:title" content="NEO GOLF DATA">'
-        f'<meta property="og:description" content="KLPGA 공식 데이터 기반 골프 분석">'
+        f'<meta property="og:description" content="{description}">'
         f'<meta property="og:url" content="https://neogolfdata.com/">'
         f'<meta property="og:type" content="website">'
         f'<meta name="twitter:card" content="summary_large_image">'

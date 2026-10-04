@@ -32,6 +32,7 @@ module's own docstring) -- never renders an empty or fabricated table.
 from __future__ import annotations
 
 import json
+from datetime import datetime, timedelta, timezone
 from html import escape as _esc
 from pathlib import Path
 
@@ -50,8 +51,50 @@ GAME_CODE = "2026100005"
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 _REPO_ROOT = Path(__file__).resolve().parents[4]
 _FLAG_ASSETS = {p.stem for p in (_REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
+_SITE_ORIGIN = "https://neogolfdata.com"
+_KST = timezone(timedelta(hours=9))
 
 STAGE_LABELS = {1: ("r1", "R1"), 2: ("r2", "R2"), 3: ("r3", "R3"), 4: ("fr", "FR")}
+
+
+def _round_seo_description(round_number: int, stage_label: str, tournament_name: str, leader: dict | None) -> str:
+    """One real, grounded sentence for <meta name="description"> --
+    never a generic template with no page-specific fact. leader is
+    played[0] (the real current #1 after every real exclusion/section
+    filter render_round_page's own caller already applied), or None
+    if the field is somehow empty. round_number==4 (FR) names the real
+    winner; every other round names the real current leader -- never
+    "다양한 선수"/a placeholder."""
+    if leader is None:
+        return f"{tournament_name} {stage_label} 공식 결과 · NEO GOLF DATA 실시간 분석"
+    fact = (
+        f"우승 {leader['player_name']} {format_to_par(leader['score_to_par'])}"
+        if round_number == 4
+        else f"선두 {leader['player_name']} {format_to_par(leader['score_to_par'])}"
+    )
+    return f"{tournament_name} {stage_label} 공식 결과 · {fact} · NEO GOLF DATA 실시간 분석"
+
+
+def _page_provenance_html(*, data_as_of: str | None, forecast_source_round: int | None, round_number: int) -> str:
+    """'데이터 기준 / 예측 기준 / 페이지 업데이트' -- three real, distinct
+    timestamps the operator explicitly asked never to conflate:
+    data_as_of is LEADERBOARD.json's own real as_of date (when this
+    round's official leaderboard was last parsed); forecast_source_round
+    names which round's own already-persisted forecast file supplies
+    this page's TOP20/TOP10/TOP5/우승확률 columns (round 1 reads the
+    frozen PRE model, never "R1 종료" -- there is no real R1-only
+    forecast, see write_post_r1_forecast's own docstring); 페이지
+    업데이트 is this exact render's own real wall-clock time (KST) --
+    never backdated, never reused from a prior render."""
+    data_part = f"데이터 기준 {_esc(data_as_of)}" if data_as_of else "데이터 기준 미확인"
+    if forecast_source_round is None:
+        forecast_part = "예측 기준 미확인"
+    elif forecast_source_round == 1 and round_number == 1:
+        forecast_part = "예측 기준 사전(PRE) 모델"
+    else:
+        forecast_part = f"예측 기준 {forecast_source_round}R 종료 데이터"
+    updated_part = f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST"
+    return f"<p class='meta provenance'>{data_part} · {forecast_part} · {updated_part}</p>"
 
 # The real status enum hitejinro_round_pipeline.parse_leaderboard() writes
 # (2026-10-02 status-model mission) -- every display decision below reads
@@ -600,7 +643,14 @@ def render_round_page(
     # the REAL current publication state, however many stages have been
     # published since this exact page was last (re)built.
     stage_nav_items = []
-    for key, label in [("pre", "사전 분석 PRE")] + [STAGE_LABELS[n] for n in (1, 2, 3, 4)]:
+    # "최종 검증" (2026-10-04 SEO discoverability mission): a separate,
+    # distinct public page (build_hitejinro_round_pipeline.
+    # build_post_verification_page) carrying the NEO 검증/SG 분석/코스
+    # 분석 sections this tournament's own FR page deliberately keeps
+    # internal-only. Same real "file already exists on disk" check
+    # every other stage-nav entry already uses -- disabled until that
+    # page is actually built, never a dead link.
+    for key, label in [("pre", "사전 분석 PRE")] + [STAGE_LABELS[n] for n in (1, 2, 3, 4)] + [("verification", "최종 검증")]:
         display_label = "사전 분석 PRE" if key == "pre" else label
         href = f"/tournaments/2026/{GAME_CODE}/{key}/"
         if key == stage_key:
@@ -610,10 +660,22 @@ def render_round_page(
         else:
             stage_nav_items.append(f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>{display_label}</span></li>")
 
+    seo_description = _round_seo_description(round_number, stage_label, tournament_name, played[0] if played else None)
+    canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/{stage_key}/"
+    provenance_html = _page_provenance_html(
+        data_as_of=board.get("as_of"), forecast_source_round=forecast_doc.get("source_round"), round_number=round_number,
+    )
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        f'<title>NEO GOLF DATA · {_esc(tournament_name)} {stage_label}</title>'
+        f'<title>NEO GOLF DATA · {_esc(tournament_name)} {stage_label} 결과</title>'
+        f'<meta name="description" content="{_esc(seo_description)}">'
+        f'<link rel="canonical" href="{canonical_url}">'
+        f'<meta property="og:title" content="NEO GOLF DATA · {_esc(tournament_name)} {stage_label}">'
+        f'<meta property="og:description" content="{_esc(seo_description)}">'
+        f'<meta property="og:url" content="{canonical_url}">'
+        '<meta property="og:type" content="website">'
+        '<meta name="twitter:card" content="summary_large_image">'
         '<link rel="stylesheet" href="/assets/neo-site.css">'
         '<link rel="stylesheet" href="../../../../assets/neo.css"></head><body>'
         '<header class="neo-global-header" data-neo-global-navigation>'
@@ -635,6 +697,7 @@ def render_round_page(
         f'<span aria-current="page">{stage_label}</span></nav>'
         f'<section class="hero" id="tournament"><div><p class="eyebrow">{stage_label} 업데이트</p>'
         f'<h1>{_esc(tournament_name)}</h1><p class="meta">{_esc(date_range)}</p>'
+        f'{provenance_html}'
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"

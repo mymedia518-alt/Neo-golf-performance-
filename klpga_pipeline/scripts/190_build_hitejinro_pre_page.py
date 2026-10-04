@@ -128,9 +128,12 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from html import escape as _esc
 from pathlib import Path
+
+_SITE_ORIGIN = "https://neogolfdata.com"
+_KST = timezone(timedelta(hours=9))
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
@@ -258,10 +261,24 @@ def main() -> None:
     previous = resolve_previous_tournament_link()
     previous_meta_html = previous_tournament_meta_html()
 
+    seo_description = f"{event_name} 사전 분석 · {course_line} · {date_range} · NEO GOLF DATA 우승확률 예측"
+    canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/pre/"
+    provenance_html = (
+        f"<p class='meta provenance'>예측 기준 사전(PRE) 모델 · "
+        f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
+    )
+
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
-        f'<title>NEO GOLF DATA · {_esc(event_name)}</title>'
+        f'<title>NEO GOLF DATA · {_esc(event_name)} 사전 분석</title>'
+        f'<meta name="description" content="{_esc(seo_description)}">'
+        f'<link rel="canonical" href="{canonical_url}">'
+        f'<meta property="og:title" content="NEO GOLF DATA · {_esc(event_name)} 사전 분석">'
+        f'<meta property="og:description" content="{_esc(seo_description)}">'
+        f'<meta property="og:url" content="{canonical_url}">'
+        '<meta property="og:type" content="website">'
+        '<meta name="twitter:card" content="summary_large_image">'
         '<link rel="stylesheet" href="/assets/neo-site.css">'
         '<link rel="stylesheet" href="../../../../assets/neo.css"></head><body>'
         '<header class="neo-global-header" data-neo-global-navigation>'
@@ -284,6 +301,7 @@ def main() -> None:
         '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
+        f'{provenance_html}'
         f'{previous_meta_html}</div>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )

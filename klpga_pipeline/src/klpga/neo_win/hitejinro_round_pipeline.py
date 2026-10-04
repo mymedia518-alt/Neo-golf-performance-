@@ -35,6 +35,7 @@ from pathlib import Path
 from klpga.neo_win.hitejinro_round_page import STAGE_LABELS, render_round_page
 
 GAME_CODE = "2026100005"
+_SITE_ORIGIN = "https://neogolfdata.com"
 _ROOT = Path(__file__).resolve().parents[4] / "klpga_pipeline"
 CONTENT = _ROOT / "content" / "website_v2"
 EVIDENCE_DIR = CONTENT / "incoming_evidence" / GAME_CODE
@@ -1640,6 +1641,108 @@ def build_hitejinro_internal_report(round_number: int = 3, *, out_dir: Path | No
     html = html.replace("</main>", sections_html + "</main>")
 
     out_path = out_dir / f"{GAME_CODE}_{stage_key}_internal.html"
+    out_path.write_text(html, encoding="utf-8", newline="\n")
+    return out_path
+
+
+def build_post_verification_page(content_root: Path | None = None) -> Path:
+    """공개 '사후 검증' 페이지 (2026-10-04, SEO 발견 가능성 미션): FR(/fr/,
+    순수 결과)는 그대로 둔다 -- 2026-10-04 운영자 지시("NEO Verification/
+    SG Analysis/Course Analysis... 전부 건드리지 않는다. 필요하면 숨기고
+    FR 홈페이지 완성만 한다")를 되돌리지 않는다. 대신 KB 2026090003의
+    실제 공개 /final/ 페이지(결과 페이지 /fr/와 별도 URL의 NEO 검증
+    페이지)와 동일한 구조로, 완전히 분리된 새 URL
+    (/tournaments/2026/2026100005/verification/)에 이미 만들어 검증까지
+    끝난 real 데이터(build_hitejinro_round_verification/build_r3_sg_
+    intelligence/build_r3_course_analysis, round_number=4)를 공개한다.
+    새 검증 로직 없음 -- FR의 이미 빌드된 공개 페이지(build_round_page(4,
+    include_internal=False))를 셸로 재사용해 리더보드/영상 섹션만
+    검증+SG+코스 섹션으로 바꾸고, stage-nav에 이 페이지 자신의 항목을
+    하나 추가한다."""
+    from klpga.neo_win.hitejinro_round_page import (
+        render_hitejinro_verification_html,
+        render_r3_course_analysis_html,
+        render_r3_sg_intelligence_html,
+    )
+
+    content_root = content_root or CONTENT
+    repo_root = _ROOT.parent
+    fr_path = build_round_page(4, include_internal=False)
+    html = fr_path.read_text(encoding="utf-8")
+
+    tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
+    tournament_name = tourney["event_name"]
+    board = json.loads((content_root / f"{GAME_CODE}_LEADERBOARD.json").read_text(encoding="utf-8"))
+    winner = next((r for r in board["records"] if r.get("finish_position_numeric") == 1), None)
+    verification = build_hitejinro_round_verification(4)
+    hit_text = "적중" if verification.winner_hit else "실패"
+    winner_part = f"우승 {winner['player_name']} 예측 {hit_text}" if winner else "우승 예측 검증"
+    description = f"{tournament_name} 최종 결과·예측 검증 · {winner_part} · NEO GOLF DATA 사후 검증"
+    canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/verification/"
+
+    old_title = f'<title>NEO GOLF DATA · {tournament_name} FR 결과</title>'
+    assert old_title in html, "FR shell title anchor not found -- cannot safely derive the verification page"
+    meta_block = (
+        f'<title>NEO GOLF DATA · {tournament_name} 최종 검증</title>'
+        f'<meta name="description" content="{description}">'
+        f'<link rel="canonical" href="{canonical_url}">'
+        f'<meta property="og:title" content="NEO GOLF DATA · {tournament_name} 최종 검증">'
+        f'<meta property="og:description" content="{description}">'
+        f'<meta property="og:url" content="{canonical_url}">'
+        '<meta property="og:type" content="website">'
+        '<meta name="twitter:card" content="summary_large_image">'
+    )
+    html = html.replace(old_title, meta_block, 1)
+
+    # Swap FR's own public leaderboard + video sections for the
+    # verification + SG + course sections -- same real engines
+    # build_hitejinro_internal_report already uses, never recomputed.
+    leaderboard_start = html.index("<section class='panel leaderboard-panel'")
+    footer_start = html.index("</main>")
+    sections_html = (
+        render_hitejinro_verification_html(4, verification)
+        + render_r3_sg_intelligence_html(build_r3_sg_intelligence(round_number=4))
+        + render_r3_course_analysis_html(build_r3_course_analysis(round_number=4))
+    )
+    html = html[:leaderboard_start] + sections_html + html[footer_start:]
+
+    # Breadcrumb + stage-nav: FR's own "FR" aria-current moves to a new
+    # "최종 검증" item appended after it (same real on-disk-file check
+    # pattern render_round_page's own stage-nav already uses).
+    html = html.replace(
+        '<span aria-current="page">FR</span></nav>',
+        '<span>FR</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
+        '<span aria-current="page">최종 검증</span></nav>',
+        1,
+    )
+    verification_href = f"/tournaments/2026/{GAME_CODE}/verification/"
+    html = html.replace(
+        f"<a href=\"/tournaments/2026/{GAME_CODE}/fr/\" class=\"is-active\" aria-current=\"page\">대회</a>",
+        f"<a href=\"{verification_href}\" class=\"is-active\" aria-current=\"page\">대회</a>",
+        1,
+    )
+    # FR's own shell (render_round_page's shared stage-nav loop) already
+    # carries a real "최종 검증" item once this page itself exists on
+    # disk -- just move aria-current from FR's own item to that one,
+    # never append a second, duplicate item.
+    fr_nav_item_current = f"<li class='stage-nav__item'><a class='stage-nav__link' href='/tournaments/2026/{GAME_CODE}/fr/' aria-current='page'>FR</a></li>"
+    assert fr_nav_item_current in html, "FR's own stage-nav item markup not found -- cannot safely promote the verification nav item"
+    fr_nav_item_not_current = fr_nav_item_current.replace(" aria-current='page'", "")
+    html = html.replace(fr_nav_item_current, fr_nav_item_not_current, 1)
+    verification_nav_item_not_current = f"<li class='stage-nav__item'><a class='stage-nav__link' href='{verification_href}'>최종 검증</a></li>"
+    verification_nav_item_current = f"<li class='stage-nav__item'><a class='stage-nav__link' href='{verification_href}' aria-current='page'>최종 검증</a></li>"
+    if verification_nav_item_not_current in html:
+        html = html.replace(verification_nav_item_not_current, verification_nav_item_current, 1)
+    else:
+        # First-ever build: this page didn't exist on disk yet when the
+        # FR shell above was rendered, so its stage-nav still shows
+        # "최종 검증" disabled -- append the real, current item instead.
+        disabled_item = "<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>최종 검증</span></li>"
+        assert disabled_item in html, "neither the enabled nor disabled '최종 검증' stage-nav item was found"
+        html = html.replace(disabled_item, verification_nav_item_current, 1)
+
+    out_path = repo_root / "docs" / "tournaments" / "2026" / GAME_CODE / "verification" / "index.html"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html, encoding="utf-8", newline="\n")
     return out_path
 
