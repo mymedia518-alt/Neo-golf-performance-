@@ -2876,7 +2876,13 @@ def _neo_snapshot_html(doc: dict) -> str:
         f'<div class="ph-chain-stage"><div class="ph-chain-stage-lbl">{escape(label)}</div><div class="ph-chain-stage-num" style="font-size:0.95rem;font-weight:600">{escape(value)}</div></div>'
         for label, value in cards
     )
-    return f'<div class="ph-neo-snapshot ph-skill-chain" style="flex-wrap:wrap;margin-top:1rem">{cards_html}</div>'
+    # BUG FIX (2026-10-04): this element only ever carried a class
+    # ("ph-neo-snapshot"), never an id -- confirmed visible/rendered on
+    # the real live page via Playwright screenshot, but undiscoverable
+    # by a getElementById-based verification check, which reported a
+    # false "exists: false". Added id="ph-neo-snapshot" so it is
+    # addressable the same way every other V2.1 section already is.
+    return f'<div id="ph-neo-snapshot" class="ph-neo-snapshot ph-skill-chain" style="flex-wrap:wrap;margin-top:1rem">{cards_html}</div>'
 
 
 def _hero_html(doc: dict) -> str:
