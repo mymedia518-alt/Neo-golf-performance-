@@ -1,0 +1,58 @@
+name: "Fetch real Blue Heron West Hole 3 official images (on-demand, one-off)"
+
+# Manually dispatched only. URLs captured from real network traffic by
+# the DOM-event-dispatch course-map probe (previous workflow), not
+# guessed. Used for an independent visual comparison against KLPGA's
+# own hole_12.png as part of COURSE IDENTITY verification.
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch real images
+        run: |
+          python fetch_west_hole3_images.py --out-dir west_hole3_images
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron West Hole 3 real official images"
+            ls -la west_hole3_images || true
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/west-hole3-images"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/west_hole3_images"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Real Blue Heron West Hole 3 official images" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
