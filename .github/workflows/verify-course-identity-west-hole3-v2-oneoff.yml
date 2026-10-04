@@ -1,0 +1,69 @@
+name: "Verify Blue Heron West Hole 3 via direct DOM event dispatch (on-demand, one-off)"
+
+# Manually dispatched only. The first click attempt (previous workflow)
+# failed because the course-map widget sits in a fullpage.js slide not
+# currently visible, so Playwright's actionability check refused the
+# click. This retries by dispatching real DOM click/change events
+# directly via page.evaluate (still real interaction with the real
+# page's own JS, not a fabricated request).
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright --quiet
+          python -m playwright install --with-deps chromium
+
+      - name: Dispatch West Hole 3 events and capture real result
+        run: |
+          python verify_course_identity_west_hole3_v2.py --out-dir course_identity_check_west_hole3_v2
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron West Hole 3 -- direct DOM event dispatch result"
+            if [ -f course_identity_check_west_hole3_v2/west_hole3_v2_result.json ]; then
+              cat course_identity_check_west_hole3_v2/west_hole3_v2_result.json
+            else
+              echo "No result file produced."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/course-identity-west-hole3-v2"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/course_identity_check_west_hole3_v2"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron West Hole 3 DOM-event-dispatch result" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
