@@ -1,0 +1,135 @@
+name: "Collect KLPGA Shot Tracker -- staged real validation (on-demand, one-off)"
+
+# Manually dispatched only. Runs neo_klpga_shot_source/collector.py for real
+# against klpga.co.kr (the agent sandbox has no direct network path there).
+# Executes the explicit staged validation sequence: one hole -> full FR (18
+# holes) -> full tournament (4 rounds), running validate.py after each stage
+# and STOPPING if any stage fails. Never expands to the full player field --
+# that is a separate, later, explicitly-approved step.
+# Publishes raw + normalized + validation output to a dedicated orphan branch
+# so this never touches this branch's own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "KLPGA gameCode"
+        required: false
+        default: "2026100005"
+      player_code:
+        description: "KLPGA playerCode to validate against"
+        required: false
+        default: "9115"
+      cookie:
+        description: "Optional Cookie header (usually not required for this read endpoint)"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: "Stage 1 -- single hole smoke test (R4 H18)"
+        id: stage1
+        run: |
+          set -e
+          python collector.py --game "${{ inputs.game_code }}" --player "${{ inputs.player_code }}" \
+            --rounds 4 --holes 18 --root "./NEO_DATA_ROOT_LOCAL" --cookie "${{ inputs.cookie }}"
+          python validate.py "./NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" --game "${{ inputs.game_code }}" \
+            | tee stage1_validation.json
+
+      - name: "Stage 2 -- full FR (round 4, holes 1-18)"
+        id: stage2
+        if: ${{ success() }}
+        run: |
+          set -e
+          python collector.py --game "${{ inputs.game_code }}" --player "${{ inputs.player_code }}" \
+            --rounds 4 --holes 1-18 --root "./NEO_DATA_ROOT_LOCAL" --cookie "${{ inputs.cookie }}"
+          python validate.py "./NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" --game "${{ inputs.game_code }}" \
+            | tee stage2_validation.json
+
+      - name: "Stage 3 -- full tournament (rounds 1-4, holes 1-18)"
+        id: stage3
+        if: ${{ success() }}
+        run: |
+          set -e
+          python collector.py --game "${{ inputs.game_code }}" --player "${{ inputs.player_code }}" \
+            --rounds 1,2,3,4 --holes 1-18 --root "./NEO_DATA_ROOT_LOCAL" --cookie "${{ inputs.cookie }}"
+          python validate.py "./NEO_DATA_ROOT_LOCAL/normalized/klpga_shots.sqlite" --game "${{ inputs.game_code }}" \
+            | tee stage3_validation.json
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## NEO KLPGA Shot Tracker -- staged validation"
+            echo "game_code=${{ inputs.game_code }} player_code=${{ inputs.player_code }}"
+            for s in stage1 stage2 stage3; do
+              echo ""
+              echo "### $s"
+              if [ -f "${s}_validation.json" ]; then
+                echo '```json'
+                cat "${s}_validation.json"
+                echo '```'
+              else
+                echo "did not run (an earlier stage failed or was skipped)"
+              fi
+            done
+            echo ""
+            echo "### Raw files written"
+            find "./NEO_DATA_ROOT_LOCAL/raw" -type f 2>/dev/null | sort | sed 's/^/- /' || true
+            echo ""
+            echo "### Logs (unknown pp_state / extra fields)"
+            for lf in "./NEO_DATA_ROOT_LOCAL/logs/${{ inputs.game_code }}/unknown_pp_state.jsonl" "./NEO_DATA_ROOT_LOCAL/logs/${{ inputs.game_code }}/extra_fields_seen.jsonl"; do
+              if [ -f "$lf" ]; then
+                echo "**$lf**"
+                echo '```'
+                cat "$lf"
+                echo '```'
+              else
+                echo "**$lf**: none logged"
+              fi
+            done
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish raw + normalized + validation output to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-shot-tracker-collect-bot"
+          git config --global user.email "neo-shot-tracker-collect-bot@users.noreply.github.com"
+          BRANCH="collector-output/${{ inputs.game_code }}-shot-tracker-${{ inputs.player_code }}"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          cp -r "$SRC/NEO_DATA_ROOT_LOCAL" "$PUBLISH_DIR/__out/" 2>/dev/null || true
+          for f in stage1_validation.json stage2_validation.json stage3_validation.json; do
+            [ -f "$SRC/$f" ] && cp "$SRC/$f" "$PUBLISH_DIR/__out/"
+          done
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Shot Tracker staged collection output (game=${{ inputs.game_code }}, player=${{ inputs.player_code }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
+
+      - name: Fail the job if any stage failed
+        if: ${{ failure() }}
+        run: |
+          echo "One of the staged collection/validation steps failed -- see the job summary above."
+          exit 1

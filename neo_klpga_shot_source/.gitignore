@@ -1,0 +1,5 @@
+NEO_DATA_ROOT_LOCAL/
+stage1_validation.json
+stage2_validation.json
+stage3_validation.json
+__pycache__/
