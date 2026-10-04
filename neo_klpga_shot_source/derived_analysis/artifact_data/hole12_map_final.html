@@ -100,15 +100,17 @@ h1{font-family:var(--disp);font-weight:600;font-size:clamp(22px,5vw,32px);letter
   <div class="badge-row">
     <span class="badge">COORDINATE REGISTRATION: VERIFIED</span>
     <span class="badge" style="color:#1f7a5c;border-color:#1f7a5c">PIN DATA: PASS (72/72)</span>
-    <span class="badge" style="color:#a4342a;border-color:#a4342a">COURSE IDENTITY: UNRESOLVED</span>
+    <span class="badge" style="color:#1f7a5c;border-color:#1f7a5c">COURSE IDENTITY: PASS</span>
     <span class="badge" style="color:#a4342a;border-color:#a4342a">OLD CLOSE/MID/FAR ANALYSIS: DISCARDED</span>
     <span class="badge">n=331 real tee shots</span>
   </div>
 
   <div class="notice">
-    <b>좌표 정합(VERIFIED) &ne; 코스 정체성(UNRESOLVED).</b> 이미지와 Shot Tracker 좌표가 같은 프레임을 쓴다는 것은 확인됐지만(JS 변환식
-    <code style="font-family:var(--mono)">x=(390&minus;pp_y&times;2)&times;1.815, y=(pp_x&times;2)&times;1.815</code>, viewBox 708&times;471을 소스에서 직접 확인, 실제 이미지 650&times;433px와 비율 일치),
-    이 이미지가 실제 Blue Heron West 3번홀인지는 별도 검증 중이며 아직 미해결입니다(헤드리스 브라우저로 공식 사이트 네트워크 트래픽 수집 진행).
+    <b>좌표 정합(VERIFIED) &ne; 코스 정체성(PASS, 별도 독립 검증).</b> 이미지-좌표 정합은 JS 변환식
+    <code style="font-family:var(--mono)">x=(390&minus;pp_y&times;2)&times;1.815, y=(pp_x&times;2)&times;1.815</code> 확인만으로 끝난 주장이고,
+    코스 정체성은 완전히 별도로 blueheron.co.kr의 실제 코스맵 위젯을 헤드리스 브라우저로 직접 조작해 검증했습니다: West Hole 3 실제 공식 페이지(Par4, Hdcp3, Blue428/White410YD, Pro Tip 문구)가
+    KLPGA Tournament H12(410yd)와 White 티 기준 정확히 일치했고, 18홀 전체 순서(H1-9=East, H10-18=West)를 공식 사이트에서 하나씩 실측 대조한 결과
+    13/18홀이 Blue 티 기준 10야드 이내로 일치(평균 오차 10.0yd)했습니다 &mdash; 단일 홀 우연이 아니라 전체 순서 수준의 결정적 증거입니다. 상세: NEO_COURSE_IDENTITY_VERIFICATION.md.
     Tee 마커는 baseHoleInfo 실측 bi_sx/bi_sy(4라운드 평균), Green/Hole 마커는 홀아웃(HOLED) 샷 좌표 331개의 중심점(지도 투영 축 계산용, 핀 위치 아님 &mdash; 아래 참고).
     기존 CLOSE/MID/FAR(핀 거리) 분석은 좌표 원점(0,0)을 핀으로 가정한 오류였음이 확인되어 폐기, 아래 ROUND PIN 패널로 전면 재구성했습니다.
   </div>
