@@ -1,0 +1,1277 @@
+<!DOCTYPE html><html lang="ko" class="fp-enabled" style="--vh: 7.2px; overflow: hidden; height: 100%;"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="블루헤런, 골프장">
+    <meta name="description" content="블루헤런에 오신것을 환영합니다. 실시간예약 및 안내 제공">
+    <title>블루헤런</title>
+    <meta property="og:type" content="website"> 
+	<meta property="og:title" content="블루헤런">
+	<meta property="og:description" content="블루헤런에 오신것을 환영합니다. 실시간예약 및 안내 제공">
+	<meta property="og:image" content="https://www.blueheron.co.kr/static/pc/images/common/ogimage.png">
+	<meta property="og:url" content="https://www.blueheron.co.kr">
+	<!-- custom favicon 설정 -->
+    <!-- Favicons -->
+    <link rel="shortcut icon" href="/static/pc/origin/assets/images/favicon.png">
+    <link rel="apple-touch-icon" href="/static/pc/origin/assets/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/pc/origin/assets/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/pc/origin/assets/images/apple-touch-icon-114x114.png">
+
+    <script type="text/javascript" src="/static/common/libs/jquery-1.12.4.min.js" charset="UTF-8"></script>
+    <!-- ui -->
+    <script type="text/javascript" src="/static/common_control/js/ui.js?ver=20260519" data-ver="20260519"></script><link rel="stylesheet" href="/static/common_control/css/type_1.css?ver=20260519">
+    <!-- css -->
+    <script type="text/javascript" src="/static/pc/js/include_css.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><link rel="stylesheet" href="/static/pc/css/cm_ui.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/cm_default.css?ver=20260519"><link rel="stylesheet" href="/static/pc/css/custom/cm_default.css?ver=20260519"><link rel="stylesheet" href="/static/common/css/type_1.css?ver=20260519">
+    <!-- js -->
+    <script type="text/javascript" src="/static/pc/js/include_js.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/jquery.min.js" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/jquery-ui.js" charset="UTF-8"></script><script type="text/javascript" src="/static/common/libs/librarys.min.js" charset="UTF-8"></script><script type="text/javascript" src="/static/pc/js/libs/loading-bar.min.js"></script><script type="text/javascript" src="/static/pc/js/ui.custom.js?ver=20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/pc/js/ui.common.js?ver=20260519" charset="UTF-8"></script><script type="text/javascript" src="/static/common/js/common.js?ver=20260519"></script><script type="text/javascript" src="/static/pc/js/libs/swiper.jquery.min.js" charset="UTF-8"></script><script type="text/javascript" src="/static/pc/js/libs/fullpage.js"></script><script type="text/javascript" src="/static/pc/js/custom/main.js?ver=20260519"></script>
+    
+    <script type="text/javascript" src="/static/pc/origin/setting.js?ver=20260519" data-ver="20260519" charset="UTF-8"></script><link rel="shortcut icon" href="/static/pc/origin/assets/images/favicon.png"><link rel="apple-touch-icon" href="/static/pc/origin/assets/images/apple-touch-icon.png"><link rel="apple-touch-icon" sizes="72x72" href="/static/pc/origin/assets/images/apple-touch-icon-72x72.png"><link rel="apple-touch-icon" sizes="114x114" href="/static/pc/origin/assets/images/apple-touch-icon-114x114.png"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/OpenSans-Regular.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Light.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Regular.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/NanumSquare-Bold.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/TitilliumWeb-Light.css"><link rel="stylesheet" href="/static/pc/origin/assets/fonts/TitilliumWeb-Bold.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/normalize.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/animate.min.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/common.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/fullpage.min.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/slick.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/slick-theme.css"><link rel="stylesheet" href="/static/pc/origin/assets/css/main.css?ver=260519"><script src="/static/pc/origin/assets/js/jquery-3.3.1.min.js"></script><script src="/static/pc/origin/assets/js/common.js"></script><script src="/static/pc/origin/assets/js/active.js"></script><script src="/static/pc/origin/assets/js/link.js"></script><script src="/static/pc/origin/assets/js/fullpage.extensions.min.js"></script><script src="/static/pc/origin/assets/js/fullpage.parallax.min.js"></script><script src="/static/pc/origin/assets/js/slick.min.js"></script><script src="/static/pc/origin/assets/js/popup.js"></script><script src="/static/pc/origin/assets/js/main.js"></script>
+
+    <script>
+        
+            goSSL();
+        
+
+        //page_type
+	    //ui_custom.page_type.init();
+
+        //--basic Customizing(origin)-s
+        var mPage;
+
+        $(document).ready(function() {
+            //setProtocol();
+
+            initHeader();
+
+            initHeaderListener();
+        });
+
+        function setProtocol() {
+            if (document.location.protocol == 'http:') {
+                var sUrl = document.location.href;
+                sUrl = sUrl.replace('http:', 'https:');
+                sUrl = sUrl.replace('www.domain.co.kr', 'domain.co.kr');
+
+                document.location.href = sUrl;
+            }
+        }
+
+        function initHeader() {
+            mPage = "";
+            var open = "";
+
+            if ((mPage != "" || open == "Y") && "" == "") {
+                $('.loginWrap').slideToggle(400);
+            }
+        }
+
+        function initHeaderListener() {
+            $(".nav li").hover(function() {
+                $(this).children("ul").stop().delay(200).animate({
+                    height: "toggle",
+                    opacity: "toggle"
+                }, 200);
+            });
+
+            var chkId = getCookie("chkSaveId");
+            var id = getCookie("cookieId");
+
+            if (chkId != null && chkId != "") {
+                $("#chkSaveId").attr('checked', true);
+            }
+
+            if (id != null && id != "") {
+                $("#txtHeaderId").val(id);
+            }
+
+            $("#txtHeaderId").keypress(function(event) {
+                if (event.keyCode == 13) {
+                    doLogin();
+                }
+            });
+
+            $("#txtHeaderPw").keypress(function(event) {
+                if (event.keyCode == 13) {
+                    doLogin();
+                }
+            });
+        }
+
+        function doLogin() {
+            var sUrl = "/controller/MemberController.asp";
+            var params = {};
+
+            var id = $("#txtHeaderId").val();
+            var pw = $("#txtHeaderPw").val();
+
+            if (id == "") {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            if (pw == "") {
+                alert("비밀번호를 입력하세요.");
+                return;
+            }
+
+            params["method"] = "doLogin";
+            params["coDiv"] = globals.coDiv;
+            params["id"] = id;
+            params["pw"] = pw;
+
+            mAjax(sUrl, params, "POST", true, function(data) {
+                if (data.resultCode == "0000") {
+                    var chkSaveId = $('input:checkbox[id="chkSaveId"]').is(":checked");
+
+                    if (chkSaveId) {
+                        setCookie("cookieId", $("#txtHeaderId").val(), 365);
+                        setCookie("chkSaveId", true, 365);
+                    } else {
+                        setCookie("cookieId", "", 365);
+                        setCookie("chkSaveId", "", 365);
+                    }
+
+                    if (mPage != "") {
+                        location.href = mPage;
+                    } else {
+                        location.reload();
+                    }
+                } else {
+                    alert(data.resultMessage);
+                }
+            });
+        }
+
+        function doLogout() {
+            var sUrl = "/Controller/MemberController.asp";
+            var params = {};
+
+            params["method"] = "doLogout";
+
+            mAjax(sUrl, params, "POST", true, function(data) {
+                if (data.resultCode == "0000") {
+                    alert("로그아웃 되었습니다.");
+                    location.href = "/index.asp"
+                }
+            });
+        }
+
+        function onlyMainMenu(val) {
+            if (val == "1") {
+                $("#onlyMain").show();
+            } else(
+                $("#onlyMain").hide()
+            )
+        }
+        //--basic Customizing(origin)-e
+        
+        
+		$(document).ajaxError(function(event, request, settings, thrownError) {
+			if (request.status == 555) {
+				alert('다른 환경에서 접속되었습니다');
+				location.reload(true);
+				
+			}else if(request.status == 556){
+				alert('로그아웃되었습니다.\n로그인을 다시 해주시기 바랍니다.');
+				location.reload(true);
+				
+			}
+		});
+        
+    </script>
+<style type="text/css" id="fp-parallax-stylesheet">.fp-bg{top:0;bottom:0;width: 100%;position:absolute;z-index: -1;}.fp-section, .fp-slide, .fp-section.fp-table, .fp-slide.fp-table, .fp-section .fp-tableCell, .fp-slide .fp-tableCell {position:relative;overflow: hidden;}</style><style type="text/css" id="fp-parallax-transitions">.fp-bg{transition: transform 700ms ease;}.fp-slide, .fp-section{transition: background-position 700ms ease;}</style><style type="text/css" id="fp-parallax-transition-class">.fp-bg-animate{ transition: all 700ms ease}</style></head>
+<body class="blueheron_st id-main fp-viewing-0" id="id-main" style="overflow: hidden; height: 100%;">
+
+	
+    <div class="lds-ring dp-none"><div></div><div></div><div></div><div></div></div>
+    
+    <div id="wrapper" class="wrapper">
+        <!-- SkipNav -->
+        <div id="skipNav">
+            <a href="#gnb">주요 메뉴 바로가기</a>
+            <a href="#content">컨텐트 바로가기</a>
+        </div>
+        <!-- //SkipNav -->
+        
+        
+        <!-- 
+        <div class="right_area">
+            <a href="#sec0" class="btn right_btn right_menu aside-menu-open full" aria-controls="asideMenu" aria-expanded="false"><span><i class="ico ico-menu white"></i>메뉴</span></a>
+            <a href="/board/notice" class="btn right_btn right_notice"><span><i class="ico ico-notice white"></i>공지사항</span></a>
+            <a href="/reservation/golf" class="btn right_btn right_res"><span><i class="ico ico-res white"></i>실시간예약</span></a>
+        </div>
+ 		-->
+ 		
+        <!-- header -->
+        
+
+
+
+
+
+
+        <!-- Header -->
+		<header>
+			<div class="wrap">
+				<div id="header-navigation">
+					<h1 id="header-navigation-ci"><a href="/">블루헤런</a></h1>
+					<div id="header-navigation-left">
+						<div class="menu">
+							메뉴
+						</div>
+					</div>
+					<!-- 로그인 했을 때(class) : login -->
+					<div id="header-navigation-right" class="">
+						<div class="button">
+							<ul>
+								<li class="hitejinroChampionship" onclick="location.href='/swp/magazine/championship/th25'">
+									<div class="icon"></div>
+									<div class="text">
+										Hitejinro<br>
+										Championship
+									</div>
+								</li>
+								<li class="jobOpening" onclick="location.href='/board/jobInfo'">
+									<div class="icon"></div>
+									<div class="text">
+										Job<br>
+										Opening
+									</div>
+								</li>
+							</ul>
+						</div>
+						<div class="course">
+							코스
+						</div>
+						<div class="reservation" onclick="location.href='/reservation/golf'">
+							예약
+						</div>
+						
+							
+							
+								<div class="login" onclick="location.href='/member/login'">
+									로그인
+								</div>
+							
+						
+						
+					</div>
+				</div>
+				
+			</div>
+		</header>
+
+		<div id="menu" class="animated fadeIn">
+			<div class="wrap">
+				<div id="menu-close">
+					닫기
+				</div>
+				<div class="inner_container">
+					<div class="outer">
+						<div class="inner">
+							<h2 id="menu-ci">
+								블루헤런
+							</h2>
+							<div id="menu-member">
+								<ul>
+									
+										
+										
+											<li onclick="location.href='/member/login'">
+												로그인
+											</li>
+											<li onclick="location.href='/member/joinStep1'">
+												회원가입
+											</li>
+											<li onclick="location.href='/member/findIdPw'">
+												아이디/비밀번호 찾기
+											</li>
+										
+									
+								</ul>
+							</div>
+							<div id="menu-navigation">
+								<ul class="main">
+									<li class="mainItem about">
+										<a href="/swp/about/greetings">
+											<div class="mainText">
+												About
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem greetings">
+												<a href="/swp/about/greetings">
+													<div class="subText">
+														인사말
+													</div>
+												</a>
+											</li>
+											<li class="subItem overview">
+												<a href="/swp/about/overview">
+													<div class="subText">
+														클럽개요
+													</div>
+												</a>
+											</li>
+											<li class="subItem amenities">
+												<a href="/swp/about/amenities">
+													<div class="subText">
+														부대시설
+													</div>
+												</a>
+											</li>
+											<li class="subItem way">
+												<a href="/swp/about/way">
+													<div class="subText">
+														오시는길
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem course">
+										<a href="/swp/course/outline">
+											<div class="mainText">
+												Course
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem outline">
+												<a href="/swp/course/outline">
+													<div class="subText">
+														코스개요
+													</div>
+												</a>
+											</li>
+											<li class="subItem information">
+												<a href="/swp/course/west/hole01">
+													<div class="subText">
+														코스안내
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem reservation">
+										<a href="/reservation/golf">
+											<div class="mainText">
+												reservation
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem guide">
+												<a href="/swp/reservations/guide">
+													<div class="subText">
+														예약방법
+													</div>
+												</a>
+											</li>
+											<li class="subItem normal">
+												<a href="/reservation/golf">
+													<div class="subText">
+														실시간예약
+													</div>
+												</a>
+											</li>
+											<li class="subItem weekend">
+												<a href="/reservation/resLot">
+													<div class="subText">
+														주말추첨신청
+													</div>
+												</a>
+											</li>
+											<li class="subItem status">
+												<a href="/reservation/resList">
+													<div class="subText">
+														예약확인 및 변경/취소
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem information">
+										<a href="/board/notice">
+											<div class="mainText">
+												Info
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem notice">
+												<a href="/board/notice">
+													<div class="subText">
+														공지사항
+													</div>
+												</a>
+											</li>
+											<li class="subItem use">
+												<a href="/swp/information/use/use">
+													<div class="subText">
+														이용안내
+													</div>
+												</a>
+											</li>
+											<li class="subItem gallery">
+												<a href="/board/photo">
+													<div class="subText">
+														포토갤러리
+													</div>
+												</a>
+											</li>
+											<li class="subItem reference">
+												<a href="/board/pds">
+													<div class="subText">
+														자료실
+													</div>
+												</a>
+											</li>
+											<!--
+											<li class="subItem qa">
+											  <div class="subText">
+												Q&amp;A
+											  </div>
+											</li>
+											-->
+										</ul>
+									</li>
+									<li class="mainItem magazine">
+										<a href="/swp/magazine/championship/th25">
+											<div class="mainText">
+												Magazine
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem championship">
+												<a href="/swp/magazine/championship/th25">
+													<div class="subText">
+														하이트진로 챔피언십
+													</div>
+												</a>
+											</li>
+											<li class="subItem affiliate">
+												<a href="/swp/magazine/affiliate">
+													<div class="subText">
+														하이트진로 소속프로
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="mainItem recruit">
+										<a href="/swp/recruit/procedure">
+											<div class="mainText">
+												Recruit
+											</div>
+										</a>
+										<ul class="sub">
+											<li class="subItem procedure">
+												<a href="/swp/recruit/procedure">
+													<div class="subText">
+														채용절차
+													</div>
+												</a>
+											</li>
+											<li class="subItem careers">
+												<a href="/board/jobInfo">
+													<div class="subText">
+														채용공고
+													</div>
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="course" class="animated fadeIn">
+			<div class="wrap">
+				<div id="course-close">
+					닫기
+				</div>
+				<div class="inner_container">
+					<div class="outer">
+						<div class="inner">
+							<h2 id="course-title">
+								<div class="title">
+									코스소개
+								</div>
+								<div class="content">
+									전략성이 풍부한 블루헤런의 코스를 소개합니다.
+								</div>
+							</h2>
+							<div id="course-map">
+								<div id="course-map-hole">
+									<div class="west">
+										<ul>
+											<li class="hole01">
+												1
+											</li>
+											<li class="hole02">
+												2
+											</li>
+											<li class="hole03">
+												3
+											</li>
+											<li class="hole04">
+												4
+											</li>
+											<li class="hole05">
+												5
+											</li>
+											<li class="hole06">
+												6
+											</li>
+											<li class="hole07">
+												7
+											</li>
+											<li class="hole08">
+												8
+											</li>
+											<li class="hole09">
+												9
+											</li>
+										</ul>
+									</div>
+									<div class="east">
+										<ul>
+											<li class="hole01">
+												1
+											</li>
+											<li class="hole02">
+												2
+											</li>
+											<li class="hole03">
+												3
+											</li>
+											<li class="hole04">
+												4
+											</li>
+											<li class="hole05">
+												5
+											</li>
+											<li class="hole06">
+												6
+											</li>
+											<li class="hole07">
+												7
+											</li>
+											<li class="hole08">
+												8
+											</li>
+											<li class="hole09">
+												9
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div id="course-map-title">
+									<div class="west">
+										<div class="box">
+											<div class="title">
+												West Course
+											</div>
+											<div class="content">
+												<ul>
+													<li>
+														<div class="number">
+															36
+														</div>
+														<div class="name">
+															Par
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															9
+														</div>
+														<div class="name">
+															Hole
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															3,499
+														</div>
+														<div class="name">
+															Yard
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="hole">
+											<select id="course-map-title-west-hole" name="course-map-title-west-hole">
+												<option value="null" disabled="disabled" selected="selected">
+													West Course
+												</option>
+												<option value="hole01">
+													Hole 1
+												</option>
+												<option value="hole02">
+													Hole 2
+												</option>
+												<option value="hole03">
+													Hole 3
+												</option>
+												<option value="hole04">
+													Hole 4
+												</option>
+												<option value="hole05">
+													Hole 5
+												</option>
+												<option value="hole06">
+													Hole 6
+												</option>
+												<option value="hole07">
+													Hole 7
+												</option>
+												<option value="hole08">
+													Hole 8
+												</option>
+												<option value="hole09">
+													Hole 9
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="east">
+										<div class="box">
+											<div class="title">
+												East Course
+											</div>
+											<div class="content">
+												<ul>
+													<li>
+														<div class="number">
+															36
+														</div>
+														<div class="name">
+															Par
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															9
+														</div>
+														<div class="name">
+															Hole
+														</div>
+													</li>
+													<li>
+														<div class="number">
+															3,541
+														</div>
+														<div class="name">
+															Yard
+														</div>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="hole">
+											<select id="course-map-title-east-hole" name="course-map-title-east-hole">
+												<option value="null" disabled="disabled" selected="selected">
+													East Course
+												</option>
+												<option value="hole01">
+													Hole 1
+												</option>
+												<option value="hole02">
+													Hole 2
+												</option>
+												<option value="hole03">
+													Hole 3
+												</option>
+												<option value="hole04">
+													Hole 4
+												</option>
+												<option value="hole05">
+													Hole 5
+												</option>
+												<option value="hole06">
+													Hole 6
+												</option>
+												<option value="hole07">
+													Hole 7
+												</option>
+												<option value="hole08">
+													Hole 8
+												</option>
+												<option value="hole09">
+													Hole 9
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!--// header -->
+
+        <!-- container -->
+        
+
+
+
+
+
+
+
+<script>
+	$(function(){
+		
+		hioInit();
+		
+	});
+	
+	// 기본세팅
+	function hioInit(){
+		popCookieInit();
+	}
+	
+	//1일동안 열지 않기 - get
+	function popCookieInit(){
+
+		var popCnt = 0;
+		// noPop 인 div close 처리
+		if('noPop' == getCookie('layerPopup')){
+			
+		}else{
+			popCnt++;
+		}
+	
+		if(popCnt > 0){
+	  		$('#layerPopup').addClass('active');
+		}
+	}
+	
+	//1일동안 열지 않기 - set
+	function popCookie(seq){
+		setCookie(seq, 'noPop', '1');
+		popClose();
+	}
+
+	//팝업 닫기
+	function popClose(){
+		$('body').removeClass('overflowHidden');
+		$('#layerPopup').removeClass('active');
+	}
+	
+</script>
+
+<main>
+	<div class="wrap">
+		<div id="main-fullpage">
+			<ul class="fullpage-wrapper" style="height: 100%; position: relative; touch-action: none; transform: translate3d(0px, 0px, 0px);">
+				<li class="section fp-section active fp-completely" data-fp-styles="null" style="height: 720px;">
+					<div class="fp-bg" style="height: 720px;">
+						<div class="fp-shadow-lefttop"></div>
+						<div class="fp-shadow-centertop"></div>
+						<div class="fp-shadow-righttop"></div>
+						<div class="fp-shadow-centercenter"></div>
+					</div>
+					<div class="outer">
+						<div class="inner">
+							<div class="text">
+								<div class="title animated fadeInUp">
+									품격높은 지성인의 <strong>문화활동 공간</strong>
+								</div>
+								<div class="content animated fadeInDown delay-1s">
+									자연, 사람 그리고 골프가 어우러진 아름다운 골프장<br>
+									블루헤런 골프클럽
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="section fp-section" data-fp-styles="null" style="height: 720px;">
+					<div class="fp-bg fp-notransition" data-final-x="0" data-final-y="-446.5" style="height: 720px; transform: translateX(0px) translateY(-446.5px);">
+						<div class="fp-shadow-lefttop"></div>
+						<div class="fp-shadow-centertop"></div>
+						<div class="fp-shadow-righttop"></div>
+						<div class="fp-shadow-centercenter"></div>
+					</div>
+					<div class="outer">
+						<div class="inner">
+							<div class="text">
+								<div class="title">
+									도심속에서 만나는 깊은 <strong>자연의 운치</strong>
+								</div>
+								<div class="content">
+									아름다운 풍경 속의 라운딩으로<br>
+									숲에서의 여유와 휴식을 동시에 만끽하세요
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="section fp-section" data-fp-styles="null" style="height: 720px;">
+					<div class="fp-bg fp-notransition" data-final-x="0" data-final-y="-446.5" style="height: 720px; transform: translateX(0px) translateY(-446.5px);">
+						<div class="fp-shadow-lefttop"></div>
+						<div class="fp-shadow-centertop"></div>
+						<div class="fp-shadow-righttop"></div>
+						<div class="fp-shadow-centercenter"></div>
+					</div>
+					<div class="outer">
+						<div class="inner">
+							<div class="text">
+								<div class="title">
+									대자연과 함께하는 <strong>골퍼들의 휴식처</strong>
+								</div>
+								<div class="content">
+									웅장한 자연 속에서 라운딩 할 수 있는<br>
+									블루헤런으로 여러분을 초대합니다
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="section fp-section" data-fp-styles="null" style="height: 720px;">
+					<div class="fp-bg fp-notransition" data-final-x="0" data-final-y="-446.5" style="height: 720px; transform: translateX(0px) translateY(-446.5px);">
+						<div class="fp-shadow-lefttop"></div>
+						<div class="fp-shadow-centertop"></div>
+						<div class="fp-shadow-righttop"></div>
+						<div class="fp-shadow-centercenter"></div>
+					</div>
+					<div class="outer">
+						<div class="inner">
+							<div class="text">
+								<div class="title">
+									고객을 빛나게 하는 <strong>고품격 골프장</strong>
+								</div>
+								<div class="content">
+									고급스러운 분위기와 함께<br>
+									문화와 여유가 숨쉬는 휴게공간
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="section fp-section" data-fp-styles="null" style="height: 720px;">
+					<div class="fp-bg fp-notransition" data-final-x="0" data-final-y="-446.5" style="height: 720px; transform: translateX(0px) translateY(-446.5px);">
+						<div class="fp-shadow-lefttop"></div>
+						<div class="fp-shadow-centertop"></div>
+						<div class="fp-shadow-righttop"></div>
+						<div class="fp-shadow-centercenter"></div>
+					</div>
+					<div class="outer">
+						<div class="inner">
+							<div class="text">
+								<div class="title">
+									모임을 갖기에 적격인 <strong>커뮤니티 공간</strong>
+								</div>
+								<div class="content">
+									그린을 바라보며 즐길 수 있는<br>
+									최고의 서비스가 준비된 식사 공간
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="under">
+						<div class="arrow">
+							아래로
+						</div>
+					</div>
+				</li>
+				<li class="section fp-auto-height fp-section" data-fp-styles="null" style="height: 720px;">
+					<div id="main-fullPage-hitejinro">
+						<ul class="slick-initialized slick-slider slick-dotted"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 24320px; transform: translate3d(-2560px, 0px, 0px); transition: transform 500ms;"><div class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item09" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" role="tabpanel" id="slick-slide00" style="width: 1280px;"><div><li class="item01" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-current slick-active" data-slick-index="1" aria-hidden="false" tabindex="-1" role="tabpanel" id="slick-slide01" style="width: 1280px;"><div><li class="item02" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide02" style="width: 1280px;"><div><li class="item03" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="3" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide03" style="width: 1280px;"><div><li class="item04" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="4" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide04" style="width: 1280px;"><div><li class="item05" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="5" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide05" style="width: 1280px;"><div><li class="item06" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="6" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide06" style="width: 1280px;"><div><li class="item07" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="7" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide07" style="width: 1280px;"><div><li class="item08" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide" data-slick-index="8" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide08" style="width: 1280px;"><div><li class="item09" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="9" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item01" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="10" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item02" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="11" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item03" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="12" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item04" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="13" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item05" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="14" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item06" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="15" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item07" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="16" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item08" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div><div class="slick-slide slick-cloned" data-slick-index="17" aria-hidden="true" tabindex="-1" style="width: 1280px;"><div><li class="item09" style="width: 100%; display: inline-block;">
+								<div class="content"></div>
+							</li></div></div></div></div><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control00" aria-controls="slick-slide00" aria-label="1 of 9" tabindex="0" aria-selected="true">1</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control01" aria-controls="slick-slide01" aria-label="2 of 9" tabindex="-1">2</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control02" aria-controls="slick-slide02" aria-label="3 of 9" tabindex="-1">3</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control03" aria-controls="slick-slide03" aria-label="4 of 9" tabindex="-1">4</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control04" aria-controls="slick-slide04" aria-label="5 of 9" tabindex="-1">5</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control05" aria-controls="slick-slide05" aria-label="6 of 9" tabindex="-1">6</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control06" aria-controls="slick-slide06" aria-label="7 of 9" tabindex="-1">7</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control07" aria-controls="slick-slide07" aria-label="8 of 9" tabindex="-1">8</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control08" aria-controls="slick-slide08" aria-label="9 of 9" tabindex="-1">9</button></li></ul></ul>
+					</div>
+					
+
+
+
+
+
+
+
+<footer>
+    <div class="wrap">
+        <div id="footer-navigation">
+            <div class="container">
+                <div id="footer-navigation-terms">
+                    <ul>
+                        <li class="use">
+                            <a href="/swp/terms/use">이용약관</a>
+                        </li>
+                        <li class="privacy">
+                            <a href="/swp/terms/privacy">개인정보처리방침</a>
+                        </li>
+                        <li class="video">
+                            <a href="/swp/terms/video">영상정보기기 운영·관리방침</a>
+                        </li>
+                        <li class="way">
+                            <a href="/swp/about/way">오시는길</a>
+                        </li>
+                        <li class="biz">
+                            <a href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1268164682" target="_blank">
+                                사업자정보확인
+                                <i></i>
+                            </a>
+                        </li>
+                        <li class="biz" style="margin-left: 15px;">
+                            <a href="https://ethics.hitejinro.com/main/main.asp" target="_blank">
+                                윤리경영
+                                <i></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="footer-navigation-familySite">
+                    <select id="footer-navigation-familySite-select" name="footer-navigation-familySite-select">
+                        <option value="null" disabled="disabled" selected="selected">
+                            패밀리사이트
+                        </option>
+                        <option value="group">
+                            하이트진로
+                        </option>
+                        <option value="holdings">
+                            하이트진로 홀딩스
+                        </option>
+                        <option value="america">
+                            하이트진로 아메리카
+                        </option>
+                        <option value="beverage">
+                            하이트진로 음료㈜
+                        </option>
+                        <option value="japan">
+                            하이트진로 재팬
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="footer-information">
+            <address class="information">
+                <div class="inc">
+                    블루헤런 주식회사
+                </div>
+                <div class="info">
+                    대표이사 권오삼 / 경기도 여주시 대신면 고달사로 67
+                </div>
+                <div class="contact">
+                    대표전화 031-880-0700 / 이메일 blueherongc@hanmail.net
+                </div>
+                <div class="biz">
+                    사업자등록번호 126-81-64682 / 통신판매업신고 2009-경기여주-0049
+                </div>
+            </address>
+            <div class="copyright">
+                Copyright BLUEHERON, Inc. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="dimmer"></div>
+
+<script>
+$(function(){
+    /*document.getElementById("terms_in-01").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-03.html"></object>';
+    document.getElementById("terms_in-02").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-01.html"></object>';
+    document.getElementById("terms_in-03").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-02.html"></object>';*/
+    //document.getElementById("terms_in-04").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-05.html"></object>';
+    $('#terms_in-01').load('/static/pc/agreeform/agreeform-01.html', function() {});
+    $('#terms_in-02').load('/static/pc/agreeform/agreeform-02.html', function() {});
+});
+</script>
+					
+				</li>
+			</ul>
+		</div>
+	</div>
+</main>
+
+
+<div id="layerPopup" class="active">
+    <div class="wrap">
+        <div class="container">
+            <div class="outer">
+                <div class="inner">
+                    <div id="layerPopup-box">
+                        <div id="layerPopup-box-header">
+                            <div class="button">
+                                <div class="today" onclick="popCookie('layerPopup');">오늘 하루 그만 보기</div>
+                                <div class="close" onclick="popClose();">닫기</div>
+                            </div>
+                        </div>
+						<div id="layerPopup-box-content">
+							<div class="web">
+								<ul>
+									
+										<li id="main_popup-332" style="background-image: url('https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/332/260923_1_pop.jpg');">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=330">&nbsp;</a>
+										</li>
+									
+										<li id="main_popup-328" style="background-image: url('https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/328/260827_pop.jpg');">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=327">&nbsp;</a>
+										</li>
+									
+										<li id="main_popup-331" style="background-image: url('https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/331/260923_pop.jpg');">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=329">&nbsp;</a>
+										</li>
+									
+									<!--
+									<li style="background-image: url('https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/popup/home/images/40c126831ce644e4a02e668f61684368.jpg');">
+										<a href="https://www.blueheron.co.kr/information/notice/150">&nbsp;</a>
+									</li>
+									<li style="background-image: url('https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/popup/home/images/dc7db724010c44c0bbe5c9b8d67b7aa0.png');">
+										<a href="https://www.blueheron.co.kr/information/notice/149">&nbsp;</a>
+									</li>
+									-->
+								</ul>
+							</div>
+							<div class="mobile">
+								<ul class="slick-initialized slick-slider slick-dotted"><div class="slick-list draggable"><div class="slick-track" style="opacity: 1; width: 0px; transform: translate3d(0px, 0px, 0px); transition: transform 500ms;"><div class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 0px;"><div><li id="" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/331/260923_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=329" tabindex="-1">&nbsp;</a>
+										</li></div></div><div class="slick-slide" data-slick-index="0" aria-hidden="true" role="tabpanel" id="slick-slide10" style="width: 0px;"><div><li id="main_popup-332" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/332/260923_1_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=330" tabindex="0">&nbsp;</a>
+										</li></div></div><div class="slick-slide slick-current slick-active" data-slick-index="1" aria-hidden="false" tabindex="-1" role="tabpanel" id="slick-slide11" style="width: 0px;"><div><li id="main_popup-328" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/328/260827_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=327" tabindex="-1">&nbsp;</a>
+										</li></div></div><div class="slick-slide" data-slick-index="2" aria-hidden="true" tabindex="-1" role="tabpanel" id="slick-slide12" style="width: 0px;"><div><li id="main_popup-331" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/331/260923_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=329" tabindex="-1">&nbsp;</a>
+										</li></div></div><div class="slick-slide slick-cloned" data-slick-index="3" aria-hidden="true" tabindex="-1" style="width: 0px;"><div><li id="" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/332/260923_1_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=330" tabindex="-1">&nbsp;</a>
+										</li></div></div><div class="slick-slide slick-cloned" data-slick-index="4" aria-hidden="true" tabindex="-1" style="width: 0px;"><div><li id="" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/328/260827_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=327" tabindex="-1">&nbsp;</a>
+										</li></div></div><div class="slick-slide slick-cloned" data-slick-index="5" aria-hidden="true" tabindex="-1" style="width: 0px;"><div><li id="" style="background-image: url(&quot;https://s3.ap-northeast-2.amazonaws.com/cdn.dev.homepage.blueheron/upload/files/POPUP_MAIN/331/260923_pop.jpg&quot;); width: 100%; display: inline-block;">
+											<a href="/board/boardDetail?boardCode=NOTICE&amp;boardPostSeq=329" tabindex="-1">&nbsp;</a>
+										</li></div></div></div></div><ul class="slick-dots" style="" role="tablist"><li class="" role="presentation"><button type="button" role="tab" id="slick-slide-control10" aria-controls="slick-slide10" aria-label="1 of 3" tabindex="0" aria-selected="true">1</button></li><li role="presentation" class="slick-active"><button type="button" role="tab" id="slick-slide-control11" aria-controls="slick-slide11" aria-label="2 of 3" tabindex="-1">2</button></li><li role="presentation"><button type="button" role="tab" id="slick-slide-control12" aria-controls="slick-slide12" aria-label="3 of 3" tabindex="-1">3</button></li></ul></ul>
+							</div>
+						</div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>	
+
+        <!--// container-->
+
+        <!-- footer -->
+        
+
+
+
+
+
+
+
+<!-- Footer -->
+
+
+
+
+
+
+
+
+<footer>
+    <div class="wrap">
+        <div id="footer-navigation">
+            <div class="container">
+                <div id="footer-navigation-terms">
+                    <ul>
+                        <li class="use">
+                            <a href="/swp/terms/use">이용약관</a>
+                        </li>
+                        <li class="privacy">
+                            <a href="/swp/terms/privacy">개인정보처리방침</a>
+                        </li>
+                        <li class="video">
+                            <a href="/swp/terms/video">영상정보기기 운영·관리방침</a>
+                        </li>
+                        <li class="way">
+                            <a href="/swp/about/way">오시는길</a>
+                        </li>
+                        <li class="biz">
+                            <a href="http://www.ftc.go.kr/bizCommPop.do?wrkr_no=1268164682" target="_blank">
+                                사업자정보확인
+                                <i></i>
+                            </a>
+                        </li>
+                        <li class="biz" style="margin-left: 15px;">
+                            <a href="https://ethics.hitejinro.com/main/main.asp" target="_blank">
+                                윤리경영
+                                <i></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="footer-navigation-familySite">
+                    <select id="footer-navigation-familySite-select" name="footer-navigation-familySite-select">
+                        <option value="null" disabled="disabled" selected="selected">
+                            패밀리사이트
+                        </option>
+                        <option value="group">
+                            하이트진로
+                        </option>
+                        <option value="holdings">
+                            하이트진로 홀딩스
+                        </option>
+                        <option value="america">
+                            하이트진로 아메리카
+                        </option>
+                        <option value="beverage">
+                            하이트진로 음료㈜
+                        </option>
+                        <option value="japan">
+                            하이트진로 재팬
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div id="footer-information">
+            <address class="information">
+                <div class="inc">
+                    블루헤런 주식회사
+                </div>
+                <div class="info">
+                    대표이사 권오삼 / 경기도 여주시 대신면 고달사로 67
+                </div>
+                <div class="contact">
+                    대표전화 031-880-0700 / 이메일 blueherongc@hanmail.net
+                </div>
+                <div class="biz">
+                    사업자등록번호 126-81-64682 / 통신판매업신고 2009-경기여주-0049
+                </div>
+            </address>
+            <div class="copyright">
+                Copyright BLUEHERON, Inc. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="dimmer"></div>
+
+<script>
+$(function(){
+    /*document.getElementById("terms_in-01").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-03.html"></object>';
+    document.getElementById("terms_in-02").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-01.html"></object>';
+    document.getElementById("terms_in-03").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-02.html"></object>';*/
+    //document.getElementById("terms_in-04").innerHTML='<object type="text/html" data="/static/pc/agreeform/agreeform-05.html"></object>';
+    $('#terms_in-01').load('/static/pc/agreeform/agreeform-01.html', function() {});
+    $('#terms_in-02').load('/static/pc/agreeform/agreeform-02.html', function() {});
+});
+</script>
+        <!--// footer -->
+    
+    </div>
+	<div id="ie_chk" class="ie_chk_area dp-none">
+		<button type="button" onclick="javascript:popHide('ie_chk')" class="btn-close"><span class="blind">현재창 닫기</span></button>
+		<div class="con">
+			<p class="tit">
+				<img src="/static/pc/images/common/ico_ie.png" alt="ie">
+				본사이트는 <strong>Internet Explorer 11</strong>버전<br>에 <strong class="color-01">최적화</strong> 되어 있습니다.
+			</p>
+			<span>
+				<p class="btxt">‘Explorer 11이하’ 에서는 사용이 원활하지 않을 수 있습니다.</p>
+				<p class="btxt">Internet Explorer 11은 2022년 6월 15일부터 사용 및 지원이 중지됩니다. Microsoft Edge 사용을 권장합니다.</p>
+				<p class="txt">Explorer를 최신 버전으로 업데이트 하시거나, <br><strong class="color-01">Chrome, 네이버 Whale</strong> 등의 브라우저를 이용해 주시기 바랍니다.</p>
+				<a href="http://windows.microsoft.com/ko-kr/internet-explorer/download-ie" target="_blank" title="새창열림" class="btn-upgrade">지금 업그레이드</a>
+				<p class="chk-uclose"><input type="checkbox" name="ie_chk_close" id="ie_chk_close" onclick="popHide('ie_chk')"><label for="ie_chk_close">일주일간 표시 안하기</label></p>
+			</span>			
+		</div>
+	</div>
+	<script type="text/javascript">
+	//익스플로러 중지 안내 활성화
+	var agent = navigator.userAgent.toLowerCase();
+	
+	function ie_setCookie(name, value, days) {
+        if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+        } else {
+               var expires = "";
+        }
+        
+        document.cookie = name + "=" + value + expires + "; path=/";
+	}
+
+	 
+	//일주일간 표시 안하기
+	function ie_getCookie(name) {
+        var i, x, y, ARRcookies = document.cookie.split(";");
+        
+        for (i = 0; i < ARRcookies.length; i++) {     
+            x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+            y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+            
+            x = x.replace(/^\s+|\s+$/g, "");
+
+            if (x == name) {
+                    return unescape(y);
+            }
+        }
+	}
+	
+	//ie_chk 레이어팝업 닫기
+	function popHide(pop_id){
+		//document.getElementById(pop_id).style.display = "none";
+		$("#"+pop_id).hide(1000);
+		ie_setCookie('ie_chk_close', 'close', 7); //7일 후 만료
+	}
+
+	$(window).ready(function(){ 
+        var ie_Pchk = ie_getCookie('ie_chk_close');
+        //console.log(ie_Pchk);
+        if( ie_Pchk == 'close'){
+        	$("#"+pop_id).hide(1000);
+        }else{
+            if((navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)){
+    			$('#ie_chk').removeClass('dp-none');
+            }
+    	}
+    });
+    </script>
+
+<div id="fp-nav" class="fp-right" style="margin-top: -69px;"><ul><li><a href="#" class="active"><span></span></a></li><li><a href="#"><span></span></a></li><li><a href="#"><span></span></a></li><li><a href="#"><span></span></a></li><li><a href="#"><span></span></a></li><li><a href="#"><span></span></a></li></ul></div></body></html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="ko"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/static/common/images/favicon.ico">
+    <title>에러페이지</title>    
+    <!-- css -->
+    <link rel="stylesheet" href="/static/pc/css/cm_ui.css">
+    <link rel="stylesheet" href="/static/pc/css/cm_default.css">    
+    <link rel="stylesheet" href="/static/pc/css/custom/cm_default.css">
+    <link rel="stylesheet" href="/static/pc/css/custom/cm_sub.css">
+    <!-- js -->
+    <script src="/static/pc/js/libs/jquery-1.12.4.min.js"></script>
+    <script src="/static/pc/js/libs/jquery.min.js"></script>
+    <script src="/static/pc/js/libs/jquery-ui.js"></script>
+    <script src="/static/pc/js/libs/librarys.min.js"></script>
+    <script src="/static/pc/js/ui.custom.js"></script>
+    <script src="/static/pc/js/ui.common.js"></script>
+    <script src="/static/pc/js/custom/sub.js"></script>    
+<script>
+$(function(){
+	// 화면 깜빡임(FOUC 현상) 처리
+	$('header').hide();
+	
+});
+</script></head>
+
+<body>
+    <div id="wrapper">
+		
+
+        <!-- SkipNav -->
+        <div id="skipNav">
+            <a href="#gnb">주요 메뉴 바로가기</a>
+            <a href="#content">컨텐트 바로가기</a>
+        </div>
+        <!-- //SkipNav -->
+
+        
+        
+        <!-- Container -->
+        <div class="container">
+            <!-- Content -->
+            <div id="content" class="content error"><!--error영역 class-->
+                <div class="content-body">
+                    <div class="con box demo1 error_area">
+                        <div class="box-body">
+                            <i class="ico ico-error01"></i>
+                            <h2>죄송합니다.<br>요청하신 페이지를 찾을 수 없습니다.</h2>
+                            <p>서비스 이용에 불편을 끼쳐드려 죄송합니다.</p>
+                            <p><strong>방문하시려는 페이지의 주소가 잘못 입력되었거나 페이지의 주소가 변경 혹은 삭제되어 요청하신 페이지를 찾을 수 없습니다.</strong></p>
+                            <p>입력하신 주소가 정확한지 다시 한번 확인해 주시기 바랍니다.</p>
+                            <a href="/" class="btn demo1 secondary"><span>메인으로 가기<i class="ico ico-arw01"></i></span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- //Content -->
+        </div>
+        <!-- //Container -->
+		
+    </div>
+
+</body></html>
