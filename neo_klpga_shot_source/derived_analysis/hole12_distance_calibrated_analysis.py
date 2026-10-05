@@ -200,10 +200,12 @@ def zone_stats_table(records):
     table = {}
     for zone, rows in grouped.items():
         n = len(rows)
-        lands = [r["landing_distance_yd"] for r in rows]
-        apps = [r["approach_distance_yd"] for r in rows]
+        reliable = [r for r in rows if not r["unreliable_distance_state"]]
+        n_unreliable = n - len(reliable)
+        lands = [r["landing_distance_yd"] for r in reliable] or [r["landing_distance_yd"] for r in rows]
+        apps = [r["approach_distance_yd"] for r in reliable] or [r["approach_distance_yd"] for r in rows]
         table[zone] = {
-            "n": n,
+            "n": n, "n_unreliable_distance_excluded_from_range": n_unreliable,
             "landing_distance_range": [min(lands), max(lands)],
             "landing_distance_median": statistics.median(lands),
             "landing_distance_mean": round(statistics.mean(lands), 1),

@@ -14,18 +14,19 @@
   "zone_stats_distance_calibrated": {
     "261-296yd x LAT1": {
       "n": 31,
+      "n_unreliable_distance_excluded_from_range": 1,
       "landing_distance_range": [
         262.1,
-        410.0
+        293.3
       ],
-      "landing_distance_median": 272.3,
-      "landing_distance_mean": 277.3,
+      "landing_distance_median": 272.1,
+      "landing_distance_mean": 272.9,
       "approach_distance_range": [
-        0.0,
+        116.7,
         147.9
       ],
-      "approach_distance_median": 137.7,
-      "approach_distance_mean": 132.7,
+      "approach_distance_median": 137.89999999999998,
+      "approach_distance_mean": 137.1,
       "avg_score_to_par": 0.419,
       "GIR_pct": 0.323,
       "BirdiePlus_pct": 0.0,
@@ -36,6 +37,7 @@
     },
     "127-246yd x LAT1": {
       "n": 40,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         213.8,
         245.6
@@ -58,6 +60,7 @@
     },
     "246-261yd x LAT2": {
       "n": 39,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         246.6,
         260.8
@@ -80,6 +83,7 @@
     },
     "246-261yd x LAT3": {
       "n": 31,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         245.8,
         260.7
@@ -102,18 +106,19 @@
     },
     "127-246yd x LAT3": {
       "n": 47,
+      "n_unreliable_distance_excluded_from_range": 1,
       "landing_distance_range": [
-        27.6,
+        127.2,
         245.2
       ],
-      "landing_distance_median": 235.9,
-      "landing_distance_mean": 219.9,
+      "landing_distance_median": 236.35000000000002,
+      "landing_distance_mean": 224.1,
       "approach_distance_range": [
         164.8,
-        382.4
+        282.8
       ],
-      "approach_distance_median": 174.1,
-      "approach_distance_mean": 190.1,
+      "approach_distance_median": 173.64999999999998,
+      "approach_distance_mean": 185.9,
       "avg_score_to_par": 0.894,
       "GIR_pct": 0.255,
       "BirdiePlus_pct": 0.021,
@@ -124,6 +129,7 @@
     },
     "261-296yd x LAT3": {
       "n": 32,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         261.0,
         284.2
@@ -146,6 +152,7 @@
     },
     "246-261yd x LAT1": {
       "n": 40,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         246.0,
         260.9
@@ -168,6 +175,7 @@
     },
     "261-296yd x LAT2": {
       "n": 47,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         261.3,
         295.7
@@ -190,6 +198,7 @@
     },
     "127-246yd x LAT2": {
       "n": 24,
+      "n_unreliable_distance_excluded_from_range": 0,
       "landing_distance_range": [
         214.5,
         245.1
