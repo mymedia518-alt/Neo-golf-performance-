@@ -1,0 +1,7 @@
+player,round,hole,par,strokes,score_to_par,first_failure,escalation_point,state_sequence
+유해란,2,12,4,6,2,tee=ROUGH,3-putt,2-2-2-3-3-10
+박서현,1,3,4,6,2,approach=GREENSIDE_BUNKER,3-putt,1-9-2-3-3-10
+박서현,2,12,4,6,2,tee=ROUGH,4-putt,2-2-3-3-3-10
+박서현,3,8,4,7,3,approach=PENALTY_AREA,penalty/OB/lost x2,1-5-8-2-12-3-10
+박서현,3,9,4,6,2,approach=PENALTY_AREA,penalty/OB/lost x2,1-5-8-3-3-10
+박서현,4,9,4,6,2,tee=ROUGH,5-putt,2-3-3-3-3-10

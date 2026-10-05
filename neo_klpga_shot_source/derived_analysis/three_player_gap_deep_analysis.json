@@ -1,0 +1,941 @@
+{
+ "pair_hotspots": {
+  "유해란-이재윤": [
+   {
+    "round": 2,
+    "hole": 11,
+    "par": 3,
+    "a_strokes": 2,
+    "b_strokes": 4,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "a_strokes": 6,
+    "b_strokes": 4,
+    "diff": 2,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 1,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 2,
+    "hole": 15,
+    "par": 4,
+    "a_strokes": 3,
+    "b_strokes": 5,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 2,
+    "par": 3,
+    "a_strokes": 2,
+    "b_strokes": 3,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 4,
+    "same_direction_occurrences": 4
+   },
+   {
+    "round": 1,
+    "hole": 4,
+    "par": 5,
+    "a_strokes": 5,
+    "b_strokes": 6,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 3
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a_strokes": 3,
+    "b_strokes": 4,
+    "diff": -1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 1,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 1,
+    "hole": 9,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 5,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 10,
+    "par": 5,
+    "a_strokes": 6,
+    "b_strokes": 5,
+    "diff": 1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 1,
+    "hole": 11,
+    "par": 3,
+    "a_strokes": 3,
+    "b_strokes": 4,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 14,
+    "par": 4,
+    "a_strokes": 5,
+    "b_strokes": 4,
+    "diff": 1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 1
+   }
+  ],
+  "이재윤-박서현": [
+   {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 7,
+    "diff": -3,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 3
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 3,
+    "hole": 9,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 1,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 3,
+    "diff": 1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 4,
+    "par": 5,
+    "a_strokes": 6,
+    "b_strokes": 5,
+    "diff": 1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 1,
+    "hole": 6,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 5,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 5,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 9,
+    "par": 4,
+    "a_strokes": 5,
+    "b_strokes": 4,
+    "diff": 1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 1
+   }
+  ],
+  "유해란-박서현": [
+   {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 7,
+    "diff": -3,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a_strokes": 3,
+    "b_strokes": 5,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 16,
+    "par": 3,
+    "a_strokes": 4,
+    "b_strokes": 2,
+    "diff": 2,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 2,
+    "hole": 11,
+    "par": 3,
+    "a_strokes": 2,
+    "b_strokes": 4,
+    "diff": -2,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 1,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 4,
+    "hole": 4,
+    "par": 5,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 2,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 3
+   },
+   {
+    "round": 4,
+    "hole": 10,
+    "par": 5,
+    "a_strokes": 4,
+    "b_strokes": 6,
+    "diff": -2,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 2
+   },
+   {
+    "round": 1,
+    "hole": 1,
+    "par": 4,
+    "a_strokes": 4,
+    "b_strokes": 3,
+    "diff": 1,
+    "label": "ONE_OFF_EVENT",
+    "hole_occurrences_nonzero": 1,
+    "same_direction_occurrences": 1
+   },
+   {
+    "round": 1,
+    "hole": 2,
+    "par": 3,
+    "a_strokes": 2,
+    "b_strokes": 3,
+    "diff": -1,
+    "label": "REPEATING_HOLE_WEAKNESS",
+    "hole_occurrences_nonzero": 3,
+    "same_direction_occurrences": 3
+   }
+  ]
+ },
+ "pair_net_gap": {
+  "유해란-이재윤": -13,
+  "이재윤-박서현": -17,
+  "유해란-박서현": -30
+ },
+ "ryu_park_autopsy": [
+  {
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 7,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "diff": 3,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot2 approach=PENALTY_AREA",
+   "escalation_point": "penalty/OB/lost-ball x2",
+   "final_damage_strokes_over_par": 3
+  },
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "diff": 2,
+   "state_sequence": [
+    "1",
+    "9",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot2 approach=GREENSIDE_BUNKER",
+   "escalation_point": "3-putt",
+   "final_damage_strokes_over_par": 2
+  },
+  {
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 5,
+   "better_player": "유해란",
+   "better_strokes": 3,
+   "diff": 2,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot1 tee=ROUGH",
+   "escalation_point": "3-putt",
+   "final_damage_strokes_over_par": 1
+  },
+  {
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "worse_player": "유해란",
+   "worse_strokes": 4,
+   "better_player": "박서현",
+   "better_strokes": 2,
+   "diff": 2,
+   "state_sequence": [
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "on track through approach -- failure is on/after green",
+   "escalation_point": "4-putt",
+   "final_damage_strokes_over_par": 1
+  },
+  {
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "worse_player": "박서현",
+   "worse_strokes": 4,
+   "better_player": "유해란",
+   "better_strokes": 2,
+   "diff": 2,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "first_failure": "missed green on regulation approach",
+   "escalation_point": "none",
+   "final_damage_strokes_over_par": 1
+  },
+  {
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "diff": 2,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot2 approach=ROUGH",
+   "escalation_point": "4-putt",
+   "final_damage_strokes_over_par": 1
+  },
+  {
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "diff": 2,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot1 tee=ROUGH",
+   "escalation_point": "5-putt",
+   "final_damage_strokes_over_par": 2
+  },
+  {
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "diff": 2,
+   "state_sequence": [
+    "2",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot1 tee=ROUGH",
+   "escalation_point": "3-putt",
+   "final_damage_strokes_over_par": 1
+  },
+  {
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "worse_player": "유해란",
+   "worse_strokes": 4,
+   "better_player": "박서현",
+   "better_strokes": 3,
+   "diff": 1,
+   "state_sequence": [
+    "6",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "shot1 tee=BUNKER",
+   "escalation_point": "3-putt",
+   "final_damage_strokes_over_par": 0
+  },
+  {
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "worse_player": "박서현",
+   "worse_strokes": 3,
+   "better_player": "유해란",
+   "better_strokes": 2,
+   "diff": 1,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "on track through approach -- failure is on/after green",
+   "escalation_point": "3-putt",
+   "final_damage_strokes_over_par": 0
+  }
+ ],
+ "same_condition_flags_n": 3,
+ "same_condition_flags": [
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "player_a": "유해란",
+   "a_tee": "FAIRWAY",
+   "a_fw_hit": true,
+   "a_approach_lie": "GREENSIDE_BUNKER",
+   "a_strokes": 4,
+   "a_bucket": "Par",
+   "player_b": "박서현",
+   "b_tee": "FAIRWAY",
+   "b_fw_hit": true,
+   "b_approach_lie": "GREENSIDE_BUNKER",
+   "b_strokes": 6,
+   "b_bucket": "Double",
+   "stroke_diff": 2
+  },
+  {
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "player_a": "유해란",
+   "a_tee": "GREEN",
+   "a_fw_hit": false,
+   "a_approach_lie": null,
+   "a_strokes": 4,
+   "a_bucket": "Bogey",
+   "player_b": "박서현",
+   "b_tee": "GREEN",
+   "b_fw_hit": false,
+   "b_approach_lie": null,
+   "b_strokes": 2,
+   "b_bucket": "Birdie+",
+   "stroke_diff": 2
+  },
+  {
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "player_a": "유해란",
+   "a_tee": "ROUGH",
+   "a_fw_hit": false,
+   "a_approach_lie": "GREEN",
+   "a_strokes": 4,
+   "a_bucket": "Par",
+   "player_b": "박서현",
+   "b_tee": "ROUGH",
+   "b_fw_hit": false,
+   "b_approach_lie": "GREEN",
+   "b_strokes": 6,
+   "b_bucket": "Double",
+   "stroke_diff": 2
+  }
+ ],
+ "player_rates": {
+  "9115": {
+   "player": "유해란",
+   "n_nonpar3": 56,
+   "fw_hit_pct": 0.643,
+   "FWHit_to_GIR": 0.833,
+   "FWMiss_to_GIR": 0.45,
+   "n_fw": 36,
+   "n_miss": 20,
+   "GIRMiss_n": 19,
+   "GIRMiss_to_ParSave": 0.684,
+   "GIRMiss_to_Bogey": 0.263,
+   "GIRMiss_to_DoublePlus": 0.053,
+   "tee_penalty_events": 1,
+   "avg_score_to_par_all72": -0.056,
+   "BogeyPlus_pct_all72": 0.139,
+   "DoublePlus_pct_all72": 0.014,
+   "Birdie_pct_all72": 0.208
+  },
+  "9708": {
+   "player": "이재윤",
+   "n_nonpar3": 56,
+   "fw_hit_pct": 0.571,
+   "FWHit_to_GIR": 0.688,
+   "FWMiss_to_GIR": 0.5,
+   "n_fw": 32,
+   "n_miss": 24,
+   "GIRMiss_n": 29,
+   "GIRMiss_to_ParSave": 0.655,
+   "GIRMiss_to_Bogey": 0.345,
+   "GIRMiss_to_DoublePlus": 0.0,
+   "tee_penalty_events": 0,
+   "avg_score_to_par_all72": 0.125,
+   "BogeyPlus_pct_all72": 0.181,
+   "DoublePlus_pct_all72": 0.0,
+   "Birdie_pct_all72": 0.056
+  },
+  "9111": {
+   "player": "박서현",
+   "n_nonpar3": 56,
+   "fw_hit_pct": 0.554,
+   "FWHit_to_GIR": 0.645,
+   "FWMiss_to_GIR": 0.44,
+   "n_fw": 31,
+   "n_miss": 25,
+   "GIRMiss_n": 30,
+   "GIRMiss_to_ParSave": 0.433,
+   "GIRMiss_to_Bogey": 0.433,
+   "GIRMiss_to_DoublePlus": 0.133,
+   "tee_penalty_events": 0,
+   "avg_score_to_par_all72": 0.361,
+   "BogeyPlus_pct_all72": 0.333,
+   "DoublePlus_pct_all72": 0.069,
+   "Birdie_pct_all72": 0.056
+  }
+ },
+ "big_events_n": 6,
+ "big_events": [
+  {
+   "player": "유해란",
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "state_sequence": [
+    "2",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "tee=ROUGH",
+   "escalation_point": "3-putt"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "state_sequence": [
+    "1",
+    "9",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "approach=GREENSIDE_BUNKER",
+   "escalation_point": "3-putt"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "tee=ROUGH",
+   "escalation_point": "4-putt"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "strokes": 7,
+   "score_to_par": 3,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "first_failure": "approach=PENALTY_AREA",
+   "escalation_point": "penalty/OB/lost x2"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "approach=PENALTY_AREA",
+   "escalation_point": "penalty/OB/lost x2"
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "first_failure": "tee=ROUGH",
+   "escalation_point": "5-putt"
+  }
+ ],
+ "bogey_origin_by_player": {
+  "유해란": {
+   "APPROACH_MISS": 2,
+   "THREE_PUTT": 3,
+   "GREEN_MISS_RECOVERY_FAIL": 1,
+   "TEE_MISS": 2,
+   "TEE_PENALTY": 1
+  },
+  "이재윤": {
+   "APPROACH_MISS": 2,
+   "TEE_MISS": 5,
+   "GREEN_MISS_RECOVERY_FAIL": 4,
+   "THREE_PUTT": 2
+  },
+  "박서현": {
+   "APPROACH_MISS": 3,
+   "TEE_MISS": 9,
+   "APPROACH_PENALTY": 1,
+   "GREEN_MISS_RECOVERY_FAIL": 3,
+   "THREE_PUTT": 3
+  }
+ },
+ "par_breakdown_by_pair": {
+  "유해란-이재윤": {
+   "par3": {
+    "n": 16,
+    "net_diff": -6
+   },
+   "par4": {
+    "n": 40,
+    "net_diff": -2
+   },
+   "par5": {
+    "n": 16,
+    "net_diff": -5
+   }
+  },
+  "이재윤-박서현": {
+   "par3": {
+    "n": 16,
+    "net_diff": 1
+   },
+   "par4": {
+    "n": 40,
+    "net_diff": -17
+   },
+   "par5": {
+    "n": 16,
+    "net_diff": -1
+   }
+  },
+  "유해란-박서현": {
+   "par3": {
+    "n": 16,
+    "net_diff": -5
+   },
+   "par4": {
+    "n": 40,
+    "net_diff": -19
+   },
+   "par5": {
+    "n": 16,
+    "net_diff": -6
+   }
+  }
+ },
+ "act_breakdown_by_pair": {
+  "유해란-이재윤": {
+   "DEFEND": {
+    "n": 16,
+    "net_diff": 0
+   },
+   "CONTROL": {
+    "n": 32,
+    "net_diff": -6
+   },
+   "ATTACK": {
+    "n": 24,
+    "net_diff": -7
+   }
+  },
+  "이재윤-박서현": {
+   "DEFEND": {
+    "n": 16,
+    "net_diff": -10
+   },
+   "CONTROL": {
+    "n": 32,
+    "net_diff": -8
+   },
+   "ATTACK": {
+    "n": 24,
+    "net_diff": 1
+   }
+  },
+  "유해란-박서현": {
+   "DEFEND": {
+    "n": 16,
+    "net_diff": -10
+   },
+   "CONTROL": {
+    "n": 32,
+    "net_diff": -14
+   },
+   "ATTACK": {
+    "n": 24,
+    "net_diff": -6
+   }
+  }
+ },
+ "gap_decomposition_gross_by_pair": {
+  "유해란-이재윤": {
+   "BETTER_PLAYER_BIRDIE": 15,
+   "APPROACH_MISS": 4,
+   "TEE_MISS": 6,
+   "GREEN_MISS_RECOVERY_FAIL": 6,
+   "THREE_PUTT_PLUS": 5,
+   "BIG_NUMBER_COMPOUND": 2,
+   "TEE_PENALTY": 1
+  },
+  "이재윤-박서현": {
+   "BETTER_PLAYER_BIRDIE": 6,
+   "BIG_NUMBER_COMPOUND": 11,
+   "APPROACH_MISS": 4,
+   "TEE_MISS": 8,
+   "GREEN_MISS_RECOVERY_FAIL": 3,
+   "THREE_PUTT_PLUS": 3
+  },
+  "유해란-박서현": {
+   "BETTER_PLAYER_BIRDIE": 14,
+   "BIG_NUMBER_COMPOUND": 8,
+   "APPROACH_MISS": 4,
+   "TEE_MISS": 9,
+   "THREE_PUTT_PLUS": 6,
+   "APPROACH_PENALTY": 1,
+   "GREEN_MISS_RECOVERY_FAIL": 5,
+   "TEE_PENALTY": 1
+  }
+ },
+ "gap_decomposition_net_by_pair": {
+  "유해란-이재윤": {
+   "BETTER_PLAYER_BIRDIE": -9,
+   "APPROACH_MISS": 0,
+   "TEE_MISS": -4,
+   "GREEN_MISS_RECOVERY_FAIL": -4,
+   "THREE_PUTT_PLUS": 1,
+   "BIG_NUMBER_COMPOUND": 2,
+   "TEE_PENALTY": 1
+  },
+  "이재윤-박서현": {
+   "BETTER_PLAYER_BIRDIE": 0,
+   "BIG_NUMBER_COMPOUND": -11,
+   "APPROACH_MISS": -2,
+   "TEE_MISS": -4,
+   "GREEN_MISS_RECOVERY_FAIL": 1,
+   "THREE_PUTT_PLUS": -1
+  },
+  "유해란-박서현": {
+   "BETTER_PLAYER_BIRDIE": -8,
+   "BIG_NUMBER_COMPOUND": -8,
+   "APPROACH_MISS": -2,
+   "TEE_MISS": -9,
+   "THREE_PUTT_PLUS": 0,
+   "APPROACH_PENALTY": -1,
+   "GREEN_MISS_RECOVERY_FAIL": -3,
+   "TEE_PENALTY": 1
+  }
+ }
+}

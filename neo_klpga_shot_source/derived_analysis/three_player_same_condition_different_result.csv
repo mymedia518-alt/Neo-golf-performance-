@@ -1,0 +1,4 @@
+round,hole,par,player_a,a_strokes,a_bucket,player_b,b_strokes,b_bucket,shared_condition
+1,3,4,유해란,4,Par,박서현,6,Double,"fw_hit=True,approach=GREENSIDE_BUNKER"
+1,16,3,유해란,4,Bogey,박서현,2,Birdie+,"fw_hit=False,approach=None"
+4,9,4,유해란,4,Par,박서현,6,Double,"fw_hit=False,approach=GREEN"
