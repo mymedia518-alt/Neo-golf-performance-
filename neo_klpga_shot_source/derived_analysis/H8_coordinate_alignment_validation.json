@@ -1,0 +1,83 @@
+{
+ "hole": 8,
+ "image_overview": "hole_8.png",
+ "image_green": "hole_8_G.png",
+ "image_size_confirmed": [
+  650,
+  433
+ ],
+ "transform": {
+  "A": -3.3326271186440724,
+  "B": 649.8622881355936,
+  "C": 3.337133757961783,
+  "formula": "px=A*raw_y+B, py=C*raw_x (overview); same applied to green_x/green_y for green-detail panel"
+ },
+ "by_lie_overview_checks": {
+  "FAIRWAY": {
+   "n": 214,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  },
+  "ROUGH": {
+   "n": 238,
+   "pct_in_image_bounds": 0.996,
+   "pct_on_course_pixels": 0.966
+  },
+  "PENALTY_AREA": {
+   "n": 37,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  },
+  "LOST_BALL": {
+   "n": 5,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 0.0,
+   "note": "expected to often land outside the drawn course polygon (lost ball / OB) -- not counted against overall_alignment"
+  },
+  "PENALTY_STROKE": {
+   "n": 37,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  }
+ },
+ "penalty_area_water_check": {
+  "n": 37,
+  "pct_landing_on_water_pixels": 0.784
+ },
+ "green_shot_checks": {
+  "n": 542,
+  "pct_in_bounds": 1.0,
+  "pct_on_course_pixels": 1.0,
+  "green_centroid_px_py": [
+   299.74582916380007,
+   217.72642795026673
+  ]
+ },
+ "round_pin_checks": {
+  "1": {
+   "pin_px": 353.3,
+   "pin_py": 320.4,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "2": {
+   "pin_px": 246.6,
+   "pin_py": 146.8,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "3": {
+   "pin_px": 263.3,
+   "pin_py": 300.3,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "4": {
+   "pin_px": 289.9,
+   "pin_py": 126.8,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  }
+ },
+ "overall_alignment": "PASS"
+}

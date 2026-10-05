@@ -1,0 +1,77 @@
+{
+ "hole": 9,
+ "image_overview": "hole_9.png",
+ "image_green": "hole_9_G.png",
+ "image_size_confirmed": [
+  650,
+  433
+ ],
+ "transform": {
+  "A": -3.3326271186440724,
+  "B": 649.8622881355936,
+  "C": 3.337133757961783,
+  "formula": "px=A*raw_y+B, py=C*raw_x (overview); same applied to green_x/green_y for green-detail panel"
+ },
+ "by_lie_overview_checks": {
+  "FAIRWAY": {
+   "n": 168,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  },
+  "ROUGH": {
+   "n": 239,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 0.962
+  },
+  "PENALTY_AREA": {
+   "n": 8,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  },
+  "PENALTY_STROKE": {
+   "n": 6,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 1.0
+  }
+ },
+ "penalty_area_water_check": {
+  "n": 8,
+  "pct_landing_on_water_pixels": 1.0
+ },
+ "green_shot_checks": {
+  "n": 569,
+  "pct_in_bounds": 1.0,
+  "pct_on_course_pixels": 1.0,
+  "green_centroid_px_py": [
+   297.9743491406273,
+   198.70901380229026
+  ]
+ },
+ "round_pin_checks": {
+  "1": {
+   "pin_px": 326.6,
+   "pin_py": 280.3,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "2": {
+   "pin_px": 329.9,
+   "pin_py": 150.2,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "3": {
+   "pin_px": 176.6,
+   "pin_py": 186.9,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "4": {
+   "pin_px": 273.3,
+   "pin_py": 140.2,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  }
+ },
+ "overall_alignment": "PASS"
+}
