@@ -1,0 +1,975 @@
+{
+  "9115": {
+    "name": "유해란",
+    "practice_priority": {
+      "priority_ko": "데이터상 뚜렷한 약점 없음 — 현재 회복력 유지",
+      "evidence_ko": "페어웨이 64%, 그린 적중 74%, 그린미스 파세이브 68%, 벙커 미스 후 파세이브 100%(n=5, 표본 적음) — 세 선수 중 전 지표 최고. 유일한 실제 실패 사례는 Hole12에서 티샷·어프로치 연속 러프로 인한 더블보기(실제 사례, 아래 참고)."
+    },
+    "good_bad_green_miss_tournament_wide": {
+      "rough": {
+        "rate": 0.7857142857142857,
+        "n": 14
+      },
+      "bunker": {
+        "rate": 1.0,
+        "n": 5
+      }
+    },
+    "hole12": {
+      "reachability": {
+        "n": 39,
+        "median": 263.8,
+        "mean": 266.5,
+        "stdev": 22.0,
+        "min": 222.8,
+        "max": 315.6
+      },
+      "four_rounds": [
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 295.7,
+          "approach_distance_yd": 114.3,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 255.2,
+          "approach_distance_yd": 154.8,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 290.0,
+          "approach_distance_yd": 120.0,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT1",
+          "zone": "261-296yd x LAT1",
+          "approach_lie": "FRINGE",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 293.5,
+          "approach_distance_yd": 116.5,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "FRINGE",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        }
+      ],
+      "imperfect_golf_cases": {
+        "favorable_good": [
+          {
+            "round": 1,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 295.7,
+            "approach_distance": 114.3,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 293.5,
+            "approach_distance": 116.5,
+            "approach_lie": "FRINGE",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "12",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 3,
+            "tee_lie": "ROUGH",
+            "landing_distance": 290.0,
+            "approach_distance": 120.0,
+            "approach_lie": "FRINGE",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "12",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": [
+          {
+            "round": 2,
+            "tee_lie": "ROUGH",
+            "landing_distance": 255.2,
+            "approach_distance": 154.8,
+            "approach_lie": "ROUGH",
+            "putts": 3,
+            "strokes": 6,
+            "score_to_par": 2,
+            "shot_state_sequence": [
+              "2",
+              "2",
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ]
+      }
+    },
+    "hole1": {
+      "reachability": {
+        "n": 39,
+        "min": 222.8,
+        "max": 315.6,
+        "median": 263.8,
+        "mean": 266.5,
+        "stdev": 22.0
+      },
+      "approach_ability": {
+        "Q1(<=158)": {
+          "n": 33,
+          "avg_score_to_par": -0.03,
+          "GIR_pct": 0.758,
+          "LOW_SAMPLE": false
+        },
+        "Q2(<=168)": {
+          "n": 3,
+          "avg_score_to_par": 0.333,
+          "GIR_pct": 0.333,
+          "LOW_SAMPLE": true
+        },
+        "Q3(<=177)": {
+          "n": 1,
+          "avg_score_to_par": 1,
+          "GIR_pct": 0.0,
+          "LOW_SAMPLE": true
+        },
+        "Q4(>177)": {
+          "n": 2,
+          "avg_score_to_par": 0.5,
+          "GIR_pct": 0.0,
+          "LOW_SAMPLE": true
+        }
+      },
+      "imperfect_golf_cases": {
+        "favorable_good": [
+          {
+            "round": 3,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 248.2,
+            "approach_distance": 153.8,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 248.2,
+            "approach_distance": 153.8,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "BUNKER",
+            "landing_distance": 245.7,
+            "approach_distance": 156.3,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "6",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 2,
+            "tee_lie": "BUNKER",
+            "landing_distance": 265.8,
+            "approach_distance": 136.2,
+            "approach_lie": "ROUGH",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "6",
+              "2",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      },
+      "four_rounds": [
+        {
+          "round": 1,
+          "tee_lie": "BUNKER",
+          "landing_distance_yd": 245.7,
+          "approach_distance_yd": 156.3,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT1"
+        },
+        {
+          "round": 2,
+          "tee_lie": "BUNKER",
+          "landing_distance_yd": 265.8,
+          "approach_distance_yd": 136.2,
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT1"
+        },
+        {
+          "round": 3,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 248.2,
+          "approach_distance_yd": 153.8,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT3"
+        },
+        {
+          "round": 4,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 248.2,
+          "approach_distance_yd": 153.8,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT1"
+        }
+      ]
+    }
+  },
+  "9708": {
+    "name": "이재윤",
+    "practice_priority": {
+      "priority_ko": "티샷 정확도 및 그린 적중률",
+      "evidence_ko": "페어웨이 적중 57%, 그린 적중 60% — 두 지표 모두 세 선수 중 유해란보다 뚜렷이 낮음(각각 -7%p, -14%p)."
+    },
+    "good_bad_green_miss_tournament_wide": {
+      "rough": {
+        "rate": 0.7916666666666666,
+        "n": 24
+      },
+      "bunker": {
+        "rate": null,
+        "n": 0,
+        "unknown": true
+      }
+    },
+    "hole12": {
+      "reachability": {
+        "n": 40,
+        "median": 260.4,
+        "mean": 261.4,
+        "stdev": 21.4,
+        "min": 208.5,
+        "max": 310.6
+      },
+      "four_rounds": [
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 289.9,
+          "approach_distance_yd": 120.1,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 269.6,
+          "approach_distance_yd": 140.4,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT3",
+          "zone": "261-296yd x LAT3",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 208.5,
+          "approach_distance_yd": 201.5,
+          "unreliable_distance_state": false,
+          "distance_band": "127-246yd",
+          "lateral_band": "LAT3",
+          "zone": "127-246yd x LAT3",
+          "approach_lie": "FAIRWAY",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 273.9,
+          "approach_distance_yd": 136.1,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT1",
+          "zone": "261-296yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        }
+      ],
+      "imperfect_golf_cases": {
+        "favorable_good": [
+          {
+            "round": 1,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 289.9,
+            "approach_distance": 120.1,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 2,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 269.6,
+            "approach_distance": 140.4,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 3,
+            "tee_lie": "ROUGH",
+            "landing_distance": 208.5,
+            "approach_distance": 201.5,
+            "approach_lie": "FAIRWAY",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "1",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "ROUGH",
+            "landing_distance": 273.9,
+            "approach_distance": 136.1,
+            "approach_lie": "ROUGH",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "2",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      }
+    },
+    "hole1": {
+      "reachability": {
+        "n": 40,
+        "min": 208.5,
+        "max": 310.6,
+        "median": 260.4,
+        "mean": 261.4,
+        "stdev": 21.4
+      },
+      "approach_ability": {
+        "Q2(<=168)": {
+          "n": 5,
+          "avg_score_to_par": 0.6,
+          "GIR_pct": 0.8,
+          "LOW_SAMPLE": false
+        },
+        "Q1(<=158)": {
+          "n": 30,
+          "avg_score_to_par": 0.067,
+          "GIR_pct": 0.533,
+          "LOW_SAMPLE": false
+        },
+        "Q4(>177)": {
+          "n": 4,
+          "avg_score_to_par": 0,
+          "GIR_pct": 0.25,
+          "LOW_SAMPLE": true
+        },
+        "Q3(<=177)": {
+          "n": 1,
+          "avg_score_to_par": 0,
+          "GIR_pct": 1.0,
+          "LOW_SAMPLE": true
+        }
+      },
+      "imperfect_golf_cases": {
+        "favorable_good": [
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 250.8,
+            "approach_distance": 151.2,
+            "approach_lie": "ROUGH",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "2",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [
+          {
+            "round": 3,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 243.2,
+            "approach_distance": 158.8,
+            "approach_lie": "GREEN",
+            "putts": 4,
+            "strokes": 5,
+            "score_to_par": 1,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "ROUGH",
+            "landing_distance": 244.1,
+            "approach_distance": 157.9,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 2,
+            "tee_lie": "ROUGH",
+            "landing_distance": 245.5,
+            "approach_distance": 156.5,
+            "approach_lie": "GREENSIDE_BUNKER",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "9",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      },
+      "four_rounds": [
+        {
+          "round": 1,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 244.1,
+          "approach_distance_yd": 157.9,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT1"
+        },
+        {
+          "round": 2,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 245.5,
+          "approach_distance_yd": 156.5,
+          "approach_lie": "GREENSIDE_BUNKER",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT3"
+        },
+        {
+          "round": 3,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 243.2,
+          "approach_distance_yd": 158.8,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 5,
+          "score_to_par": 1,
+          "zone": "240-272yd x LAT3"
+        },
+        {
+          "round": 4,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 250.8,
+          "approach_distance_yd": 151.2,
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "240-272yd x LAT2"
+        }
+      ]
+    }
+  },
+  "9111": {
+    "name": "박서현",
+    "practice_priority": {
+      "priority_ko": "그린을 놓쳤을 때의 파 세이브 (숏게임/리커버리)",
+      "evidence_ko": "그린 미스 후 파 세이브 43% (n=30) — 세 선수 중 가장 낮음. 특히 러프 미스 후 파 세이브 57% (n=23)."
+    },
+    "good_bad_green_miss_tournament_wide": {
+      "rough": {
+        "rate": 0.5652173913043478,
+        "n": 23
+      },
+      "bunker": {
+        "rate": 0.5,
+        "n": 2,
+        "low_sample": true
+      }
+    },
+    "hole12": {
+      "reachability": {
+        "n": 40,
+        "median": 243.7,
+        "mean": 242.6,
+        "stdev": 15.5,
+        "min": 217.1,
+        "max": 279.3
+      },
+      "four_rounds": [
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 256.7,
+          "approach_distance_yd": 153.3,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 232.4,
+          "approach_distance_yd": 177.6,
+          "unreliable_distance_state": false,
+          "distance_band": "127-246yd",
+          "lateral_band": "LAT1",
+          "zone": "127-246yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 247.3,
+          "approach_distance_yd": 162.7,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 260.9,
+          "approach_distance_yd": 149.1,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 5,
+          "score_to_par": 1,
+          "score_bucket": "Bogey",
+          "fw_hit": false
+        }
+      ],
+      "imperfect_golf_cases": {
+        "favorable_good": [],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "ROUGH",
+            "landing_distance": 256.7,
+            "approach_distance": 153.3,
+            "approach_lie": "ROUGH",
+            "putts": 1,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "2",
+              "12",
+              "10"
+            ]
+          },
+          {
+            "round": 3,
+            "tee_lie": "ROUGH",
+            "landing_distance": 247.3,
+            "approach_distance": 162.7,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": [
+          {
+            "round": 2,
+            "tee_lie": "ROUGH",
+            "landing_distance": 232.4,
+            "approach_distance": 177.6,
+            "approach_lie": "ROUGH",
+            "putts": 4,
+            "strokes": 6,
+            "score_to_par": 2,
+            "shot_state_sequence": [
+              "2",
+              "2",
+              "3",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ]
+      }
+    },
+    "hole1": {
+      "reachability": {
+        "n": 40,
+        "min": 217.1,
+        "max": 279.3,
+        "median": 243.7,
+        "mean": 242.6,
+        "stdev": 15.5
+      },
+      "approach_ability": {
+        "Q4(>177)": {
+          "n": 11,
+          "avg_score_to_par": 0.636,
+          "GIR_pct": 0.636,
+          "LOW_SAMPLE": false
+        },
+        "Q3(<=177)": {
+          "n": 3,
+          "avg_score_to_par": 0.333,
+          "GIR_pct": 0.667,
+          "LOW_SAMPLE": true
+        },
+        "Q2(<=168)": {
+          "n": 4,
+          "avg_score_to_par": 0.25,
+          "GIR_pct": 0.5,
+          "LOW_SAMPLE": true
+        },
+        "Q1(<=158)": {
+          "n": 22,
+          "avg_score_to_par": 0.591,
+          "GIR_pct": 0.455,
+          "LOW_SAMPLE": false
+        }
+      },
+      "imperfect_golf_cases": {
+        "favorable_good": [
+          {
+            "round": 2,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 230.5,
+            "approach_distance": 171.5,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 218.9,
+            "approach_distance": 183.1,
+            "approach_lie": "GREEN",
+            "putts": 2,
+            "strokes": 3,
+            "score_to_par": -1,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 3,
+            "tee_lie": "ROUGH",
+            "landing_distance": 231.1,
+            "approach_distance": 170.9,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 221.8,
+            "approach_distance": 180.2,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      },
+      "four_rounds": [
+        {
+          "round": 1,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 218.9,
+          "approach_distance_yd": 183.1,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 3,
+          "score_to_par": -1,
+          "zone": "181-228yd x LAT2"
+        },
+        {
+          "round": 2,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 230.5,
+          "approach_distance_yd": 171.5,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "228-240yd x LAT2"
+        },
+        {
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 231.1,
+          "approach_distance_yd": 170.9,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "228-240yd x LAT1"
+        },
+        {
+          "round": 4,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 221.8,
+          "approach_distance_yd": 180.2,
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "zone": "181-228yd x LAT2"
+        }
+      ]
+    }
+  }
+}
