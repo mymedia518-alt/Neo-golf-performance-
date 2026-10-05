@@ -42,6 +42,11 @@ h1{font-size:1.25rem;font-weight:800;margin:4px 0 2px;letter-spacing:-0.02em}
 .legend span{display:inline-flex;align-items:center;gap:5px}
 .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
 
+.mapwrap{position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.mapwrap img{display:block;width:100%;height:auto}
+#mapsvg{position:absolute;inset:0;width:100%;height:100%}
+.maplabel{font-size:.74rem;color:var(--sub);margin-top:8px;line-height:1.5}
+
 .stat{margin-bottom:14px}
 .stat:last-child{margin-bottom:0}
 .stat .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
@@ -67,6 +72,15 @@ footer{text-align:center;color:var(--sub);font-size:.7rem;margin-top:18px}
     <h2>72홀 스코어 여정</h2>
     <svg id="chart" viewBox="0 0 680 220"></svg>
     <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="card">
+    <h2>코스맵 — 9번홀, 실제 공이 간 자리</h2>
+    <div class="mapwrap">
+      <img src="hole_9_G.png" alt="9번홀 그린 실제 코스맵" width="650" height="433">
+      <svg id="mapsvg" viewBox="0 0 650 433" preserveAspectRatio="none"></svg>
+    </div>
+    <p class="maplabel">노란 점 = 그날의 실제 핀 위치(1~4라운드). 선은 공이 실제로 지나간 자리(겨냥 방향 아님).</p>
   </div>
 
   <div class="card">
@@ -98,6 +112,10 @@ const DATA = {
 };
 const ORDER = ["ryu","lee","park"];
 let active = "ryu";
+
+// 9번홀 그린 주변 실제 좌표 (KLPGA Shot Tracker x/y를 실제 사이트 변환식으로 픽셀 변환, 추정 아님)
+const HOLE9 = {"ryu": {"1": {"pts": [[333.3, 330.4], [326.6, 283.7], [326.6, 280.3]], "score": 4, "bucket": "Par"}, "2": {"pts": [[326.6, 156.8], [329.9, 150.2]], "score": 3, "bucket": "Birdie+"}, "3": {"pts": [[220.0, 170.2], [173.3, 190.2], [173.3, 186.9], [176.6, 186.9]], "score": 5, "bucket": "Bogey"}, "4": {"pts": [[273.3, 183.5], [273.3, 136.8], [273.3, 140.2]], "score": 4, "bucket": "Par"}}, "lee": {"1": {"pts": [[289.9, 350.4], [339.9, 200.2], [333.3, 290.3], [326.6, 280.3]], "score": 5, "bucket": "Bogey"}, "2": {"pts": [[333.3, 90.1], [326.6, 140.2], [329.9, 150.2]], "score": 4, "bucket": "Par"}, "3": {"pts": [[230.0, 136.8], [166.6, 180.2], [176.6, 186.9]], "score": 4, "bucket": "Par"}, "4": {"pts": [[226.6, 176.9], [269.9, 140.2], [273.3, 140.2]], "score": 4, "bucket": "Par"}}, "park": {"1": {"pts": [[493.2, 257.0], [329.9, 283.7], [326.6, 280.3]], "score": 4, "bucket": "Par"}, "2": {"pts": [[439.9, 277.0], [319.9, 146.8], [329.9, 150.2]], "score": 4, "bucket": "Par"}, "3": {"pts": [[60.0, 123.5], [23.3, 103.5], [210.0, 190.2], [173.3, 186.9], [176.6, 186.9]], "score": 6, "bucket": "Double"}, "4": {"pts": [[379.9, 246.9], [296.6, 150.2], [269.9, 126.8], [273.3, 143.5], [273.3, 140.2]], "score": 6, "bucket": "Double"}}, "pins": {"1": [326.6, 280.3], "2": [329.9, 150.2], "3": [176.6, 186.9], "4": [273.3, 140.2]}};
+const BUCKET_KO = {"Birdie+":"버디","Par":"파","Bogey":"보기","Double":"더블+"};
 
 function renderCards(){
   const el = document.getElementById("playerCards");
@@ -145,6 +163,36 @@ function renderChart(){
   legend.innerHTML = ORDER.map(k=>`<span><i style="background:${DATA[k].color}"></i>${DATA[k].name}</span>`).join("");
 }
 
+function renderMap(){
+  const svg = document.getElementById("mapsvg");
+  let s = "";
+  // 4라운드 실제 핀
+  Object.entries(HOLE9.pins).forEach(([rnd,p])=>{
+    s += `<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="#fde047" stroke="#1f2420" stroke-width="1.3"/>`;
+    s += `<text x="${p[0]}" y="${p[1]-10}" font-size="10" font-weight="800" fill="#1f2420" text-anchor="middle" paint-order="stroke" stroke="#fff" stroke-width="3">R${rnd}</text>`;
+  });
+  ORDER.forEach(k=>{
+    const d = DATA[k];
+    const isActive = k===active;
+    [1,2,3,4].forEach(rnd=>{
+      const r = HOLE9[k][rnd];
+      if(!r.pts.length) return;
+      const pts = r.pts.map(p=>p.join(",")).join(" ");
+      const col = isActive ? d.color.replace("var(--","").replace(")","") : null;
+      s += `<polyline points="${pts}" fill="none" stroke="${isActive?getComputedColor(d.color):'#9aa092'}" stroke-width="${isActive?2.6:1}" opacity="${isActive?0.95:0.25}" stroke-linejoin="round" stroke-linecap="round"/>`;
+      if(isActive){
+        const last = r.pts[r.pts.length-1];
+        s += `<circle cx="${last[0]}" cy="${last[1]}" r="3.5" fill="${getComputedColor(d.color)}" stroke="#fff" stroke-width="1"/>`;
+      }
+    });
+  });
+  svg.innerHTML = s;
+}
+function getComputedColor(varExpr){
+  const name = varExpr.match(/--[\w-]+/)[0];
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
 function bar(label, value, max, suffix, note, color){
   const pct = Math.max(0, Math.min(100, (value/max)*100));
   return `<div class="stat">
@@ -173,6 +221,7 @@ function renderSummary(){
 function render(){
   renderCards();
   renderChart();
+  renderMap();
   renderStats();
   renderSummary();
 }
