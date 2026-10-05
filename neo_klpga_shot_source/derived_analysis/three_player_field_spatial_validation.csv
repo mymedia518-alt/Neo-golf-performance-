@@ -1,0 +1,17 @@
+cluster,n,metric,value
+hole8_field,331,avg_score_to_par,0.387
+hole8_field,331,bogey_plus_pct,0.344
+hole8_field,331,double_plus_pct,0.103
+hole9_field,331,avg_score_to_par,0.127
+hole9_field,331,bogey_plus_pct,0.211
+hole9_field,331,double_plus_pct,0.042
+all_par4_field,3310,avg_score_to_par,0.258
+all_par4_field,3310,double_plus_pct,0.041
+r1h3_greenside_bunker_field,16,avg_score_to_par,0.688
+r1h3_greenside_bunker_field,16,par_or_better_pct,0.438
+r1h3_greenside_bunker_field,16,double_plus_pct,0.125
+field_rough_miss_parsave,1152,par_or_better_pct,0.463
+field_rough_miss_parsave,1152,double_plus_pct,0.108
+field_putts_distribution,5958,mean,1.715
+field_putts_distribution,5958,max,4
+field_putts_distribution,5958,pct_3plus,0.059

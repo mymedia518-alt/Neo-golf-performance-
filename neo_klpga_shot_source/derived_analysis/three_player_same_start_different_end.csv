@@ -1,0 +1,4 @@
+round,hole,par,tolerance_yd,player_a,a_remaining_after_tee_yd,a_score,a_bucket,player_b,b_remaining_after_tee_yd,b_score,b_bucket,score_diff
+1,10,5,3.5,유해란,289.7,6,Bogey,이재윤,288.4,5,Par,1
+1,14,4,3.4,유해란,136.1,5,Bogey,박서현,137.8,4,Par,1
+2,14,4,3.4,유해란,156.2,4,Par,이재윤,158.4,5,Bogey,1

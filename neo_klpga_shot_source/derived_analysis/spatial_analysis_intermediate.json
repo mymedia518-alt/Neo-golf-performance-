@@ -1,0 +1,4020 @@
+{
+ "pair_tops": {
+  "유해란-이재윤": [
+   {
+    "round": 2,
+    "hole": 11,
+    "par": 3,
+    "a": 2,
+    "b": 4,
+    "diff": -2
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "a": 6,
+    "b": 4,
+    "diff": 2
+   },
+   {
+    "round": 2,
+    "hole": 15,
+    "par": 4,
+    "a": 3,
+    "b": 5,
+    "diff": -2
+   },
+   {
+    "round": 1,
+    "hole": 2,
+    "par": 3,
+    "a": 2,
+    "b": 3,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 4,
+    "par": 5,
+    "a": 5,
+    "b": 6,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a": 3,
+    "b": 4,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 9,
+    "par": 4,
+    "a": 4,
+    "b": 5,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 10,
+    "par": 5,
+    "a": 6,
+    "b": 5,
+    "diff": 1
+   },
+   {
+    "round": 1,
+    "hole": 11,
+    "par": 3,
+    "a": 3,
+    "b": 4,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 14,
+    "par": 4,
+    "a": 5,
+    "b": 4,
+    "diff": 1
+   }
+  ],
+  "이재윤-박서현": [
+   {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "a": 4,
+    "b": 7,
+    "diff": -3
+   },
+   {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 3,
+    "hole": 9,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 1,
+    "hole": 1,
+    "par": 4,
+    "a": 4,
+    "b": 3,
+    "diff": 1
+   },
+   {
+    "round": 1,
+    "hole": 4,
+    "par": 5,
+    "a": 6,
+    "b": 5,
+    "diff": 1
+   },
+   {
+    "round": 1,
+    "hole": 6,
+    "par": 4,
+    "a": 4,
+    "b": 5,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a": 4,
+    "b": 5,
+    "diff": -1
+   },
+   {
+    "round": 1,
+    "hole": 9,
+    "par": 4,
+    "a": 5,
+    "b": 4,
+    "diff": 1
+   }
+  ],
+  "유해란-박서현": [
+   {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "a": 4,
+    "b": 7,
+    "diff": -3
+   },
+   {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "a": 3,
+    "b": 5,
+    "diff": -2
+   },
+   {
+    "round": 1,
+    "hole": 16,
+    "par": 3,
+    "a": 4,
+    "b": 2,
+    "diff": 2
+   },
+   {
+    "round": 2,
+    "hole": 11,
+    "par": 3,
+    "a": 2,
+    "b": 4,
+    "diff": -2
+   },
+   {
+    "round": 4,
+    "hole": 4,
+    "par": 5,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 4,
+    "hole": 10,
+    "par": 5,
+    "a": 4,
+    "b": 6,
+    "diff": -2
+   },
+   {
+    "round": 1,
+    "hole": 1,
+    "par": 4,
+    "a": 4,
+    "b": 3,
+    "diff": 1
+   },
+   {
+    "round": 1,
+    "hole": 2,
+    "par": 3,
+    "a": 2,
+    "b": 3,
+    "diff": -1
+   }
+  ]
+ },
+ "ryu_park_cases": [
+  {
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "252.5yd",
+     "remaining_after": "124.5yd to pin",
+     "end_coord": [
+      48.0,
+      71.0
+     ],
+     "pin_space_distance_mapunits": 280.9
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "112.4yd",
+     "remaining_after": "12.1yd to pin",
+     "end_coord": [
+      74.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 27.3
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "11.0yd",
+     "remaining_after": "1.1yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 2.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.1yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 7,
+   "b_score_to_par": 3,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "234.6yd",
+     "remaining_after": "142.4yd to pin",
+     "end_coord": [
+      43.0,
+      78.0
+     ],
+     "pin_space_distance_mapunits": 321.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "PENALTY_AREA",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      71.0,
+      28.0
+     ],
+     "pin_space_distance_mapunits": 46.1
+    },
+    {
+     "shot": 3,
+     "lie_after": "PENALTY_STROKE",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      64.0,
+      44.0
+     ],
+     "pin_space_distance_mapunits": 132.9
+    },
+    {
+     "shot": 4,
+     "lie_after": "ROUGH",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "18.4yd to pin",
+     "end_coord": [
+      76.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 41.8
+    },
+    {
+     "shot": 5,
+     "lie_after": "FRINGE",
+     "shot_distance": "12.8yd",
+     "remaining_after": "5.6yd to pin",
+     "end_coord": [
+      72.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 12.8
+    },
+    {
+     "shot": 6,
+     "lie_after": "GREEN",
+     "shot_distance": "5.3yd",
+     "remaining_after": "0.3yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 7,
+     "lie_after": "HOLED",
+     "shot_distance": "0.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -3
+  },
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "265.0yd",
+     "remaining_after": "161.0yd to pin",
+     "end_coord": [
+      55.0,
+      75.0
+     ],
+     "pin_space_distance_mapunits": 349.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREENSIDE_BUNKER",
+     "shot_distance": "148.9yd",
+     "remaining_after": "12.1yd to pin",
+     "end_coord": [
+      54.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 26.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "10.1yd",
+     "remaining_after": "2.0yd to pin",
+     "end_coord": [
+      58.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 3.6
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "2.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "234.1yd",
+     "remaining_after": "191.9yd to pin",
+     "end_coord": [
+      51.0,
+      86.0
+     ],
+     "pin_space_distance_mapunits": 416.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREENSIDE_BUNKER",
+     "shot_distance": "179.4yd",
+     "remaining_after": "12.5yd to pin",
+     "end_coord": [
+      55.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 27.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "ROUGH",
+     "shot_distance": "5.1yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      55.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 16.1
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "4.0yd",
+     "remaining_after": "3.4yd to pin",
+     "end_coord": [
+      58.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 7.3
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "2.4yd",
+     "remaining_after": "1.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "1.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 3,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "253.9yd",
+     "remaining_after": "123.1yd to pin",
+     "end_coord": [
+      47.0,
+      64.0
+     ],
+     "pin_space_distance_mapunits": 277.5
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "115.7yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      72.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 17.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "7.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      75.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 5,
+   "b_score_to_par": 1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "218.0yd",
+     "remaining_after": "159.0yd to pin",
+     "end_coord": [
+      49.0,
+      83.0
+     ],
+     "pin_space_distance_mapunits": 358.8
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "126.6yd",
+     "remaining_after": "32.4yd to pin",
+     "end_coord": [
+      59.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 72.8
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "30.4yd",
+     "remaining_after": "2.0yd to pin",
+     "end_coord": [
+      74.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 4.1
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "1.5yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      75.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 5,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      75.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": 1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "161.5yd",
+     "remaining_after": "18.5yd to pin",
+     "end_coord": [
+      59.0,
+      34.0
+     ],
+     "pin_space_distance_mapunits": 57.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "15.8yd",
+     "remaining_after": "2.7yd to pin",
+     "end_coord": [
+      60.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 8.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "2.3yd",
+     "remaining_after": "0.4yd to pin",
+     "end_coord": [
+      60.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 2.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      60.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 2,
+   "b_score_to_par": -1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "177.3yd",
+     "remaining_after": "2.7yd to pin",
+     "end_coord": [
+      60.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 8.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "2.7yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      60.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": 2
+  },
+  {
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "169.6yd",
+     "remaining_after": "4.4yd to pin",
+     "end_coord": [
+      54.0,
+      39.0
+     ],
+     "pin_space_distance_mapunits": 11.4
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "4.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      53.0,
+      36.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 4,
+   "b_score_to_par": 1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "157.2yd",
+     "remaining_after": "16.8yd to pin",
+     "end_coord": [
+      40.0,
+      30.0
+     ],
+     "pin_space_distance_mapunits": 40.3
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "7.4yd",
+     "remaining_after": "9.4yd to pin",
+     "end_coord": [
+      46.0,
+      32.0
+     ],
+     "pin_space_distance_mapunits": 22.4
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "7.9yd",
+     "remaining_after": "1.5yd to pin",
+     "end_coord": [
+      52.0,
+      37.0
+     ],
+     "pin_space_distance_mapunits": 4.1
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      53.0,
+      36.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "275.8yd",
+     "remaining_after": "266.2yd to pin",
+     "end_coord": [
+      75.0,
+      102.0
+     ],
+     "pin_space_distance_mapunits": 591.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "172.9yd",
+     "remaining_after": "93.3yd to pin",
+     "end_coord": [
+      71.0,
+      44.0
+     ],
+     "pin_space_distance_mapunits": 206.6
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "90.9yd",
+     "remaining_after": "2.4yd to pin",
+     "end_coord": [
+      64.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 5.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "2.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "245.8yd",
+     "remaining_after": "296.2yd to pin",
+     "end_coord": [
+      75.0,
+      113.0
+     ],
+     "pin_space_distance_mapunits": 657.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "198.5yd",
+     "remaining_after": "97.7yd to pin",
+     "end_coord": [
+      76.0,
+      44.0
+     ],
+     "pin_space_distance_mapunits": 216.9
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "74.2yd",
+     "remaining_after": "23.5yd to pin",
+     "end_coord": [
+      67.0,
+      7.0
+     ],
+     "pin_space_distance_mapunits": 52.2
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "19.8yd",
+     "remaining_after": "3.7yd to pin",
+     "end_coord": [
+      63.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 8.1
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "3.4yd",
+     "remaining_after": "0.3yd to pin",
+     "end_coord": [
+      63.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "0.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "300.5yd",
+     "remaining_after": "103.5yd to pin",
+     "end_coord": [
+      43.0,
+      51.0
+     ],
+     "pin_space_distance_mapunits": 250.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "98.2yd",
+     "remaining_after": "5.3yd to pin",
+     "end_coord": [
+      80.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 13.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "4.8yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "265.6yd",
+     "remaining_after": "138.4yd to pin",
+     "end_coord": [
+      39.0,
+      69.0
+     ],
+     "pin_space_distance_mapunits": 334.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "119.5yd",
+     "remaining_after": "18.9yd to pin",
+     "end_coord": [
+      84.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 45.3
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "15.5yd",
+     "remaining_after": "3.4yd to pin",
+     "end_coord": [
+      78.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 7.6
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "1.7yd",
+     "remaining_after": "1.7yd to pin",
+     "end_coord": [
+      77.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 4.1
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "1.3yd",
+     "remaining_after": "0.4yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "294.4yd",
+     "remaining_after": "275.6yd to pin",
+     "end_coord": [
+      59.0,
+      101.0
+     ],
+     "pin_space_distance_mapunits": 608.3
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "160.0yd",
+     "remaining_after": "115.6yd to pin",
+     "end_coord": [
+      60.0,
+      49.0
+     ],
+     "pin_space_distance_mapunits": 255.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "111.4yd",
+     "remaining_after": "4.2yd to pin",
+     "end_coord": [
+      77.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 8.9
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "4.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      76.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "254.7yd",
+     "remaining_after": "315.3yd to pin",
+     "end_coord": [
+      65.0,
+      115.0
+     ],
+     "pin_space_distance_mapunits": 696.6
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "180.2yd",
+     "remaining_after": "135.1yd to pin",
+     "end_coord": [
+      55.0,
+      53.0
+     ],
+     "pin_space_distance_mapunits": 297.9
+    },
+    {
+     "shot": 3,
+     "lie_after": "ROUGH",
+     "shot_distance": "120.1yd",
+     "remaining_after": "15.0yd to pin",
+     "end_coord": [
+      79.0,
+      12.0
+     ],
+     "pin_space_distance_mapunits": 33.6
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "9.5yd",
+     "remaining_after": "5.5yd to pin",
+     "end_coord": [
+      76.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 12.2
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "3.9yd",
+     "remaining_after": "1.6yd to pin",
+     "end_coord": [
+      77.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 3.6
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "1.6yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      76.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "BUNKER",
+     "shot_distance": "245.7yd",
+     "remaining_after": "156.3yd to pin",
+     "end_coord": [
+      61.0,
+      78.0
+     ],
+     "pin_space_distance_mapunits": 355.8
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "149.9yd",
+     "remaining_after": "6.4yd to pin",
+     "end_coord": [
+      80.0,
+      12.0
+     ],
+     "pin_space_distance_mapunits": 14.8
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "6.0yd",
+     "remaining_after": "0.4yd to pin",
+     "end_coord": [
+      78.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 3,
+   "b_score_to_par": -1,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "218.9yd",
+     "remaining_after": "183.1yd to pin",
+     "end_coord": [
+      48.0,
+      86.0
+     ],
+     "pin_space_distance_mapunits": 417.3
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "175.4yd",
+     "remaining_after": "7.7yd to pin",
+     "end_coord": [
+      76.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 17.5
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "7.7yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": 1
+  },
+  {
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "187.5yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 3,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "177.6yd",
+     "remaining_after": "10.4yd to pin",
+     "end_coord": [
+      64.0,
+      43.0
+     ],
+     "pin_space_distance_mapunits": 24.7
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "10.0yd",
+     "remaining_after": "0.4yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  }
+ ],
+ "lee_park_big_cases": [
+  {
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "player_a": "이재윤",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "248.6yd",
+     "remaining_after": "128.4yd to pin",
+     "end_coord": [
+      40.0,
+      69.0
+     ],
+     "pin_space_distance_mapunits": 289.8
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "112.7yd",
+     "remaining_after": "15.7yd to pin",
+     "end_coord": [
+      66.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 36.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "15.4yd",
+     "remaining_after": "0.3yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 7,
+   "b_score_to_par": 3,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "234.6yd",
+     "remaining_after": "142.4yd to pin",
+     "end_coord": [
+      43.0,
+      78.0
+     ],
+     "pin_space_distance_mapunits": 321.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "PENALTY_AREA",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      71.0,
+      28.0
+     ],
+     "pin_space_distance_mapunits": 46.1
+    },
+    {
+     "shot": 3,
+     "lie_after": "PENALTY_STROKE",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      64.0,
+      44.0
+     ],
+     "pin_space_distance_mapunits": 132.9
+    },
+    {
+     "shot": 4,
+     "lie_after": "ROUGH",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "18.4yd to pin",
+     "end_coord": [
+      76.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 41.8
+    },
+    {
+     "shot": 5,
+     "lie_after": "FRINGE",
+     "shot_distance": "12.8yd",
+     "remaining_after": "5.6yd to pin",
+     "end_coord": [
+      72.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 12.8
+    },
+    {
+     "shot": 6,
+     "lie_after": "GREEN",
+     "shot_distance": "5.3yd",
+     "remaining_after": "0.3yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 7,
+     "lie_after": "HOLED",
+     "shot_distance": "0.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      73.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -3
+  },
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "player_a": "이재윤",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "238.7yd",
+     "remaining_after": "187.3yd to pin",
+     "end_coord": [
+      62.0,
+      84.0
+     ],
+     "pin_space_distance_mapunits": 406.5
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "171.1yd",
+     "remaining_after": "16.2yd to pin",
+     "end_coord": [
+      60.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 34.4
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "14.9yd",
+     "remaining_after": "1.3yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 3.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "234.1yd",
+     "remaining_after": "191.9yd to pin",
+     "end_coord": [
+      51.0,
+      86.0
+     ],
+     "pin_space_distance_mapunits": 416.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREENSIDE_BUNKER",
+     "shot_distance": "179.4yd",
+     "remaining_after": "12.5yd to pin",
+     "end_coord": [
+      55.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 27.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "ROUGH",
+     "shot_distance": "5.1yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      55.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 16.1
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "4.0yd",
+     "remaining_after": "3.4yd to pin",
+     "end_coord": [
+      58.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 7.3
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "2.4yd",
+     "remaining_after": "1.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "1.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "player_a": "이재윤",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "269.6yd",
+     "remaining_after": "140.4yd to pin",
+     "end_coord": [
+      75.0,
+      71.0
+     ],
+     "pin_space_distance_mapunits": 301.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "130.8yd",
+     "remaining_after": "9.6yd to pin",
+     "end_coord": [
+      58.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 20.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "9.1yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      62.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      62.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "232.4yd",
+     "remaining_after": "177.6yd to pin",
+     "end_coord": [
+      91.0,
+      82.0
+     ],
+     "pin_space_distance_mapunits": 380.6
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "159.6yd",
+     "remaining_after": "18.0yd to pin",
+     "end_coord": [
+      56.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 38.9
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "3.0yd",
+     "remaining_after": "15.0yd to pin",
+     "end_coord": [
+      65.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 31.9
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "13.7yd",
+     "remaining_after": "1.3yd to pin",
+     "end_coord": [
+      62.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 2.8
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.9yd to pin",
+     "end_coord": [
+      62.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 2.0
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "0.9yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      62.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "player_a": "이재윤",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "308.3yd",
+     "remaining_after": "95.7yd to pin",
+     "end_coord": [
+      57.0,
+      62.0
+     ],
+     "pin_space_distance_mapunits": 230.6
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "86.5yd",
+     "remaining_after": "9.2yd to pin",
+     "end_coord": [
+      78.0,
+      23.0
+     ],
+     "pin_space_distance_mapunits": 21.9
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "8.0yd",
+     "remaining_after": "1.2yd to pin",
+     "end_coord": [
+      80.0,
+      27.0
+     ],
+     "pin_space_distance_mapunits": 3.6
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      80.0,
+      26.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "279.3yd",
+     "remaining_after": "124.7yd to pin",
+     "end_coord": [
+      48.0,
+      72.0
+     ],
+     "pin_space_distance_mapunits": 300.6
+    },
+    {
+     "shot": 2,
+     "lie_after": "PENALTY_AREA",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      77.0,
+      33.0
+     ],
+     "pin_space_distance_mapunits": 39.8
+    },
+    {
+     "shot": 3,
+     "lie_after": "PENALTY_STROKE",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "UNKNOWN remaining",
+     "end_coord": [
+      76.0,
+      35.0
+     ],
+     "pin_space_distance_mapunits": 52.4
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "UNKNOWN",
+     "remaining_after": "4.3yd to pin",
+     "end_coord": [
+      81.0,
+      24.0
+     ],
+     "pin_space_distance_mapunits": 10.0
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "4.1yd",
+     "remaining_after": "0.2yd to pin",
+     "end_coord": [
+      80.0,
+      26.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "0.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      80.0,
+      26.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  },
+  {
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "player_a": "이재윤",
+   "a_score": 4,
+   "a_score_to_par": 0,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "310.6yd",
+     "remaining_after": "93.4yd to pin",
+     "end_coord": [
+      49.0,
+      52.0
+     ],
+     "pin_space_distance_mapunits": 225.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "86.2yd",
+     "remaining_after": "7.2yd to pin",
+     "end_coord": [
+      80.0,
+      24.0
+     ],
+     "pin_space_distance_mapunits": 17.8
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "6.9yd",
+     "remaining_after": "0.3yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "박서현",
+   "b_score": 6,
+   "b_score_to_par": 2,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "265.6yd",
+     "remaining_after": "138.4yd to pin",
+     "end_coord": [
+      39.0,
+      69.0
+     ],
+     "pin_space_distance_mapunits": 334.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "119.5yd",
+     "remaining_after": "18.9yd to pin",
+     "end_coord": [
+      84.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 45.3
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "15.5yd",
+     "remaining_after": "3.4yd to pin",
+     "end_coord": [
+      78.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 7.6
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "1.7yd",
+     "remaining_after": "1.7yd to pin",
+     "end_coord": [
+      77.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 4.1
+    },
+    {
+     "shot": 5,
+     "lie_after": "GREEN",
+     "shot_distance": "1.3yd",
+     "remaining_after": "0.4yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 6,
+     "lie_after": "HOLED",
+     "shot_distance": "0.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      78.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -2
+  }
+ ],
+ "ryu_lee_positive_cases": [
+  {
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "187.5yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 3,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "181.4yd",
+     "remaining_after": "6.6yd to pin",
+     "end_coord": [
+      71.0,
+      42.0
+     ],
+     "pin_space_distance_mapunits": 16.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "6.1yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      71.0,
+      47.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 3,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "253.9yd",
+     "remaining_after": "123.1yd to pin",
+     "end_coord": [
+      47.0,
+      64.0
+     ],
+     "pin_space_distance_mapunits": 277.5
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "115.7yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      72.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 17.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "7.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      75.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 4,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "244.8yd",
+     "remaining_after": "132.2yd to pin",
+     "end_coord": [
+      45.0,
+      68.0
+     ],
+     "pin_space_distance_mapunits": 298.4
+    },
+    {
+     "shot": 2,
+     "lie_after": "FRINGE",
+     "shot_distance": "126.6yd",
+     "remaining_after": "5.6yd to pin",
+     "end_coord": [
+      75.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 11.7
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "5.4yd",
+     "remaining_after": "0.2yd to pin",
+     "end_coord": [
+      75.0,
+      12.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "0.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      75.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 2,
+   "hole": 2,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "184.5yd",
+     "remaining_after": "3.5yd to pin",
+     "end_coord": [
+      75.0,
+      32.0
+     ],
+     "pin_space_distance_mapunits": 8.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "3.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      77.0,
+      32.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 3,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "180.6yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      81.0,
+      28.0
+     ],
+     "pin_space_distance_mapunits": 18.4
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "4.4yd",
+     "remaining_after": "3.0yd to pin",
+     "end_coord": [
+      78.0,
+      30.0
+     ],
+     "pin_space_distance_mapunits": 7.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "3.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      77.0,
+      32.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 2,
+   "hole": 6,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 3,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "277.6yd",
+     "remaining_after": "132.4yd to pin",
+     "end_coord": [
+      67.0,
+      75.0
+     ],
+     "pin_space_distance_mapunits": 302.5
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "129.5yd",
+     "remaining_after": "2.9yd to pin",
+     "end_coord": [
+      59.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 7.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "2.9yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 4,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "256.5yd",
+     "remaining_after": "153.5yd to pin",
+     "end_coord": [
+      76.0,
+      82.0
+     ],
+     "pin_space_distance_mapunits": 351.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "145.6yd",
+     "remaining_after": "7.9yd to pin",
+     "end_coord": [
+      55.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 18.4
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "6.7yd",
+     "remaining_after": "1.2yd to pin",
+     "end_coord": [
+      59.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 3.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      58.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "252.9yd",
+     "remaining_after": "263.1yd to pin",
+     "end_coord": [
+      44.0,
+      95.0
+     ],
+     "pin_space_distance_mapunits": 559.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "180.1yd",
+     "remaining_after": "83.0yd to pin",
+     "end_coord": [
+      61.0,
+      39.0
+     ],
+     "pin_space_distance_mapunits": 176.5
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "81.5yd",
+     "remaining_after": "1.5yd to pin",
+     "end_coord": [
+      70.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 3.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      70.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 5,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "250.2yd",
+     "remaining_after": "265.8yd to pin",
+     "end_coord": [
+      48.0,
+      97.0
+     ],
+     "pin_space_distance_mapunits": 565.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "215.8yd",
+     "remaining_after": "50.0yd to pin",
+     "end_coord": [
+      61.0,
+      28.0
+     ],
+     "pin_space_distance_mapunits": 106.3
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "42.4yd",
+     "remaining_after": "7.6yd to pin",
+     "end_coord": [
+      67.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 16.1
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "7.1yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      69.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 1.4
+    },
+    {
+     "shot": 5,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      70.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 3,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "315.6yd",
+     "remaining_after": "88.4yd to pin",
+     "end_coord": [
+      57.0,
+      51.0
+     ],
+     "pin_space_distance_mapunits": 212.5
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "87.7yd",
+     "remaining_after": "0.7yd to pin",
+     "end_coord": [
+      79.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 2.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "0.7yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      79.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 4,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "303.1yd",
+     "remaining_after": "100.9yd to pin",
+     "end_coord": [
+      59.0,
+      58.0
+     ],
+     "pin_space_distance_mapunits": 242.9
+    },
+    {
+     "shot": 2,
+     "lie_after": "FRINGE",
+     "shot_distance": "93.5yd",
+     "remaining_after": "7.4yd to pin",
+     "end_coord": [
+      75.0,
+      17.0
+     ],
+     "pin_space_distance_mapunits": 18.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "5.9yd",
+     "remaining_after": "1.5yd to pin",
+     "end_coord": [
+      78.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 3.2
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      79.0,
+      18.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 3,
+   "hole": 2,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "178.6yd",
+     "remaining_after": "9.4yd to pin",
+     "end_coord": [
+      65.0,
+      29.0
+     ],
+     "pin_space_distance_mapunits": 22.7
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "9.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      60.0,
+      24.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 3,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "181.9yd",
+     "remaining_after": "6.1yd to pin",
+     "end_coord": [
+      62.0,
+      21.0
+     ],
+     "pin_space_distance_mapunits": 13.6
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "5.6yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      60.0,
+      24.0
+     ],
+     "pin_space_distance_mapunits": 1.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      60.0,
+      24.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "player_a": "유해란",
+   "a_score": 3,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "BUNKER",
+     "shot_distance": "273.2yd",
+     "remaining_after": "116.8yd to pin",
+     "end_coord": [
+      63.0,
+      73.0
+     ],
+     "pin_space_distance_mapunits": 270.8
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "101.1yd",
+     "remaining_after": "15.7yd to pin",
+     "end_coord": [
+      62.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 36.4
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "15.7yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      56.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 4,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "266.1yd",
+     "remaining_after": "123.9yd to pin",
+     "end_coord": [
+      47.0,
+      76.0
+     ],
+     "pin_space_distance_mapunits": 287.1
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "112.8yd",
+     "remaining_after": "11.1yd to pin",
+     "end_coord": [
+      61.0,
+      19.0
+     ],
+     "pin_space_distance_mapunits": 25.5
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "9.8yd",
+     "remaining_after": "1.3yd to pin",
+     "end_coord": [
+      55.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 3.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.3yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      56.0,
+      20.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 3,
+   "hole": 18,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "281.0yd",
+     "remaining_after": "247.0yd to pin",
+     "end_coord": [
+      59.0,
+      95.0
+     ],
+     "pin_space_distance_mapunits": 628.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "146.0yd",
+     "remaining_after": "101.0yd to pin",
+     "end_coord": [
+      58.0,
+      43.0
+     ],
+     "pin_space_distance_mapunits": 257.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "100.0yd",
+     "remaining_after": "1.0yd to pin",
+     "end_coord": [
+      72.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 2.8
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "1.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      72.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 5,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "263.5yd",
+     "remaining_after": "264.5yd to pin",
+     "end_coord": [
+      58.0,
+      101.0
+     ],
+     "pin_space_distance_mapunits": 672.4
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "175.6yd",
+     "remaining_after": "88.9yd to pin",
+     "end_coord": [
+      59.0,
+      38.0
+     ],
+     "pin_space_distance_mapunits": 226.3
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "81.3yd",
+     "remaining_after": "7.6yd to pin",
+     "end_coord": [
+      73.0,
+      13.0
+     ],
+     "pin_space_distance_mapunits": 19.7
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "7.1yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      72.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 2.0
+    },
+    {
+     "shot": 5,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      72.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "275.8yd",
+     "remaining_after": "266.2yd to pin",
+     "end_coord": [
+      75.0,
+      102.0
+     ],
+     "pin_space_distance_mapunits": 591.2
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "172.9yd",
+     "remaining_after": "93.3yd to pin",
+     "end_coord": [
+      71.0,
+      44.0
+     ],
+     "pin_space_distance_mapunits": 206.6
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "90.9yd",
+     "remaining_after": "2.4yd to pin",
+     "end_coord": [
+      64.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 5.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "2.4yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 5,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "ROUGH",
+     "shot_distance": "260.2yd",
+     "remaining_after": "281.8yd to pin",
+     "end_coord": [
+      69.0,
+      108.0
+     ],
+     "pin_space_distance_mapunits": 625.4
+    },
+    {
+     "shot": 2,
+     "lie_after": "ROUGH",
+     "shot_distance": "138.4yd",
+     "remaining_after": "143.4yd to pin",
+     "end_coord": [
+      79.0,
+      59.0
+     ],
+     "pin_space_distance_mapunits": 318.5
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "131.6yd",
+     "remaining_after": "11.8yd to pin",
+     "end_coord": [
+      64.0,
+      10.0
+     ],
+     "pin_space_distance_mapunits": 26.3
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "9.2yd",
+     "remaining_after": "2.6yd to pin",
+     "end_coord": [
+      62.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 6.0
+    },
+    {
+     "shot": 5,
+     "lie_after": "HOLED",
+     "shot_distance": "2.6yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      14.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "player_a": "유해란",
+   "a_score": 4,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "294.4yd",
+     "remaining_after": "275.6yd to pin",
+     "end_coord": [
+      59.0,
+      101.0
+     ],
+     "pin_space_distance_mapunits": 608.3
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "160.0yd",
+     "remaining_after": "115.6yd to pin",
+     "end_coord": [
+      60.0,
+      49.0
+     ],
+     "pin_space_distance_mapunits": 255.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "111.4yd",
+     "remaining_after": "4.2yd to pin",
+     "end_coord": [
+      77.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 8.9
+    },
+    {
+     "shot": 4,
+     "lie_after": "HOLED",
+     "shot_distance": "4.2yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      76.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 5,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "268.8yd",
+     "remaining_after": "301.2yd to pin",
+     "end_coord": [
+      56.0,
+      109.0
+     ],
+     "pin_space_distance_mapunits": 665.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "FAIRWAY",
+     "shot_distance": "186.2yd",
+     "remaining_after": "115.0yd to pin",
+     "end_coord": [
+      63.0,
+      50.0
+     ],
+     "pin_space_distance_mapunits": 253.2
+    },
+    {
+     "shot": 3,
+     "lie_after": "GREEN",
+     "shot_distance": "100.2yd",
+     "remaining_after": "14.8yd to pin",
+     "end_coord": [
+      76.0,
+      11.0
+     ],
+     "pin_space_distance_mapunits": 33.0
+    },
+    {
+     "shot": 4,
+     "lie_after": "GREEN",
+     "shot_distance": "12.8yd",
+     "remaining_after": "2.0yd to pin",
+     "end_coord": [
+      76.0,
+      15.0
+     ],
+     "pin_space_distance_mapunits": 4.5
+    },
+    {
+     "shot": 5,
+     "lie_after": "HOLED",
+     "shot_distance": "2.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      76.0,
+      16.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  },
+  {
+   "round": 4,
+   "hole": 16,
+   "par": 3,
+   "player_a": "유해란",
+   "a_score": 2,
+   "a_score_to_par": -1,
+   "a_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "179.0yd",
+     "remaining_after": "1.0yd to pin",
+     "end_coord": [
+      63.0,
+      37.0
+     ],
+     "pin_space_distance_mapunits": 3.0
+    },
+    {
+     "shot": 2,
+     "lie_after": "HOLED",
+     "shot_distance": "1.0yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      37.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "player_b": "이재윤",
+   "b_score": 3,
+   "b_score_to_par": 0,
+   "b_chain": [
+    {
+     "shot": 1,
+     "lie_after": "GREEN",
+     "shot_distance": "175.0yd",
+     "remaining_after": "5.0yd to pin",
+     "end_coord": [
+      64.0,
+      32.0
+     ],
+     "pin_space_distance_mapunits": 15.3
+    },
+    {
+     "shot": 2,
+     "lie_after": "GREEN",
+     "shot_distance": "4.5yd",
+     "remaining_after": "0.5yd to pin",
+     "end_coord": [
+      63.0,
+      36.0
+     ],
+     "pin_space_distance_mapunits": 2.0
+    },
+    {
+     "shot": 3,
+     "lie_after": "HOLED",
+     "shot_distance": "0.5yd",
+     "remaining_after": "0.0yd to pin",
+     "end_coord": [
+      63.0,
+      37.0
+     ],
+     "pin_space_distance_mapunits": 0.0
+    }
+   ],
+   "diff": -1
+  }
+ ],
+ "counterexample_r1h16": {
+  "round": 1,
+  "hole": 16,
+  "par": 3,
+  "player_a": "유해란",
+  "a_score": 4,
+  "a_score_to_par": 1,
+  "a_chain": [
+   {
+    "shot": 1,
+    "lie_after": "GREEN",
+    "shot_distance": "161.5yd",
+    "remaining_after": "18.5yd to pin",
+    "end_coord": [
+     59.0,
+     34.0
+    ],
+    "pin_space_distance_mapunits": 57.1
+   },
+   {
+    "shot": 2,
+    "lie_after": "GREEN",
+    "shot_distance": "15.8yd",
+    "remaining_after": "2.7yd to pin",
+    "end_coord": [
+     60.0,
+     14.0
+    ],
+    "pin_space_distance_mapunits": 8.2
+   },
+   {
+    "shot": 3,
+    "lie_after": "GREEN",
+    "shot_distance": "2.3yd",
+    "remaining_after": "0.4yd to pin",
+    "end_coord": [
+     60.0,
+     17.0
+    ],
+    "pin_space_distance_mapunits": 2.0
+   },
+   {
+    "shot": 4,
+    "lie_after": "HOLED",
+    "shot_distance": "0.4yd",
+    "remaining_after": "0.0yd to pin",
+    "end_coord": [
+     60.0,
+     17.0
+    ],
+    "pin_space_distance_mapunits": 0.0
+   }
+  ],
+  "player_b": "박서현",
+  "b_score": 2,
+  "b_score_to_par": -1,
+  "b_chain": [
+   {
+    "shot": 1,
+    "lie_after": "GREEN",
+    "shot_distance": "177.3yd",
+    "remaining_after": "2.7yd to pin",
+    "end_coord": [
+     60.0,
+     14.0
+    ],
+    "pin_space_distance_mapunits": 8.1
+   },
+   {
+    "shot": 2,
+    "lie_after": "HOLED",
+    "shot_distance": "2.7yd",
+    "remaining_after": "0.0yd to pin",
+    "end_coord": [
+     60.0,
+     17.0
+    ],
+    "pin_space_distance_mapunits": 0.0
+   }
+  ],
+  "diff": 2
+ },
+ "counterexample_r2h12": {
+  "round": 2,
+  "hole": 12,
+  "par": 4,
+  "player_a": "유해란",
+  "a_score": 6,
+  "a_score_to_par": 2,
+  "a_chain": [
+   {
+    "shot": 1,
+    "lie_after": "ROUGH",
+    "shot_distance": "255.2yd",
+    "remaining_after": "154.8yd to pin",
+    "end_coord": [
+     92.0,
+     71.0
+    ],
+    "pin_space_distance_mapunits": 331.7
+   },
+   {
+    "shot": 2,
+    "lie_after": "ROUGH",
+    "shot_distance": "111.4yd",
+    "remaining_after": "43.4yd to pin",
+    "end_coord": [
+     65.0,
+     33.0
+    ],
+    "pin_space_distance_mapunits": 93.2
+   },
+   {
+    "shot": 3,
+    "lie_after": "ROUGH",
+    "shot_distance": "35.4yd",
+    "remaining_after": "8.0yd to pin",
+    "end_coord": [
+     62.0,
+     12.0
+    ],
+    "pin_space_distance_mapunits": 17.0
+   },
+   {
+    "shot": 4,
+    "lie_after": "GREEN",
+    "shot_distance": "6.8yd",
+    "remaining_after": "1.2yd to pin",
+    "end_coord": [
+     62.0,
+     15.0
+    ],
+    "pin_space_distance_mapunits": 3.0
+   },
+   {
+    "shot": 5,
+    "lie_after": "GREEN",
+    "shot_distance": "0.7yd",
+    "remaining_after": "0.5yd to pin",
+    "end_coord": [
+     62.0,
+     16.0
+    ],
+    "pin_space_distance_mapunits": 1.4
+   },
+   {
+    "shot": 6,
+    "lie_after": "HOLED",
+    "shot_distance": "0.5yd",
+    "remaining_after": "0.0yd to pin",
+    "end_coord": [
+     62.0,
+     15.0
+    ],
+    "pin_space_distance_mapunits": 0.0
+   }
+  ],
+  "player_b": "이재윤",
+  "b_score": 4,
+  "b_score_to_par": 0,
+  "b_chain": [
+   {
+    "shot": 1,
+    "lie_after": "FAIRWAY",
+    "shot_distance": "269.6yd",
+    "remaining_after": "140.4yd to pin",
+    "end_coord": [
+     75.0,
+     71.0
+    ],
+    "pin_space_distance_mapunits": 301.0
+   },
+   {
+    "shot": 2,
+    "lie_after": "GREEN",
+    "shot_distance": "130.8yd",
+    "remaining_after": "9.6yd to pin",
+    "end_coord": [
+     58.0,
+     16.0
+    ],
+    "pin_space_distance_mapunits": 20.0
+   },
+   {
+    "shot": 3,
+    "lie_after": "GREEN",
+    "shot_distance": "9.1yd",
+    "remaining_after": "0.5yd to pin",
+    "end_coord": [
+     62.0,
+     15.0
+    ],
+    "pin_space_distance_mapunits": 1.0
+   },
+   {
+    "shot": 4,
+    "lie_after": "HOLED",
+    "shot_distance": "0.5yd",
+    "remaining_after": "0.0yd to pin",
+    "end_coord": [
+     62.0,
+     15.0
+    ],
+    "pin_space_distance_mapunits": 0.0
+   }
+  ],
+  "diff": 2
+ },
+ "same_start_diff_end": [
+  {
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "tolerance_yd": 3.5,
+   "player_a": "유해란",
+   "a_remaining_after_tee": 289.7,
+   "a_score": 6,
+   "a_bucket": "Bogey",
+   "player_b": "이재윤",
+   "b_remaining_after_tee": 288.4,
+   "b_score": 5,
+   "b_bucket": "Par",
+   "score_diff": 1
+  },
+  {
+   "round": 1,
+   "hole": 14,
+   "par": 4,
+   "tolerance_yd": 3.4,
+   "player_a": "유해란",
+   "a_remaining_after_tee": 136.1,
+   "a_score": 5,
+   "a_bucket": "Bogey",
+   "player_b": "박서현",
+   "b_remaining_after_tee": 137.8,
+   "b_score": 4,
+   "b_bucket": "Par",
+   "score_diff": 1
+  },
+  {
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "tolerance_yd": 3.4,
+   "player_a": "유해란",
+   "a_remaining_after_tee": 156.2,
+   "a_score": 4,
+   "a_bucket": "Par",
+   "player_b": "이재윤",
+   "b_remaining_after_tee": 158.4,
+   "b_score": 5,
+   "b_bucket": "Bogey",
+   "score_diff": 1
+  }
+ ],
+ "same_miss_diff_recovery": [
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "miss_lie": "GREENSIDE_BUNKER",
+   "tolerance_yd": 5.0,
+   "player_a": "유해란",
+   "a_miss_dist": 12.1,
+   "a_score": 4,
+   "a_bucket": "Par",
+   "player_b": "박서현",
+   "b_miss_dist": 12.5,
+   "b_score": 6,
+   "b_bucket": "Double",
+   "score_diff": 2
+  },
+  {
+   "round": 1,
+   "hole": 9,
+   "par": 4,
+   "miss_lie": "ROUGH",
+   "tolerance_yd": 5.0,
+   "player_a": "유해란",
+   "a_miss_dist": 6.2,
+   "a_score": 4,
+   "a_bucket": "Par",
+   "player_b": "이재윤",
+   "b_miss_dist": 9.9,
+   "b_score": 5,
+   "b_bucket": "Bogey",
+   "score_diff": 1
+  },
+  {
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "miss_lie": "ROUGH",
+   "tolerance_yd": 5.0,
+   "player_a": "유해란",
+   "a_miss_dist": 8.7,
+   "a_score": 6,
+   "a_bucket": "Bogey",
+   "player_b": "박서현",
+   "b_miss_dist": 8.8,
+   "b_score": 5,
+   "b_bucket": "Par",
+   "score_diff": 1
+  },
+  {
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "miss_lie": "ROUGH",
+   "tolerance_yd": 5.0,
+   "player_a": "유해란",
+   "a_miss_dist": 26.5,
+   "a_score": 5,
+   "a_bucket": "Bogey",
+   "player_b": "이재윤",
+   "b_miss_dist": 28.5,
+   "b_score": 4,
+   "b_bucket": "Par",
+   "score_diff": 1
+  }
+ ],
+ "fw_hit_bad": [
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "score": 6,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 14,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "유해란",
+   "round": 2,
+   "hole": 3,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "hole": 15,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "hole": 4,
+   "par": 5,
+   "score": 6,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 4,
+   "par": 5,
+   "score": 6,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 1,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 13,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "score": 6,
+   "bucket": "Double"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 6,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 15,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "score": 7,
+   "bucket": "TriplePlus"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "score": 6,
+   "bucket": "Double"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 13,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "hole": 3,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "score": 6,
+   "bucket": "Bogey"
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "hole": 17,
+   "par": 4,
+   "score": 5,
+   "bucket": "Bogey"
+  }
+ ],
+ "fw_miss_good": [
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 6,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 7,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 9,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 2,
+   "hole": 1,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "유해란",
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "score": 4,
+   "bucket": "Birdie+",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 2,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "hole": 7,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "score": 3,
+   "bucket": "Birdie+",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "hole": 3,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "hole": 8,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "hole": 15,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "hole": 17,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 1,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 3,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 6,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 8,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 15,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "hole": 7,
+   "par": 5,
+   "score": 4,
+   "bucket": "Birdie+",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "hole": 12,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "hole": 15,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 12,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "score": 4,
+   "bucket": "Birdie+",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 8,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 10,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 13,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "BUNKER"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 17,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 1,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "hole": 18,
+   "par": 5,
+   "score": 5,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "hole": 6,
+   "par": 4,
+   "score": 4,
+   "bucket": "Par",
+   "tee_lie": "ROUGH"
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "hole8_field": {
+  "n": 331,
+  "avg_score_to_par": 0.387,
+  "bogey_plus_pct": 0.344,
+  "double_plus_pct": 0.103
+ },
+ "hole9_field": {
+  "n": 331,
+  "avg_score_to_par": 0.127,
+  "bogey_plus_pct": 0.211,
+  "double_plus_pct": 0.042
+ },
+ "all_par4_field": {
+  "n": 3310,
+  "avg_score_to_par": 0.258,
+  "double_plus_pct": 0.041
+ },
+ "r1h3_greenside_bunker_field": {
+  "n": 16,
+  "avg_score_to_par": 0.688,
+  "par_or_better_pct": 0.438,
+  "double_plus_pct": 0.125
+ },
+ "field_rough_miss_parsave": {
+  "n": 1152,
+  "par_or_better_pct": 0.463,
+  "double_plus_pct": 0.108
+ },
+ "field_putts_distribution": {
+  "n": 5958,
+  "mean": 1.715,
+  "max": 4,
+  "pct_3plus": 0.059
+ }
+}
