@@ -1,0 +1,60 @@
+name: "Fetch real Blue Heron hole images for an arbitrary hole (on-demand, one-off)"
+
+on:
+  workflow_dispatch:
+    inputs:
+      side:
+        description: "east or west"
+        default: "east"
+      hole:
+        description: "hole number 1-9"
+        default: "1"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: neo_klpga_shot_source
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Fetch real images
+        run: |
+          python fetch_blueheron_hole_images.py --side "${{ inputs.side }}" --hole "${{ inputs.hole }}" --out-dir blueheron_hole_images
+
+      - name: Report
+        if: always()
+        run: |
+          {
+            echo "## Blue Heron hole image fetch -- ${{ inputs.side }} hole ${{ inputs.hole }}"
+            ls -la blueheron_hole_images || true
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to orphan branch
+        if: always()
+        run: |
+          git config --global user.name "neo-course-identity-bot"
+          git config --global user.email "neo-course-identity-bot@users.noreply.github.com"
+          BRANCH="collector-output/blueheron-hole-images-${{ inputs.side }}-${{ inputs.hole }}"
+          SRC="$GITHUB_WORKSPACE/neo_klpga_shot_source/blueheron_hole_images"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          [ -d "$SRC" ] && cp -r "$SRC"/. "$PUBLISH_DIR/__out/"
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "Blue Heron ${{ inputs.side }} hole ${{ inputs.hole }} official images" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
