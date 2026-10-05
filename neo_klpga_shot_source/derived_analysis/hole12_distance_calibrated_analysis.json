@@ -1,0 +1,1002 @@
+{
+  "hole": 12,
+  "par": 4,
+  "hole_yardage_official_all_rounds": 410.0,
+  "method_note": "landing_distance = HOLE_YARDAGE(round) - shot1.distance (both real official Shot Tracker fields; no coordinates involved, no DERIVED flag needed). approach_distance = shot1.distance directly (KLPGA's own real remaining-to-pin field, i.e. the real starting distance of the second shot). Lateral band (LAT1/2/3) uses the already-verified coordinate tee-green axis projection -- DERIVED-COORDINATE, kept separate from the two distance fields above.",
+  "distance_band_thresholds": {
+    "d1_yd": 245.6,
+    "d2_yd": 260.9,
+    "min_yd": 127.2,
+    "max_yd": 295.7,
+    "l1": -2.991646311087569,
+    "l2": 1.7571940534569161
+  },
+  "zone_stats_distance_calibrated": {
+    "261-296yd x LAT1": {
+      "n": 31,
+      "landing_distance_range": [
+        262.1,
+        410.0
+      ],
+      "landing_distance_median": 272.3,
+      "landing_distance_mean": 277.3,
+      "approach_distance_range": [
+        0.0,
+        147.9
+      ],
+      "approach_distance_median": 137.7,
+      "approach_distance_mean": 132.7,
+      "avg_score_to_par": 0.419,
+      "GIR_pct": 0.323,
+      "BirdiePlus_pct": 0.0,
+      "ParOrBetter_pct": 0.677,
+      "BogeyPlus_pct": 0.323,
+      "DoublePlus_pct": 0.065,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT1": {
+      "n": 40,
+      "landing_distance_range": [
+        213.8,
+        245.6
+      ],
+      "landing_distance_median": 236.75,
+      "landing_distance_mean": 235.7,
+      "approach_distance_range": [
+        164.4,
+        196.2
+      ],
+      "approach_distance_median": 173.25,
+      "approach_distance_mean": 174.3,
+      "avg_score_to_par": 0.525,
+      "GIR_pct": 0.4,
+      "BirdiePlus_pct": 0.025,
+      "ParOrBetter_pct": 0.575,
+      "BogeyPlus_pct": 0.425,
+      "DoublePlus_pct": 0.125,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT2": {
+      "n": 39,
+      "landing_distance_range": [
+        246.6,
+        260.8
+      ],
+      "landing_distance_median": 254.1,
+      "landing_distance_mean": 253.2,
+      "approach_distance_range": [
+        149.2,
+        163.4
+      ],
+      "approach_distance_median": 155.9,
+      "approach_distance_mean": 156.8,
+      "avg_score_to_par": 0.051,
+      "GIR_pct": 0.718,
+      "BirdiePlus_pct": 0.154,
+      "ParOrBetter_pct": 0.795,
+      "BogeyPlus_pct": 0.205,
+      "DoublePlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT3": {
+      "n": 31,
+      "landing_distance_range": [
+        245.8,
+        260.7
+      ],
+      "landing_distance_median": 253.8,
+      "landing_distance_mean": 253.8,
+      "approach_distance_range": [
+        149.3,
+        164.2
+      ],
+      "approach_distance_median": 156.2,
+      "approach_distance_mean": 156.2,
+      "avg_score_to_par": 0.387,
+      "GIR_pct": 0.613,
+      "BirdiePlus_pct": 0.065,
+      "ParOrBetter_pct": 0.645,
+      "BogeyPlus_pct": 0.355,
+      "DoublePlus_pct": 0.097,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT3": {
+      "n": 47,
+      "landing_distance_range": [
+        27.6,
+        245.2
+      ],
+      "landing_distance_median": 235.9,
+      "landing_distance_mean": 219.9,
+      "approach_distance_range": [
+        164.8,
+        382.4
+      ],
+      "approach_distance_median": 174.1,
+      "approach_distance_mean": 190.1,
+      "avg_score_to_par": 0.894,
+      "GIR_pct": 0.255,
+      "BirdiePlus_pct": 0.021,
+      "ParOrBetter_pct": 0.34,
+      "BogeyPlus_pct": 0.66,
+      "DoublePlus_pct": 0.149,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT3": {
+      "n": 32,
+      "landing_distance_range": [
+        261.0,
+        284.2
+      ],
+      "landing_distance_median": 267.7,
+      "landing_distance_mean": 269.0,
+      "approach_distance_range": [
+        125.8,
+        149.0
+      ],
+      "approach_distance_median": 142.3,
+      "approach_distance_mean": 141.0,
+      "avg_score_to_par": 0.188,
+      "GIR_pct": 0.656,
+      "BirdiePlus_pct": 0.062,
+      "ParOrBetter_pct": 0.781,
+      "BogeyPlus_pct": 0.219,
+      "DoublePlus_pct": 0.031,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT1": {
+      "n": 40,
+      "landing_distance_range": [
+        246.0,
+        260.9
+      ],
+      "landing_distance_median": 254.0,
+      "landing_distance_mean": 253.4,
+      "approach_distance_range": [
+        149.1,
+        164.0
+      ],
+      "approach_distance_median": 156.0,
+      "approach_distance_mean": 156.6,
+      "avg_score_to_par": 0.375,
+      "GIR_pct": 0.425,
+      "BirdiePlus_pct": 0.075,
+      "ParOrBetter_pct": 0.625,
+      "BogeyPlus_pct": 0.375,
+      "DoublePlus_pct": 0.075,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT2": {
+      "n": 47,
+      "landing_distance_range": [
+        261.3,
+        295.7
+      ],
+      "landing_distance_median": 270.3,
+      "landing_distance_mean": 272.7,
+      "approach_distance_range": [
+        114.3,
+        148.7
+      ],
+      "approach_distance_median": 139.7,
+      "approach_distance_mean": 137.3,
+      "avg_score_to_par": 0.213,
+      "GIR_pct": 0.745,
+      "BirdiePlus_pct": 0.064,
+      "ParOrBetter_pct": 0.723,
+      "BogeyPlus_pct": 0.277,
+      "DoublePlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT2": {
+      "n": 24,
+      "landing_distance_range": [
+        214.5,
+        245.1
+      ],
+      "landing_distance_median": 234.95,
+      "landing_distance_mean": 233.2,
+      "approach_distance_range": [
+        164.9,
+        195.5
+      ],
+      "approach_distance_median": 175.05,
+      "approach_distance_mean": 176.8,
+      "avg_score_to_par": 0.167,
+      "GIR_pct": 0.625,
+      "BirdiePlus_pct": 0.083,
+      "ParOrBetter_pct": 0.75,
+      "BogeyPlus_pct": 0.25,
+      "DoublePlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    }
+  },
+  "zone_x_round": {
+    "261-296yd x LAT1 | R1": {
+      "n": 18,
+      "landing_distance_median": 272.54999999999995,
+      "approach_distance_median": 137.45,
+      "avg_score_to_par": 0.278,
+      "GIR_pct": 0.389,
+      "BogeyPlus_pct": 0.278,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT1 | R2": {
+      "n": 27,
+      "landing_distance_median": 235.2,
+      "approach_distance_median": 174.8,
+      "avg_score_to_par": 0.593,
+      "GIR_pct": 0.37,
+      "BogeyPlus_pct": 0.519,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT2 | R3": {
+      "n": 10,
+      "landing_distance_median": 253.8,
+      "approach_distance_median": 156.2,
+      "avg_score_to_par": -0.2,
+      "GIR_pct": 0.8,
+      "BogeyPlus_pct": 0.0,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT3 | R4": {
+      "n": 3,
+      "landing_distance_median": 254.9,
+      "approach_distance_median": 155.1,
+      "avg_score_to_par": -0.333,
+      "GIR_pct": 0.667,
+      "BogeyPlus_pct": 0.0,
+      "LOW_SAMPLE": true
+    },
+    "127-246yd x LAT3 | R1": {
+      "n": 13,
+      "landing_distance_median": 235.9,
+      "approach_distance_median": 174.1,
+      "avg_score_to_par": 0.769,
+      "GIR_pct": 0.154,
+      "BogeyPlus_pct": 0.692,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT1 | R3": {
+      "n": 3,
+      "landing_distance_median": 234.8,
+      "approach_distance_median": 175.2,
+      "avg_score_to_par": 0.667,
+      "GIR_pct": 0.0,
+      "BogeyPlus_pct": 0.333,
+      "LOW_SAMPLE": true
+    },
+    "246-261yd x LAT2 | R4": {
+      "n": 11,
+      "landing_distance_median": 255.1,
+      "approach_distance_median": 154.9,
+      "avg_score_to_par": 0.182,
+      "GIR_pct": 0.545,
+      "BogeyPlus_pct": 0.273,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT3 | R1": {
+      "n": 9,
+      "landing_distance_median": 268.9,
+      "approach_distance_median": 141.1,
+      "avg_score_to_par": 0.111,
+      "GIR_pct": 0.778,
+      "BogeyPlus_pct": 0.111,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT1 | R2": {
+      "n": 7,
+      "landing_distance_median": 248.7,
+      "approach_distance_median": 161.3,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.571,
+      "BogeyPlus_pct": 0.143,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT2 | R1": {
+      "n": 7,
+      "landing_distance_median": 254.8,
+      "approach_distance_median": 155.2,
+      "avg_score_to_par": 0.143,
+      "GIR_pct": 0.857,
+      "BogeyPlus_pct": 0.143,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT3 | R2": {
+      "n": 11,
+      "landing_distance_median": 251.8,
+      "approach_distance_median": 158.2,
+      "avg_score_to_par": 0.818,
+      "GIR_pct": 0.545,
+      "BogeyPlus_pct": 0.545,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT3 | R3": {
+      "n": 9,
+      "landing_distance_median": 237.9,
+      "approach_distance_median": 172.1,
+      "avg_score_to_par": 0.889,
+      "GIR_pct": 0.222,
+      "BogeyPlus_pct": 0.556,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT3 | R4": {
+      "n": 13,
+      "landing_distance_median": 268.9,
+      "approach_distance_median": 141.1,
+      "avg_score_to_par": 0.385,
+      "GIR_pct": 0.538,
+      "BogeyPlus_pct": 0.308,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT1 | R1": {
+      "n": 16,
+      "landing_distance_median": 254.14999999999998,
+      "approach_distance_median": 155.85000000000002,
+      "avg_score_to_par": 0.5,
+      "GIR_pct": 0.312,
+      "BogeyPlus_pct": 0.438,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT3 | R2": {
+      "n": 21,
+      "landing_distance_median": 224.1,
+      "approach_distance_median": 185.9,
+      "avg_score_to_par": 1.048,
+      "GIR_pct": 0.381,
+      "BogeyPlus_pct": 0.714,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT2 | R3": {
+      "n": 10,
+      "landing_distance_median": 270.7,
+      "approach_distance_median": 139.3,
+      "avg_score_to_par": 0.3,
+      "GIR_pct": 0.9,
+      "BogeyPlus_pct": 0.3,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT2 | R4": {
+      "n": 14,
+      "landing_distance_median": 272.2,
+      "approach_distance_median": 137.8,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.571,
+      "BogeyPlus_pct": 0.071,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT2 | R1": {
+      "n": 20,
+      "landing_distance_median": 270.15,
+      "approach_distance_median": 139.85,
+      "avg_score_to_par": 0.25,
+      "GIR_pct": 0.75,
+      "BogeyPlus_pct": 0.35,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT2 | R2": {
+      "n": 11,
+      "landing_distance_median": 249.5,
+      "approach_distance_median": 160.5,
+      "avg_score_to_par": 0.091,
+      "GIR_pct": 0.727,
+      "BogeyPlus_pct": 0.364,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT1 | R3": {
+      "n": 8,
+      "landing_distance_median": 253.85,
+      "approach_distance_median": 156.15,
+      "avg_score_to_par": 0.125,
+      "GIR_pct": 0.5,
+      "BogeyPlus_pct": 0.25,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT1 | R4": {
+      "n": 6,
+      "landing_distance_median": 273.4,
+      "approach_distance_median": 136.6,
+      "avg_score_to_par": 0.667,
+      "GIR_pct": 0.167,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT1 | R4": {
+      "n": 9,
+      "landing_distance_median": 255.6,
+      "approach_distance_median": 154.4,
+      "avg_score_to_par": 0.667,
+      "GIR_pct": 0.444,
+      "BogeyPlus_pct": 0.556,
+      "LOW_SAMPLE": false
+    },
+    "246-261yd x LAT3 | R1": {
+      "n": 10,
+      "landing_distance_median": 256.1,
+      "approach_distance_median": 153.9,
+      "avg_score_to_par": 0.3,
+      "GIR_pct": 0.6,
+      "BogeyPlus_pct": 0.3,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT1 | R1": {
+      "n": 10,
+      "landing_distance_median": 238.75,
+      "approach_distance_median": 171.25,
+      "avg_score_to_par": 0.3,
+      "GIR_pct": 0.6,
+      "BogeyPlus_pct": 0.2,
+      "LOW_SAMPLE": false
+    },
+    "261-296yd x LAT1 | R2": {
+      "n": 3,
+      "landing_distance_median": 270.9,
+      "approach_distance_median": 139.1,
+      "avg_score_to_par": 1,
+      "GIR_pct": 0.333,
+      "BogeyPlus_pct": 0.333,
+      "LOW_SAMPLE": true
+    },
+    "127-246yd x LAT2 | R2": {
+      "n": 15,
+      "landing_distance_median": 234.7,
+      "approach_distance_median": 175.3,
+      "avg_score_to_par": 0.2,
+      "GIR_pct": 0.733,
+      "BogeyPlus_pct": 0.267,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT2 | R3": {
+      "n": 4,
+      "landing_distance_median": 233.85,
+      "approach_distance_median": 176.15,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.5,
+      "BogeyPlus_pct": 0.25,
+      "LOW_SAMPLE": true
+    },
+    "261-296yd x LAT3 | R2": {
+      "n": 4,
+      "landing_distance_median": 264.5,
+      "approach_distance_median": 145.5,
+      "avg_score_to_par": 0.25,
+      "GIR_pct": 0.75,
+      "BogeyPlus_pct": 0.25,
+      "LOW_SAMPLE": true
+    },
+    "261-296yd x LAT1 | R3": {
+      "n": 4,
+      "landing_distance_median": 269.35,
+      "approach_distance_median": 140.64999999999998,
+      "avg_score_to_par": 0.25,
+      "GIR_pct": 0.25,
+      "BogeyPlus_pct": 0.25,
+      "LOW_SAMPLE": true
+    },
+    "261-296yd x LAT2 | R2": {
+      "n": 3,
+      "landing_distance_median": 264.8,
+      "approach_distance_median": 145.2,
+      "avg_score_to_par": 0.667,
+      "GIR_pct": 1.0,
+      "BogeyPlus_pct": 0.667,
+      "LOW_SAMPLE": true
+    },
+    "246-261yd x LAT3 | R3": {
+      "n": 7,
+      "landing_distance_median": 253.8,
+      "approach_distance_median": 156.2,
+      "avg_score_to_par": 0.143,
+      "GIR_pct": 0.714,
+      "BogeyPlus_pct": 0.286,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT2 | R1": {
+      "n": 4,
+      "landing_distance_median": 229.25,
+      "approach_distance_median": 180.75,
+      "avg_score_to_par": 0.25,
+      "GIR_pct": 0.5,
+      "BogeyPlus_pct": 0.25,
+      "LOW_SAMPLE": true
+    },
+    "261-296yd x LAT3 | R3": {
+      "n": 6,
+      "landing_distance_median": 262.25,
+      "approach_distance_median": 147.75,
+      "avg_score_to_par": -0.167,
+      "GIR_pct": 0.667,
+      "BogeyPlus_pct": 0.167,
+      "LOW_SAMPLE": false
+    },
+    "127-246yd x LAT3 | R4": {
+      "n": 4,
+      "landing_distance_median": 237.64999999999998,
+      "approach_distance_median": 172.35000000000002,
+      "avg_score_to_par": 0.5,
+      "GIR_pct": 0.0,
+      "BogeyPlus_pct": 0.5,
+      "LOW_SAMPLE": true
+    },
+    "127-246yd x LAT2 | R4": {
+      "n": 1,
+      "landing_distance_median": 235.4,
+      "approach_distance_median": 174.6,
+      "avg_score_to_par": 0,
+      "GIR_pct": 0.0,
+      "BogeyPlus_pct": 0.0,
+      "LOW_SAMPLE": true
+    }
+  },
+  "approach_distance_value_bands": {
+    "fixed_width_bands": {
+      "125-150": {
+        "n": 108,
+        "avg_score_to_par": 0.25,
+        "GIR_pct": 0.602,
+        "BirdiePlus_pct": 0.065,
+        "ParOrBetter_pct": 0.704,
+        "BogeyPlus_pct": 0.296,
+        "DoublePlus_pct": 0.019,
+        "LOW_SAMPLE": false
+      },
+      "175-200": {
+        "n": 38,
+        "avg_score_to_par": 0.605,
+        "GIR_pct": 0.316,
+        "BirdiePlus_pct": 0.053,
+        "ParOrBetter_pct": 0.474,
+        "BogeyPlus_pct": 0.526,
+        "DoublePlus_pct": 0.132,
+        "LOW_SAMPLE": false
+      },
+      "150-175": {
+        "n": 164,
+        "avg_score_to_par": 0.323,
+        "GIR_pct": 0.561,
+        "BirdiePlus_pct": 0.067,
+        "ParOrBetter_pct": 0.671,
+        "BogeyPlus_pct": 0.329,
+        "DoublePlus_pct": 0.049,
+        "LOW_SAMPLE": false
+      },
+      "200+": {
+        "n": 11,
+        "avg_score_to_par": 1.545,
+        "GIR_pct": 0.0,
+        "BirdiePlus_pct": 0.0,
+        "ParOrBetter_pct": 0.182,
+        "BogeyPlus_pct": 0.818,
+        "DoublePlus_pct": 0.455,
+        "LOW_SAMPLE": false
+      },
+      "<100": {
+        "n": 1,
+        "avg_score_to_par": 3,
+        "GIR_pct": 0.0,
+        "BirdiePlus_pct": 0.0,
+        "ParOrBetter_pct": 0.0,
+        "BogeyPlus_pct": 1.0,
+        "DoublePlus_pct": 1.0,
+        "LOW_SAMPLE": true
+      },
+      "100-125": {
+        "n": 9,
+        "avg_score_to_par": 0.222,
+        "GIR_pct": 0.444,
+        "BirdiePlus_pct": 0.0,
+        "ParOrBetter_pct": 0.778,
+        "BogeyPlus_pct": 0.222,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": false
+      }
+    },
+    "quartile_bands": {
+      "Q1(<=145)": {
+        "n": 85,
+        "avg_score_to_par": 0.235,
+        "GIR_pct": 0.612,
+        "BirdiePlus_pct": 0.047,
+        "ParOrBetter_pct": 0.753,
+        "BogeyPlus_pct": 0.247,
+        "DoublePlus_pct": 0.024,
+        "LOW_SAMPLE": false
+      },
+      "Q4(>169)": {
+        "n": 82,
+        "avg_score_to_par": 0.732,
+        "GIR_pct": 0.317,
+        "BirdiePlus_pct": 0.037,
+        "ParOrBetter_pct": 0.439,
+        "BogeyPlus_pct": 0.561,
+        "DoublePlus_pct": 0.146,
+        "LOW_SAMPLE": false
+      },
+      "Q2(<=156)": {
+        "n": 82,
+        "avg_score_to_par": 0.268,
+        "GIR_pct": 0.61,
+        "BirdiePlus_pct": 0.085,
+        "ParOrBetter_pct": 0.683,
+        "BogeyPlus_pct": 0.317,
+        "DoublePlus_pct": 0.037,
+        "LOW_SAMPLE": false
+      },
+      "Q3(<=169)": {
+        "n": 82,
+        "avg_score_to_par": 0.28,
+        "GIR_pct": 0.549,
+        "BirdiePlus_pct": 0.073,
+        "ParOrBetter_pct": 0.695,
+        "BogeyPlus_pct": 0.305,
+        "DoublePlus_pct": 0.049,
+        "LOW_SAMPLE": false
+      }
+    },
+    "quartile_cuts_yd": [
+      145.3,
+      156.0,
+      168.9
+    ]
+  },
+  "player_section": {
+    "9115": {
+      "label": "유해란(TOP,#1,-4)",
+      "hole12_four_rounds": [
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 295.7,
+          "approach_distance_yd": 114.3,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 255.2,
+          "approach_distance_yd": 154.8,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 290.0,
+          "approach_distance_yd": 120.0,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT1",
+          "zone": "261-296yd x LAT1",
+          "approach_lie": "FRINGE",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9115",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 293.5,
+          "approach_distance_yd": 116.5,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "FRINGE",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        }
+      ],
+      "par4_tournament_wide_landing_distance_distribution": {
+        "n": 39,
+        "min": 222.8,
+        "max": 315.6,
+        "median": 263.8,
+        "mean": 266.5,
+        "stdev": 22.0
+      },
+      "par4_tournament_wide_approach_ability_by_distance_quartile": {
+        "Q3(<=169)": {
+          "n": 6,
+          "avg_score_to_par": 0.167,
+          "GIR_pct": 0.5,
+          "ParOrBetter_pct": 0.833,
+          "BogeyPlus_pct": 0.167,
+          "LOW_SAMPLE": false
+        },
+        "Q1(<=145)": {
+          "n": 25,
+          "avg_score_to_par": -0.16,
+          "GIR_pct": 0.76,
+          "ParOrBetter_pct": 0.92,
+          "BogeyPlus_pct": 0.08,
+          "LOW_SAMPLE": false
+        },
+        "Q2(<=156)": {
+          "n": 5,
+          "avg_score_to_par": 0.6,
+          "GIR_pct": 0.8,
+          "ParOrBetter_pct": 0.6,
+          "BogeyPlus_pct": 0.4,
+          "LOW_SAMPLE": false
+        },
+        "Q4(>169)": {
+          "n": 3,
+          "avg_score_to_par": 0.667,
+          "GIR_pct": 0.0,
+          "ParOrBetter_pct": 0.333,
+          "BogeyPlus_pct": 0.667,
+          "LOW_SAMPLE": true
+        }
+      }
+    },
+    "9708": {
+      "label": "이재윤(MID,#27,+9)",
+      "hole12_four_rounds": [
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 289.9,
+          "approach_distance_yd": 120.1,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT2",
+          "zone": "261-296yd x LAT2",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "FAIRWAY",
+          "landing_distance_yd": 269.6,
+          "approach_distance_yd": 140.4,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT3",
+          "zone": "261-296yd x LAT3",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": true
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 208.5,
+          "approach_distance_yd": 201.5,
+          "unreliable_distance_state": false,
+          "distance_band": "127-246yd",
+          "lateral_band": "LAT3",
+          "zone": "127-246yd x LAT3",
+          "approach_lie": "FAIRWAY",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9708",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 273.9,
+          "approach_distance_yd": 136.1,
+          "unreliable_distance_state": false,
+          "distance_band": "261-296yd",
+          "lateral_band": "LAT1",
+          "zone": "261-296yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        }
+      ],
+      "par4_tournament_wide_landing_distance_distribution": {
+        "n": 40,
+        "min": 208.5,
+        "max": 310.6,
+        "median": 260.4,
+        "mean": 261.4,
+        "stdev": 21.4
+      },
+      "par4_tournament_wide_approach_ability_by_distance_quartile": {
+        "Q3(<=169)": {
+          "n": 6,
+          "avg_score_to_par": 0.5,
+          "GIR_pct": 0.667,
+          "ParOrBetter_pct": 0.5,
+          "BogeyPlus_pct": 0.5,
+          "LOW_SAMPLE": false
+        },
+        "Q2(<=156)": {
+          "n": 5,
+          "avg_score_to_par": 0.2,
+          "GIR_pct": 0.4,
+          "ParOrBetter_pct": 0.8,
+          "BogeyPlus_pct": 0.2,
+          "LOW_SAMPLE": false
+        },
+        "Q4(>169)": {
+          "n": 5,
+          "avg_score_to_par": 0,
+          "GIR_pct": 0.4,
+          "ParOrBetter_pct": 1.0,
+          "BogeyPlus_pct": 0.0,
+          "LOW_SAMPLE": false
+        },
+        "Q1(<=145)": {
+          "n": 24,
+          "avg_score_to_par": 0.042,
+          "GIR_pct": 0.583,
+          "ParOrBetter_pct": 0.875,
+          "BogeyPlus_pct": 0.125,
+          "LOW_SAMPLE": false
+        }
+      }
+    },
+    "9111": {
+      "label": "박서현(BOTTOM,#61,+26)",
+      "hole12_four_rounds": [
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 1,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 256.7,
+          "approach_distance_yd": 153.3,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 2,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 232.4,
+          "approach_distance_yd": 177.6,
+          "unreliable_distance_state": false,
+          "distance_band": "127-246yd",
+          "lateral_band": "LAT1",
+          "zone": "127-246yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 6,
+          "score_to_par": 2,
+          "score_bucket": "Double+",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 3,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 247.3,
+          "approach_distance_yd": 162.7,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "GREEN",
+          "gir": true,
+          "strokes": 4,
+          "score_to_par": 0,
+          "score_bucket": "Par",
+          "fw_hit": false
+        },
+        {
+          "player_code": "9111",
+          "player_name": null,
+          "round": 4,
+          "tee_lie": "ROUGH",
+          "landing_distance_yd": 260.9,
+          "approach_distance_yd": 149.1,
+          "unreliable_distance_state": false,
+          "distance_band": "246-261yd",
+          "lateral_band": "LAT1",
+          "zone": "246-261yd x LAT1",
+          "approach_lie": "ROUGH",
+          "gir": false,
+          "strokes": 5,
+          "score_to_par": 1,
+          "score_bucket": "Bogey",
+          "fw_hit": false
+        }
+      ],
+      "par4_tournament_wide_landing_distance_distribution": {
+        "n": 40,
+        "min": 217.1,
+        "max": 279.3,
+        "median": 243.7,
+        "mean": 242.6,
+        "stdev": 15.5
+      },
+      "par4_tournament_wide_approach_ability_by_distance_quartile": {
+        "Q4(>169)": {
+          "n": 14,
+          "avg_score_to_par": 0.571,
+          "GIR_pct": 0.643,
+          "ParOrBetter_pct": 0.5,
+          "BogeyPlus_pct": 0.5,
+          "LOW_SAMPLE": false
+        },
+        "Q3(<=169)": {
+          "n": 6,
+          "avg_score_to_par": 0.167,
+          "GIR_pct": 0.5,
+          "ParOrBetter_pct": 0.833,
+          "BogeyPlus_pct": 0.167,
+          "LOW_SAMPLE": false
+        },
+        "Q1(<=145)": {
+          "n": 15,
+          "avg_score_to_par": 0.733,
+          "GIR_pct": 0.467,
+          "ParOrBetter_pct": 0.533,
+          "BogeyPlus_pct": 0.467,
+          "LOW_SAMPLE": false
+        },
+        "Q2(<=156)": {
+          "n": 5,
+          "avg_score_to_par": 0.4,
+          "GIR_pct": 0.4,
+          "ParOrBetter_pct": 0.6,
+          "BogeyPlus_pct": 0.4,
+          "LOW_SAMPLE": false
+        }
+      }
+    }
+  },
+  "unreliable_distance_note": "2/331 real tee shots (0.6%) carry PENALTY_AREA/LOST_BALL states where the real distance field is 0.0 or anomalous (0.0 and 382.4yd respectively) -- flagged unreliable_distance_state=true per-row, never dropped."
+}
