@@ -38,7 +38,7 @@ Data-driven tercile cuts on the real 329-shot landing-distance distribution (min
 | 261–296yd × LAT2 | 47 | 270.3 | 139.7 | +0.213 | 74% | 28% |
 | 261–296yd × LAT3 | 32 | 267.7 | 142.3 | +0.188 | 66% | 22% |
 
-Field-wide best cell: **246–261yd × LAT2** (avg +0.051, GIR 72%, Bogey+ 20%). Worst: **127–246yd × LAT3** (avg +0.894, Bogey+ 66%, GIR 26% — this is the short-fairway-bunker band identified earlier). Consistent with the earlier coordinate-tercile finding (MID-LAT2 was previously n=38/avg+0.079 — nearly identical real numbers under the new, more defensible distance-based banding).
+Field LOWEST-SCORING OBSERVED cell: **246–261yd × LAT2** (avg +0.051, GIR 72%, Bogey+ 20%). Worst: **127–246yd × LAT3** (avg +0.894, Bogey+ 66%, GIR 26% — this is the short-fairway-bunker band identified earlier). Consistent with the earlier coordinate-tercile finding (MID-LAT2 was previously n=38/avg+0.079 — nearly identical real numbers under the new, more defensible distance-based banding).
 
 Full zone×round breakdown (36 cells) in `hole12_distance_calibrated_analysis.json → zone_x_round`.
 
@@ -63,9 +63,9 @@ Real par-4-tournament-wide landing-distance distribution (10 par-4 holes × up t
 | 이재윤 | 40 | 260.4 | 261.4 ± 21.4 | 208.5–310.6 |
 | 박서현 | 40 | **243.7** | **242.6 ± 15.5** | 217.1–279.3 |
 
-**박서현's realistic range (mean±1stdev ≈ 227–258yd) barely touches the field's best zone (246–261yd×LAT2, avg+0.051) and does not reliably reach 261–296yd×LAT2 (avg+0.213) at all** — her single longest tournament par-4 tee shot all event was 279.3yd, well short of that band's 261–296 range being a comfortable target. 유해란 and 이재윤 both average in the 260s and their ranges span both the MID and LONG bands.
+**박서현's realistic range (mean±1stdev ≈ 227–258yd) barely touches the field's LOWEST-SCORING OBSERVED zone (246–261yd×LAT2, avg+0.051) and does not reliably reach 261–296yd×LAT2 (avg+0.213) at all** — her single longest tournament par-4 tee shot all event was 279.3yd, well short of that band's 261–296 range being a comfortable target. 유해란 and 이재윤 both average in the 260s and their ranges span both the MID and LONG bands.
 
-**Consequence: the field's single best zone (246–261yd×LAT2) is not an equally valid recommendation for all three players.** For 박서현, forcing a 246yd+ carry is asking for a tee shot near her personal max, not her typical shot — the realistic, reachable comparison for her is among the SHORT-band (127–246yd) lateral options, where LAT2 (avg+0.167, GIR 62%, Bogey+ 25%) is still clearly the best of her three realistic choices, far ahead of LAT3 (avg+0.894, Bogey+ 66%) and LAT1 (avg+0.525).
+**Consequence: the field's single LOWEST-SCORING OBSERVED zone (246–261yd×LAT2) is not an equally valid recommendation for all three players.** For 박서현, forcing a 246yd+ carry is asking for a tee shot near her personal max, not her typical shot — the realistic, reachable comparison for her is among the SHORT-band (127–246yd) lateral options, where LAT2 (avg+0.167, GIR 62%, Bogey+ 25%) is still clearly the best of her three realistic choices, far ahead of LAT3 (avg+0.894, Bogey+ 66%) and LAT1 (avg+0.525).
 
 ## 5. Player-specific approach ability by distance (par-4 tournament-wide, not just Hole 12)
 
