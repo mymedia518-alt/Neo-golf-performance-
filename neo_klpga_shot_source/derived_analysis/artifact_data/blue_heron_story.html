@@ -1,0 +1,180 @@
+<title>블루헤런, 세 선수 이야기</title>
+<style>
+/* 레이아웃: 상단 선수 선택 카드 3개 → 선택한 선수의 72홀 스코어 여정 그래프 →
+   핵심 지표 4개를 막대로 → 한 줄 요약. 모두 한 화면에서 스크롤 없이 이해. */
+:root{
+  --bg:#f6f4ee; --surface:#ffffff; --ink:#1f2420; --sub:#6b7268; --line:#e3ded2;
+  --ryu:#1b6e3c; --lee:#2563eb; --park:#c2410c;
+  --accent:#1b6e3c; --accent-soft:#e7f1ea;
+  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Noto Sans KR",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15180f; --surface:#1f2318; --ink:#eef0e8; --sub:#9aa092; --line:#333a2a;
+    --ryu:#4ade80; --lee:#60a5fa; --park:#fb923c; --accent-soft:#1d3024; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15180f; --surface:#1f2318; --ink:#eef0e8; --sub:#9aa092; --line:#333a2a;
+  --ryu:#4ade80; --lee:#60a5fa; --park:#fb923c; --accent-soft:#1d3024; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:1.25rem;font-weight:800;margin:4px 0 2px;letter-spacing:-0.02em}
+.sub{color:var(--sub);font-size:.85rem;margin:0 0 18px}
+.players{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.pcard{border:2px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 8px;
+  text-align:center;cursor:pointer;transition:border-color .15s,transform .15s}
+.pcard:hover{transform:translateY(-1px)}
+.pcard .name{font-weight:800;font-size:.95rem}
+.pcard .rank{font-size:.72rem;color:var(--sub);margin-top:2px}
+.pcard .score{font-size:1.3rem;font-weight:800;margin-top:4px;font-variant-numeric:tabular-nums}
+.pcard[data-p="ryu"]{--pc:var(--ryu)} .pcard[data-p="lee"]{--pc:var(--lee)} .pcard[data-p="park"]{--pc:var(--park)}
+.pcard[data-p="ryu"] .score{color:var(--ryu)} .pcard[data-p="lee"] .score{color:var(--lee)} .pcard[data-p="park"] .score{color:var(--park)}
+.pcard.active{border-color:var(--pc);background:var(--accent-soft)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h2{font-size:.85rem;margin:0 0 10px;color:var(--sub);font-weight:700;letter-spacing:.02em}
+
+#chart{width:100%;height:auto;display:block}
+.legend{display:flex;gap:14px;margin-top:8px;font-size:.72rem;color:var(--sub)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+.stat{margin-bottom:14px}
+.stat:last-child{margin-bottom:0}
+.stat .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.stat .label{font-size:.85rem;font-weight:600}
+.stat .val{font-size:.95rem;font-weight:800;font-variant-numeric:tabular-nums}
+.bar{height:9px;border-radius:5px;background:var(--line);overflow:hidden;position:relative}
+.bar i{position:absolute;inset:0;width:0%;border-radius:5px;transition:width .5s ease}
+.stat .note{font-size:.74rem;color:var(--sub);margin-top:4px}
+
+.summary{font-size:.95rem;line-height:1.65}
+.summary b{color:var(--pc-active, var(--accent))}
+
+footer{text-align:center;color:var(--sub);font-size:.7rem;margin-top:18px}
+</style>
+
+<div class="wrap">
+  <h1>블루헤런, 같은 코스 다른 스코어</h1>
+  <p class="sub">하이트진로 챔피언십 · 4라운드 72홀 실제 기록</p>
+
+  <div class="players" id="playerCards"></div>
+
+  <div class="card">
+    <h2>72홀 스코어 여정</h2>
+    <svg id="chart" viewBox="0 0 680 220"></svg>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="card">
+    <h2>경기 지표</h2>
+    <div id="stats"></div>
+  </div>
+
+  <div class="card">
+    <p class="summary" id="summary"></p>
+  </div>
+
+  <footer>KLPGA Shot Tracker 실제 기록 기반 · GIR = 그린 적중</footer>
+</div>
+
+<script>
+const DATA = {
+  ryu:  { name:"유해란", rank:"1위", score:"-4", color:"var(--ryu)",
+    cum:[0, -1, -1, -1, -1, -1, -1, -2, -2, -1, -1, -1, -1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, -1, -1, -2, -2, -3, -1, -1, -1, -2, -2, -2, -2, -2, -3, -2, -2, -2, -1, -1, -1, 0, 0, 0, 0, 0, 0, 1, 1, 0, -1, -1, -1, -1, -2, -2, -3, -3, -3, -3, -4, -4, -4, -4, -3, -3, -4, -4, -4],
+    gir:73.6, parsave:68.4, birdieConv:28.3, big:1,
+    summary:"그린을 10번 중 7번 넘게 지켰고, 그린을 지킨 날엔 10번 중 3번은 버디로 바꿨습니다. 실수가 없었던 게 아니라, 실수해도 크게 번지지 않았고 기회가 오면 놓치지 않았습니다." },
+  lee:  { name:"이재윤", rank:"27위", score:"+9", color:"var(--lee)",
+    cum:[0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 6, 6, 5, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 10, 10, 10, 9, 9, 9, 9, 10, 10, 10, 10, 9, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9],
+    gir:59.7, parsave:65.5, birdieConv:9.3, big:0,
+    summary:"72홀 동안 더블보기가 단 한 번도 없었습니다. 큰 사고는 없었지만, 그린을 지켜도 버디로 연결한 비율이 유해란의 3분의 1에 그쳐 점수를 만들어내지 못했습니다." },
+  park: { name:"박서현", rank:"61위", score:"+26", color:"var(--park)",
+    cum:[-1, -1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 4, 4, 5, 4, 4, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5, 6, 8, 8, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 13, 15, 16, 16, 16, 17, 17, 18, 18, 18, 18, 18, 18, 19, 20, 20, 20, 19, 19, 21, 22, 22, 23, 23, 24, 24, 24, 25, 26],
+    gir:58.3, parsave:43.3, birdieConv:9.5, big:5,
+    summary:"3, 4라운드에 손실이 집중됐습니다. 그린을 놓쳤을 때 파를 지킨 비율이 세 선수 중 가장 낮았고, 더블보기 이상이 5번 나왔습니다 — 실수 자체보다 실수가 커지는 것을 막지 못한 것이 더 컸습니다." },
+};
+const ORDER = ["ryu","lee","park"];
+let active = "ryu";
+
+function renderCards(){
+  const el = document.getElementById("playerCards");
+  el.innerHTML = ORDER.map(k=>{
+    const d = DATA[k];
+    return `<div class="pcard${k===active?' active':''}" data-p="${k}" tabindex="0" role="button" aria-pressed="${k===active}">
+      <div class="name">${d.name}</div>
+      <div class="rank">${d.rank}</div>
+      <div class="score">${d.score}</div>
+    </div>`;
+  }).join("");
+  el.querySelectorAll(".pcard").forEach(c=>{
+    c.addEventListener("click", ()=>{ active = c.dataset.p; render(); });
+    c.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ active=c.dataset.p; render(); }});
+  });
+}
+
+function renderChart(){
+  const svg = document.getElementById("chart");
+  const W=680,H=220,padL=28,padR=10,padT=14,padB=20;
+  const allVals = ORDER.flatMap(k=>DATA[k].cum);
+  const minV = Math.min(...allVals,-4), maxV = Math.max(...allVals,4);
+  const x = i => padL + (i/(72-1))*(W-padL-padR);
+  const y = v => padT + (1-(v-minV)/(maxV-minV))*(H-padT-padB);
+  let s = "";
+  // round divider lines
+  [18,36,54].forEach(i=>{ s += `<line x1="${x(i-0.5)}" y1="${padT}" x2="${x(i-0.5)}" y2="${H-padB}" stroke="var(--line)" stroke-dasharray="3 3"/>`; });
+  // zero line
+  s += `<line x1="${padL}" y1="${y(0)}" x2="${W-padR}" y2="${y(0)}" stroke="var(--line)"/>`;
+  ["R1","R2","R3","R4"].forEach((r,i)=>{ s += `<text x="${x(i*18+8)}" y="${H-5}" font-size="9" fill="var(--sub)" text-anchor="middle">${r}</text>`; });
+  ORDER.forEach(k=>{
+    const d = DATA[k];
+    const isActive = k===active;
+    const pts = d.cum.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+    s += `<polyline points="${pts}" fill="none" stroke="${d.color}" stroke-width="${isActive?3:1.5}" opacity="${isActive?1:0.3}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    if(isActive){
+      const lastX = x(71), lastY = y(d.cum[71]);
+      s += `<circle cx="${lastX}" cy="${lastY}" r="4" fill="${d.color}"/>`;
+      s += `<text x="${lastX-6}" y="${lastY-8}" font-size="11" font-weight="800" fill="${d.color}" text-anchor="end">${d.score}</text>`;
+    }
+  });
+  svg.innerHTML = s;
+
+  const legend = document.getElementById("legend");
+  legend.innerHTML = ORDER.map(k=>`<span><i style="background:${DATA[k].color}"></i>${DATA[k].name}</span>`).join("");
+}
+
+function bar(label, value, max, suffix, note, color){
+  const pct = Math.max(0, Math.min(100, (value/max)*100));
+  return `<div class="stat">
+    <div class="row"><span class="label">${label}</span><span class="val" style="color:${color}">${value}${suffix}</span></div>
+    <div class="bar"><i style="width:${pct}%;background:${color}"></i></div>
+    ${note?`<div class="note">${note}</div>`:""}
+  </div>`;
+}
+
+function renderStats(){
+  const d = DATA[active];
+  const el = document.getElementById("stats");
+  el.innerHTML =
+    bar("그린 적중률 (GIR)", d.gir, 80, "%", "그린을 규정 타수 안에 올린 비율", d.color) +
+    bar("그린 놓쳐도 파 지킨 비율", d.parsave, 80, "%", "GIR 실패 후 파 세이브", d.color) +
+    bar("버디 전환율", d.birdieConv, 35, "%", "그린을 지켰을 때 버디로 연결한 비율", d.color) +
+    bar("더블보기 이상", d.big, 5, "회", "72홀 중 2타 이상 손해 본 홀 수", d.color);
+}
+
+function renderSummary(){
+  const d = DATA[active];
+  document.getElementById("summary").innerHTML = d.summary;
+  document.getElementById("summary").parentElement.style.setProperty("--pc-active", d.color);
+}
+
+function render(){
+  renderCards();
+  renderChart();
+  renderStats();
+  renderSummary();
+}
+render();
+</script>
