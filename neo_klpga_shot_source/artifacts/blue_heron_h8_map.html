@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Blue Heron H8 — Shot Tracker overlay prototype</title>
+<style>
+  :root{color-scheme:light}
+  body{margin:0;padding:16px;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#f4f3ee;color:#1f2420}
+  .wrap{max-width:900px;margin:0 auto}
+  h1{font-size:16px;margin:0 0 4px}
+  .sub{color:#666;font-size:12px;margin:0 0 14px}
+  .tabs{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .tab{border:1px solid #ccc;background:#fff;border-radius:8px;padding:6px 12px;cursor:pointer;font-size:13px}
+  .tab.active{background:#1b6e3c;color:#fff;border-color:#1b6e3c}
+  .mapbox{position:relative;width:100%;aspect-ratio:650/433;border:1px solid #ccc;border-radius:6px;overflow:hidden;background:#dde;}
+  .mapbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+  .mapbox svg{position:absolute;inset:0;width:100%;height:100%}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#444}
+  .legend span{display:inline-flex;align-items:center;gap:4px}
+  .legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+  table{border-collapse:collapse;margin-top:14px;font-size:12px;width:100%}
+  th,td{border:1px solid #ddd;padding:4px 8px;text-align:left}
+  th{background:#eee}
+  .note{font-size:11px;color:#888;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Blue Heron Hole 8 — 실제 Shot Tracker 좌표 overlay (Phase 1 prototype)</h1>
+  <p class="sub">gameCode 2026100005 · 공식 변환식 x=(390-pp_y·2)·1.815, y=pp_x·2·1.815 (viewBox 0 0 708 471) → 650×433 PNG 픽셀로 재스케일(H8_coordinate_alignment_validation.json: PASS) · 좌표 추적용 debug JSON: blue_heron_h8_debug.json</p>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="mapbox">
+    <img src="hole_8.png" alt="Blue Heron Hole 8 official course map">
+    <svg id="svg" viewBox="0 0 650 433" preserveAspectRatio="none"></svg>
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <table id="tbl">
+    <thead><tr><th>#</th><th>lie</th><th>pp_x,pp_y</th><th>map_x,map_y</th><th>distance(yd)</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  <p class="note">마커 번호 = 샷 번호(해당 샷이 끝난 위치). 1번 마커 = 티샷 결과 지점(baseHoleInfo의 실측 티박스 좌표(bi_sx/bi_sy)가 이 세션에서 캡처된 적이 없어 별도 TEE 아이콘은 생성하지 않음 — 추정 좌표 금지 원칙).</p>
+</div>
+
+<script>
+const DEBUG = {"game_code": "2026100005", "hole": 8, "transform": {"source": "verified against archived KLPGA site JS (evidence_playerDetail_9115.html lines 195-198, 219-220), viewBox '0 0 708 471'", "raw_formula": "x=(390-(pp_y*2))*1.815, y=(pp_x*2)*1.815; green: x_g=(390-(pp_greeny*2))*1.815, y_g=(pp_greenx*2)*1.815", "rescaled_to_png_pixels": "650x433 (actual fetched hole_8.png/hole_8_G.png dimensions)", "A": -3.3326271186440724, "B": 649.8622881355936, "C": 3.337133757961783, "rescaled_formula": "map_x = A*raw_y + B; map_y = C*raw_x (same applied to green_x/green_y via pp_greeny/pp_greenx)", "validation_file": "H8_coordinate_alignment_validation.json: overall_alignment=PASS"}, "players": {"유해란_R1": {"player_code": "9115", "player": "유해란", "round": 1, "hole": 8, "n_shots": 3, "shot_sequence_contiguous": true, "shots": [{"shot": 1, "pp_state": "1", "state_name": "FAIRWAY", "pp_x": 47.0, "pp_y": 64.0, "pp_greenx": -38.0, "pp_greeny": 332.0, "pp_distance": 123.1, "pp_distanceLen": 267.3, "underPar": null, "map_x": 436.57, "map_y": 156.85, "green_x": -456.57, "green_y": -126.81}, {"shot": 2, "pp_state": "3", "state_name": "GREEN", "pp_x": 72.0, "pp_y": 15.0, "pp_greenx": 84.0, "pp_greeny": 101.0, "pp_distance": 7.4, "pp_distanceLen": 116.0, "underPar": null, "map_x": 599.87, "map_y": 240.27, "green_x": 313.27, "green_y": 280.32}, {"shot": 3, "pp_state": "10", "state_name": "HOLED", "pp_x": 75.0, "pp_y": 13.0, "pp_greenx": 96.0, "pp_greeny": 89.0, "pp_distance": 0.0, "pp_distanceLen": 7.4, "underPar": null, "map_x": 606.54, "map_y": 250.29, "green_x": 353.26, "green_y": 320.36}]}, "이재윤_R1": {"player_code": "9708", "player": "이재윤", "round": 1, "hole": 8, "n_shots": 4, "shot_sequence_contiguous": true, "shots": [{"shot": 1, "pp_state": "1", "state_name": "FAIRWAY", "pp_x": 45.0, "pp_y": 68.0, "pp_greenx": -45.0, "pp_greeny": 352.0, "pp_distance": 132.2, "pp_distanceLen": 259.1, "underPar": null, "map_x": 423.24, "map_y": 150.17, "green_x": -523.22, "green_y": -150.17}, {"shot": 2, "pp_state": "12", "state_name": "FRINGE", "pp_x": 75.0, "pp_y": 10.0, "pp_greenx": 100.0, "pp_greeny": 78.0, "pp_distance": 5.6, "pp_distanceLen": 137.7, "underPar": null, "map_x": 616.54, "map_y": 250.29, "green_x": 389.92, "green_y": 333.71}, {"shot": 3, "pp_state": "3", "state_name": "GREEN", "pp_x": 75.0, "pp_y": 12.0, "pp_greenx": 96.0, "pp_greeny": 89.0, "pp_distance": 0.2, "pp_distanceLen": 5.3, "underPar": null, "map_x": 609.87, "map_y": 250.29, "green_x": 353.26, "green_y": 320.36}, {"shot": 4, "pp_state": "10", "state_name": "HOLED", "pp_x": 75.0, "pp_y": 13.0, "pp_greenx": 96.0, "pp_greeny": 89.0, "pp_distance": 0.0, "pp_distanceLen": 0.2, "underPar": null, "map_x": 606.54, "map_y": 250.29, "green_x": 353.26, "green_y": 320.36}]}, "박서현_R1": {"player_code": "9111", "player": "박서현", "round": 1, "hole": 8, "n_shots": 5, "shot_sequence_contiguous": true, "shots": [{"shot": 1, "pp_state": "2", "state_name": "ROUGH", "pp_x": 49.0, "pp_y": 83.0, "pp_greenx": -30.0, "pp_greeny": 425.0, "pp_distance": 159.0, "pp_distanceLen": 226.0, "underPar": null, "map_x": 373.25, "map_y": 163.52, "green_x": -766.5, "green_y": -100.11}, {"shot": 2, "pp_state": "2", "state_name": "ROUGH", "pp_x": 59.0, "pp_y": 10.0, "pp_greenx": 24.0, "pp_greeny": 78.0, "pp_distance": 32.4, "pp_distanceLen": 155.6, "underPar": null, "map_x": 616.54, "map_y": 196.89, "green_x": 389.92, "green_y": 80.09}, {"shot": 3, "pp_state": "3", "state_name": "GREEN", "pp_x": 74.0, "pp_y": 13.0, "pp_greenx": 92.0, "pp_greeny": 90.0, "pp_distance": 2.0, "pp_distanceLen": 30.5, "underPar": null, "map_x": 606.54, "map_y": 246.95, "green_x": 349.93, "green_y": 307.02}, {"shot": 4, "pp_state": "3", "state_name": "GREEN", "pp_x": 75.0, "pp_y": 13.0, "pp_greenx": 97.0, "pp_greeny": 89.0, "pp_distance": 0.5, "pp_distanceLen": 2.5, "underPar": null, "map_x": 606.54, "map_y": 250.29, "green_x": 353.26, "green_y": 323.7}, {"shot": 5, "pp_state": "10", "state_name": "HOLED", "pp_x": 75.0, "pp_y": 13.0, "pp_greenx": 96.0, "pp_greeny": 89.0, "pp_distance": 0.0, "pp_distanceLen": 0.5, "underPar": null, "map_x": 606.54, "map_y": 250.29, "green_x": 353.26, "green_y": 320.36}]}}};
+
+const LIE_COLOR = {
+  FAIRWAY: "#2563eb", ROUGH: "#a16207", GREEN: "#16a34a", BUNKER: "#eab308",
+  GREENSIDE_BUNKER: "#ca8a04", PENALTY_AREA: "#0ea5e9", LOST_BALL: "#dc2626",
+  PENALTY_STROKE: "#dc2626", FRINGE: "#65a30d", HOLED: "#111827", OB: "#dc2626"
+};
+
+const keys = Object.keys(DEBUG.players);
+let active = keys[0];
+
+function renderTabs(){
+  const el = document.getElementById('tabs');
+  el.innerHTML = keys.map(k => `<div class="tab${k===active?' active':''}" data-k="${k}">${k.replace('_',' ')}</div>`).join('');
+  el.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => { active = t.dataset.k; render(); }));
+}
+
+function renderLegend(shots){
+  const states = [...new Set(shots.map(s => s.state_name))];
+  document.getElementById('legend').innerHTML = states.map(s =>
+    `<span><i style="background:${LIE_COLOR[s]||'#999'}"></i>${s}</span>`).join('');
+}
+
+function renderTable(shots){
+  document.getElementById('tbody').innerHTML = shots.map(s =>
+    `<tr><td>${s.shot}</td><td>${s.state_name}</td><td>${s.pp_x},${s.pp_y}</td><td>${s.map_x},${s.map_y}</td><td>${s.pp_distance ?? ''}</td></tr>`
+  ).join('');
+}
+
+function render(){
+  renderTabs();
+  const rec = DEBUG.players[active];
+  const shots = rec.shots;
+  renderLegend(shots);
+  renderTable(shots);
+
+  let svg = '';
+  // connecting path: shot1 endpoint -> shot2 endpoint -> ... in order
+  const pts = shots.map(s => [s.map_x, s.map_y]);
+  for(let i=1;i<pts.length;i++){
+    svg += `<line x1="${pts[i-1][0]}" y1="${pts[i-1][1]}" x2="${pts[i][0]}" y2="${pts[i][1]}" stroke="#1f2420" stroke-width="1.6" stroke-dasharray="4 3" opacity="0.85"/>`;
+  }
+  shots.forEach(s => {
+    const col = LIE_COLOR[s.state_name] || '#666';
+    svg += `<circle cx="${s.map_x}" cy="${s.map_y}" r="9" fill="${col}" stroke="#fff" stroke-width="2"/>`;
+    svg += `<text x="${s.map_x}" y="${s.map_y}" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" dominant-baseline="central">${s.shot}</text>`;
+  });
+  document.getElementById('svg').innerHTML = svg;
+
+  document.querySelector('h1').nextElementSibling.nextElementSibling === null; // no-op guard
+}
+
+render();
+</script>
+</body>
+</html>
