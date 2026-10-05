@@ -1,0 +1,578 @@
+[
+  {
+    "round": 1,
+    "hole": 1,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 2,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 2,
+    "b_strokes": 3
+  },
+  {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 4,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 5,
+    "b_strokes": 6
+  },
+  {
+    "round": 1,
+    "hole": 5,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 1,
+    "hole": 6,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 7,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 1,
+    "hole": 8,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 9,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 1,
+    "hole": 10,
+    "par": 5,
+    "diff": 1,
+    "a_strokes": 6,
+    "b_strokes": 5
+  },
+  {
+    "round": 1,
+    "hole": 11,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 12,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 13,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 14,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 15,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 1,
+    "hole": 16,
+    "par": 3,
+    "diff": 1,
+    "a_strokes": 4,
+    "b_strokes": 3
+  },
+  {
+    "round": 1,
+    "hole": 17,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 1,
+    "hole": 18,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 2,
+    "hole": 1,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 2,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 2,
+    "b_strokes": 3
+  },
+  {
+    "round": 2,
+    "hole": 3,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 4,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 5,
+    "b_strokes": 6
+  },
+  {
+    "round": 2,
+    "hole": 5,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 2,
+    "hole": 6,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 7,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 2,
+    "hole": 8,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 9,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 10,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 2,
+    "hole": 11,
+    "par": 3,
+    "diff": -2,
+    "a_strokes": 2,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "diff": 2,
+    "a_strokes": 6,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 13,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 4,
+    "b_strokes": 3
+  },
+  {
+    "round": 2,
+    "hole": 14,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 2,
+    "hole": 15,
+    "par": 4,
+    "diff": -2,
+    "a_strokes": 3,
+    "b_strokes": 5
+  },
+  {
+    "round": 2,
+    "hole": 16,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 2,
+    "hole": 17,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 2,
+    "hole": 18,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 3,
+    "hole": 1,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 3,
+    "hole": 2,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 2,
+    "b_strokes": 3
+  },
+  {
+    "round": 3,
+    "hole": 3,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 4,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 3,
+    "hole": 5,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 3,
+    "hole": 6,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 7,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 9,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 10,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 5,
+    "b_strokes": 6
+  },
+  {
+    "round": 3,
+    "hole": 11,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 3,
+    "hole": 12,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 13,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 3,
+    "hole": 14,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 15,
+    "par": 4,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 16,
+    "par": 3,
+    "diff": 1,
+    "a_strokes": 3,
+    "b_strokes": 2
+  },
+  {
+    "round": 3,
+    "hole": 17,
+    "par": 4,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 3,
+    "hole": 18,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 4,
+    "hole": 1,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 2,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 3,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 3,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 4,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 4,
+    "hole": 5,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 4,
+    "hole": 6,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 4,
+    "hole": 7,
+    "par": 5,
+    "diff": 1,
+    "a_strokes": 5,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 8,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 10,
+    "par": 5,
+    "diff": -1,
+    "a_strokes": 4,
+    "b_strokes": 5
+  },
+  {
+    "round": 4,
+    "hole": 11,
+    "par": 3,
+    "diff": 0,
+    "a_strokes": 3,
+    "b_strokes": 3
+  },
+  {
+    "round": 4,
+    "hole": 12,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 13,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 14,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  },
+  {
+    "round": 4,
+    "hole": 15,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 16,
+    "par": 3,
+    "diff": -1,
+    "a_strokes": 2,
+    "b_strokes": 3
+  },
+  {
+    "round": 4,
+    "hole": 17,
+    "par": 4,
+    "diff": 0,
+    "a_strokes": 4,
+    "b_strokes": 4
+  },
+  {
+    "round": 4,
+    "hole": 18,
+    "par": 5,
+    "diff": 0,
+    "a_strokes": 5,
+    "b_strokes": 5
+  }
+]
