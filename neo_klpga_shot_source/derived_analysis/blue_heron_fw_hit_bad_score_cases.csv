@@ -1,0 +1,22 @@
+﻿player,final_rank,round,hole,par,category,tee_lie,next_shot_condition,gir,final_score_to_par,strokes
+이예원,9,1,12,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 15.2y,False,1,5
+유해란,1,1,10,5,FW_HIT->BOGEY,페어웨이(FAIRWAY),페어웨이(FAIRWAY) 136.7y,False,1,6
+최예본,5,1,1,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),그린주변벙커(GREENSIDE_BUNKER) 25.9y,False,1,5
+이지현3,4,1,4,5,FW_HIT->BOGEY,페어웨이(FAIRWAY),페어웨이(FAIRWAY) 106.4y,True,1,6
+김민주,2,2,3,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 17.3y,False,1,5
+서어진,5,2,12,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 10.5y,False,1,5
+김소정,5,1,3,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 12.9y,False,1,5
+김민솔,2,3,8,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 12.6y,False,1,5
+홍진영2,9,1,1,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),러프(ROUGH) 20.9y,False,1,5
+유서연2,9,2,3,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),그린주변벙커(GREENSIDE_BUNKER) 22.5y,False,1,5
+이다연,5,1,1,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),그린(GREEN) 29.0y,True,1,5
+이예원,9,1,14,4,FW_HIT->BOGEY,페어웨이(FAIRWAY),프린지(FRINGE) 17.5y,False,1,5
+최예본,5,2,3,4,FW_HIT->DOUBLE+,페어웨이(FAIRWAY),그린주변벙커(GREENSIDE_BUNKER) 24.5y,False,2,6
+이다연,5,2,8,4,FW_HIT->DOUBLE+,페어웨이(FAIRWAY),페널티구역(PENALTY_AREA) 0.0y,False,2,6
+이지현3,4,2,17,4,FW_HIT->DOUBLE+,페어웨이(FAIRWAY),그린주변벙커(GREENSIDE_BUNKER) 38.3y,False,2,6
+이예원,9,4,15,4,FW_HIT->DOUBLE+,페어웨이(FAIRWAY),페널티구역(PENALTY_AREA) 0.0y,False,2,6
+유해란,1,1,10,5,RYU_FW_HIT->BOGEY+,페어웨이(FAIRWAY),페어웨이(FAIRWAY) 136.7y,False,1,6
+유해란,1,1,14,4,RYU_FW_HIT->BOGEY+,페어웨이(FAIRWAY),그린(GREEN) 15.3y,True,1,5
+유해란,1,2,3,4,RYU_FW_HIT->BOGEY+,페어웨이(FAIRWAY),프린지(FRINGE) 19.8y,False,1,5
+유해란,1,3,9,4,RYU_FW_HIT->BOGEY+,페어웨이(FAIRWAY),그린(GREEN) 6.0y,True,1,5
+유해란,1,3,15,4,RYU_FW_HIT->BOGEY+,페어웨이(FAIRWAY),러프(ROUGH) 14.2y,False,1,5
