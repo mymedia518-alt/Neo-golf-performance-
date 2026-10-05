@@ -1,0 +1,4717 @@
+{
+  "hole": 1,
+  "par": 4,
+  "hole_yardage_official_all_rounds": 402.0,
+  "step2_population": {
+    "player_rounds_by_round": {
+      "1": 107,
+      "2": 102,
+      "3": 61,
+      "4": 61
+    },
+    "total_tee_shots": 331,
+    "total_shot_rows": 1446,
+    "tee_shots_by_round": {
+      "1": 107,
+      "2": 102,
+      "3": 61,
+      "4": 61
+    },
+    "source_gaps_found": [
+      {
+        "player_code": "8240",
+        "player_name": "황정미",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "8240",
+        "player_name": "황정미",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "10112",
+        "player_name": "고지우",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "10112",
+        "player_name": "고지우",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "11076",
+        "player_name": "조하리",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "11076",
+        "player_name": "조하리",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "11978",
+        "player_name": "이수민 0906(A)",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "11978",
+        "player_name": "이수민 0906(A)",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "8246",
+        "player_name": "이소영",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "8246",
+        "player_name": "이소영",
+        "round": 2,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "9401",
+        "player_name": "마다솜",
+        "round": 1,
+        "matches_known_tournament_wide_gap": true
+      },
+      {
+        "player_code": "9401",
+        "player_name": "마다솜",
+        "round": 1,
+        "matches_known_tournament_wide_gap": true
+      }
+    ],
+    "all_gaps_match_known_tournament_pattern": true
+  },
+  "step2_pins_72hole_audit_subset": {
+    "1": {
+      "round": 1,
+      "hole": 1,
+      "n": 107,
+      "status": "VERIFIED",
+      "pin_x": 51.0,
+      "pin_y": 61.0
+    },
+    "2": {
+      "round": 2,
+      "hole": 1,
+      "n": 102,
+      "status": "VERIFIED",
+      "pin_x": 47.0,
+      "pin_y": 106.0
+    },
+    "3": {
+      "round": 3,
+      "hole": 1,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 89.0,
+      "pin_y": 99.0
+    },
+    "4": {
+      "round": 4,
+      "hole": 1,
+      "n": 61,
+      "status": "VERIFIED",
+      "pin_x": 45.0,
+      "pin_y": 80.0
+    }
+  },
+  "step3_thresholds": {
+    "d1": 227.8,
+    "d2": 239.9,
+    "l1": -2.137822569565727,
+    "l2": 2.6954094073247385,
+    "deciles": [
+      216.1,
+      222.0,
+      226.7,
+      230.2,
+      234.2,
+      237.2,
+      241.6,
+      245.7,
+      250.8
+    ],
+    "min": 181.1,
+    "max": 272.3
+  },
+  "tee_green_anchor_n": {
+    "tee": 331,
+    "green": 331
+  },
+  "step4_zone_stats": {
+    "228-240yd x LAT3": {
+      "n": 38,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        228.1,
+        239.7
+      ],
+      "landing_distance_median": 234.5,
+      "approach_distance_range": [
+        162.3,
+        173.9
+      ],
+      "approach_distance_median": 167.5,
+      "FW_pct": 0.605,
+      "Rough_pct": 0.395,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.447,
+      "BirdiePlus_pct": 0.132,
+      "Par_pct": 0.579,
+      "BogeyPlus_pct": 0.289,
+      "DoublePlus_pct": 0.053,
+      "avg_score_to_par": 0.211,
+      "LOW_SAMPLE": false
+    },
+    "228-240yd x LAT1": {
+      "n": 43,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        228.3,
+        239.8
+      ],
+      "landing_distance_median": 235.0,
+      "approach_distance_range": [
+        162.2,
+        173.7
+      ],
+      "approach_distance_median": 167.0,
+      "FW_pct": 0.023,
+      "Rough_pct": 0.744,
+      "Bunker_pct": 0.233,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.442,
+      "BirdiePlus_pct": 0.047,
+      "Par_pct": 0.512,
+      "BogeyPlus_pct": 0.442,
+      "DoublePlus_pct": 0.023,
+      "avg_score_to_par": 0.419,
+      "LOW_SAMPLE": false
+    },
+    "240-272yd x LAT2": {
+      "n": 33,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        240.3,
+        261.4
+      ],
+      "landing_distance_median": 248.2,
+      "approach_distance_range": [
+        140.6,
+        161.7
+      ],
+      "approach_distance_median": 153.8,
+      "FW_pct": 0.939,
+      "Rough_pct": 0.061,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.636,
+      "BirdiePlus_pct": 0.121,
+      "Par_pct": 0.606,
+      "BogeyPlus_pct": 0.273,
+      "DoublePlus_pct": 0.0,
+      "avg_score_to_par": 0.152,
+      "LOW_SAMPLE": false
+    },
+    "181-228yd x LAT3": {
+      "n": 43,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        181.1,
+        227.6
+      ],
+      "landing_distance_median": 217.9,
+      "approach_distance_range": [
+        174.4,
+        220.9
+      ],
+      "approach_distance_median": 184.1,
+      "FW_pct": 0.442,
+      "Rough_pct": 0.558,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.256,
+      "BirdiePlus_pct": 0.0,
+      "Par_pct": 0.512,
+      "BogeyPlus_pct": 0.488,
+      "DoublePlus_pct": 0.093,
+      "avg_score_to_par": 0.581,
+      "LOW_SAMPLE": false
+    },
+    "181-228yd x LAT2": {
+      "n": 48,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        206.0,
+        227.5
+      ],
+      "landing_distance_median": 220.95,
+      "approach_distance_range": [
+        174.5,
+        196.0
+      ],
+      "approach_distance_median": 181.05,
+      "FW_pct": 0.917,
+      "Rough_pct": 0.083,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.458,
+      "BirdiePlus_pct": 0.021,
+      "Par_pct": 0.583,
+      "BogeyPlus_pct": 0.396,
+      "DoublePlus_pct": 0.0,
+      "avg_score_to_par": 0.375,
+      "LOW_SAMPLE": false
+    },
+    "228-240yd x LAT2": {
+      "n": 29,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        228.0,
+        239.9
+      ],
+      "landing_distance_median": 231.3,
+      "approach_distance_range": [
+        162.1,
+        174.0
+      ],
+      "approach_distance_median": 170.7,
+      "FW_pct": 0.931,
+      "Rough_pct": 0.069,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.655,
+      "BirdiePlus_pct": 0.069,
+      "Par_pct": 0.759,
+      "BogeyPlus_pct": 0.172,
+      "DoublePlus_pct": 0.0,
+      "avg_score_to_par": 0.103,
+      "LOW_SAMPLE": false
+    },
+    "240-272yd x LAT1": {
+      "n": 48,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        240.0,
+        265.8
+      ],
+      "landing_distance_median": 246.25,
+      "approach_distance_range": [
+        136.2,
+        162.0
+      ],
+      "approach_distance_median": 155.75,
+      "FW_pct": 0.062,
+      "Rough_pct": 0.396,
+      "Bunker_pct": 0.542,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.417,
+      "BirdiePlus_pct": 0.083,
+      "Par_pct": 0.542,
+      "BogeyPlus_pct": 0.375,
+      "DoublePlus_pct": 0.042,
+      "avg_score_to_par": 0.333,
+      "LOW_SAMPLE": false
+    },
+    "240-272yd x LAT3": {
+      "n": 29,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        240.2,
+        272.3
+      ],
+      "landing_distance_median": 248.0,
+      "approach_distance_range": [
+        129.7,
+        161.8
+      ],
+      "approach_distance_median": 154.0,
+      "FW_pct": 0.724,
+      "Rough_pct": 0.276,
+      "Bunker_pct": 0.0,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.517,
+      "BirdiePlus_pct": 0.069,
+      "Par_pct": 0.621,
+      "BogeyPlus_pct": 0.31,
+      "DoublePlus_pct": 0.069,
+      "avg_score_to_par": 0.345,
+      "LOW_SAMPLE": false
+    },
+    "181-228yd x LAT1": {
+      "n": 20,
+      "n_unreliable_excluded_from_range": 0,
+      "landing_distance_range": [
+        193.6,
+        227.8
+      ],
+      "landing_distance_median": 223.1,
+      "approach_distance_range": [
+        174.2,
+        208.4
+      ],
+      "approach_distance_median": 178.9,
+      "FW_pct": 0.15,
+      "Rough_pct": 0.6,
+      "Bunker_pct": 0.25,
+      "Penalty_pct": 0.0,
+      "GIR_pct": 0.25,
+      "BirdiePlus_pct": 0.0,
+      "Par_pct": 0.2,
+      "BogeyPlus_pct": 0.8,
+      "DoublePlus_pct": 0.15,
+      "avg_score_to_par": 0.95,
+      "LOW_SAMPLE": false
+    }
+  },
+  "step5_fairway_confound_test": {
+    "LAT1": {
+      "FW_hit_only": {
+        "n": 7,
+        "avg_score_to_par": 0.429,
+        "GIR_pct": 0.571,
+        "LOW_SAMPLE": false
+      },
+      "FW_miss_only": {
+        "n": 104,
+        "avg_score_to_par": 0.481,
+        "GIR_pct": 0.385,
+        "LOW_SAMPLE": false
+      }
+    },
+    "LAT2": {
+      "FW_hit_only": {
+        "n": 102,
+        "avg_score_to_par": 0.225,
+        "GIR_pct": 0.578,
+        "LOW_SAMPLE": false
+      },
+      "FW_miss_only": {
+        "n": 8,
+        "avg_score_to_par": 0.375,
+        "GIR_pct": 0.375,
+        "LOW_SAMPLE": false
+      }
+    },
+    "LAT3": {
+      "FW_hit_only": {
+        "n": 63,
+        "avg_score_to_par": 0.286,
+        "GIR_pct": 0.524,
+        "LOW_SAMPLE": false
+      },
+      "FW_miss_only": {
+        "n": 47,
+        "avg_score_to_par": 0.532,
+        "GIR_pct": 0.213,
+        "LOW_SAMPLE": false
+      }
+    }
+  },
+  "step7_approach_distance_value": {
+    "quartile_cuts": [
+      157.7,
+      167.8,
+      177.2
+    ],
+    "bands": {
+      "Q3(<=177)": {
+        "n": 84,
+        "GIR_pct": 0.476,
+        "BirdiePlus_pct": 0.024,
+        "Par_pct": 0.619,
+        "Bogey_pct": 0.31,
+        "DoublePlus_pct": 0.048,
+        "Penalty_pct": 0.0,
+        "avg_score_to_par": 0.381,
+        "fw_hit_pct_of_tee_shot": 0.512,
+        "round_mix": {
+          "1": 33,
+          "4": 20,
+          "3": 22,
+          "2": 9
+        }
+      },
+      "Q2(<=168)": {
+        "n": 83,
+        "GIR_pct": 0.518,
+        "BirdiePlus_pct": 0.096,
+        "Par_pct": 0.542,
+        "Bogey_pct": 0.325,
+        "DoublePlus_pct": 0.036,
+        "Penalty_pct": 0.0,
+        "avg_score_to_par": 0.301,
+        "fw_hit_pct_of_tee_shot": 0.458,
+        "round_mix": {
+          "2": 34,
+          "3": 16,
+          "1": 23,
+          "4": 10
+        }
+      },
+      "Q1(<=158)": {
+        "n": 83,
+        "GIR_pct": 0.458,
+        "BirdiePlus_pct": 0.108,
+        "Par_pct": 0.554,
+        "Bogey_pct": 0.301,
+        "DoublePlus_pct": 0.036,
+        "Penalty_pct": 0.012,
+        "avg_score_to_par": 0.277,
+        "fw_hit_pct_of_tee_shot": 0.506,
+        "round_mix": {
+          "2": 54,
+          "3": 11,
+          "4": 12,
+          "1": 6
+        }
+      },
+      "Q4(>177)": {
+        "n": 81,
+        "GIR_pct": 0.346,
+        "BirdiePlus_pct": 0.012,
+        "Par_pct": 0.506,
+        "Bogey_pct": 0.432,
+        "DoublePlus_pct": 0.049,
+        "Penalty_pct": 0.012,
+        "avg_score_to_par": 0.519,
+        "fw_hit_pct_of_tee_shot": 0.605,
+        "round_mix": {
+          "1": 45,
+          "3": 12,
+          "4": 19,
+          "2": 5
+        }
+      }
+    }
+  },
+  "step8_pin_centered": {
+    "ring_thresholds_map_units": {
+      "t1": 25.495097567963924,
+      "t2": 46.32493928760188
+    },
+    "cell_summary": {
+      "MID QUAD-A": {
+        "n": 40,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.625,
+        "avg_score_to_par": 0.375,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": false
+      },
+      "MID QUAD-B": {
+        "n": 43,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.488,
+        "avg_score_to_par": 0.465,
+        "DoublePlus_pct": 0.023,
+        "LOW_SAMPLE": false
+      },
+      "NEAR QUAD-C": {
+        "n": 19,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.579,
+        "avg_score_to_par": -0.105,
+        "DoublePlus_pct": 0.053,
+        "LOW_SAMPLE": false
+      },
+      "NEAR QUAD-A": {
+        "n": 33,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.97,
+        "avg_score_to_par": -0.121,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": false
+      },
+      "FAR QUAD-B": {
+        "n": 71,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.028,
+        "avg_score_to_par": 0.789,
+        "DoublePlus_pct": 0.099,
+        "LOW_SAMPLE": false
+      },
+      "MID QUAD-D": {
+        "n": 14,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.429,
+        "avg_score_to_par": 0.286,
+        "DoublePlus_pct": 0.071,
+        "LOW_SAMPLE": false
+      },
+      "FAR QUAD-A": {
+        "n": 32,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.219,
+        "avg_score_to_par": 0.688,
+        "DoublePlus_pct": 0.062,
+        "LOW_SAMPLE": false
+      },
+      "NEAR QUAD-B": {
+        "n": 44,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.727,
+        "avg_score_to_par": -0.045,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": false
+      },
+      "NEAR QUAD-D": {
+        "n": 15,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.467,
+        "avg_score_to_par": 0,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": false
+      },
+      "MID QUAD-C": {
+        "n": 13,
+        "rounds_present": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.231,
+        "avg_score_to_par": 0.538,
+        "DoublePlus_pct": 0.077,
+        "LOW_SAMPLE": false
+      },
+      "FAR QUAD-C": {
+        "n": 1,
+        "rounds_present": [
+          3
+        ],
+        "GIR_pct": 1.0,
+        "avg_score_to_par": 0,
+        "DoublePlus_pct": 0.0,
+        "LOW_SAMPLE": true
+      },
+      "FAR QUAD-D": {
+        "n": 6,
+        "rounds_present": [
+          2,
+          3,
+          4
+        ],
+        "GIR_pct": 0.333,
+        "avg_score_to_par": 1,
+        "DoublePlus_pct": 0.167,
+        "LOW_SAMPLE": false
+      }
+    },
+    "points": [
+      {
+        "pc": "10002",
+        "round": 1,
+        "dx": 3.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10002",
+        "round": 2,
+        "dx": -21.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10002",
+        "round": 3,
+        "dx": -6.0,
+        "dy": -16.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10002",
+        "round": 4,
+        "dx": 37.0,
+        "dy": 1.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "10022",
+        "round": 1,
+        "dx": 5.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10022",
+        "round": 2,
+        "dx": -2.0,
+        "dy": -3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10022",
+        "round": 3,
+        "dx": -93.0,
+        "dy": 168.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10022",
+        "round": 4,
+        "dx": -78.0,
+        "dy": 201.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10081",
+        "round": 1,
+        "dx": -2.0,
+        "dy": -19.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10081",
+        "round": 2,
+        "dx": 6.0,
+        "dy": 6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10081",
+        "round": 3,
+        "dx": 13.0,
+        "dy": 38.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10081",
+        "round": 4,
+        "dx": 18.0,
+        "dy": -33.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10083",
+        "round": 1,
+        "dx": 32.0,
+        "dy": 3.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10083",
+        "round": 2,
+        "dx": 4.0,
+        "dy": 56.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10083",
+        "round": 3,
+        "dx": -5.0,
+        "dy": 7.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10083",
+        "round": 4,
+        "dx": -13.0,
+        "dy": 43.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10095",
+        "round": 1,
+        "dx": 5.0,
+        "dy": 31.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10095",
+        "round": 2,
+        "dx": 15.0,
+        "dy": 6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10095",
+        "round": 3,
+        "dx": -10.0,
+        "dy": 10.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10095",
+        "round": 4,
+        "dx": -1.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "10097",
+        "round": 1,
+        "dx": 1.0,
+        "dy": 22.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10097",
+        "round": 2,
+        "dx": 13.0,
+        "dy": 47.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10097",
+        "round": 3,
+        "dx": -1.0,
+        "dy": -25.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10097",
+        "round": 4,
+        "dx": 55.0,
+        "dy": 10.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10109",
+        "round": 1,
+        "dx": -50.0,
+        "dy": 8.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10109",
+        "round": 2,
+        "dx": -43.0,
+        "dy": 159.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10109",
+        "round": 3,
+        "dx": 4.0,
+        "dy": -4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10109",
+        "round": 4,
+        "dx": -41.0,
+        "dy": -17.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10112",
+        "round": 1,
+        "dx": -103.0,
+        "dy": 386.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "10138",
+        "round": 1,
+        "dx": -1.0,
+        "dy": -7.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10138",
+        "round": 2,
+        "dx": 3.0,
+        "dy": 44.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10138",
+        "round": 3,
+        "dx": -37.0,
+        "dy": 36.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "10138",
+        "round": 4,
+        "dx": -27.0,
+        "dy": -18.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10139",
+        "round": 1,
+        "dx": -8.0,
+        "dy": 18.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10139",
+        "round": 2,
+        "dx": -2.0,
+        "dy": 14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10178",
+        "round": 1,
+        "dx": 40.0,
+        "dy": 32.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10178",
+        "round": 2,
+        "dx": -14.0,
+        "dy": 102.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10296",
+        "round": 1,
+        "dx": -8.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10296",
+        "round": 2,
+        "dx": 7.0,
+        "dy": 37.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10296",
+        "round": 3,
+        "dx": -5.0,
+        "dy": -2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10296",
+        "round": 4,
+        "dx": 0.0,
+        "dy": 90.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10481",
+        "round": 1,
+        "dx": 19.0,
+        "dy": 13.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10481",
+        "round": 2,
+        "dx": -1.0,
+        "dy": 4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10481",
+        "round": 3,
+        "dx": -53.0,
+        "dy": 35.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "10481",
+        "round": 4,
+        "dx": 7.0,
+        "dy": 23.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10531",
+        "round": 1,
+        "dx": -9.0,
+        "dy": -10.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10531",
+        "round": 2,
+        "dx": 24.0,
+        "dy": -4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10531",
+        "round": 3,
+        "dx": -4.0,
+        "dy": -45.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10531",
+        "round": 4,
+        "dx": 44.0,
+        "dy": -7.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10577",
+        "round": 1,
+        "dx": -32.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10577",
+        "round": 2,
+        "dx": 3.0,
+        "dy": 4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10577",
+        "round": 3,
+        "dx": 6.0,
+        "dy": 39.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10577",
+        "round": 4,
+        "dx": 9.0,
+        "dy": 19.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10586",
+        "round": 1,
+        "dx": 48.0,
+        "dy": 2.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10586",
+        "round": 2,
+        "dx": 22.0,
+        "dy": 13.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10586",
+        "round": 3,
+        "dx": -21.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10586",
+        "round": 4,
+        "dx": 34.0,
+        "dy": -12.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "10725",
+        "round": 1,
+        "dx": 27.0,
+        "dy": 97.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10725",
+        "round": 2,
+        "dx": -9.0,
+        "dy": 9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10725",
+        "round": 3,
+        "dx": -22.0,
+        "dy": 11.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10725",
+        "round": 4,
+        "dx": 6.0,
+        "dy": -35.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Birdie+",
+        "gir": false
+      },
+      {
+        "pc": "10726",
+        "round": 1,
+        "dx": -27.0,
+        "dy": 3.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10726",
+        "round": 2,
+        "dx": 12.0,
+        "dy": 4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10726",
+        "round": 3,
+        "dx": 14.0,
+        "dy": -12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10726",
+        "round": 4,
+        "dx": 24.0,
+        "dy": 18.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10727",
+        "round": 1,
+        "dx": -16.0,
+        "dy": 21.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "10727",
+        "round": 2,
+        "dx": -12.0,
+        "dy": 59.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10789",
+        "round": 1,
+        "dx": 21.0,
+        "dy": 38.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "10789",
+        "round": 2,
+        "dx": -11.0,
+        "dy": 11.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10790",
+        "round": 1,
+        "dx": -6.0,
+        "dy": -20.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10790",
+        "round": 2,
+        "dx": -8.0,
+        "dy": 42.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "10790",
+        "round": 3,
+        "dx": -22.0,
+        "dy": 43.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "10790",
+        "round": 4,
+        "dx": 13.0,
+        "dy": 21.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10867",
+        "round": 1,
+        "dx": 7.0,
+        "dy": 54.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "10867",
+        "round": 2,
+        "dx": 5.0,
+        "dy": 41.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11040",
+        "round": 1,
+        "dx": -31.0,
+        "dy": 108.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11040",
+        "round": 2,
+        "dx": -13.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11042",
+        "round": 1,
+        "dx": 10.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11042",
+        "round": 2,
+        "dx": -27.0,
+        "dy": 18.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11042",
+        "round": 3,
+        "dx": -19.0,
+        "dy": 23.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11042",
+        "round": 4,
+        "dx": -72.0,
+        "dy": 183.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11045",
+        "round": 1,
+        "dx": -9.0,
+        "dy": -3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "11045",
+        "round": 2,
+        "dx": 9.0,
+        "dy": 45.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11056",
+        "round": 1,
+        "dx": -21.0,
+        "dy": -1.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11056",
+        "round": 2,
+        "dx": -2.0,
+        "dy": 37.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11057",
+        "round": 1,
+        "dx": 11.0,
+        "dy": 8.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11057",
+        "round": 2,
+        "dx": 22.0,
+        "dy": 6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11060",
+        "round": 1,
+        "dx": -32.0,
+        "dy": 130.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11060",
+        "round": 2,
+        "dx": -32.0,
+        "dy": 55.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11060",
+        "round": 3,
+        "dx": -18.0,
+        "dy": 13.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "11060",
+        "round": 4,
+        "dx": 34.0,
+        "dy": 0.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11066",
+        "round": 1,
+        "dx": -29.0,
+        "dy": -2.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11066",
+        "round": 2,
+        "dx": -46.0,
+        "dy": 18.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11066",
+        "round": 3,
+        "dx": -48.0,
+        "dy": -23.0,
+        "ring": "FAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11066",
+        "round": 4,
+        "dx": 43.0,
+        "dy": -17.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11073",
+        "round": 1,
+        "dx": -13.0,
+        "dy": 39.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "11073",
+        "round": 2,
+        "dx": 21.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11076",
+        "round": 1,
+        "dx": -54.0,
+        "dy": 60.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11134",
+        "round": 1,
+        "dx": -23.0,
+        "dy": 7.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11134",
+        "round": 2,
+        "dx": 3.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11134",
+        "round": 3,
+        "dx": 9.0,
+        "dy": -2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11134",
+        "round": 4,
+        "dx": -8.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11143",
+        "round": 1,
+        "dx": 3.0,
+        "dy": -10.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "11143",
+        "round": 2,
+        "dx": -9.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "11143",
+        "round": 3,
+        "dx": -6.0,
+        "dy": 32.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11143",
+        "round": 4,
+        "dx": 0.0,
+        "dy": 0.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "11216",
+        "round": 1,
+        "dx": -82.0,
+        "dy": 204.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11216",
+        "round": 2,
+        "dx": 47.0,
+        "dy": -16.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "11447",
+        "round": 1,
+        "dx": -11.0,
+        "dy": 14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11447",
+        "round": 2,
+        "dx": 3.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "11447",
+        "round": 3,
+        "dx": -30.0,
+        "dy": 13.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11447",
+        "round": 4,
+        "dx": 11.0,
+        "dy": 18.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11469",
+        "round": 1,
+        "dx": -1.0,
+        "dy": 24.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11469",
+        "round": 2,
+        "dx": 23.0,
+        "dy": -66.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11640",
+        "round": 1,
+        "dx": -4.0,
+        "dy": 16.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11640",
+        "round": 2,
+        "dx": 54.0,
+        "dy": 31.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11640",
+        "round": 3,
+        "dx": -11.0,
+        "dy": 46.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "11640",
+        "round": 4,
+        "dx": -10.0,
+        "dy": 14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11770",
+        "round": 1,
+        "dx": -29.0,
+        "dy": 7.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11770",
+        "round": 2,
+        "dx": 51.0,
+        "dy": 2.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11770",
+        "round": 3,
+        "dx": -31.0,
+        "dy": 21.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "11770",
+        "round": 4,
+        "dx": -98.0,
+        "dy": 164.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "11978",
+        "round": 1,
+        "dx": 31.0,
+        "dy": 63.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "12038",
+        "round": 1,
+        "dx": -30.0,
+        "dy": 67.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "12038",
+        "round": 2,
+        "dx": -9.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "12078",
+        "round": 1,
+        "dx": 29.0,
+        "dy": -3.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "12078",
+        "round": 2,
+        "dx": -35.0,
+        "dy": -2.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "12080",
+        "round": 1,
+        "dx": 30.0,
+        "dy": -3.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "12080",
+        "round": 2,
+        "dx": -12.0,
+        "dy": 0.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "13386",
+        "round": 1,
+        "dx": -32.0,
+        "dy": 4.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "13386",
+        "round": 2,
+        "dx": -21.0,
+        "dy": 19.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "1521",
+        "round": 1,
+        "dx": -11.0,
+        "dy": 32.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "1521",
+        "round": 2,
+        "dx": -40.0,
+        "dy": -1.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "6916",
+        "round": 1,
+        "dx": 3.0,
+        "dy": 46.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "6916",
+        "round": 2,
+        "dx": -13.0,
+        "dy": 64.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8179",
+        "round": 1,
+        "dx": 12.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8179",
+        "round": 2,
+        "dx": 4.0,
+        "dy": 24.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8179",
+        "round": 3,
+        "dx": -43.0,
+        "dy": 11.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8179",
+        "round": 4,
+        "dx": 2.0,
+        "dy": -2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8234",
+        "round": 1,
+        "dx": -13.0,
+        "dy": 4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "8234",
+        "round": 2,
+        "dx": 8.0,
+        "dy": 39.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8240",
+        "round": 1,
+        "dx": -2.0,
+        "dy": 24.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8243",
+        "round": 1,
+        "dx": 0.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8243",
+        "round": 2,
+        "dx": -12.0,
+        "dy": 42.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8243",
+        "round": 3,
+        "dx": -15.0,
+        "dy": 24.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8243",
+        "round": 4,
+        "dx": 12.0,
+        "dy": -4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8246",
+        "round": 1,
+        "dx": -101.0,
+        "dy": 266.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8277",
+        "round": 1,
+        "dx": 31.0,
+        "dy": 0.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8277",
+        "round": 2,
+        "dx": 29.0,
+        "dy": 21.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8277",
+        "round": 3,
+        "dx": -111.0,
+        "dy": 290.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8277",
+        "round": 4,
+        "dx": -66.0,
+        "dy": 204.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8284",
+        "round": 1,
+        "dx": -31.0,
+        "dy": 5.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8284",
+        "round": 2,
+        "dx": -72.0,
+        "dy": 201.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8284",
+        "round": 3,
+        "dx": -48.0,
+        "dy": 79.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8284",
+        "round": 4,
+        "dx": -27.0,
+        "dy": 27.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8300",
+        "round": 1,
+        "dx": -7.0,
+        "dy": 25.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8300",
+        "round": 2,
+        "dx": 5.0,
+        "dy": 37.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8300",
+        "round": 3,
+        "dx": 6.0,
+        "dy": -20.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8300",
+        "round": 4,
+        "dx": 7.0,
+        "dy": 19.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8318",
+        "round": 1,
+        "dx": -17.0,
+        "dy": 91.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8318",
+        "round": 2,
+        "dx": 34.0,
+        "dy": 17.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8380",
+        "round": 1,
+        "dx": -29.0,
+        "dy": 68.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8380",
+        "round": 2,
+        "dx": 37.0,
+        "dy": 58.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8380",
+        "round": 3,
+        "dx": 9.0,
+        "dy": -33.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "8380",
+        "round": 4,
+        "dx": -1.0,
+        "dy": 70.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8386",
+        "round": 1,
+        "dx": -53.0,
+        "dy": 238.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8386",
+        "round": 2,
+        "dx": -24.0,
+        "dy": 4.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8392",
+        "round": 1,
+        "dx": 16.0,
+        "dy": 64.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8392",
+        "round": 2,
+        "dx": -1.0,
+        "dy": -6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "8392",
+        "round": 3,
+        "dx": -29.0,
+        "dy": -2.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8392",
+        "round": 4,
+        "dx": 3.0,
+        "dy": 25.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8430",
+        "round": 1,
+        "dx": 14.0,
+        "dy": 19.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8430",
+        "round": 2,
+        "dx": 8.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8434",
+        "round": 1,
+        "dx": -2.0,
+        "dy": 25.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8434",
+        "round": 2,
+        "dx": 2.0,
+        "dy": 63.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8589",
+        "round": 1,
+        "dx": -8.0,
+        "dy": -41.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "8589",
+        "round": 2,
+        "dx": 27.0,
+        "dy": 24.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8589",
+        "round": 3,
+        "dx": 1.0,
+        "dy": -3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "8589",
+        "round": 4,
+        "dx": -59.0,
+        "dy": 181.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8770",
+        "round": 1,
+        "dx": -20.0,
+        "dy": -16.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8770",
+        "round": 2,
+        "dx": 54.0,
+        "dy": 3.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8772",
+        "round": 1,
+        "dx": 17.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8772",
+        "round": 2,
+        "dx": -67.0,
+        "dy": 131.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8772",
+        "round": 3,
+        "dx": 0.0,
+        "dy": 62.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8772",
+        "round": 4,
+        "dx": -2.0,
+        "dy": 75.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8811",
+        "round": 1,
+        "dx": 6.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8811",
+        "round": 2,
+        "dx": 34.0,
+        "dy": -30.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8838",
+        "round": 1,
+        "dx": 21.0,
+        "dy": 83.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8838",
+        "round": 2,
+        "dx": -9.0,
+        "dy": -8.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8838",
+        "round": 3,
+        "dx": -35.0,
+        "dy": 23.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8838",
+        "round": 4,
+        "dx": -27.0,
+        "dy": 28.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8840",
+        "round": 1,
+        "dx": -27.0,
+        "dy": 70.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "8840",
+        "round": 2,
+        "dx": -31.0,
+        "dy": 117.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8859",
+        "round": 1,
+        "dx": 22.0,
+        "dy": 9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8859",
+        "round": 2,
+        "dx": 27.0,
+        "dy": 30.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "8859",
+        "round": 3,
+        "dx": 3.0,
+        "dy": 22.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8859",
+        "round": 4,
+        "dx": -17.0,
+        "dy": 11.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8881",
+        "round": 1,
+        "dx": -12.0,
+        "dy": 14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "8881",
+        "round": 2,
+        "dx": -14.0,
+        "dy": 77.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8881",
+        "round": 3,
+        "dx": 0.0,
+        "dy": -47.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "8881",
+        "round": 4,
+        "dx": 44.0,
+        "dy": -17.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8883",
+        "round": 1,
+        "dx": 30.0,
+        "dy": -13.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8883",
+        "round": 2,
+        "dx": -98.0,
+        "dy": 341.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "8884",
+        "round": 1,
+        "dx": 39.0,
+        "dy": 10.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8884",
+        "round": 2,
+        "dx": 34.0,
+        "dy": -30.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "8884",
+        "round": 3,
+        "dx": 11.0,
+        "dy": -8.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "8884",
+        "round": 4,
+        "dx": -22.0,
+        "dy": 50.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8972",
+        "round": 1,
+        "dx": -101.0,
+        "dy": 292.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "8972",
+        "round": 2,
+        "dx": -69.0,
+        "dy": 145.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9000",
+        "round": 1,
+        "dx": 1.0,
+        "dy": -18.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9000",
+        "round": 2,
+        "dx": -6.0,
+        "dy": 38.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9000",
+        "round": 3,
+        "dx": -24.0,
+        "dy": 50.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9000",
+        "round": 4,
+        "dx": 34.0,
+        "dy": 60.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9082",
+        "round": 1,
+        "dx": -21.0,
+        "dy": 28.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9082",
+        "round": 2,
+        "dx": 13.0,
+        "dy": 23.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9082",
+        "round": 3,
+        "dx": -38.0,
+        "dy": 22.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9082",
+        "round": 4,
+        "dx": 50.0,
+        "dy": -6.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9089",
+        "round": 1,
+        "dx": -23.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9089",
+        "round": 2,
+        "dx": 17.0,
+        "dy": 32.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9089",
+        "round": 3,
+        "dx": -38.0,
+        "dy": -3.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9089",
+        "round": 4,
+        "dx": 10.0,
+        "dy": 44.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9111",
+        "round": 1,
+        "dx": -9.0,
+        "dy": 15.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "9111",
+        "round": 2,
+        "dx": 6.0,
+        "dy": 17.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9111",
+        "round": 3,
+        "dx": -13.0,
+        "dy": 0.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9111",
+        "round": 4,
+        "dx": 1.0,
+        "dy": 16.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9113",
+        "round": 1,
+        "dx": -14.0,
+        "dy": 17.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9113",
+        "round": 2,
+        "dx": -12.0,
+        "dy": -9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Birdie+",
+        "gir": true
+      },
+      {
+        "pc": "9113",
+        "round": 3,
+        "dx": 6.0,
+        "dy": 6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9113",
+        "round": 4,
+        "dx": -23.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9115",
+        "round": 1,
+        "dx": 7.0,
+        "dy": 13.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9115",
+        "round": 2,
+        "dx": -20.0,
+        "dy": 53.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9115",
+        "round": 3,
+        "dx": -17.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9115",
+        "round": 4,
+        "dx": -10.0,
+        "dy": 6.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9130",
+        "round": 1,
+        "dx": 18.0,
+        "dy": -18.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9130",
+        "round": 2,
+        "dx": -22.0,
+        "dy": 82.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9134",
+        "round": 1,
+        "dx": -7.0,
+        "dy": 29.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9134",
+        "round": 2,
+        "dx": -4.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9134",
+        "round": 3,
+        "dx": -9.0,
+        "dy": 8.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9134",
+        "round": 4,
+        "dx": 33.0,
+        "dy": 44.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9135",
+        "round": 1,
+        "dx": 14.0,
+        "dy": 51.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9135",
+        "round": 2,
+        "dx": 6.0,
+        "dy": 52.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9135",
+        "round": 3,
+        "dx": -2.0,
+        "dy": 22.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9135",
+        "round": 4,
+        "dx": -19.0,
+        "dy": -11.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9136",
+        "round": 1,
+        "dx": 1.0,
+        "dy": -14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9136",
+        "round": 2,
+        "dx": 40.0,
+        "dy": -31.0,
+        "ring": "FAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9145",
+        "round": 1,
+        "dx": -11.0,
+        "dy": 23.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9145",
+        "round": 2,
+        "dx": -22.0,
+        "dy": -9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9145",
+        "round": 3,
+        "dx": -17.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9145",
+        "round": 4,
+        "dx": 15.0,
+        "dy": 18.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9174",
+        "round": 1,
+        "dx": -43.0,
+        "dy": 34.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9174",
+        "round": 2,
+        "dx": 16.0,
+        "dy": 76.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9183",
+        "round": 1,
+        "dx": -32.0,
+        "dy": 131.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9183",
+        "round": 2,
+        "dx": -28.0,
+        "dy": 109.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9235",
+        "round": 1,
+        "dx": -22.0,
+        "dy": 80.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9235",
+        "round": 2,
+        "dx": -10.0,
+        "dy": 62.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9235",
+        "round": 3,
+        "dx": -13.0,
+        "dy": 16.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9235",
+        "round": 4,
+        "dx": -28.0,
+        "dy": 33.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9277",
+        "round": 1,
+        "dx": -1.0,
+        "dy": 96.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9277",
+        "round": 2,
+        "dx": 15.0,
+        "dy": 46.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9389",
+        "round": 1,
+        "dx": 13.0,
+        "dy": 17.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9389",
+        "round": 2,
+        "dx": -4.0,
+        "dy": 25.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9389",
+        "round": 3,
+        "dx": 6.0,
+        "dy": 38.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9389",
+        "round": 4,
+        "dx": -70.0,
+        "dy": 204.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9391",
+        "round": 1,
+        "dx": -16.0,
+        "dy": 0.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9391",
+        "round": 2,
+        "dx": -24.0,
+        "dy": 81.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9426",
+        "round": 1,
+        "dx": -10.0,
+        "dy": -2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9426",
+        "round": 2,
+        "dx": -5.0,
+        "dy": 61.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9426",
+        "round": 3,
+        "dx": -24.0,
+        "dy": 56.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9426",
+        "round": 4,
+        "dx": -2.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9431",
+        "round": 1,
+        "dx": -10.0,
+        "dy": 2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9431",
+        "round": 2,
+        "dx": 33.0,
+        "dy": 52.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9431",
+        "round": 3,
+        "dx": -54.0,
+        "dy": 5.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9431",
+        "round": 4,
+        "dx": -39.0,
+        "dy": 81.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9436",
+        "round": 1,
+        "dx": -15.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9436",
+        "round": 2,
+        "dx": 17.0,
+        "dy": 32.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9449",
+        "round": 1,
+        "dx": -21.0,
+        "dy": -9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9449",
+        "round": 2,
+        "dx": 9.0,
+        "dy": 50.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9449",
+        "round": 3,
+        "dx": -14.0,
+        "dy": 19.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9449",
+        "round": 4,
+        "dx": 33.0,
+        "dy": -9.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9465",
+        "round": 1,
+        "dx": 19.0,
+        "dy": 16.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9465",
+        "round": 2,
+        "dx": -74.0,
+        "dy": 139.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9465",
+        "round": 3,
+        "dx": -28.0,
+        "dy": 16.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9465",
+        "round": 4,
+        "dx": -29.0,
+        "dy": 53.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9483",
+        "round": 1,
+        "dx": -28.0,
+        "dy": 71.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9483",
+        "round": 2,
+        "dx": -20.0,
+        "dy": 41.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9483",
+        "round": 3,
+        "dx": -16.0,
+        "dy": 29.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9483",
+        "round": 4,
+        "dx": -14.0,
+        "dy": 43.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9487",
+        "round": 1,
+        "dx": -6.0,
+        "dy": 28.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9487",
+        "round": 2,
+        "dx": 6.0,
+        "dy": -2.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9652",
+        "round": 1,
+        "dx": -9.0,
+        "dy": -17.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9652",
+        "round": 2,
+        "dx": 17.0,
+        "dy": 24.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9652",
+        "round": 3,
+        "dx": -213.0,
+        "dy": 300.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9652",
+        "round": 4,
+        "dx": 29.0,
+        "dy": 29.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9702",
+        "round": 1,
+        "dx": -28.0,
+        "dy": 96.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9702",
+        "round": 2,
+        "dx": -23.0,
+        "dy": 26.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9705",
+        "round": 1,
+        "dx": -14.0,
+        "dy": -35.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9705",
+        "round": 2,
+        "dx": 32.0,
+        "dy": 45.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9705",
+        "round": 3,
+        "dx": -3.0,
+        "dy": -26.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9705",
+        "round": 4,
+        "dx": 49.0,
+        "dy": 13.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9708",
+        "round": 1,
+        "dx": -2.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9708",
+        "round": 2,
+        "dx": -40.0,
+        "dy": 30.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9708",
+        "round": 3,
+        "dx": -23.0,
+        "dy": 30.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9708",
+        "round": 4,
+        "dx": -25.0,
+        "dy": -15.0,
+        "ring": "MID",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9714",
+        "round": 1,
+        "dx": 28.0,
+        "dy": 18.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9714",
+        "round": 2,
+        "dx": 13.0,
+        "dy": 20.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9723",
+        "round": 1,
+        "dx": -9.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9723",
+        "round": 2,
+        "dx": 9.0,
+        "dy": 10.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9750",
+        "round": 1,
+        "dx": 0.0,
+        "dy": 123.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9750",
+        "round": 2,
+        "dx": 10.0,
+        "dy": 17.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9759",
+        "round": 1,
+        "dx": -12.0,
+        "dy": 35.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9759",
+        "round": 2,
+        "dx": 30.0,
+        "dy": 29.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9759",
+        "round": 3,
+        "dx": 17.0,
+        "dy": -14.0,
+        "ring": "NEAR",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9759",
+        "round": 4,
+        "dx": -45.0,
+        "dy": 153.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9765",
+        "round": 1,
+        "dx": -22.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9765",
+        "round": 2,
+        "dx": -19.0,
+        "dy": 40.0,
+        "ring": "MID",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9765",
+        "round": 3,
+        "dx": -8.0,
+        "dy": 3.0,
+        "ring": "NEAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9765",
+        "round": 4,
+        "dx": -16.0,
+        "dy": -9.0,
+        "ring": "NEAR",
+        "quad": "QUAD-C",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9784",
+        "round": 1,
+        "dx": 35.0,
+        "dy": 19.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9784",
+        "round": 2,
+        "dx": 26.0,
+        "dy": -4.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9784",
+        "round": 3,
+        "dx": -118.0,
+        "dy": 190.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9784",
+        "round": 4,
+        "dx": 45.0,
+        "dy": 11.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9820",
+        "round": 1,
+        "dx": -33.0,
+        "dy": 136.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9820",
+        "round": 2,
+        "dx": 19.0,
+        "dy": 82.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Double+",
+        "gir": false
+      },
+      {
+        "pc": "9820",
+        "round": 3,
+        "dx": -152.0,
+        "dy": 329.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9820",
+        "round": 4,
+        "dx": -15.0,
+        "dy": 77.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9937",
+        "round": 1,
+        "dx": 31.0,
+        "dy": 3.0,
+        "ring": "MID",
+        "quad": "QUAD-A",
+        "score_bucket": "Bogey",
+        "gir": true
+      },
+      {
+        "pc": "9937",
+        "round": 2,
+        "dx": 20.0,
+        "dy": -28.0,
+        "ring": "MID",
+        "quad": "QUAD-D",
+        "score_bucket": "Par",
+        "gir": true
+      },
+      {
+        "pc": "9990",
+        "round": 1,
+        "dx": -28.0,
+        "dy": 49.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9990",
+        "round": 2,
+        "dx": 11.0,
+        "dy": 50.0,
+        "ring": "FAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": false
+      },
+      {
+        "pc": "9990",
+        "round": 3,
+        "dx": -18.0,
+        "dy": 48.0,
+        "ring": "FAR",
+        "quad": "QUAD-B",
+        "score_bucket": "Bogey",
+        "gir": false
+      },
+      {
+        "pc": "9990",
+        "round": 4,
+        "dx": 18.0,
+        "dy": 12.0,
+        "ring": "NEAR",
+        "quad": "QUAD-A",
+        "score_bucket": "Par",
+        "gir": true
+      }
+    ]
+  },
+  "step9_same_condition_census": {
+    "FW HIT -> Birdie+": {
+      "n": 12,
+      "representative": {
+        "player": "손예빈",
+        "round": 1,
+        "landing_distance": 234.2,
+        "approach_distance": 167.8,
+        "approach_lie": "GREEN",
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "FW HIT -> Bogey": {
+      "n": 48,
+      "representative": {
+        "player": "김민주",
+        "round": 3,
+        "landing_distance": 223.8,
+        "approach_distance": 178.2,
+        "approach_lie": "GREENSIDE_BUNKER",
+        "shot_state_sequence": [
+          "1",
+          "9",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "FW HIT -> Double+": {
+      "n": 4,
+      "representative": {
+        "player": "김새로미",
+        "round": 3,
+        "landing_distance": 230.2,
+        "approach_distance": 171.8,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "12",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6,
+        "score_to_par": 2
+      }
+    },
+    "FW HIT -> Par": {
+      "n": 108,
+      "representative": {
+        "player": "김민별",
+        "round": 1,
+        "landing_distance": 229.1,
+        "approach_distance": 172.9,
+        "approach_lie": "GREEN",
+        "shot_state_sequence": [
+          "1",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    },
+    "FW MISS -> Birdie+": {
+      "n": 8,
+      "representative": {
+        "player": "홍진영2",
+        "round": 4,
+        "landing_distance": 235.8,
+        "approach_distance": 166.2,
+        "approach_lie": "GREEN",
+        "shot_state_sequence": [
+          "2",
+          "3",
+          "10"
+        ],
+        "strokes": 3,
+        "score_to_par": -1
+      }
+    },
+    "FW MISS -> Bogey": {
+      "n": 65,
+      "representative": {
+        "player": "김민별",
+        "round": 2,
+        "landing_distance": 234.3,
+        "approach_distance": 167.7,
+        "approach_lie": "GREENSIDE_BUNKER",
+        "shot_state_sequence": [
+          "2",
+          "9",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 5,
+        "score_to_par": 1
+      }
+    },
+    "FW MISS -> Double+": {
+      "n": 10,
+      "representative": {
+        "player": "고지우",
+        "round": 1,
+        "landing_distance": 225.6,
+        "approach_distance": 176.4,
+        "approach_lie": "BUNKER",
+        "shot_state_sequence": [
+          "6",
+          "6",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6,
+        "score_to_par": 2
+      }
+    },
+    "FW MISS -> Par": {
+      "n": 76,
+      "representative": {
+        "player": "김민별",
+        "round": 3,
+        "landing_distance": 235.7,
+        "approach_distance": 166.3,
+        "approach_lie": "GREEN",
+        "shot_state_sequence": [
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 4,
+        "score_to_par": 0
+      }
+    }
+  },
+  "step10_big_number_mechanism": {
+    "tee_lie_mix": {
+      "ROUGH": 55,
+      "FAIRWAY": 52,
+      "BUNKER": 20
+    },
+    "approach_lie_mix": {
+      "GREENSIDE_BUNKER": 16,
+      "GREEN": 26,
+      "FAIRWAY": 13,
+      "ROUGH": 57,
+      "FRINGE": 12,
+      "BUNKER": 3
+    },
+    "gir_rate_among_bad": 0.205,
+    "penalty_rate_among_bad": 0.016,
+    "avg_putts_among_bad": 3.18,
+    "double_plus_n": 14,
+    "double_plus_tee_lie_mix": {
+      "BUNKER": 3,
+      "ROUGH": 7,
+      "FAIRWAY": 4
+    },
+    "double_plus_approach_lie_mix": {
+      "BUNKER": 2,
+      "ROUGH": 11,
+      "GREENSIDE_BUNKER": 1
+    },
+    "double_plus_penalty_rate": 0.143,
+    "double_plus_chains": [
+      {
+        "player": "고지우",
+        "round": 1,
+        "tee_lie": "BUNKER",
+        "landing_distance": 225.6,
+        "approach_lie": "BUNKER",
+        "shot_state_sequence": [
+          "6",
+          "6",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "이서윤4",
+        "round": 3,
+        "tee_lie": "ROUGH",
+        "landing_distance": 238.3,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "김새로미",
+        "round": 3,
+        "tee_lie": "FAIRWAY",
+        "landing_distance": 230.2,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "12",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "배소현",
+        "round": 1,
+        "tee_lie": "ROUGH",
+        "landing_distance": 246.8,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "8",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 7
+      },
+      {
+        "player": "정수빈",
+        "round": 1,
+        "tee_lie": "ROUGH",
+        "landing_distance": 206.4,
+        "approach_lie": "GREENSIDE_BUNKER",
+        "shot_state_sequence": [
+          "2",
+          "9",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "성유진",
+        "round": 3,
+        "tee_lie": "ROUGH",
+        "landing_distance": 226.9,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "이가영",
+        "round": 2,
+        "tee_lie": "BUNKER",
+        "landing_distance": 245.8,
+        "approach_lie": "BUNKER",
+        "shot_state_sequence": [
+          "6",
+          "6",
+          "1",
+          "12",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "임희정",
+        "round": 2,
+        "tee_lie": "ROUGH",
+        "landing_distance": 239.7,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "12",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "최은우",
+        "round": 1,
+        "tee_lie": "FAIRWAY",
+        "landing_distance": 209.7,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "8",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "김아현",
+        "round": 1,
+        "tee_lie": "FAIRWAY",
+        "landing_distance": 204.3,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "한지원",
+        "round": 2,
+        "tee_lie": "FAIRWAY",
+        "landing_distance": 242.0,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "1",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "이세희",
+        "round": 3,
+        "tee_lie": "ROUGH",
+        "landing_distance": 225.3,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "2",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "홍정민",
+        "round": 1,
+        "tee_lie": "ROUGH",
+        "landing_distance": 206.8,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "2",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      },
+      {
+        "player": "정윤지",
+        "round": 2,
+        "tee_lie": "BUNKER",
+        "landing_distance": 250.8,
+        "approach_lie": "ROUGH",
+        "shot_state_sequence": [
+          "6",
+          "2",
+          "3",
+          "3",
+          "3",
+          "10"
+        ],
+        "strokes": 6
+      }
+    ]
+  },
+  "step12_player_reachability": {
+    "9115": {
+      "n": 39,
+      "min": 222.8,
+      "max": 315.6,
+      "median": 263.8,
+      "mean": 266.5,
+      "stdev": 22.0
+    },
+    "9708": {
+      "n": 40,
+      "min": 208.5,
+      "max": 310.6,
+      "median": 260.4,
+      "mean": 261.4,
+      "stdev": 21.4
+    },
+    "9111": {
+      "n": 40,
+      "min": 217.1,
+      "max": 279.3,
+      "median": 243.7,
+      "mean": 242.6,
+      "stdev": 15.5
+    }
+  },
+  "step12_player_approach_ability": {
+    "9115": {
+      "Q1(<=158)": {
+        "n": 33,
+        "avg_score_to_par": -0.03,
+        "GIR_pct": 0.758,
+        "LOW_SAMPLE": false
+      },
+      "Q2(<=168)": {
+        "n": 3,
+        "avg_score_to_par": 0.333,
+        "GIR_pct": 0.333,
+        "LOW_SAMPLE": true
+      },
+      "Q3(<=177)": {
+        "n": 1,
+        "avg_score_to_par": 1,
+        "GIR_pct": 0.0,
+        "LOW_SAMPLE": true
+      },
+      "Q4(>177)": {
+        "n": 2,
+        "avg_score_to_par": 0.5,
+        "GIR_pct": 0.0,
+        "LOW_SAMPLE": true
+      }
+    },
+    "9708": {
+      "Q2(<=168)": {
+        "n": 5,
+        "avg_score_to_par": 0.6,
+        "GIR_pct": 0.8,
+        "LOW_SAMPLE": false
+      },
+      "Q1(<=158)": {
+        "n": 30,
+        "avg_score_to_par": 0.067,
+        "GIR_pct": 0.533,
+        "LOW_SAMPLE": false
+      },
+      "Q4(>177)": {
+        "n": 4,
+        "avg_score_to_par": 0,
+        "GIR_pct": 0.25,
+        "LOW_SAMPLE": true
+      },
+      "Q3(<=177)": {
+        "n": 1,
+        "avg_score_to_par": 0,
+        "GIR_pct": 1.0,
+        "LOW_SAMPLE": true
+      }
+    },
+    "9111": {
+      "Q4(>177)": {
+        "n": 11,
+        "avg_score_to_par": 0.636,
+        "GIR_pct": 0.636,
+        "LOW_SAMPLE": false
+      },
+      "Q3(<=177)": {
+        "n": 3,
+        "avg_score_to_par": 0.333,
+        "GIR_pct": 0.667,
+        "LOW_SAMPLE": true
+      },
+      "Q2(<=168)": {
+        "n": 4,
+        "avg_score_to_par": 0.25,
+        "GIR_pct": 0.5,
+        "LOW_SAMPLE": true
+      },
+      "Q1(<=158)": {
+        "n": 22,
+        "avg_score_to_par": 0.591,
+        "GIR_pct": 0.455,
+        "LOW_SAMPLE": false
+      }
+    }
+  },
+  "step13_imperfect_golf": {
+    "9115": {
+      "label": "유해란(TOP,#1,-4)",
+      "favorable_threshold_approach_yd": 177.2,
+      "cases": {
+        "favorable_good": [
+          {
+            "round": 3,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 248.2,
+            "approach_distance": 153.8,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 248.2,
+            "approach_distance": 153.8,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "BUNKER",
+            "landing_distance": 245.7,
+            "approach_distance": 156.3,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "6",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 2,
+            "tee_lie": "BUNKER",
+            "landing_distance": 265.8,
+            "approach_distance": 136.2,
+            "approach_lie": "ROUGH",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "6",
+              "2",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      }
+    },
+    "9708": {
+      "label": "이재윤(MID,#27,+9)",
+      "favorable_threshold_approach_yd": 177.2,
+      "cases": {
+        "favorable_good": [
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 250.8,
+            "approach_distance": 151.2,
+            "approach_lie": "ROUGH",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "2",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [
+          {
+            "round": 3,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 243.2,
+            "approach_distance": 158.8,
+            "approach_lie": "GREEN",
+            "putts": 4,
+            "strokes": 5,
+            "score_to_par": 1,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "ROUGH",
+            "landing_distance": 244.1,
+            "approach_distance": 157.9,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 2,
+            "tee_lie": "ROUGH",
+            "landing_distance": 245.5,
+            "approach_distance": 156.5,
+            "approach_lie": "GREENSIDE_BUNKER",
+            "putts": 2,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "9",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      }
+    },
+    "9111": {
+      "label": "박서현(BOTTOM,#61,+26)",
+      "favorable_threshold_approach_yd": 177.2,
+      "cases": {
+        "favorable_good": [
+          {
+            "round": 2,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 230.5,
+            "approach_distance": 171.5,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "favorable_bad": [],
+        "unfavorable_saved": [
+          {
+            "round": 1,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 218.9,
+            "approach_distance": 183.1,
+            "approach_lie": "GREEN",
+            "putts": 2,
+            "strokes": 3,
+            "score_to_par": -1,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 3,
+            "tee_lie": "ROUGH",
+            "landing_distance": 231.1,
+            "approach_distance": 170.9,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "2",
+              "3",
+              "3",
+              "10"
+            ]
+          },
+          {
+            "round": 4,
+            "tee_lie": "FAIRWAY",
+            "landing_distance": 221.8,
+            "approach_distance": 180.2,
+            "approach_lie": "GREEN",
+            "putts": 3,
+            "strokes": 4,
+            "score_to_par": 0,
+            "shot_state_sequence": [
+              "1",
+              "3",
+              "3",
+              "10"
+            ]
+          }
+        ],
+        "unfavorable_damage": []
+      }
+    }
+  }
+}
