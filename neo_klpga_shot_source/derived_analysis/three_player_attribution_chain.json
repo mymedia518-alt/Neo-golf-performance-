@@ -1,0 +1,6635 @@
+{
+ "game_code": "2026100005",
+ "n_records": 216,
+ "raw_reconciliation_pass": true,
+ "raw_reconciliation_detail": [
+  {
+   "player": "박서현",
+   "round": 1,
+   "computed": 75,
+   "official": 75,
+   "match": true
+  },
+  {
+   "player": "박서현",
+   "round": 2,
+   "computed": 78,
+   "official": 78,
+   "match": true
+  },
+  {
+   "player": "박서현",
+   "round": 3,
+   "computed": 81,
+   "official": 81,
+   "match": true
+  },
+  {
+   "player": "박서현",
+   "round": 4,
+   "computed": 80,
+   "official": 80,
+   "match": true
+  },
+  {
+   "player": "유해란",
+   "round": 1,
+   "computed": 73,
+   "official": 73,
+   "match": true
+  },
+  {
+   "player": "유해란",
+   "round": 2,
+   "computed": 69,
+   "official": 69,
+   "match": true
+  },
+  {
+   "player": "유해란",
+   "round": 3,
+   "computed": 73,
+   "official": 73,
+   "match": true
+  },
+  {
+   "player": "유해란",
+   "round": 4,
+   "computed": 69,
+   "official": 69,
+   "match": true
+  },
+  {
+   "player": "이재윤",
+   "round": 1,
+   "computed": 76,
+   "official": 76,
+   "match": true
+  },
+  {
+   "player": "이재윤",
+   "round": 2,
+   "computed": 75,
+   "official": 75,
+   "match": true
+  },
+  {
+   "player": "이재윤",
+   "round": 3,
+   "computed": 74,
+   "official": 74,
+   "match": true
+  },
+  {
+   "player": "이재윤",
+   "round": 4,
+   "computed": 72,
+   "official": 72,
+   "match": true
+  }
+ ],
+ "records": [
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    156.3,
+    6.4,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.0,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    161.0,
+    12.1,
+    2.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    270.8,
+    99.9,
+    3.8,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.6,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    156.2,
+    26.1,
+    2.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 13.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    258.2,
+    114.4,
+    13.4,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 7.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    123.1,
+    7.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    143.8,
+    6.2,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    289.7,
+    136.7,
+    8.7,
+    3.4,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    9.7,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    114.3,
+    6.4,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    100.9,
+    10.6,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 15.3,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    136.1,
+    15.3,
+    2.2,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    133.1,
+    7.8,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 18.5,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    18.5,
+    2.7,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    106.7,
+    7.3,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.7,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    272.3,
+    121.1,
+    7.3,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    136.2,
+    24.7,
+    3.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 2,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    3.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 3,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 0.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    172.8,
+    19.8,
+    0.9,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    286.3,
+    115.2,
+    11.6,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    10.9,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 6,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    132.4,
+    2.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    263.1,
+    83.0,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    113.2,
+    7.4,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    88.4,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    309.1,
+    128.3,
+    5.6,
+    0.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 4.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    4.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "score_bucket": "Double",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 1,
+   "state_sequence": [
+    "2",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    154.8,
+    43.4,
+    8.0,
+    1.2,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    89.4,
+    3.7,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    156.2,
+    6.3,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 15,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    132.0,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.0,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    127.2,
+    10.2,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 2,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    249.0,
+    103.5,
+    3.3,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    153.8,
+    9.1,
+    1.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 2,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 9.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    9.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    183.2,
+    26.5,
+    5.0,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    278.3,
+    95.8,
+    3.0,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.5,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 6,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 6.0,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "PENALTY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "7",
+    "8",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    411.2,
+    411.2,
+    143.7,
+    6.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 12.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    289.5,
+    119.6,
+    12.1,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 12.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    124.5,
+    12.1,
+    1.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 6.0,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    89.5,
+    6.0,
+    0.7,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    287.6,
+    106.8,
+    3.3,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    3.9,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    120.0,
+    11.6,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    101.4,
+    4.6,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    148.4,
+    3.3,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 15,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.3,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    159.5,
+    14.2,
+    1.3,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.4,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 15.7,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    116.8,
+    15.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 3,
+   "hole": 18,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    247.0,
+    101.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    153.8,
+    5.4,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.7,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    179.2,
+    15.3,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    266.2,
+    93.3,
+    2.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    3.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 6,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 8.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    122.7,
+    8.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    274.0,
+    99.6,
+    7.5,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    127.1,
+    11.2,
+    1.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    103.5,
+    5.3,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 4.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    275.6,
+    115.6,
+    4.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.8,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    116.5,
+    4.8,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    119.1,
+    11.5,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 20.9,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    147.2,
+    20.9,
+    1.1,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 15.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    158.3,
+    15.0,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 16,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 13.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    125.2,
+    13.2,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9115",
+   "player_name": "유해란",
+   "round": 4,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    264.5,
+    133.0,
+    9.5,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    157.9,
+    5.3,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 16.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    187.3,
+    16.2,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 4,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.8,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    285.8,
+    96.7,
+    9.9,
+    3.8,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.8,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    12.0,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    145.9,
+    10.1,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    247.4,
+    83.3,
+    3.1,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    132.2,
+    5.6,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 9,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    123.7,
+    9.9,
+    10.3,
+    1.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 15.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    288.4,
+    86.9,
+    15.5,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 11,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.1,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    22.6,
+    3.1,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    120.1,
+    3.9,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 8.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    109.2,
+    8.6,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    132.5,
+    1.6,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 15,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    150.2,
+    16.5,
+    3.4,
+    1.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.8,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "5",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    22.9,
+    2.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    132.4,
+    23.5,
+    2.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    280.6,
+    89.4,
+    9.3,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 5.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    156.5,
+    21.7,
+    5.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.0,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.4,
+    3.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.7,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    175.3,
+    11.7,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 4,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 2.3,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    293.5,
+    106.0,
+    10.2,
+    2.3,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.7,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    14.0,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    153.5,
+    7.9,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    265.8,
+    50.0,
+    7.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    113.3,
+    10.0,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    100.9,
+    7.4,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    310.1,
+    139.3,
+    8.9,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    8.0,
+    10.8,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    140.4,
+    9.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 13,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    94.8,
+    1.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 24.7,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    158.4,
+    24.7,
+    1.5,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 15,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    158.3,
+    22.4,
+    7.3,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.3,
+    1.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    131.4,
+    9.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 2,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    300.7,
+    119.6,
+    7.8,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 1,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 16.5,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    158.8,
+    16.5,
+    3.1,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.1,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    187.1,
+    28.5,
+    3.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    287.9,
+    88.8,
+    8.2,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    10.4,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 2.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    150.1,
+    2.1,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 2.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    284.6,
+    91.4,
+    2.8,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 15.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    128.4,
+    15.7,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    95.7,
+    9.2,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 10,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 19.7,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    311.2,
+    183.4,
+    19.7,
+    6.5,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.2,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.6,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    201.5,
+    112.5,
+    2.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 13,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.0,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    115.0,
+    8.6,
+    3.0,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    137.0,
+    7.9,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    139.0,
+    16.1,
+    1.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 16,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 5.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    123.9,
+    11.1,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 3,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    264.5,
+    88.9,
+    7.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    151.2,
+    13.0,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 2,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    10.8,
+    9.9,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    186.1,
+    15.7,
+    2.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    281.8,
+    143.4,
+    11.8,
+    2.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.4,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 6,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    131.0,
+    2.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 7,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    281.8,
+    102.9,
+    2.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    125.4,
+    16.2,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    93.4,
+    7.2,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 14.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    301.2,
+    115.0,
+    14.8,
+    2.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    4.5,
+    1.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    136.1,
+    10.0,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    103.9,
+    4.2,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    130.0,
+    13.4,
+    1.5,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    160.8,
+    6.8,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.0,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.0,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.8,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    103.2,
+    16.7,
+    1.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9708",
+   "player_name": "이재윤",
+   "round": 4,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    274.1,
+    89.8,
+    3.1,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "strokes": 3,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 7.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    183.1,
+    7.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    10.4,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "score_bucket": "Double",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 1,
+   "state_sequence": [
+    "1",
+    "9",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    191.9,
+    12.5,
+    7.4,
+    3.4,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.9,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    298.5,
+    99.4,
+    5.9,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.2,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 6,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    184.1,
+    38.7,
+    6.9,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    281.7,
+    105.2,
+    9.4,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 2.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    159.0,
+    32.4,
+    2.0,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.6,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    156.7,
+    20.6,
+    0.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    322.6,
+    138.9,
+    8.8,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    3.5,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 0,
+   "first_putt_distance_yd": null,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "12",
+    "10"
+   ],
+   "distance_sequence": [
+    153.3,
+    22.7,
+    9.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 13,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    115.1,
+    46.8,
+    7.5,
+    1.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    137.8,
+    4.3,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 15,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.6,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "5",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    171.7,
+    20.9,
+    6.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "strokes": 2,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 2.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    2.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    139.6,
+    4.8,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 1,
+   "hole": 18,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 9.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    290.1,
+    126.3,
+    9.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    171.5,
+    7.8,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.1,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 3,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.3,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    198.0,
+    5.3,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 4,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    318.2,
+    175.3,
+    24.1,
+    6.1,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 5,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    7.8,
+    1.2,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 28.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    163.8,
+    28.2,
+    2.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 9.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    280.7,
+    88.2,
+    9.4,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.3,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    129.7,
+    28.8,
+    3.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 9,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 20.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    135.3,
+    20.8,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 10,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.6,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    330.9,
+    131.8,
+    3.6,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "strokes": 4,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    16.8,
+    9.4,
+    1.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 12,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "score_bucket": "Double",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 15.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 1,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    177.6,
+    18.0,
+    15.0,
+    1.3,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "6",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    102.1,
+    13.2,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.0,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    152.7,
+    12.3,
+    18.4,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 17.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    157.2,
+    17.4,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 25.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    25.5,
+    3.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    148.2,
+    5.1,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 2,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 12.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    273.4,
+    166.4,
+    12.2,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.6,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    170.9,
+    5.6,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    11.1,
+    1.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 3,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 12.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    208.9,
+    9.9,
+    12.5,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 4,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    306.7,
+    98.8,
+    4.6,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 14.8,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    14.8,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    179.6,
+    7.5,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 7,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    314.3,
+    123.0,
+    10.3,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "strokes": 7,
+   "score_to_par": 3,
+   "score_bucket": "TriplePlus",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.3,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "PENALTY",
+   "direct_cost": 1,
+   "excess_cost": 2,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "2",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    142.4,
+    0.0,
+    59.0,
+    18.4,
+    5.6,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 9,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "score_bucket": "Double",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.3,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "PENALTY",
+   "direct_cost": 1,
+   "excess_cost": 1,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    124.7,
+    0.0,
+    21.6,
+    4.3,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 10,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 13.1,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    320.9,
+    152.3,
+    13.1,
+    1.9,
+    0.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.0,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    11.6,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 12,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 8.2,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    162.7,
+    8.2,
+    1.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 13,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 4.8,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    130.5,
+    4.8,
+    1.3,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 14,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    154.8,
+    5.4,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 15,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 25.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    188.2,
+    25.0,
+    2.7,
+    1.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    5.6,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 17,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.9,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    141.7,
+    15.5,
+    1.9,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 3,
+   "hole": 18,
+   "par": 5,
+   "strokes": 5,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "2",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    289.6,
+    122.0,
+    14.8,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 1,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.1,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    180.2,
+    7.1,
+    1.1,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 2,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.2,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    8.8,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 3,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 22.3,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    191.7,
+    22.3,
+    2.8,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 23.5,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    296.2,
+    97.7,
+    23.5,
+    3.7,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 5,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.7,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    6.7,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 6,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.8,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "9",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    158.8,
+    15.4,
+    3.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 7,
+   "par": 5,
+   "strokes": 4,
+   "score_to_par": -1,
+   "score_bucket": "Birdie+",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 6.2,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "1",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    304.5,
+    86.8,
+    6.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 8,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 7.6,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    130.4,
+    7.6,
+    0.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "strokes": 6,
+   "score_to_par": 2,
+   "score_bucket": "Double",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 4,
+   "first_putt_distance_yd": 18.9,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "direct_cost": 1,
+   "excess_cost": 1,
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    138.4,
+    18.9,
+    3.4,
+    1.7,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    315.3,
+    135.1,
+    15.0,
+    5.5,
+    1.6,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 11,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 4.5,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    4.5,
+    0.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 12,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.9,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    149.1,
+    23.0,
+    1.9,
+    0.8,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 13,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": false,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 3.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "12",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    137.6,
+    14.5,
+    3.4,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 14,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 1.6,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "12",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    133.0,
+    7.9,
+    1.6,
+    0.2,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 15,
+   "par": 4,
+   "strokes": 4,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 29.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    190.6,
+    29.4,
+    0.7,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 16,
+   "par": 3,
+   "strokes": 3,
+   "score_to_par": 0,
+   "score_bucket": "Par",
+   "fw_hit": false,
+   "gir": true,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 11.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "direct_cost": 0,
+   "excess_cost": 0,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    11.4,
+    1.3,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 17,
+   "par": 4,
+   "strokes": 5,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": true,
+   "gir": true,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 15.4,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "1",
+    "3",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    139.6,
+    15.4,
+    2.2,
+    0.5,
+    0.0
+   ]
+  },
+  {
+   "player_code": "9111",
+   "player_name": "박서현",
+   "round": 4,
+   "hole": 18,
+   "par": 5,
+   "strokes": 6,
+   "score_to_par": 1,
+   "score_bucket": "Bogey",
+   "fw_hit": false,
+   "gir": false,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 12.7,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "direct_cost": 1,
+   "excess_cost": 0,
+   "state_sequence": [
+    "2",
+    "1",
+    "2",
+    "3",
+    "3",
+    "10"
+   ],
+   "distance_sequence": [
+    295.3,
+    132.4,
+    14.6,
+    12.7,
+    1.3,
+    0.0
+   ]
+  }
+ ]
+}

@@ -1,0 +1,701 @@
+{
+ "layer_a": {
+  "유해란-이재윤": {
+   "APPROACH": -7,
+   "UNRESOLVED": -5,
+   "TEE": -2,
+   "PUTTING": 0,
+   "PENALTY": 1
+  },
+  "이재윤-박서현": {
+   "TEE": -6,
+   "UNRESOLVED": 2,
+   "APPROACH": -4,
+   "RECOVERY": 0,
+   "PENALTY": -5,
+   "PUTTING": -4
+  },
+  "유해란-박서현": {
+   "TEE": -8,
+   "UNRESOLVED": -4,
+   "APPROACH": -10,
+   "RECOVERY": -1,
+   "PUTTING": -3,
+   "PENALTY": -4
+  }
+ },
+ "layer_b": {
+  "유해란-이재윤": {
+   "Birdie+": -9,
+   "Bogey": -2,
+   "Birdie+(A)": -2,
+   "Bogey(B)": -2,
+   "Double": 2
+  },
+  "이재윤-박서현": {
+   "Birdie+": 0,
+   "Double": -8,
+   "Bogey": -6,
+   "TriplePlus": -3
+  },
+  "유해란-박서현": {
+   "Birdie+": -8,
+   "Double": -4,
+   "Bogey": -8,
+   "Birdie+(A)": -4,
+   "Bogey(B)": -4,
+   "Bogey(A)": 2,
+   "Birdie+(B)": 1,
+   "TriplePlus": -3,
+   "Double(B)": -2
+  }
+ },
+ "q1_note": "see printed output",
+ "q4_counterfactual": {
+  "actual_lee_park_gap": -17,
+  "bogey_cap_gap": -11,
+  "par_cap_gap": -6,
+  "events": [
+   {
+    "round": 1,
+    "hole": 3,
+    "par": 4,
+    "actual_strokes": 6,
+    "bogey_capped_strokes": 5,
+    "par_capped_strokes": 4,
+    "strokes_saved_if_bogey_cap": 1,
+    "strokes_saved_if_par_cap": 2
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "par": 4,
+    "actual_strokes": 6,
+    "bogey_capped_strokes": 5,
+    "par_capped_strokes": 4,
+    "strokes_saved_if_bogey_cap": 1,
+    "strokes_saved_if_par_cap": 2
+   },
+   {
+    "round": 3,
+    "hole": 8,
+    "par": 4,
+    "actual_strokes": 7,
+    "bogey_capped_strokes": 5,
+    "par_capped_strokes": 4,
+    "strokes_saved_if_bogey_cap": 2,
+    "strokes_saved_if_par_cap": 3
+   },
+   {
+    "round": 3,
+    "hole": 9,
+    "par": 4,
+    "actual_strokes": 6,
+    "bogey_capped_strokes": 5,
+    "par_capped_strokes": 4,
+    "strokes_saved_if_bogey_cap": 1,
+    "strokes_saved_if_par_cap": 2
+   },
+   {
+    "round": 4,
+    "hole": 9,
+    "par": 4,
+    "actual_strokes": 6,
+    "bogey_capped_strokes": 5,
+    "par_capped_strokes": 4,
+    "strokes_saved_if_bogey_cap": 1,
+    "strokes_saved_if_par_cap": 2
+   }
+  ]
+ },
+ "q2_putting_dissection": [
+  {
+   "round": 3,
+   "hole": 8,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 7,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "pairwise_gap": 3,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 0.3,
+   "first_failure_stage": "PENALTY",
+   "escalation_stage": "PENALTY",
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "1",
+    "5",
+    "8",
+    "2",
+    "12",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 1,
+   "hole": 3,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "pairwise_gap": 2,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 3.4,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": "RECOVERY",
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "1",
+    "9",
+    "2",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 1,
+   "hole": 8,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 5,
+   "better_player": "유해란",
+   "better_strokes": 3,
+   "pairwise_gap": 2,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 2.0,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 1,
+   "hole": 16,
+   "par": 3,
+   "worse_player": "유해란",
+   "worse_strokes": 4,
+   "better_player": "박서현",
+   "better_strokes": 2,
+   "pairwise_gap": 2,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 18.5,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "involves_putting": true,
+   "putting_role": "PUTTING_WAS_FIRST_FAILURE",
+   "putting_risk_classification": "APPROACH-CREATED_PUTTING_RISK (first putt >=10yd)",
+   "state_sequence": [
+    "3",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 2,
+   "hole": 11,
+   "par": 3,
+   "worse_player": "박서현",
+   "worse_strokes": 4,
+   "better_player": "유해란",
+   "better_strokes": 2,
+   "pairwise_gap": 2,
+   "putts_fixed": 1,
+   "first_putt_distance_yd": 1.5,
+   "first_failure_stage": "APPROACH",
+   "escalation_stage": null,
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "2",
+    "2",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 4,
+   "hole": 4,
+   "par": 5,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "pairwise_gap": 2,
+   "putts_fixed": 3,
+   "first_putt_distance_yd": 23.5,
+   "first_failure_stage": "PUTTING",
+   "escalation_stage": null,
+   "involves_putting": true,
+   "putting_role": "PUTTING_WAS_FIRST_FAILURE",
+   "putting_risk_classification": "APPROACH-CREATED_PUTTING_RISK (first putt >=10yd)",
+   "state_sequence": [
+    "1",
+    "2",
+    "3",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 4,
+   "hole": 9,
+   "par": 4,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "pairwise_gap": 2,
+   "putts_fixed": 4,
+   "first_putt_distance_yd": 18.9,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "PUTTING",
+   "involves_putting": true,
+   "putting_role": "PUTTING_ESCALATED_EARLIER_FAILURE",
+   "putting_risk_classification": "APPROACH-CREATED_PUTTING_RISK (first putt >=10yd)",
+   "state_sequence": [
+    "2",
+    "3",
+    "3",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 4,
+   "hole": 10,
+   "par": 5,
+   "worse_player": "박서현",
+   "worse_strokes": 6,
+   "better_player": "유해란",
+   "better_strokes": 4,
+   "pairwise_gap": 2,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 5.5,
+   "first_failure_stage": "TEE",
+   "escalation_stage": "APPROACH",
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "2",
+    "2",
+    "2",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 1,
+   "hole": 1,
+   "par": 4,
+   "worse_player": "유해란",
+   "worse_strokes": 4,
+   "better_player": "박서현",
+   "better_strokes": 3,
+   "pairwise_gap": 1,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 6.4,
+   "first_failure_stage": "TEE",
+   "escalation_stage": null,
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "6",
+    "3",
+    "3",
+    "10"
+   ]
+  },
+  {
+   "round": 1,
+   "hole": 2,
+   "par": 3,
+   "worse_player": "박서현",
+   "worse_strokes": 3,
+   "better_player": "유해란",
+   "better_strokes": 2,
+   "pairwise_gap": 1,
+   "putts_fixed": 2,
+   "first_putt_distance_yd": 10.4,
+   "first_failure_stage": "NONE",
+   "escalation_stage": null,
+   "involves_putting": false,
+   "putting_role": null,
+   "putting_risk_classification": null,
+   "state_sequence": [
+    "3",
+    "3",
+    "10"
+   ]
+  }
+ ],
+ "q3_birdie_classification": {
+  "totals": {
+   "RYU_POSITIVE_CONVERSION": -12,
+   "LEE_NEGATIVE_OUTCOME": -7,
+   "MIXED_GAP": 6
+  },
+  "rows": [
+   {
+    "round": 1,
+    "hole": 2,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 1,
+    "hole": 4,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 1,
+    "hole": 8,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 1,
+    "hole": 9,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 1,
+    "hole": 10,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 1,
+    "hole": 11,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 1,
+    "hole": 14,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 1,
+    "hole": 15,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 1,
+    "hole": 16,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 2,
+    "hole": 2,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 2,
+    "hole": 3,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 2,
+    "hole": 4,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 2,
+    "hole": 6,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 2,
+    "hole": 7,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 2,
+    "hole": 9,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 2,
+    "hole": 11,
+    "diff": -2,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Bogey",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 2,
+    "hole": 12,
+    "diff": 2,
+    "ryu_bucket": "Double",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 2,
+    "hole": 13,
+    "diff": 1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Birdie+",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 2,
+    "hole": 14,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 2,
+    "hole": 15,
+    "diff": -2,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Bogey",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 3,
+    "hole": 1,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 3,
+    "hole": 2,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 3,
+    "hole": 3,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 3,
+    "hole": 6,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 3,
+    "hole": 9,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 3,
+    "hole": 10,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 3,
+    "hole": 13,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 3,
+    "hole": 15,
+    "diff": 1,
+    "ryu_bucket": "Bogey",
+    "lee_bucket": "Par",
+    "classification": "MIXED_GAP"
+   },
+   {
+    "round": 3,
+    "hole": 16,
+    "diff": 1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Birdie+",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 3,
+    "hole": 17,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 3,
+    "hole": 18,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 4,
+    "hole": 2,
+    "diff": -1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Bogey",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 4,
+    "hole": 4,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 4,
+    "hole": 7,
+    "diff": 1,
+    "ryu_bucket": "Par",
+    "lee_bucket": "Birdie+",
+    "classification": "LEE_NEGATIVE_OUTCOME"
+   },
+   {
+    "round": 4,
+    "hole": 10,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   },
+   {
+    "round": 4,
+    "hole": 16,
+    "diff": -1,
+    "ryu_bucket": "Birdie+",
+    "lee_bucket": "Par",
+    "classification": "RYU_POSITIVE_CONVERSION"
+   }
+  ]
+ },
+ "q5_park_r12_vs_r34": {
+  "over_par_12": 12,
+  "over_par_34": 18,
+  "deterioration": 6,
+  "h89_damage_34": 7,
+  "stage_12": {
+   "APPROACH": 6,
+   "RECOVERY": 1,
+   "TEE": 4,
+   "PENALTY": 1
+  },
+  "stage_34": {
+   "TEE": 7,
+   "APPROACH": 1,
+   "RECOVERY": 0,
+   "PENALTY": 5,
+   "PUTTING": 5
+  }
+ },
+ "q6_multi_cause_n": 54,
+ "q6_combos": {
+  "TEE->APPROACH": 36,
+  "APPROACH->RECOVERY": 8,
+  "PENALTY->PENALTY": 3,
+  "TEE->PUTTING": 5,
+  "PENALTY->RECOVERY": 2
+ },
+ "reconciliation": {
+  "유해란-이재윤": {
+   "layer_a_sum": -13,
+   "layer_b_sum": -13,
+   "official": -13,
+   "A_PASS": true,
+   "B_PASS": true
+  },
+  "이재윤-박서현": {
+   "layer_a_sum": -17,
+   "layer_b_sum": -17,
+   "official": -17,
+   "A_PASS": true,
+   "B_PASS": true
+  },
+  "유해란-박서현": {
+   "layer_a_sum": -30,
+   "layer_b_sum": -30,
+   "official": -30,
+   "A_PASS": true,
+   "B_PASS": true
+  }
+ }
+}

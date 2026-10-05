@@ -1,0 +1,11 @@
+round,hole,par,worse_player,worse_strokes,better_player,better_strokes,pairwise_gap,putts_fixed,first_putt_distance_yd,first_failure_stage,escalation_stage,putting_role,putting_risk_classification,state_sequence
+3,8,4,박서현,7,유해란,4,3,1,0.3,PENALTY,PENALTY,,,1-5-8-2-12-3-10
+1,3,4,박서현,6,유해란,4,2,2,3.4,APPROACH,RECOVERY,,,1-9-2-3-3-10
+1,8,4,박서현,5,유해란,3,2,2,2.0,TEE,APPROACH,,,2-2-3-3-10
+1,16,3,유해란,4,박서현,2,2,3,18.5,PUTTING,,PUTTING_WAS_FIRST_FAILURE,APPROACH-CREATED_PUTTING_RISK (first putt >=10yd),3-3-3-10
+2,11,3,박서현,4,유해란,2,2,1,1.5,APPROACH,,,,2-2-3-10
+4,4,5,박서현,6,유해란,4,2,3,23.5,PUTTING,,PUTTING_WAS_FIRST_FAILURE,APPROACH-CREATED_PUTTING_RISK (first putt >=10yd),1-2-3-3-3-10
+4,9,4,박서현,6,유해란,4,2,4,18.9,TEE,PUTTING,PUTTING_ESCALATED_EARLIER_FAILURE,APPROACH-CREATED_PUTTING_RISK (first putt >=10yd),2-3-3-3-3-10
+4,10,5,박서현,6,유해란,4,2,2,5.5,TEE,APPROACH,,,2-2-2-3-3-10
+1,1,4,유해란,4,박서현,3,1,2,6.4,TEE,,,,6-3-3-10
+1,2,3,박서현,3,유해란,2,1,2,10.4,NONE,,,,3-3-10
