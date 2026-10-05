@@ -1,0 +1,73 @@
+{
+ "hole": 16,
+ "image_overview": "hole_16.png",
+ "image_green": "hole_16_G.png",
+ "image_size_confirmed": [
+  650,
+  433
+ ],
+ "transform": {
+  "A": -3.3326271186440724,
+  "B": 649.8622881355936,
+  "C": 3.337133757961783,
+  "formula": "px=A*raw_y+B, py=C*raw_x (overview); same applied to green_x/green_y for green-detail panel"
+ },
+ "by_lie_overview_checks": {
+  "ROUGH": {
+   "n": 26,
+   "pct_in_image_bounds": 0.962,
+   "pct_on_course_pixels": 1.0
+  },
+  "PENALTY_AREA": {
+   "n": 33,
+   "pct_in_image_bounds": 1.0,
+   "pct_on_course_pixels": 0.939
+  },
+  "PENALTY_STROKE": {
+   "n": 26,
+   "pct_in_image_bounds": 0.962,
+   "pct_on_course_pixels": 0.08
+  }
+ },
+ "penalty_area_water_check": {
+  "n": 33,
+  "pct_landing_on_water_pixels": 0.758
+ },
+ "green_shot_checks": {
+  "n": 588,
+  "pct_in_bounds": 1.0,
+  "pct_on_course_pixels": 1.0,
+  "green_centroid_px_py": [
+   306.2049535916061,
+   221.175917825729
+  ]
+ },
+ "round_pin_checks": {
+  "1": {
+   "pin_px": 456.6,
+   "pin_py": 166.9,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "2": {
+   "pin_px": 210.0,
+   "pin_py": 283.7,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "3": {
+   "pin_px": 313.3,
+   "pin_py": 243.6,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  },
+  "4": {
+   "pin_px": 233.3,
+   "pin_py": 190.2,
+   "in_image_bounds": true,
+   "on_course_pixels": true
+  }
+ },
+ "overall_alignment": "PASS (core lies verified; PENALTY_STROKE exception investigated and explained, see investigation_note)",
+ "investigation_note": "Initial automated check: overall_alignment=FAIL (PENALTY_STROKE/drop-zone shots only 8% on-course-pixels, n=26). Investigated per the no-forced-PASS rule: all drop-zone shots cluster tightly at raw (x~59,y~118-126) -> px~243,py~197, which is a real fixed drop zone (consistent coordinates across many different players/rounds), not scattered noise. Viewing hole_16.png directly shows this hole is drawn as a forced-carry par-3: a small disconnected tee patch on the left (~px 0-280) and a water-dominated green complex on the right (~px 430-650), with NO drawn ground in between (correctly, since the real hole has no intermediate fairway -- the tee shot carries directly over hazard/natural area). The drop-zone pixel falls exactly in that blank carry gap. This is a structural feature of this hole's illustration, not a coordinate transform error -- the same A,B,C constants place FAIRWAY/ROUGH/GREEN/PIN shots correctly (see by_lie_overview_checks, green_shot_checks, round_pin_checks above, all high pct_on_course_pixels). VERDICT: transform is correct; this hole's overall course-mask check is not meaningful for its drop-zone lie specifically, so H16 is not used for a new whole-hole overlay map in this task -- the already-built, already-validated pin-relative casebook map (Case 2, R1H16) is reused instead for this hole's story."
+}

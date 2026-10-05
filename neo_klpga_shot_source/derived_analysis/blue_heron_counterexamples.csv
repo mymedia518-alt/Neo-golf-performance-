@@ -1,0 +1,67 @@
+category,round,hole,par,detail
+LOWER_PLAYER_BEATS_RYU,2,12,4,Ryu=6(Double) vs 이재윤=4(Par) margin=2
+LOWER_PLAYER_BEATS_RYU,1,16,3,Ryu=4(Bogey) vs 박서현=2(Birdie+) margin=2
+LOWER_PLAYER_BEATS_RYU,1,10,5,Ryu=6(Bogey) vs 이재윤=5(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,1,14,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,1,16,3,Ryu=4(Bogey) vs 이재윤=3(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,2,3,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,2,13,4,Ryu=4(Par) vs 이재윤=3(Birdie+) margin=1
+LOWER_PLAYER_BEATS_RYU,3,3,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,3,6,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,3,9,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,3,15,4,Ryu=5(Bogey) vs 이재윤=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,3,16,3,Ryu=3(Par) vs 이재윤=2(Birdie+) margin=1
+LOWER_PLAYER_BEATS_RYU,4,7,5,Ryu=5(Par) vs 이재윤=4(Birdie+) margin=1
+LOWER_PLAYER_BEATS_RYU,1,1,4,Ryu=4(Par) vs 박서현=3(Birdie+) margin=1
+LOWER_PLAYER_BEATS_RYU,1,10,5,Ryu=6(Bogey) vs 박서현=5(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,1,14,4,Ryu=5(Bogey) vs 박서현=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,1,18,5,Ryu=5(Par) vs 박서현=4(Birdie+) margin=1
+LOWER_PLAYER_BEATS_RYU,2,3,4,Ryu=5(Bogey) vs 박서현=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,3,6,4,Ryu=5(Bogey) vs 박서현=4(Par) margin=1
+LOWER_PLAYER_BEATS_RYU,4,7,5,Ryu=5(Par) vs 박서현=4(Birdie+) margin=1
+FW_HIT_BOGEY_PLUS,1,10,5,유해란 tee=FAIRWAY -> Bogey (6)
+FW_HIT_BOGEY_PLUS,1,14,4,유해란 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,2,3,4,유해란 tee=FAIRWAY -> Bogey (5)
+FW_MISS_BIRDIE,2,7,5,유해란 tee=ROUGH -> Birdie+ (4)
+FW_HIT_BOGEY_PLUS,3,9,4,유해란 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,3,15,4,유해란 tee=FAIRWAY -> Bogey (5)
+FW_MISS_BIRDIE,3,17,4,유해란 tee=BUNKER -> Birdie+ (3)
+FW_HIT_BOGEY_PLUS,1,4,5,이재윤 tee=FAIRWAY -> Bogey (6)
+FW_HIT_BOGEY_PLUS,2,4,5,이재윤 tee=FAIRWAY -> Bogey (6)
+FW_HIT_BOGEY_PLUS,2,14,4,이재윤 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,3,1,4,이재윤 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,3,13,4,이재윤 tee=FAIRWAY -> Bogey (5)
+FW_MISS_BIRDIE,4,7,5,이재윤 tee=ROUGH -> Birdie+ (4)
+FW_HIT_BOGEY_PLUS,1,3,4,박서현 tee=FAIRWAY -> Double+ (6)
+FW_HIT_BOGEY_PLUS,1,6,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,1,15,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_MISS_BIRDIE,1,18,5,박서현 tee=ROUGH -> Birdie+ (4)
+FW_HIT_BOGEY_PLUS,2,14,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,3,3,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,3,8,4,박서현 tee=FAIRWAY -> Double+ (7)
+FW_HIT_BOGEY_PLUS,3,9,4,박서현 tee=FAIRWAY -> Double+ (6)
+FW_HIT_BOGEY_PLUS,3,13,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,4,3,4,박서현 tee=FAIRWAY -> Bogey (5)
+FW_HIT_BOGEY_PLUS,4,4,5,박서현 tee=FAIRWAY -> Bogey (6)
+FW_HIT_BOGEY_PLUS,4,17,4,박서현 tee=FAIRWAY -> Bogey (5)
+GIR_BOGEY_PLUS,1,14,4,"유해란 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,1,16,3,"유해란 GIR achieved, putts=3 -> Bogey (4)"
+GIR_BOGEY_PLUS,3,9,4,"유해란 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,4,14,4,"유해란 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,2,14,4,"이재윤 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,3,1,4,"이재윤 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,3,10,5,"이재윤 GIR achieved, putts=3 -> Bogey (6)"
+GIR_BOGEY_PLUS,3,10,5,"박서현 GIR achieved, putts=3 -> Bogey (6)"
+GIR_BOGEY_PLUS,3,13,4,"박서현 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,3,15,4,"박서현 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,4,3,4,"박서현 GIR achieved, putts=3 -> Bogey (5)"
+GIR_BOGEY_PLUS,4,4,5,"박서현 GIR achieved, putts=3 -> Bogey (6)"
+GIR_BOGEY_PLUS,4,9,4,"박서현 GIR achieved, putts=4 -> Double+ (6)"
+GIR_BOGEY_PLUS,4,17,4,"박서현 GIR achieved, putts=3 -> Bogey (5)"
+SAME_START_DIFFERENT_END,1,10,5,유해란(289.7yd)=6(Bogey) vs 이재윤(288.4yd)=5(Par) tol=3.5yd
+SAME_START_DIFFERENT_END,1,14,4,유해란(136.1yd)=5(Bogey) vs 박서현(137.8yd)=4(Par) tol=3.4yd
+SAME_START_DIFFERENT_END,2,14,4,유해란(156.2yd)=4(Par) vs 이재윤(158.4yd)=5(Bogey) tol=3.4yd
+SAME_MISS_DIFFERENT_RECOVERY,1,3,4,miss=GREENSIDE_BUNKER 유해란(12.1yd)=4(Par) vs 박서현(12.5yd)=6(Double)
+SAME_MISS_DIFFERENT_RECOVERY,1,9,4,miss=ROUGH 유해란(6.2yd)=4(Par) vs 이재윤(9.9yd)=5(Bogey)
+SAME_MISS_DIFFERENT_RECOVERY,1,10,5,miss=ROUGH 유해란(8.7yd)=6(Bogey) vs 박서현(8.8yd)=5(Par)
+SAME_MISS_DIFFERENT_RECOVERY,3,3,4,miss=ROUGH 유해란(26.5yd)=5(Bogey) vs 이재윤(28.5yd)=4(Par)
