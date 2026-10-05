@@ -1,0 +1,70 @@
+lie,distance_band,field_n,field_avg_score_to_par,field_label,player,player_n,player_avg_score_to_par,player_label,quadrant
+GREEN,9-12yd,534,0.257,유리,유해란,5,0,유리,필드유리/선수유리
+GREEN,9-12yd,534,0.257,유리,이재윤,10,0.2,field수준,필드유리/선수유리
+GREEN,9-12yd,534,0.257,유리,박서현,3,-0.333,유리,필드유리/선수유리
+GREEN,0-3yd,6038,0.376,중립,유해란,69,0.174,유리,필드중립
+GREEN,0-3yd,6038,0.376,중립,이재윤,77,0.182,유리,필드중립
+GREEN,0-3yd,6038,0.376,중립,박서현,74,0.581,불리,필드중립
+GREEN,12-20yd,583,0.317,중립,유해란,7,0,유리,필드중립
+GREEN,12-20yd,583,0.317,중립,이재윤,6,0.333,field수준,필드중립
+GREEN,12-20yd,583,0.317,중립,박서현,8,1,불리,필드중립
+GREEN,3-6yd,1195,0.31,중립,유해란,14,0.143,유리,필드중립
+GREEN,3-6yd,1195,0.31,중립,이재윤,10,0.4,field수준,필드중립
+GREEN,3-6yd,1195,0.31,중립,박서현,19,0.474,불리,필드중립
+BUNKER,100-150yd,9,0,유리,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+BUNKER,100-150yd,9,0,유리,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+BUNKER,100-150yd,9,0,유리,박서현,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,12-20yd,211,0.379,중립,유해란,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,12-20yd,211,0.379,중립,이재윤,4,0.5,field수준,필드중립
+FRINGE,12-20yd,211,0.379,중립,박서현,5,0.4,field수준,필드중립
+GREENSIDE_BUNKER,0-50yd,222,0.77,위험,유해란,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+GREENSIDE_BUNKER,0-50yd,222,0.77,위험,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+GREENSIDE_BUNKER,0-50yd,222,0.77,위험,박서현,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,50-100yd,439,0.064,유리,유해란,5,-0.4,유리,필드유리/선수유리
+FAIRWAY,50-100yd,439,0.064,유리,이재윤,7,0.143,field수준,필드유리/선수유리
+FAIRWAY,50-100yd,439,0.064,유리,박서현,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,9-12yd,103,0.32,중립,유해란,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,9-12yd,103,0.32,중립,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,9-12yd,103,0.32,중립,박서현,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,100-150yd,496,0.097,유리,유해란,10,0,field수준,필드유리/선수유리
+FAIRWAY,100-150yd,496,0.097,유리,이재윤,4,0,field수준,필드유리/선수유리
+FAIRWAY,100-150yd,496,0.097,유리,박서현,7,0,field수준,필드유리/선수유리
+ROUGH,0-50yd,1064,0.673,위험,유해란,10,0.7,field수준,필드불리/선수불리
+ROUGH,0-50yd,1064,0.673,위험,이재윤,14,0.286,유리,필드불리/선수유리
+ROUGH,0-50yd,1064,0.673,위험,박서현,16,1,불리,필드불리/선수불리
+GREEN,20yd+,155,0.516,위험,유해란,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+GREEN,20yd+,155,0.516,위험,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+GREEN,20yd+,155,0.516,위험,박서현,6,0.5,field수준,필드불리/선수불리
+ROUGH,100-150yd,257,0.428,중립,유해란,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,100-150yd,257,0.428,중립,이재윤,3,0,유리,필드중립
+ROUGH,100-150yd,257,0.428,중립,박서현,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+GREEN,6-9yd,798,0.248,유리,유해란,8,-0.25,유리,필드유리/선수유리
+GREEN,6-9yd,798,0.248,유리,이재윤,10,0.2,field수준,필드유리/선수유리
+GREEN,6-9yd,798,0.248,유리,박서현,11,0.182,field수준,필드유리/선수유리
+ROUGH,50-100yd,156,0.327,중립,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,50-100yd,156,0.327,중립,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,50-100yd,156,0.327,중립,박서현,3,0.333,field수준,필드중립
+FRINGE,3-6yd,91,0.549,위험,유해란,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,3-6yd,91,0.549,위험,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,3-6yd,91,0.549,위험,박서현,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,20yd+,69,0.638,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,20yd+,69,0.638,위험,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,20yd+,69,0.638,위험,박서현,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,6-9yd,165,0.667,위험,유해란,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,6-9yd,165,0.667,위험,이재윤,2,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FRINGE,6-9yd,165,0.667,위험,박서현,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,150-200yd,95,0.621,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,150-200yd,95,0.621,위험,이재윤,1,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,150-200yd,95,0.621,위험,박서현,3,0.667,field수준,필드불리/선수불리
+BUNKER,50-100yd,8,1.125,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+BUNKER,50-100yd,8,1.125,위험,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+BUNKER,50-100yd,8,1.125,위험,박서현,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,200yd+,43,1.116,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,200yd+,43,1.116,위험,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+FAIRWAY,200yd+,43,1.116,위험,박서현,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,150-200yd,49,0.98,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,150-200yd,49,0.98,위험,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,150-200yd,49,0.98,위험,박서현,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,200yd+,37,1.838,위험,유해란,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,200yd+,37,1.838,위험,이재윤,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
+ROUGH,200yd+,37,1.838,위험,박서현,0,,UNKNOWN(n<3),UNKNOWN(player n<3)
