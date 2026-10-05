@@ -1,0 +1,7 @@
+﻿group,n_events,favorable_condition_pct,unfavorable_condition_pct,avg_remaining_distance_yd,raw_gir_pct,raw_parplus_pct,raw_bogeyplus_pct,raw_doubleplus_pct,matched_n,matched_gir_pct,matched_parplus_pct,matched_bogeyplus_pct
+TOP5,153,70.6,20.9,186.4,52.3,73.2,26.8,3.9,,,,
+TOP10,205,67.8,24.4,184.4,49.8,70.2,29.8,4.4,,,,
+TOP20,467,66.8,25.7,186.2,48.8,71.7,28.3,5.4,,,,
+FIELD_REST,839,61.3,33.3,192.0,43.0,63.2,36.8,5.2,,,,
+TOP10_MATCHED_SUBSET,187,,,,,,,,187,51.3,72.2,27.8
+FIELD_REST_MATCHED_COMPARATOR,585,,,,,,,,585,45.3,65.0,35.0
