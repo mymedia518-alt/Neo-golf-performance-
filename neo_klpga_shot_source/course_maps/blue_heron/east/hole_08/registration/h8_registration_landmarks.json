@@ -1,0 +1,171 @@
+{
+  "hole": 8,
+  "klpga_source": "neo_klpga_shot_source/hole_images/hole_8.png (650x433)",
+  "blueheron_source": "neo_klpga_shot_source/course_maps/blue_heron/east/hole_08/visual.png (527x704)",
+  "extraction_method": "water/tee-marker landmarks extracted via programmatic color segmentation (connected components on blue/red/orange/blue pixel masks); fairway-stripe and green landmarks extracted via manual pixel reading on zoomed crops. No landmark invented for geometry not visibly present in both images (e.g. no bunker landmark -- East Hole 8's official tip text describes only OB both sides + pond, no bunker, and none is visible in either image).",
+  "landmarks": [
+    {
+      "landmark_id": "L1_TEE",
+      "description": "tee area (KLPGA single tee pad vs BH centroid of red/orange/blue tee markers -- structural mismatch, lower confidence)",
+      "klpga_x": 14,
+      "klpga_y": 194,
+      "blueheron_x": 276,
+      "blueheron_y": 534,
+      "confidence": "LOW"
+    },
+    {
+      "landmark_id": "L2_FAIRWAY_LANDING_CENTER",
+      "description": "textured fairway landing-zone stripe, centroid",
+      "klpga_x": 325,
+      "klpga_y": 152,
+      "blueheron_x": 242,
+      "blueheron_y": 315,
+      "confidence": "HIGH"
+    },
+    {
+      "landmark_id": "L3_FAIRWAY_LANDING_TEE_END",
+      "description": "landing-zone stripe, tee-side end",
+      "klpga_x": 228,
+      "klpga_y": 158,
+      "blueheron_x": 242,
+      "blueheron_y": 380,
+      "confidence": "MEDIUM"
+    },
+    {
+      "landmark_id": "L4_FAIRWAY_LANDING_GREEN_END",
+      "description": "landing-zone stripe, green-side end",
+      "klpga_x": 425,
+      "klpga_y": 142,
+      "blueheron_x": 242,
+      "blueheron_y": 250,
+      "confidence": "MEDIUM"
+    },
+    {
+      "landmark_id": "L5_WATER_CENTROID",
+      "description": "primary water hazard centroid (KLPGA single blob matched to BH's near/green-side lobe specifically, not the combined 2-lobe shape -- see note)",
+      "klpga_x": 524,
+      "klpga_y": 193,
+      "blueheron_x": 268,
+      "blueheron_y": 183,
+      "confidence": "MEDIUM"
+    },
+    {
+      "landmark_id": "L6_GREEN_CENTER",
+      "description": "green surface centroid (flag/pin area)",
+      "klpga_x": 603,
+      "klpga_y": 218,
+      "blueheron_x": 293,
+      "blueheron_y": 123,
+      "confidence": "HIGH"
+    }
+  ],
+  "chosen_transform": "similarity",
+  "transform_selection_reason": "Homography (8 DOF) achieved the lowest training residual (median 3.2px) but catastrophically overfit on leave-one-out testing (max LOO residual 203.7px on only 6 points). Affine (6 DOF) also overfit relative to its training fit (train median 4.6px vs LOO median 10.6px, LOO max 27.9px). Similarity (4 DOF: uniform scale + rotation + translation) had the best-generalizing leave-one-out residual (median 7.4px, max 12.6px) despite a slightly higher training residual (median 4.9px) -- the correct model given only 6 landmarks. The fitted rotation is -89.88 degrees (~90 degrees), i.e. the two illustrations are the same hole rotated ~90 degrees with uniform scale, not needing a higher-DOF model.",
+  "similarity_params": {
+    "scale": 0.6909621303821264,
+    "rotation_deg": -89.87776671834227,
+    "R": [
+      [
+        0.002133371602181728,
+        0.9999977243602142
+      ],
+      [
+        -0.9999977243602143,
+        0.002133371602181929
+      ]
+    ],
+    "t": [
+      138.25518613649479,
+      541.2645534858602
+    ]
+  },
+  "train_residuals_px": [
+    4.2,
+    2.6,
+    7.0,
+    5.5,
+    5.6,
+    3.8
+  ],
+  "loo_residuals_px": [
+    12.6,
+    3.2,
+    9.1,
+    6.8,
+    7.9,
+    6.7
+  ],
+  "loo_median_px": 7.4,
+  "loo_max_px": 12.6,
+  "approx_px_per_real_yard": 1.09,
+  "loo_median_real_yards_approx": 6.8,
+  "loo_max_real_yards_approx": 11.6,
+  "all_models_tested": {
+    "similarity": {
+      "train_residuals": [
+        4.2,
+        2.6,
+        7.0,
+        5.5,
+        5.6,
+        3.8
+      ],
+      "train_median": 4.9,
+      "train_max": 7.0,
+      "loo_residuals": [
+        12.6,
+        3.2,
+        9.1,
+        6.8,
+        7.9,
+        6.7
+      ],
+      "loo_median": 7.4,
+      "loo_max": 12.6
+    },
+    "affine": {
+      "train_residuals": [
+        3.4,
+        2.0,
+        6.6,
+        6.5,
+        5.7,
+        3.5
+      ],
+      "train_median": 4.6,
+      "train_max": 6.6,
+      "loo_residuals": [
+        27.9,
+        2.8,
+        9.2,
+        13.3,
+        8.4,
+        11.9
+      ],
+      "loo_median": 10.6,
+      "loo_max": 27.9
+    },
+    "homography": {
+      "train_residuals": [
+        3.1,
+        1.4,
+        5.8,
+        5.4,
+        3.4,
+        2.1
+      ],
+      "train_median": 3.2,
+      "train_max": 5.8,
+      "loo_residuals": [
+        36.1,
+        2.0,
+        8.4,
+        11.3,
+        11.9,
+        203.7
+      ],
+      "loo_median": 11.6,
+      "loo_max": 203.7
+    }
+  }
+}
