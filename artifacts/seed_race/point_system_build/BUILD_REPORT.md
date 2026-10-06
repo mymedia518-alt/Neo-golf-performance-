@@ -1,8 +1,17 @@
-# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v2 (55~80위 실제 포인트 값 반영, 확률 LOCKED)
+# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v3 (WHY 카피 정정, point_rank는 여전히 LOCKED)
 
-**기준**: 2027 시드 기준 전환 OFFICIAL PASS(`8642b0c`) + OFFICIAL RELAY #3(`38b03b7`, TOP10 커브) + 이번 턴 **55~80위 실제 누적 대상포인트 값 relay**
+**기준**: 2027 시드 기준 전환 OFFICIAL PASS(`8642b0c`) + OFFICIAL RELAY #3(`38b03b7`, TOP10 커브) + 55~80위 실제 포인트 값(`25552f5`) + 이번 턴 **WHY 카피 수정 + mainRecord 재구성 시도(수행 불가)**
 
-> **PUBLIC PROBABILITY = LOCKED, 변함없음.** 포인트순위 cutoff가 여전히 공식 미발표라 "시드확률 N%"는 어디에도 없다. **이번 턴에 바뀐 것**: 55~80위 26명 전원의 실제 대상포인트 값이 들어왔다 — 단 이 26명끼리만 정렬한 것을 "포인트순위"라고 부르지 않는다(전체 선수 포인트가 있어야 공식 순위와 일치하기 때문). 그래서 포인트 **값**은 공개하되 포인트 **순위**는 여전히 비공개다.
+> **PUBLIC PROBABILITY = LOCKED, 변함없음.** 사용자가 2026 전체 mainRecord(선수×대회×포인트, 수천 행)를 직접 수집해 전체 선수 point_rank를 재구성하라고 지시했으나, **klpga.co.kr의 모든 경로가 이번에도 403 차단**돼 수행하지 못했다(아래 1번). 알고 있는 19명의 누적값에 맞춰 대회별 기록을 역산해 지어내는 것도 하지 않았다 — 실제 경기 기록이 아니라 숫자 맞추기이기 때문이다. 대신 **mainRecord가 오면 바로 돌아가는 재구성 스크립트**를 준비했고, **새 데이터 없이 가능한 WHY 카피 수정**은 요청하신 정확한 문구로 반영했다. point_rank/delta/reversal은 **이번에도 LOCKED.**
+
+---
+
+## 0. v3 — 이번 턴 요약
+
+1. **mainRecord 전체 수집·재구성: 수행 불가.** `klpga.co.kr/web/record/mainRecord`, `klpga.co.kr/web/tourInfo/record`, `data.klpga.co.kr/record/mainRecord.jsp` 전부 재시도, 전부 403(`connect_rejected`) — 이 세션 내내 반복된 패턴과 동일. 상세 사유는 `SEED_POINT_SYSTEM_GAP.md` 섹션 13.
+2. **역산(reverse-engineering) 거부**: 19명의 알려진 누적값에 맞는 "그럴듯한" 대회별 기록을 만들 수는 있지만, 그것은 실제 기록이 아니라 지어낸 허구라서 하지 않았다.
+3. **대신 준비한 것**: `mainrecord_TEMPLATE.csv`(요청 스키마 그대로, 0행) + `reconcile_point_totals.py`(mainRecord를 합산해 기존 19명 공식값과 자동 대조, 빈 데이터엔 실행 거부하는 가드 포함 — 직접 테스트로 거부 확인).
+4. **WHY 카피 수정(새 데이터 불필요, 완료)**: "상금은 컷을 통과해도 쌓인다. 대상포인트는 Top10 순위에 들어야 쌓인다." — 정확히 요청된 문구로 교체. "10명만 받는다"는 헤드카운트 표현 대신 "Top10 순위"라는 순위 기준 표현 사용(공동순위 때문에 10명보다 많은 인원이 받을 수 있어, 특정 인원수를 명시하지 않음). 자동검증에 "10명만" 금지어 체크 추가.
 
 ---
 
@@ -54,7 +63,7 @@
 
 ## 5. 테스트 결과
 
-`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **222개 체크 전부 PASS**(이전 140 + 신규 82).
+`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **225개 체크 전부 PASS**(v2 222 + WHY 카피 검증 3건 추가).
 
 핵심 신규 체크:
 - 26명 전원의 포인트 값이 `point_values_bubble_55_80_2026-10-06.csv`와 1:1 일치, 상금도 공식 JSON과 재대조
@@ -94,7 +103,7 @@ POINT RANK (55-80위): STILL LOCKED (단순 정렬 금지 — 전체 필드 미�
 BLANK SEMANTICS: A/B/C 각주로 명시, 단정 없음 (6명)
 HERO CARDS: 데이터 기반 자동 산출 4장
 TIE HANDLING: OFFICIAL 고정 (12억원 대회 T2/T5/T8/10위)
-SOURCE↔UI: PASS (222/222)
+SOURCE↔UI: PASS (225/225)
 MOBILE: PASS
 DESKTOP: PASS
 DEPLOY: HOLD

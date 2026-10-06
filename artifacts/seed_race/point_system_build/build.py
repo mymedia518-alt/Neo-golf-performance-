@@ -345,7 +345,7 @@ html = f"""<!doctype html>
   <section class="block" data-testid="top10-curve">
     <p class="eyebrow">Point System</p>
     <h2>포인트는 상위권에 집중된다</h2>
-    <p>10억원 일반대회에서는 Top10에 들어야 대상포인트를 얻는다. 11위 이하는 대상포인트가 없다 — HJ중공업·동부건설, S-OIL(둘 다 10억원 규모)의 공식 배점:</p>
+    <p>10억원 일반대회에서는 Top10 순위에 대상포인트가 부여된다. 11위 이하는 대상포인트가 없다 — HJ중공업·동부건설, S-OIL(둘 다 10억원 규모)의 공식 배점:</p>
     <table class="curve-table">
       <tr><th>순위</th><th>포인트</th><th></th></tr>
       {"".join(f'<tr><td>{i+1}위</td><td class="curve-points">{p}</td><td><div class="curve-bar-wrap"><div class="curve-bar" style="width:{round(p/70*100)}%"></div></div></td></tr>' for i, p in enumerate([70,35,33,31,29,27,25,23,21,20]))}
@@ -366,8 +366,8 @@ html = f"""<!doctype html>
     <p class="eyebrow">Why</p>
     <h2>왜 순위가 뒤집힐까</h2>
     <p>상금과 포인트는 모두 좋은 성적에서 나온다. 하지만 계산법은 다르다.</p>
-    <p>상금은 대회 상금 규모와 배분에 따라 누적되고, 대상포인트는 상위권 성적에 집중된다. 위 표에서 보듯 10억원 일반대회는 10위 밖이면 포인트가 0이다 — 상금은 순위가 낮아도 어느 정도 받지만, 포인트는 그렇지 않다.</p>
-    <p>그래서 시즌 누적 상금이 비슷한 선수라도, 몇 번이나 상위권(특히 톱10)에 들었는지에 따라 포인트 차이가 날 수 있다.</p>
+    <p>상금은 컷을 통과해도 쌓인다. 대상포인트는 Top10 순위에 들어야 쌓인다.</p>
+    <p>그래서 상금순위가 비슷해도 시즌 동안 얼마나 자주 상위권에 들어갔느냐에 따라 포인트 차이가 커질 수 있다.</p>
   </section>
 
   <section class="block" data-testid="independent-seed">

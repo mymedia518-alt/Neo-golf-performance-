@@ -168,6 +168,13 @@ check('WHY/TOP10 copy explicitly scopes the "0 beyond 10th" rule to 10억원 일
       "10억원 일반대회에서는 Top10" in full_text, True)
 check('copy does not claim the rule applies to all tournaments/majors generally',
       "다른 대회 규모·메이저에도 똑같이 적용된다고 일반화하지 않는다" in full_text, True)
+check('copy uses "Top10 순위" framing (position-based), never "10명만" (headcount framing, '
+      "wrong once ties are involved)",
+      "10명만" in full_text, False)
+check('WHY section uses the exact requested phrasing "Top10 순위에 들어야 쌓인다"',
+      "대상포인트는 Top10 순위에 들어야 쌓인다" in full_text, True)
+check('WHY section uses the exact requested phrasing "컷을 통과해도 쌓인다"',
+      "상금은 컷을 통과해도 쌓인다" in full_text, True)
 
 # ---- 8. no internal jargon / no bubble point-rank numbers invented ----
 INTERNAL_TERMS = [
