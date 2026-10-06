@@ -116,7 +116,14 @@ def acquire_one(client: PoliteHttpClient, entry: dict, force: bool) -> dict:
         return result
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(html, encoding="utf-8")
+    # write_bytes, not write_text: on Windows, text-mode write silently
+    # translates every \n to \r\n, which changes the on-disk bytes from
+    # whatever `html` held when its sha256 above was computed -- found
+    # for real when verifying the first 23 captures (identity/parsing
+    # were still fine, but every recorded sha256 failed to re-verify
+    # against the committed file for exactly this reason). Writing the
+    # same encoded bytes that were hashed guarantees they match.
+    out_path.write_bytes(html.encode("utf-8"))
     result["acquisition_status"] = "ACQUIRED"
 
     try:
