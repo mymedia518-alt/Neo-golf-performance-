@@ -78,3 +78,11 @@
 ## 10. [ADDENDUM v5 — 이후 턴] 연도별 OFFICIAL 참가명단 패턴 반영 — RULE_CONFIRMED는 여전히 0건
 
 사용자가 2025/2026 공식 참가명단의 연도별 선수-카테고리 매칭을 relay했다(2023 일반대회 우승자 → 2025 참가명단, 2024 일반대회 우승자 → 2026 참가명단 패턴). 이를 "일반대회 우승자 자격이 우승 다음 시즌 한 번으로 끝나지 않는다"는 **OFFICIAL_PATTERN_OBSERVED**로 기록(정확한 연수는 역산하지 않음), 지한솔·마다솜·홍정민의 **2026 entry eligibility 자체는 OFFICIAL_ENTRY_CONFIRMED**로 격상했다. `eligibility_crosscheck_55_80.csv`에 4단계(`RULE_CONFIRMED`/`OFFICIAL_ENTRY_CONFIRMED`/`OFFICIAL_PATTERN_OBSERVED`/`UNKNOWN`) `evidence_level` 컬럼을 신설 — 집계 결과 `OFFICIAL_ENTRY_CONFIRMED` 11명, `UNKNOWN` 15명, **`RULE_CONFIRMED` 0명**. 2027 eligibility는 세 명 다 여전히 UNKNOWN이라 GROUP B 확정자는 0명 그대로. 사용자 지시대로 다음 작업은 선수별 우승 이력 추가 탐색을 중단하고, 일반대회/메이저대회 우승자의 정확한 시드 유효기간 규정 원문과 Top60 중복자 승계 조항 확보 하나로 전환됐다 — 둘 다 이번 턴 기준 미확보. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v5.
+
+---
+
+## 11. [ADDENDUM v6 — 이후 턴] 누락됐던 메이저 우승자 1명 보정(홍지원) + 전체 카테고리 재검사
+
+사용자가 55~80위 교차검증에서 메이저 우승자 1명이 누락됐음을 지적: **홍지원(69위, 125,517,143원)**이 2026 공식 참가자격에 "2023 메이저대회 우승자"로 등재돼 있었다. 현재순위·현재상금을 공식 데이터와 대조해 일치 확인 후 CSV에 반영 — `evidence_level=OFFICIAL_ENTRY_CONFIRMED`, `status=GROUP C-WIN-MAJOR`로 분류(GROUP B 자동 승격 없음, 2027 exemption은 여전히 UNKNOWN). 이로써 C-WIN-MAJOR가 홍정민 1명에서 홍정민·홍지원 2명으로 늘었다.
+
+추가로 사용자 지시대로 eligibility scope를 우승자 이력에 국한하지 않고, KLPGA 2026 공식 참가자격의 전체 카테고리(K-10클럽/생애누적상금25억 이상·부상선수 시드권·영구시드권·드림투어Top20·시드순위자·전년도 정규투어Top60·일반대회 우승자·메이저대회 우승자) 기준으로 26명 전원을 재검토했다. 결과: 드림투어Top20(3)·정규투어Top60(2)·시드순위자(3)·일반대회우승(2)·메이저우승(2) 총 12명은 `OFFICIAL_ENTRY_CONFIRMED`, 나머지 14명은 순수 UNKNOWN. **K-10클럽/생애누적상금25억·부상선수 시드권·영구시드권 3개 카테고리는 이 26명 중 어느 누구에게도 relay된 근거가 없어 전부 UNKNOWN**(= "해당자 없음"으로 단정한 것이 아니라 "아직 확인 안 됨"). GROUP B는 여전히 0명. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v6.
