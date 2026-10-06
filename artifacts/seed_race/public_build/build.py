@@ -28,6 +28,32 @@ whatif_rows = read_csv(SR / "seed_probability_whatif.csv")
 dist_rows = read_csv(SR / "final_60th_money_distribution.csv")
 dist = {r["metric"]: r["value"] for r in dist_rows}
 
+# 2027 eligibility layer -- separate from the Top60 probability simulation, no sim numbers touched
+elig_rows = read_csv(SR / "eligibility_crosscheck_55_80.csv")
+elig_by_rank = {int(r["current_rank"]): r for r in elig_rows}
+
+GROUP_LABELS = {
+    "B": ("2027 시드 확보", "시드 확보"),
+    "A": ("Top60 필요", "Top60 경쟁"),
+    "C": ("판정 보류", "판정 보류"),
+    "D": ("조건부 가능", "조건부 특별시드 대기"),
+}
+
+
+def seed_2027_cell(rank):
+    e = elig_by_rank[rank]
+    group = e["final_2027_group"]
+    expiry = e["computed_seed_expiry_season"]
+    if group == "B":
+        return f"확보 (~{expiry})", "시드 확보"
+    if group == "A" and expiry:
+        return f"없음 ({expiry}년 만료)", "Top60 경쟁"
+    if group == "A":
+        return "없음 (2026 자격, 2027 자동연장 아님)", "Top60 경쟁"
+    if group == "D":
+        return "조건부 (이사회 심사 대기)", "조건부 특별시드 대기"
+    return "미확인", "판정 보류"
+
 # bubble range: current_rank 55..70 inclusive, as specified
 bubble = [r for r in seed_rows if 55 <= int(float(r["current_rank"])) <= 70]
 bubble.sort(key=lambda r: int(float(r["current_rank"])))
@@ -88,16 +114,21 @@ for r in bubble:
         '<div class="seed-line-marker" role="separator" aria-label="상금순위 Top60 기준선">'
         '<span class="seed-line-text">Top60 기준선</span></div>'
     ) if seed_line_before else ""
+    seed2027_text, real_status_text = seed_2027_cell(rank)
+    final_group = elig_by_rank[rank]["final_2027_group"]
+    confirmed_badge = ' <span class="bubble-seed-badge">2027 시드 확보</span>' if final_group == "B" else ""
     bubble_html.append(f"""{line_html}
-    <div class="{row_class}" data-rank="{rank}" data-player="{name}" data-money="{money}" data-prob="{prob:.4f}" data-medrank="{med_rank_disp}">
+    <div class="{row_class}" data-rank="{rank}" data-player="{name}" data-money="{money}" data-prob="{prob:.4f}" data-medrank="{med_rank_disp}" data-seed2027-group="{final_group}" data-seed2027-text="{seed2027_text}" data-realstatus-text="{real_status_text}">
       <div class="bubble-rank">{rank}<span class="bubble-rank-unit">위</span></div>
-      <div class="bubble-name">{name}{' <span class="bubble-tag">현재 60위</span>' if is_current_60 else ''}</div>
+      <div class="bubble-name">{name}{' <span class="bubble-tag">현재 60위</span>' if is_current_60 else ''}{confirmed_badge}</div>
       <div class="bubble-money">{won(money)}</div>
       <div class="bubble-bar-wrap">
         <div class="bubble-bar" style="width:{bar_w}%"></div>
       </div>
       <div class="bubble-prob">{pct1(prob)}</div>
       <div class="bubble-medrank">예상 최종 {med_rank_disp}위</div>
+      <div class="bubble-seed2027"><span class="bubble-seed2027-label">2027 별도 시드</span><span class="bubble-seed2027-value group-{final_group}">{seed2027_text}</span></div>
+      <div class="bubble-realstatus group-{final_group}">실질 상태: {real_status_text}</div>
     </div>""")
 bubble_rows_html = "\n".join(bubble_html)
 
@@ -125,8 +156,8 @@ html = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NEO KLPGA 2026 상금순위 Top60 시뮬레이션</title>
-<meta name="description" content="현재 60위 김새로미, 상금순위 Top60 확률 31.9% — NEO KLPGA 2026 상금순위 Top60 시뮬레이션">
+<title>KLPGA 2027 시드 전쟁</title>
+<meta name="description" content="상금순위 60위가 끝이 아니다 — 이미 2027 시드를 가진 선수와 반드시 Top60 안에 들어야 하는 선수를 NEO가 분리했다">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -191,6 +222,7 @@ html = f"""<!doctype html>
   .hero-prob-label {{ font-size: 13px; font-weight: 700; color: var(--text-dim); margin: 0 0 4px; }}
   .hero-prob {{ font-family: "Big Shoulders Display", sans-serif; font-size: clamp(48px, 14vw, 68px); font-weight: 800; color: var(--accent); line-height: 1; margin: 0; }}
   .hero-sub {{ font-size: 15px; font-weight: 700; color: var(--text); margin: 18px 0 0; line-height: 1.6; }}
+  .hero-note {{ font-size: 12.5px; font-weight: 600; color: var(--text-dim); margin: 14px 0 0; line-height: 1.7; padding-top: 14px; border-top: 1px dashed var(--border); }}
 
   /* SECTIONS generic */
   section.block {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 26px 22px; margin-bottom: 28px; box-shadow: 0 1px 4px rgba(22,33,62,0.06); }}
@@ -244,6 +276,20 @@ html = f"""<!doctype html>
   .bubble-row-current60 {{ background: var(--bg-alt); border-radius: 10px; margin: 0 -10px; padding: 9px 14px; }}
   .bubble-row-current60 .bubble-prob {{ color: var(--accent); }}
 
+  .bubble-seed-badge {{ display: inline-block; background: var(--accent); color: #fff; font-size: 10px; font-weight: 800; padding: 1px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }}
+  .bubble-seed2027 {{ grid-column: 2; display: flex; align-items: baseline; gap: 6px; margin-top: 4px; font-size: 11.5px; }}
+  .bubble-seed2027-label {{ color: var(--text-dim); font-weight: 700; flex-shrink: 0; }}
+  .bubble-seed2027-value {{ font-weight: 800; }}
+  .bubble-seed2027-value.group-B {{ color: var(--accent); }}
+  .bubble-seed2027-value.group-A {{ color: var(--warn); }}
+  .bubble-seed2027-value.group-C {{ color: var(--text-dim); }}
+  .bubble-seed2027-value.group-D {{ color: var(--accent-blue); }}
+  .bubble-realstatus {{ grid-column: 2; font-size: 11px; font-weight: 700; margin-top: 2px; padding: 3px 8px; border-radius: 6px; display: inline-block; width: fit-content; }}
+  .bubble-realstatus.group-B {{ background: var(--pill-bg); color: var(--pill-text); }}
+  .bubble-realstatus.group-A {{ background: #fbe4e4; color: var(--warn); }}
+  .bubble-realstatus.group-C {{ background: var(--row-alt); color: var(--text-dim); }}
+  .bubble-realstatus.group-D {{ background: #e0e8fb; color: var(--accent-blue); }}
+
   /* WHAT-IF LADDER */
   .whatif-player {{ display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }}
   .whatif-name {{ font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: 24px; }}
@@ -291,14 +337,14 @@ html = f"""<!doctype html>
       <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
       <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
     </div>
-    <div class="wordmark-name">2026 상금순위 Top60</div>
+    <div class="wordmark-name">2027 시드 전쟁</div>
   </div>
   <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
 </header>
 
 <main>
 
-  <div class="scope-banner" data-testid="scope-banner">이 페이지는 <strong>2026시즌 상금순위 Top60 확률</strong>만 계산합니다. 2027 KLPGA 출전자격(시드) 여부는 별도 공식 기준이 추가로 적용될 수 있어, 이 확률과 동일하다고 단정하지 않습니다.</div>
+  <div class="scope-banner" data-testid="scope-banner">이 페이지는 두 가지를 분리해서 보여줍니다: <strong>2026시즌 상금순위 Top60 확률</strong>(60,000회 시뮬레이션)과 <strong>2027 KLPGA 출전자격(시드) 상태</strong>(공식 참가자격·우승 시드 규정 교차검증). 우승 시드 등으로 이미 2027 자격이 확인된 선수는 별도로 표시하며, 둘을 같은 숫자로 섞지 않습니다.</div>
 
   <section class="hero" data-testid="hero">
     <h1>현재 60위인데,<br>상금순위 Top60 확률은 31.9%</h1>
@@ -310,6 +356,7 @@ html = f"""<!doctype html>
       <p class="hero-prob" data-field="hero-prob">{pct1(PROB_60)}</p>
     </div>
     <p class="hero-sub">현재 순위보다 중요한 것은<br>시즌 마지막 날의 순위다.</p>
+    <p class="hero-note">단, 상금순위와 2027 시드는 같은 말이 아니다.<br>NEO는 우승 시드 등 별도 출전자격을 분리해 실제로 60위가 필요한 선수만 다시 본다.</p>
   </section>
 
   <section class="block" data-testid="moving-cutline">
@@ -345,6 +392,7 @@ html = f"""<!doctype html>
     <p class="eyebrow">Top60 Bubble</p>
     <h2>55위 ~ 70위, 지금 이 순간의 경계선</h2>
     <p class="dim">현재 순위와 NEO가 계산한 상금순위 Top60 확률은 같은 순서로 움직이지 않는다. 57위(지한솔, {pct1(float(next(r for r in bubble if r['player']=='지한솔')['prob_top60']))})는 58위(안재희, {pct1(float(next(r for r in bubble if r['player']=='안재희')['prob_top60']))})보다 한 자리 위인데도 Top60 확률 차이는 두 배 이상이고, 현재 60위 김새로미({pct1(PROB_60)})와 현재 61위 한아름({pct1(float(row61['prob_top60']))})은 순위표에서는 '안'과 '밖'으로 나뉘지만 Top60 확률은 거의 붙어 있다.</p>
+    <p class="dim">각 선수 아래 <strong>"2027 별도 시드"</strong>는 Top60 확률과는 다른 질문이다 — 우승 시드 등 공식 확인된 별도 자격이 있는지를 나타낸다. 홍정민은 2025 KLPGA 챔피언십(메이저) 우승으로 2027 시드가 이미 확보돼 있다 — 이 선수의 Top60 확률이 낮게 나와도 그것이 2027 시드 상실을 뜻하지 않는다.</p>
     <div class="bubble-scroll">
 {bubble_rows_html}
     </div>
@@ -370,17 +418,20 @@ html = f"""<!doctype html>
     <p>매번 경쟁 선수들의 상금도 함께 변한다. 따라서 단순히 "현재 60위 상금을 넘는가"를 계산한 것이 아니다.</p>
     <p class="warn-box">이 확률은 경기 결과를 보장하는 값이 아니라, 현재 확인 가능한 정보로 계산한 모델 추정치다.</p>
     <p>상금배분표의 일부 구간은 공식 기준점 사이를 보간했으며, 보간 방식에 따른 불확실성이 존재한다 — 예를 들어 이 페이지의 헤드라인 확률(31.9%)도 보간 방식을 바꾸면 최대 약 3.8%p 달라질 수 있다.</p>
-    <p class="warn-box">이 페이지가 계산한 것은 "2026시즌 상금순위가 60위 안에서 끝나는가"이다. 실제 다음 시즌 KLPGA 출전자격은 우승에 따른 자격 유효기간, 대회 등급별 기준 차이, 상금순위 외의 별도 자격 등 추가 공식 기준의 영향을 받을 수 있으며, 이 페이지는 그 기준까지 전부 반영하지 않았다.</p>
+    <p class="warn-box">이 페이지의 <strong>Top60 확률</strong>이 계산한 것은 "2026시즌 상금순위가 60위 안에서 끝나는가" 하나뿐이다. <strong>2027 별도 시드</strong>는 이것과 별개로, KLPGA 공식 참가자격·우승자 시드 기간 규정을 교차 대조해 표시한다 — 우승에 따른 시드가 2027까지 유효한 선수는 Top60 확률과 무관하게 "시드 확보"로 표시한다.</p>
+    <p>단, 이 2027 시드 판정에도 한계가 있다: 우승자 시드 기간 규정은 2019년판 공식 핸드북을 기준으로 하며(이후 개정 여부 미확인), 이번 교차검증은 선수 55~80위 구간에 한정돼 있다. K-10 클럽·생애누적상금 등 이사회 재량으로 결정되는 특별시드는 확정 전까지 "조건부"로만 표시하며 자동으로 시드 확보 처리하지 않는다.</p>
   </section>
 
   <section class="block" data-testid="public-copy" style="text-align:left;">
-    <p class="eyebrow">NEO KLPGA 2026 상금순위 Top60 시뮬레이션</p>
-    <p>KLPGA 상금순위 60위는 다음 시즌 출전자격 논의에서 자주 언급되는 경계선이다.</p>
+    <p class="eyebrow">KLPGA 2027 시드 전쟁</p>
+    <p>상금순위 60위가 끝이 아니다.</p>
+    <p>KLPGA 상금순위 60위는 다음 시즌 출전자격 논의에서 자주 언급되는 경계선이지만, 이미 우승 시드 등으로 2027 자격을 확보한 선수가 섞여 있으면 이야기가 달라진다.</p>
     <p>10월 6일 현재 60위는 김새로미. 상금은 {won(CUR_60_MONEY)}다.</p>
     <p>그렇다면 지금 60위니까 안전할까?</p>
     <p>NEO가 남은 시즌의 상금 이동을 60,000번 시뮬레이션했다. NEO 시뮬레이션에서 김새로미의 상금순위 Top60 확률은 {pct1(PROB_60)}로 계산됐다.</p>
     <p>이유는 간단하다. 60위 커트라인도 함께 움직이기 때문이다.</p>
-    <p class="dim">상금순위표는 오늘의 위치를 보여준다. NEO는 그 위치에서 시즌 마지막 날 상금순위가 어떻게 끝날지의 가능성을 계산한다.</p>
+    <p>NEO는 여기서 한 걸음 더 나아가, 이미 시드를 가진 선수와 반드시 60위 안에 들어야 하는 선수를 분리했다. 이번 구간에서는 2025 메이저 우승자 홍정민이 Top60 확률과 무관하게 2027 시드를 확보한 유일한 선수로 확인됐다.</p>
+    <p class="dim">상금순위표는 오늘의 위치를 보여준다. NEO는 그 위치에서 시즌 마지막 날 상금순위가 어떻게 끝날지의 가능성을 계산하고, 그 결과가 실제 2027 시드와 같은 뜻인지도 따로 확인한다.</p>
   </section>
 
 </main>

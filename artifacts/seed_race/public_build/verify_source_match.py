@@ -151,8 +151,12 @@ check('"60,000번 시뮬레이션" phrase present (allowed exception)',
       "60,000번" in full_text, True)
 
 # ---- 7. model label compliance ----
-check('approved model label "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" present',
-      "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" in full_text, True)
+check('page title is "KLPGA 2027 시드 전쟁"',
+      soup.title.get_text(strip=True) if soup.title else None, "KLPGA 2027 시드 전쟁")
+check('old title "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" absent (superseded)',
+      "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" in full_text, False)
+check('public-copy model label "KLPGA 2027 시드 전쟁" present',
+      "KLPGA 2027 시드 전쟁" in full_text, True)
 for forbidden in ["경기력 예측", "SG 기반", "최근 경기력 기반"]:
     check(f'forbidden model label "{forbidden}" absent', forbidden in full_text, False)
 
@@ -168,10 +172,56 @@ for forbidden in ["시드 생존확률", "시드 유지확률", "시드를 지�
 check('scope-banner present (Top60 money-rank vs KLPGA eligibility distinction disclosed)',
       soup.select_one('[data-testid="scope-banner"]') is not None, True)
 banner_text = soup.select_one('[data-testid="scope-banner"]').get_text() if soup.select_one('[data-testid="scope-banner"]') else ""
-check('scope-banner explicitly names "2027 KLPGA 출전자격(시드)" as a separate, unconfirmed concept',
-      "2027 KLPGA 출전자격" in banner_text, True)
-check('methodology section discloses Top60-vs-eligibility gap',
-      "출전자격은 우승에 따른 자격 유효기간" in full_text, True)
+check('scope-banner explicitly separates Top60 probability from 2027 KLPGA eligibility',
+      ("2026시즌 상금순위 Top60 확률" in banner_text and "2027 KLPGA 출전자격" in banner_text), True)
+check('methodology section discloses Top60-vs-2027-seed separation',
+      "2027 별도 시드" in full_text and "Top60 확률과 무관하게" in full_text, True)
+check('methodology discloses 2019 handbook + scope limitation for the eligibility layer',
+      "2019년판 공식 핸드북" in full_text, True)
+
+# ---- 9. 2027 eligibility layer: matches eligibility_crosscheck_55_80.csv exactly, per displayed player ----
+elig_rows = read_csv(SR / "eligibility_crosscheck_55_80.csv")
+elig_by_rank = {int(r["current_rank"]): r for r in elig_rows}
+
+bubble_rows_for_elig = soup.select('[data-testid="seed-bubble"] .bubble-row')
+check("bubble rows with seed2027 group data (count)", len(bubble_rows_for_elig), 16)
+for el in bubble_rows_for_elig:
+    rank = int(el["data-rank"])
+    want_group = elig_by_rank[rank]["final_2027_group"]
+    got_group = el.get("data-seed2027-group")
+    check(f"rank{rank} 2027 group matches CSV final_2027_group", got_group, want_group)
+
+# exactly one GROUP B badge (홍정민), and it must be on the correct row
+b_rows = [el for el in bubble_rows_for_elig if el.get("data-seed2027-group") == "B"]
+check("exactly 1 player with GROUP B (2027 seed confirmed) in 55-70 range", len(b_rows), 1)
+check("the GROUP B player is 홍정민 (rank 66)",
+      b_rows[0]["data-rank"] if b_rows else None, "66")
+check('"2027 시드 확보" badge appears exactly once (only on the GROUP B row)',
+      full_text.count("2027 시드 확보"), 1)
+
+# ---- 10. Top60 probability simulation numbers UNCHANGED by the eligibility layer work ----
+# Fixed snapshot of prob_top60 for all 16 displayed players, captured before this turn's eligibility
+# work began -- if any of these drift, the "simulation untouched" guarantee has been violated.
+PROB_TOP60_SNAPSHOT = {
+    55: 0.8225, 56: 0.7764, 57: 0.5294, 58: 0.3465, 59: 0.3262, 60: 0.3193,
+    61: 0.2912, 62: 0.2511, 63: 0.2202, 64: 0.1997, 65: 0.1773, 66: 0.1511,
+    67: 0.1245, 68: 0.1119, 69: 0.1082, 70: 0.1017,
+}
+seed_rows_check = read_csv(SR / "seed_probability.csv")
+seed_by_rank_check = {int(float(r["current_rank"])): r for r in seed_rows_check}
+for rank, want_prob in PROB_TOP60_SNAPSHOT.items():
+    got_prob = round(float(seed_by_rank_check[rank]["prob_top60"]), 4)
+    check(f"60K-model UNCHANGED: rank{rank} prob_top60 matches pre-eligibility-work snapshot",
+          got_prob, want_prob)
+check("final_60th_money_distribution.csv P10/MEDIAN/P90 UNCHANGED",
+      (dist["simulated_final_60th_p10"], dist["simulated_final_60th_median"], dist["simulated_final_60th_p90"]),
+      (164840244, 172303371, 180291768))
+
+# internal classification jargon (CSV column names / enum values) must not leak into visible copy
+for forbidden in ["GROUP A", "GROUP B", "GROUP C", "GROUP D", "RULE_CONFIRMED",
+                   "OFFICIAL_ENTRY_CONFIRMED", "OFFICIAL_PATTERN_OBSERVED",
+                   "evidence_level", "final_2027_group"]:
+    check(f'internal classification label "{forbidden}" absent from visible text', forbidden in full_text, False)
 
 print()
 if failures:
