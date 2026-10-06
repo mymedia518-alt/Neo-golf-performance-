@@ -1,0 +1,160 @@
+{
+  "note": "ordinary_value_per_hole = birdie_rate - bogey_rate + 2*eagle_rate - 2*double_or_worse_rate (double+ at a conservative -2 floor, same method as 2025). rank_shift = ordinary_rank - stableford_rank; positive = player ranks BETTER under Stableford.",
+  "kim_min_byul": {
+    "player_name": "김민별",
+    "ordinary_rank": 17,
+    "stableford_rank": 16,
+    "rank_shift": 1,
+    "birdie_rate": 0.17921,
+    "bogey_rate": 0.12007,
+    "double_or_worse_rate": 0.01165
+  },
+  "top_risers": [
+    {
+      "player_name": "문정민",
+      "ordinary_rank": 49,
+      "stableford_rank": 37,
+      "rank_shift": 12,
+      "birdie_rate": 0.18634,
+      "bogey_rate": 0.14931,
+      "double_or_worse_rate": 0.03009
+    },
+    {
+      "player_name": "박예지",
+      "ordinary_rank": 59,
+      "stableford_rank": 51,
+      "rank_shift": 8,
+      "birdie_rate": 0.16771,
+      "bogey_rate": 0.15409,
+      "double_or_worse_rate": 0.02725
+    },
+    {
+      "player_name": "홍정민",
+      "ordinary_rank": 26,
+      "stableford_rank": 20,
+      "rank_shift": 6,
+      "birdie_rate": 0.1969,
+      "bogey_rate": 0.12663,
+      "double_or_worse_rate": 0.02369
+    },
+    {
+      "player_name": "박주영",
+      "ordinary_rank": 19,
+      "stableford_rank": 14,
+      "rank_shift": 5,
+      "birdie_rate": 0.19154,
+      "bogey_rate": 0.13018,
+      "double_or_worse_rate": 0.01658
+    },
+    {
+      "player_name": "신유진",
+      "ordinary_rank": 43,
+      "stableford_rank": 38,
+      "rank_shift": 5,
+      "birdie_rate": 0.16667,
+      "bogey_rate": 0.14689,
+      "double_or_worse_rate": 0.01601
+    },
+    {
+      "player_name": "송가은",
+      "ordinary_rank": 72,
+      "stableford_rank": 67,
+      "rank_shift": 5,
+      "birdie_rate": 0.15904,
+      "bogey_rate": 0.17429,
+      "double_or_worse_rate": 0.02288
+    },
+    {
+      "player_name": "이지원 0810(A)",
+      "ordinary_rank": 104,
+      "stableford_rank": 99,
+      "rank_shift": 5,
+      "birdie_rate": 0.16667,
+      "bogey_rate": 0.33333,
+      "double_or_worse_rate": 0.02778
+    },
+    {
+      "player_name": "이채은2",
+      "ordinary_rank": 58,
+      "stableford_rank": 54,
+      "rank_shift": 4,
+      "birdie_rate": 0.15916,
+      "bogey_rate": 0.15916,
+      "double_or_worse_rate": 0.01727
+    }
+  ],
+  "top_fallers": [
+    {
+      "player_name": "김효문",
+      "ordinary_rank": 6,
+      "stableford_rank": 11,
+      "rank_shift": -5,
+      "birdie_rate": 0.19444,
+      "bogey_rate": 0.05556,
+      "double_or_worse_rate": 0.02778
+    },
+    {
+      "player_name": "정윤지",
+      "ordinary_rank": 14,
+      "stableford_rank": 19,
+      "rank_shift": -5,
+      "birdie_rate": 0.16746,
+      "bogey_rate": 0.10556,
+      "double_or_worse_rate": 0.01349
+    },
+    {
+      "player_name": "김소이",
+      "ordinary_rank": 50,
+      "stableford_rank": 55,
+      "rank_shift": -5,
+      "birdie_rate": 0.13162,
+      "bogey_rate": 0.13333,
+      "double_or_worse_rate": 0.0094
+    },
+    {
+      "player_name": "손주희",
+      "ordinary_rank": 67,
+      "stableford_rank": 72,
+      "rank_shift": -5,
+      "birdie_rate": 0.13636,
+      "bogey_rate": 0.15025,
+      "double_or_worse_rate": 0.02273
+    },
+    {
+      "player_name": "이소영",
+      "ordinary_rank": 37,
+      "stableford_rank": 43,
+      "rank_shift": -6,
+      "birdie_rate": 0.1552,
+      "bogey_rate": 0.12081,
+      "double_or_worse_rate": 0.0194
+    },
+    {
+      "player_name": "안선주",
+      "ordinary_rank": 39,
+      "stableford_rank": 45,
+      "rank_shift": -6,
+      "birdie_rate": 0.15338,
+      "bogey_rate": 0.13164,
+      "double_or_worse_rate": 0.01449
+    },
+    {
+      "player_name": "김지수",
+      "ordinary_rank": 53,
+      "stableford_rank": 59,
+      "rank_shift": -6,
+      "birdie_rate": 0.13933,
+      "bogey_rate": 0.13845,
+      "double_or_worse_rate": 0.01587
+    },
+    {
+      "player_name": "유효주",
+      "ordinary_rank": 78,
+      "stableford_rank": 85,
+      "rank_shift": -7,
+      "birdie_rate": 0.12847,
+      "bogey_rate": 0.15538,
+      "double_or_worse_rate": 0.02431
+    }
+  ]
+}
