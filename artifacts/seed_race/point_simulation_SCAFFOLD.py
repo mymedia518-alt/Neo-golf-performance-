@@ -68,13 +68,25 @@ def guard_real_data(point_table_path, events_points_path, confirmed: bool):
     else:
         by_event = {}
         for row in ep:
-            by_event.setdefault(row["gameCode"], 0)
-            by_event[row["gameCode"]] += 1
-        thin_events = {gc: n for gc, n in by_event.items() if n < MIN_POSITIONS_PER_EVENT}
+            by_event.setdefault(row["gameCode"], []).append(row)
+        thin_events = {}
+        for gc, rows in by_event.items():
+            rows_sorted = sorted(rows, key=lambda r: int(r["finish_position"]))
+            # a curve is "complete" either by raw row count, or by an explicit
+            # zero-anchor row (tie_handling_rule == ZERO_BEYOND_THIS_POSITION or
+            # points == 0) confirming every worse finish scores 0 -- that's full
+            # coverage of the field even with few rows.
+            has_zero_anchor = any(
+                r.get("tie_handling_rule") == "ZERO_BEYOND_THIS_POSITION" or float(r["points"]) == 0.0
+                for r in rows_sorted
+            )
+            if len(rows_sorted) < MIN_POSITIONS_PER_EVENT and not has_zero_anchor:
+                thin_events[gc] = len(rows_sorted)
         if thin_events:
             problems.append(
-                f"{events_points_path.name} has events with too few finish-position rows to "
-                f"cover a plausible cutoff zone (need >= {MIN_POSITIONS_PER_EVENT} each): {thin_events}"
+                f"{events_points_path.name} has events with too few finish-position rows AND no "
+                f"explicit zero-anchor row to cover the rest of the field "
+                f"(need >= {MIN_POSITIONS_PER_EVENT} rows, or a 0-points anchor row): {thin_events}"
             )
     if not confirmed:
         problems.append("--confirm-real-data flag not passed")

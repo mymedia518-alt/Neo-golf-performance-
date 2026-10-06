@@ -110,3 +110,9 @@
 ## 14. [ADDENDUM — 포인트 시스템 블로커 업데이트] BASIS는 OFFICIAL PASS로 격상, CUTOFF/버블존 데이터는 여전히 없음
 
 섹션 13의 "2027 포인트순위 시드 전환" 주장에 대해 사용자가 발표 relay·공식 포인트랭킹 페이지 예시 5명(전부 money_rank 1~6위)·포인트 배점 규정(상금구간별 우승포인트+메이저100)을 추가로 relay했다. 사용자 지시대로 "BASIS = 포인트순위 기준 전환"은 더 이상 GAP으로 다루지 않고 OFFICIAL PASS로 기록했다. 단 **CUTOFF 숫자와 55~80위 버블존 선수들의 point_rank는 이번에도 전혀 확보되지 않아**, 버블존 비교·역전분석·시뮬레이션·공개페이지 개편은 만들지 않았다 — 최상위권(money_rank 1~6위) 1개 역전 사례(김민솔↔서교림)만 사실로 기록. 상세: `SEED_POINT_SYSTEM_GAP.md` v2.
+
+---
+
+## 15. [ADDENDUM] 2027 포인트 시드 전쟁 — 확률 없이 완성한 정보 페이지 발행
+
+OFFICIAL RELAY #3로 받은 TOP10 포인트 커브(HJ/S-OIL, 11위 이하 0)와 IQT 독립시드 구조를 반영해, 확률을 전혀 노출하지 않는 공개용 정보 페이지를 새로 만들었다(`point_system_build/`). 55~80위 버블존 26명은 "포인트순위 확보 전"으로 정직하게 명시했고, 홍정민(2027 시드 CONFIRMED)만 배지로 구분했다. 자동검증 140/140 PASS, 확률 숫자 전수 부재를 정규식으로 확인. 상세: `SEED_POINT_SYSTEM_GAP.md` 섹션 10, `point_system_build/BUILD_REPORT.md`.

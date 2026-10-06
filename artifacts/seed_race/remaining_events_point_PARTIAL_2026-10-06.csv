@@ -1,6 +1,24 @@
 gameCode,date,event_name,category,total_purse,point_bracket,field_size,cut_line,point_category,finish_position,points,tie_handling_rule,source_url,evidence_type
-2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_table,1,70,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
-2026100003,2026-10-16~18,아이스버그골프·서울신문,general,1500000000,15억 이상,108,,official_bracket_table,1,90,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
-2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_table,1,70,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
-EXAMPLE_10EOK,,example 10억원 대회 (사용자 제시 cross-check example),general,1000000000,10억~12억 미만,,,official_bracket_table,2,35,UNKNOWN,user relay,OBSERVED (user-provided cross-validation example only -- not a real remaining event)
-EXAMPLE_10EOK,,example 10억원 대회 (사용자 제시 cross-check example),general,1000000000,10억~12억 미만,,,official_bracket_table,3,33,UNKNOWN,user relay,OBSERVED (user-provided cross-validation example only -- not a real remaining event)
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,1,70,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED (user-relayed official TOP10 curve for 10억~12억미만 bracket; event itself is HJ and matches this bracket exactly per official purse-bracket table)
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,2,35,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,3,33,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,4,31,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,5,29,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,6,27,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,7,25,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,8,23,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,9,21,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,10,20,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,11,0,ZERO_BEYOND_THIS_POSITION,user relay (OFFICIAL RELAY #3),OBSERVED (explicit official statement '11위 이하 0' -- this row marks that finish 11 and all worse finishes score 0, not a literal single-position entry)
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,1,70,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED (same 10억~12억미만 bracket curve as HJ applied to S-OIL; same official purse bracket, not independently re-confirmed per event)
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,2,35,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,3,33,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,4,31,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,5,29,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,6,27,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,7,25,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,8,23,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,9,21,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,10,20,UNKNOWN,user relay (OFFICIAL RELAY #3),OBSERVED
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_curve_10eok,11,0,ZERO_BEYOND_THIS_POSITION,user relay (OFFICIAL RELAY #3),OBSERVED (same caveat as HJ row 11)
+2026100003,2026-10-16~18,아이스버그골프·서울신문,general,1500000000,15억 이상,108,,official_bracket_curve_UNKNOWN,1,90,UNKNOWN,user relay,OBSERVED (only 1st-place value known -- NO 2nd-10th curve relayed for the 15억이상 bracket; NOT assumed equal to the 10억 bracket curve)
