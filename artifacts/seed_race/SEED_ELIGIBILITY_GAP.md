@@ -60,3 +60,9 @@
 ## 7. [ADDENDUM v2 — 이후 턴] 사용자가 relay한 OFFICIAL EVIDENCE 반영, 여전히 전원 GROUP C
 
 사용자가 klpga.co.kr 공식 참가자격 페이지 3개(2026/2025 참가자격, 2026 블루헤런 참가자격)를 직접 열람해 relay했다. klpga.co.kr은 이번에도 재확인 불가(curl+WebFetch 재시도, 403 재확인)였으므로 이 relay는 **OBSERVED**(사용자가 직접 본 공식 사례, Claude 독립 재확인 불가)로 기록하고 **RULE-CONFIRMED**(규정 원문으로 확정된 것)와 분리했다. relay된 우승자 사례 10명은 전부 55~80위 밖(1~41위)이었고, 55~80위 구간에 직접 해당하는 사례는 8명(김새로미·김소정·안재희·김우정·유지나·김나현2·김서윤2·손예빈)의 **2026 entry category**뿐이었다 — `eligibility_crosscheck_55_80.csv`의 `OFFICIAL_2026_ENTRY_CATEGORY` 열에 OBSERVED로 반영. 사용자 지시대로 **2026 entry category를 안다고 2027 자격으로 자동 연장하지 않았으므로 26명 전원 여전히 GROUP C**다(A/B 이동 0명). 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v2.
+
+---
+
+## 8. [ADDENDUM v3 — 이후 턴] 최근 정규투어 우승 이력 CONFIRMED (지한솔/마다솜/홍정민) — GROUP C-WIN 신설, B는 여전히 0명
+
+사용자가 KLPGA 공식 선수 프로필(`klpga.co.kr/web/profile/history?playerCode=...`)에서 직접 확인한 최근 정규투어 우승 이력을 relay: 지한솔(56위, 2024년 1승), 마다솜(65위, 2023~2024년 통산 4승), 홍정민(66위, 2025년 통산 4승 — 그중 2025 KLPGA 챔피언십은 KLPGA 공식 뉴스가 "메이저 대회 우승"으로 명시). 선수코드·현재순위를 공식 데이터와 대조해 전부 일치함을 확인했고, klpga.co.kr은 이번에도 재접속 불가(403 재확인)라 OBSERVED로 기록했다. 사용자 지시대로 "RECENT REGULAR TOUR WIN = CONFIRMED"와 "WIN EXEMPTION VALID THROUGH 2027 = RULE CONFIRMATION"을 분리 — 전자는 확인됐지만 후자(우승자 자격의 정확한 유효기간)는 규정 원문 미확보로 여전히 UNKNOWN이라, 이 3명을 **GROUP B로 확정하지 않고 신설한 GROUP C-WIN**(최근 우승 확인, 2027 exemption 확인 대기)으로 분류했다. 다음 최우선 작업은 일반대회/메이저대회 우승자 출전자격 유효기간 규정 확인, 특히 홍정민의 2025 메이저 우승 자격이 2027까지 유효한지다 — 아직 미해결. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v3.

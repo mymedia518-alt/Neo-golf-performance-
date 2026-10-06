@@ -1,157 +1,135 @@
-# 55~80위 2027 참가자격 교차검증 — v2 (OFFICIAL EVIDENCE 반영, 여전히 전원 GROUP C)
+# 55~80위 2027 참가자격 교차검증 — v3 (최근 정규투어 우승 이력 3건 CONFIRMED, 여전히 GROUP B 확정 0명)
 
-> **[UPDATE LOG]** v1(`f529145`)은 55~80위 26명 전원을 "아무 근거 없음"으로 GROUP C 처리했다. 이번 턴에 사용자가 klpga.co.kr 공식 참가자격 페이지 3개를 직접 열람해 relay한 구체적 사례(OFFICIAL EVIDENCE 1/2/3)를 받아 반영했다 — **8명의 "2026 entry category"를 OBSERVED로 채웠다.** 단, 사용자 지시대로 **이것만으로 어떤 선수도 GROUP A/B로 옮기지 않았다** — 2026 entry category는 "왜 지금 뛰고 있는가"일 뿐 "2027에도 자격이 있는가"의 답이 아니기 때문이다. **26명 전원 여전히 GROUP C.**
+> **[UPDATE LOG]**
+> - v1(`f529145`): 55~80위 26명 전원 "아무 근거 없음"으로 GROUP C.
+> - v2(`aa2d153`): 사용자 relay한 OFFICIAL EVIDENCE 1/2/3 반영, 8명의 2026 entry category를 OBSERVED로 채움. 자동 연장 없이 26명 전원 GROUP C 유지.
+> - **v3(이 턴)**: 사용자가 KLPGA 공식 선수 프로필(`klpga.co.kr/web/profile/history?playerCode=...`)에서 직접 확인한 **최근 정규투어 우승 이력**을 relay — 지한솔(56위)·마다솜(65위)·홍정민(66위) 3명의 "최근 정규투어 우승 = CONFIRMED"를 CSV에 반영하고, 이 3명을 단순 UNKNOWN과 구별해 **GROUP C-WIN**으로 표시했다. **GROUP B로는 확정하지 않았다** — "최근 우승 확인"과 "그 우승이 2027까지 자격을 보장하는가"는 여전히 별개 질문이며, 후자는 규정 원문 없이는 RULE-CONFIRMED 아님.
 
-**지시**: "[SEED ELIGIBILITY — OFFICIAL EVIDENCE RELAY]" — `f529145`의 "전원 GROUP C"를 그 자체로 최종 결론 삼지 말고, 사용자가 relay한 공식 증거를 CSV에 반영 + OBSERVED/RULE-CONFIRMED 분리 + 그룹 정의 재정의.
-
----
-
-## 1. 이 턴에 한 일 요약
-
-1. `klpga.co.kr`(www 없는 버전 포함) 재접속 시도 — **다시 403 확인**(아래 2번).
-2. 사용자가 relay한 OFFICIAL EVIDENCE 1/2/3을 그대로 기록(아래 3번) — **내가 직접 그 페이지를 열어 확인한 것이 아니라, 사용자가 공식 URL에서 본 내용을 전달받은 것**임을 명시.
-3. OFFICIAL EVIDENCE 1/2에 나온 10명(고지우·김민별·고지원·김민선7·김민솔·김민주·김수지·박보겸·서교림·성유진)을 공식 상금순위 데이터와 대조 → **전원 1~41위, 55~80위 구간 밖.** 즉 이 10명의 우승 이력 사례는 "일반대회/메이저 우승자 자격이 단순 1년이 아니라는 것을 보여주는 일반 정황 증거"일 뿐, 55~80위 26명 개개인의 데이터가 아니다.
-4. OFFICIAL EVIDENCE 3에 나온 8명(김새로미·김소정·안재희·김우정·유지나·김나현2·김서윤2·손예빈)은 전부 55~80위 구간 안에 있음을 확인 → `eligibility_crosscheck_55_80.csv`의 **`OFFICIAL_2026_ENTRY_CATEGORY`** 열에 OBSERVED로 기록.
-5. 그룹 정의를 사용자 지시대로 재정의(아래 5번) — **entry category를 알았다고 자동으로 C→A/B 이동하지 않음.**
+**지시**: "[SEED ELIGIBILITY — CRITICAL OFFICIAL WIN HISTORY UPDATE]" — `aa2d153`의 "전원 GROUP C"를 최종 결론으로 쓰지 말고, 최근 정규투어 우승 이력을 CSV에 반영 + GROUP C-WIN 신설 + 절대 GROUP B 확정 금지 + 다음 우선순위(우승자 자격 유효기간 규정, 특히 홍정민의 2025 메이저 우승) 명시.
 
 ---
 
-## 2. KLPGA 재접속 재시도 — 다시 차단 확인
+## 1. 이번 턴에 한 일
 
-```
-$ curl https://klpga.co.kr/web/tourInfo/entry?gameCode=2026040002
-curl: (56) CONNECT tunnel failed, response 403
-klpga.co.kr:443 — connect_rejected (organization policy)
-
-WebFetch(url="https://klpga.co.kr/web/tourInfo/entry?gameCode=2026040002", ...)
-→ {"error_type":"EGRESS_BLOCKED","domain":"klpga.co.kr", ...}
-```
-
-`www.klpga.co.kr`뿐 아니라 `klpga.co.kr`(서브도메인 없는 버전)도 동일하게 차단된다 — 이 컨테이너에서는 어떤 경로로도 klpga.co.kr에 직접 접근할 수 없다. **이하 OFFICIAL EVIDENCE는 전부 사용자가 자신의 환경에서 직접 열람해 relay한 것이며, 나는 그 페이지를 직접 열어 재확인하지 못했다.** 이 구분(OBSERVED = 사용자 relay, 독립 재확인 불가 / RULE-CONFIRMED = 규정 원문으로 확정)을 모든 표기에서 유지한다.
+1. klpga.co.kr 재접속 재시도(curl + WebFetch, 선수 프로필 URL 직접) — **다시 403 확인**. 그래서 이번에도 전부 **OBSERVED**(사용자가 공식 프로필 페이지에서 직접 확인해 relay, Claude 독립 재확인 불가)로 기록.
+2. relay받은 3명(지한솔·마다솜·홍정민)의 현재순위·선수코드를 공식 상금순위 데이터와 대조 — **전부 정확히 일치**(지한솔=56위/코드1521, 마다솜=65위/코드9401, 홍정민=66위/코드9750 — `seed_probability.csv`에 이미 있던 코드와 완전히 동일). 추가로 **2026_win=0**(기존에 이미 공식 확인된 값)과도 모순이 없음(relay된 우승은 전부 2023~2025년, 2026시즌 우승이 아니므로).
+3. `eligibility_crosscheck_55_80.csv`에 7개 컬럼 추가: `recent_regular_tour_win`, `win_year`, `win_event`, `major_status`, `official_profile_evidence`, `possible_2027_exemption`, `rule_confirmation`.
+4. 지한솔·마다솜·홍정민의 `status`를 `GROUP C-WIN: 최근 정규투어 우승 확인, 2027 exemption 유효기간 확인 대기`로 변경. **나머지 23명은 손대지 않음**(v2에서 확정한 8명의 2026 entry category, 15명의 순수 UNKNOWN 그대로 유지).
 
 ---
 
-## 3. 사용자가 relay한 OFFICIAL EVIDENCE (그대로 기록)
+## 2. relay된 WIN HISTORY — OFFICIAL EVIDENCE (그대로 기록)
 
-### OFFICIAL EVIDENCE 1 — 2026 참가자격 페이지 (`gameCode=2026040002`)
+### 지한솔 (56위, 코드 1521)
 
-| 선수 | 현재순위(공식) | relay된 사례 |
-|---|---|---|
-| 고지우 | 21위 | 2024 일반대회 우승자 |
-| 김민별 | 41위 | 2024 일반대회 우승자 |
-| 고지원 | 17위 | 2025 일반대회 우승자 |
-| 김민선7 | 3위 | 2025 일반대회 우승자 |
-| 김민솔 | 1위 | 2025 일반대회 우승자 |
-| 김민주 | 10위 | 2025 일반대회 우승자 |
-| 김수지 | 20위 | 2023 메이저대회 우승자 |
+- 정규투어 통산 우승 수: relay된 범위 내 1승 확인
+- **2024-10-24~27 덕신EPC·서울경제 레이디스 클래식 우승**
+- 메이저 여부: 명시 없음(일반대회로 취급)
+- 출처: `https://klpga.co.kr/web/profile/history?playerCode=1521`
 
-### OFFICIAL EVIDENCE 2 — 2025 참가자격 페이지 (`gameCode=2025100012`)
+### 마다솜 (65위, 코드 9401)
 
-| 선수 | relay된 사례 |
+- **정규투어 통산 4승**
+- 2024-09-26~29 하나금융그룹 챔피언십 우승
+- 2024-10-31~11-03 S-OIL 챔피언십 2024 우승
+- 2024-11-08~10 SK텔레콤·SK쉴더스 챔피언십 2024 우승
+- 2023 OK금융그룹 읏맨 오픈 우승
+- 메이저 여부: 4승 전부 명시 없음(일반대회로 취급)
+- 출처: `https://klpga.co.kr/web/profile/history?playerCode=9401`
+
+### 홍정민 (66위, 코드 9750)
+
+- **정규투어 통산 4승**
+- **2025-05-01~04 크리스에프앤씨 제47회 KLPGA 챔피언십 우승 — KLPGA 공식 뉴스에서 "메이저 대회 우승"으로 명시**
+- 2025-08-14~17 메디힐·한국일보 챔피언십 우승
+- 2025-10-10~12 K-FOOD 놀부·화미 마스터즈 우승
+- 출처: `https://klpga.co.kr/web/profile/history?playerCode=9750`
+
+**홍정민은 이 구간에서 유일하게 "메이저대회 우승자" 지위가 relay된 사례이며, 그 우승이 2025년이라 2027시즌까지 이어지는지가 가장 임박한 질문이다 — 사용자가 지정한 최우선 확인 대상.**
+
+### 참고 (55~80위 범위 밖, 45위 이상 확대 시) — CSV에는 추가하지 않음
+
+사용자가 범위를 45위 이상까지 넓혔을 때 확인한 사례도 기록만 해 둔다(이 26명 테이블의 공식 scope 밖이므로 `eligibility_crosscheck_55_80.csv`에는 행을 추가하지 않았다):
+
+- **배소현(47위, 코드8589)**: 2025 오로라월드 레이디스 챔피언십 우승, 2024 정규투어 3승.
+- **정윤지(50위, 코드9820)**: 2025 Sh수협은행 MBN 여자오픈 우승.
+
+(두 선수 모두 현재순위·코드가 공식 데이터와 일치함을 확인.)
+
+---
+
+## 3. CONFIRMED vs 아직 필요한 것 — 명확히 분리
+
+| 구분 | 상태 |
 |---|---|
-| 고지우 | 2023 일반대회 우승자 |
-| 김민별 | 2024 일반대회 우승자 |
-| 김수지 | 2023 메이저대회 우승자 |
+| **RECENT REGULAR TOUR WIN = CONFIRMED** | 지한솔(2024)·마다솜(2023~2024, 4승)·홍정민(2025, 4승, 그중 1승 메이저) — 전부 OBSERVED(사용자가 공식 프로필에서 직접 확인해 relay, Claude 독립 재확인은 여전히 불가) |
+| **WIN EXEMPTION VALID THROUGH 2027 = RULE CONFIRMATION 미완료** | 일반대회/메이저대회 우승자의 정규투어 출전자격이 정확히 몇 시즌 유효한지 규정 원문을 아직 확보하지 못함. 따라서 이 3명이 2027에도 자격이 있는지는 **여전히 UNKNOWN** |
 
-**이 10명 전원 55~80위 구간 밖(1~41위)** — 공식 상금순위 데이터(`official_money_rank_2026-10-06_full.json`)로 대조 확인. 따라서 이 두 EVIDENCE는 55~80위 26명 개개인의 직접 증거가 아니라, **"일반대회 우승자 자격이 우승 다음 시즌에만 존재하는 단순 1년 자격은 아니다"라는 패턴을 보여주는 정황 증거**로만 기록한다 — 예: 고지우는 2023 우승 사례(EVIDENCE 2)와 2024 우승 사례(EVIDENCE 1)가 각각 별도로 등장, 김민별도 2024 우승 사례가 2025·2026 두 페이지에 걸쳐 relay됨. **다만 이것이 "몇 년간 유효하다"는 정확한 기간을 확정해주지는 않는다 — 규정 원문 없이는 OBSERVED 패턴일 뿐 RULE-CONFIRMED가 아니다(사용자 지시 그대로 적용, 추론으로 기간을 확정하지 않음).**
-
-### OFFICIAL EVIDENCE 3 — 2026 블루헤런 참가자격 페이지 (`gameCode` 미지정)
-
-전체 선두권: 김민솔·박보겸·서교림(2026 메이저 우승자), 성유진(2025 메이저 우승자), 김수지(2023 메이저 우승자) — 전부 55~80위 밖.
-
-**55~80위 구간 직접 해당 사례 (8명)**:
-
-| 현재순위 | 선수 | OFFICIAL_2026_ENTRY_CATEGORY (OBSERVED) |
-|---|---|---|
-| 58 | 안재희 | 2025 드림투어 상금순위 20위 이내 |
-| 60 | 김새로미 | 2025 드림투어 상금순위 20위 이내 |
-| 64 | 김우정 | 2025 정규투어 상금순위 60위 이내 |
-| 70 | 김소정 | 2025 드림투어 상금순위 20위 이내 |
-| 71 | 김나현2 | 시드순위자 |
-| 73 | 김서윤2 | 시드순위자 |
-| 75 | 유지나 | 2025 정규투어 상금순위 60위 이내 |
-| 77 | 손예빈 | 시드순위자 |
-
-**중요 — 이것은 2026 ENTRY CATEGORY다.** "왜 2026시즌에 뛰고 있는가"에 대한 답이지 "2027에도 자격이 있는가"에 대한 답이 아니다. 자동 연장하지 않는다.
+**즉 "최근 우승 확인됨"(사실) ≠ "2027 자격 확보됨"(규정 해석) — 이 둘을 섞지 않는다.**
 
 ---
 
-## 4. OBSERVED vs RULE-CONFIRMED — 용어 정의
+## 4. 55~80위 26명 — 업데이트된 테이블 (CSV에서 직접 재생성)
 
-| 구분 | 의미 | 이 문서에서의 예 |
-|---|---|---|
-| **OBSERVED** | 공식 페이지에서 특정 연도·특정 선수에 대해 실제로 표시된 사례를 확인(사용자 relay, 내가 독립 재확인은 못함) | "고지우 = 2024 일반대회 우승자로 2026 페이지에 표시됨" |
-| **RULE-CONFIRMED** | 규정 원문(참가자격 규정/경기 운영 규정)으로 "몇 년간 유효한가", "중복 시 어떻게 처리하는가" 등이 명문으로 확정됨 | **아직 0건** — 원문을 확보한 적이 없음 |
+전체 25개 컬럼: `eligibility_crosscheck_55_80.csv`. 아래는 핵심 요약.
 
-OFFICIAL EVIDENCE 1/2가 보여주는 것은 OBSERVED 수준의 패턴(우승 다음 해를 넘어서도 "우승자" 표시가 유지되는 사례가 있다)이다. **"일반대회 우승자 자격 = N년"이라는 구체적 숫자는 RULE-CONFIRMED 아님 — 추론하지 않는다(사용자 지시).**
-
----
-
-## 5. 55~80위 26명 — 업데이트된 교차검증 테이블
-
-전체 18개 컬럼 CSV: `eligibility_crosscheck_55_80.csv`(신규 컬럼 `OFFICIAL_2026_ENTRY_CATEGORY`, `entry_category_evidence_type`, `entry_category_source` 추가). 아래는 핵심 요약 — **CSV에서 직접 재생성, 수기 입력 없음.**
-
-| 현재순위 | 선수 | 현재상금(공식) | 2026_win(공식) | OFFICIAL_2026_ENTRY_CATEGORY | entry_category 근거 | known_2027_exemption | status |
+| 현재순위 | 선수 | 현재상금(공식) | recent_regular_tour_win | win_year | major_status | OFFICIAL_2026_ENTRY_CATEGORY | status |
 |---|---|---|---|---|---|---|---|
-| 55 | 마서영 | 164,138,333 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 56 | 지한솔 | 162,531,765 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 57 | 김지윤2 | 154,330,000 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 58 | 안재희 | 147,941,051 | 0 | 2025 드림투어 상금순위 20위 이내 | OBSERVED | UNKNOWN | GROUP C |
-| 59 | 조아연 | 147,340,000 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 60 | 김새로미 | 147,312,262 | 0 | 2025 드림투어 상금순위 20위 이내 | OBSERVED | UNKNOWN | GROUP C |
-| 61 | 한아름 | 146,194,643 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 62 | 한지원 | 144,250,000 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 63 | 최정원 | 142,181,250 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 64 | 김우정 | 140,947,857 | 0 | 2025 정규투어 상금순위 60위 이내 | OBSERVED | UNKNOWN | GROUP C |
-| 65 | 마다솜 | 138,882,523 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 66 | 홍정민 | 134,968,333 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 67 | 최민경 | 129,244,285 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 68 | 박결 | 125,776,429 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 69 | 홍지원 | 125,517,143 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 70 | 김소정 | 123,000,000 | 0 | 2025 드림투어 상금순위 20위 이내 | OBSERVED | UNKNOWN | GROUP C |
-| 71 | 김나현2 | 120,950,000 | 0 | 시드순위자 | OBSERVED | UNKNOWN | GROUP C |
-| 72 | 이재윤 | 118,499,643 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 73 | 김서윤2 | 115,551,250 | 0 | 시드순위자 | OBSERVED | UNKNOWN | GROUP C |
-| 74 | 김하은2 | 113,178,333 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 75 | 유지나 | 112,322,143 | 0 | 2025 정규투어 상금순위 60위 이내 | OBSERVED | UNKNOWN | GROUP C |
-| 76 | 이주미 | 109,730,000 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 77 | 손예빈 | 96,270,000 | 0 | 시드순위자 | OBSERVED | UNKNOWN | GROUP C |
-| 78 | 왕 즈쉬엔 | 94,440,715 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 79 | 박서현 | 94,024,643 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-| 80 | 현세린 | 93,047,500 | 0 | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
-
-win-history 컬럼들(2024_win/2025_win/major_win_year 등)은 **이 26명 중 누구에 대해서도 아직 증거가 없어 전부 UNKNOWN 그대로** — OFFICIAL EVIDENCE 1/2가 보여준 우승자들은 전부 이 26명 밖의 다른 선수였기 때문(3번 참조).
+| 55 | 마서영 | 164,138,333 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 56 | 지한솔 | 162,531,765 | CONFIRMED | 2024 | 일반대회 (메이저 명시 없음) | UNKNOWN | **GROUP C-WIN** |
+| 57 | 김지윤2 | 154,330,000 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 58 | 안재희 | 147,941,051 | UNKNOWN | UNKNOWN | UNKNOWN | 2025 드림투어 상금순위 20위 이내 | GROUP C |
+| 59 | 조아연 | 147,340,000 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 60 | 김새로미 | 147,312,262 | UNKNOWN | UNKNOWN | UNKNOWN | 2025 드림투어 상금순위 20위 이내 | GROUP C |
+| 61 | 한아름 | 146,194,643 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 62 | 한지원 | 144,250,000 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 63 | 최정원 | 142,181,250 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 64 | 김우정 | 140,947,857 | UNKNOWN | UNKNOWN | UNKNOWN | 2025 정규투어 상금순위 60위 이내 | GROUP C |
+| 65 | 마다솜 | 138,882,523 | CONFIRMED | 2024(3승)/2023(1승) 통산4승 | 전부 일반대회 (메이저 명시 없음) | UNKNOWN | **GROUP C-WIN** |
+| 66 | 홍정민 | 134,968,333 | CONFIRMED | 2025(3승) 통산4승 | 혼합 — 2025 KLPGA 챔피언십 **메이저**(공식뉴스 명시), 나머지 일반 | UNKNOWN | **GROUP C-WIN** |
+| 67 | 최민경 | 129,244,285 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 68 | 박결 | 125,776,429 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 69 | 홍지원 | 125,517,143 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 70 | 김소정 | 123,000,000 | UNKNOWN | UNKNOWN | UNKNOWN | 2025 드림투어 상금순위 20위 이내 | GROUP C |
+| 71 | 김나현2 | 120,950,000 | UNKNOWN | UNKNOWN | UNKNOWN | 시드순위자 | GROUP C |
+| 72 | 이재윤 | 118,499,643 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 73 | 김서윤2 | 115,551,250 | UNKNOWN | UNKNOWN | UNKNOWN | 시드순위자 | GROUP C |
+| 74 | 김하은2 | 113,178,333 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 75 | 유지나 | 112,322,143 | UNKNOWN | UNKNOWN | UNKNOWN | 2025 정규투어 상금순위 60위 이내 | GROUP C |
+| 76 | 이주미 | 109,730,000 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 77 | 손예빈 | 96,270,000 | UNKNOWN | UNKNOWN | UNKNOWN | 시드순위자 | GROUP C |
+| 78 | 왕 즈쉬엔 | 94,440,715 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 79 | 박서현 | 94,024,643 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
+| 80 | 현세린 | 93,047,500 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN | GROUP C |
 
 ---
 
-## 6. 그룹 정의 재정의 (사용자 지시 그대로) 및 적용 결과
+## 5. 그룹 분류 현황 (갱신)
 
-> A = 공식 근거상 2027 Top60이 필요한 것으로 확인
-> B = 공식 근거상 Top60 밖이어도 2027 정규투어 자격 확보
-> C = 아직 2027 자격 판정 불가능
-> 현재 참가자격을 알게 됐다고 C→A/B로 자동 이동하지 않는다.
+- **A (Top60이 사실상 필요)**: 0명 — 변동 없음.
+- **B (Top60 밖이어도 2027 자격 확보)**: **0명 — 변동 없음.** 지한솔·마다솜·홍정민의 최근 우승이 CONFIRMED여도, 그 우승이 2027까지 유효한지(RULE CONFIRMATION)가 없는 한 B로 옮기지 않는다 — 사용자가 명시적으로 금지.
+- **C (일반)**: 15명 — 아무 추가 정보 없음.
+- **C (2026 entry category OBSERVED)**: 8명 — 안재희·김새로미·김우정·김소정·김나현2·김서윤2·유지나·손예빈.
+- **C-WIN (최근 정규투어 우승 CONFIRMED, 2027 exemption 대기)**: **3명 — 지한솔·마다솜·홍정민(신규).**
 
-**적용 결과**:
-
-- **A: 0명.** 어떤 선수에 대해서도 "2027에 다른 경로가 전혀 없다"는 것이 공식적으로 확인된 적이 없다 — 8명의 2026 entry category를 알아도, 그들이 2027에 Top60 외에 다른 자격(예: 2026시즌 중 우승, 드림투어 2026 성적 등)을 얻을 가능성은 여전히 미확인이므로 "Top60이 필요하다"고 단정할 수 없다.
-- **B: 0명.** `known_2027_exemption`이 CONFIRMED인 선수가 없다. 8명의 OBSERVED 2026 entry category는 **2026년 자격이지 2027년 자격이 아니므로** B의 근거가 될 수 없다(사용자가 명시적으로 금지한 자동 연장에 해당).
-- **C: 26명 전원.** 8명은 "2026 entry category가 OBSERVED로 확인됨"이라는 추가 정보가 붙은 채로 C에 남고, 나머지 18명은 이전과 동일하게 아무 정보 없이 C에 남는다.
+26 = 15 + 8 + 3, 전원 합쳐도 여전히 GROUP A/B 확정자는 0명이다.
 
 ---
 
-## 7. 다음 최우선 작업 (사용자 지시) — 아직 수행 못함
+## 6. 다음 최우선 작업 (사용자 지시 그대로) — 아직 미해결
 
-사용자가 지정한 다음 우선순위: **55~80위의 2024/2025/2026 정규투어 우승 이력을 공식 대회 결과·참가자격 페이지와 교차해서 찾는 것** (일반대회 우승자/메이저 우승자/우승연도/2027까지 효력 지속 여부).
+> "일반대회 우승자 / 메이저대회 우승자의 정규투어 출전자격 유효기간" 공식 규정 확인. 특히 홍정민의 2025 메이저 우승자 자격이 2027 시즌에도 유효한지 최우선 확인.
 
-**이번 턴에는 수행하지 못했다** — OFFICIAL EVIDENCE 1/2에서 relay받은 우승자 10명이 전부 이 26명 밖이었고(3번), klpga.co.kr은 여전히 직접 접근 불가(2번)이기 때문이다. 이 작업을 진행하려면 다음 중 하나가 필요하다:
+이번 턴에 klpga.co.kr 재접속을 다시 시도했으나(프로필 페이지, 참가자격 페이지 둘 다) **여전히 403으로 차단**되어 이 규정 원문 자체는 확보하지 못했다. 이 질문에 답하려면 다음 중 하나가 필요하다:
 
-1. 55~80위 26명 각각의 "2026 참가자격 페이지"(`gameCode=2026040002` 또는 동일 선수 명단이 있는 다른 공식 페이지)에 **일반대회/메이저 우승자**로 표시된 사람이 있는지 — 있다면 몇 년도 우승인지. (지금까지 확인된 8명은 전부 "우승자" 카테고리가 아니라 드림투어/정규투어 Top60/시드순위자였다 — 즉 **지금까지 relay된 증거만으로는 이 26명 중 2024~2026 우승자가 1명도 없다.** 이것도 기록해 둔다: 이는 "없다고 확인됨"이 아니라 "아직 못 봤다"는 뜻이다.)
-2. 2024/2025/2026 KLPGA 정규투어 대회별 공식 결과(우승자 명단)를 이 26명 이름과 대조.
+1. KLPGA 공식 "참가자격 규정"/"경기 운영 규정" 원문 — 일반대회·메이저대회 우승자의 출전자격 유효기간을 명시한 조항.
+2. 또는 **2027년도 참가자격 페이지가 이미 공개되어 있다면**, 그 페이지에 홍정민·마다솜·지한솔이 "우승자" 카테고리로 등재되어 있는지 직접 확인(가장 확실한 간접 증거 — 다음 시즌 페이지 자체가 "지금 이 선수가 우승자 자격으로 뛴다"를 보여주므로).
+3. 과거 사례(예: 2023년에 우승한 선수가 2024, 2025 참가자격 페이지에 몇 번이나 "우승자"로 계속 등재됐는지 — OFFICIAL EVIDENCE 1/2에서 고지우·김민별이 이미 이런 패턴을 보였다. 이 패턴을 홍정민/마다솜/지한솔에게도 추적할 수 있는 자료가 있다면 RULE-CONFIRMED까지는 아니어도 OBSERVED 증거가 강해진다)
 
-사용자가 추가로 relay해 주면 즉시 반영한다.
+어느 것이든 relay해 주시면 즉시 반영한다.
 
 ---
 
-## 8. DEPLOY 상태
+## 7. DEPLOY 상태
 
-**HOLD 유지.** 8명의 2026 entry category가 밝혀졌지만, 이는 "왜 2026에 뛰고 있는가"일 뿐 "2027 자격이 있는가"와는 무관하다 — 그룹 분류는 전원 GROUP C로 변함없다. `SEED_ELIGIBILITY_GAP.md`, `eligibility_crosscheck_55_80.csv`와 함께 참조.
+**HOLD 유지.** 3명의 GROUP C-WIN 승격은 "최근 우승이 있다는 사실"을 반영한 것일 뿐, 이들이 2027에 Top60과 무관하게 뛸 수 있는지는 여전히 미확정이다. GROUP B가 1명도 없는 한, "상금순위 Top60 확률"과 "2027 KLPGA 출전자격"을 동일시할 수 없다는 `SEED_ELIGIBILITY_GAP.md`의 근거는 그대로 유지된다.
