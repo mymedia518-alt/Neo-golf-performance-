@@ -28,6 +28,16 @@
   "is_completed": false,
   "is_regular_tour": true,
   "is_stroke_play": false,
+  "field_size": 108,
+  "rounds_scheduled": 4,
+  "holes_total": 72,
+  "cut_rule": "after R2, top 60 and ties advance to R3",
+  "field_size_evidence_type": "OBSERVED (user relay this turn, cited as KLPGA 현재 메인 + 대회 공식 홈페이지 both agreeing on 108; Claude cannot independently verify)",
+  "historical_identity": {
+    "note": "This tournament's own history under an earlier sponsor name -- corroborated by this repo's own independently-confirmed engineering work (docs/SITE_STRUCTURE_TODO.md section 1, live 2026-08-24 100-tournament run), which already named gameMethod=2 (Modified Stableford) KLPGA tournaments '동부건설 · 한국토지신탁 챔피언십' at gameCodes 2023100002/2024100009/2025100001 -- matching the user-relayed 2023/2024/2025 winners by year.",
+    "winners_evidence_type": "OBSERVED (user relay, KLPGA 공식 역대기록 + 대회 공식 홈페이지; validation observations only, never fit to)",
+    "see": "klpga_pipeline/src/klpga/website_v2/stableford_backtest.py KNOWN_HISTORICAL_WINNER_SUMMARIES"
+  },
   "evidence_type": "OBSERVED (user relay, cited source below; Claude's network cannot independently fetch klpga.co.kr/data.klpga.co.kr -- confirmed blocked again this turn via curl + WebFetch, EGRESS_BLOCKED)",
   "collected_at": "2026-10-06",
   "source": "https://data.klpga.co.kr/pressn_detail.jsp?Rownum=1&pageNum=1&sn=131870",

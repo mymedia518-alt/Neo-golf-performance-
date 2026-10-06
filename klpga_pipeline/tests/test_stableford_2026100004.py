@@ -20,7 +20,8 @@ from klpga.website_v2.stableford_scoring import (  # noqa: E402
     HoleOutcomeCounts, HoleOutcomeProbabilities, SCORING_TABLE, expected_round_points,
 )
 from klpga.website_v2.stableford_backtest import (  # noqa: E402
-    BacktestBlockedError, BacktestInputs, run_blind_backtest,
+    BacktestBlockedError, BacktestInputs, KNOWN_HISTORICAL_WINNER_SUMMARIES,
+    PlayerRecord, run_blind_backtest,
 )
 from klpga.website_v2.stableford_monte_carlo import (  # noqa: E402
     MonteCarloBlockedError, MonteCarloInputs, run_monte_carlo,
@@ -87,6 +88,65 @@ def test_backtest_refuses_without_real_data():
         run_blind_backtest(inputs)
 
 
+def test_known_historical_winner_round_splits_are_self_consistent():
+    """Each relayed round-by-round split must sum to the reported total --
+    a cheap internal-consistency check on the relayed data (not proof it's
+    correct, but proof it's not internally contradictory)."""
+    for w in KNOWN_HISTORICAL_WINNER_SUMMARIES:
+        if w.get("rounds"):
+            assert sum(w["rounds"]) == w["total_points"], w
+
+
+def test_known_historical_winner_gamecodes_match_this_repos_own_prior_confirmation():
+    """2023/2024/2025 gameCodes must match the independently-confirmed
+    Modified Stableford gameCodes from docs/SITE_STRUCTURE_TODO.md's
+    2026-08-24 live 100-tournament run -- cross-checking the user relay
+    against this repo's own prior, unrelated confirmation."""
+    by_year = {w["year"]: w for w in KNOWN_HISTORICAL_WINNER_SUMMARIES}
+    assert by_year[2023]["game_code"] == "2023100002"
+    assert by_year[2024]["game_code"] == "2024100009"
+    assert by_year[2025]["game_code"] == "2025100001"
+
+
+def test_backtest_detects_future_data_leakage_even_with_confirm_and_nonempty_data():
+    """A record dated on/after the target tournament must be rejected
+    regardless of confirm_real_data=True and non-empty lists -- the
+    leakage check must fire independently of the other guards."""
+    import datetime
+    inputs = BacktestInputs(
+        past_game_code="2025100001",
+        past_tournament_date=datetime.date(2025, 10, 9),
+        past_course_name="익산CC",
+        past_results=[{"player_code": "x", "points": 51}],
+        pre_cutoff_player_records=[
+            PlayerRecord("x", datetime.date(2025, 10, 8), {}),  # OK: strictly before
+            PlayerRecord("y", datetime.date(2025, 10, 9), {}),  # LEAK: same day as target
+        ],
+        confirm_real_data=True,
+    )
+    with pytest.raises(BacktestBlockedError, match="leakage"):
+        run_blind_backtest(inputs)
+
+
+def test_backtest_accepts_clean_temporal_data_as_far_as_the_leakage_check_goes():
+    """All records strictly before the cutoff must NOT trigger the leakage
+    problem specifically (the backtest still refuses overall here because
+    it's a tiny synthetic field, not the real 108-player dataset -- but the
+    failure reason must not be leakage)."""
+    import datetime
+    inputs = BacktestInputs(
+        past_game_code="2025100001",
+        past_tournament_date=datetime.date(2025, 10, 9),
+        past_course_name="익산CC",
+        past_results=[{"player_code": "x", "points": 51}],
+        pre_cutoff_player_records=[PlayerRecord("x", datetime.date(2025, 10, 7), {})],
+        confirm_real_data=True,
+    )
+    with pytest.raises(BacktestBlockedError) as excinfo:
+        run_blind_backtest(inputs)
+    assert "leakage" not in str(excinfo.value)
+
+
 def test_monte_carlo_refuses_without_real_data():
     inputs = MonteCarloInputs(
         entry_list=[], player_outcome_rates={}, course_hole_table=[],
@@ -109,21 +169,23 @@ def test_monte_carlo_refuses_even_with_confirm_flag_but_no_real_data():
 
 
 def test_redteam_zero_fail_this_turn():
-    """The 4 structurally-checkable items must all PASS (no stroke-play
-    reuse, tail risk represented, no hardcoded 2025 winner, no course-effect
-    leakage). The other 3 stay honestly BLOCKED -- never silently PASS."""
+    """The 5 structurally-checkable items must all PASS (no stroke-play
+    reuse, tail risk represented, no 2025-winner leakage into the LIVE
+    2026 model, no course-effect leakage, real leakage-guard mechanism
+    present). The other 2 stay honestly BLOCKED -- never silently PASS."""
     items = run_redteam()
     by_item = {it.item: it for it in items}
     assert len(items) == 7
     structurally_checkable = [
         "기존 스트로크플레이 모델 재사용 여부",
         "Double+ 꼬리위험 반영 여부",
-        "2025 우승자 사후인지 반영 여부",
+        "2025 우승자를 2026 예측 모델에 반영했는지 여부",
         "익산CC 코스효과를 에이원CC로 이식했는지 여부",
+        "미래 데이터 leakage 방지 메커니즘 존재 여부",
     ]
     for name in structurally_checkable:
         assert by_item[name].status == "PASS", f"{name}: {by_item[name].status} -- {by_item[name].detail}"
-    blocked = ["Birdie% 과대평가 여부", "파5 4개 홀 효과 과대평가 여부", "미래 데이터 leakage 여부"]
+    blocked = ["Birdie% 과대평가 여부", "파5 4개 홀 효과 과대평가 여부"]
     for name in blocked:
         assert by_item[name].status == "BLOCKED", f"{name} should be honestly BLOCKED, not {by_item[name].status}"
     assert sum(1 for it in items if it.status == "FAIL") == 0
@@ -158,6 +220,13 @@ def test_tournament_info_json_has_required_official_fields_and_no_fabricated_hol
     assert "hole_by_hole_table" not in data
     assert set(data["official_key_holes_as_described"]["par5"]) == {3, 9, 13, 15}
     assert data["official_key_holes_as_described"]["par3"] == [17]
+    assert data["field_size"] == 108
+    assert data["rounds_scheduled"] == 4
+    assert data["holes_total"] == 72
+    assert data["cut_rule"] == "after R2, top 60 and ties advance to R3"
+    assert "2023100002" in data["historical_identity"]["note"]
+    assert "2024100009" in data["historical_identity"]["note"]
+    assert "2025100001" in data["historical_identity"]["note"]
 
 
 def test_official_schedule_has_2026100004_entry_sourced_correctly():

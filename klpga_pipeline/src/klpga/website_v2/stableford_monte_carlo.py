@@ -2,14 +2,25 @@
 YET. Status: BLOCKED, and gated behind stableford_backtest passing first
 (per the explicit build instruction: "검증 PASS 후에만 실행").
 
-Required, none of which has been obtained this turn:
-  1. The full official entry list for 2026100004 (field size, pairings) --
-     not relayed; only tournament-level facts (dates/course/purse/scoring
-     table) were given.
+RESOLVED this turn: field size = 108 (OBSERVED, user relay, KLPGA current
+main site + official tournament homepage both agreeing), format = 4
+rounds / 72 holes, cut = top 60 and ties after R2 (see
+2026100004_TOURNAMENT_INFO.json). MIN_FIELD_SIZE below (90) is now known
+to be satisfied by the real field -- but the field COUNT being known does
+not mean the field ROSTER is known; entry_list still needs the actual 108
+names/codes, not just a number.
+
+Still required, none of which has been obtained this turn:
+  1. The full official entry list for 2026100004 (108 names/codes,
+     pairings) -- the count is now confirmed, the roster itself is not.
   2. Per-player Eagle/Birdie/Par/Bogey/Double+ rates for the current
      season, ideally split by par-3/par-4/par-5, plus recent-5/recent-10
      trend -- this is mainRecord-level granularity that has never been
-     available on this branch or klpga-tournament-data-collection-k47i28.
+     available on this branch or klpga-tournament-data-collection-k47i28,
+     and is structurally blocked for Modified Stableford tournaments
+     specifically -- see stableford_backtest.py's docstring: this repo's
+     own roundLeaderboard collector was live-confirmed to return zero
+     player rows for every known Modified Stableford gameCode.
   3. A PASSED stableford_backtest run (see that module) establishing the
      outcome-rate -> Stableford-points model is calibrated at all, before
      spending any simulation budget on it.

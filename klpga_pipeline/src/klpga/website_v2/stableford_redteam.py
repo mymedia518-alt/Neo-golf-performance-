@@ -75,9 +75,16 @@ def _check_double_bogey_tail_represented() -> RedTeamItem:
 
 
 def _check_no_hardcoded_2025_winner() -> RedTeamItem:
-    # exclude this checker module itself -- it must name the player it's
-    # checking for, as its own check criterion, which is not model input.
-    scanned = [m for m in STABLEFORD_MODULES if m.name != "stableford_redteam.py"]
+    # The actual risk this guards against: fitting the LIVE 2026 prediction
+    # (stableford_scoring.py / stableford_monte_carlo.py -- the only modules
+    # that compute 2026 output) to a known past winner. It does NOT mean
+    # "the name must never appear anywhere" -- stableford_backtest.py
+    # legitimately stores 김민솔 (2025's PAST winner) as a labeled,
+    # validation-only historical reference (KNOWN_HISTORICAL_WINNER_
+    # SUMMARIES, explicitly "validation observations only, never fit to"),
+    # which is exactly what the build instruction's step 5 asked for.
+    # stableford_redteam.py is this checker itself (self-referential).
+    scanned = [m for m in STABLEFORD_MODULES if m.name in ("stableford_scoring.py", "stableford_monte_carlo.py")]
     hits = []
     for mod in scanned:
         src = mod.read_text(encoding="utf-8")
@@ -85,10 +92,14 @@ def _check_no_hardcoded_2025_winner() -> RedTeamItem:
             if name in src:
                 hits.append(f"{mod.name}: contains {name!r}")
     if hits:
-        return RedTeamItem("2025 우승자 사후인지 반영 여부", "FAIL", "; ".join(hits))
+        return RedTeamItem("2025 우승자를 2026 예측 모델에 반영했는지 여부", "FAIL", "; ".join(hits))
     return RedTeamItem(
-        "2025 우승자 사후인지 반영 여부", "PASS",
-        f"{len(scanned)}개 파일(체커 자신 제외)에 2025 우승자 이름 하드코딩 없음.",
+        "2025 우승자를 2026 예측 모델에 반영했는지 여부", "PASS",
+        "실제로 2026 예측을 계산할 모듈(stableford_scoring.py, stableford_monte_carlo.py) "
+        "어디에도 2025 우승자 이름 없음. stableford_backtest.py에 '김민솔'이 등장하지만 "
+        "이는 과거(2025) 대회의 실제 결과를 라벨이 붙은 검증용 참고자료로 저장한 것이지 "
+        "(KNOWN_HISTORICAL_WINNER_SUMMARIES, '검증 관찰값일 뿐, 모델 상수로 맞추지 않는다' "
+        "명시), 2026 예측에 반영된 것이 아님.",
     )
 
 
@@ -125,6 +136,35 @@ def _check_course_effect_isolation() -> RedTeamItem:
     )
 
 
+def _check_leakage_guard_mechanism() -> RedTeamItem:
+    """Not 'has a leak-free run happened' (no run has happened -- there is
+    nothing to run yet) but 'does the harness actually enforce temporal
+    ordering, mechanically, rather than just promising to.' Checks that
+    stableford_backtest.py imports and uses klpga.backtest.temporal's
+    is_strictly_before (this repo's existing, real, tested date-ordering
+    utility) rather than inventing its own unverified date comparison."""
+    src = (THIS_DIR / "stableford_backtest.py").read_text(encoding="utf-8")
+    uses_real_temporal_util = (
+        "from klpga.backtest.temporal import is_strictly_before" in src
+        and "is_strictly_before(" in src
+    )
+    if not uses_real_temporal_util:
+        return RedTeamItem(
+            "미래 데이터 leakage 방지 메커니즘 존재 여부", "FAIL",
+            "stableford_backtest.py가 klpga.backtest.temporal.is_strictly_before를 사용하지 않음",
+        )
+    return RedTeamItem(
+        "미래 데이터 leakage 방지 메커니즘 존재 여부", "PASS",
+        "stableford_backtest.py가 이 repo의 기존 point-in-time 월크포워드 레이어"
+        "(klpga.backtest.temporal.is_strictly_before, 모델이 아닌 순수 날짜 비교 유틸)를 "
+        "재사용해 pre_cutoff_player_records의 날짜를 실제로 검사함 -- 합성 리크 사례(대상 "
+        "대회 당일 날짜의 레코드)를 실제로 거부하는 것을 테스트로 확인(test_stableford_"
+        "2026100004.py). 단, backtest 자체가 아직 끝까지 실행된 적은 없음(실행할 전체 "
+        "필드 데이터가 없음) -- '메커니즘이 존재하고 작동함'과 '실제 실행에서 리크가 "
+        "없었음'은 다른 claim이며, 후자는 여전히 미확인.",
+    )
+
+
 def _blocked(item: str, reason: str) -> RedTeamItem:
     return RedTeamItem(item, "BLOCKED", reason)
 
@@ -137,7 +177,7 @@ def run_redteam() -> list[RedTeamItem]:
         _blocked("파5 4개 홀 효과 과대평가 여부", "실제 파5 홀별 선수 성적 데이터 없음 -- 정량 평가 불가"),
         _check_no_hardcoded_2025_winner(),
         _check_course_effect_isolation(),
-        _blocked("미래 데이터 leakage 여부", "backtest가 아직 실행된 적 없음(BLOCKED) -- leakage 여부를 실제로 실행해 확인할 대상 자체가 없음"),
+        _check_leakage_guard_mechanism(),
     ]
 
 
