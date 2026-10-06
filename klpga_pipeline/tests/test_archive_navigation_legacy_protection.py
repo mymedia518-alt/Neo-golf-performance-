@@ -188,6 +188,33 @@ PUBLIC_TERM_DENYLIST = [
 ]
 
 
+# 2026100005/deep-dive/ visibly discloses "더미 성적 데이터 · 레이아웃 미리보기"
+# (dummy performance data / layout preview) next to several of its course-fit
+# stat callouts, and "더미 데이터" once in its page-head badge -- this is an
+# HONEST disclosure (not jargon to hide) and must stay exactly where it is,
+# confined to that one still-excluded-from-navigation page. If it ever shows
+# up anywhere else, that's either leaked fake data on a real page or a
+# mislabeled real page -- either way a real bug, not a term to silently allow.
+HONEST_MOCK_DISCLOSURE_TERMS = ["더미"]
+HONEST_MOCK_DISCLOSURE_ALLOWED_PAGE = DOCS / "tournaments" / "2026" / "2026100005" / "deep-dive" / "index.html"
+
+
+@pytest.mark.skipif(not HAVE_BS4, reason="beautifulsoup4 not installed")
+def test_dummy_data_disclosure_confined_to_the_known_mock_page_only():
+    for page in _all_public_tournament_pages():
+        html = page.read_text(encoding="utf-8")
+        soup = BeautifulSoup(html, "html.parser")
+        for tag in soup(["script", "style"]):
+            tag.decompose()
+        text = soup.get_text(" ")
+        for term in HONEST_MOCK_DISCLOSURE_TERMS:
+            found = term in text
+            if page == HONEST_MOCK_DISCLOSURE_ALLOWED_PAGE:
+                assert found, f"expected honest '{term}' disclosure missing from {page} -- do not silently remove it"
+            else:
+                assert not found, f"'{term}' (dummy-data disclosure) leaked onto {page} -- real page mislabeled, or fake data copied in"
+
+
 def _all_public_tournament_pages():
     pages = [DOCS / "index.html", DOCS / "tournaments" / "index.html"]
     pages.append(DOCS / "tournaments" / "2026" / "2026100004" / "index.html")
@@ -200,19 +227,17 @@ def _all_public_tournament_pages():
 
 @pytest.mark.skipif(not HAVE_BS4, reason="beautifulsoup4 not installed")
 def test_public_term_audit_zero_hits_in_visible_text():
-    """Visible-text-only scan (script/style stripped) across every public
-    tournament page actually reachable by click-through, for internal
-    dev/model terms a reader never needs to see. Known, deliberately
-    out-of-scope exception: 2026100005/deep-dive/ -- it self-flags as mock
-    data, is excluded from the archive's click-through reachability by
-    test_hitejinro_deep_dive_mock_page_excluded_from_archive_despite_existing_on_disk,
-    and is left untouched (legacy content) rather than polished, since its
-    underlying content isn't real analysis to begin with."""
-    excluded = {DOCS / "tournaments" / "2026" / "2026100005" / "deep-dive" / "index.html"}
+    """Visible-text-only scan (script/style stripped) across EVERY public
+    tournament page, for internal dev/model terms a reader never needs to
+    see -- including 2026100005/deep-dive/, whose own 'DATA QUALITY'/PASSx3
+    block was cleaned up to reader language ('자료 안내'/'확인 완료'). The page
+    stays excluded from archive click-through reachability regardless (see
+    test_hitejinro_deep_dive_mock_page_excluded_from_archive_despite_existing_on_disk)
+    because it is still substantively mock content (neo-mock-data=true) --
+    this test only proves the jargon-term denylist is clean everywhere,
+    it does not claim the page is ready for navigation."""
     hits = []
     for page in _all_public_tournament_pages():
-        if page in excluded:
-            continue
         html = page.read_text(encoding="utf-8")
         soup = BeautifulSoup(html, "html.parser")
         for tag in soup(["script", "style"]):

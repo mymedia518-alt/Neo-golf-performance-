@@ -1,5 +1,5 @@
 {
-  "_comment": "Legacy-protection manifest for the archive-navigation feature. Every file listed here must stay byte-identical sha256. v2 (OK RESTORE + LANGUAGE CLEANUP turn): OK저축은행 읏맨 오픈 and 제15회 KG 레이디스 오픈 were restored from docs_internal_archive/ (the pre-2026-09-09-lockdown real NEO record, preserved byte-for-byte by commit ecf507d0) -- their real hashes now join this manifest as the new protected baseline. 하나금융/KB금융/하이트진로/docs/assets/docs/about are unchanged from v1. Regenerate only via explicit, reviewed intent to change legacy tournament content -- never to silence a failing test.",
+  "_comment": "Legacy-protection manifest for the archive-navigation feature. Every file listed here must stay byte-identical sha256. v3 (deep-dive internal-label cleanup turn): 2026100005/deep-dive/index.html's visible 'DATA QUALITY'/'PASS'x3 block was explicitly rewritten to reader language ('자료 안내'/'확인 완료') per direct user instruction -- this is the one authorized exception to 'never edit legacy', scoped to that single <section id=data-quality> block; verified via diff that nothing else in the file changed. The page remains neo-mock-data=true / neo-stage-publication-ready=false and stays excluded from all archive navigation regardless. v2's OK/KG restored hashes and v1's KB/하나/하이트진로(other files)/assets/about hashes are otherwise unchanged. Regenerate only via explicit, reviewed intent to change legacy tournament content -- never to silence a failing test.",
   "files": {
     "docs/tournaments/2026/2026090002/final/index.html": "1233f50c78ce8256b93ddad94d845e13664757de4e02f3ffee73fb1142859ee1",
     "docs/tournaments/2026/2026090002/pre/index.html": "067e60b6b4dbb147bf191d8992f34ee321dbaefd9442aa5d1319a4d6f7a75145",
@@ -13,7 +13,7 @@
     "docs/tournaments/2026/2026090003/r2/index.html": "26a8900f39a21e72ef1bf1c3af70a01d70452ef3f70c15e16894614ffb7c77c0",
     "docs/tournaments/2026/2026090003/r3/index.html": "24f647040231d89c98c4b31e703d51a181f0c59e0a246683b9dd4ea38df6843b",
     "docs/tournaments/2026/2026100005/course-analysis/index.html": "d35553a3409cdfcb0d208b515ec06cf62ab0151094d24348eb7876aacba09a5c",
-    "docs/tournaments/2026/2026100005/deep-dive/index.html": "a8a6ead116d2664bbc73e051a72e44ecd34f87522d16d6aad16003e517c9c4e3",
+    "docs/tournaments/2026/2026100005/deep-dive/index.html": "192016fb94945c856bace2ead182ad8456748ffcf6967851b11eaf8b9cde0d42",
     "docs/tournaments/2026/2026100005/fr/index.html": "e71d528cac6b6531fa678ff06412c851eda0627ef39a70a64c82f106310247c3",
     "docs/tournaments/2026/2026100005/pre/index.html": "12bfa9e46dc6481e97a5a3486c358a9b7188092ab027861144241690274e6104",
     "docs/tournaments/2026/2026100005/r1/index.html": "5b599641b879d399eef4ca09729105a5b14fa17f2230b09c8a96c7156a7073b2",

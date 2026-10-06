@@ -90,11 +90,30 @@ Archive 카드 이름 링크는 `final`(완결된 실제 결과)로 연결.
 유일한 파일(다른 모든 `neo-stage-publication-ready` 파일은 전부 `true`, mock 플래그 없음).
 "DATA QUALITY / 수집 PASS / 검증 PASS / 라운드 PASS" 같은 내부 QA 라벨도 그대로 노출돼 있었다.
 
-**조치**: 이 파일 자체는 전혀 건드리지 않았다(실제 분석이 아니므로 카피 정리 대상도 아님).
-대신 archive 카드의 "딥 다이브" 스테이지 링크에서 **제외**해 click-through로 도달 불가능하게
-했다 — `real_stages()`에 `neo-mock-data`/`neo-stage-publication-ready=false` 가드 추가.
-(기존에도 하이트진로의 다른 실제 페이지들에서 이 경로로 들어가는 링크는 없었다 — 이번에 새로
-노출시킨 적도 없다.)
+**1차 조치(지난 턴)**: 파일 자체는 건드리지 않고, archive 카드의 "딥 다이브" 스테이지 링크에서
+제외해 click-through로 도달 불가능하게 했다.
+
+**2차 조치(이번 턴, 사용자 지시)**: "Do not stop at the HiteJinro deep-dive leak" 지시에 따라
+이 파일의 "DATA QUALITY / PASS / PASS / PASS" 블록을 실제로 정리했다.
+
+- `<h2>DATA QUALITY</h2>` → `<h2>자료 안내</h2>`
+- "수집/검증/라운드" 3개 값 `PASS` → `확인 완료`
+- "출처: KLPGA", "플레이어: 107/107"은 원래부터 독자 언어였으므로 미변경
+- 변경은 이 `<section id="data-quality">` 블록 4곳의 텍스트뿐임을 `difflib`으로 재확인
+  (`DATA QUALITY`→`자료 안내`, `PASS`→`확인 완료` ×3 — 그 외 바이트 0건 변경)
+
+**추가로 발견한 더 심각한 문제**: 같은 페이지에 `더미 성적 데이터 · 레이아웃 미리보기`,
+`레이아웃 미리보기 — 더미 데이터 (6번홀 코스 정보/영상은 실제)`라는 **시각적으로 노출된
+한글 문구**가 8곳 있다 — 영문 금지어 목록(PASS/FAIL/...)에는 없었지만 더 직접적으로
+"이 페이지의 수치는 가짜"라고 선언하는 내용이다. 이것은 **정직한 공개(disclosure)**이지
+숨겨야 할 내부 은어가 아니므로 **제거하지 않았다** — 지우면 가짜 수치를 진짜처럼 보이게
+만드는 결과가 되어 이 프로젝트 전체의 "허구 데이터를 진짜처럼 보이지 않게 한다" 원칙에
+정반대로 위배된다. 대신:
+- 이 페이지는 **계속 archive 어디에서도 링크되지 않는다**(click-through로 도달 불가 유지).
+- `klpga_pipeline/tests/test_archive_navigation_legacy_protection.py`에
+  `test_dummy_data_disclosure_confined_to_the_known_mock_page_only`를 추가 —
+  "더미"라는 단어가 이 한 파일에만 존재하고 다른 어떤 공개 페이지에도 나타나지 않음을
+  회귀 테스트로 고정(다른 페이지에 나타나면 진짜 버그로 잡아낸다).
 
 ---
 
@@ -165,24 +184,30 @@ PROTECTION: VISIBLE COPY ONLY")상 레이아웃/CSS 수정은 범위 밖이라 *
 
 ## 10. 테스트
 
-`klpga_pipeline/tests/test_archive_navigation_legacy_protection.py` — **59/59 PASS**
-(기존 56 + 신규 3: mock-data 제외 확인, HJ/HOME 독자 언어 확인, 공개 용어 audit).
+`klpga_pipeline/tests/test_archive_navigation_legacy_protection.py` — **60/60 PASS**
+(이전 59 + 신규 1: "더미" 공개가 하이트진로 딥다이브 한 파일에만 있고 다른 어떤 공개
+페이지에도 없음을 고정하는 회귀 테스트).
 
 ---
 
 ```
-[NEO TOURNAMENT ARCHIVE — OK RESTORE + LANGUAGE CLEANUP — RESULT]
+[NEO TOURNAMENT ARCHIVE — OK RESTORE + LANGUAGE CLEANUP — RESULT, v2]
 
 OK 발견 위치: docs_internal_archive/tournaments/2026/ok-savings-bank-open/
 OK 원본 commit: ecf507d0 (lockdown, 보존) / build-source dc451190
 복원 stages: PRE, R1, R2, R3 (FINAL 제외 -- 실제로 없었음, "아직 시작 전" 그대로)
 KG 조사 결과: 정정 -- 실제 분석 존재(docs_internal_archive), 전부 복원(PRE/R1/R2/R3/FINAL)
 archive 최종 목록: 5개 전부 동등한 실제 기록 카드
-내부 용어 audit: 0건 (mock 페이지 1개는 click-through에서 제외, 파일 자체 미수정)
-공개 표현 변경: HOME + HJ scaffold의 locked-state 안내문 2곳
-데이터/확률/순위/결과 diff: 0 (KB/하나/하이트진로 미수정, OK/KG 바이트 단위 복원)
+하이트진로 딥다이브 "DATA QUALITY/PASS×3": 이번 턴에 "자료 안내"/"확인 완료"로 정리
+  (difflib으로 이 4곳 텍스트만 변경됐음을 재확인, 그 외 0바이트)
+하이트진로 딥다이브 "더미 데이터" 공개: 의도적으로 유지(정직한 고지, 삭제 시 가짜
+  수치가 진짜처럼 보임) -- 이 페이지는 여전히 archive 어디서도 링크되지 않음,
+  "더미" 단어가 이 1개 파일에만 있음을 회귀 테스트로 고정
+내부 용어(PASS/FAIL/HOLD/LOCK/...) audit: 0건, 전체 공개 페이지 전수(딥다이브 포함)
+공개 표현 변경: HOME + HJ scaffold locked-state 안내문 2곳 + 딥다이브 DATA QUALITY 블록
+데이터/확률/순위/결과 diff: 0 (KB/하나/OK/KG 전부 미변경, 딥다이브는 라벨 4곳만)
 click-through QA: 176/176 PASS (1440x900 + 390x844)
-tests: 59/59 PASS
+tests: 60/60 PASS
 알려진 기존 이슈: KG 3개 페이지 모바일 overflow (레거시, 미수정, 보고만 함)
 DEPLOY: HOLD
 ```
