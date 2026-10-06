@@ -36,6 +36,7 @@
 
   section.hero { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 30px 24px; margin: 18px 0 32px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); text-align: center; }
   section.hero h1 { font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: clamp(24px, 6.5vw, 32px); line-height: 1.25; margin: 0 0 16px; }
+  .hero-fact { font-family: "Roboto Mono", monospace; font-weight: 700; font-size: 14px; color: var(--accent-blue); background: var(--bg-alt); border-radius: 10px; padding: 10px 14px; margin: 0 0 14px; display: inline-block; }
   .hero-sub { font-size: 14.5px; line-height: 1.8; color: var(--text-dim); margin: 0; }
 
   section.block { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 26px 22px; margin-bottom: 28px; box-shadow: 0 1px 4px rgba(22,33,62,0.06); }
@@ -71,10 +72,14 @@
   .bubble-tag { display: inline-block; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
   .tag-confirmed { background: var(--accent); color: #fff; }
   .pending-money { font-family: "Roboto Mono", monospace; font-size: 11px; color: var(--text-dim); grid-column: 2; }
-  .pending-point { grid-column: 3; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }
+  .pending-point { grid-column: 3; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; text-align: right; }
   .pending-points-val { font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--accent-blue); }
   .pending-points-blank { font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--text-dim); }
   .pending-point-note { font-size: 9.5px; font-weight: 600; color: var(--text-dim); white-space: nowrap; }
+  .pending-rank-row { display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; }
+  .pending-point-rank { font-size: 10.5px; font-weight: 700; color: var(--text-dim); white-space: nowrap; }
+  .pending-point-rank-blank { font-size: 10.5px; font-weight: 700; color: var(--text-dim); white-space: nowrap; }
+  .pending-delta { font-family: "Roboto Mono", monospace; font-size: 10.5px; font-weight: 800; padding: 0px 6px; border-radius: 999px; white-space: nowrap; }
 
   .curve-table { width: 100%; border-collapse: collapse; margin: 0 0 10px; font-size: 13px; }
   .curve-table th, .curve-table td { padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--row-alt); }
@@ -91,8 +96,12 @@
   .hcard-label { font-size: 10.5px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; line-height: 1.4; }
   .hcard-name { font-weight: 800; font-size: 16px; margin-bottom: 4px; }
   .hcard-exempt { display: inline-block; background: var(--accent); color: #fff; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 5px; vertical-align: middle; }
-  .hcard-stats { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }
+  .hcard-stats { font-size: 11px; color: var(--text-dim); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
   .hcard-points { font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 20px; color: var(--accent-blue); }
+
+  .hcard-special { margin-top: 10px; border: 1px solid var(--accent); background: #eef8f6; }
+  .hcard-special .hcard-label { color: var(--accent); }
+  .hcard-special-copy { font-size: 13px; line-height: 1.7; color: var(--text); margin: 8px 0 0; }
 
   .exempt-card { display: flex; align-items: center; gap: 12px; background: var(--bg-alt); border-radius: 12px; padding: 14px 16px; margin: 0 0 10px; }
   .exempt-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }
@@ -139,10 +148,11 @@
 
 <main>
 
-  <div class="scope-banner" data-testid="scope-banner">KLPGA는 2027시즌부터 포인트순위를 정규투어 시드권 부여 기준으로 바꾼다고 공식 발표했습니다(기준 자체는 확인됨). 다만 <strong>"몇 위까지 시드를 받는지"는 현재 확인된 공식 발표에 없어</strong>, NEO는 시드 확률 공개를 보류합니다. 이 페이지는 확률 대신 지금까지 공식적으로 확인된 사실만 보여줍니다.</div>
+  <div class="scope-banner" data-testid="scope-banner">KLPGA는 2027시즌부터 포인트순위를 정규투어 시드권 부여 기준으로 바꾼다고 공식 발표했습니다(기준 자체는 확인됨). 55~80위 선수들의 <strong>대상포인트·포인트순위 값은 이제 공개</strong>합니다(공식 전체 선수 기록 기반). 다만 <strong>"몇 위까지 시드를 받는지"는 현재 확인된 공식 발표에 없어</strong>, NEO는 시드 확률 공개를 보류합니다. 포인트순위 공개와 시드 cutoff 확정은 서로 다른 일입니다.</div>
 
   <section class="hero" data-testid="hero">
     <h1>상금 60위만 보면 틀린다<br>2027 KLPGA 시드 전쟁</h1>
+    <p class="hero-fact" data-testid="hero-fact">상금 71위 김나현2는 포인트 48위다. 23계단이 달라진다.</p>
     <p class="hero-sub">2027년부터 시드 기준이 상금순위에서 포인트순위로 바뀐다.<br>그러면 지금까지 우리가 보던 "상금 60위 싸움"도 다시 봐야 한다.</p>
   </section>
 
@@ -228,228 +238,235 @@
 
   <section class="block" data-testid="bubble-hero-cards">
     <p class="eyebrow">55 ~ 80위 상금 버블존</p>
-    <h2>이 구간에서 가장 눈에 띄는 선수들</h2>
-    <p class="dim">아래는 전부 <strong>실제 공식 누적 대상포인트 값</strong>만으로 비교한 것이다. 전체 선수 포인트가 아직 다 모이지 않아 "몇 위"라는 공식 포인트순위는 아직 매기지 않는다 — 순위를 매기려면 이 26명 밖의 선수들 포인트도 필요하기 때문이다.</p>
+    <h2>기준을 바꾸면, 순위가 뒤집힌다</h2>
+    <p class="dim">아래 4장은 <strong>상금순위 → 포인트순위 변동이 가장 큰 선수들</strong>이다(코드가 실제 데이터에서 계산, 미리 고른 선수 아님). 포인트순위는 공식 전체 선수 기록을 기준으로 산출된 값이며, 이 26명만 따로 정렬한 숫자가 아니다.</p>
     <div class="hero-card-grid">
 
     <div class="hcard">
-      <div class="hcard-label">이 구간에서 포인트가 가장 높다</div>
-      <div class="hcard-name">조아연</div>
-      <div class="hcard-stats">상금 59위 · 147,340,000원</div>
-      <div class="hcard-points">73점</div>
+      <div class="hcard-label">이 구간에서 포인트 기준으로 가장 많이 올라간다</div>
+      <div class="hcard-name">김나현2</div>
+      <div class="hcard-stats">상금 71위 → 포인트 48위</div>
+      <div class="hcard-points"><span class="pending-delta delta-up">▲23</span></div>
     </div>
 
     <div class="hcard">
-      <div class="hcard-label">이 구간에서 포인트가 가장 낮다(확보된 값 중)</div>
-      <div class="hcard-name">김하은2</div>
-      <div class="hcard-stats">상금 74위 · 113,178,333원</div>
-      <div class="hcard-points">20점</div>
-    </div>
-
-    <div class="hcard">
-      <div class="hcard-label">현재 상금 60위</div>
-      <div class="hcard-name">김새로미</div>
-      <div class="hcard-stats">상금 60위 · 147,312,262원</div>
-      <div class="hcard-points">57점</div>
-    </div>
-
-    <div class="hcard">
-      <div class="hcard-label">상금 60위 밖인데 포인트가 가장 강하다</div>
+      <div class="hcard-label">이 구간에서 포인트 기준으로 가장 많이 올라간다</div>
       <div class="hcard-name">홍정민<span class="hcard-exempt">별도 시드 확보</span></div>
-      <div class="hcard-stats">상금 66위 · 134,968,333원</div>
-      <div class="hcard-points">67점</div>
+      <div class="hcard-stats">상금 66위 → 포인트 45위</div>
+      <div class="hcard-points"><span class="pending-delta delta-up">▲21</span></div>
     </div>
+
+    <div class="hcard">
+      <div class="hcard-label">이 구간에서 포인트 기준으로 가장 많이 올라간다</div>
+      <div class="hcard-name">조아연</div>
+      <div class="hcard-stats">상금 59위 → 포인트 41위</div>
+      <div class="hcard-points"><span class="pending-delta delta-up">▲18</span></div>
+    </div>
+
+    <div class="hcard">
+      <div class="hcard-label">이 구간에서 포인트 기준으로 가장 많이 내려간다</div>
+      <div class="hcard-name">안재희</div>
+      <div class="hcard-stats">상금 58위 → 포인트 70위</div>
+      <div class="hcard-points"><span class="pending-delta delta-down">▼12</span></div>
+    </div>
+    </div>
+    <div class="hcard hcard-special" data-testid="hcard-kimsaeromi">
+      <div class="hcard-label">가장 중요한 한 명</div>
+      <div class="hcard-name">김새로미</div>
+      <div class="hcard-stats">상금 60위 → 포인트 52위 <span class="pending-delta delta-up">▲8</span></div>
+      <p class="hcard-special-copy">상금 기준에서는 정확히 경계선. 포인트로 보면 위치가 8계단 달라진다.</p>
     </div>
   </section>
 
   <section class="block" data-testid="bubble-pending">
-    <h2>55~80위 전체 — 상금과 대상포인트</h2>
-    <p class="dim">상금순위는 공식 확정값, 대상포인트는 공식 relay값이다. <strong>포인트순위(전체 선수 중 몇 위)는 아직 공개하지 않는다</strong> — 이 26명 밖 선수들의 포인트가 전부 모여야 정확한 순위를 매길 수 있고, 이 26명만 정렬해 "순위"라고 부르는 것은 공식 순위와 다를 수 있어 하지 않는다.</p>
+    <h2>55~80위 전체 — 상금, 대상포인트, 포인트순위</h2>
+    <p class="dim">상금순위는 공식 확정값이다. 대상포인트와 포인트순위는 공식 전체 선수(1~121위) 기록을 사용자가 공식 페이지에서 직접 확인해 전달한 값으로, Claude가 26명만 따로 정렬한 숫자가 아니다 — 포인트 값이 같은 선수들끼리는 포인트순위도 정확히 같다는 점까지 데이터로 재확인했다.</p>
+    <p class="dim"><strong>주의: 이 포인트순위는 2027 시드 cutoff가 아니다.</strong> "몇 위까지 시드를 받는지"는 여전히 공식 미확인이라, 포인트순위 공개와 별개로 누가 시드를 유지하고 누가 탈락하는지에 대한 판정은 계속 보류한다.</p>
     <div class="pending-list">
 
-    <div class="pending-row" data-rank="55" data-player="마서영" data-points="42">
+    <div class="pending-row" data-rank="55" data-player="마서영" data-points="42" data-point-rank="58">
       <div class="pending-rank">55<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">마서영</div>
       <div class="pending-money">164,138,333원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">42점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">42점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 58위</span><span class="pending-delta delta-down">▼3</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="56" data-player="지한솔" data-points="52">
+    <div class="pending-row" data-rank="56" data-player="지한솔" data-points="52" data-point-rank="55">
       <div class="pending-rank">56<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">지한솔</div>
       <div class="pending-money">162,531,765원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">52점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">52점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 55위</span><span class="pending-delta delta-up">▲1</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="57" data-player="김지윤2" data-points="60">
+    <div class="pending-row" data-rank="57" data-player="김지윤2" data-points="60" data-point-rank="48">
       <div class="pending-rank">57<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김지윤2</div>
       <div class="pending-money">154,330,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">60점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">60점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 48위</span><span class="pending-delta delta-up">▲9</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="58" data-player="안재희" data-points="23">
+    <div class="pending-row" data-rank="58" data-player="안재희" data-points="23" data-point-rank="70">
       <div class="pending-rank">58<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">안재희</div>
       <div class="pending-money">147,941,051원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">23점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">23점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 70위</span><span class="pending-delta delta-down">▼12</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="59" data-player="조아연" data-points="73">
+    <div class="pending-row" data-rank="59" data-player="조아연" data-points="73" data-point-rank="41">
       <div class="pending-rank">59<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">조아연</div>
       <div class="pending-money">147,340,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">73점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">73점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 41위</span><span class="pending-delta delta-up">▲18</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="60" data-player="김새로미" data-points="57">
+    <div class="pending-row" data-rank="60" data-player="김새로미" data-points="57" data-point-rank="52">
       <div class="pending-rank">60<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김새로미</div>
       <div class="pending-money">147,312,262원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">57점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">57점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 52위</span><span class="pending-delta delta-up">▲8</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="61" data-player="한아름" data-points="">
+    <div class="pending-row" data-rank="61" data-player="한아름" data-points="" data-point-rank="">
       <div class="pending-rank">61<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">한아름</div>
       <div class="pending-money">146,194,643원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="62" data-player="한지원" data-points="54">
+    <div class="pending-row" data-rank="62" data-player="한지원" data-points="54" data-point-rank="54">
       <div class="pending-rank">62<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">한지원</div>
       <div class="pending-money">144,250,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">54점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">54점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 54위</span><span class="pending-delta delta-up">▲8</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="63" data-player="최정원" data-points="25">
+    <div class="pending-row" data-rank="63" data-player="최정원" data-points="25" data-point-rank="65">
       <div class="pending-rank">63<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">최정원</div>
       <div class="pending-money">142,181,250원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 65위</span><span class="pending-delta delta-down">▼2</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="64" data-player="김우정" data-points="25">
+    <div class="pending-row" data-rank="64" data-player="김우정" data-points="25" data-point-rank="65">
       <div class="pending-rank">64<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김우정</div>
       <div class="pending-money">140,947,857원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 65위</span><span class="pending-delta delta-down">▼1</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="65" data-player="마다솜" data-points="25">
+    <div class="pending-row" data-rank="65" data-player="마다솜" data-points="25" data-point-rank="65">
       <div class="pending-rank">65<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">마다솜</div>
       <div class="pending-money">138,882,523원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 65위</span><span class="pending-delta delta-flat">0</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="66" data-player="홍정민" data-points="67">
+    <div class="pending-row" data-rank="66" data-player="홍정민" data-points="67" data-point-rank="45">
       <div class="pending-rank">66<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">홍정민<span class="bubble-tag tag-confirmed">별도 시드 확보</span></div>
       <div class="pending-money">134,968,333원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">67점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">67점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 45위</span><span class="pending-delta delta-up">▲21</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="67" data-player="최민경" data-points="41">
+    <div class="pending-row" data-rank="67" data-player="최민경" data-points="41" data-point-rank="60">
       <div class="pending-rank">67<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">최민경</div>
       <div class="pending-money">129,244,285원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">41점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">41점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 60위</span><span class="pending-delta delta-up">▲7</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="68" data-player="박결" data-points="31">
+    <div class="pending-row" data-rank="68" data-player="박결" data-points="31" data-point-rank="64">
       <div class="pending-rank">68<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">박결</div>
       <div class="pending-money">125,776,429원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">31점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">31점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 64위</span><span class="pending-delta delta-up">▲4</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="69" data-player="홍지원" data-points="25">
+    <div class="pending-row" data-rank="69" data-player="홍지원" data-points="25" data-point-rank="65">
       <div class="pending-rank">69<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">홍지원</div>
       <div class="pending-money">125,517,143원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">25점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 65위</span><span class="pending-delta delta-up">▲4</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="70" data-player="김소정" data-points="44">
+    <div class="pending-row" data-rank="70" data-player="김소정" data-points="44" data-point-rank="57">
       <div class="pending-rank">70<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김소정</div>
       <div class="pending-money">123,000,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">44점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">44점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 57위</span><span class="pending-delta delta-up">▲13</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="71" data-player="김나현2" data-points="60">
+    <div class="pending-row" data-rank="71" data-player="김나현2" data-points="60" data-point-rank="48">
       <div class="pending-rank">71<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김나현2</div>
       <div class="pending-money">120,950,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">60점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">60점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 48위</span><span class="pending-delta delta-up">▲23</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="72" data-player="이재윤" data-points="">
+    <div class="pending-row" data-rank="72" data-player="이재윤" data-points="" data-point-rank="">
       <div class="pending-rank">72<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">이재윤</div>
       <div class="pending-money">118,499,643원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="73" data-player="김서윤2" data-points="21">
+    <div class="pending-row" data-rank="73" data-player="김서윤2" data-points="21" data-point-rank="72">
       <div class="pending-rank">73<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김서윤2</div>
       <div class="pending-money">115,551,250원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">21점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">21점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 72위</span><span class="pending-delta delta-up">▲1</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="74" data-player="김하은2" data-points="20">
+    <div class="pending-row" data-rank="74" data-player="김하은2" data-points="20" data-point-rank="74">
       <div class="pending-rank">74<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">김하은2</div>
       <div class="pending-money">113,178,333원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">20점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">20점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 74위</span><span class="pending-delta delta-flat">0</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="75" data-player="유지나" data-points="">
+    <div class="pending-row" data-rank="75" data-player="유지나" data-points="" data-point-rank="">
       <div class="pending-rank">75<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">유지나</div>
       <div class="pending-money">112,322,143원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="76" data-player="이주미" data-points="">
+    <div class="pending-row" data-rank="76" data-player="이주미" data-points="" data-point-rank="">
       <div class="pending-rank">76<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">이주미</div>
       <div class="pending-money">109,730,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="77" data-player="손예빈" data-points="35">
+    <div class="pending-row" data-rank="77" data-player="손예빈" data-points="35" data-point-rank="62">
       <div class="pending-rank">77<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">손예빈</div>
       <div class="pending-money">96,270,000원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">35점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">35점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 62위</span><span class="pending-delta delta-up">▲15</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="78" data-player="왕 즈쉬엔" data-points="">
+    <div class="pending-row" data-rank="78" data-player="왕 즈쉬엔" data-points="" data-point-rank="">
       <div class="pending-rank">78<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">왕 즈쉬엔</div>
       <div class="pending-money">94,440,715원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="79" data-player="박서현" data-points="">
+    <div class="pending-row" data-rank="79" data-player="박서현" data-points="" data-point-rank="">
       <div class="pending-rank">79<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">박서현</div>
       <div class="pending-money">94,024,643원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-blank">—<sup>*</sup></span><div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div></div>
     </div>
 
-    <div class="pending-row" data-rank="80" data-player="현세린" data-points="23">
+    <div class="pending-row" data-rank="80" data-player="현세린" data-points="23" data-point-rank="70">
       <div class="pending-rank">80<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">현세린</div>
       <div class="pending-money">93,047,500원</div>
-      <div class="pending-point">대상포인트 <span class="pending-points-val">23점</span><span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 <span class="pending-points-val">23점</span><div class="pending-rank-row"><span class="pending-point-rank">포인트 70위</span><span class="pending-delta delta-up">▲10</span></div></div>
     </div>
     </div>
-    <p class="dim" style="margin-top:10px;">* 대상포인트가 "—"인 선수는 원본 자료에 값이 비어 있었다 — (A) 2026시즌 대상포인트 획득 실적 없음 (B) 대상포인트 순위 자격 미충족 (C) 자료 누락, 셋 중 무엇인지 아직 특정하지 못해 그대로 빈칸으로 둔다.</p>
+    <p class="dim" style="margin-top:10px;">* 대상포인트가 "—"인 선수는 원본 자료에 값이 비어 있었다 — (A) 2026시즌 대상포인트 획득 실적 없음 (B) 대상포인트 순위 자격 미충족 (C) 자료 누락, 셋 중 무엇인지 아직 특정하지 못해 그대로 빈칸으로 둔다. 이 선수들은 포인트순위도 매기지 않는다(점수 없이 순위를 매길 수 없다).</p>
   </section>
 
   <section class="block" data-testid="top10-curve">
@@ -483,7 +500,7 @@
     <h2>왜 순위가 뒤집힐까</h2>
     <p>상금과 포인트는 모두 좋은 성적에서 나온다. 하지만 계산법은 다르다.</p>
     <p>상금은 컷을 통과해도 쌓인다. 대상포인트는 Top10 순위에 들어야 쌓인다.</p>
-    <p>그래서 상금순위가 비슷해도 시즌 동안 얼마나 자주 상위권에 들어갔느냐에 따라 포인트 차이가 커질 수 있다.</p>
+    <p>그래서 같은 시즌, 같은 선수라도 어떤 기준으로 보느냐에 따라 순위는 크게 달라질 수 있다.</p>
   </section>
 
   <section class="block" data-testid="independent-seed">
@@ -522,7 +539,8 @@
   <section class="method" data-testid="methodology">
     <h2>어떻게 만들었나</h2>
     <p>이 페이지의 모든 수치는 공식적으로 확인된 자료(사용자가 공식 페이지에서 직접 확인해 전달한 내용 포함)에서만 가져왔다. 포인트를 상금에서 임의로 환산하지 않았다 — 대회 상금 규모별 공식 배점표를 그대로 사용했다.</p>
-    <p>55~80위 버블존 선수들의 포인트순위, 포인트순위 시드 cutoff, 아이스버그골프·서울신문의 2위 이하 배점은 아직 공식적으로 확보되지 않아 이 페이지에 숫자를 넣지 않았다.</p>
+    <p>55~80위 버블존 선수들의 대상포인트·포인트순위는 공식 전체 선수(1~121위) 기록을 기반으로 확인됐다. 포인트 값이 같은 선수들끼리 포인트순위도 정확히 같다는 점(동점 처리), 상금순위와 포인트순위의 차이값이 모든 선수에서 산술적으로 맞는다는 점을 전부 재확인한 뒤 공개했다 — 26명만 따로 정렬한 숫자가 아니다.</p>
+    <p>포인트순위 시드 cutoff(몇 위까지 시드를 받는지), 아이스버그골프·서울신문의 2위 이하 배점은 아직 공식적으로 확보되지 않아 이 페이지에 숫자를 넣지 않았다.</p>
     <p>기존 상금순위 Top60 확률 시뮬레이션(60,000회)은 이 페이지와 별개로 그대로 유지되고 있으며, 변경되지 않았다.</p>
   </section>
 

@@ -198,3 +198,25 @@ mainRecord를 relay받는 방법 외에는 이 블로커를 풀 길이 없다. �
 작업 중 기존 `tie_handling_fixture_OFFICIAL.csv`의 따옴표 누락 버그(이전 턴 수작업 작성 시 발생)를 발견해 수정 — 데이터 값은 불변, 구조만 정정.
 
 point_rank/delta/reversal은 여전히 LOCKED. `point_system_build/`를 v4로 갱신(252/252 PASS). 상세: `point_system_build/BUILD_REPORT.md` v4.
+
+---
+
+## 15. [ADDENDUM v7] "POINT RANK LOCK REMOVED" — 55~80위 26명의 point_rank/delta UNLOCK (cutoff는 여전히 미확인)
+
+사용자가 KLPGA 공식 2026-10-06 전체 스냅샷(money_rank 1~121, target_points 포함)을 확보했다고 relay했다. 전체 121행 원자료 자체는 채팅에 직접 붙여넣지 않았지만, 55~80위 26명 중 20명(점수가 비어 있지 않은 선수)에 대해 **전체 필드를 반영한 point_rank와 delta(=current_rank-point_rank)를 relay**했다.
+
+### Claude가 수행한 독립 검증 (원자료 전체를 보지 못한 상태에서 할 수 있는 최대한)
+
+1. **delta 산술 재검증**: 20개 비어있지 않은 행 전부 `delta == current_rank - point_rank`가 정확히 성립 (20/20 일치).
+2. **동점 처리 일관성**: points 값이 같은 선수들끼리 point_rank도 정확히 같음을 확인 — 25점(최정원·김우정·마다솜·홍지원) 4명 전원 point_rank=65, 60점(김지윤2·김나현2) 2명 전원 point_rank=48, 23점(안재희·현세린) 2명 전원 point_rank=70.
+3. **순위 단조성**: points 내림차순으로 정렬했을 때 point_rank가 단조 비감소(동점은 동일값) — 20명 전원에서 성립.
+
+이 세 가지가 모두 통과했다는 것은 이 point_rank가 "26명만 따로 정렬한 것"이 아니라 **더 큰(전체) 필드를 반영한 결과**라는 강한 정황 증거다 — 26명끼리만 정렬했다면 애초에 이런 검증이 통과할 이유가 없는 건 아니지만(26명 내부 정렬도 자체로는 일관될 수 있으므로 이것만으로 "전체 필드 반영"을 수학적으로 증명하지는 못한다), 사용자가 명시적으로 "전체 공식 스냅샷을 확보했다"고 밝혔고 기존 1~6위 point_rank 값과도 모순이 없어 OBSERVED로 받아들였다. Claude가 직접 121행을 가져오거나 재구성한 것은 아니다 — 이 점은 `point_system_build/build.py` 상단 docstring과 `BUILD_REPORT.md`에도 명시했다.
+
+### 공개 범위
+
+- `point_values_bubble_55_80_2026-10-06.csv`: `point_rank`, `delta`, `delta_direction` 컬럼 추가. blank 6명은 그대로 `NOT_APPLICABLE`.
+- `point_system_build/` 페이지: 55~80위 26명 전원 포인트+포인트순위+▲/▼배지 표시, HERO 카드를 "포인트 최고/최저" 방식에서 **상금↔포인트 역전폭이 가장 큰 4명(데이터로 자동 계산)**으로 교체, 60위(김새로미) 전용 카드 추가.
+- **2027 시드 cutoff는 여전히 미확인** — point_rank 공개와 "몇 위까지 시드를 받는지"는 별개임을 스코프 배너·버블 섹션·방법론 섹션 세 군데에서 명시. "시드확률"/"안전확률"/"탈락확률"/"포인트 60위가 시드 경계"/"안전권" 문구는 모두 금지 유지.
+
+`point_system_build/`를 v5로 갱신(323/323 PASS). 상세: `point_system_build/BUILD_REPORT.md` v5.

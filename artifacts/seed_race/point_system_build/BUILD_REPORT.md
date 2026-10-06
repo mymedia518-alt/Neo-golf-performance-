@@ -1,8 +1,22 @@
-# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v4 (실제 공식 사례로 TOP10 커브 교차검증, point_rank는 여전히 LOCKED)
+# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v5 (55~80위 point_rank/delta UNLOCK, 2027 시드 cutoff는 여전히 미확인)
 
-**기준**: 2027 시드 기준 전환 OFFICIAL PASS(`8642b0c`) + OFFICIAL RELAY #3(`38b03b7`, TOP10 커브) + 55~80위 실제 포인트 값(`25552f5`) + WHY 카피 정정(`2ae4277`) + 이번 턴 **193.klpga.co.kr 재시도(재차 차단) + 장은수 포인트값 추가 + 실제 대회 결과로 TOP10 커브 교차검증**
+**기준**: v4(`f83739b`, TOP10 커브 실제 대회 교차검증) + 이번 턴 **"POINT RANK LOCK REMOVED" relay — 55~80위 26명 중 20명의 point_rank·delta UNLOCK**
 
-> **PUBLIC PROBABILITY = LOCKED, 변함없음.** `193.klpga.co.kr`의 두 endpoint(전체 공식 기록, 공식 포인트랭킹)를 이번 턴에 다시 시도했으나 **역시 403 차단**(이 세션에서 klpga.co.kr 서브도메인이 뚫린 적은 한 번도 없다). 다만 relay된 예시 데이터 자체는 두 가지 실질적 진전을 줬다: (1) 장은수(상금 5위)의 포인트 값(212)이 새로 확인됐고, (2) **실제 공식 대회 결과(10억원 규모)가 기존에 발표했던 TOP10 배점표와 1위~10위까지 정확히 일치**함을 확인해 그 배점표의 신뢰도를 크게 높였다. point_rank/delta/reversal은 **이번에도 LOCKED** — 전체 선수 포인트가 없어서다.
+> **PUBLIC PROBABILITY = 여전히 LOCKED.** 이번 턴에 unlock된 것은 "포인트순위가 몇 위인가"이지 "몇 위까지 시드를 받는가(cutoff)"가 아니다. 사용자가 공식 2026-10-06 전체 스냅샷(money_rank 1~121, target_points 포함)을 확보했다고 relay했고, 55~80위 26명 중 20명(포인트 값이 있는 선수)에 대해 전체 필드를 반영한 point_rank·delta를 전달받았다. Claude는 전체 121행 원자료를 직접 본 것은 아니지만, delta 산술(20/20 일치) · 동점 처리 일관성(25점 4명, 60점 2명, 23점 2명 전원 동일 point_rank) · 순위 단조성을 전부 재검증한 뒤 OBSERVED로 받아들였다. **2027 시드 cutoff는 여전히 공식 미확인**이라 시드확률·안전·탈락 판정은 계속 보류한다.
+
+---
+
+## 0-1. v5 — 이번 턴 요약
+
+1. **point_values_bubble_55_80_2026-10-06.csv에 `point_rank`/`delta`/`delta_direction` 컬럼 추가** — 20명 전원 relay값, blank 6명은 `NOT_APPLICABLE`.
+2. **독립 자기정합성 검증 3종 전부 통과**: delta 산술(20/20), 동점자 point_rank 일치(3개 클러스터), points 내림차순 정렬 시 point_rank 단조성.
+3. **버블 리스트 렌더링 전면 교체**: "포인트순위: 전체 선수 집계 후 공개" → 실제 "포인트 N위 ▲/▼delta" 배지. blank 6명은 "포인트순위 —"로 배지 없이 표시.
+4. **HERO 카드 전면 교체**: 기존 "포인트 값 최고/최저/60위/60위 밖 최강" 4장 → **상금↔포인트 역전폭이 가장 큰 4명(코드가 delta로 자동 계산)**: 김나현2(71→48,▲23)·홍정민(66→45,▲21,별도 시드 확보 배지 유지)·조아연(59→41,▲18)·안재희(58→70,▼12). 데이터로 계산한 결과가 사용자가 지목한 4명과 정확히 일치함을 코드 assert로 고정.
+5. **김새로미(60위) 전용 "가장 중요한 한 명" 카드 신설**: "상금 기준에서는 정확히 경계선. 포인트로 보면 위치가 8계단 달라진다." — "안전권" 표현은 금지.
+6. **HERO 상단에 구체적 사실 한 줄 추가**: "상금 71위 김나현2는 포인트 48위다. 23계단이 달라진다."
+7. **WHY 카피 마지막 문장 교체**: "포인트 차이가 커질 수 있다" → "어떤 기준으로 보느냐에 따라 순위는 크게 달라질 수 있다."
+8. **새 금지어 추가**: "시드확률"/"안전확률"/"탈락확률"/"포인트 60위가 시드 경계"/"안전권" — point_rank unlock과 무관하게 cutoff가 미확인인 한 계속 금지.
+9. **public_build/(상금순위 Top60 페이지)는 이번에도 건드리지 않았다.**
 
 ---
 
@@ -54,11 +68,12 @@
 
 | 파일 | 역할 |
 |---|---|
-| `point_values_bubble_55_80_2026-10-06.csv`(신규, `artifacts/seed_race/` 루트) | 55~80위 26명의 실제 대상포인트 값(relay 그대로), blank는 `BLANK_UNRESOLVED`로 명시, `point_rank_status=UNRECONCILED` 고정 |
-| `tie_handling_fixture_OFFICIAL.csv`(신규, 루트) | 12억원 대회 공동순위 사례(T2/T5/T8/10위) — 회귀 테스트용 고정 자료 |
-| `point_system_build/build.py` | 버블 26명 렌더링을 "포인트순위 확보 전" 반복에서 **실제 포인트 값 + "전체 집계 후 공개" 고지**로 전면 교체, HERO 비교 카드 4장(코드로 계산, 사전 지정 없음) 추가, TOP10 섹션에 공동순위 고정표 추가, WHY 카피 scoping 수정 |
-| `point_system_build/verify_source_match.py` | 아래 5번 신규 체크 대거 추가 |
-| `point_system_build/screenshots/*.png` | 재캡처 |
+| `point_values_bubble_55_80_2026-10-06.csv` | **`point_rank`/`delta`/`delta_direction` 컬럼 신규 추가** — 20명 전원 relay된 전체 필드 기반 point_rank, blank 6명은 `point_rank_status=NOT_APPLICABLE` |
+| `tie_handling_fixture_OFFICIAL.csv` | 변경 없음(v4에서 10억/12억 2브래킷 11행 확정) |
+| `point_system_build/build.py` | 버블 26명 렌더링을 "전체 집계 후 공개" 고지에서 **실제 point_rank + ▲/▼delta 배지**로 전면 교체, HERO 카드를 포인트값 비교 4장에서 **역전폭 TOP3+최대하락 1(delta로 코드 자동 계산)**로 교체, 김새로미 전용 카드 신설, HERO 상단 사실 한 줄 추가, WHY 마지막 문장 교체, scope-banner/방법론에 "point_rank unlock ≠ cutoff" 명시 추가 |
+| `point_system_build/verify_source_match.py` | delta 산술/동점 일치/단조성 자기정합성 체크, 명명된 5개 예시 exact-value 체크, 새 금지어 5종 체크, HERO 5장 체크로 전면 갱신 |
+| `point_system_build/screenshots/*.png` | 재캡처, bounding-box 겹침 검사 + 육안 크롭 확인 |
+| `SEED_POINT_SYSTEM_GAP.md` | §15 addendum 추가 |
 
 `public_build/`(상금순위 Top60 페이지)는 이번에도 건드리지 않았다.
 
@@ -66,48 +81,54 @@
 
 ## 5. 테스트 결과
 
-`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **252개 체크 전부 PASS**(v3 225 + 장은수/교차검증/2분할 tie fixture 검증 27건 추가).
+`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **323개 체크 전부 PASS**(v4 252 + point_rank/delta 자기정합성·신규 금지어·HERO 재구성 검증 71건 추가).
 
 핵심 신규 체크:
-- 26명 전원의 포인트 값이 `point_values_bubble_55_80_2026-10-06.csv`와 1:1 일치, 상금도 공식 JSON과 재대조
-- blank 6명 전원 "—" 표시, 금액 숫자가 포인트로 오인되지 않는지 확인
-- **26명 중 누구에게도 "포인트순위 N위"라는 숫자 주장이 없음**을 정규식으로 전수 확인(`포인트순위\s*\d+\s*위` 패턴 매치 0건)
-- HERO 카드 4장이 CSV에서 직접 계산한 최고/최저/60위/60위 밖 최강과 정확히 일치(코드가 계산, 수작업 지정 아님) — 조아연(73)·김하은2(20)·김새로미(57)·홍정민(67) 자동 산출 확인
+- 20명 전원의 delta = current_rank - point_rank 산술 재검증 (20/20 일치)
+- 동점자(25점 4명, 60점 2명, 23점 2명) 전원 point_rank 동일함을 재검증
+- points 내림차순 정렬 시 point_rank 단조 비감소(전체 필드 반영의 정황 증거)
+- 26명 전원의 포인트/포인트순위/델타 배지가 `point_values_bubble_55_80_2026-10-06.csv`와 1:1 일치, 상금도 공식 JSON과 재대조
+- blank 6명 전원 "—" + "포인트순위 —" 표시(배지 없음), 금액 숫자가 포인트로 오인되지 않는지 확인
+- 명명된 5개 예시(김나현2 71→48▲23, 홍정민 66→45▲21, 조아연 59→41▲18, 김새로미 60→52▲8, 안재희 58→70▼12) exact-value 확인
+- HERO 카드 5장(역전폭 TOP3+최대하락 1+김새로미 특별카드)이 CSV에서 직접 계산한 결과와 정확히 일치(코드가 계산, 수작업 지정 아님)
+- 새 금지어(시드확률/안전확률/탈락확률/포인트 60위가 시드 경계/안전권) 부재 확인
 - 홍정민 카드에 "별도 시드 확보" 배지 포함 확인
 - 공동순위 고정표가 `tie_handling_fixture_OFFICIAL.csv`와 정확히 일치
 - WHY/TOP10 카피에 "10억원 일반대회에서는" scoping 문구와 "일반화하지 않는다" 면책 문구 둘 다 존재
-- 내부 enum 값(`CONFIRMED_VALUE`, `BLANK_UNRESOLVED`, `UNRECONCILED` 등)이 공개 HTML에 노출되지 않음(data 속성에서도 제거)
-- 기존 체크(확률 숫자 부재, TOP10 커브, GROUP B 1명 등) 전부 재확인 PASS
+- 내부 enum 값(`CONFIRMED_VALUE`, `BLANK_UNRESOLVED`, `UNRECONCILED`, `OBSERVED_FULL_FIELD_COMPUTED`, `NOT_APPLICABLE` 등)이 공개 HTML에 노출되지 않음(data 속성에서도 제거)
+- 신규: delta 산술(20/20), 동점자 point_rank 일치(3클러스터), points 단조성, 명명된 5개 예시(김나현2/홍정민/조아연/김새로미/안재희) 정확값, HERO 카드 데이터 기반 산출 재확인, 새 금지어(시드확률/안전확률/탈락확률/포인트 60위가 시드 경계/안전권) 부재
+- 기존 체크(확률 숫자 부재, TOP10 커브, GROUP B 1명, tie fixture 등) 전부 재확인 PASS
 
 ---
 
 ## 6. Desktop / Mobile 스크린샷
 
-`screenshots/desktop_1440x900.png`, `screenshots/mobile_390x844.png` — 직접 열어서 확인함. 가로 스크롤 없음. 모바일에서 다음을 크롭 확대해 개별 확인:
-- 한아름(61위) 행 — "—"에 위첨자 각주 표시, 숫자처럼 보이지 않음
-- 홍정민(66위) 행 — "별도 시드 확보" 배지 + "대상포인트 67점" + "포인트순위: 전체 선수 집계 후 공개"가 겹치지 않고 모두 표시
-- HERO 카드 4장 — 모바일에서는 1열로 쌓임(반응형), 홍정민 카드에 배지 정상 표시
-- 공동순위 고정표(T2/T5/T8/10위) — 표와 설명 문구 모두 정상 렌더링
+`screenshots/desktop_1440x900.png`, `screenshots/mobile_390x844.png` — 재캡처 후 직접 열어서 확인함. 가로 스크롤 없음(scrollWidth==clientWidth, 두 뷰포트 모두). Playwright bounding-box로 각 버블 행의 이름/포인트/순위/배지 요소가 서로 겹치지 않음을 좌표로 확인했고, 모바일 크롭 이미지로도 육안 재확인:
+- HERO 카드 4장 + 김새로미 전용 카드 — 모바일 1열 스택, 배지(▲23/▲21/▲18/▼12/▲8) 전부 카드 안에 정상 표시, 서로 겹치지 않음
+- 55~80위 버블 리스트(58~71위 크롭) — "대상포인트 N점 / 포인트 N위 ▲N" 2줄 레이아웃이 모든 행에서 줄바꿈 없이 깔끔히 렌더링, 한아름(61위, blank) 행만 "—* / 포인트순위 —"로 배지 없이 표시되어 구분됨
+- 안재희(58위)·최정원(63위)·김우정(64위) 등 ▼ 배지(빨간색)와 ▲ 배지(초록색)가 시각적으로 명확히 구분됨
 
 ---
 
 ## 7. 실제 페이지 경로 / DEPLOY
 
-**아직 어디에도 배포되지 않음.** `artifacts/seed_race/point_system_build/index.html`(production `docs/` 밖). **DEPLOY는 계속 HOLD** — 포인트순위 cutoff, 전체 선수 포인트(버블존 밖 ~90명), 아이스버그 2위 이하 배점이 확보되기 전까지 유지한다.
+**아직 어디에도 배포되지 않음.** `artifacts/seed_race/point_system_build/index.html`(production `docs/` 밖). **DEPLOY는 계속 HOLD** — 2027 시드 cutoff(몇 위까지 시드를 받는지), 버블존 밖 ~90명의 포인트, 아이스버그 2위 이하 배점이 확보되기 전까지 유지한다.
 
 ---
 
 ```
-[NEO 2027 POINT SEED WAR — v2 DATA PASS]
+[NEO 2027 POINT SEED WAR — v3 DATA PASS]
 
-PUBLIC PROBABILITY: LOCKED (검증됨)
+PUBLIC PROBABILITY: LOCKED (검증됨, 변함없음)
 POINT VALUES (55-80위 26명): PUBLISHED (실제 값, 26/26)
-POINT RANK (55-80위): STILL LOCKED (단순 정렬 금지 — 전체 필드 미확보)
-BLANK SEMANTICS: A/B/C 각주로 명시, 단정 없음 (6명)
-HERO CARDS: 데이터 기반 자동 산출 4장
-TIE HANDLING: OFFICIAL 고정 (12억원 대회 T2/T5/T8/10위)
-SOURCE↔UI: PASS (252/252)
-MOBILE: PASS
+POINT RANK (55-80위): UNLOCKED (20/26, 전체 필드 기반 relay + 자기정합성 검증 통과)
+DELTA BADGES: PUBLISHED (▲/▼, 상금순위-포인트순위)
+2027 SEED CUTOFF: STILL UNRESOLVED — 시드확률/안전/탈락 판정 계속 보류
+BLANK SEMANTICS: A/B/C 각주로 명시, 단정 없음 (6명, point_rank도 미부여)
+HERO CARDS: 데이터 기반 역전폭 TOP3 + 최대 하락 1 + 김새로미 특별카드
+TIE HANDLING: OFFICIAL 고정 (10억원 실제 대회 + 12억원 대회 사례)
+SOURCE↔UI: PASS (323/323)
+MOBILE: PASS (겹침 없음, bounding-box + 육안 확인)
 DESKTOP: PASS
 DEPLOY: HOLD
 ```

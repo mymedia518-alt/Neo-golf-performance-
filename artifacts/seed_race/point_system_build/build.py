@@ -10,10 +10,23 @@ Source of truth (read directly):
 This page does NOT publish any seed probability number -- the official
 points-rank cutoff is unresolved (see SEED_POINT_SYSTEM_GAP.md). It only
 publishes what's actually confirmed: the rule-change itself, the TOP10
-point curve for the 10억~12억미만 bracket (HJ/S-OIL), the one real
-money-rank-vs-point-rank reversal we have data for (money rank 1-2), and
-confirmed independent 2027 exemptions. The 55-80 money bubble's point ranks
-are explicitly shown as not-yet-available, not fabricated.
+point curve for the 10억~12억미만 bracket (HJ/S-OIL), the real
+money-rank-vs-point-rank reversals we have data for, and confirmed
+independent 2027 exemptions.
+
+OFFICIAL RELAY #5 (this build): the user relayed a full official
+2026-10-06 snapshot (money_rank 1-121, incl. target_points) and, for the
+55-80 money bubble, the resulting point_rank + delta already computed
+against that full field. point_rank display for this 26-player subset is
+now UNLOCKED -- it is no longer a Claude-side sort of a 26-player subset
+(which was explicitly banned), but a relayed result of ranking the full
+field. Claude independently verified internal self-consistency before
+accepting it: all 20 non-blank delta values (= current_rank - point_rank)
+check out arithmetically, and point_rank is monotonic with points value
+and exactly tied where points are tied (points=25 x4, =60 x2, =23 x2).
+The 2027 SEED CUTOFF (how many point_rank positions actually carry a seed)
+remains unresolved, so probability/seed-survival language stays banned
+regardless of this unlock.
 """
 import csv
 import json
@@ -97,9 +110,17 @@ for r in point_rows_sorted:
     </div>""")
 connector_rows_html = "\n".join(connector_html)
 
-# ---- bubble list (55-80 money rank): real current points, NO point_rank (unreconciled) ----
+def delta_badge(delta):
+    if delta > 0:
+        return f"▲{delta}", "delta-up"
+    if delta < 0:
+        return f"▼{-delta}", "delta-down"
+    return "0", "delta-flat"
+
+
+# ---- bubble list (55-80 money rank): real points + full-field point_rank + delta ----
 bubble_html = []
-confirmed_points = []  # (rank, name, money, points) for players with a real points value
+confirmed_rows = []  # bubble_points rows with a real points value (dict, delta cast to int)
 for r in bubble:
     rank = int(float(r["current_rank"]))
     name = r["player"]
@@ -111,46 +132,61 @@ for r in bubble:
         tag = '<span class="bubble-tag tag-confirmed">별도 시드 확보</span>'
     bp = bubble_points_by_rank[rank]
     if bp["points_status"] == "CONFIRMED_VALUE":
-        points_html = f'<span class="pending-points-val">{bp["points"]}점</span>'
-        confirmed_points.append((rank, name, money, int(bp["points"])))
+        bp = dict(bp)
+        bp["delta"] = int(bp["delta"])
+        confirmed_rows.append(bp)
+        badge_text, badge_class = delta_badge(bp["delta"])
+        delta_html = f'<span class="pending-delta {badge_class}">{badge_text}</span>' if bp["delta"] != 0 else f'<span class="pending-delta delta-flat">{badge_text}</span>'
+        point_block = (
+            f'<span class="pending-points-val">{bp["points"]}점</span>'
+            f'<div class="pending-rank-row"><span class="pending-point-rank">포인트 {bp["point_rank"]}위</span>{delta_html}</div>'
+        )
     else:
-        points_html = '<span class="pending-points-blank">—<sup>*</sup></span>'
+        point_block = (
+            '<span class="pending-points-blank">—<sup>*</sup></span>'
+            '<div class="pending-rank-row"><span class="pending-point-rank-blank">포인트순위 —</span></div>'
+        )
     bubble_html.append(f"""
-    <div class="pending-row" data-rank="{rank}" data-player="{name}" data-points="{bp['points'] or ''}">
+    <div class="pending-row" data-rank="{rank}" data-player="{name}" data-points="{bp['points'] or ''}" data-point-rank="{bp.get('point_rank', '') or ''}">
       <div class="pending-rank">{rank}<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">{name}{tag}</div>
       <div class="pending-money">{won(money)}</div>
-      <div class="pending-point">대상포인트 {points_html}<span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
+      <div class="pending-point">대상포인트 {point_block}</div>
     </div>""")
 bubble_rows_html = "\n".join(bubble_html)
 
-# ---- hero comparison cards -- POINTS VALUE comparisons only, no fabricated rank/delta ----
-confirmed_points_sorted = sorted(confirmed_points, key=lambda t: -t[3])
-highest = confirmed_points_sorted[0]
-lowest = confirmed_points_sorted[-1]
-rank60 = next(t for t in confirmed_points if t[0] == 60)
-outside60_strong = [t for t in confirmed_points if t[0] > 60]
-outside60_strong_sorted = sorted(outside60_strong, key=lambda t: -t[3])
-strong_outside = outside60_strong_sorted[0]
+# ---- hero reversal cards -- computed from data (top-3 biggest UP, biggest DOWN), not hand-picked ----
+up_sorted = sorted(confirmed_rows, key=lambda r: -r["delta"])
+top3_up = up_sorted[:3]
+biggest_down = min(confirmed_rows, key=lambda r: r["delta"])
+assert [r["player"] for r in top3_up] == ["김나현2", "홍정민", "조아연"], \
+    f"unexpected top-3 UP ordering: {[r['player'] for r in top3_up]}"
+assert biggest_down["player"] == "안재희", f"unexpected biggest DOWN: {biggest_down['player']}"
 
-HERO_CARDS = [
-    ("이 구간에서 포인트가 가장 높다", highest),
-    ("이 구간에서 포인트가 가장 낮다(확보된 값 중)", lowest),
-    ("현재 상금 60위", rank60),
-    ("상금 60위 밖인데 포인트가 가장 강하다", strong_outside),
-]
+HERO_CARDS = [("이 구간에서 포인트 기준으로 가장 많이 올라간다", r) for r in top3_up]
+HERO_CARDS.append(("이 구간에서 포인트 기준으로 가장 많이 내려간다", biggest_down))
+
 hero_card_html = []
-for label, (rank, name, money, points) in HERO_CARDS:
+for label, r in HERO_CARDS:
+    rank = int(r["current_rank"])
     elig = elig_by_rank.get(rank, {})
     exempt_html = ('<span class="hcard-exempt">별도 시드 확보</span>' if elig.get("final_2027_group") == "B" else "")
+    badge_text, badge_class = delta_badge(r["delta"])
     hero_card_html.append(f"""
     <div class="hcard">
       <div class="hcard-label">{label}</div>
-      <div class="hcard-name">{name}{exempt_html}</div>
-      <div class="hcard-stats">상금 {rank}위 · {won(money)}</div>
-      <div class="hcard-points">{points}점</div>
+      <div class="hcard-name">{r['player']}{exempt_html}</div>
+      <div class="hcard-stats">상금 {rank}위 → 포인트 {r['point_rank']}위</div>
+      <div class="hcard-points"><span class="pending-delta {badge_class}">{badge_text}</span></div>
     </div>""")
 hero_cards_html = "\n".join(hero_card_html)
+
+# 김새로미 -- special callout: the exact money-rank Top60 boundary, reframed by point_rank
+kimsaeromi = bubble_points_by_rank[60]
+assert kimsaeromi["player"] == "김새로미"
+assert kimsaeromi["points_status"] == "CONFIRMED_VALUE"
+ksr_delta = int(kimsaeromi["delta"])
+ksr_badge_text, ksr_badge_class = delta_badge(ksr_delta)
 
 # 홍정민 confirmed exemption detail
 hjm = next(r for r in elig_rows if r["player"] == "홍정민")
@@ -194,6 +230,7 @@ html = f"""<!doctype html>
 
   section.hero {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 30px 24px; margin: 18px 0 32px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); text-align: center; }}
   section.hero h1 {{ font-family: "Big Shoulders Display", sans-serif; font-weight: 800; font-size: clamp(24px, 6.5vw, 32px); line-height: 1.25; margin: 0 0 16px; }}
+  .hero-fact {{ font-family: "Roboto Mono", monospace; font-weight: 700; font-size: 14px; color: var(--accent-blue); background: var(--bg-alt); border-radius: 10px; padding: 10px 14px; margin: 0 0 14px; display: inline-block; }}
   .hero-sub {{ font-size: 14.5px; line-height: 1.8; color: var(--text-dim); margin: 0; }}
 
   section.block {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 26px 22px; margin-bottom: 28px; box-shadow: 0 1px 4px rgba(22,33,62,0.06); }}
@@ -229,10 +266,14 @@ html = f"""<!doctype html>
   .bubble-tag {{ display: inline-block; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }}
   .tag-confirmed {{ background: var(--accent); color: #fff; }}
   .pending-money {{ font-family: "Roboto Mono", monospace; font-size: 11px; color: var(--text-dim); grid-column: 2; }}
-  .pending-point {{ grid-column: 3; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }}
+  .pending-point {{ grid-column: 3; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; gap: 3px; text-align: right; }}
   .pending-points-val {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--accent-blue); }}
   .pending-points-blank {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--text-dim); }}
   .pending-point-note {{ font-size: 9.5px; font-weight: 600; color: var(--text-dim); white-space: nowrap; }}
+  .pending-rank-row {{ display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; }}
+  .pending-point-rank {{ font-size: 10.5px; font-weight: 700; color: var(--text-dim); white-space: nowrap; }}
+  .pending-point-rank-blank {{ font-size: 10.5px; font-weight: 700; color: var(--text-dim); white-space: nowrap; }}
+  .pending-delta {{ font-family: "Roboto Mono", monospace; font-size: 10.5px; font-weight: 800; padding: 0px 6px; border-radius: 999px; white-space: nowrap; }}
 
   .curve-table {{ width: 100%; border-collapse: collapse; margin: 0 0 10px; font-size: 13px; }}
   .curve-table th, .curve-table td {{ padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--row-alt); }}
@@ -249,8 +290,12 @@ html = f"""<!doctype html>
   .hcard-label {{ font-size: 10.5px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; line-height: 1.4; }}
   .hcard-name {{ font-weight: 800; font-size: 16px; margin-bottom: 4px; }}
   .hcard-exempt {{ display: inline-block; background: var(--accent); color: #fff; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 5px; vertical-align: middle; }}
-  .hcard-stats {{ font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }}
+  .hcard-stats {{ font-size: 11px; color: var(--text-dim); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }}
   .hcard-points {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 20px; color: var(--accent-blue); }}
+
+  .hcard-special {{ margin-top: 10px; border: 1px solid var(--accent); background: #eef8f6; }}
+  .hcard-special .hcard-label {{ color: var(--accent); }}
+  .hcard-special-copy {{ font-size: 13px; line-height: 1.7; color: var(--text); margin: 8px 0 0; }}
 
   .exempt-card {{ display: flex; align-items: center; gap: 12px; background: var(--bg-alt); border-radius: 12px; padding: 14px 16px; margin: 0 0 10px; }}
   .exempt-badge {{ background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }}
@@ -297,10 +342,11 @@ html = f"""<!doctype html>
 
 <main>
 
-  <div class="scope-banner" data-testid="scope-banner">KLPGA는 2027시즌부터 포인트순위를 정규투어 시드권 부여 기준으로 바꾼다고 공식 발표했습니다(기준 자체는 확인됨). 다만 <strong>"몇 위까지 시드를 받는지"는 현재 확인된 공식 발표에 없어</strong>, NEO는 시드 확률 공개를 보류합니다. 이 페이지는 확률 대신 지금까지 공식적으로 확인된 사실만 보여줍니다.</div>
+  <div class="scope-banner" data-testid="scope-banner">KLPGA는 2027시즌부터 포인트순위를 정규투어 시드권 부여 기준으로 바꾼다고 공식 발표했습니다(기준 자체는 확인됨). 55~80위 선수들의 <strong>대상포인트·포인트순위 값은 이제 공개</strong>합니다(공식 전체 선수 기록 기반). 다만 <strong>"몇 위까지 시드를 받는지"는 현재 확인된 공식 발표에 없어</strong>, NEO는 시드 확률 공개를 보류합니다. 포인트순위 공개와 시드 cutoff 확정은 서로 다른 일입니다.</div>
 
   <section class="hero" data-testid="hero">
     <h1>상금 60위만 보면 틀린다<br>2027 KLPGA 시드 전쟁</h1>
+    <p class="hero-fact" data-testid="hero-fact">상금 71위 김나현2는 포인트 48위다. 23계단이 달라진다.</p>
     <p class="hero-sub">2027년부터 시드 기준이 상금순위에서 포인트순위로 바뀐다.<br>그러면 지금까지 우리가 보던 "상금 60위 싸움"도 다시 봐야 한다.</p>
   </section>
 
@@ -332,20 +378,27 @@ html = f"""<!doctype html>
 
   <section class="block" data-testid="bubble-hero-cards">
     <p class="eyebrow">55 ~ 80위 상금 버블존</p>
-    <h2>이 구간에서 가장 눈에 띄는 선수들</h2>
-    <p class="dim">아래는 전부 <strong>실제 공식 누적 대상포인트 값</strong>만으로 비교한 것이다. 전체 선수 포인트가 아직 다 모이지 않아 "몇 위"라는 공식 포인트순위는 아직 매기지 않는다 — 순위를 매기려면 이 26명 밖의 선수들 포인트도 필요하기 때문이다.</p>
+    <h2>기준을 바꾸면, 순위가 뒤집힌다</h2>
+    <p class="dim">아래 4장은 <strong>상금순위 → 포인트순위 변동이 가장 큰 선수들</strong>이다(코드가 실제 데이터에서 계산, 미리 고른 선수 아님). 포인트순위는 공식 전체 선수 기록을 기준으로 산출된 값이며, 이 26명만 따로 정렬한 숫자가 아니다.</p>
     <div class="hero-card-grid">
 {hero_cards_html}
+    </div>
+    <div class="hcard hcard-special" data-testid="hcard-kimsaeromi">
+      <div class="hcard-label">가장 중요한 한 명</div>
+      <div class="hcard-name">김새로미</div>
+      <div class="hcard-stats">상금 60위 → 포인트 {kimsaeromi['point_rank']}위 <span class="pending-delta {ksr_badge_class}">{ksr_badge_text}</span></div>
+      <p class="hcard-special-copy">상금 기준에서는 정확히 경계선. 포인트로 보면 위치가 8계단 달라진다.</p>
     </div>
   </section>
 
   <section class="block" data-testid="bubble-pending">
-    <h2>55~80위 전체 — 상금과 대상포인트</h2>
-    <p class="dim">상금순위는 공식 확정값, 대상포인트는 공식 relay값이다. <strong>포인트순위(전체 선수 중 몇 위)는 아직 공개하지 않는다</strong> — 이 26명 밖 선수들의 포인트가 전부 모여야 정확한 순위를 매길 수 있고, 이 26명만 정렬해 "순위"라고 부르는 것은 공식 순위와 다를 수 있어 하지 않는다.</p>
+    <h2>55~80위 전체 — 상금, 대상포인트, 포인트순위</h2>
+    <p class="dim">상금순위는 공식 확정값이다. 대상포인트와 포인트순위는 공식 전체 선수(1~121위) 기록을 사용자가 공식 페이지에서 직접 확인해 전달한 값으로, Claude가 26명만 따로 정렬한 숫자가 아니다 — 포인트 값이 같은 선수들끼리는 포인트순위도 정확히 같다는 점까지 데이터로 재확인했다.</p>
+    <p class="dim"><strong>주의: 이 포인트순위는 2027 시드 cutoff가 아니다.</strong> "몇 위까지 시드를 받는지"는 여전히 공식 미확인이라, 포인트순위 공개와 별개로 누가 시드를 유지하고 누가 탈락하는지에 대한 판정은 계속 보류한다.</p>
     <div class="pending-list">
 {bubble_rows_html}
     </div>
-    <p class="dim" style="margin-top:10px;">* 대상포인트가 "—"인 선수는 원본 자료에 값이 비어 있었다 — (A) 2026시즌 대상포인트 획득 실적 없음 (B) 대상포인트 순위 자격 미충족 (C) 자료 누락, 셋 중 무엇인지 아직 특정하지 못해 그대로 빈칸으로 둔다.</p>
+    <p class="dim" style="margin-top:10px;">* 대상포인트가 "—"인 선수는 원본 자료에 값이 비어 있었다 — (A) 2026시즌 대상포인트 획득 실적 없음 (B) 대상포인트 순위 자격 미충족 (C) 자료 누락, 셋 중 무엇인지 아직 특정하지 못해 그대로 빈칸으로 둔다. 이 선수들은 포인트순위도 매기지 않는다(점수 없이 순위를 매길 수 없다).</p>
   </section>
 
   <section class="block" data-testid="top10-curve">
@@ -379,7 +432,7 @@ html = f"""<!doctype html>
     <h2>왜 순위가 뒤집힐까</h2>
     <p>상금과 포인트는 모두 좋은 성적에서 나온다. 하지만 계산법은 다르다.</p>
     <p>상금은 컷을 통과해도 쌓인다. 대상포인트는 Top10 순위에 들어야 쌓인다.</p>
-    <p>그래서 상금순위가 비슷해도 시즌 동안 얼마나 자주 상위권에 들어갔느냐에 따라 포인트 차이가 커질 수 있다.</p>
+    <p>그래서 같은 시즌, 같은 선수라도 어떤 기준으로 보느냐에 따라 순위는 크게 달라질 수 있다.</p>
   </section>
 
   <section class="block" data-testid="independent-seed">
@@ -418,7 +471,8 @@ html = f"""<!doctype html>
   <section class="method" data-testid="methodology">
     <h2>어떻게 만들었나</h2>
     <p>이 페이지의 모든 수치는 공식적으로 확인된 자료(사용자가 공식 페이지에서 직접 확인해 전달한 내용 포함)에서만 가져왔다. 포인트를 상금에서 임의로 환산하지 않았다 — 대회 상금 규모별 공식 배점표를 그대로 사용했다.</p>
-    <p>55~80위 버블존 선수들의 포인트순위, 포인트순위 시드 cutoff, 아이스버그골프·서울신문의 2위 이하 배점은 아직 공식적으로 확보되지 않아 이 페이지에 숫자를 넣지 않았다.</p>
+    <p>55~80위 버블존 선수들의 대상포인트·포인트순위는 공식 전체 선수(1~121위) 기록을 기반으로 확인됐다. 포인트 값이 같은 선수들끼리 포인트순위도 정확히 같다는 점(동점 처리), 상금순위와 포인트순위의 차이값이 모든 선수에서 산술적으로 맞는다는 점을 전부 재확인한 뒤 공개했다 — 26명만 따로 정렬한 숫자가 아니다.</p>
+    <p>포인트순위 시드 cutoff(몇 위까지 시드를 받는지), 아이스버그골프·서울신문의 2위 이하 배점은 아직 공식적으로 확보되지 않아 이 페이지에 숫자를 넣지 않았다.</p>
     <p>기존 상금순위 Top60 확률 시뮬레이션(60,000회)은 이 페이지와 별개로 그대로 유지되고 있으며, 변경되지 않았다.</p>
   </section>
 
