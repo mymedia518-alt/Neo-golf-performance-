@@ -1,0 +1,33 @@
+player,money_rank,points,point_rank,point_seed_top60,independent_seed,independent_seed_type,final_2027_seed_status,evidence_type,note
+서교림,2,563,1,TRUE,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),TRUE,OBSERVED (user relay from https://klpga.co.kr/web/record/publicRecord; Claude cannot independently fetch -- klpga.co.kr blocked),top-rank connector module player
+김민솔,1,486,2,TRUE,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),TRUE,OBSERVED (user relay),top-rank connector module player
+김민선7,3,333,3,TRUE,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),TRUE,OBSERVED (user relay),top-rank connector module player
+최예림,4,326,4,TRUE,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),TRUE,OBSERVED (user relay),top-rank connector module player
+이다연,6,311,5,TRUE,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),TRUE,OBSERVED (user relay),top-rank connector module player
+장은수,5,212,,UNKNOWN,FALSE,NONE_CONFIRMED (not in 55-80 eligibility crosscheck),UNKNOWN,"OBSERVED (user relay, OFFICIAL RELAY #4; Claude independently re-attempted 193.klpga.co.kr this turn -- still 403, cannot self-fetch)",top-rank connector module player
+마서영,55,42,58,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=C),TRUE,"OBSERVED (user relay, OFFICIAL RELAY #5, full official 2026-10-06 snapshot incl. target_points for all money ranks 1-121)",55-80 bubble player
+지한솔,56,52,55,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=A),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김지윤2,57,60,48,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=C),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+안재희,58,23,70,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+조아연,59,73,41,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=C),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김새로미,60,57,52,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=A),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+한아름,61,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=C),UNKNOWN,OBSERVED,55-80 bubble player
+한지원,62,54,54,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=C),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+최정원,63,25,65,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=C),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김우정,64,25,65,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+마다솜,65,25,65,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+홍정민,66,67,45,TRUE,TRUE,메이저 우승 시드가 규정상 2027까지 유효 -- Top60과 무관하게 2027 정규투어 자격 확보,TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+최민경,67,41,60,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=C),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+박결,68,31,64,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=C),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+홍지원,69,25,65,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김소정,70,44,57,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=A),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김나현2,71,60,48,TRUE,FALSE,NONE_CONFIRMED (crosscheck group=A),TRUE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+이재윤,72,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=C),UNKNOWN,OBSERVED,55-80 bubble player
+김서윤2,73,21,72,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+김하은2,74,20,74,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=C),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+유지나,75,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=A),UNKNOWN,OBSERVED,55-80 bubble player
+이주미,76,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=C),UNKNOWN,OBSERVED,55-80 bubble player
+손예빈,77,35,62,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=A),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player
+왕 즈쉬엔,78,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=C),UNKNOWN,OBSERVED,55-80 bubble player
+박서현,79,,,UNKNOWN,FALSE,NONE_CONFIRMED (crosscheck group=C),UNKNOWN,OBSERVED,55-80 bubble player
+현세린,80,23,70,FALSE,FALSE,NONE_CONFIRMED (crosscheck group=C),FALSE,OBSERVED (OFFICIAL RELAY #5),55-80 bubble player

@@ -220,3 +220,48 @@ point_rank/delta/reversal은 여전히 LOCKED. `point_system_build/`를 v4로 �
 - **2027 시드 cutoff는 여전히 미확인** — point_rank 공개와 "몇 위까지 시드를 받는지"는 별개임을 스코프 배너·버블 섹션·방법론 섹션 세 군데에서 명시. "시드확률"/"안전확률"/"탈락확률"/"포인트 60위가 시드 경계"/"안전권" 문구는 모두 금지 유지.
 
 `point_system_build/`를 v5로 갱신(323/323 PASS). 상세: `point_system_build/BUILD_REPORT.md` v5.
+
+---
+
+## 16. [MODEL RULE FREEZE] 플레이어 자격 필드는 구축, Monte Carlo는 MODEL HOLD
+
+사용자가 "규정 조사 단계 → 모델 구현 단계"로 전환을 지시하며 (1) Top60 직접시드/독립시드 분리 자격 모델, (2) 60,000회 이상 Monte Carlo 시뮬레이션(원본 성적 feature 기반, V1/V2 비교, walk-forward backtest), (3) 결과를 PUBLIC 페이지에 "현재 포인트순위 → 최종 예상범위 → Top60 확률" 형태로 반영하라고 지시했다. **(1)은 구축했다. (2)·(3)은 MODEL HOLD로 종료한다** — 사용자가 직접 지정한 종료 조건("확률 검증 실패 시: PUBLIC page에는 확률 추가하지 말고 MODEL HOLD로 종료") 그대로다.
+
+### (1) 구축 완료 — `player_eligibility_fields_2026-10-06.csv`
+
+요청된 5개 필드(`point_rank`, `point_seed_top60`, `independent_seed`, `independent_seed_type`, `final_2027_seed_status`)를 현재 확보된 데이터만으로 계산하는 **결정론적 분류**(시뮬레이션 아님, "지금 이 순간" 스냅샷)를 32명(money_rank 1-6 top connector + 55-80 버블 26명) 전원에 대해 만들었다.
+
+판정 로직은 요청 그대로:
+- `point_seed_top60 = (point_rank <= 60)` — point_rank 미확보 선수는 `FALSE`가 아니라 `UNKNOWN`(장은수, blank 6명).
+- `independent_seed = TRUE`는 `eligibility_crosscheck_55_80.csv`의 `final_2027_group == "B"`(RULE_CONFIRMED)인 선수만 — 현재 홍정민 1명.
+- `final_2027_seed_status = point_seed_top60 OR independent_seed`, 단 두 입력 모두 `UNKNOWN`이고 `independent_seed`가 `TRUE`가 아니면 결과도 `UNKNOWN`(임의로 FALSE 확정하지 않음).
+- **CRITICAL GUARD 자동 충족**: `point_seed_top60`은 독립시드 여부와 무관하게 순수 point_rank만으로 계산되고, 독립시드 보유자를 모집단에서 빼는 로직 자체가 없다 — 홍정민(point_rank 45, independent_seed TRUE)이 있어도 61위가 Top60으로 승격되는 경로가 코드에 존재하지 않는다.
+- 검증: 홍정민 — point_seed_top60=TRUE(45≤60) AND independent_seed=TRUE → final=TRUE(두 경로 모두 충족, 어느 쪽이 없어도 결과는 동일).
+
+### (2)+(3) MODEL HOLD — Monte Carlo는 실행하지 않는다
+
+사용자가 요청한 11단계 파이프라인("현재 누적 포인트 로드 → 남은 대회 전체 field 생성 → joint leaderboard simulation → 공식 point table 적용 → ... → final_point_rank 계산")은 각 단계마다 **이 세션에 한 번도 확보된 적 없는 데이터**를 전제로 한다. "cutoff를 60위로 freeze"했다고 해서 풀리는 블로커가 아니다 — 아래 블로커들은 cutoff 숫자와 무관하게 전부 "현재 몇 점인지 시뮬레이션해서 알아내는 것" 자체를 막는다.
+
+| 파이프라인 단계 | 필요한 데이터 | 현재 확보량 |
+|---|---|---|
+| 1. 현재 누적 대상포인트 로드 | 전체 121명의 포인트 | **32/121명만**(6 top + 26 bubble, 그중 25명만 point_rank 있음) — 89명은 포인트 자체가 0건 |
+| 2. 남은 대회 전체 field 생성 | 2026 시즌 잔여 전체 대회 일정·규모·참가자 명단 | HJ·S-OIL·아이스버그 **3개 대회만** 확인됨(다른 잔여 대회가 몇 개 더 있는지조차 미확인), 참가자 명단은 셋 다 없음(field_size=108만 알고 명단은 없음) |
+| 3-4. joint leaderboard + 공식 point table 적용 | 각 대회 전체 순위 배점 커브 | HJ·S-OIL은 1-10위+zero-anchor 확보, **아이스버그는 1위(90점)만** — 2위 이하 전부 미확인 |
+| 5. 공동순위 처리 | 이미 OFFICIAL 확정(2개 사례) | 확보됨 — 유일하게 완전히 풀린 입력 |
+| 6-8. 선수별 누적·재정렬·final_point_rank | 위 1-5가 전부 선행 조건 | 위 블로커 그대로 승계 |
+| recent-form feature(최근 5·10경기, CUT rate, Top20/10/5, wins, round scoring, field strength, SG) | 선수별 대회별 실제 성적 기록(mainRecord) | **0명 0건** — 이 세션 전체에서 mainRecord는 단 한 번도 relay되지 않았고 Claude의 klpga.co.kr 접근은 처음부터 끝까지 전부 403(§13 참조). SG는 사용자 지시대로 "실제 데이터가 존재할 때만" 쓰는데, 존재하는 실제 데이터가 없다. |
+| walk-forward backtest | 과거 시점 기준 이후 대회 결과(숨겼다가 검증) | mainRecord가 없으므로 원천적으로 불가 |
+
+### "cutoff = 포인트순위 60위"를 어떻게 처리했나
+
+이 숫자는 **공식 확인이 아니라 사용자가 모델링 목적으로 지정한 가정**으로 받아들였다(이번 메시지에 공식 URL·OFFICIAL RELAY 표기가 없음 — 지금까지 모든 공식 사실은 예외 없이 "[OFFICIAL RELAY #N]" 형식으로 출처가 붙어 왔다). 코드(`point_simulation_SCAFFOLD.py`)의 `--official-cutoff-rank` 인자로 받을 수 있도록 유지했지만, **PUBLIC 페이지에는 이 가정이 반영된 숫자를 올리지 않는다** — §2의 "CUTOFF는 여전히 OFFICIAL UNRESOLVED" 결론과 충돌하지 않도록, 모델링 가정과 공식 확인 사실을 섞지 않는다.
+
+### 실제로 한 일 / 안 한 일
+
+- **했다**: `player_eligibility_fields_2026-10-06.csv`(결정론적 자격 분류, 32명), `point_simulation_SCAFFOLD.py`에 독립시드 병합 단계(`merge_independent_seed`)와 V2/walk-forward용 명시적 `NotImplementedError` 스텁(가짜 숫자로 채우지 않고 왜 안 되는지 메시지로 고정) 추가.
+- **안 했다**: 60,000/30,000/100,000회 시뮬레이션 실행(입력 데이터가 없어 실행하면 허구의 숫자가 나온다), V2 recent-form 모델(성적 데이터 0건), walk-forward backtest(과거 기록 0건), PUBLIC 페이지에 "Top60 확률 XX.X%" 숫자 추가(모델이 PASS하지 않았으므로 사용자 지시대로 추가하지 않음).
+- `public_build/`, `point_system_build/`(commit `3e6659c`) **둘 다 건드리지 않았다** — 사용자 지시("현재 commit 3e6659c 디자인 유지") 그대로.
+
+### 다음 단계 (이 블로커를 풀려면)
+
+표에 나열한 항목 중 **아무 하나라도** relay되면 그만큼 모델이 전진한다 — 전부 한 번에 필요한 것은 아니다. 가장 효과가 큰 순서: (1) 전체 121명의 현재 누적포인트, (2) 2026 시즌 잔여 대회 전체 목록(일정·규모), (3) 55-80위 구간 선수들의 최근 5-10개 대회 성적(mainRecord 일부라도).

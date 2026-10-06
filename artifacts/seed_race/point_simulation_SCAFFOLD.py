@@ -1,6 +1,17 @@
 """SCAFFOLD for a points-based joint season simulation -- NOT RUNNABLE YET.
 
-Status: blocked. See SEED_POINT_SYSTEM_GAP.md.
+Status: blocked. See SEED_POINT_SYSTEM_GAP.md section 16 (MODEL RULE FREEZE
+turn -- "point_rank <= 60" was supplied by the user as a MODELING ASSUMPTION,
+not a newly-confirmed official cutoff; it does not unblock the data gaps
+below, which are about the simulation's INPUTS, not the cutoff number).
+
+V2 (recent-form weighted model) and the walk-forward backtest are NOT
+implemented with real logic below -- see merge_independent_seed() for the
+one new piece that IS real (deterministic, no simulation needed) and
+run_v2_recent_form() / run_walkforward_backtest() for explicit refusal
+stubs. Filling those in with invented performance numbers would violate
+this project's no-fabrication rule as badly as the V1 field-size guard
+below was designed to prevent.
 
 This implements the mechanics the user asked for (joint leaderboard draw per
 remaining event -> cut -> tie handling -> official point allocation ->
@@ -158,6 +169,62 @@ def build_point_cutoff_prob_table(point_table_rows, events_points_rows,
 
     prob_cutoff = (final_rank <= official_cutoff_rank).mean(axis=0)
     return {players[i]["player"]: float(prob_cutoff[i]) for i in range(n_players)}
+
+
+def merge_independent_seed(point_cutoff_prob: dict, eligibility_fields_path: Path):
+    """Step 10 of the requested pipeline: merge independent-seed status into
+    the simulated P(final point rank <= cutoff) results.
+
+    This step itself needs NO new data -- player_eligibility_fields_2026-10-06.csv
+    already has independent_seed computed deterministically. The rule (per
+    the user's CRITICAL GUARDS): a player with independent_seed == "TRUE" AND
+    independent_seed_type backed by a RULE_CONFIRMED exemption gets
+    2027_seed_probability = 100%, full stop -- her simulated point-rank
+    probability is NOT used instead, and she is NOT removed from the Top60
+    population (no promotion of the next player). Everyone else keeps their
+    simulated P(final point rank <= cutoff) as-is.
+    """
+    elig = read_csv(eligibility_fields_path)
+    elig_by_name = {r["player"]: r for r in elig}
+    merged = {}
+    for name, prob in point_cutoff_prob.items():
+        e = elig_by_name.get(name)
+        if e and e["independent_seed"] == "TRUE":
+            merged[name] = {"2027_seed_probability": 1.0, "basis": "independent_seed (RULE_CONFIRMED)"}
+        else:
+            merged[name] = {"2027_seed_probability": prob, "basis": "simulated P(final point rank <= cutoff)"}
+    return merged
+
+
+def run_v2_recent_form(*args, **kwargs):
+    """V2 (recent-5/recent-10 weighted ability model) is NOT implemented.
+
+    It requires per-player, per-tournament finish data (recent 5/10 events,
+    cut rate, Top20/10/5, wins, round scoring, field strength, SG-where-
+    available) -- this session has never had access to any of it (mainRecord
+    collection blocked all session, see SEED_POINT_SYSTEM_GAP.md section 13).
+    Implementing this with synthetic/invented performance numbers would
+    produce a model that LOOKS real but isn't -- refusing instead.
+    """
+    raise NotImplementedError(
+        "V2 recent-form model requires per-tournament player performance data "
+        "(recent finishes, cut rate, Top-N rates, SG) that has never been "
+        "obtained this session. Not implemented -- would require fabricating "
+        "performance numbers. See SEED_POINT_SYSTEM_GAP.md section 16."
+    )
+
+
+def run_walkforward_backtest(*args, **kwargs):
+    """Walk-forward backtest is NOT implemented -- it requires historical
+    per-tournament results (to hide future events and check calibration
+    against what actually happened), which is the same mainRecord data
+    that's been blocked all session. See SEED_POINT_SYSTEM_GAP.md section 16.
+    """
+    raise NotImplementedError(
+        "Walk-forward backtest requires historical per-tournament results "
+        "that have never been obtained this session. Not implemented -- "
+        "would require fabricating past outcomes. See SEED_POINT_SYSTEM_GAP.md section 16."
+    )
 
 
 def main():
