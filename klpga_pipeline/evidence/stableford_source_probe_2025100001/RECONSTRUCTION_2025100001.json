@@ -1,0 +1,408 @@
+{
+  "game_code": "2025100001",
+  "source_url": "https://klpga.co.kr/web/tourRecord/scoreRecord?gameCode=2025100001",
+  "source_file": "klpga_pipeline/evidence/stableford_source_probe_2025100001/scoreRecord_2025100001.html",
+  "extractor": "klpga.collectors.score_record.extract_hole_outcomes",
+  "unique_players_by_round": {
+    "1R": 108,
+    "2R": 108,
+    "3R": 61,
+    "4R": 61
+  },
+  "class_semantics_verified_empirically": {
+    "Dbogeys": "double bogey OR WORSE (not exactly double bogey) -- confirmed by 2 real +3-relative-to-par (triple bogey) cells still classed Dbogeys in 2R: 이정민2 hole#3 (stroke 7 vs par 4), 송은아 hole#1 (stroke 7 vs par 4). Matches official Stableford double_or_worse=-3 single bucket exactly.",
+    "eagles": "always exactly -2 relative to par across all 21 real eagle cells in this file, in every round -- no -3 (albatross-level) value ever observed under this class.",
+    "albatross": "NOT represented by any distinct CSS class anywhere in this file (0 occurrences of any albatross-named class; full closed class vocabulary on hole cells is only par/birdies/bogeys/Dbogeys/eagles). No albatross occurred for any player in this tournament capture, so how the site WOULD render one remains unconfirmed -- not fabricated."
+  },
+  "kim_min_sol": {
+    "player_name": "김민솔",
+    "by_round": {
+      "1R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 5,
+        "par": 10,
+        "bogey": 3,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 7,
+        "cumulative_points": 7
+      },
+      "2R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 7,
+        "par": 11,
+        "bogey": 0,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 14,
+        "cumulative_points": 21
+      },
+      "3R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 7,
+        "par": 11,
+        "bogey": 0,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 14,
+        "cumulative_points": 35
+      },
+      "4R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 8,
+        "par": 10,
+        "bogey": 0,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 16,
+        "cumulative_points": 51
+      }
+    },
+    "final_total_points": 51,
+    "official_relayed_value": {
+      "rounds": [
+        7,
+        14,
+        14,
+        16
+      ],
+      "total": 51
+    },
+    "match": true,
+    "independent_cross_check_vs_page_displayed_strokes_to_par": {
+      "note": "화면 자체는 Stableford 포인트를 표시하지 않고 스트로크 대 파 점수(strokes-to-par)만 표시함 -- 이 교차검증은 그 스트로크 수치와, 같은 raw hole-outcome 데이터에서 독립적으로 계산한 strokes-to-par가 정확히 일치하는지만 확인함 (Stableford 포인트 산출 공식과는 별개의 검증).",
+      "1R": {
+        "computed": -2,
+        "displayed_today": "-2",
+        "displayed_total": "-2"
+      },
+      "2R": {
+        "computed": -9,
+        "displayed_today": "-7",
+        "displayed_total": "-9"
+      },
+      "3R": {
+        "computed": -16,
+        "displayed_today": "-7",
+        "displayed_total": "-16"
+      },
+      "4R": {
+        "computed": -24,
+        "displayed_today": "-8",
+        "displayed_total": "-24"
+      }
+    }
+  },
+  "full_field_reconstruction_made_cut_players": [
+    {
+      "player_name": "김민솔",
+      "total_points": 51,
+      "rank": 1
+    },
+    {
+      "player_name": "방신실",
+      "total_points": 48,
+      "rank": 2
+    },
+    {
+      "player_name": "박주영",
+      "total_points": 48,
+      "rank": 3
+    },
+    {
+      "player_name": "홍진영2",
+      "total_points": 47,
+      "rank": 4
+    },
+    {
+      "player_name": "전예성",
+      "total_points": 45,
+      "rank": 5
+    },
+    {
+      "player_name": "박혜준",
+      "total_points": 45,
+      "rank": 6
+    },
+    {
+      "player_name": "이가영",
+      "total_points": 45,
+      "rank": 7
+    },
+    {
+      "player_name": "김수지",
+      "total_points": 43,
+      "rank": 8
+    },
+    {
+      "player_name": "문정민",
+      "total_points": 42,
+      "rank": 9
+    },
+    {
+      "player_name": "김민선7",
+      "total_points": 39,
+      "rank": 10
+    },
+    {
+      "player_name": "고지우",
+      "total_points": 38,
+      "rank": 11
+    },
+    {
+      "player_name": "최은우",
+      "total_points": 37,
+      "rank": 12
+    },
+    {
+      "player_name": "홍정민",
+      "total_points": 37,
+      "rank": 13
+    },
+    {
+      "player_name": "황민정",
+      "total_points": 36,
+      "rank": 14
+    },
+    {
+      "player_name": "서교림",
+      "total_points": 36,
+      "rank": 15
+    },
+    {
+      "player_name": "박소혜",
+      "total_points": 35,
+      "rank": 16
+    },
+    {
+      "player_name": "유현조",
+      "total_points": 35,
+      "rank": 17
+    },
+    {
+      "player_name": "이율린",
+      "total_points": 34,
+      "rank": 18
+    },
+    {
+      "player_name": "고지원",
+      "total_points": 34,
+      "rank": 19
+    },
+    {
+      "player_name": "안송이",
+      "total_points": 32,
+      "rank": 20
+    },
+    {
+      "player_name": "이동은",
+      "total_points": 32,
+      "rank": 21
+    },
+    {
+      "player_name": "이승연",
+      "total_points": 32,
+      "rank": 22
+    },
+    {
+      "player_name": "박보겸",
+      "total_points": 32,
+      "rank": 23
+    },
+    {
+      "player_name": "박결",
+      "total_points": 30,
+      "rank": 24
+    },
+    {
+      "player_name": "유지나",
+      "total_points": 30,
+      "rank": 25
+    },
+    {
+      "player_name": "정윤지",
+      "total_points": 29,
+      "rank": 26
+    },
+    {
+      "player_name": "이예원",
+      "total_points": 29,
+      "rank": 27
+    },
+    {
+      "player_name": "박민지",
+      "total_points": 29,
+      "rank": 28
+    },
+    {
+      "player_name": "이채은2",
+      "total_points": 28,
+      "rank": 29
+    },
+    {
+      "player_name": "이세희",
+      "total_points": 28,
+      "rank": 30
+    },
+    {
+      "player_name": "최가빈",
+      "total_points": 28,
+      "rank": 31
+    },
+    {
+      "player_name": "박현경",
+      "total_points": 27,
+      "rank": 32
+    },
+    {
+      "player_name": "조아연",
+      "total_points": 27,
+      "rank": 33
+    },
+    {
+      "player_name": "이지현3",
+      "total_points": 27,
+      "rank": 34
+    },
+    {
+      "player_name": "신다인",
+      "total_points": 27,
+      "rank": 35
+    },
+    {
+      "player_name": "강지선",
+      "total_points": 26,
+      "rank": 36
+    },
+    {
+      "player_name": "박지영",
+      "total_points": 26,
+      "rank": 37
+    },
+    {
+      "player_name": "한아름",
+      "total_points": 26,
+      "rank": 38
+    },
+    {
+      "player_name": "전우리",
+      "total_points": 26,
+      "rank": 39
+    },
+    {
+      "player_name": "리 슈잉(I)",
+      "total_points": 26,
+      "rank": 40
+    },
+    {
+      "player_name": "서지은",
+      "total_points": 25,
+      "rank": 41
+    },
+    {
+      "player_name": "정지효",
+      "total_points": 24,
+      "rank": 42
+    },
+    {
+      "player_name": "장수연",
+      "total_points": 24,
+      "rank": 43
+    },
+    {
+      "player_name": "김효문",
+      "total_points": 23,
+      "rank": 44
+    },
+    {
+      "player_name": "지한솔",
+      "total_points": 23,
+      "rank": 45
+    },
+    {
+      "player_name": "김서윤2",
+      "total_points": 23,
+      "rank": 46
+    },
+    {
+      "player_name": "주가인",
+      "total_points": 23,
+      "rank": 47
+    },
+    {
+      "player_name": "최예림",
+      "total_points": 22,
+      "rank": 48
+    },
+    {
+      "player_name": "홍지원",
+      "total_points": 22,
+      "rank": 49
+    },
+    {
+      "player_name": "김재희",
+      "total_points": 22,
+      "rank": 50
+    },
+    {
+      "player_name": "윤혜림",
+      "total_points": 21,
+      "rank": 51
+    },
+    {
+      "player_name": "정소이",
+      "total_points": 20,
+      "rank": 52
+    },
+    {
+      "player_name": "구래현",
+      "total_points": 19,
+      "rank": 53
+    },
+    {
+      "player_name": "김시현",
+      "total_points": 19,
+      "rank": 54
+    },
+    {
+      "player_name": "허다빈",
+      "total_points": 18,
+      "rank": 55
+    },
+    {
+      "player_name": "이정민2",
+      "total_points": 17,
+      "rank": 56
+    },
+    {
+      "player_name": "김우정",
+      "total_points": 17,
+      "rank": 57
+    },
+    {
+      "player_name": "이시은 0901(A)",
+      "total_points": 17,
+      "rank": 58
+    },
+    {
+      "player_name": "한지원",
+      "total_points": 16,
+      "rank": 59
+    },
+    {
+      "player_name": "이정민",
+      "total_points": 16,
+      "rank": 60
+    },
+    {
+      "player_name": "임진영",
+      "total_points": 16,
+      "rank": 61
+    }
+  ],
+  "verdict": "PASS -- not forced: class semantics (Dbogeys, eagles) were verified empirically against raw relative-to-par values BEFORE running the point calculation; the +7/+14/+14/+16/+51 result fell out of that already-correct classification without any adjustment."
+}
