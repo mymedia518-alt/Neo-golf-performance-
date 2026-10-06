@@ -33,27 +33,40 @@ full_text = soup.get_text()
 raw_html = HTML_PATH.read_text(encoding="utf-8")
 
 # ---- 1. no fabricated probability numbers anywhere ----
-# "시드 확률" is allowed ONLY inside the sanctioned holdback disclosure ("시드 확률 공개를
-# 보류"), never attached to an actual percentage. Check both conditions explicitly.
+# "시드 확률" / "시드확률" is allowed ONLY inside a sanctioned holdback disclosure
+# ("...공개를 보류" or "...공개하지 않는다"), never attached to an actual percentage.
 import re
 for occ_start in [m.start() for m in re.finditer("시드\\s?확률", full_text)]:
     window = full_text[occ_start:occ_start + 20]
-    check(f'"시드 확률" occurrence at {occ_start} is the sanctioned holdback phrase',
-          "공개를 보류" in window, True)
+    check(f'"시드(공백?)확률" occurrence at {occ_start} is a sanctioned holdback phrase',
+          ("공개를 보류" in window) or ("공개하지 않는다" in window), True)
 check('no percentage figure anywhere near the word "확률" (no fabricated probability)',
       bool(re.search(r"확률[^.]{0,15}\d+(\.\d+)?%|\d+(\.\d+)?%[^.]{0,15}확률", full_text)), False)
 check('forbidden phrase "시드 생존확률" absent', "시드 생존확률" in full_text, False)
 check('probability-holdback disclosure present',
       soup.select_one('[data-testid="probability-holdback"]') is not None, True)
 check('disclosure text matches required wording',
-      "시드권 부여 최종 순위선이 명시되지 않아" in full_text, True)
+      "시드권이 부여되는 최종 포인트순위가 명시되지 않았다" in full_text, True)
 
 # point_rank display is now UNLOCKED for the 55-80 bubble, but the 2027 SEED CUTOFF is still
 # unresolved -- these cutoff-implying phrases must stay banned regardless of the unlock.
-for forbidden in ["시드확률", "안전확률", "탈락확률", "포인트 60위가 시드 경계", "안전권"]:
+# ("시드확률"/"시드 확률" itself is covered by the sanctioned-phrase window check above.)
+for forbidden in ["안전확률", "탈락확률", "포인트 60위가 시드 경계", "안전권"]:
     check(f'forbidden cutoff-implying phrase "{forbidden}" absent', forbidden in full_text, False)
 check('explicit "point_rank unlocked != seed cutoff" disclosure present',
       "이 포인트순위는 2027 시드 cutoff가 아니다" in full_text, True)
+check('final holdback sentence matches the exact red-team-locked wording',
+      "KLPGA는 2027시즌부터 정규투어 시드권 부여 기준을 상금순위에서 포인트순위로 변경한다고 발표했다. "
+      "다만 현재 확인 가능한 공식 발표에는 시드권이 부여되는 최종 포인트순위가 명시되지 않았다. "
+      "NEO는 공식 기준 확인 전 시드확률을 공개하지 않는다." in full_text, True)
+check('no text claims a specific point-rank cutoff estimate ("60위 추정")',
+      "60위 추정" in full_text, False)
+check('no text equates Top60 money rank with a confirmed seed ("Top60 = 시드" / "Top60=시드")',
+      ("Top60 = 시드" in full_text) or ("Top60=시드" in full_text), False)
+check('no text labels a specific point rank as "안전" (safe)',
+      bool(re.search(r"포인트\s*\d+\s*위[^.]{0,10}안전", full_text)), False)
+check('no text labels a specific point rank as "탈락" (eliminated)',
+      bool(re.search(r"포인트\s*\d+\s*위[^.]{0,10}탈락", full_text)), False)
 
 # ---- 2. point_table_PARTIAL rows match HTML connector rows exactly ----
 point_rows = read_csv(SR / "point_table_PARTIAL_2026-10-06.csv")
