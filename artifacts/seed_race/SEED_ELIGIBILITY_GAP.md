@@ -54,3 +54,9 @@
 ## 6. [ADDENDUM — 이후 턴] 55~80위 26명 전수 교차검증 시도 — 결과: 전원 미확인
 
 사용자가 이어서 55~80위 26명 각각에 대해 2026 출전 근거·2024~2026 우승 이력·2027 별도 자격을 전수 대조하라고 지시했다. klpga.co.kr 재접속 시도(curl + WebFetch 둘 다 403 확인), 로컬 저장소 전체 탐색(다년도 우승 이력 데이터 없음), 웹 검색(신뢰 가능한 공식 수준 근거 미확보) 세 경로를 전부 시도했으나 확보한 것은 **"26명 전원 2026시즌 우승 0회"**(공식 상금순위 데이터, 기존 검증됨) 하나뿐이었다. 그 결과 26명 전원이 **GROUP C(규정 확인 필요)** 로 분류됐다 — A(Top60 필요)/B(Top60 밖 확보)로 나눌 근거가 아직 없다. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md`, `eligibility_crosscheck_55_80.csv`.
+
+---
+
+## 7. [ADDENDUM v2 — 이후 턴] 사용자가 relay한 OFFICIAL EVIDENCE 반영, 여전히 전원 GROUP C
+
+사용자가 klpga.co.kr 공식 참가자격 페이지 3개(2026/2025 참가자격, 2026 블루헤런 참가자격)를 직접 열람해 relay했다. klpga.co.kr은 이번에도 재확인 불가(curl+WebFetch 재시도, 403 재확인)였으므로 이 relay는 **OBSERVED**(사용자가 직접 본 공식 사례, Claude 독립 재확인 불가)로 기록하고 **RULE-CONFIRMED**(규정 원문으로 확정된 것)와 분리했다. relay된 우승자 사례 10명은 전부 55~80위 밖(1~41위)이었고, 55~80위 구간에 직접 해당하는 사례는 8명(김새로미·김소정·안재희·김우정·유지나·김나현2·김서윤2·손예빈)의 **2026 entry category**뿐이었다 — `eligibility_crosscheck_55_80.csv`의 `OFFICIAL_2026_ENTRY_CATEGORY` 열에 OBSERVED로 반영. 사용자 지시대로 **2026 entry category를 안다고 2027 자격으로 자동 연장하지 않았으므로 26명 전원 여전히 GROUP C**다(A/B 이동 0명). 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v2.
