@@ -33,8 +33,17 @@ point_rows = read_csv(SR / "point_table_PARTIAL_2026-10-06.csv")
 event_rows = read_csv(SR / "remaining_events_point_PARTIAL_2026-10-06.csv")
 seed_rows = read_csv(SR / "seed_probability.csv")
 elig_rows = read_csv(SR / "eligibility_crosscheck_55_80.csv")
+bubble_points = read_csv(ROOT / "artifacts" / "seed_race" / "point_values_bubble_55_80_2026-10-06.csv")
+tie_fixture = read_csv(ROOT / "artifacts" / "seed_race" / "tie_handling_fixture_OFFICIAL.csv")
 official = json.load(open(SR / "official_money_rank_2026-10-06_full.json", encoding="utf-8"))
 official_by_name = {r["player_name"]: r for r in official}
+
+assert len(bubble_points) == 26
+bubble_points_by_rank = {int(r["current_rank"]): r for r in bubble_points}
+for r in bubble_points:
+    off = official_by_name[r["player"]]
+    assert str(off["rank"]) == r["current_rank"] and str(off["prize_money"]) == r["money"], \
+        f"bubble cross-check mismatch for {r['player']}"
 
 assert len(point_rows) == 5, f"expected 5 known point rows, got {len(point_rows)}"
 point_rows_sorted = sorted(point_rows, key=lambda r: int(r["point_rank"]))
@@ -83,8 +92,9 @@ for r in point_rows_sorted:
     </div>""")
 connector_rows_html = "\n".join(connector_html)
 
-# ---- bubble pending list (55-80 money rank, point rank unknown) ----
+# ---- bubble list (55-80 money rank): real current points, NO point_rank (unreconciled) ----
 bubble_html = []
+confirmed_points = []  # (rank, name, money, points) for players with a real points value
 for r in bubble:
     rank = int(float(r["current_rank"]))
     name = r["player"]
@@ -93,15 +103,49 @@ for r in bubble:
     group = elig.get("final_2027_group", "")
     tag = ""
     if group == "B":
-        tag = '<span class="bubble-tag tag-confirmed">2027 시드 확보</span>'
+        tag = '<span class="bubble-tag tag-confirmed">별도 시드 확보</span>'
+    bp = bubble_points_by_rank[rank]
+    if bp["points_status"] == "CONFIRMED_VALUE":
+        points_html = f'<span class="pending-points-val">{bp["points"]}점</span>'
+        confirmed_points.append((rank, name, money, int(bp["points"])))
+    else:
+        points_html = '<span class="pending-points-blank">—<sup>*</sup></span>'
     bubble_html.append(f"""
-    <div class="pending-row" data-rank="{rank}" data-player="{name}">
+    <div class="pending-row" data-rank="{rank}" data-player="{name}" data-points="{bp['points'] or ''}">
       <div class="pending-rank">{rank}<span class="pending-rank-unit">위</span></div>
       <div class="pending-name">{name}{tag}</div>
       <div class="pending-money">{won(money)}</div>
-      <div class="pending-point">포인트순위 확보 전</div>
+      <div class="pending-point">대상포인트 {points_html}<span class="pending-point-note">포인트순위: 전체 선수 집계 후 공개</span></div>
     </div>""")
 bubble_rows_html = "\n".join(bubble_html)
+
+# ---- hero comparison cards -- POINTS VALUE comparisons only, no fabricated rank/delta ----
+confirmed_points_sorted = sorted(confirmed_points, key=lambda t: -t[3])
+highest = confirmed_points_sorted[0]
+lowest = confirmed_points_sorted[-1]
+rank60 = next(t for t in confirmed_points if t[0] == 60)
+outside60_strong = [t for t in confirmed_points if t[0] > 60]
+outside60_strong_sorted = sorted(outside60_strong, key=lambda t: -t[3])
+strong_outside = outside60_strong_sorted[0]
+
+HERO_CARDS = [
+    ("이 구간에서 포인트가 가장 높다", highest),
+    ("이 구간에서 포인트가 가장 낮다(확보된 값 중)", lowest),
+    ("현재 상금 60위", rank60),
+    ("상금 60위 밖인데 포인트가 가장 강하다", strong_outside),
+]
+hero_card_html = []
+for label, (rank, name, money, points) in HERO_CARDS:
+    elig = elig_by_rank.get(rank, {})
+    exempt_html = ('<span class="hcard-exempt">별도 시드 확보</span>' if elig.get("final_2027_group") == "B" else "")
+    hero_card_html.append(f"""
+    <div class="hcard">
+      <div class="hcard-label">{label}</div>
+      <div class="hcard-name">{name}{exempt_html}</div>
+      <div class="hcard-stats">상금 {rank}위 · {won(money)}</div>
+      <div class="hcard-points">{points}점</div>
+    </div>""")
+hero_cards_html = "\n".join(hero_card_html)
 
 # 홍정민 confirmed exemption detail
 hjm = next(r for r in elig_rows if r["player"] == "홍정민")
@@ -180,7 +224,10 @@ html = f"""<!doctype html>
   .bubble-tag {{ display: inline-block; font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }}
   .tag-confirmed {{ background: var(--accent); color: #fff; }}
   .pending-money {{ font-family: "Roboto Mono", monospace; font-size: 11px; color: var(--text-dim); grid-column: 2; }}
-  .pending-point {{ grid-column: 3; grid-row: 1 / 3; font-size: 11px; font-weight: 700; color: var(--text-dim); background: var(--row-alt); padding: 3px 8px; border-radius: 6px; white-space: nowrap; }}
+  .pending-point {{ grid-column: 3; grid-row: 1 / 3; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; text-align: right; }}
+  .pending-points-val {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--accent-blue); }}
+  .pending-points-blank {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 14px; color: var(--text-dim); }}
+  .pending-point-note {{ font-size: 9.5px; font-weight: 600; color: var(--text-dim); white-space: nowrap; }}
 
   .curve-table {{ width: 100%; border-collapse: collapse; margin: 0 0 10px; font-size: 13px; }}
   .curve-table th, .curve-table td {{ padding: 6px 4px; text-align: center; border-bottom: 1px solid var(--row-alt); }}
@@ -189,11 +236,26 @@ html = f"""<!doctype html>
   .curve-bar {{ height: 100%; background: var(--accent-blue); border-radius: 999px; }}
   .curve-points {{ font-family: "Roboto Mono", monospace; font-weight: 800; color: var(--accent-blue); }}
 
+  .tie-fixture {{ background: var(--bg-alt); border-radius: 12px; padding: 14px 16px; margin-top: 16px; }}
+  .tie-fixture-title {{ font-weight: 800; font-size: 13px; margin: 0 0 10px; color: var(--text); }}
+
+  .hero-card-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }}
+  .hcard {{ background: var(--bg-alt); border-radius: 12px; padding: 14px 12px; }}
+  .hcard-label {{ font-size: 10.5px; font-weight: 700; color: var(--text-dim); margin-bottom: 6px; line-height: 1.4; }}
+  .hcard-name {{ font-weight: 800; font-size: 16px; margin-bottom: 4px; }}
+  .hcard-exempt {{ display: inline-block; background: var(--accent); color: #fff; font-size: 9px; font-weight: 800; padding: 1px 6px; border-radius: 999px; margin-left: 5px; vertical-align: middle; }}
+  .hcard-stats {{ font-size: 11px; color: var(--text-dim); margin-bottom: 6px; }}
+  .hcard-points {{ font-family: "Roboto Mono", monospace; font-weight: 800; font-size: 20px; color: var(--accent-blue); }}
+
   .exempt-card {{ display: flex; align-items: center; gap: 12px; background: var(--bg-alt); border-radius: 12px; padding: 14px 16px; margin: 0 0 10px; }}
   .exempt-badge {{ background: var(--accent); color: #fff; font-size: 11px; font-weight: 800; padding: 3px 10px; border-radius: 999px; white-space: nowrap; }}
   .exempt-badge.pending {{ background: var(--row-alt); color: var(--text-dim); }}
   .exempt-name {{ font-weight: 800; font-size: 14.5px; }}
   .exempt-detail {{ font-size: 12px; color: var(--text-dim); }}
+
+  @media (max-width: 480px) {{
+    .hero-card-grid {{ grid-template-columns: 1fr; }}
+  }}
 
   section.disclosure {{ background: var(--bg-alt); border-radius: 14px; padding: 22px 20px; margin-bottom: 28px; }}
   section.disclosure h2 {{ font-size: 16px; font-family: "Big Shoulders Display", sans-serif; font-weight: 700; margin: 0 0 12px; }}
@@ -262,33 +324,50 @@ html = f"""<!doctype html>
     <p class="dim" style="margin-top:14px;">가장 큰 역전: <strong style="color:var(--text)">김민솔(상금 1위 → 포인트 2위)과 서교림(상금 2위 → 포인트 1위)</strong>의 자리가 바뀐다 — 상금은 김민솔이 더 많지만(15.3억 vs 14.1억) 포인트는 서교림이 더 높다(563 vs 486).</p>
   </section>
 
-  <section class="block" data-testid="bubble-pending">
+  <section class="block" data-testid="bubble-hero-cards">
     <p class="eyebrow">55 ~ 80위 상금 버블존</p>
-    <h2>여기가 진짜 궁금한 구간이다</h2>
-    <p class="dim">상금 60위를 둘러싼 이 26명의 포인트순위는 아직 공식적으로 확보되지 않았다 — 공식 포인트 데이터가 더 공개되는 대로 이 표가 채워진다. 지금은 억측으로 채우지 않는다.</p>
+    <h2>이 구간에서 가장 눈에 띄는 선수들</h2>
+    <p class="dim">아래는 전부 <strong>실제 공식 누적 대상포인트 값</strong>만으로 비교한 것이다. 전체 선수 포인트가 아직 다 모이지 않아 "몇 위"라는 공식 포인트순위는 아직 매기지 않는다 — 순위를 매기려면 이 26명 밖의 선수들 포인트도 필요하기 때문이다.</p>
+    <div class="hero-card-grid">
+{hero_cards_html}
+    </div>
+  </section>
+
+  <section class="block" data-testid="bubble-pending">
+    <h2>55~80위 전체 — 상금과 대상포인트</h2>
+    <p class="dim">상금순위는 공식 확정값, 대상포인트는 공식 relay값이다. <strong>포인트순위(전체 선수 중 몇 위)는 아직 공개하지 않는다</strong> — 이 26명 밖 선수들의 포인트가 전부 모여야 정확한 순위를 매길 수 있고, 이 26명만 정렬해 "순위"라고 부르는 것은 공식 순위와 다를 수 있어 하지 않는다.</p>
     <div class="pending-list">
 {bubble_rows_html}
     </div>
+    <p class="dim" style="margin-top:10px;">* 대상포인트가 "—"인 선수는 원본 자료에 값이 비어 있었다 — (A) 2026시즌 대상포인트 획득 실적 없음 (B) 대상포인트 순위 자격 미충족 (C) 자료 누락, 셋 중 무엇인지 아직 특정하지 못해 그대로 빈칸으로 둔다.</p>
   </section>
 
   <section class="block" data-testid="top10-curve">
     <p class="eyebrow">Point System</p>
     <h2>포인트는 상위권에 집중된다</h2>
-    <p>포인트는 아무 대회에서 상금만 받는다고 쌓이는 것이 아니다. 대상포인트는 상위권 성적에 집중된다 — 10억원 규모 대회(HJ중공업·동부건설, S-OIL)의 공식 배점:</p>
+    <p>10억원 일반대회에서는 Top10에 들어야 대상포인트를 얻는다. 11위 이하는 대상포인트가 없다 — HJ중공업·동부건설, S-OIL(둘 다 10억원 규모)의 공식 배점:</p>
     <table class="curve-table">
       <tr><th>순위</th><th>포인트</th><th></th></tr>
       {"".join(f'<tr><td>{i+1}위</td><td class="curve-points">{p}</td><td><div class="curve-bar-wrap"><div class="curve-bar" style="width:{round(p/70*100)}%"></div></div></td></tr>' for i, p in enumerate([70,35,33,31,29,27,25,23,21,20]))}
       <tr><td>11위 이하</td><td class="curve-points">0</td><td></td></tr>
     </table>
-    <p class="dim">아이스버그골프·서울신문(15억원 규모)은 1위 포인트(90)만 공식 확인됐고, 2위 이하 배점은 아직 확보되지 않았다.</p>
+    <p class="dim">이 "11위부터 0점" 규칙은 10억원 일반대회 기준이며, 다른 대회 규모·메이저에도 똑같이 적용된다고 일반화하지 않는다 — 아이스버그골프·서울신문(15억원 규모)은 1위 포인트(90)만 공식 확인됐고, 2위 이하 배점은 아직 확보되지 않았다.</p>
+    <div class="tie-fixture">
+      <p class="tie-fixture-title">공동순위는 어떻게 처리할까 — 실제 공식 사례(12억원 대회)</p>
+      <table class="curve-table">
+        <tr><th>순위</th><th>인원</th><th>1인당 포인트</th></tr>
+        {"".join(f'<tr><td>{r["tied_finish_label"]}</td><td>{r["n_tied_players"]}명</td><td class="curve-points">{r["points_each"]}</td></tr>' for r in tie_fixture)}
+      </table>
+      <p class="dim">공동순위라고 포인트를 나눠 갖거나 평균내지 않는다 — 공동 순위자 전원이 그 순위의 포인트를 동일하게 받는다(예: T2 세 명 모두 40점씩, 나눠서 각 13.3점이 아니다).</p>
+    </div>
   </section>
 
   <section class="block" data-testid="why-reversal">
     <p class="eyebrow">Why</p>
     <h2>왜 순위가 뒤집힐까</h2>
     <p>상금과 포인트는 모두 좋은 성적에서 나온다. 하지만 계산법은 다르다.</p>
-    <p>상금은 대회 상금 규모와 배분에 따라 누적되고, 대상포인트는 상위권 성적에 집중된다. 위 표에서 보듯 10억원 대회는 10위 밖이면 포인트가 0이다 — 상금은 순위가 낮아도 어느 정도 받지만, 포인트는 그렇지 않다.</p>
-    <p>그래서 시즌 누적 상금이 비슷한 선수라도, 몇 번이나 상위권(특히 톱10)에 들었는지에 따라 포인트 차이가 크게 날 수 있다.</p>
+    <p>상금은 대회 상금 규모와 배분에 따라 누적되고, 대상포인트는 상위권 성적에 집중된다. 위 표에서 보듯 10억원 일반대회는 10위 밖이면 포인트가 0이다 — 상금은 순위가 낮아도 어느 정도 받지만, 포인트는 그렇지 않다.</p>
+    <p>그래서 시즌 누적 상금이 비슷한 선수라도, 몇 번이나 상위권(특히 톱10)에 들었는지에 따라 포인트 차이가 날 수 있다.</p>
   </section>
 
   <section class="block" data-testid="independent-seed">

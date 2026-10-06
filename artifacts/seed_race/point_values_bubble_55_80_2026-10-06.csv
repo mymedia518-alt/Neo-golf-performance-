@@ -1,0 +1,27 @@
+current_rank,player,money,points,points_status,point_rank,point_rank_status,evidence_type,source
+55,마서영,164138333,42,CONFIRMED_VALUE,UNRECONCILED,"not computed -- full-field points not available, sorting this subset would not match the official ranking",OBSERVED (user relay from https://klpga.co.kr/load/record/loadPublicRecord; Claude cannot independently fetch),klpga.co.kr/load/record/loadPublicRecord
+56,지한솔,162531765,52,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+57,김지윤2,154330000,60,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+58,안재희,147941051,23,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+59,조아연,147340000,73,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+60,김새로미,147312262,57,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+61,한아름,146194643,,BLANK_UNRESOLVED,UNRECONCILED,"blank in source -- NOT asserted as 0; could be (A) no 2026 points earned (B) did not meet point-ranking eligibility (C) source data missing -- not distinguished, shown as a dash with footnote",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+62,한지원,144250000,54,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+63,최정원,142181250,25,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+64,김우정,140947857,25,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+65,마다솜,138882523,25,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+66,홍정민,134968333,67,CONFIRMED_VALUE,UNRECONCILED,"same as above -- independent 2027 exemption already CONFIRMED separately (see eligibility_crosscheck_55_80.csv), unaffected by this points value",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+67,최민경,129244285,41,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+68,박결,125776429,31,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+69,홍지원,125517143,25,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+70,김소정,123000000,44,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+71,김나현2,120950000,60,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+72,이재윤,118499643,,BLANK_UNRESOLVED,UNRECONCILED,"same blank caveat as rank61",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+73,김서윤2,115551250,21,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+74,김하은2,113178333,20,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+75,유지나,112322143,,BLANK_UNRESOLVED,UNRECONCILED,"same blank caveat as rank61",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+76,이주미,109730000,,BLANK_UNRESOLVED,UNRECONCILED,"same blank caveat as rank61",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+77,손예빈,96270000,35,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+78,왕 즈쉬엔,94440715,,BLANK_UNRESOLVED,UNRECONCILED,"same blank caveat as rank61",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+79,박서현,94024643,,BLANK_UNRESOLVED,UNRECONCILED,"same blank caveat as rank61",OBSERVED,klpga.co.kr/load/record/loadPublicRecord
+80,현세린,93047500,23,CONFIRMED_VALUE,UNRECONCILED,"same as above",OBSERVED,klpga.co.kr/load/record/loadPublicRecord

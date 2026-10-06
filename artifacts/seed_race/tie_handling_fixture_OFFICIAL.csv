@@ -1,0 +1,5 @@
+purse_bracket,tied_finish_label,n_tied_players,points_each,note,evidence_type,source
+12억~15억 미만,T2,3,40,"3-way tie for 2nd, each player awarded the full 2nd-place point value (not split or averaged across the tied group)",OBSERVED (user relay, official 12억원 event result used as regression example),user relay
+12억~15억 미만,T5,3,34,"3-way tie for 5th, each player awarded the full 5th-place value",OBSERVED,user relay
+12억~15억 미만,T8,2,28,"2-way tie for 8th, each player awarded the full 8th-place value",OBSERVED,user relay
+12억~15억 미만,10,1,25,"sole 10th place, no tie",OBSERVED,user relay
