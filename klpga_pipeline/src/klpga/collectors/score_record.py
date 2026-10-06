@@ -154,6 +154,128 @@ def parse_score_record_html(html: str) -> list[dict]:
 # precedence rule this exists to get right.
 # ---------------------------------------------------------------------
 
+# ---------------------------------------------------------------------
+# Modified-Stableford source-discovery task (HJ 2026100004 gap, continued
+# 2026-10-06). The scoreRecord table cells above (td.par/td.birdies/
+# td.bogeys, CONFIRMED real against tests/fixtures/
+# score_record_2026120001_r1.html -- direct inspection, see that
+# fixture's 양효진 row: bogeys(5),bogeys(5),birdies(2),par(4),birdies(4),
+# par(4),par(4),birdies(2),par(5) -> OUT=35 [matches raw stroke sum],
+# then par/birdies x9 more -> IN=33, grand total=68, and the td.today
+# cell independently reads "-4" which is exactly birdie_count(6)*-1 +
+# bogey_count(2)*+1 = -4 -- a real, verified cross-check, not assumed)
+# already carry PER-HOLE outcome classification, independent of
+# gameMethod. This is exactly what klpga.website_v2.stableford_scoring.
+# HoleOutcomeCounts needs as input. The function below extracts that,
+# generically, from whatever scoreRecord page is handed to it -- it has
+# only ever been run against this ONE real stroke-play fixture so far;
+# it has NOT yet been run against a real Modified Stableford gameCode
+# (2023100002/2024100009/2025100001/2026100004) response, because no
+# such real captured HTML exists in this repo yet. Extending/validating
+# this against those gameCodes is the next step once that real HTML is
+# available -- never assumed to work for gameMethod=2 without it.
+# ---------------------------------------------------------------------
+
+# CSS class -> klpga.website_v2.stableford_scoring.HoleOutcomeCounts field.
+# Only classes actually confirmed to exist in real scoreRecord markup
+# (see klpga.config's SCORE_RECORD_ENDPOINT / SCORE_DETAIL_ENDPOINT
+# provenance notes) are mapped; "albatross"/"albatrosses" is included
+# defensively (never observed live yet, same caveat already carried by
+# config.py for the sibling scoreDetail endpoint) rather than omitted
+# and silently miscounted if it ever does appear.
+_HOLE_OUTCOME_CLASS_TO_FIELD = {
+    "par": "par",
+    "birdie": "birdie",
+    "birdies": "birdie",
+    "bogey": "bogey",
+    "bogeys": "bogey",
+    "eagle": "eagle",
+    "eagles": "eagle",
+    "Dbogeys": "double_or_worse",  # exact case confirmed real -- td.get("class") matching is case-sensitive
+    "doublebogey": "double_or_worse",
+    "albatross": "albatross",
+    "albatrosses": "albatross",
+}
+
+
+def extract_hole_outcomes(html: str) -> dict:
+    """Real extraction (not a stub): the scoreRecord page embeds ONE
+    `table.table-scorecard` block PER ROUND PLAYED SO FAR -- CONFIRMED
+    by direct inspection of tests/fixtures/score_record_2026120001_r1.html,
+    which (despite its "r1" filename) actually contains TWO such tables:
+    the first table's own header row reads "1R" and has 120 player rows;
+    the second's reads "2R" and has 60 (fewer players -- e.g. a later tee
+    time group not yet finished, or only the players who have a round 2
+    in progress). The SAME player name (e.g. 최예림) legitimately has
+    DIFFERENT hole-outcome rows in each table -- these are different
+    rounds of the SAME tournament, not a data conflict -- discovered by
+    this function's own test initially raising a false "conflicting
+    rows" error before this round-keyed design was adopted. Each table
+    is keyed by that header round-label (e.g. "1R", "2R") exactly as
+    printed on the real page, never renumbered or guessed.
+
+    For each table, walk each `tbody tr` that has a `td.name`, collect
+    every `td` whose class is a known hole-outcome class (in document
+    order -- this is exactly the 18 per-hole cells; `td.out`/`td.in`/
+    `td.total`/`td.today`/`td.rank`/`td.nation`/`td.1R` etc are different
+    classes entirely and are skipped, not misparsed), and build a
+    `klpga.website_v2.stableford_scoring.HoleOutcomeCounts` per player
+    name. Returns `{round_label: {player_name: HoleOutcomeCounts}}`.
+
+    Within a SINGLE round's table, the same player name appearing twice
+    with DIFFERING counts still raises ValueError -- that would be a
+    real conflict (two rows claiming to be the same player's same
+    round), unlike the across-tables case this function now handles."""
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
+    from klpga.website_v2.stableford_scoring import HoleOutcomeCounts  # noqa: E402
+
+    soup = BeautifulSoup(html, "html.parser")
+    by_round: dict[str, dict[str, HoleOutcomeCounts]] = {}
+    found_any_table = False
+    for table in soup.select("table.table-scorecard, .table-scorecard table"):
+        tbody = table.find("tbody")
+        thead = table.find("thead")
+        if tbody is None or thead is None:
+            continue
+        header_rows = thead.find_all("tr")
+        if len(header_rows) < 2:
+            continue
+        round_label_th = header_rows[1].find("th")
+        round_label = " ".join(round_label_th.get_text(" ", strip=True).split()) if round_label_th else None
+        if not round_label:
+            continue
+        by_name = by_round.setdefault(round_label, {})
+        for tr in tbody.find_all("tr", recursive=False):
+            name_cell = tr.select_one("td.name")
+            if name_cell is None:
+                continue
+            found_any_table = True
+            player_name = " ".join(name_cell.get_text(" ", strip=True).split())
+            counts = {"albatross": 0, "eagle": 0, "birdie": 0, "par": 0, "bogey": 0, "double_or_worse": 0}
+            for td in tr.find_all("td"):
+                classes = td.get("class") or []
+                field = next((_HOLE_OUTCOME_CLASS_TO_FIELD[c] for c in classes if c in _HOLE_OUTCOME_CLASS_TO_FIELD), None)
+                if field is None:
+                    continue
+                stroke_text = " ".join(td.get_text(" ", strip=True).split())
+                if not stroke_text.isdigit():
+                    continue  # defensive: a hole with no recorded stroke yet (not played) -- not counted
+                counts[field] += 1
+            row_outcome = HoleOutcomeCounts(**counts)
+            prior = by_name.get(player_name)
+            if prior is not None and prior != row_outcome:
+                raise ValueError(
+                    f"conflicting hole-outcome rows for player_name={player_name!r} "
+                    f"within round {round_label!r}: {prior} vs {row_outcome}"
+                )
+            by_name[player_name] = row_outcome
+    if not found_any_table:
+        raise ValueError("no table.table-scorecard with any td.name row found in scoreRecord HTML")
+    return by_round
+
+
 _CUT_BOUNDARY_CLASS = "table-cut"
 _CUT_BOUNDARY_TEXT = "missed cut"
 _EXPLICIT_ROUND_STATUS_VALUES = {"WD", "DQ", "DNS", "CUT"}
