@@ -1,0 +1,431 @@
+{
+  "run_at_utc": "2026-10-06T20:50:08.954733+00:00",
+  "results": [
+    {
+      "game_code": "2024040017",
+      "tournament_name": "두산건설 We’ve 챔피언십",
+      "start_date": "2024-04-04",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024040017_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1520903,
+      "sha256": "6b9ec29b9237451a390d4f7a8a07725b849d887a3e39500042e84c3597f5c59d",
+      "acquired_at_utc": "2026-10-06T20:49:28.361824+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 73,
+        "4R": 73
+      }
+    },
+    {
+      "game_code": "2024040018",
+      "tournament_name": "메디힐 · 한국일보 챔피언십",
+      "start_date": "2024-04-11",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024040018_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1418799,
+      "sha256": "1e4c587ec92b9549ad2a2681c4406dffa1c53096c9c1f0f260e4df447375bacb",
+      "acquired_at_utc": "2026-10-06T20:49:29.344267+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2024040019",
+      "tournament_name": "넥센 · 세인트나인 마스터즈 2024",
+      "start_date": "2024-04-19",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024040019_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1227839,
+      "sha256": "32daba840851b976be9a07a80b711a889a477effd53e8f71c170dbc48a4943ba",
+      "acquired_at_utc": "2026-10-06T20:49:30.958939+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 66
+      }
+    },
+    {
+      "game_code": "2024040020",
+      "tournament_name": "크리스에프앤씨 제46회 KLPGA 챔피언십",
+      "start_date": "2024-04-25",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024040020_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1505952,
+      "sha256": "77a7efc2d83190633d483a7e65a04e3d811f53d4ab0fbe4a5ec562f20424ab49",
+      "acquired_at_utc": "2026-10-06T20:49:32.758538+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 132,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2024050014",
+      "tournament_name": "제10회 교촌 1991 레이디스 오픈",
+      "start_date": "2024-05-03",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024050014_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1315775,
+      "sha256": "825b1474474c048cee9b99f85ef5b4e37925dedcd1270164153dc38f74f0a41a",
+      "acquired_at_utc": "2026-10-06T20:49:34.390243+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 132,
+        "3R": 67
+      }
+    },
+    {
+      "game_code": "2024050015",
+      "tournament_name": "2024 NH투자증권 레이디스 챔피언십",
+      "start_date": "2024-05-10",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024050015_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1283229,
+      "sha256": "1655d6136f9494128721ed1b101c554139c322d8d98a43ffc878a252f336f56e",
+      "acquired_at_utc": "2026-10-06T20:49:36.209364+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 62
+      }
+    },
+    {
+      "game_code": "2024050017",
+      "tournament_name": "제12회 E1 채리티 오픈",
+      "start_date": "2024-05-24",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024050017_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1377961,
+      "sha256": "9de9cd42f94dec53043d966f0c8b9f8db7352c4d5af0b58043d97bf311e9ef9f",
+      "acquired_at_utc": "2026-10-06T20:49:37.871337+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 144,
+        "2R": 143,
+        "3R": 66
+      }
+    },
+    {
+      "game_code": "2024050018",
+      "tournament_name": "Sh수협은행 MBN 여자오픈",
+      "start_date": "2024-05-31",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024050018_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1219369,
+      "sha256": "a9cbd5b94d1f5af69d412598589ab6e8024958aab9e0418d93321221a3b05904",
+      "acquired_at_utc": "2026-10-06T20:49:39.968431+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 119,
+        "2R": 119,
+        "3R": 65
+      }
+    },
+    {
+      "game_code": "2024060013",
+      "tournament_name": "2024 셀트리온 퀸즈 마스터즈",
+      "start_date": "2024-06-07",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024060013_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1204119,
+      "sha256": "01fed6b2a73d8ac83cbfebab5c35562c9859141b87311eedaea46abb142440c7",
+      "acquired_at_utc": "2026-10-06T20:49:41.961774+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 61
+      }
+    },
+    {
+      "game_code": "2024060014",
+      "tournament_name": "DB그룹 제38회 한국여자오픈골프선수권대회",
+      "start_date": "2024-06-13",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024060014_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1520684,
+      "sha256": "02eacdd41dfef88db71019a3f0133b4c12273dafb91630a560a5520da4dd59c7",
+      "acquired_at_utc": "2026-10-06T20:49:43.913938+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 126,
+        "3R": 66,
+        "4R": 66
+      }
+    },
+    {
+      "game_code": "2024060015",
+      "tournament_name": "BC카드 · 한경 레이디스컵 2024",
+      "start_date": "2024-06-20",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024060015_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1532783,
+      "sha256": "daf99b7a66ee6a4a5ea8c77bd499b70c90e0410717f22ffca8620205719206b1",
+      "acquired_at_utc": "2026-10-06T20:49:45.712506+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 66,
+        "4R": 66
+      }
+    },
+    {
+      "game_code": "2024060016",
+      "tournament_name": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "start_date": "2024-06-28",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024060016_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1294036,
+      "sha256": "98dec46bb1d643781fcfa1d6e10889c8c9a553314c88156244d50106d07eaf34",
+      "acquired_at_utc": "2026-10-06T20:49:47.328354+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 130,
+        "3R": 65
+      }
+    },
+    {
+      "game_code": "2024070016",
+      "tournament_name": "롯데 오픈",
+      "start_date": "2024-07-04",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024070016_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1479267,
+      "sha256": "118f43f2a2073f60255fbef0276ecd7cdd7efa8fdd1817309834a657591771c4",
+      "acquired_at_utc": "2026-10-06T20:49:49.438491+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 131,
+        "2R": 131,
+        "3R": 61,
+        "4R": 60
+      }
+    },
+    {
+      "game_code": "2024070017",
+      "tournament_name": "하이원리조트 여자오픈 2024",
+      "start_date": "2024-07-11",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024070017_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1414518,
+      "sha256": "67247bc0fe6053f27d809076c1fac6e61077237bf058d20813c5219b95fae81a",
+      "acquired_at_utc": "2026-10-06T20:49:51.296259+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2024080014",
+      "tournament_name": "제11회 제주삼다수 마스터스",
+      "start_date": "2024-08-01",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024080014_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1473479,
+      "sha256": "35c97986109da1593d8c71790bc0103e2c96d308e24665b6d70593b64b2faa1f",
+      "acquired_at_utc": "2026-10-06T20:49:52.881515+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 131,
+        "2R": 130,
+        "3R": 60,
+        "4R": 60
+      }
+    },
+    {
+      "game_code": "2024080015",
+      "tournament_name": "한화 클래식 2024",
+      "start_date": "2024-08-22",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024080015_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1413418,
+      "sha256": "993e0c4b79dd51e8a9e7bcded19cd6aab7ece7875bc18a58c167ee5ca2ab911b",
+      "acquired_at_utc": "2026-10-06T20:49:54.466869+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 61,
+        "4R": 61
+      }
+    },
+    {
+      "game_code": "2024080016",
+      "tournament_name": "제13회 KG 레이디스 오픈",
+      "start_date": "2024-08-30",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024080016_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1198226,
+      "sha256": "e19cf8862bbdb10b94d06ca1cd3b7321aada0f01c733c1fdc39475b682ef35d4",
+      "acquired_at_utc": "2026-10-06T20:49:56.402260+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 60
+      }
+    },
+    {
+      "game_code": "2024080018",
+      "tournament_name": "더헤븐 마스터즈",
+      "start_date": "2024-08-16",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024080018_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1224749,
+      "sha256": "d9d6cd838624f228e91a593603691ed06b7f6e361a4c5568899e8040f8d35348",
+      "acquired_at_utc": "2026-10-06T20:49:58.683660+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 123,
+        "2R": 122,
+        "3R": 62
+      }
+    },
+    {
+      "game_code": "2024090006",
+      "tournament_name": "KB금융 스타챔피언십",
+      "start_date": "2024-09-05",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024090006_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1439824,
+      "sha256": "79f08139a983bd48dc086c6d72637e204ceeb81a161b0478d46e759ef80a4457",
+      "acquired_at_utc": "2026-10-06T20:50:00.536980+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 108,
+        "3R": 72,
+        "4R": 72
+      }
+    },
+    {
+      "game_code": "2024090007",
+      "tournament_name": "OK저축은행 읏맨 오픈",
+      "start_date": "2024-09-13",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024090007_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1239560,
+      "sha256": "ffbfcfa85d43f2469bde0bb5325ad7e05da74fd35021bb2eb4a11aa73040cc7e",
+      "acquired_at_utc": "2026-10-06T20:50:02.209359+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 68
+      }
+    },
+    {
+      "game_code": "2024090008",
+      "tournament_name": "대보 하우스디 오픈",
+      "start_date": "2024-09-20",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024090008_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1177048,
+      "sha256": "2c52557f7814f37b879899eed38aef691ccf2360be1a72662cb2129cf9a584bc",
+      "acquired_at_utc": "2026-10-06T20:50:04.495852+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 106,
+        "3R": 71
+      }
+    },
+    {
+      "game_code": "2024090009",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "start_date": "2024-09-26",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024090009_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1363010,
+      "sha256": "aa70d60f120cf45162f4a19893cdd4133f62f0ee9ae6368f83ccb2ce4885dde3",
+      "acquired_at_utc": "2026-10-06T20:50:06.563975+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 107,
+        "3R": 64,
+        "4R": 64
+      }
+    },
+    {
+      "game_code": "2024100008",
+      "tournament_name": "제24회 하이트진로 챔피언십",
+      "start_date": "2024-10-03",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-push\\klpga_pipeline\\evidence\\stableford_prior_2024\\2024100008_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1369105,
+      "sha256": "3da493420b94942091b2cda6ba8ea2893b7d851052d787df80abf91a9f549207",
+      "acquired_at_utc": "2026-10-06T20:50:08.374096+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 107,
+        "3R": 65,
+        "4R": 64
+      }
+    }
+  ]
+}
