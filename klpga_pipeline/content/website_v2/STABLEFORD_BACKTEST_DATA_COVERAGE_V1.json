@@ -1,0 +1,281 @@
+{
+  "generated_note": "Real investigation, 2026-10-06. See klpga.website_v2.stableford_backtest_snapshot module docstring for full detail and sourcing.",
+  "events": {
+    "2023100002": {
+      "event_start_date": "2023-10-12",
+      "field_size": 108,
+      "features": {
+        "player_identity": {
+          "players_covered": 108,
+          "field_size": 108,
+          "coverage_pct": 100.0,
+          "note": "from the event's own scoreRecord 1R NAME column only, not scores -- entry-list-equivalent, knowable before day 1"
+        },
+        "prior_sg_total_and_components": {
+          "players_covered": 102,
+          "field_size": 108,
+          "coverage_pct": 94.4,
+          "earliest_date": "2023040001",
+          "latest_permitted_game_code_month": "2023-09 (month < 10 strictly)",
+          "source": "klpga_pipeline/content/website_v2/historical_sg_warehouse_corrected_v2.json"
+        },
+        "prior_rounds_available": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "no real per-round pre-event data source found; player_round table schema exists but is 0 rows in this session"
+        },
+        "prior_tournaments_available": {
+          "players_covered": 102,
+          "field_size": 108,
+          "coverage_pct": 94.4,
+          "note": "same source/caveat as prior_sg_total_and_components -- tournament COUNT, not outcome rates"
+        },
+        "birdie_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND -- see module docstring"
+        },
+        "eagle_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "par_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "bogey_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "double_or_worse_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "scoring_average": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "derivable from player_event in principle (schema has the columns) but 0 rows; SG warehouse does not carry raw scoring average either"
+        },
+        "recent_form": {
+          "players_covered": 102,
+          "field_size": 108,
+          "coverage_pct": 94.4,
+          "note": "derivable from the same SG warehouse by taking the most-recent-N-tournaments subset of prior_game_codes -- infrastructure exists (point_in_time_features.py pattern) but not yet wired to this SG source"
+        },
+        "season_form": {
+          "players_covered": 102,
+          "field_size": 108,
+          "coverage_pct": 94.4,
+          "note": "season-to-date SG mean, as built in build_event_snapshot"
+        },
+        "course_history_iksan_cc": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "not attempted -- would only validate against each own year's Iksan CC, never transplantable to 2026 A-One CC regardless"
+        },
+        "sg_components_tee_to_green_ott_approach_atg_putting": {
+          "players_covered": 102,
+          "field_size": 108,
+          "coverage_pct": 94.4,
+          "note": "REAL, timestamp-safe at month granularity -- the one substantially-covered feature category"
+        }
+      }
+    },
+    "2024100009": {
+      "event_start_date": "2024-10-10",
+      "field_size": 108,
+      "features": {
+        "player_identity": {
+          "players_covered": 108,
+          "field_size": 108,
+          "coverage_pct": 100.0,
+          "note": "from the event's own scoreRecord 1R NAME column only, not scores -- entry-list-equivalent, knowable before day 1"
+        },
+        "prior_sg_total_and_components": {
+          "players_covered": 105,
+          "field_size": 108,
+          "coverage_pct": 97.2,
+          "earliest_date": "2024040017",
+          "latest_permitted_game_code_month": "2024-09 (month < 10 strictly)",
+          "source": "klpga_pipeline/content/website_v2/historical_sg_warehouse_corrected_v2.json"
+        },
+        "prior_rounds_available": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "no real per-round pre-event data source found; player_round table schema exists but is 0 rows in this session"
+        },
+        "prior_tournaments_available": {
+          "players_covered": 105,
+          "field_size": 108,
+          "coverage_pct": 97.2,
+          "note": "same source/caveat as prior_sg_total_and_components -- tournament COUNT, not outcome rates"
+        },
+        "birdie_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND -- see module docstring"
+        },
+        "eagle_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "par_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "bogey_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "double_or_worse_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "scoring_average": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "derivable from player_event in principle (schema has the columns) but 0 rows; SG warehouse does not carry raw scoring average either"
+        },
+        "recent_form": {
+          "players_covered": 105,
+          "field_size": 108,
+          "coverage_pct": 97.2,
+          "note": "derivable from the same SG warehouse by taking the most-recent-N-tournaments subset of prior_game_codes -- infrastructure exists (point_in_time_features.py pattern) but not yet wired to this SG source"
+        },
+        "season_form": {
+          "players_covered": 105,
+          "field_size": 108,
+          "coverage_pct": 97.2,
+          "note": "season-to-date SG mean, as built in build_event_snapshot"
+        },
+        "course_history_iksan_cc": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "not attempted -- would only validate against each own year's Iksan CC, never transplantable to 2026 A-One CC regardless"
+        },
+        "sg_components_tee_to_green_ott_approach_atg_putting": {
+          "players_covered": 105,
+          "field_size": 108,
+          "coverage_pct": 97.2,
+          "note": "REAL, timestamp-safe at month granularity -- the one substantially-covered feature category"
+        }
+      }
+    },
+    "2025100001": {
+      "event_start_date": "2025-10-01",
+      "field_size": 108,
+      "features": {
+        "player_identity": {
+          "players_covered": 108,
+          "field_size": 108,
+          "coverage_pct": 100.0,
+          "note": "from the event's own scoreRecord 1R NAME column only, not scores -- entry-list-equivalent, knowable before day 1"
+        },
+        "prior_sg_total_and_components": {
+          "players_covered": 103,
+          "field_size": 108,
+          "coverage_pct": 95.4,
+          "earliest_date": "2025040001",
+          "latest_permitted_game_code_month": "2025-09 (month < 10 strictly)",
+          "source": "klpga_pipeline/content/website_v2/historical_sg_warehouse_corrected_v2.json"
+        },
+        "prior_rounds_available": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "no real per-round pre-event data source found; player_round table schema exists but is 0 rows in this session"
+        },
+        "prior_tournaments_available": {
+          "players_covered": 103,
+          "field_size": 108,
+          "coverage_pct": 95.4,
+          "note": "same source/caveat as prior_sg_total_and_components -- tournament COUNT, not outcome rates"
+        },
+        "birdie_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND -- see module docstring"
+        },
+        "eagle_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "par_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "bogey_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "double_or_worse_rate": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "NO REAL SOURCE FOUND"
+        },
+        "scoring_average": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "derivable from player_event in principle (schema has the columns) but 0 rows; SG warehouse does not carry raw scoring average either"
+        },
+        "recent_form": {
+          "players_covered": 103,
+          "field_size": 108,
+          "coverage_pct": 95.4,
+          "note": "derivable from the same SG warehouse by taking the most-recent-N-tournaments subset of prior_game_codes -- infrastructure exists (point_in_time_features.py pattern) but not yet wired to this SG source"
+        },
+        "season_form": {
+          "players_covered": 103,
+          "field_size": 108,
+          "coverage_pct": 95.4,
+          "note": "season-to-date SG mean, as built in build_event_snapshot"
+        },
+        "course_history_iksan_cc": {
+          "players_covered": 0,
+          "field_size": 108,
+          "coverage_pct": 0.0,
+          "note": "not attempted -- would only validate against each own year's Iksan CC, never transplantable to 2026 A-One CC regardless"
+        },
+        "sg_components_tee_to_green_ott_approach_atg_putting": {
+          "players_covered": 103,
+          "field_size": 108,
+          "coverage_pct": 95.4,
+          "note": "REAL, timestamp-safe at month granularity -- the one substantially-covered feature category"
+        }
+      }
+    }
+  }
+}
