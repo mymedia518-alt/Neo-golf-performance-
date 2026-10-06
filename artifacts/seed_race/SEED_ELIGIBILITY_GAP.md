@@ -72,3 +72,9 @@
 ## 9. [ADDENDUM v4 — 이후 턴] 공식 규정 문구 2건 반영, C-WIN을 GENERAL/MAJOR로 분리 — B는 여전히 0명
 
 사용자가 공식 규정 근거 2건을 relay: (A) "프로가 되는 길" 페이지의 "정회원 입회 2주 후부터 그 다음해까지 시드권 부여" 문구 — **RULE-CONFIRMED이나 신규 입회 특전 문맥에 한정**, 기존 정회원 전체 일반 규정으로 확대해석하지 않음. (B) 2024 KLPGA 챔피언십 PREVIEW에서 2017년 우승자 장수연을 2024년 "시드권을 보유한 마지막 해"로 설명한 사례 — **메이저 우승에 장기 시드가 실제 존재한다는 패턴은 CONFIRMED**, 단 정확한 연수(예: "7년")는 이 한 사례로 역산해 확정하지 않음. 이에 따라 C-WIN을 **C-WIN-GENERAL**(지한솔·마다솜, 일반대회 우승)과 **C-WIN-MAJOR**(홍정민, 메이저 우승 + 장기 시드 패턴 존재까지 확인)로 세분화했다. 이번 턴에 klpga.co.kr 외 경로(뉴스 사이트 등)도 WebFetch로 시도했으나 역시 차단됐고, **이 세션의 네트워크 정책이 klpga.co.kr뿐 아니라 허용 목록 밖 도메인 전반을 막고 있음**을 추가로 확인했다(환경 설정에서 네트워크 접근 범위를 바꿔야 풀리는 부분). GROUP B 확정자는 여전히 0명. 다음 목표는 정규투어 일반대회/KLPGA챔피언십/기타 메이저 우승자 시드 기간과 Top60 중복자 승계 규정, 이 4가지 조항 원문 하나로 통합. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v4.
+
+---
+
+## 10. [ADDENDUM v5 — 이후 턴] 연도별 OFFICIAL 참가명단 패턴 반영 — RULE_CONFIRMED는 여전히 0건
+
+사용자가 2025/2026 공식 참가명단의 연도별 선수-카테고리 매칭을 relay했다(2023 일반대회 우승자 → 2025 참가명단, 2024 일반대회 우승자 → 2026 참가명단 패턴). 이를 "일반대회 우승자 자격이 우승 다음 시즌 한 번으로 끝나지 않는다"는 **OFFICIAL_PATTERN_OBSERVED**로 기록(정확한 연수는 역산하지 않음), 지한솔·마다솜·홍정민의 **2026 entry eligibility 자체는 OFFICIAL_ENTRY_CONFIRMED**로 격상했다. `eligibility_crosscheck_55_80.csv`에 4단계(`RULE_CONFIRMED`/`OFFICIAL_ENTRY_CONFIRMED`/`OFFICIAL_PATTERN_OBSERVED`/`UNKNOWN`) `evidence_level` 컬럼을 신설 — 집계 결과 `OFFICIAL_ENTRY_CONFIRMED` 11명, `UNKNOWN` 15명, **`RULE_CONFIRMED` 0명**. 2027 eligibility는 세 명 다 여전히 UNKNOWN이라 GROUP B 확정자는 0명 그대로. 사용자 지시대로 다음 작업은 선수별 우승 이력 추가 탐색을 중단하고, 일반대회/메이저대회 우승자의 정확한 시드 유효기간 규정 원문과 Top60 중복자 승계 조항 확보 하나로 전환됐다 — 둘 다 이번 턴 기준 미확보. 상세: `SEED_ELIGIBILITY_CROSSCHECK_55_80.md` v5.
