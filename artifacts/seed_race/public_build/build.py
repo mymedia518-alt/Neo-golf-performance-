@@ -85,8 +85,8 @@ for r in bubble:
     if is_current_60:
         row_class += " bubble-row-current60"
     line_html = (
-        '<div class="seed-line-marker" role="separator" aria-label="시드 기준선">'
-        '<span class="seed-line-text">시드 기준선</span></div>'
+        '<div class="seed-line-marker" role="separator" aria-label="상금순위 Top60 기준선">'
+        '<span class="seed-line-text">Top60 기준선</span></div>'
     ) if seed_line_before else ""
     bubble_html.append(f"""{line_html}
     <div class="{row_class}" data-rank="{rank}" data-player="{name}" data-money="{money}" data-prob="{prob:.4f}" data-medrank="{med_rank_disp}">
@@ -125,8 +125,8 @@ html = f"""<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>NEO KLPGA 시드 레이스 시뮬레이션</title>
-<meta name="description" content="현재 60위 김새로미, 시드 생존확률 31.9% — NEO KLPGA 2026 시드 레이스 시뮬레이션">
+<title>NEO KLPGA 2026 상금순위 Top60 시뮬레이션</title>
+<meta name="description" content="현재 60위 김새로미, 상금순위 Top60 확률 31.9% — NEO KLPGA 2026 상금순위 Top60 시뮬레이션">
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,6 +172,9 @@ html = f"""<!doctype html>
   .eyebrow {{ font-family: "Roboto Mono", monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase; margin: 0 0 10px; }}
 
   /* HERO */
+  .scope-banner {{ background: #fdf2e0; border: 1px solid #e3c488; color: #7a5410; border-radius: 10px; padding: 10px 14px; font-size: 12.5px; line-height: 1.6; margin: 18px 0 0; }}
+  .scope-banner strong {{ color: #7a5410; }}
+
   section.hero {{ background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 30px 24px; margin: 18px 0 32px; box-shadow: 0 1px 4px rgba(22,33,62,0.08); text-align: center; }}
   section.hero h1 {{
     font-family: "Big Shoulders Display", sans-serif;
@@ -288,20 +291,22 @@ html = f"""<!doctype html>
       <div class="letter-row"><span class="letter">E</span><span class="letter-word">EVIDENCE</span></div>
       <div class="letter-row"><span class="letter">O</span><span class="letter-word">ORACLE</span></div>
     </div>
-    <div class="wordmark-name">KLPGA 시드 레이스</div>
+    <div class="wordmark-name">2026 상금순위 Top60</div>
   </div>
   <a class="header-about-link" href="/about/">NEO GOLF DATA 소개</a>
 </header>
 
 <main>
 
+  <div class="scope-banner" data-testid="scope-banner">이 페이지는 <strong>2026시즌 상금순위 Top60 확률</strong>만 계산합니다. 2027 KLPGA 출전자격(시드) 여부는 별도 공식 기준이 추가로 적용될 수 있어, 이 확률과 동일하다고 단정하지 않습니다.</div>
+
   <section class="hero" data-testid="hero">
-    <h1>현재 60위인데,<br>시드를 지킬 확률은 31.9%</h1>
+    <h1>현재 60위인데,<br>상금순위 Top60 확률은 31.9%</h1>
     <div class="hero-card">
       <span class="hero-rank-pill">현재 60위</span>
       <p class="hero-name">김새로미</p>
       <p class="hero-money" data-field="hero-money">{won(CUR_60_MONEY)}</p>
-      <p class="hero-prob-label">NEO 시드 생존확률</p>
+      <p class="hero-prob-label">NEO 상금순위 Top60 확률</p>
       <p class="hero-prob" data-field="hero-prob">{pct1(PROB_60)}</p>
     </div>
     <p class="hero-sub">현재 순위보다 중요한 것은<br>시즌 마지막 날의 순위다.</p>
@@ -337,9 +342,9 @@ html = f"""<!doctype html>
   </section>
 
   <section class="block" data-testid="seed-bubble">
-    <p class="eyebrow">Seed Bubble</p>
+    <p class="eyebrow">Top60 Bubble</p>
     <h2>55위 ~ 70위, 지금 이 순간의 경계선</h2>
-    <p class="dim">현재 순위와 NEO가 계산한 시드 생존확률은 같은 순서로 움직이지 않는다. 57위(지한솔, {pct1(float(next(r for r in bubble if r['player']=='지한솔')['prob_top60']))})는 58위(안재희, {pct1(float(next(r for r in bubble if r['player']=='안재희')['prob_top60']))})보다 한 자리 위인데도 생존확률 차이는 두 배 이상이고, 현재 60위 김새로미({pct1(PROB_60)})와 현재 61위 한아름({pct1(float(row61['prob_top60']))})은 순위표에서는 '안'과 '밖'으로 나뉘지만 생존확률은 거의 붙어 있다.</p>
+    <p class="dim">현재 순위와 NEO가 계산한 상금순위 Top60 확률은 같은 순서로 움직이지 않는다. 57위(지한솔, {pct1(float(next(r for r in bubble if r['player']=='지한솔')['prob_top60']))})는 58위(안재희, {pct1(float(next(r for r in bubble if r['player']=='안재희')['prob_top60']))})보다 한 자리 위인데도 Top60 확률 차이는 두 배 이상이고, 현재 60위 김새로미({pct1(PROB_60)})와 현재 61위 한아름({pct1(float(row61['prob_top60']))})은 순위표에서는 '안'과 '밖'으로 나뉘지만 Top60 확률은 거의 붙어 있다.</p>
     <div class="bubble-scroll">
 {bubble_rows_html}
     </div>
@@ -365,16 +370,17 @@ html = f"""<!doctype html>
     <p>매번 경쟁 선수들의 상금도 함께 변한다. 따라서 단순히 "현재 60위 상금을 넘는가"를 계산한 것이 아니다.</p>
     <p class="warn-box">이 확률은 경기 결과를 보장하는 값이 아니라, 현재 확인 가능한 정보로 계산한 모델 추정치다.</p>
     <p>상금배분표의 일부 구간은 공식 기준점 사이를 보간했으며, 보간 방식에 따른 불확실성이 존재한다 — 예를 들어 이 페이지의 헤드라인 확률(31.9%)도 보간 방식을 바꾸면 최대 약 3.8%p 달라질 수 있다.</p>
+    <p class="warn-box">이 페이지가 계산한 것은 "2026시즌 상금순위가 60위 안에서 끝나는가"이다. 실제 다음 시즌 KLPGA 출전자격은 우승에 따른 자격 유효기간, 대회 등급별 기준 차이, 상금순위 외의 별도 자격 등 추가 공식 기준의 영향을 받을 수 있으며, 이 페이지는 그 기준까지 전부 반영하지 않았다.</p>
   </section>
 
   <section class="block" data-testid="public-copy" style="text-align:left;">
-    <p class="eyebrow">NEO KLPGA 시드 레이스 시뮬레이션</p>
-    <p>KLPGA에서 다음 시즌 시드를 지키기 위한 가장 중요한 경계 중 하나가 상금순위 60위다.</p>
+    <p class="eyebrow">NEO KLPGA 2026 상금순위 Top60 시뮬레이션</p>
+    <p>KLPGA 상금순위 60위는 다음 시즌 출전자격 논의에서 자주 언급되는 경계선이다.</p>
     <p>10월 6일 현재 60위는 김새로미. 상금은 {won(CUR_60_MONEY)}다.</p>
     <p>그렇다면 지금 60위니까 안전할까?</p>
-    <p>NEO가 남은 시즌의 상금 이동을 60,000번 시뮬레이션했다. NEO 시뮬레이션에서 김새로미의 시드 생존확률은 {pct1(PROB_60)}로 계산됐다.</p>
+    <p>NEO가 남은 시즌의 상금 이동을 60,000번 시뮬레이션했다. NEO 시뮬레이션에서 김새로미의 상금순위 Top60 확률은 {pct1(PROB_60)}로 계산됐다.</p>
     <p>이유는 간단하다. 60위 커트라인도 함께 움직이기 때문이다.</p>
-    <p class="dim">상금순위표는 오늘의 위치를 보여준다. NEO는 그 위치에서 시즌 마지막 날 살아남을 가능성을 계산한다.</p>
+    <p class="dim">상금순위표는 오늘의 위치를 보여준다. NEO는 그 위치에서 시즌 마지막 날 상금순위가 어떻게 끝날지의 가능성을 계산한다.</p>
   </section>
 
 </main>

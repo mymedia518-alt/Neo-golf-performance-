@@ -151,12 +151,27 @@ check('"60,000번 시뮬레이션" phrase present (allowed exception)',
       "60,000번" in full_text, True)
 
 # ---- 7. model label compliance ----
-check('approved model label "NEO KLPGA 시드 레이스 시뮬레이션" present',
-      "NEO KLPGA 시드 레이스 시뮬레이션" in full_text, True)
+check('approved model label "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" present',
+      "NEO KLPGA 2026 상금순위 Top60 시뮬레이션" in full_text, True)
 for forbidden in ["경기력 예측", "SG 기반", "최근 경기력 기반"]:
     check(f'forbidden model label "{forbidden}" absent', forbidden in full_text, False)
 
 check('Monte Carlo (any case) absent anywhere', "monte" in raw_html.lower(), False)
+
+# ---- 8. DEPLOY HOLD terminology correction: Top60 money-rank prob vs KLPGA seed/eligibility ----
+# Per user instruction: do not claim "시드 생존확률"/"시드 유지확률" (seed survival probability)
+# until KLPGA's official eligibility rules (winner exemption duration, major vs regular event
+# differences, non-Top60 seed categories, duplicate-holder promotion) are verified. The 60,000-run
+# numbers are unchanged; only the label changes to "상금순위 Top60 확률".
+for forbidden in ["시드 생존확률", "시드 유지확률", "시드를 지킬 확률", "시드 레이스"]:
+    check(f'forbidden seed-eligibility phrase "{forbidden}" absent', forbidden in full_text, False)
+check('scope-banner present (Top60 money-rank vs KLPGA eligibility distinction disclosed)',
+      soup.select_one('[data-testid="scope-banner"]') is not None, True)
+banner_text = soup.select_one('[data-testid="scope-banner"]').get_text() if soup.select_one('[data-testid="scope-banner"]') else ""
+check('scope-banner explicitly names "2027 KLPGA 출전자격(시드)" as a separate, unconfirmed concept',
+      "2027 KLPGA 출전자격" in banner_text, True)
+check('methodology section discloses Top60-vs-eligibility gap',
+      "출전자격은 우승에 따른 자격 유효기간" in full_text, True)
 
 print()
 if failures:
