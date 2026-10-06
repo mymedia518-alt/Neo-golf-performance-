@@ -1,0 +1,356 @@
+{
+  "run_at_utc": "2026-10-06T21:08:03.169041+00:00",
+  "results": [
+    {
+      "game_code": "2023050002",
+      "tournament_name": "KLPGA 2023050002",
+      "start_date": "2023-05-12",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023050002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1285114,
+      "sha256": "18dd7b4805dd25c5015af15dbb33f5f420f76fd81f7cc3da395fb53e02f1b615",
+      "acquired_at_utc": "2026-10-06T21:07:28.420897+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 132,
+        "3R": 62
+      }
+    },
+    {
+      "game_code": "2023050004",
+      "tournament_name": "KLPGA 2023050004",
+      "start_date": "2023-05-26",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023050004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1363589,
+      "sha256": "3469a753865b6a672ea3c0a19d6e15c2dc238ae1cae0379aab5bc90c981369a1",
+      "acquired_at_utc": "2026-10-06T21:07:29.599961+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 142,
+        "2R": 142,
+        "3R": 65
+      }
+    },
+    {
+      "game_code": "2023060001",
+      "tournament_name": "KLPGA 2023060001",
+      "start_date": "2023-06-01",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023060001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1591131,
+      "sha256": "93c231df3dcd94313e583a45334a18de66fe17aff8111c86a28fc2434f363d9d",
+      "acquired_at_utc": "2026-10-06T21:07:31.503399+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 74,
+        "4R": 72
+      }
+    },
+    {
+      "game_code": "2023060002",
+      "tournament_name": "KLPGA 2023060002",
+      "start_date": "2023-06-09",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023060002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1275961,
+      "sha256": "bb618ce4271c9749d5df74594f3e46709ad2f32411f2409ee525d5647c14baaa",
+      "acquired_at_utc": "2026-10-06T21:07:33.293425+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 123,
+        "2R": 122,
+        "3R": 71
+      }
+    },
+    {
+      "game_code": "2023060003",
+      "tournament_name": "KLPGA 2023060003",
+      "start_date": "2023-06-15",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023060003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1485909,
+      "sha256": "62c9cb4fa0bdf85357b401adf33c9454eb67be5a12e183843dbf1fde1adad61e",
+      "acquired_at_utc": "2026-10-06T21:07:35.573075+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 130,
+        "3R": 61,
+        "4R": 61
+      }
+    },
+    {
+      "game_code": "2023060004",
+      "tournament_name": "KLPGA 2023060004",
+      "start_date": "2023-06-23",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023060004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1289352,
+      "sha256": "3a6012099b028ced36535d8d1cd7af075a002c0039ed9602f747fd6ba688f31a",
+      "acquired_at_utc": "2026-10-06T21:07:37.079598+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 64
+      }
+    },
+    {
+      "game_code": "2023060005",
+      "tournament_name": "KLPGA 2023060005",
+      "start_date": "2023-06-30",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023060005_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1279124,
+      "sha256": "c54ab0760b6e1a89a374250d8d5295a9e316aba8438b6d2a7a223b61f4563c73",
+      "acquired_at_utc": "2026-10-06T21:07:38.905150+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 62
+      }
+    },
+    {
+      "game_code": "2023070001",
+      "tournament_name": "KLPGA 2023070001",
+      "start_date": "2023-07-07",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023070001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1267303,
+      "sha256": "51dcd384200d0a12d5bbac59c2098dac8378f6cd5da1fb32190b6bd3072866e7",
+      "acquired_at_utc": "2026-10-06T21:07:41.084507+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 73
+      }
+    },
+    {
+      "game_code": "2023070002",
+      "tournament_name": "KLPGA 2023070002",
+      "start_date": "2023-07-13",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023070002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1444327,
+      "sha256": "4e638b55ebc98f6f6f8a95ac23437c63f786ccc29fafa0c9f5be60c31088fe31",
+      "acquired_at_utc": "2026-10-06T21:07:43.085406+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 117,
+        "3R": 66,
+        "4R": 66
+      }
+    },
+    {
+      "game_code": "2023080001",
+      "tournament_name": "KLPGA 2023080001",
+      "start_date": "2023-08-03",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023080001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1507820,
+      "sha256": "c0ce3ddf587942679e779f8a27bc8dd25ffc0fd5dc8f108f3b6a57a4dbb62516",
+      "acquired_at_utc": "2026-10-06T21:07:45.191846+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 130,
+        "3R": 64,
+        "4R": 64
+      }
+    },
+    {
+      "game_code": "2023070003",
+      "tournament_name": "KLPGA 2023070003",
+      "start_date": "2023-08-10",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023070003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1207624,
+      "sha256": "bed644bd9bb6745d3e24771eab01f24512f8e7e405695f4d0232348453c8d844",
+      "acquired_at_utc": "2026-10-06T21:07:46.715697+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 64
+      }
+    },
+    {
+      "game_code": "2023080003",
+      "tournament_name": "KLPGA 2023080003",
+      "start_date": "2023-08-17",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023080003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1453401,
+      "sha256": "b07df2b7cc9fed63c4bec62170c7824d16d10338ca8e9fa999acdbf6964bf50e",
+      "acquired_at_utc": "2026-10-06T21:07:48.265909+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 66,
+        "4R": 66
+      }
+    },
+    {
+      "game_code": "2023080004",
+      "tournament_name": "KLPGA 2023080004",
+      "start_date": "2023-08-24",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023080004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1411869,
+      "sha256": "3543513f145c7b9a0f942156b2dc6ad2f9a10441cc60921dd95a35f418661741",
+      "acquired_at_utc": "2026-10-06T21:07:50.102479+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 61,
+        "4R": 61
+      }
+    },
+    {
+      "game_code": "2023090001",
+      "tournament_name": "제12회 KG 레이디스 오픈",
+      "start_date": "2023-09-01",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023090001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1222182,
+      "sha256": "5187eea8318558f0e63b3928ef9ca04beefde632f4a9e98047d9c0867e25554d",
+      "acquired_at_utc": "2026-10-06T21:07:52.347841+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 66
+      }
+    },
+    {
+      "game_code": "2023090002",
+      "tournament_name": "KB금융 스타챔피언십",
+      "start_date": "2023-09-07",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023090002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1448567,
+      "sha256": "b3401187cd75e871404bdfdb74d4501004433ca950366555043ea047877f3506",
+      "acquired_at_utc": "2026-10-06T21:07:54.373318+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 106,
+        "3R": 74,
+        "4R": 74
+      }
+    },
+    {
+      "game_code": "2023090003",
+      "tournament_name": "OK금융그룹 읏맨 오픈",
+      "start_date": "2023-09-15",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023090003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1208237,
+      "sha256": "606a78395fa5c64f579d7700e7bac115430490c49d9c9c05dafe5a24deee2346",
+      "acquired_at_utc": "2026-10-06T21:07:56.622030+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 63
+      }
+    },
+    {
+      "game_code": "2023090004",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "start_date": "2023-09-21",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023090004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1322245,
+      "sha256": "84310b5dbbdfe1e2c895a763970df44627d761e3782a13d94f4842ddfb708af7",
+      "acquired_at_utc": "2026-10-06T21:07:58.545617+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 107,
+        "3R": 60,
+        "4R": 60
+      }
+    },
+    {
+      "game_code": "2023090005",
+      "tournament_name": "대보 하우스디 오픈",
+      "start_date": "2023-09-29",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023090005_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1139600,
+      "sha256": "1652e8b7ccfa3b40231e2b77d3f703c2ff4e4fee5445b03fc532c3424ecc0cca",
+      "acquired_at_utc": "2026-10-06T21:08:00.435984+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 107,
+        "3R": 64
+      }
+    },
+    {
+      "game_code": "2023100001",
+      "tournament_name": "제23회 하이트진로 챔피언십",
+      "start_date": "2023-10-05",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2023\\2023100001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1358527,
+      "sha256": "a0fa12e17907d529dca00645af16ba012f17ff84c13c4292a844e2c97b43bfcb",
+      "acquired_at_utc": "2026-10-06T21:08:02.599629+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 104,
+        "3R": 65,
+        "4R": 65
+      }
+    }
+  ]
+}
