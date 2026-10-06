@@ -1,17 +1,20 @@
-# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v3 (WHY 카피 정정, point_rank는 여전히 LOCKED)
+# 2027 포인트 시드 전쟁 — PUBLIC BUILD 보고 v4 (실제 공식 사례로 TOP10 커브 교차검증, point_rank는 여전히 LOCKED)
 
-**기준**: 2027 시드 기준 전환 OFFICIAL PASS(`8642b0c`) + OFFICIAL RELAY #3(`38b03b7`, TOP10 커브) + 55~80위 실제 포인트 값(`25552f5`) + 이번 턴 **WHY 카피 수정 + mainRecord 재구성 시도(수행 불가)**
+**기준**: 2027 시드 기준 전환 OFFICIAL PASS(`8642b0c`) + OFFICIAL RELAY #3(`38b03b7`, TOP10 커브) + 55~80위 실제 포인트 값(`25552f5`) + WHY 카피 정정(`2ae4277`) + 이번 턴 **193.klpga.co.kr 재시도(재차 차단) + 장은수 포인트값 추가 + 실제 대회 결과로 TOP10 커브 교차검증**
 
-> **PUBLIC PROBABILITY = LOCKED, 변함없음.** 사용자가 2026 전체 mainRecord(선수×대회×포인트, 수천 행)를 직접 수집해 전체 선수 point_rank를 재구성하라고 지시했으나, **klpga.co.kr의 모든 경로가 이번에도 403 차단**돼 수행하지 못했다(아래 1번). 알고 있는 19명의 누적값에 맞춰 대회별 기록을 역산해 지어내는 것도 하지 않았다 — 실제 경기 기록이 아니라 숫자 맞추기이기 때문이다. 대신 **mainRecord가 오면 바로 돌아가는 재구성 스크립트**를 준비했고, **새 데이터 없이 가능한 WHY 카피 수정**은 요청하신 정확한 문구로 반영했다. point_rank/delta/reversal은 **이번에도 LOCKED.**
+> **PUBLIC PROBABILITY = LOCKED, 변함없음.** `193.klpga.co.kr`의 두 endpoint(전체 공식 기록, 공식 포인트랭킹)를 이번 턴에 다시 시도했으나 **역시 403 차단**(이 세션에서 klpga.co.kr 서브도메인이 뚫린 적은 한 번도 없다). 다만 relay된 예시 데이터 자체는 두 가지 실질적 진전을 줬다: (1) 장은수(상금 5위)의 포인트 값(212)이 새로 확인됐고, (2) **실제 공식 대회 결과(10억원 규모)가 기존에 발표했던 TOP10 배점표와 1위~10위까지 정확히 일치**함을 확인해 그 배점표의 신뢰도를 크게 높였다. point_rank/delta/reversal은 **이번에도 LOCKED** — 전체 선수 포인트가 없어서다.
 
 ---
 
-## 0. v3 — 이번 턴 요약
+## 0. v4 — 이번 턴 요약
 
-1. **mainRecord 전체 수집·재구성: 수행 불가.** `klpga.co.kr/web/record/mainRecord`, `klpga.co.kr/web/tourInfo/record`, `data.klpga.co.kr/record/mainRecord.jsp` 전부 재시도, 전부 403(`connect_rejected`) — 이 세션 내내 반복된 패턴과 동일. 상세 사유는 `SEED_POINT_SYSTEM_GAP.md` 섹션 13.
-2. **역산(reverse-engineering) 거부**: 19명의 알려진 누적값에 맞는 "그럴듯한" 대회별 기록을 만들 수는 있지만, 그것은 실제 기록이 아니라 지어낸 허구라서 하지 않았다.
-3. **대신 준비한 것**: `mainrecord_TEMPLATE.csv`(요청 스키마 그대로, 0행) + `reconcile_point_totals.py`(mainRecord를 합산해 기존 19명 공식값과 자동 대조, 빈 데이터엔 실행 거부하는 가드 포함 — 직접 테스트로 거부 확인).
-4. **WHY 카피 수정(새 데이터 불필요, 완료)**: "상금은 컷을 통과해도 쌓인다. 대상포인트는 Top10 순위에 들어야 쌓인다." — 정확히 요청된 문구로 교체. "10명만 받는다"는 헤드카운트 표현 대신 "Top10 순위"라는 순위 기준 표현 사용(공동순위 때문에 10명보다 많은 인원이 받을 수 있어, 특정 인원수를 명시하지 않음). 자동검증에 "10명만" 금지어 체크 추가.
+1. **새 endpoint 재시도, 재차 차단**: `193.klpga.co.kr/load/record/loadPublicRecord`, `193.klpga.co.kr/web/record/publicRecord` 둘 다 curl+WebFetch로 시도, 둘 다 즉시 403(`connect_rejected`). 이 세션에서 시도한 klpga.co.kr 서브도메인(www, 194, 193, data.)이 전부 동일하게 막혀 있다.
+2. **"import path" 구축**: `import_official_relay.py` — relay된 공식 데이터를 공식 상금순위 JSON과 자동 대조(불일치 시 즉시 에러로 거부)한 뒤에만 CSV에 병합하는 가져오기 스크립트. 장은수 1명을 이 경로로 검증·추가했다.
+3. **장은수(상금 5위, 686,658,333원) 포인트 212점 추가** — 공식 데이터와 대조 일치 확인. 단 공식 포인트랭킹 페이지는 5위(이다연)까지만 공개돼 있어 장은수의 **정확한 포인트 순위는 여전히 모른다** — `UNRECONCILED`로 명시, money↔point 5인 커넥터 모듈에서는 제외하고 별도 각주로만 표시.
+4. **TOP10 배점표가 실제 대회 결과로 교차검증됨**: 10억원 규모 실제 대회 1~10위 결과(공동순위 포함)가 기존에 공개한 배점표(70/35/33/31/29/27/25/23/21/20)와 모든 위치에서 정확히 일치 — 이전에는 "예시"로만 제시했던 커브가 이제 실제 경기 결과로 재확인됐다.
+5. **공동순위 규칙 재확인**: 공동 4위 3명 전원 31점, 공동 8위 2명 전원 23점, 공동 10위 4명 전원 20점 — "나눠 갖지 않고 전원 동일 지급" 원칙이 두 번째(10억원) 사례에서도 동일하게 확인됨. 공동 10위가 4명이라 이 대회에서는 **13명이 포인트를 받았다**(10명이 아니라).
+6. **발견 및 수정한 버그**: 기존 `tie_handling_fixture_OFFICIAL.csv`에 이전 턴 수작업 작성 시 생긴 따옴표 누락(필드 내 쉼표가 컬럼을 깨뜨림) 오류를 이번에 발견해 전면 재작성했다. 데이터 값 자체는 바뀌지 않았고 구조만 정정했다.
+7. **mainRecord 전체 수집은 여전히 불가** — 위 두 endpoint가 "전체 선수" 데이터가 아니라 둘 다 상위 몇 명의 예시만 relay됐고, 전체 필드(~121명) 포인트는 여전히 없다. point_rank LOCK 유지.
 
 ---
 
@@ -63,7 +66,7 @@
 
 ## 5. 테스트 결과
 
-`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **225개 체크 전부 PASS**(v2 222 + WHY 카피 검증 3건 추가).
+`python3 artifacts/seed_race/point_system_build/verify_source_match.py` — **252개 체크 전부 PASS**(v3 225 + 장은수/교차검증/2분할 tie fixture 검증 27건 추가).
 
 핵심 신규 체크:
 - 26명 전원의 포인트 값이 `point_values_bubble_55_80_2026-10-06.csv`와 1:1 일치, 상금도 공식 JSON과 재대조
@@ -103,7 +106,7 @@ POINT RANK (55-80위): STILL LOCKED (단순 정렬 금지 — 전체 필드 미�
 BLANK SEMANTICS: A/B/C 각주로 명시, 단정 없음 (6명)
 HERO CARDS: 데이터 기반 자동 산출 4장
 TIE HANDLING: OFFICIAL 고정 (12억원 대회 T2/T5/T8/10위)
-SOURCE↔UI: PASS (225/225)
+SOURCE↔UI: PASS (252/252)
 MOBILE: PASS
 DESKTOP: PASS
 DEPLOY: HOLD

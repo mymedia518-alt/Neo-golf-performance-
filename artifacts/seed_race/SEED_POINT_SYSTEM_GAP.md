@@ -186,3 +186,15 @@ PUBLIC COPY(WHY 섹션)를 요청하신 문구로 정확히 교체했다 — 이
 ### 다음 단계
 
 mainRecord를 relay받는 방법 외에는 이 블로커를 풀 길이 없다. 전체가 아니어도 된다 — 예를 들어 blank 6명이 포함된 대회 몇 개, 또는 55~80위 밖 선수 일부의 누적값만 추가로 와도 reconciliation 범위가 넓어진다.
+
+---
+
+## 14. [ADDENDUM v6] 새 endpoint(193.klpga.co.kr)도 차단, 그러나 relay 데이터로 실질 진전
+
+사용자가 새 endpoint 2개(`193.klpga.co.kr/load/record/loadPublicRecord`, `193.klpga.co.kr/web/record/publicRecord`)를 제시했으나 이번에도 curl+WebFetch 전부 403(이 세션에서 klpga.co.kr 서브도메인이 뚫린 적 없음, 패턴 동일). 전체 mainRecord는 여전히 확보 못함.
+
+단 relay된 예시 데이터로 실질 진전 2건: (1) 장은수(상금 5위) 포인트 212점을 `import_official_relay.py`(공식 상금순위 JSON 대조 검증 후 병합하는 신규 가져오기 스크립트)로 검증·추가 — 단 공식 포인트랭킹은 5위까지만 공개돼 있어 point_rank는 `UNRECONCILED`로 유지. (2) 10억원 규모 **실제 대회 결과**(공동순위 포함, 1~10위)가 기존 TOP10 배점표(70/35/33/31/29/27/25/23/21/20)와 전부 정확히 일치 — 이 배점표가 예시가 아니라 실제로 적용되고 있음을 재확인. 공동 10위가 4명이라 이 대회는 13명이 포인트를 받았다는 사실도 추가로 공시.
+
+작업 중 기존 `tie_handling_fixture_OFFICIAL.csv`의 따옴표 누락 버그(이전 턴 수작업 작성 시 발생)를 발견해 수정 — 데이터 값은 불변, 구조만 정정.
+
+point_rank/delta/reversal은 여전히 LOCKED. `point_system_build/`를 v4로 갱신(252/252 PASS). 상세: `point_system_build/BUILD_REPORT.md` v4.

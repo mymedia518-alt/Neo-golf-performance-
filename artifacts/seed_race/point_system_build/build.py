@@ -45,8 +45,13 @@ for r in bubble_points:
     assert str(off["rank"]) == r["current_rank"] and str(off["prize_money"]) == r["money"], \
         f"bubble cross-check mismatch for {r['player']}"
 
-assert len(point_rows) == 5, f"expected 5 known point rows, got {len(point_rows)}"
-point_rows_sorted = sorted(point_rows, key=lambda r: int(r["point_rank"]))
+assert len(point_rows) == 6, f"expected 6 known point rows, got {len(point_rows)}"
+# connector/delta module needs a RECONCILED point_rank on both sides -- 장은수's point value
+# is known but her official point_rank was never explicitly listed (only ranks 1-5 were), so
+# she's excluded from the rank<->rank module here (UNRECONCILED != a number to sort/diff against).
+point_rows_ranked = [r for r in point_rows if r["point_rank"] != "UNRECONCILED"]
+assert len(point_rows_ranked) == 5, f"expected 5 rank-reconciled point rows, got {len(point_rows_ranked)}"
+point_rows_sorted = sorted(point_rows_ranked, key=lambda r: int(r["point_rank"]))
 for r in point_rows_sorted:
     off = official_by_name[r["player"]]
     assert str(off["rank"]) == r["money_rank"] and str(off["prize_money"]) == r["money"], \
@@ -322,6 +327,7 @@ html = f"""<!doctype html>
 {connector_rows_html}
     </div>
     <p class="dim" style="margin-top:14px;">가장 큰 역전: <strong style="color:var(--text)">김민솔(상금 1위 → 포인트 2위)과 서교림(상금 2위 → 포인트 1위)</strong>의 자리가 바뀐다 — 상금은 김민솔이 더 많지만(15.3억 vs 14.1억) 포인트는 서교림이 더 높다(563 vs 486).</p>
+    <p class="dim">참고: 장은수(상금 5위, 686,658,333원)의 누적 포인트(212점)도 추가로 확인됐지만, 공식 포인트 순위표는 5위(이다연, 311점)까지만 공개돼 있어 장은수의 정확한 포인트 순위는 아직 알 수 없다.</p>
   </section>
 
   <section class="block" data-testid="bubble-hero-cards">
@@ -353,12 +359,18 @@ html = f"""<!doctype html>
     </table>
     <p class="dim">이 "11위부터 0점" 규칙은 10억원 일반대회 기준이며, 다른 대회 규모·메이저에도 똑같이 적용된다고 일반화하지 않는다 — 아이스버그골프·서울신문(15억원 규모)은 1위 포인트(90)만 공식 확인됐고, 2위 이하 배점은 아직 확보되지 않았다.</p>
     <div class="tie-fixture">
-      <p class="tie-fixture-title">공동순위는 어떻게 처리할까 — 실제 공식 사례(12억원 대회)</p>
+      <p class="tie-fixture-title">공동순위는 어떻게 처리할까 — 실제 공식 대회 결과 2건</p>
+      <p class="dim" style="margin-bottom:10px;">10억원 규모 대회의 실제 결과: 위 TOP10 배점표와 1위부터 10위까지 전부 정확히 일치한다 — 이 배점표가 추정이 아니라 실제로 적용되고 있음을 다시 확인해준다.</p>
       <table class="curve-table">
         <tr><th>순위</th><th>인원</th><th>1인당 포인트</th></tr>
-        {"".join(f'<tr><td>{r["tied_finish_label"]}</td><td>{r["n_tied_players"]}명</td><td class="curve-points">{r["points_each"]}</td></tr>' for r in tie_fixture)}
+        {"".join(f'<tr><td>{r["tied_finish_label"]}</td><td>{r["n_tied_players"]}명</td><td class="curve-points">{r["points_each"]}</td></tr>' for r in tie_fixture if r["purse_bracket"] == "10억~12억 미만")}
       </table>
-      <p class="dim">공동순위라고 포인트를 나눠 갖거나 평균내지 않는다 — 공동 순위자 전원이 그 순위의 포인트를 동일하게 받는다(예: T2 세 명 모두 40점씩, 나눠서 각 13.3점이 아니다).</p>
+      <p class="dim" style="margin:14px 0 10px;">12억원 대회 사례:</p>
+      <table class="curve-table">
+        <tr><th>순위</th><th>인원</th><th>1인당 포인트</th></tr>
+        {"".join(f'<tr><td>{r["tied_finish_label"]}</td><td>{r["n_tied_players"]}명</td><td class="curve-points">{r["points_each"]}</td></tr>' for r in tie_fixture if r["purse_bracket"] == "12억~15억 미만")}
+      </table>
+      <p class="dim">두 사례 모두 공동순위라고 포인트를 나눠 갖거나 평균내지 않는다 — 공동 순위자 전원이 그 순위의 포인트를 동일하게 받는다(예: 10억원 대회 T4 세 명 모두 31점씩, 나눠서 각 10.3점이 아니다). 공동순위 때문에 Top10 자리에 실제로는 10명보다 많은 선수가 포인트를 받을 수 있다(위 10억원 대회 사례는 공동 10위가 4명이라 총 13명이 포인트를 받았다).</p>
     </div>
   </section>
 

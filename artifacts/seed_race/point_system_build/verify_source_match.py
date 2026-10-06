@@ -50,7 +50,8 @@ check('disclosure text matches required wording',
 
 # ---- 2. point_table_PARTIAL rows match HTML connector rows exactly ----
 point_rows = read_csv(SR / "point_table_PARTIAL_2026-10-06.csv")
-point_rows_sorted = sorted(point_rows, key=lambda r: int(r["point_rank"]))
+point_rows_ranked = [r for r in point_rows if r["point_rank"] != "UNRECONCILED"]
+point_rows_sorted = sorted(point_rows_ranked, key=lambda r: int(r["point_rank"]))
 connector_rows = soup.select('[data-testid="money-point-connector"] .connector-row')
 check("connector row count == 5", len(connector_rows), 5)
 for i, (csv_row, html_row) in enumerate(zip(point_rows_sorted, connector_rows)):
@@ -150,18 +151,48 @@ check("hero card for 조아연 (data-driven highest, not pre-selected) present",
 check("hero card for 홍정민 includes independent-exemption badge",
       any("홍정민" in t and "별도 시드 확보" in t for t in hcard_texts), True)
 
-# ---- 6. tie-handling fixture table matches CSV exactly ----
+# ---- 6. tie-handling fixture: TWO tables (10억 real-event, 12억 example), each matches its CSV subset exactly ----
 tie_fixture = read_csv(SR / "tie_handling_fixture_OFFICIAL.csv")
-tie_table = soup.select_one(".tie-fixture .curve-table")
-check("tie-handling fixture table present", tie_table is not None, True)
-tie_rows_html = tie_table.select("tr")[1:]  # skip header
-check("tie fixture row count matches CSV", len(tie_rows_html), len(tie_fixture))
-for csv_row, html_row in zip(tie_fixture, tie_rows_html):
-    cells = [td.get_text(strip=True) for td in html_row.select("td")]
-    check(f"tie fixture row {csv_row['tied_finish_label']} label", cells[0], csv_row["tied_finish_label"])
-    check(f"tie fixture row {csv_row['tied_finish_label']} points", cells[2], csv_row["points_each"])
+tie_10eok = [r for r in tie_fixture if r["purse_bracket"] == "10억~12억 미만"]
+tie_12eok = [r for r in tie_fixture if r["purse_bracket"] == "12억~15억 미만"]
+check("tie fixture CSV has 11 total rows (4 original + 7 new)", len(tie_fixture), 11)
+check("10억 bracket tie fixture rows == 7", len(tie_10eok), 7)
+check("12억 bracket tie fixture rows == 4", len(tie_12eok), 4)
+
+tie_tables = soup.select(".tie-fixture .curve-table")
+check("two tie-handling fixture tables present (10억 real event + 12억 example)", len(tie_tables), 2)
+for csv_subset, html_table, label in [(tie_10eok, tie_tables[0] if len(tie_tables) > 0 else None, "10억"),
+                                        (tie_12eok, tie_tables[1] if len(tie_tables) > 1 else None, "12억")]:
+    if html_table is None:
+        check(f"{label} tie table present", False, True)
+        continue
+    rows_html = html_table.select("tr")[1:]
+    check(f"{label} tie table row count matches CSV subset", len(rows_html), len(csv_subset))
+    for csv_row, html_row in zip(csv_subset, rows_html):
+        cells = [td.get_text(strip=True) for td in html_row.select("td")]
+        check(f"{label} tie row '{csv_row['tied_finish_label']}' label", cells[0], csv_row["tied_finish_label"])
+        check(f"{label} tie row '{csv_row['tied_finish_label']}' points", cells[2], csv_row["points_each"])
+
 check('tie-handling explanation text present (no averaging/splitting)',
-      "나눠서 각 13.3점이 아니다" in full_text, True)
+      "나눠서 각 10.3점이 아니다" in full_text, True)
+check('cross-validation callout: 10억원 real event matches the published TOP10 curve exactly',
+      "1위부터 10위까지 전부 정확히 일치한다" in full_text, True)
+check('callout that ties can push total point-earners above 10',
+      "10명보다 많은 선수가 포인트를 받을 수 있다" in full_text, True)
+
+# ---- 6b. 장은수 (new point-value-only row, no reconciled rank) handled honestly ----
+point_table_rows = read_csv(SR / "point_table_PARTIAL_2026-10-06.csv")
+jangeunsu = next(r for r in point_table_rows if r["player"] == "장은수")
+check("장은수 money_rank matches official data", jangeunsu["money_rank"], "5")
+off_jes = official_by_name["장은수"]
+check("장은수 money matches official data", str(off_jes["prize_money"]), jangeunsu["money"])
+check("장은수 point_rank recorded as UNRECONCILED (not guessed)", jangeunsu["point_rank"], "UNRECONCILED")
+check("장은수 NOT included in the 5-player money<->point rank connector module",
+      any(el.select_one(".connector-name") and el.select_one(".connector-name").get_text(strip=True) == "장은수"
+          for el in connector_rows),
+      False)
+check("page explicitly notes 장은수's points are known but her point_rank is not",
+      "장은수" in full_text and "정확한 포인트 순위는 아직 알 수 없다" in full_text, True)
 
 # ---- 7. WHY copy scoped explicitly to "10억원 일반대회" (not generalized) ----
 check('WHY/TOP10 copy explicitly scopes the "0 beyond 10th" rule to 10억원 일반대회',
