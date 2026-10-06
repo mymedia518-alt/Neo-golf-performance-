@@ -57,7 +57,10 @@ def run_viewport(w, h, label):
         page.click('a:has-text("현재 대회")')
         page.wait_for_load_state("networkidle")
         check(f"[{label}] HOME -> 현재 대회 click -> HJ scaffold", "2026100004" in page.url, page.url)
-        check(f"[{label}] HJ scaffold shows 예측 잠금 notice", "예측 잠금" in page.content())
+        check(f"[{label}] HJ scaffold shows reader-language locked-state notice",
+              "변형 스테이블포드 방식으로 진행됩니다" in page.content() and "준비되는 대로 공개합니다" in page.content())
+        check(f"[{label}] HJ scaffold has NO internal-sounding '예측 잠금'/'모델 검증' labels",
+              "예측 잠금" not in page.content() and "모델 검증" not in page.content())
         check(f"[{label}] HJ scaffold has NO probability markers",
               "우승확률" not in page.content() and "Win%" not in page.content())
 
@@ -67,11 +70,13 @@ def run_viewport(w, h, label):
         page.wait_for_load_state("networkidle")
         check(f"[{label}] HOME -> 대회 기록 click -> archive index", page.url.rstrip("/").endswith("/tournaments"), page.url)
 
-        # click each real tournament's NAME (not a separate button)
+        # click each real tournament's NAME (not a separate button) -- all 5 are now real records
         for name, url_fragment in [
             ("제26회 하이트진로 챔피언십", "2026100005/fr"),
             ("하나금융그룹 챔피언십", "2026090002/final"),
             ("KB금융 골든라이프 챔피언십", "2026090003/final"),
+            ("OK저축은행 읏맨 오픈", "ok-savings-bank-open/r3"),
+            ("제15회 KG 레이디스 오픈", "kg-ladies-open/final"),
         ]:
             page.goto(f"{BASE}/tournaments/")
             link = page.locator(f'.archive-card h2 a:has-text("{name}")')
@@ -83,16 +88,22 @@ def run_viewport(w, h, label):
                   url_fragment in page.url, page.url)
             check(f"[{label}] '{name}' record page is NOT the placeholder stub",
                   "공사중" not in page.title())
-
-        # OK / KG are placeholder-only -- name must NOT be a dead/fake link
-        page.goto(f"{BASE}/tournaments/")
-        for name in ["OK저축은행 읏맨 오픈", "제15회 KG 레이디스 오픈"]:
+            check(f"[{label}] '{name}' record page has no mojibake (replacement char)",
+                  "�" not in page.content())
+            # click every real stage link inside this tournament, confirm no 404 / no overflow
+            page.goto(f"{BASE}/tournaments/")
             card = page.locator(f'.archive-card:has(h2:has-text("{name}"))')
-            link_in_name = card.locator("h2 a")
-            check(f"[{label}] placeholder tournament '{name}' name is NOT a dead/fake link",
-                  link_in_name.count() == 0)
-            check(f"[{label}] placeholder tournament '{name}' shows honest status text",
-                  "실제 기록 준비 중" in card.inner_text())
+            stage_hrefs = card.locator(".stage-links a").evaluate_all("els => els.map(e => e.getAttribute('href'))")
+            for href in stage_hrefs:
+                resp = page.goto(BASE + href)
+                check(f"[{label}] {name} stage link {href} -> 200 (no 404)", resp.status == 200, resp.status)
+                check(f"[{label}] {name} stage link {href} no mojibake", "�" not in page.content())
+
+        # 하이트진로's deep-dive is self-flagged mock data -- must not be reachable from the archive
+        page.goto(f"{BASE}/tournaments/")
+        hitejinro_card = page.locator('.archive-card:has(h2:has-text("하이트진로"))')
+        check(f"[{label}] mock-data deep-dive page is NOT linked from the 하이트진로 archive card",
+              hitejinro_card.locator('a:has-text("딥 다이브")').count() == 0)
 
         # HJ current-tournament nav from archive page back to HOME works, no javascript:void / # hrefs anywhere
         all_hrefs = page.eval_on_selector_all("a", "els => els.map(e => e.getAttribute('href'))")

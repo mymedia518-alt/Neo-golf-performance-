@@ -32,8 +32,21 @@ STAGE_LABELS = {
 STAGE_ORDER = ["pre", "r1", "r2", "r3", "fr", "final", "verification", "course-analysis", "deep-dive"]
 
 
+NOT_YET_MARKERS = ("NEO GOLF DATA - 공사중", "아직 시작 전", "공식 FINAL 데이터가 아직 없습니다")
+# a page can carry real-looking content but still be explicitly self-flagged
+# as not meant for public exposure yet -- found on 2026100005/deep-dive/
+# (neo-stage-publication-ready=false, neo-mock-data=true) while every other
+# page carrying the same meta tag says ready=true with no mock flag. Treat
+# this as authoritative: never link to a page that says it isn't ready.
+NOT_PUBLICATION_READY_MARKERS = ('neo-stage-publication-ready" content="false"', 'neo-mock-data" content="true"')
+
+
 def real_stages(dirname: str) -> list[str]:
-    """Stages that exist on disk AND are not the generic '공사중' stub."""
+    """Stages that exist on disk AND actually carry real, publication-ready
+    NEO analysis -- excludes the generic '공사중' construction stub, a stage
+    that exists as a file but explicitly says its real content was never
+    produced (e.g. a FINAL page that says "아직 시작 전"), and any page
+    that self-flags as not publication-ready / mock data."""
     tdir = TOURNAMENTS_DIR / dirname
     out = []
     for stage in STAGE_ORDER:
@@ -41,7 +54,9 @@ def real_stages(dirname: str) -> list[str]:
         if not f.exists():
             continue
         html = f.read_text(encoding="utf-8")
-        if "NEO GOLF DATA - 공사중" in html:
+        if any(marker in html for marker in NOT_YET_MARKERS):
+            continue
+        if any(marker in html for marker in NOT_PUBLICATION_READY_MARKERS):
             continue
         out.append(stage)
     return out
@@ -52,8 +67,8 @@ ARCHIVE_TOURNAMENTS = [
     ("2026100005", "제26회 하이트진로 챔피언십", "2026.10.01 — 10.04", "블루헤런", "fr"),
     ("2026090002", "하나금융그룹 챔피언십", "2026.09.17 — 09.20", "더헤븐", "final"),
     ("2026090003", "KB금융 골든라이프 챔피언십", "2026.09.10 — 09.13", "블랙스톤 이천", "final"),
-    ("ok-savings-bank-open", "OK저축은행 읏맨 오픈", "2026.09.04 — 09.06", "포천아도니스", None),
-    ("kg-ladies-open", "제15회 KG 레이디스 오픈", "2026.08.27 — 08.30", "써닝포인트", None),
+    ("ok-savings-bank-open", "OK저축은행 읏맨 오픈", "2026.09.04 — 09.06", "포천아도니스", "r3"),
+    ("kg-ladies-open", "제15회 KG 레이디스 오픈", "2026.08.27 — 08.30", "써닝포인트", "final"),
 ]
 
 GLOBAL_HEAD_LINKS = (
@@ -161,7 +176,7 @@ def build_hj_scaffold() -> str:
     head = (
         "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>NEO GOLF DATA · HJ중공업·동부건설 챔피언십</title>"
-        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 — NEO GOLF DATA 현재 대회. 공식 변형 스테이블포드 규정 적용, 예측 모델 검증 전까지 확률은 공개하지 않습니다.\">"
+        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 — NEO GOLF DATA 현재 대회. 변형 스테이블포드 방식으로 진행되며, 경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다.\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/2026/2026100004/\">"
         f"{GLOBAL_HEAD_LINKS}</head>"
     )
@@ -172,10 +187,8 @@ def build_hj_scaffold() -> str:
         + breadcrumb(("홈", "/"), ("대회 기록", "/tournaments/"), ("HJ중공업·동부건설 챔피언십", None))
         + '<div class="tournament-context"><h1>HJ중공업·동부건설 챔피언십</h1>'
         + '<p class="tournament-context__meta">NEO GOLF DATA 현재 대회</p></div>'
-        + '<div class="fixture-notice"><strong>예측 잠금</strong>'
-        + '이 대회는 공식적으로 변형 스테이블포드(Stableford) 방식으로 진행됩니다. '
-        + 'NEO의 승률·순위 예측 모델은 아직 스테이블포드 포맷을 대상으로 검증되지 않아, '
-        + '모델 검증이 끝날 때까지 이 대회의 예측 확률은 공개하지 않습니다.</div>'
+        + '<div class="fixture-notice">이번 대회는 변형 스테이블포드 방식으로 진행됩니다. '
+        + '경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다.</div>'
         + '<section class="page-intro"><p>대회가 진행되면 이 페이지를 통해 NEO의 실제 분석(사전 분석, 라운드별 결과 등)을 확인할 수 있습니다. 아직 공개된 분석은 없습니다.</p></section>'
         + "</main>"
         + FOOTER
@@ -190,7 +203,7 @@ def build_home() -> str:
         "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\"><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>NEO GOLF DATA · HJ중공업·동부건설 챔피언십</title>"
-        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 · NEO GOLF DATA 현재 대회 · 스테이블포드 예측 모델 검증 전까지 확률 비공개\">"
+        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 · NEO GOLF DATA 현재 대회 · 변형 스테이블포드 방식, NEO 분석은 준비되는 대로 공개\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/\">"
         "<meta property=\"og:title\" content=\"NEO GOLF DATA\">"
         "<meta property=\"og:description\" content=\"HJ중공업·동부건설 챔피언십 · NEO GOLF DATA 현재 대회\">"
@@ -207,9 +220,8 @@ def build_home() -> str:
         + '<section class="hero" id="tournament"><div><p class="eyebrow">현재 대회</p>'
         + '<h1>HJ중공업·동부건설 챔피언십</h1>'
         + '<p class="meta">NEO가 실시간으로 분석하는 현재 KLPGA 투어 대회입니다.</p></div></section>'
-        + '<div class="fixture-notice"><strong>예측 잠금</strong>'
-        + '이 대회는 공식적으로 변형 스테이블포드(Stableford) 방식으로 진행됩니다. '
-        + 'NEO 예측 모델이 스테이블포드 포맷에 대해 검증될 때까지 확률은 공개하지 않습니다. '
+        + '<div class="fixture-notice">이번 대회는 변형 스테이블포드 방식으로 진행됩니다. '
+        + '경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다. '
         + '<a href="/tournaments/2026/2026100004/">대회 페이지에서 자세히 보기 →</a></div>'
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
