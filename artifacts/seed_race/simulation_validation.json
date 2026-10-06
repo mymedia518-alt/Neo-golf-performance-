@@ -1,0 +1,142 @@
+{
+  "n_iterations_base_case": 60000,
+  "tau_ability_temperature": 52.0,
+  "tau_calibration_method": "grid search matching simulated P(top-60 finish) by money-rank bucket to empirical events_paid/events_played ratio by bucket",
+  "sample_size_sensitivity": [
+    {
+      "n_iter": 30000,
+      "rank57_top60pct": 0.5267,
+      "rank58_top60pct": 0.3468,
+      "rank60_top60pct": 0.3215,
+      "rank62_top60pct": 0.253,
+      "rank64_top60pct": 0.1999,
+      "rank66_top60pct": 0.1536,
+      "rank68_top60pct": 0.1137,
+      "rank70_top60pct": 0.1003
+    },
+    {
+      "n_iter": 60000,
+      "rank57_top60pct": 0.5294,
+      "rank58_top60pct": 0.3465,
+      "rank60_top60pct": 0.3193,
+      "rank62_top60pct": 0.2511,
+      "rank64_top60pct": 0.1997,
+      "rank66_top60pct": 0.1511,
+      "rank68_top60pct": 0.1119,
+      "rank70_top60pct": 0.1017
+    },
+    {
+      "n_iter": 100000,
+      "rank57_top60pct": 0.527,
+      "rank58_top60pct": 0.3474,
+      "rank60_top60pct": 0.3173,
+      "rank62_top60pct": 0.2507,
+      "rank64_top60pct": 0.1981,
+      "rank66_top60pct": 0.1495,
+      "rank68_top60pct": 0.1133,
+      "rank70_top60pct": 0.1018
+    }
+  ],
+  "seed_sensitivity": [
+    {
+      "seed": 1,
+      "rank57_top60pct": 0.5205,
+      "rank58_top60pct": 0.3495,
+      "rank60_top60pct": 0.3214,
+      "rank62_top60pct": 0.2534,
+      "rank64_top60pct": 0.1982,
+      "rank66_top60pct": 0.151,
+      "rank68_top60pct": 0.1139,
+      "rank70_top60pct": 0.1014
+    },
+    {
+      "seed": 42,
+      "rank57_top60pct": 0.5294,
+      "rank58_top60pct": 0.3465,
+      "rank60_top60pct": 0.3193,
+      "rank62_top60pct": 0.2511,
+      "rank64_top60pct": 0.1997,
+      "rank66_top60pct": 0.1511,
+      "rank68_top60pct": 0.1119,
+      "rank70_top60pct": 0.1017
+    },
+    {
+      "seed": 123,
+      "rank57_top60pct": 0.5283,
+      "rank58_top60pct": 0.3444,
+      "rank60_top60pct": 0.3216,
+      "rank62_top60pct": 0.25,
+      "rank64_top60pct": 0.1948,
+      "rank66_top60pct": 0.1484,
+      "rank68_top60pct": 0.1139,
+      "rank70_top60pct": 0.1034
+    },
+    {
+      "seed": 999,
+      "rank57_top60pct": 0.5233,
+      "rank58_top60pct": 0.3478,
+      "rank60_top60pct": 0.3195,
+      "rank62_top60pct": 0.2507,
+      "rank64_top60pct": 0.1976,
+      "rank66_top60pct": 0.1489,
+      "rank68_top60pct": 0.114,
+      "rank70_top60pct": 0.1022
+    },
+    {
+      "seed": 7777,
+      "rank57_top60pct": 0.522,
+      "rank58_top60pct": 0.3492,
+      "rank60_top60pct": 0.32,
+      "rank62_top60pct": 0.253,
+      "rank64_top60pct": 0.1988,
+      "rank66_top60pct": 0.1473,
+      "rank68_top60pct": 0.1133,
+      "rank70_top60pct": 0.1052
+    }
+  ],
+  "seed_to_seed_range_by_rank": {
+    "57": {
+      "min": 0.5205,
+      "max": 0.5294,
+      "range": 0.0089
+    },
+    "58": {
+      "min": 0.3444,
+      "max": 0.3495,
+      "range": 0.0051
+    },
+    "60": {
+      "min": 0.3193,
+      "max": 0.3216,
+      "range": 0.0023
+    },
+    "62": {
+      "min": 0.25,
+      "max": 0.2534,
+      "range": 0.0034
+    },
+    "64": {
+      "min": 0.1948,
+      "max": 0.1997,
+      "range": 0.0049
+    },
+    "66": {
+      "min": 0.1473,
+      "max": 0.1511,
+      "range": 0.0038
+    },
+    "68": {
+      "min": 0.1119,
+      "max": 0.114,
+      "range": 0.0021
+    },
+    "70": {
+      "min": 0.1014,
+      "max": 0.1052,
+      "range": 0.0038
+    }
+  },
+  "max_seed_range_pct_points": 0.89,
+  "stability_verdict": "STABLE",
+  "arithmetic_check": "current_money + simulated_total_remaining == final_money, max diff = 0.0 (exact, verified)"
+}
