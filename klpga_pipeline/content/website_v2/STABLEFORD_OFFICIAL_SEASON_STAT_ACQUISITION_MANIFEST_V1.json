@@ -1,0 +1,2501 @@
+{
+  "2023": {
+    "target_game_code": "2023100002",
+    "target_cutoff": "2023-10-12",
+    "season": 2023,
+    "entries": [
+      {
+        "player_name": "고지우",
+        "player_code": "10112",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "고지원",
+        "player_code": "10109",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "곽보미",
+        "player_code": "7912",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "권서연",
+        "player_code": "9106",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김가영",
+        "player_code": "9746",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김나현2",
+        "player_code": "9752",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김민별",
+        "player_code": "10002",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "김민선7",
+        "player_code": "10097",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "김민주",
+        "player_code": "10081",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "김서윤2",
+        "player_code": "9807",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김소이",
+        "player_code": "8764",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090005",
+        "last_pre_cutoff_date": "2023-09-29",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "김수지",
+        "player_code": "8300",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "김시원",
+        "player_code": "8180",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "김아현",
+        "player_code": "9277",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090005",
+        "last_pre_cutoff_date": "2023-09-29",
+        "expected_pre_cutoff_rounds_total": 44
+      },
+      {
+        "player_name": "김연희",
+        "player_code": "9745",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "김윤교",
+        "player_code": "8251",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "김재희",
+        "player_code": "9487",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "김지수",
+        "player_code": "9000",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "김지영2",
+        "player_code": "8434",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090005",
+        "last_pre_cutoff_date": "2023-09-29",
+        "expected_pre_cutoff_rounds_total": 40
+      },
+      {
+        "player_name": "김지현",
+        "player_code": "7469",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "김하니",
+        "player_code": "9384",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김해림",
+        "player_code": "6120",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "김희지",
+        "player_code": "10178",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "나희원",
+        "player_code": "8181",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 39
+      },
+      {
+        "player_name": "노승희",
+        "player_code": "9113",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "마다솜",
+        "player_code": "9401",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "마서영",
+        "player_code": "10083",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 36
+      },
+      {
+        "player_name": "문정민",
+        "player_code": "10296",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090005",
+        "last_pre_cutoff_date": "2023-09-29",
+        "expected_pre_cutoff_rounds_total": 33
+      },
+      {
+        "player_name": "박결",
+        "player_code": "9183",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "박도영",
+        "player_code": "10618",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "박도은",
+        "player_code": "8431",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "박민지",
+        "player_code": "8772",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "박보겸",
+        "player_code": "9431",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "박주영",
+        "player_code": "6781",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "박지영",
+        "player_code": "9362",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "박채윤",
+        "player_code": "8289",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 50
+      },
+      {
+        "player_name": "박현경",
+        "player_code": "9130",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "박희영",
+        "player_code": "4626",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 4
+      },
+      {
+        "player_name": "방신실",
+        "player_code": "10095",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "배소현",
+        "player_code": "8589",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "배수연",
+        "player_code": "9981",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "백수빈",
+        "player_code": "8317",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 40
+      },
+      {
+        "player_name": "서어진",
+        "player_code": "9134",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "서연정",
+        "player_code": "8854",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "손예빈",
+        "player_code": "10022",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "손주희",
+        "player_code": "8891",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "안선주",
+        "player_code": "4905",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "안소현",
+        "player_code": "8868",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 39
+      },
+      {
+        "player_name": "안송이",
+        "player_code": "6916",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 39
+      },
+      {
+        "player_name": "안지현",
+        "player_code": "9465",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 34
+      },
+      {
+        "player_name": "엄규원",
+        "player_code": "9821",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "유서연2",
+        "player_code": "11066",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "유수연",
+        "player_code": "8200",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090003",
+        "last_pre_cutoff_date": "2023-09-15",
+        "expected_pre_cutoff_rounds_total": 37
+      },
+      {
+        "player_name": "유효주",
+        "player_code": "9120",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "윤선정",
+        "player_code": "8215",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "이가영",
+        "player_code": "8883",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "이나경",
+        "player_code": "7439",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 41
+      },
+      {
+        "player_name": "이다연",
+        "player_code": "8392",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "이세희",
+        "player_code": "9652",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "이소미",
+        "player_code": "10188",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "이소영",
+        "player_code": "8246",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "이슬기2",
+        "player_code": "9503",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "이승연",
+        "player_code": "8859",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "이예원",
+        "player_code": "9784",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "이정민",
+        "player_code": "7434",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "이제영",
+        "player_code": "9109",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "이주미",
+        "player_code": "8234",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "이주현",
+        "player_code": "9938",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090003",
+        "last_pre_cutoff_date": "2023-09-15",
+        "expected_pre_cutoff_rounds_total": 32
+      },
+      {
+        "player_name": "이지현2",
+        "player_code": "1456",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "이지현3",
+        "player_code": "9449",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 42
+      },
+      {
+        "player_name": "이지현7",
+        "player_code": "9759",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "이채은2",
+        "player_code": "8811",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "인주연",
+        "player_code": "8262",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "임진희",
+        "player_code": "8890",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "임희정",
+        "player_code": "9145",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 38
+      },
+      {
+        "player_name": "장수연",
+        "player_code": "8355",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "전예성",
+        "player_code": "9082",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "전우리",
+        "player_code": "9389",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "정소이",
+        "player_code": "9765",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "정슬기",
+        "player_code": "8424",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "정시우",
+        "player_code": "9116",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "정연주",
+        "player_code": "7889",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "정윤지",
+        "player_code": "9820",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "정지민2",
+        "player_code": "9237",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "조아연",
+        "player_code": "8770",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 41
+      },
+      {
+        "player_name": "조은혜",
+        "player_code": "9730",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "조혜림",
+        "player_code": "9136",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023090005",
+        "last_pre_cutoff_date": "2023-09-29",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "지한솔",
+        "player_code": "1521",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "최가빈",
+        "player_code": "9391",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "최민경",
+        "player_code": "8277",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "최예림",
+        "player_code": "8284",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "최예본",
+        "player_code": "10577",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 46
+      },
+      {
+        "player_name": "최은우",
+        "player_code": "9235",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "하민송",
+        "player_code": "8782",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 46
+      },
+      {
+        "player_name": "한지원",
+        "player_code": "9483",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "한진선",
+        "player_code": "9426",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "현세린",
+        "player_code": "10531",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "홍지원",
+        "player_code": "9705",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "홍진영2",
+        "player_code": "10586",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "황연서",
+        "player_code": "10157",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 40
+      },
+      {
+        "player_name": "황유민",
+        "player_code": "10185",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "황정미",
+        "player_code": "8240",
+        "season": 2023,
+        "last_pre_cutoff_game_code": "2023100001",
+        "last_pre_cutoff_date": "2023-10-05",
+        "expected_pre_cutoff_rounds_total": 55
+      }
+    ],
+    "missing_player_code_for": [
+      "김지윤 0506(A)",
+      "이세영 0705(A)",
+      "임채리",
+      "장하나"
+    ]
+  },
+  "2024": {
+    "target_game_code": "2024100009",
+    "target_cutoff": "2024-10-10",
+    "season": 2024,
+    "entries": [
+      {
+        "player_name": "강가율",
+        "player_code": "9174",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "강지선",
+        "player_code": "10623",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "강채연",
+        "player_code": "10159",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090007",
+        "last_pre_cutoff_date": "2024-09-13",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "고은혜",
+        "player_code": "10075",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "고지우",
+        "player_code": "10112",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "고지원",
+        "player_code": "10109",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090008",
+        "last_pre_cutoff_date": "2024-09-20",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "김가영",
+        "player_code": "9746",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "김나영",
+        "player_code": "10114",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "김민별",
+        "player_code": "10002",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "김민선7",
+        "player_code": "10097",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "김민주",
+        "player_code": "10081",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "김새로미",
+        "player_code": "8380",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "김서윤2",
+        "player_code": "9807",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "김소이",
+        "player_code": "8764",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "김수지",
+        "player_code": "8300",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "김연희",
+        "player_code": "9745",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "김우정",
+        "player_code": "8838",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "김윤교",
+        "player_code": "8251",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090008",
+        "last_pre_cutoff_date": "2024-09-20",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "김재희",
+        "player_code": "9487",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "김지수",
+        "player_code": "9000",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "김지현",
+        "player_code": "7469",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 71
+      },
+      {
+        "player_name": "김해림",
+        "player_code": "6120",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "김효문",
+        "player_code": "8271",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024080018",
+        "last_pre_cutoff_date": "2024-08-16",
+        "expected_pre_cutoff_rounds_total": 2
+      },
+      {
+        "player_name": "김희지",
+        "player_code": "10178",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "노승희",
+        "player_code": "9113",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 81
+      },
+      {
+        "player_name": "문정민",
+        "player_code": "10296",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "박단유",
+        "player_code": "8318",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "박도은",
+        "player_code": "8431",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "박보겸",
+        "player_code": "9431",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "박아름2",
+        "player_code": "10161",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "박예지",
+        "player_code": "11056",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090007",
+        "last_pre_cutoff_date": "2024-09-13",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "박주영",
+        "player_code": "6781",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "박지영",
+        "player_code": "9362",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "박현경",
+        "player_code": "9130",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "박혜준",
+        "player_code": "9788",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "방신실",
+        "player_code": "10095",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "배소현",
+        "player_code": "8589",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "서어진",
+        "player_code": "9134",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "서연정",
+        "player_code": "8854",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "손예빈",
+        "player_code": "10022",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "손주희",
+        "player_code": "8891",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090007",
+        "last_pre_cutoff_date": "2024-09-13",
+        "expected_pre_cutoff_rounds_total": 44
+      },
+      {
+        "player_name": "송가은",
+        "player_code": "8773",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "송민교",
+        "player_code": "11921",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 42
+      },
+      {
+        "player_name": "신다인",
+        "player_code": "9135",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "신미진",
+        "player_code": "9712",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 43
+      },
+      {
+        "player_name": "신보민",
+        "player_code": "8374",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "신유진",
+        "player_code": "9748",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "신지영",
+        "player_code": "10501",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090007",
+        "last_pre_cutoff_date": "2024-09-13",
+        "expected_pre_cutoff_rounds_total": 30
+      },
+      {
+        "player_name": "안선주",
+        "player_code": "4905",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090009",
+        "last_pre_cutoff_date": "2024-09-26",
+        "expected_pre_cutoff_rounds_total": 46
+      },
+      {
+        "player_name": "안송이",
+        "player_code": "6916",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "안지현",
+        "player_code": "9465",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "유서연2",
+        "player_code": "11066",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "유지나",
+        "player_code": "9714",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "유현조",
+        "player_code": "10146",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 80
+      },
+      {
+        "player_name": "유효주",
+        "player_code": "9120",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "윤민아",
+        "player_code": "9761",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "윤이나",
+        "player_code": "9823",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "이가영",
+        "player_code": "8883",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "이기쁨",
+        "player_code": "8369",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "이동은",
+        "player_code": "11649",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "이선영2",
+        "player_code": "8851",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "이소영",
+        "player_code": "8246",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "이수연2",
+        "player_code": "10160",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "이수진3",
+        "player_code": "8422",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "이승연",
+        "player_code": "8859",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "이예원",
+        "player_code": "9784",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "이율린",
+        "player_code": "9759",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 50
+      },
+      {
+        "player_name": "이정민",
+        "player_code": "7434",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090009",
+        "last_pre_cutoff_date": "2024-09-26",
+        "expected_pre_cutoff_rounds_total": 41
+      },
+      {
+        "player_name": "이제영",
+        "player_code": "9109",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "이주미",
+        "player_code": "8234",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "이준이",
+        "player_code": "9707",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "이채은2",
+        "player_code": "8811",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 74
+      },
+      {
+        "player_name": "이현서",
+        "player_code": "9988",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "임지유",
+        "player_code": "10101",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "임진영",
+        "player_code": "10138",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 75
+      },
+      {
+        "player_name": "임희정",
+        "player_code": "9145",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "장수연",
+        "player_code": "8355",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "장은수",
+        "player_code": "8243",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 54
+      },
+      {
+        "player_name": "전예성",
+        "player_code": "9082",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "전우리",
+        "player_code": "9389",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "정세빈",
+        "player_code": "9977",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "정소이",
+        "player_code": "9765",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "정수빈",
+        "player_code": "8840",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "정슬기",
+        "player_code": "8424",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024090009",
+        "last_pre_cutoff_date": "2024-09-26",
+        "expected_pre_cutoff_rounds_total": 50
+      },
+      {
+        "player_name": "정윤지",
+        "player_code": "9820",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "정지민2",
+        "player_code": "9237",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "조아연",
+        "player_code": "8770",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "주가인",
+        "player_code": "9786",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "지한솔",
+        "player_code": "1521",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "최가빈",
+        "player_code": "9391",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 77
+      },
+      {
+        "player_name": "최민경",
+        "player_code": "8277",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "한지원",
+        "player_code": "9483",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "한진선",
+        "player_code": "9426",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "현세린",
+        "player_code": "10531",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "홍예은",
+        "player_code": "9756",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "홍정민",
+        "player_code": "9750",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "홍지원",
+        "player_code": "9705",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 75
+      },
+      {
+        "player_name": "홍진영2",
+        "player_code": "10586",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "홍현지",
+        "player_code": "11042",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "황예나",
+        "player_code": "8301",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "황유나",
+        "player_code": "9937",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "황유민",
+        "player_code": "10185",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "황정미",
+        "player_code": "8240",
+        "season": 2024,
+        "last_pre_cutoff_game_code": "2024100008",
+        "last_pre_cutoff_date": "2024-10-03",
+        "expected_pre_cutoff_rounds_total": 65
+      }
+    ],
+    "missing_player_code_for": [
+      "이지원 0810(A)",
+      "임채리"
+    ]
+  },
+  "2025": {
+    "target_game_code": "2025100001",
+    "target_cutoff": "2025-10-01",
+    "season": 2025,
+    "entries": [
+      {
+        "player_name": "강가율",
+        "player_code": "9174",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "강정현",
+        "player_code": "10078",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "강지선",
+        "player_code": "10623",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "강채연",
+        "player_code": "10159",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "고은혜",
+        "player_code": "10075",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 42
+      },
+      {
+        "player_name": "고지우",
+        "player_code": "10112",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 71
+      },
+      {
+        "player_name": "고지원",
+        "player_code": "10109",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "구래현",
+        "player_code": "9436",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "권서연",
+        "player_code": "9106",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "김나영",
+        "player_code": "10114",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "김민별",
+        "player_code": "10002",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "김민선7",
+        "player_code": "10097",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 75
+      },
+      {
+        "player_name": "김민솔",
+        "player_code": "10725",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 32
+      },
+      {
+        "player_name": "김민주",
+        "player_code": "10081",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "김서윤2",
+        "player_code": "9807",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025060001",
+        "last_pre_cutoff_date": "2025-06-06",
+        "expected_pre_cutoff_rounds_total": 5
+      },
+      {
+        "player_name": "김소이",
+        "player_code": "8764",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "김수지",
+        "player_code": "8300",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "김시현",
+        "player_code": "11143",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "김우정",
+        "player_code": "8838",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "김재희",
+        "player_code": "9487",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 71
+      },
+      {
+        "player_name": "김지현",
+        "player_code": "7469",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "김효문",
+        "player_code": "8271",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "김희지",
+        "player_code": "10178",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090001",
+        "last_pre_cutoff_date": "2025-09-04",
+        "expected_pre_cutoff_rounds_total": 45
+      },
+      {
+        "player_name": "노승희",
+        "player_code": "9113",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 77
+      },
+      {
+        "player_name": "리 슈잉(I)",
+        "player_code": "10789",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "마다솜",
+        "player_code": "9401",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090003",
+        "last_pre_cutoff_date": "2025-09-18",
+        "expected_pre_cutoff_rounds_total": 44
+      },
+      {
+        "player_name": "마서영",
+        "player_code": "10083",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "문정민",
+        "player_code": "10296",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "박결",
+        "player_code": "9183",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "박도영",
+        "player_code": "10618",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "박민지",
+        "player_code": "8772",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "박보겸",
+        "player_code": "9431",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 69
+      },
+      {
+        "player_name": "박소혜",
+        "player_code": "9364",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 50
+      },
+      {
+        "player_name": "박주영",
+        "player_code": "6781",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "박지영",
+        "player_code": "9362",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "박지혜3",
+        "player_code": "10599",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "박현경",
+        "player_code": "9130",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 69
+      },
+      {
+        "player_name": "박혜준",
+        "player_code": "9788",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 76
+      },
+      {
+        "player_name": "방신실",
+        "player_code": "10095",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "서교림",
+        "player_code": "11134",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "서연정",
+        "player_code": "8854",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 69
+      },
+      {
+        "player_name": "서지은",
+        "player_code": "11431",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "송은아",
+        "player_code": "11057",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "신다인",
+        "player_code": "9135",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "신유진",
+        "player_code": "9748",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "신이솔",
+        "player_code": "9726",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025060004",
+        "last_pre_cutoff_date": "2025-06-27",
+        "expected_pre_cutoff_rounds_total": 5
+      },
+      {
+        "player_name": "안송이",
+        "player_code": "6916",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "오경은",
+        "player_code": "8799",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 58
+      },
+      {
+        "player_name": "유지나",
+        "player_code": "9714",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "유현조",
+        "player_code": "10146",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 75
+      },
+      {
+        "player_name": "유효주",
+        "player_code": "9120",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 55
+      },
+      {
+        "player_name": "윤다현",
+        "player_code": "9796",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 37
+      },
+      {
+        "player_name": "윤선정",
+        "player_code": "8215",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "윤수아",
+        "player_code": "9990",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 53
+      },
+      {
+        "player_name": "윤혜림",
+        "player_code": "8863",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "이가영",
+        "player_code": "8883",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 74
+      },
+      {
+        "player_name": "이다연",
+        "player_code": "8392",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "이동은",
+        "player_code": "11649",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 76
+      },
+      {
+        "player_name": "이로운",
+        "player_code": "10092",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "이세희",
+        "player_code": "9652",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "이승연",
+        "player_code": "8859",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "이시은 0901(A)",
+        "player_code": "12010",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025040003",
+        "last_pre_cutoff_date": "2025-04-18",
+        "expected_pre_cutoff_rounds_total": 2
+      },
+      {
+        "player_name": "이예원",
+        "player_code": "9784",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "이율린",
+        "player_code": "9759",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "이재윤",
+        "player_code": "9708",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "이정민",
+        "player_code": "7434",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 52
+      },
+      {
+        "player_name": "이정민2",
+        "player_code": "10490",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 41
+      },
+      {
+        "player_name": "이제영",
+        "player_code": "9109",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090003",
+        "last_pre_cutoff_date": "2025-09-18",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "이주현",
+        "player_code": "9938",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "이준이",
+        "player_code": "9707",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 61
+      },
+      {
+        "player_name": "이지현3",
+        "player_code": "9449",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 71
+      },
+      {
+        "player_name": "이채은2",
+        "player_code": "8811",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 63
+      },
+      {
+        "player_name": "임진영",
+        "player_code": "10138",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 65
+      },
+      {
+        "player_name": "장수연",
+        "player_code": "8355",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "전예성",
+        "player_code": "9082",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "전우리",
+        "player_code": "9389",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "전효민",
+        "player_code": "8793",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 51
+      },
+      {
+        "player_name": "정소이",
+        "player_code": "9765",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "정윤지",
+        "player_code": "9820",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 66
+      },
+      {
+        "player_name": "정주리",
+        "player_code": "9711",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "정지효",
+        "player_code": "11630",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 50
+      },
+      {
+        "player_name": "조아연",
+        "player_code": "8770",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 77
+      },
+      {
+        "player_name": "조이안",
+        "player_code": "10795",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 46
+      },
+      {
+        "player_name": "조혜림",
+        "player_code": "9136",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "조혜지2",
+        "player_code": "11376",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 49
+      },
+      {
+        "player_name": "주가인",
+        "player_code": "9786",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 48
+      },
+      {
+        "player_name": "지한솔",
+        "player_code": "1521",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 72
+      },
+      {
+        "player_name": "최가빈",
+        "player_code": "9391",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 73
+      },
+      {
+        "player_name": "최예림",
+        "player_code": "8284",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 64
+      },
+      {
+        "player_name": "최은우",
+        "player_code": "9235",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 72
+      },
+      {
+        "player_name": "하다인",
+        "player_code": "11135",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090002",
+        "last_pre_cutoff_date": "2025-09-12",
+        "expected_pre_cutoff_rounds_total": 47
+      },
+      {
+        "player_name": "한빛나",
+        "player_code": "9156",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "한아름",
+        "player_code": "11447",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 57
+      },
+      {
+        "player_name": "한지원",
+        "player_code": "9483",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 59
+      },
+      {
+        "player_name": "허다빈",
+        "player_code": "8282",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "현세린",
+        "player_code": "10531",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 60
+      },
+      {
+        "player_name": "홍정민",
+        "player_code": "9750",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 62
+      },
+      {
+        "player_name": "홍지원",
+        "player_code": "9705",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 70
+      },
+      {
+        "player_name": "홍진영2",
+        "player_code": "10586",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 77
+      },
+      {
+        "player_name": "홍현지",
+        "player_code": "11042",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 68
+      },
+      {
+        "player_name": "황민정",
+        "player_code": "10727",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 67
+      },
+      {
+        "player_name": "황연서",
+        "player_code": "10157",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 56
+      },
+      {
+        "player_name": "황정미",
+        "player_code": "8240",
+        "season": 2025,
+        "last_pre_cutoff_game_code": "2025090004",
+        "last_pre_cutoff_date": "2025-09-25",
+        "expected_pre_cutoff_rounds_total": 65
+      }
+    ],
+    "missing_player_code_for": [
+      "장하나",
+      "정희원"
+    ]
+  }
+}

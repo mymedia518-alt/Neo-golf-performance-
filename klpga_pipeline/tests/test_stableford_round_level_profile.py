@@ -8,6 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from klpga.website_v2.stableford_round_level_profile import (
+    compute_reconstructed_official_stats,
     compute_scoring_ceiling_profile,
     load_all_round_records,
 )
@@ -59,3 +60,25 @@ def test_stableford_points_from_round_record_matches_counts_total_points():
     by_player = _load("STABLEFORD_2023_PRIOR_TOURNAMENT_MANIFEST_V1.json", "stableford_prior_2023")
     for r in by_player["방신실"][:5]:
         assert r.stableford_points == r.counts.total_points()
+
+
+def test_reconstructed_average_score_and_par5_scoring_match_computed_real_values():
+    """Average Score and Par5 scoring, RECONSTRUCTED (category B) from
+    the same real pre-cutoff hole data -- no new acquisition, matches
+    KLPGA's own official formula (전체타수/라운드수, 파5전체타수/파5홀수,
+    confirmed against the real publicRecordSeasonDetail fixture)."""
+    cases = [
+        ("2023", "STABLEFORD_2023_PRIOR_TOURNAMENT_MANIFEST_V1.json", "stableford_prior_2023", "방신실",
+         71.7885, 3733, 210, 4.9095),
+        ("2024", "STABLEFORD_2024_PRIOR_TOURNAMENT_MANIFEST_V1.json", "stableford_prior_2024", "김민별",
+         71.3065, 4421, 250, 4.888),
+        ("2025", "STABLEFORD_2025_PRIOR_TOURNAMENT_MANIFEST_V1.json", "stableford_prior_2025", "김민솔",
+         70.9062, 2269, 132, 4.7652),
+    ]
+    for year, manifest_name, prior_name, winner, avg_score, total_strokes, par5_n, par5_scoring in cases:
+        by_player = _load(manifest_name, prior_name)
+        stats = compute_reconstructed_official_stats(winner, by_player[winner])
+        assert stats.avg_score == avg_score
+        assert stats.total_strokes == total_strokes
+        assert stats.par5_holes_n == par5_n
+        assert stats.par5_scoring == par5_scoring
