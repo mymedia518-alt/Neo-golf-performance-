@@ -1,0 +1,6 @@
+gameCode,date,event_name,category,total_purse,point_bracket,field_size,cut_line,point_category,finish_position,points,tie_handling_rule,source_url,evidence_type
+2026100004,2026-10-08~11,HJ중공업·동부건설,general,1000000000,10억~12억 미만,108,,official_bracket_table,1,70,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
+2026100003,2026-10-16~18,아이스버그골프·서울신문,general,1500000000,15억 이상,108,,official_bracket_table,1,90,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
+2026100001,2026-10-29~11-01,S-OIL,general,1000000000,10억~12억 미만,108,,official_bracket_table,1,70,UNKNOWN,https://data.klpga.co.kr/pressn_detail.jsp?sn=107469,DERIVED (official purse x official bracket formula, both user-relayed)
+EXAMPLE_10EOK,,example 10억원 대회 (사용자 제시 cross-check example),general,1000000000,10억~12억 미만,,,official_bracket_table,2,35,UNKNOWN,user relay,OBSERVED (user-provided cross-validation example only -- not a real remaining event)
+EXAMPLE_10EOK,,example 10억원 대회 (사용자 제시 cross-check example),general,1000000000,10억~12억 미만,,,official_bracket_table,3,33,UNKNOWN,user relay,OBSERVED (user-provided cross-validation example only -- not a real remaining event)

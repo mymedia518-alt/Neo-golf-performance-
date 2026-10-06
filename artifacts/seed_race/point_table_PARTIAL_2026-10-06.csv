@@ -1,0 +1,6 @@
+player,player_code,money_rank,money,point_rank,points,events,wins,snapshot_date,evidence_type,source
+서교림,11134,2,1413216000,1,563,,,2026-10-06,OBSERVED (user relay from https://klpga.co.kr/web/record/publicRecord; Claude cannot independently fetch -- klpga.co.kr blocked),klpga.co.kr/web/record/publicRecord
+김민솔,10725,1,1529979428,2,486,,,2026-10-06,OBSERVED (user relay),klpga.co.kr/web/record/publicRecord
+김민선7,10097,3,937279047,3,333,,,2026-10-06,OBSERVED (user relay),klpga.co.kr/web/record/publicRecord
+최예림,8284,4,693671191,4,326,,,2026-10-06,OBSERVED (user relay),klpga.co.kr/web/record/publicRecord
+이다연,8392,6,665841190,5,311,,,2026-10-06,OBSERVED (user relay),klpga.co.kr/web/record/publicRecord
