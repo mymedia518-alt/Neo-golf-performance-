@@ -154,6 +154,65 @@ def test_hitejinro_deep_dive_mock_page_excluded_from_archive_despite_existing_on
     assert 'neo-mock-data" content="true"' in mock_html, "sanity: the file should still self-flag as mock (untouched)"
 
 
+def test_hitejinro_public_stages_are_exactly_pre_r1_r2_r3_fr():
+    """하이트진로 archive navigation correction: 최종 검증(verification) and
+    코스 분석(course-analysis) are real, publication-ready pages (unlike
+    deep-dive) but are a deliberate editorial exclusion from public
+    navigation -- not an auto-discovery judgment call. This locks the
+    public stage set exactly, so a future archive rebuild can't silently
+    re-surface either page even if some other heuristic would call them
+    "real". Files must still exist on disk -- 파일 삭제 금지."""
+    html = (DOCS / "tournaments" / "index.html").read_text(encoding="utf-8")
+    if HAVE_BS4:
+        soup = BeautifulSoup(html, "html.parser")
+        card = soup.select_one('.archive-card:has(h2:-soup-contains("하이트진로"))')
+        assert card is not None, "하이트진로 archive card not found"
+        labels = [a.get_text(strip=True) for a in card.select(".stage-links a")]
+        assert labels == ["사전 분석", "R1", "R2", "R3", "FR"], labels
+        name_link = card.select_one("h2 a")
+        assert name_link is not None
+        assert "2026100005/fr/" in name_link["href"], "하이트진로 name must still enter at FR"
+    assert "/tournaments/2026/2026100005/verification/" not in html
+    assert "/tournaments/2026/2026100005/course-analysis/" not in html
+    assert "최종 검증" not in html
+    assert "코스 분석" not in html
+
+    for other_dirname, expected_count in [
+        ("2026090002", 5),   # pre, r1, r2, r3, final
+        ("2026090003", 6),   # pre, r1, r2, r3, fr, final
+        ("ok-savings-bank-open", 4),   # pre, r1, r2, r3 (no final -- never produced)
+        ("kg-ladies-open", 5),   # pre, r1, r2, r3, final
+    ]:
+        count = html.count(f"/tournaments/2026/{other_dirname}/")
+        assert count >= expected_count, (
+            f"{other_dirname}: expected at least {expected_count} stage links unchanged, "
+            f"found {count} occurrences in archive HTML"
+        )
+
+    # files must still exist on disk -- excluding from navigation is not deletion
+    verification_path = DOCS / "tournaments" / "2026" / "2026100005" / "verification" / "index.html"
+    course_analysis_path = DOCS / "tournaments" / "2026" / "2026100005" / "course-analysis" / "index.html"
+    assert verification_path.exists(), "verification/index.html must NOT be deleted"
+    assert course_analysis_path.exists(), "course-analysis/index.html must NOT be deleted"
+    # and their content must be untouched (this turn only removes navigation links)
+    v_html = verification_path.read_text(encoding="utf-8")
+    c_html = course_analysis_path.read_text(encoding="utf-8")
+    assert "최종 검증" in v_html or "검증" in v_html  # sanity: still the real page, not emptied
+    assert len(c_html) > 1000  # sanity: still the real page, not emptied
+
+
+def test_no_public_page_links_to_hitejinro_verification_or_course_analysis():
+    """Section: HOME이나 다른 공개 페이지에 verification/course-analysis로
+    들어가는 링크가 있다면 함께 제거한다. Scans every public page this
+    feature controls (HOME, archive index, HJ scaffold)."""
+    pages = [DOCS / "index.html", DOCS / "tournaments" / "index.html",
+             DOCS / "tournaments" / "2026" / "2026100004" / "index.html"]
+    for page in pages:
+        html = page.read_text(encoding="utf-8")
+        assert "/tournaments/2026/2026100005/verification/" not in html, f"{page} links to verification"
+        assert "/tournaments/2026/2026100005/course-analysis/" not in html, f"{page} links to course-analysis"
+
+
 def test_hj_scaffold_has_no_blocked_probability_output():
     path = DOCS / "tournaments" / "2026" / "2026100004" / "index.html"
     assert path.exists(), "2026100004 HJ scaffold must exist"

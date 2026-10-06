@@ -72,7 +72,7 @@ Archive 카드 이름 링크는 `final`(완결된 실제 결과)로 연결.
 
 | 대회 | 이름 링크 대상 | 실제 스테이지 |
 |---|---|---|
-| 제26회 하이트진로 챔피언십 | `/fr/` | 사전분석·R1·R2·R3·FR·최종검증·코스분석 (딥다이브 제외, 4절 참조) |
+| 제26회 하이트진로 챔피언십 | `/fr/` | 사전분석·R1·R2·R3·FR (최종검증·코스분석·딥다이브 전부 제외 — 11절 참조) |
 | 하나금융그룹 챔피언십 | `/final/` | 사전분석·R1·R2·R3·FINAL |
 | KB금융 골든라이프 챔피언십 | `/final/` | 사전분석·R1·R2·R3·FR·FINAL |
 | OK저축은행 읏맨 오픈 (복원) | `/r3/` | 사전분석·R1·R2·R3 (FINAL 제외 — 실제로 없었음) |
@@ -182,32 +182,91 @@ PROTECTION: VISIBLE COPY ONLY")상 레이아웃/CSS 수정은 범위 밖이라 *
 
 ---
 
-## 10. 테스트
+## 11. 하이트진로 공개 navigation 추가 정리 (최종 검증 · 코스 분석 제거)
 
-`klpga_pipeline/tests/test_archive_navigation_legacy_protection.py` — **60/60 PASS**
-(이전 59 + 신규 1: "더미" 공개가 하이트진로 딥다이브 한 파일에만 있고 다른 어떤 공개
-페이지에도 없음을 고정하는 회귀 테스트).
+사용자가 명시적으로 지정: 하이트진로 공개 stage는 정확히 `사전 분석 | R1 | R2 | R3 | FR`
+— `최종 검증`(verification)과 `코스 분석`(course-analysis)은 (딥다이브와 달리 **실제로
+publication-ready한 real 페이지**임에도) 공개 navigation에서 제외한다.
+
+### 구현 — "존재함(real)"과 "공개함(public)"을 코드 레벨에서 분리
+
+기존 `real_stages()`는 "디스크에 존재하고 공사중/mock이 아님"만 판정했다 — 이 기준으로는
+verification/course-analysis가 통과하므로(둘 다 진짜 콘텐츠), 자동 discovery가 재빌드마다
+계속 노출시킬 수 있었다. 이번에 `PUBLIC_STAGE_ALLOWLIST`를 추가해 "실제로 존재함"과 "공개
+결정"을 분리했다:
+
+```python
+PUBLIC_STAGE_ALLOWLIST: dict[str, set[str]] = {
+    "2026100005": {"pre", "r1", "r2", "r3", "fr"},  # 최종 검증·코스 분석 제외
+}
+```
+
+`public_stages(dirname) = real_stages(dirname) ∩ PUBLIC_STAGE_ALLOWLIST[dirname]`
+(allowlist가 없는 대회는 real_stages() 그대로 사용). Archive 빌더는 이제 `public_stages()`만
+호출한다 — **향후 재빌드에서도 이 두 페이지는 allowlist를 직접 고치지 않는 한 다시 노출될 수
+없다.** (요구사항: "자동 stage discovery가 해당 두 페이지를 다시 공개하지 않도록 ... 이후
+archive rebuild를 해도 두 링크가 다시 살아나면 안 된다" — 충족.)
+
+### 변경/미변경 확인
+
+- **삭제 없음**: `verification/index.html`, `course-analysis/index.html` 둘 다 디스크에
+  그대로 존재(파일 크기·내용 확인됨).
+- **내용 미수정**: `git status`로 확인 — 이번 턴에 변경된 파일은 `docs/tournaments/index.html`
+  (archive, 생성물)과 빌드 스크립트/테스트뿐, verification/course-analysis 파일 자체는
+  0바이트도 건드리지 않음.
+- **HOME/다른 공개 페이지**: `docs/index.html`, `docs/tournaments/2026/2026100004/index.html`
+  어디에도 verification/course-analysis로 가는 링크가 없었음(원래도 없었음, 재확인만 함).
+- **대회명 클릭 → FR 그대로**: archive 카드의 `<h2><a>` 링크는 변경 없이
+  `/tournaments/2026/2026100005/fr/`.
+- **OK/KB/하나/KG 변경 없음**: 4개 대회 전부 기존 stage 목록 그대로(하나 5개/KB 6개/
+  OK 4개/KG 5개, 전부 재확인).
+
+### 테스트
+
+- `test_hitejinro_public_stages_are_exactly_pre_r1_r2_r3_fr` — stage-links가 정확히
+  `[사전 분석, R1, R2, R3, FR]`인지, 이름 링크가 FR인지, verification/course-analysis
+  URL·라벨이 archive HTML 어디에도 없는지, 두 파일이 삭제되지 않고 내용도 그대로인지 확인.
+- `test_no_public_page_links_to_hitejinro_verification_or_course_analysis` — HOME/archive/
+  HJ scaffold 3개 공개 페이지 전수 재확인.
+
+### Playwright
+
+`klpga_pipeline/scripts/archive_navigation_playwright_gate.py`에 하이트진로 카드 전용
+체크 추가: `최종 검증`/`코스 분석` 미노출 확인 + PRE/R1/R2/R3/FR 5개 전부 실제 클릭해
+공사중이 아닌 실제 페이지로 진입하는지 확인. **194/194 PASS**(1440×900 + 390×844).
+
+---
+
+## 12. 테스트
+
+`klpga_pipeline/tests/test_archive_navigation_legacy_protection.py` — **62/62 PASS**
+(이전 60 + 신규 2: 하이트진로 public stage 고정, HOME/archive/HJ 3개 페이지
+verification·course-analysis 링크 부재 확인).
 
 ---
 
 ```
-[NEO TOURNAMENT ARCHIVE — OK RESTORE + LANGUAGE CLEANUP — RESULT, v2]
+[NEO TOURNAMENT ARCHIVE — OK RESTORE + LANGUAGE CLEANUP — RESULT, v3]
 
 OK 발견 위치: docs_internal_archive/tournaments/2026/ok-savings-bank-open/
 OK 원본 commit: ecf507d0 (lockdown, 보존) / build-source dc451190
 복원 stages: PRE, R1, R2, R3 (FINAL 제외 -- 실제로 없었음, "아직 시작 전" 그대로)
 KG 조사 결과: 정정 -- 실제 분석 존재(docs_internal_archive), 전부 복원(PRE/R1/R2/R3/FINAL)
 archive 최종 목록: 5개 전부 동등한 실제 기록 카드
-하이트진로 딥다이브 "DATA QUALITY/PASS×3": 이번 턴에 "자료 안내"/"확인 완료"로 정리
+하이트진로 공개 stage: 정확히 사전 분석 | R1 | R2 | R3 | FR
+  (최종 검증·코스 분석 제거 -- real하지만 editorial exclusion, PUBLIC_STAGE_ALLOWLIST로
+  real/public 판정을 코드 레벨에서 분리해 재빌드해도 재노출 불가능하도록 고정)
+  파일 삭제 없음, 내용 미수정, HOME/archive/HJ 어디에도 두 페이지 링크 없음 재확인
+하이트진로 딥다이브 "DATA QUALITY/PASS×3": "자료 안내"/"확인 완료"로 정리
   (difflib으로 이 4곳 텍스트만 변경됐음을 재확인, 그 외 0바이트)
 하이트진로 딥다이브 "더미 데이터" 공개: 의도적으로 유지(정직한 고지, 삭제 시 가짜
   수치가 진짜처럼 보임) -- 이 페이지는 여전히 archive 어디서도 링크되지 않음,
   "더미" 단어가 이 1개 파일에만 있음을 회귀 테스트로 고정
 내부 용어(PASS/FAIL/HOLD/LOCK/...) audit: 0건, 전체 공개 페이지 전수(딥다이브 포함)
 공개 표현 변경: HOME + HJ scaffold locked-state 안내문 2곳 + 딥다이브 DATA QUALITY 블록
-데이터/확률/순위/결과 diff: 0 (KB/하나/OK/KG 전부 미변경, 딥다이브는 라벨 4곳만)
-click-through QA: 176/176 PASS (1440x900 + 390x844)
-tests: 60/60 PASS
+데이터/확률/순위/결과 diff: 0 (KB/하나/OK/KG/verification/course-analysis 전부 미변경)
+click-through QA: 194/194 PASS (1440x900 + 390x844)
+tests: 62/62 PASS
 알려진 기존 이슈: KG 3개 페이지 모바일 overflow (레거시, 미수정, 보고만 함)
 DEPLOY: HOLD
 ```

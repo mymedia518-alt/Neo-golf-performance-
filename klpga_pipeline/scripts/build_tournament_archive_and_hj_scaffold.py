@@ -40,13 +40,31 @@ NOT_YET_MARKERS = ("NEO GOLF DATA - 공사중", "아직 시작 전", "공식 FIN
 # this as authoritative: never link to a page that says it isn't ready.
 NOT_PUBLICATION_READY_MARKERS = ('neo-stage-publication-ready" content="false"', 'neo-mock-data" content="true"')
 
+# PUBLIC_STAGE_ALLOWLIST: an explicit, hand-curated editorial decision about
+# which real, publication-ready stages are actually shown on the public
+# archive -- separate from auto-discovery (real_stages below), which only
+# proves a stage exists on disk and isn't a stub/mock. A stage can be 100%
+# real and ready and still not belong in the public archive navigation (e.g.
+# 2026100005's "최종 검증"/"코스 분석" -- internal validation/analysis pages
+# NEO chose to keep off the public click-through path). When a tournament
+# has an entry here, its public stages are real_stages() INTERSECTED with
+# this allowlist -- so even if a future rebuild's auto-discovery would
+# otherwise re-surface a newly-"ready" verification/course-analysis page,
+# it stays hidden unless this allowlist is explicitly edited to include it.
+# A tournament absent from this dict falls back to showing all real_stages().
+PUBLIC_STAGE_ALLOWLIST: dict[str, set[str]] = {
+    "2026100005": {"pre", "r1", "r2", "r3", "fr"},  # excludes: 최종 검증(verification), 코스 분석(course-analysis)
+}
+
 
 def real_stages(dirname: str) -> list[str]:
     """Stages that exist on disk AND actually carry real, publication-ready
     NEO analysis -- excludes the generic '공사중' construction stub, a stage
     that exists as a file but explicitly says its real content was never
     produced (e.g. a FINAL page that says "아직 시작 전"), and any page
-    that self-flags as not publication-ready / mock data."""
+    that self-flags as not publication-ready / mock data. Does NOT yet apply
+    PUBLIC_STAGE_ALLOWLIST -- see public_stages() for the editorially-curated
+    subset actually shown in navigation."""
     tdir = TOURNAMENTS_DIR / dirname
     out = []
     for stage in STAGE_ORDER:
@@ -60,6 +78,19 @@ def real_stages(dirname: str) -> list[str]:
             continue
         out.append(stage)
     return out
+
+
+def public_stages(dirname: str) -> list[str]:
+    """The stages actually shown in public navigation: real_stages(),
+    narrowed by PUBLIC_STAGE_ALLOWLIST when the tournament has one. This is
+    the function the archive builder must call -- real_stages() alone is
+    only a 'does this exist and look real' check, not an editorial publish
+    decision."""
+    discovered = real_stages(dirname)
+    allowlist = PUBLIC_STAGE_ALLOWLIST.get(dirname)
+    if allowlist is None:
+        return discovered
+    return [s for s in discovered if s in allowlist]
 
 
 ARCHIVE_TOURNAMENTS = [
@@ -127,7 +158,7 @@ def breadcrumb(*crumbs):
 def build_archive_index() -> str:
     cards = []
     for dirname, name, dates, venue, primary_stage in ARCHIVE_TOURNAMENTS:
-        stages = real_stages(dirname)
+        stages = public_stages(dirname)
         if primary_stage and primary_stage in stages:
             name_html = f'<h2><a href="/tournaments/2026/{dirname}/{primary_stage}/">{name}</a></h2>'
         else:

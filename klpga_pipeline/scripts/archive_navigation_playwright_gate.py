@@ -105,6 +105,24 @@ def run_viewport(w, h, label):
         check(f"[{label}] mock-data deep-dive page is NOT linked from the 하이트진로 archive card",
               hitejinro_card.locator('a:has-text("딥 다이브")').count() == 0)
 
+        # 하이트진로 public stages == PRE/R1/R2/R3/FR exactly -- 최종 검증/코스 분석 hidden
+        check(f"[{label}] 최종 검증 NOT shown on 하이트진로 archive card",
+              hitejinro_card.locator('a:has-text("최종 검증")').count() == 0)
+        check(f"[{label}] 코스 분석 NOT shown on 하이트진로 archive card",
+              hitejinro_card.locator('a:has-text("코스 분석")').count() == 0)
+        hitejinro_stage_labels = hitejinro_card.locator(".stage-links a").all_inner_texts()
+        check(f"[{label}] 하이트진로 public stages == [사전 분석, R1, R2, R3, FR] exactly",
+              hitejinro_stage_labels == ["사전 분석", "R1", "R2", "R3", "FR"], hitejinro_stage_labels)
+        for stage_label in ["사전 분석", "R1", "R2", "R3", "FR"]:
+            link = hitejinro_card.locator(f'.stage-links a:has-text("{stage_label}")')
+            check(f"[{label}] 하이트진로 {stage_label} stage link clickable", link.count() == 1)
+            link.click()
+            page.wait_for_load_state("networkidle")
+            check(f"[{label}] 하이트진로 {stage_label} click landed on a real page (not 공사중)",
+                  "공사중" not in page.title())
+            page.go_back()
+            page.wait_for_load_state("networkidle")
+
         # HJ current-tournament nav from archive page back to HOME works, no javascript:void / # hrefs anywhere
         all_hrefs = page.eval_on_selector_all("a", "els => els.map(e => e.getAttribute('href'))")
         bad = [h for h in all_hrefs if h in (None, "", "#") or (h and h.startswith("javascript:"))]
