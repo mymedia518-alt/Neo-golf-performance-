@@ -1,0 +1,381 @@
+{
+  "game_code": "2023100002",
+  "source_url": "https://klpga.co.kr/web/tourRecord/scoreRecord?gameCode=2023100002",
+  "source_file": "klpga_pipeline/evidence/stableford_source_probe_2023100002/scoreRecord_2023100002.html",
+  "extractor": "klpga.collectors.score_record.extract_hole_outcomes",
+  "unique_players_by_round": {
+    "1R": 108,
+    "2R": 108,
+    "3R": 61,
+    "4R": 61
+  },
+  "known_data_anomaly": "one isolated real site-side data cell: 3R table, 유서연2, hole#7 (par4) td.Dbogeys text is literally \"88\" (a 2-digit stroke value, not a parsing artifact -- confirmed by direct re-inspection of the raw row markup). She IS a real finalist who played all 4 rounds (her own 4R table row is normal; the empty \"4R\" recap cell inside the 3R table row is just that table own snapshot-so-far display, not evidence of a withdrawal -- an earlier draft of this note wrongly assumed otherwise before being corrected against the real data). The anomaly does not affect scoring: Stableford points depend only on the CSS class (Dbogeys -> double_or_worse, -3), never the stroke digit. Her real 4-round total is 2 points, far below the winner (43), so it does not threaten the winner verification.",
+  "winner": {
+    "player_name": "방신실",
+    "by_round": {
+      "1R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 5,
+        "par": 13,
+        "bogey": 0,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 10,
+        "cumulative_points": 10
+      },
+      "2R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 3,
+        "par": 14,
+        "bogey": 1,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 5,
+        "cumulative_points": 15
+      },
+      "3R": {
+        "albatross": 0,
+        "eagle": 1,
+        "birdie": 6,
+        "par": 9,
+        "bogey": 2,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 15,
+        "cumulative_points": 30
+      },
+      "4R": {
+        "albatross": 0,
+        "eagle": 0,
+        "birdie": 7,
+        "par": 10,
+        "bogey": 1,
+        "double_or_worse": 0,
+        "holes": 18,
+        "points": 13,
+        "cumulative_points": 43
+      }
+    },
+    "final_total_points": 43,
+    "official_relayed_value": {
+      "rounds": [
+        10,
+        5,
+        15,
+        13
+      ],
+      "total": 43
+    },
+    "match": true
+  },
+  "full_field_reconstruction_made_cut_players": [
+    {
+      "player_name": "방신실",
+      "total_points": 43,
+      "rank": 1
+    },
+    {
+      "player_name": "이소미",
+      "total_points": 34,
+      "rank": 2
+    },
+    {
+      "player_name": "김수지",
+      "total_points": 32,
+      "rank": 3
+    },
+    {
+      "player_name": "황유민",
+      "total_points": 31,
+      "rank": 4
+    },
+    {
+      "player_name": "김민별",
+      "total_points": 31,
+      "rank": 5
+    },
+    {
+      "player_name": "박현경",
+      "total_points": 30,
+      "rank": 6
+    },
+    {
+      "player_name": "노승희",
+      "total_points": 29,
+      "rank": 7
+    },
+    {
+      "player_name": "이지현7",
+      "total_points": 29,
+      "rank": 8
+    },
+    {
+      "player_name": "최예림",
+      "total_points": 27,
+      "rank": 9
+    },
+    {
+      "player_name": "현세린",
+      "total_points": 26,
+      "rank": 10
+    },
+    {
+      "player_name": "권서연",
+      "total_points": 26,
+      "rank": 11
+    },
+    {
+      "player_name": "정소이",
+      "total_points": 26,
+      "rank": 12
+    },
+    {
+      "player_name": "김지수",
+      "total_points": 26,
+      "rank": 13
+    },
+    {
+      "player_name": "최예본",
+      "total_points": 26,
+      "rank": 14
+    },
+    {
+      "player_name": "김민선7",
+      "total_points": 25,
+      "rank": 15
+    },
+    {
+      "player_name": "박민지",
+      "total_points": 25,
+      "rank": 16
+    },
+    {
+      "player_name": "김지현",
+      "total_points": 25,
+      "rank": 17
+    },
+    {
+      "player_name": "이채은2",
+      "total_points": 25,
+      "rank": 18
+    },
+    {
+      "player_name": "이지현2",
+      "total_points": 24,
+      "rank": 19
+    },
+    {
+      "player_name": "이승연",
+      "total_points": 24,
+      "rank": 20
+    },
+    {
+      "player_name": "이주미",
+      "total_points": 24,
+      "rank": 21
+    },
+    {
+      "player_name": "임희정",
+      "total_points": 23,
+      "rank": 22
+    },
+    {
+      "player_name": "한지원",
+      "total_points": 23,
+      "rank": 23
+    },
+    {
+      "player_name": "지한솔",
+      "total_points": 23,
+      "rank": 24
+    },
+    {
+      "player_name": "장수연",
+      "total_points": 23,
+      "rank": 25
+    },
+    {
+      "player_name": "이소영",
+      "total_points": 23,
+      "rank": 26
+    },
+    {
+      "player_name": "임진희",
+      "total_points": 23,
+      "rank": 27
+    },
+    {
+      "player_name": "정윤지",
+      "total_points": 23,
+      "rank": 28
+    },
+    {
+      "player_name": "황정미",
+      "total_points": 22,
+      "rank": 29
+    },
+    {
+      "player_name": "박채윤",
+      "total_points": 22,
+      "rank": 30
+    },
+    {
+      "player_name": "박주영",
+      "total_points": 22,
+      "rank": 31
+    },
+    {
+      "player_name": "이제영",
+      "total_points": 22,
+      "rank": 32
+    },
+    {
+      "player_name": "서연정",
+      "total_points": 22,
+      "rank": 33
+    },
+    {
+      "player_name": "이가영",
+      "total_points": 21,
+      "rank": 34
+    },
+    {
+      "player_name": "김서윤2",
+      "total_points": 21,
+      "rank": 35
+    },
+    {
+      "player_name": "이다연",
+      "total_points": 21,
+      "rank": 36
+    },
+    {
+      "player_name": "박도은",
+      "total_points": 21,
+      "rank": 37
+    },
+    {
+      "player_name": "박희영",
+      "total_points": 21,
+      "rank": 38
+    },
+    {
+      "player_name": "고지우",
+      "total_points": 20,
+      "rank": 39
+    },
+    {
+      "player_name": "최가빈",
+      "total_points": 20,
+      "rank": 40
+    },
+    {
+      "player_name": "한진선",
+      "total_points": 20,
+      "rank": 41
+    },
+    {
+      "player_name": "조혜림",
+      "total_points": 17,
+      "rank": 42
+    },
+    {
+      "player_name": "김해림",
+      "total_points": 17,
+      "rank": 43
+    },
+    {
+      "player_name": "서어진",
+      "total_points": 16,
+      "rank": 44
+    },
+    {
+      "player_name": "홍진영2",
+      "total_points": 16,
+      "rank": 45
+    },
+    {
+      "player_name": "하민송",
+      "total_points": 16,
+      "rank": 46
+    },
+    {
+      "player_name": "손예빈",
+      "total_points": 15,
+      "rank": 47
+    },
+    {
+      "player_name": "김희지",
+      "total_points": 15,
+      "rank": 48
+    },
+    {
+      "player_name": "최은우",
+      "total_points": 15,
+      "rank": 49
+    },
+    {
+      "player_name": "이정민",
+      "total_points": 15,
+      "rank": 50
+    },
+    {
+      "player_name": "이예원",
+      "total_points": 15,
+      "rank": 51
+    },
+    {
+      "player_name": "홍지원",
+      "total_points": 14,
+      "rank": 52
+    },
+    {
+      "player_name": "김가영",
+      "total_points": 13,
+      "rank": 53
+    },
+    {
+      "player_name": "박결",
+      "total_points": 11,
+      "rank": 54
+    },
+    {
+      "player_name": "김연희",
+      "total_points": 11,
+      "rank": 55
+    },
+    {
+      "player_name": "김소이",
+      "total_points": 10,
+      "rank": 56
+    },
+    {
+      "player_name": "정연주",
+      "total_points": 10,
+      "rank": 57
+    },
+    {
+      "player_name": "유효주",
+      "total_points": 7,
+      "rank": 58
+    },
+    {
+      "player_name": "김아현",
+      "total_points": 6,
+      "rank": 59
+    },
+    {
+      "player_name": "안선주",
+      "total_points": 4,
+      "rank": 60
+    },
+    {
+      "player_name": "유서연2",
+      "total_points": 2,
+      "rank": 61
+    }
+  ],
+  "verdict": "PASS -- independently reproduced, not forced."
+}
