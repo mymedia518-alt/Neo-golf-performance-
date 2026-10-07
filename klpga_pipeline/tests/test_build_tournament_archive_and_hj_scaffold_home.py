@@ -9,6 +9,8 @@ import importlib.util
 import sys
 from pathlib import Path
 
+import pytest
+
 SCRIPT_PATH = Path(__file__).parent.parent / "scripts" / "build_tournament_archive_and_hj_scaffold.py"
 
 
@@ -119,3 +121,111 @@ def test_home_and_pre_enforce_identical_masking_rule():
         assert home_row.count("데이터 부족") == pre_row.count("데이터 부족"), (
             f"{name}: HOME and PRE must apply the identical masking rule"
         )
+
+
+def _load_pre_module():
+    import importlib.util
+    import sys as _sys
+
+    spec = importlib.util.spec_from_file_location(
+        "pre_225_from_home_video_test", Path(__file__).parent.parent / "scripts" / "225_build_hj_2026100004_pre_page.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    _sys.modules["pre_225_from_home_video_test"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_home_video_section_present_with_same_source_as_pre():
+    """PRE->HOME PARITY FIX: while the tournament hasn't started, HOME
+    *is* the current PRE screen, so it must carry the identical video
+    section PRE does -- same src, reusing the same shared generator
+    (klpga.website_v2.hj_pre_video_section), not a separately-authored
+    HOME-only component."""
+    home_mod = _load_module()
+    pre_mod = _load_pre_module()
+
+    home_html = home_mod.build_home()
+    pre_html = pre_mod.build()["html"]
+
+    assert home_html.count("<video") == 1
+    assert "id='final-video'" in home_html
+    assert "/assets/tournaments/2026100004/neo-golf-data-pre.mp4" in home_html
+    assert "controls" in home_html
+
+    import re
+
+    home_src = re.search(r"<video[^>]*src='([^']+)'", home_html).group(1)
+    pre_src = re.search(r"<video[^>]*src='([^']+)'", pre_html).group(1)
+    assert home_src == pre_src, "HOME and PRE must point at the exact same video asset"
+
+
+def test_home_video_section_positioned_between_stableford_explanation_and_neo_verification():
+    mod = _load_module()
+    html = mod.build_home()
+    stableford_idx = html.find("알바트로스 +8")
+    video_idx = html.find("<video")
+    neo_verification_idx = html.find('id="neo-verification"')
+    assert stableford_idx != -1 and video_idx != -1 and neo_verification_idx != -1
+    assert stableford_idx < video_idx < neo_verification_idx, (
+        "HOME order must be: Stableford 설명 -> NEO GOLF DATA 영상 -> NEO 검증 table, matching PRE"
+    )
+
+
+def test_home_stableford_and_neo_verification_content_unaffected_by_video_addition():
+    """Adding the video section must not change the existing Stableford
+    explanation or NEO 검증/player data content -- only insert between them."""
+    mod = _load_module()
+    html = mod.build_home()
+    for term in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3"):
+        assert term in html
+    assert html.count("데이터 부족") > 0
+    assert "서교림" in html and "#1" in html
+
+
+def test_home_video_asset_file_exists_on_disk():
+    mod = _load_module()
+    video_path = mod.ROOT / "docs" / "assets" / "tournaments" / "2026100004" / "neo-golf-data-pre.mp4"
+    assert video_path.is_file(), f"missing video asset: {video_path}"
+    assert video_path.stat().st_size > 0
+
+
+def test_home_video_survives_a_fresh_rebuild():
+    """Regression lock for the structural gap this fix closes: a fresh,
+    independent build_home() call (not reusing any cached/previous
+    output) must always include the video -- it is generated inline by
+    the shared hj_pre_video_section_html(), not patched onto a specific
+    file after the fact, so it cannot be silently dropped by a future
+    rebuild the way it was before this fix."""
+    mod = _load_module()
+    html_first = mod.build_home()
+    html_second = mod.build_home()
+    assert html_first == html_second
+    assert html_first.count("<video") == 1
+
+
+def test_stale_hana_builder_still_cannot_clobber_home_after_video_parity_fix():
+    """Ensures the daa8a85 HOME clobber guard (game-code-aware
+    ownership check) still holds after this change -- the video parity
+    fix must never weaken it."""
+    import importlib.util
+
+    from klpga.website_v2.home_ownership_guard import HomeOwnershipError
+
+    repo_root = Path(__file__).resolve().parents[2]
+    real_docs_index = repo_root / "docs" / "index.html"
+
+    import hashlib
+
+    sha_before = hashlib.sha256(real_docs_index.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+
+    scripts_dir = Path(__file__).parent.parent / "scripts"
+    spec = importlib.util.spec_from_file_location("_build_home_page_video_parity_test", scripts_dir / "156_build_home_page.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    with pytest.raises(HomeOwnershipError, match="game_code"):
+        module.build()
+
+    sha_after = hashlib.sha256(real_docs_index.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
+    assert sha_after == sha_before

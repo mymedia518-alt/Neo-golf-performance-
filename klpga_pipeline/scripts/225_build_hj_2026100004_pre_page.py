@@ -55,6 +55,7 @@ from klpga.website_v2.previous_tournament_link import (  # noqa: E402
     previous_tournament_meta_html,
     resolve_previous_tournament_link,
 )
+from klpga.website_v2.hj_pre_video_section import hj_pre_video_section_html  # noqa: E402
 
 GAME_CODE = "2026100004"
 TOURNAMENT_INFO_PATH = CONTENT / f"{GAME_CODE}_TOURNAMENT_INFO.json"
@@ -246,11 +247,11 @@ def build() -> dict:
         '</ol></nav>'
     )
 
-    video_section = (
-        "<section class='panel' id='final-video'><p class='note'>NEO GOLF DATA</p>"
-        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
-        f"src='/assets/tournaments/{GAME_CODE}/neo-golf-data-pre.mp4'></video></section>"
-    )
+    # PRE->HOME PARITY FIX (2026-10-07): this markup now lives in the
+    # shared klpga.website_v2.hj_pre_video_section module so PRE and
+    # HOME (build_tournament_archive_and_hj_scaffold.py's build_home())
+    # can never drift apart on it again -- see that module's docstring.
+    video_section = hj_pre_video_section_html(GAME_CODE)
 
     table_section = (
         '<section class="panel leaderboard-panel" id="pre">'

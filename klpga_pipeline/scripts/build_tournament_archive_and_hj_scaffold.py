@@ -28,6 +28,7 @@ from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     CURRENT_TOURNAMENT_OWNER,
     assert_home_write_allowed,
 )
+from klpga.website_v2.hj_pre_video_section import hj_pre_video_section_html  # noqa: E402
 
 STAGE_LABELS = {
     "pre": "사전 분석",
@@ -410,6 +411,14 @@ def build_home() -> str:
         + '<h1>HJ중공업·동부건설 챔피언십</h1>'
         + '<p class="meta">같은 경기력도 Stableford에서는 가치가 달라진다.</p></div></section>'
         + STABLEFORD_EXPLANATION_HTML
+        # PRE->HOME PARITY FIX (2026-10-07, operator instruction): while
+        # the tournament hasn't started, HOME *is* the current PRE
+        # screen, so it must show the same video PRE shows, in the same
+        # position (nav -> Stableford 설명 -> 영상 -> NEO 검증 table) --
+        # shared with 225_build_hj_2026100004_pre_page.py via
+        # hj_pre_video_section_html so a future rebuild of either page
+        # can never drop it again (see that module's docstring).
+        + hj_pre_video_section_html(HJ_GAME_CODE)
         + _hj_neo_verification_html()
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
