@@ -135,72 +135,92 @@ jobs:
           result["home_masking"] = masking_check(home_url)
 
           # --- C. real browser: PRE page video element + viewport QA ---
+          def check_video_on_page(browser, page_url, page_label, viewport_name, viewport, out):
+              page = browser.new_page(viewport=viewport)
+              console_errors = []
+              page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+
+              resp = page.goto(page_url, wait_until="networkidle", timeout=30000)
+              page_result = {
+                  "http_status": resp.status if resp else None,
+                  "final_url": page.url,
+              }
+
+              # wait a bit for video metadata to load (best-effort, non-fatal)
+              try:
+                  page.wait_for_function(
+                      "document.querySelector('video') && document.querySelector('video').readyState >= 1",
+                      timeout=8000,
+                  )
+              except Exception:
+                  pass
+
+              video_state = page.evaluate(
+                  """
+                  () => {
+                      const v = document.querySelector('video');
+                      if (!v) return null;
+                      const rect = v.getBoundingClientRect();
+                      const style = window.getComputedStyle(v);
+                      return {
+                          currentSrc: v.currentSrc,
+                          readyState: v.readyState,
+                          networkState: v.networkState,
+                          error: v.error ? {code: v.error.code, message: v.error.message} : null,
+                          duration: v.duration,
+                          videoWidth: v.videoWidth,
+                          videoHeight: v.videoHeight,
+                          boundingBox: {x: rect.x, y: rect.y, width: rect.width, height: rect.height},
+                          display: style.display,
+                          visibility: style.visibility,
+                          hasControlsAttr: v.hasAttribute('controls'),
+                          paused: v.paused,
+                      };
+                  }
+                  """
+              )
+              page_result["video_element"] = video_state
+
+              # try to actually start playback (best-effort, non-fatal) and
+              # re-read state after -- "readyState high enough" is not the
+              # same claim as "playback actually starts".
+              if video_state:
+                  try:
+                      page.evaluate("() => document.querySelector('video').play()")
+                      page.wait_for_timeout(1200)
+                      playback_state = page.evaluate(
+                          "() => ({paused: document.querySelector('video').paused, currentTime: document.querySelector('video').currentTime})"
+                      )
+                      page_result["playback_after_play_call"] = playback_state
+                  except Exception as e:
+                      page_result["playback_after_play_call"] = {"error": str(e)}
+
+              page_result["console_errors"] = console_errors
+
+              # overflow check
+              overflow = page.evaluate(
+                  "() => ({scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth})"
+              )
+              page_result["horizontal_overflow"] = overflow["scrollWidth"] > overflow["clientWidth"] + 1
+              page_result["overflow_detail"] = overflow
+
+              page.screenshot(path=str(out / f"{page_label}_{viewport_name}_top.png"))
+              if video_state:
+                  try:
+                      page.locator("video").scroll_into_view_if_needed(timeout=5000)
+                      page.screenshot(path=str(out / f"{page_label}_{viewport_name}_video.png"))
+                  except Exception:
+                      pass
+
+              page.close()
+              return page_result
+
           with sync_playwright() as p:
               browser = p.chromium.launch(channel="chrome")
 
               for viewport_name, viewport in (("desktop_1440x900", {"width": 1440, "height": 900}), ("mobile_390x844", {"width": 390, "height": 844})):
-                  page = browser.new_page(viewport=viewport)
-                  console_errors = []
-                  page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
-
-                  resp = page.goto(pre_url, wait_until="networkidle", timeout=30000)
-                  page_result = {
-                      "http_status": resp.status if resp else None,
-                      "final_url": page.url,
-                  }
-
-                  # wait a bit for video metadata to load (best-effort, non-fatal)
-                  try:
-                      page.wait_for_function(
-                          "document.querySelector('video') && document.querySelector('video').readyState >= 1",
-                          timeout=8000,
-                      )
-                  except Exception:
-                      pass
-
-                  video_state = page.evaluate(
-                      """
-                      () => {
-                          const v = document.querySelector('video');
-                          if (!v) return null;
-                          const rect = v.getBoundingClientRect();
-                          const style = window.getComputedStyle(v);
-                          return {
-                              currentSrc: v.currentSrc,
-                              readyState: v.readyState,
-                              networkState: v.networkState,
-                              error: v.error ? {code: v.error.code, message: v.error.message} : null,
-                              duration: v.duration,
-                              videoWidth: v.videoWidth,
-                              videoHeight: v.videoHeight,
-                              boundingBox: {x: rect.x, y: rect.y, width: rect.width, height: rect.height},
-                              display: style.display,
-                              visibility: style.visibility,
-                              hasControlsAttr: v.hasAttribute('controls'),
-                          };
-                      }
-                      """
-                  )
-                  page_result["video_element"] = video_state
-                  page_result["console_errors"] = console_errors
-
-                  # overflow check
-                  overflow = page.evaluate(
-                      "() => ({scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth})"
-                  )
-                  page_result["horizontal_overflow"] = overflow["scrollWidth"] > overflow["clientWidth"] + 1
-                  page_result["overflow_detail"] = overflow
-
-                  page.screenshot(path=str(out / f"pre_{viewport_name}_top.png"))
-                  if video_state:
-                      try:
-                          page.locator("video").scroll_into_view_if_needed(timeout=5000)
-                          page.screenshot(path=str(out / f"pre_{viewport_name}_video.png"))
-                      except Exception:
-                          pass
-
-                  result[f"pre_{viewport_name}"] = page_result
-                  page.close()
+                  result[f"pre_{viewport_name}"] = check_video_on_page(browser, pre_url, "pre", viewport_name, viewport, out)
+                  result[f"home_{viewport_name}"] = check_video_on_page(browser, home_url, "home", viewport_name, viewport, out)
 
               browser.close()
 
