@@ -1,0 +1,67 @@
+"""Tests for scripts/225_build_hj_2026100004_pre_page.py -- the HJ
+PRE page built from the frozen Stableford V1 snapshot, never a new
+0-100 score, never a fabricated K-RANKING/win-probability column."""
+from __future__ import annotations
+
+import importlib.util
+import sys
+from pathlib import Path
+
+SCRIPT_PATH = Path(__file__).parent.parent / "scripts" / "225_build_hj_2026100004_pre_page.py"
+
+
+def _load_module():
+    spec = importlib.util.spec_from_file_location("pre_225", SCRIPT_PATH)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules["pre_225"] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_all_108_entrants_present_exactly_once():
+    mod = _load_module()
+    result = mod.build()
+    assert result["field_size"] == 108
+    assert result["ranked_count"] + result["no_prior_data_count"] == 108
+
+
+def test_top_ranks_match_frozen_snapshot_order():
+    mod = _load_module()
+    result = mod.build()
+    html = result["html"]
+    expected_top5 = ["서교림", "김민솔", "유현조", "박현경", "김민선7"]
+    tbody = html[html.find("<tbody>"):]
+    positions = [tbody.find(name) for name in expected_top5]
+    assert positions == sorted(positions), "top-5 order must match the frozen V1 rank order"
+    assert all(p != -1 for p in positions)
+
+
+def test_no_fabricated_0_to_100_score_or_kranking_or_win_probability():
+    mod = _load_module()
+    html = mod.build()["html"]
+    for forbidden in ("Stableford Fit", "KLPGA K-RANKING", "우승확률", "컷 통과확률", "NEO 경기력"):
+        assert forbidden not in html
+
+
+def test_no_internal_verification_jargon_exposed():
+    mod = _load_module()
+    html = mod.build()["html"]
+    for forbidden in ("sha256", "CORE", "SUPPORTING", "REJECTED", "parser", "cutoff"):
+        assert forbidden not in html
+
+
+def test_data_limited_players_never_get_a_fabricated_rank():
+    mod = _load_module()
+    result = mod.build()
+    html = result["html"]
+    assert "신규 출전" in html
+    assert html.count("데이터 부족") == result["no_prior_data_count"]
+    assert "표본 적음" in html  # the 2 thin-sample players stay ranked but visibly marked
+
+
+def test_rank_format_is_hash_number_never_a_decimal_score():
+    mod = _load_module()
+    html = mod.build()["html"]
+    assert "#1</td>" in html or "#1 <span" in html
+    import re
+    assert not re.search(r"#\d+\.\d", html)

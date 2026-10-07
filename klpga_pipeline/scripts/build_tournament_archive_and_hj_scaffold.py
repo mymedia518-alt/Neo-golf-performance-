@@ -12,11 +12,14 @@ own pre/ page, for example, predates its own fr/ and final/ pages).
 Does not touch any file under docs/tournaments/2026/{2026090002,2026090003,
 2026100005,ok-savings-bank-open,kg-ladies-open}/ -- those stay byte-identical.
 """
+import json
 import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 TOURNAMENTS_DIR = ROOT / "docs" / "tournaments" / "2026"
+CONTENT = ROOT / "klpga_pipeline" / "content" / "website_v2"
+HJ_GAME_CODE = "2026100004"
 
 STAGE_LABELS = {
     "pre": "사전 분석",
@@ -229,15 +232,43 @@ def build_hj_scaffold() -> str:
 
 
 # ---------------------------------------------------------------- HOME (root)
+def _hj_top5_preview_html() -> str:
+    """Top-5 Stableford 사전평가 preview, rendered live from the frozen
+    V1 snapshot -- never hardcoded names/ranks. Falls back to no
+    preview block (not a placeholder) if the snapshot is ever absent."""
+    snapshot_path = CONTENT / "STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json"
+    if not snapshot_path.is_file():
+        return ""
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    if snapshot.get("target_game_code") != HJ_GAME_CODE:
+        return ""
+    ranked = sorted(
+        (r for r in snapshot["records"] if r["pre_event_rank"] is not None),
+        key=lambda r: r["pre_event_rank"],
+    )[:5]
+    if not ranked:
+        return ""
+    items = "".join(
+        f"<li style='padding:.4rem 0;border-bottom:1px solid var(--line)'><strong>#{r['pre_event_rank']}</strong> {r['player_name']}"
+        f"<span style='color:var(--muted);font-size:.82rem'> {r.get('official_sponsor') or ''}</span></li>"
+        for r in ranked
+    )
+    return (
+        '<section class="page-intro"><h2>Stableford 사전평가 TOP 5</h2>'
+        f'<ol style="list-style:none;margin:0;padding:0;max-width:28rem">{items}</ol>'
+        f'<p><a href="/tournaments/2026/{HJ_GAME_CODE}/pre/">전체 {snapshot["field_size"]}명 보기 →</a></p></section>'
+    )
+
+
 def build_home() -> str:
     head = (
         "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\"><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>NEO GOLF DATA · HJ중공업·동부건설 챔피언십</title>"
-        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 · NEO GOLF DATA 현재 대회 · 변형 스테이블포드 방식, NEO 분석은 준비되는 대로 공개\">"
+        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 · 같은 경기력도 Stableford에서는 가치가 달라진다 · NEO GOLF DATA\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/\">"
         "<meta property=\"og:title\" content=\"NEO GOLF DATA\">"
-        "<meta property=\"og:description\" content=\"HJ중공업·동부건설 챔피언십 · NEO GOLF DATA 현재 대회\">"
+        "<meta property=\"og:description\" content=\"HJ중공업·동부건설 챔피언십 · 같은 경기력도 Stableford에서는 가치가 달라진다\">"
         "<meta property=\"og:url\" content=\"https://neogolfdata.com/\">"
         "<meta property=\"og:type\" content=\"website\">"
         "<meta name=\"twitter:card\" content=\"summary_large_image\">"
@@ -250,10 +281,14 @@ def build_home() -> str:
         + breadcrumb(("홈", None))
         + '<section class="hero" id="tournament"><div><p class="eyebrow">현재 대회</p>'
         + '<h1>HJ중공업·동부건설 챔피언십</h1>'
-        + '<p class="meta">NEO가 실시간으로 분석하는 현재 KLPGA 투어 대회입니다.</p></div></section>'
-        + '<div class="fixture-notice">이번 대회는 변형 스테이블포드 방식으로 진행됩니다. '
-        + '경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다. '
-        + '<a href="/tournaments/2026/2026100004/">대회 페이지에서 자세히 보기 →</a></div>'
+        + '<p class="meta">같은 경기력도 Stableford에서는 가치가 달라진다.</p></div></section>'
+        + '<div class="fixture-notice">'
+        + '<strong>이번 대회는 변형 스테이블포드 방식으로 진행됩니다.</strong> '
+        + '버디 +2, 이글 +5, 보기 -1, 더블보기 이상 -3. '
+        + 'NEO는 선수들의 대회 전 기록을 이 점수제에 다시 대입해 '
+        + '이번 대회에서 어떤 선수의 경기 스타일이 더 높은 가치를 갖는지 평가합니다.'
+        + '</div>'
+        + _hj_top5_preview_html()
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
         + "</main>"
