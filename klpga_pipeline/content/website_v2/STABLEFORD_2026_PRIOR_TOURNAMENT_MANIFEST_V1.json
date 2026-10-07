@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "purpose": "2026-season prior-tournament manifest for the HJ중공업·동부건설 챔피언십 (gameCode=2026100004) Stableford V1 pre-event application",
+  "target_game_code": "2026100004",
+  "target_start_date": "2026-10-08",
+  "entry_count": 24,
+  "entries": [
+    {
+      "game_code": "2026030001",
+      "tournament_name": "리쥬란 챔피언십",
+      "start_date": "2026-03-12"
+    },
+    {
+      "game_code": "2026040003",
+      "tournament_name": "더 시에나 오픈 2026",
+      "start_date": "2026-04-02"
+    },
+    {
+      "game_code": "2026040001",
+      "tournament_name": "iM금융오픈 2026",
+      "start_date": "2026-04-09"
+    },
+    {
+      "game_code": "2026040004",
+      "tournament_name": "넥센 · 세인트나인 Masters 2026",
+      "start_date": "2026-04-17"
+    },
+    {
+      "game_code": "2026040002",
+      "tournament_name": "제2회 덕신EPC 챔피언십",
+      "start_date": "2026-04-24"
+    },
+    {
+      "game_code": "2026040005",
+      "tournament_name": "제1회 DB 위민스 챔피언십",
+      "start_date": "2026-04-30"
+    },
+    {
+      "game_code": "2026050001",
+      "tournament_name": "2026 NH투자증권 레이디스 챔피언십",
+      "start_date": "2026-05-08"
+    },
+    {
+      "game_code": "2026050003",
+      "tournament_name": "제14회 E1 채리티 오픈",
+      "start_date": "2026-05-22"
+    },
+    {
+      "game_code": "2026050004",
+      "tournament_name": "Sh수협은행 MBN 여자오픈",
+      "start_date": "2026-05-29"
+    },
+    {
+      "game_code": "2026060001",
+      "tournament_name": "2026 셀트리온 퀸즈 마스터즈",
+      "start_date": "2026-06-05"
+    },
+    {
+      "game_code": "2026060003",
+      "tournament_name": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "start_date": "2026-06-11"
+    },
+    {
+      "game_code": "2026060004",
+      "tournament_name": "인카금융 더헤븐 마스터즈",
+      "start_date": "2026-06-19"
+    },
+    {
+      "game_code": "2026060002",
+      "tournament_name": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "start_date": "2026-06-26"
+    },
+    {
+      "game_code": "2026070003",
+      "tournament_name": "제16회 롯데 오픈",
+      "start_date": "2026-07-02"
+    },
+    {
+      "game_code": "2026070002",
+      "tournament_name": "하이원리조트 여자오픈 2026",
+      "start_date": "2026-07-09"
+    },
+    {
+      "game_code": "2026070001",
+      "tournament_name": "2026 오로라월드 챔피언십",
+      "start_date": "2026-07-30"
+    },
+    {
+      "game_code": "2026080004",
+      "tournament_name": "제13회 제주삼다수 마스터스",
+      "start_date": "2026-08-06"
+    },
+    {
+      "game_code": "2026080003",
+      "tournament_name": "메디힐 · 한국일보 챔피언십",
+      "start_date": "2026-08-13"
+    },
+    {
+      "game_code": "2026080002",
+      "tournament_name": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "start_date": "2026-08-20"
+    },
+    {
+      "game_code": "2026080001",
+      "tournament_name": "제15회 KG 레이디스 오픈",
+      "start_date": "2026-08-27"
+    },
+    {
+      "game_code": "2026120001",
+      "tournament_name": "OK저축은행 읏맨 오픈",
+      "start_date": "2026-09-04"
+    },
+    {
+      "game_code": "2026090003",
+      "tournament_name": "KB금융 골든라이프 챔피언십",
+      "start_date": "2026-09-10"
+    },
+    {
+      "game_code": "2026090002",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "start_date": "2026-09-17"
+    },
+    {
+      "game_code": "2026100005",
+      "tournament_name": "제26회 하이트진로 챔피언십",
+      "start_date": "2026-10-01"
+    }
+  ]
+}
