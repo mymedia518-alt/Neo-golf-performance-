@@ -212,7 +212,7 @@ def build() -> dict:
         f'<span>{_esc(event_name)}</span>'
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         '<span aria-current="page">PRE</span></nav>'
-        '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
+        '<section class="hero" id="tournament"><div><p class="eyebrow">PRE</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
         f'{provenance_html}'
@@ -229,7 +229,7 @@ def build() -> dict:
 
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
-        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">사전 분석 PRE</a></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">PRE</a></li>'
         + "".join(_round_items) +
         '</ol></nav>'
     )
