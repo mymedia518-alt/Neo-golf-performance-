@@ -150,6 +150,25 @@ def global_header(active: str) -> str:
 
 FOOTER = '<footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer>'
 
+# UI cleanup (2026-10-07, operator instruction): same three-line
+# 경기 방식/점수/NEO 설명 text as scripts/225_build_hj_2026100004_pre_
+# page.py's own STABLEFORD_EXPLANATION_HTML -- operator requires HOME
+# and PRE to show the identical explanation (tested by extracting both
+# pages' plain text and comparing). Only the existing .fixture-notice
+# box + spacing/line-height/font-weight/line-break -- no new CSS class,
+# no per-score cards, no added color or icon.
+STABLEFORD_EXPLANATION_HTML = (
+    '<div class="fixture-notice">'
+    '<p style="margin:0 0 .6rem;font-weight:800;line-height:1.5">이번 대회는 변형 스테이블포드 방식으로 진행됩니다.</p>'
+    '<p style="margin:0 0 .7rem;font-weight:700;line-height:1.8">'
+    '<span style="white-space:nowrap">알바트로스 +8</span> · <span style="white-space:nowrap">이글 +5</span> · <span style="white-space:nowrap">버디 +2</span><br>'
+    '<span style="white-space:nowrap">파 0</span> · <span style="white-space:nowrap">보기 -1</span> · <span style="white-space:nowrap">더블보기 이상 -3</span>'
+    '</p>'
+    '<p style="margin:0;font-weight:400;line-height:1.6">NEO는 선수들의 대회 전 기록을 이 점수제에 다시 대입해,<br>'
+    '이번 대회에서 어떤 선수의 경기 스타일이 더 높은 가치를 갖는지 평가합니다.</p>'
+    '</div>'
+)
+
 
 def breadcrumb(*crumbs):
     """crumbs: list of (label, href_or_None). Last one has no href (current page)."""
@@ -314,12 +333,7 @@ def build_home() -> str:
         + '<section class="hero" id="tournament"><div><p class="eyebrow">현재 대회</p>'
         + '<h1>HJ중공업·동부건설 챔피언십</h1>'
         + '<p class="meta">같은 경기력도 Stableford에서는 가치가 달라진다.</p></div></section>'
-        + '<div class="fixture-notice">'
-        + '<strong>이번 대회는 변형 스테이블포드 방식으로 진행됩니다.</strong> '
-        + '버디 +2, 이글 +5, 보기 -1, 더블보기 이상 -3. '
-        + 'NEO는 선수들의 대회 전 기록을 이 점수제에 다시 대입해 '
-        + '이번 대회에서 어떤 선수의 경기 스타일이 더 높은 가치를 갖는지 평가합니다.'
-        + '</div>'
+        + STABLEFORD_EXPLANATION_HTML
         + _hj_top5_preview_html()
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'

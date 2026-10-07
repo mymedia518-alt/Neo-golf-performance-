@@ -65,3 +65,37 @@ def test_rank_format_is_hash_number_never_a_decimal_score():
     assert "#1</td>" in html or "#1 <span" in html
     import re
     assert not re.search(r"#\d+\.\d", html)
+
+
+def test_no_operational_update_timestamps_shown_to_readers():
+    mod = _load_module()
+    html = mod.build()["html"]
+    assert "페이지 업데이트" not in html
+    assert "1R 종료 후 업데이트" not in html
+
+
+def test_stableford_scoring_shown_high_to_low_including_albatross_and_par():
+    mod = _load_module()
+    html = mod.build()["html"]
+    for term in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3"):
+        assert term in html
+    positions = [html.find(t) for t in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3")]
+    assert positions == sorted(positions), "scores must render +8 -> +5 -> +2 -> 0 -> -1 -> -3"
+
+
+def test_seogyorim_data_kept_but_player_page_link_removed():
+    mod = _load_module()
+    html = mod.build()["html"]
+    idx = html.find("서교림")
+    assert idx != -1
+    window = html[max(0, idx - 300):idx]
+    assert "/player/11134/" not in window, "서교림 must never link to her own (broken) player page"
+    assert "#1" in html[idx:idx + 400] or "삼천리" in html[idx:idx + 200]
+
+
+def test_other_players_player_page_links_unaffected():
+    mod = _load_module()
+    html = mod.build()["html"]
+    idx = html.find("김민솔")
+    window = html[max(0, idx - 250):idx]
+    assert "/player/10725/" in window

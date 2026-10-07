@@ -34,12 +34,10 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timedelta, timezone
 from html import escape as _esc
 from pathlib import Path
 
 _SITE_ORIGIN = "https://neogolfdata.com"
-_KST = timezone(timedelta(hours=9))
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
@@ -59,12 +57,34 @@ SNAPSHOT_PATH = CONTENT / "STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "pre" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
 
+# UI fix (2026-10-07, operator instruction): player_code 11134 (서교림)'s
+# own individual page has a known error, so her name is never wrapped
+# in <a> on THIS page, regardless of what the shared site-wide
+# player_report_exists()/linked_player_name_cell() contract would
+# otherwise allow -- scoped to this one pid on this one page only;
+# every other player's normal link logic, the shared contract itself,
+# and 서교림's own page file are all untouched. No <a> tag at all means
+# no pointer/hover/underline link-affordance either, with zero extra CSS.
+BROKEN_PLAYER_PAGE_IDS = {"11134"}
+
+# UI cleanup (2026-10-07, operator instruction): three visually distinct
+# lines (경기 방식 / 점수 / NEO 설명) inside the SAME existing .fixture-
+# notice box -- no new CSS class, no per-score cards, no added color or
+# icons, only spacing/line-height/font-weight/line-break. Scores list
+# high-to-low (+8/+5/+2/0/-1/-3, never dropping 알바트로스 or 파), each
+# "term +value" pair kept on one line via white-space:nowrap so a narrow
+# viewport can only wrap BETWEEN terms, never inside one. This exact
+# text must stay identical to build_tournament_archive_and_hj_scaffold.
+# py's build_home() copy (operator: "HOME/PRE Stableford 설명 통일").
 STABLEFORD_EXPLANATION_HTML = (
     "<div class='fixture-notice'>"
-    "<strong>이번 대회는 변형 스테이블포드 방식으로 진행됩니다.</strong> "
-    "버디 +2, 이글 +5, 보기 -1, 더블보기 이상 -3. "
-    "NEO는 선수들의 대회 전 기록을 이 점수제에 다시 대입해 "
-    "이번 대회에서 어떤 선수의 경기 스타일이 더 높은 가치를 갖는지 평가합니다."
+    "<p style='margin:0 0 .6rem;font-weight:800;line-height:1.5'>이번 대회는 변형 스테이블포드 방식으로 진행됩니다.</p>"
+    "<p style='margin:0 0 .7rem;font-weight:700;line-height:1.8'>"
+    "<span style='white-space:nowrap'>알바트로스 +8</span> · <span style='white-space:nowrap'>이글 +5</span> · <span style='white-space:nowrap'>버디 +2</span><br>"
+    "<span style='white-space:nowrap'>파 0</span> · <span style='white-space:nowrap'>보기 -1</span> · <span style='white-space:nowrap'>더블보기 이상 -3</span>"
+    "</p>"
+    "<p style='margin:0;font-weight:400;line-height:1.6'>NEO는 선수들의 대회 전 기록을 이 점수제에 다시 대입해,<br>"
+    "이번 대회에서 어떤 선수의 경기 스타일이 더 높은 가치를 갖는지 평가합니다.</p>"
     "</div>"
 )
 
@@ -104,7 +124,10 @@ def build() -> dict:
             "class='player-sponsor'",
             "class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'",
         )
-        name_cell = linked_player_name_cell(pid, flag_cell + identity_html)
+        if pid in BROKEN_PLAYER_PAGE_IDS:
+            name_cell = flag_cell + identity_html
+        else:
+            name_cell = linked_player_name_cell(pid, flag_cell + identity_html)
 
         if r["pre_event_rank"] is not None:
             rank_cell = f"#{r['pre_event_rank']}"
@@ -137,10 +160,12 @@ def build() -> dict:
 
     seo_description = f"{event_name} 사전 분석 · {course_line} · {date_range} · NEO GOLF DATA Stableford 사전평가"
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/pre/"
-    provenance_html = (
-        f"<p class='meta provenance'>Stableford 사전평가 기준 · "
-        f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
-    )
+    # UI cleanup (2026-10-07): the build-time "페이지 업데이트 HH:MM"
+    # clause was an operator-only artifact (changed every rebuild,
+    # meaningless to a reader) -- removed. "Stableford 사전평가 기준" is
+    # kept; it is real, static content (what the ranking is based on),
+    # not an operational timestamp.
+    provenance_html = "<p class='meta provenance'>Stableford 사전평가 기준</p>"
 
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
@@ -176,8 +201,7 @@ def build() -> dict:
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
         f'{provenance_html}'
-        f'{previous_meta_html}</div>'
-        '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
+        f'{previous_meta_html}</div></section>'
         f'{STABLEFORD_EXPLANATION_HTML}'
     )
 

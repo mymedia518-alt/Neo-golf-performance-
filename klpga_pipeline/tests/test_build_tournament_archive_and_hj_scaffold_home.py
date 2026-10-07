@@ -29,7 +29,10 @@ def test_main_message_present():
 def test_short_stableford_scoring_explanation_present():
     mod = _load_module()
     html = mod.build_home()
-    assert "버디 +2" in html and "이글 +5" in html and "보기 -1" in html and "더블보기 이상 -3" in html
+    for term in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3"):
+        assert term in html
+    positions = [html.find(t) for t in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3")]
+    assert positions == sorted(positions), "scores must render +8 -> +5 -> +2 -> 0 -> -1 -> -3"
 
 
 def test_top5_preview_matches_frozen_snapshot_order_and_links_to_pre():
