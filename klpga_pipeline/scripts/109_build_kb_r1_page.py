@@ -48,7 +48,7 @@ sys.path.insert(0, str(PIPELINE_ROOT / "src"))
 from klpga.website_v2.global_navigation import inject_global_navigation  # noqa: E402
 from klpga.website_v2.player_identity import render_player_identity  # noqa: E402
 from klpga.website_v2.home_ownership_guard import (  # noqa: E402
-    CURRENT_TOURNAMENT_OWNER, TOP120_OWNER, assert_home_write_allowed, embed_owner, extract_owner,
+    CURRENT_TOURNAMENT_OWNER, TOP120_OWNER, assert_home_write_allowed, embed_game_code, embed_owner, extract_owner,
 )
 
 DOCS_INDEX = ROOT / "docs" / "index.html"
@@ -227,8 +227,15 @@ def write_root_home(root_html: str) -> None:
             ARCHIVE_INDEX.parent.mkdir(parents=True, exist_ok=True)
             ARCHIVE_INDEX.write_text(existing, encoding="utf-8", newline="\n")
 
-    assert_home_write_allowed(DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=ROOT, allow_transfer_from=TOP120_OWNER)
-    DOCS_INDEX.write_text(embed_owner(root_html, CURRENT_TOURNAMENT_OWNER), encoding="utf-8", newline="\n")
+    # writer_game_code (added 2026-10-07, incident fix): this script's
+    # own GAME_CODE is a fixed historical constant, so once a newer
+    # tournament's builder has claimed HOME under a different game_code,
+    # this hard-stops regardless of allow_transfer_from -- see
+    # home_ownership_guard.assert_home_write_allowed's own docstring.
+    assert_home_write_allowed(
+        DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=ROOT, allow_transfer_from=TOP120_OWNER, writer_game_code=GAME_CODE,
+    )
+    DOCS_INDEX.write_text(embed_game_code(embed_owner(root_html, CURRENT_TOURNAMENT_OWNER), GAME_CODE), encoding="utf-8", newline="\n")
 
 
 def main() -> int:

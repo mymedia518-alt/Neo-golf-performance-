@@ -86,6 +86,7 @@ from klpga.website_v2.round_page_contract import assert_cumulative_score_is_rela
 from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     CURRENT_TOURNAMENT_OWNER,
     assert_home_write_allowed,
+    embed_game_code,
 )
 from klpga.website_v2.hana_home_stage_router import current_stage_main_html  # noqa: E402
 from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
@@ -349,13 +350,22 @@ def build() -> None:
 
     assert "우승 (3).png" not in html and "kb-2026090003" not in html, "homepage must never reference the KB FINAL image"
 
+    # writer_game_code (added 2026-10-07, incident fix): allow_transfer_
+    # from=CURRENT_TOURNAMENT_OWNER (this script's own owner class) made
+    # the owner check above a no-op against any OTHER current-tournament
+    # -class writer -- this is exactly what let this script clobber a
+    # newer tournament's HOME when run as an incidental test side effect
+    # (see test_hana_home_ownership_guard.py). writer_game_code has no
+    # transfer-bypass parameter, so once a newer tournament's own
+    # game_code marker is present, this hard-stops unconditionally.
     assert_home_write_allowed(
         DOCS_INDEX,
         CURRENT_TOURNAMENT_OWNER,
         repo_root=REPO_ROOT,
         allow_transfer_from=CURRENT_TOURNAMENT_OWNER,
+        writer_game_code=GAME_CODE,
     )
-    DOCS_INDEX.write_text(html, encoding="utf-8")
+    DOCS_INDEX.write_text(embed_game_code(html, GAME_CODE), encoding="utf-8")
     print("wrote", DOCS_INDEX)
     print("current_stage:", stage)
 

@@ -39,6 +39,29 @@ import subprocess
 import sys
 from pathlib import Path
 
+import pytest
+
+# RETIRED (2026-10-07, operator-flagged incident): Hana (2026090002) is
+# permanently superseded as the current tournament -- HJ (2026100004)
+# now owns root HOME, deliberately and permanently (see
+# build_tournament_archive_and_hj_scaffold.py). This whole file's premise
+# -- that _rebuild()ing scripts/156_build_home_page.py's build() mirrors
+# Hana's current stage into docs/index.html -- requires that build() be
+# ABLE to overwrite root HOME, which is now correctly, permanently
+# blocked by home_ownership_guard.assert_home_write_allowed's game-code
+# check (156's own GAME_CODE "2026090002" no longer matches HOME's real
+# owner). That guard is what stops this exact file's _rebuild() calls
+# from silently clobbering production HOME with stale Hana content, as
+# they actually did before this fix (see
+# test_hana_home_ownership_guard.py::
+# test_stale_hana_builder_cannot_clobber_real_production_home_once_hj_has_claimed_it).
+# Skipping rather than reworking: there is no way to make _rebuild()
+# succeed against real HOME without re-opening that exact hole.
+pytestmark = pytest.mark.skip(
+    reason="Hana is permanently retired as current tournament; _rebuild() now correctly "
+    "refuses to overwrite HJ's HOME via the game-code-aware ownership guard."
+)
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 KLPGA_ROOT = REPO_ROOT / "klpga_pipeline"
 SCRIPTS_DIR = KLPGA_ROOT / "scripts"

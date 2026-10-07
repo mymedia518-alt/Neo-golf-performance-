@@ -22,6 +22,19 @@ from __future__ import annotations
 from pathlib import Path
 
 OWNER_META_NAME = "neo-home-owner"
+# Separate, finer-grained marker from OWNER_META_NAME: owner identifies
+# the broad CLASS of writer (TOP120_OWNER vs CURRENT_TOURNAMENT_OWNER),
+# but every past and future "current tournament" HOME builder shares
+# the one CURRENT_TOURNAMENT_OWNER string -- so the owner check alone
+# cannot tell HJ's HOME apart from an older tournament's (incident
+# 2026-10-07: Hana's scripts/156_build_home_page.py passes
+# allow_transfer_from=CURRENT_TOURNAMENT_OWNER, i.e. itself, which makes
+# the owner check a no-op against any other current-tournament writer,
+# including whichever tournament is actually current). This marker
+# records the specific game_code so assert_home_write_allowed can also
+# hard-stop a stale tournament's builder from overwriting a newer one's
+# HOME even though both are nominally the same owner CLASS.
+GAME_CODE_META_NAME = "neo-home-game-code"
 TOP120_OWNER = "top120-v1"
 # The current tournament's latest-approved-stage HOME mirror (see the
 # module docstring's OWNER SUPERSESSION note). Not a replacement for
@@ -79,8 +92,36 @@ def embed_owner(html: str, owner: str) -> str:
     return tag + html
 
 
+def extract_game_code(html: str) -> str | None:
+    marker = f'<meta name="{GAME_CODE_META_NAME}" content="'
+    start = html.find(marker)
+    if start == -1:
+        return None
+    start += len(marker)
+    end = html.find('"', start)
+    if end == -1:
+        return None
+    return html[start:end]
+
+
+def embed_game_code(html: str, game_code: str) -> str:
+    tag = f'<meta name="{GAME_CODE_META_NAME}" content="{game_code}">'
+    if "<head>" in html:
+        return html.replace("<head>", f"<head>{tag}", 1)
+    if "<head " in html:
+        idx = html.index("<head ")
+        close = html.index(">", idx) + 1
+        return html[:close] + tag + html[close:]
+    return tag + html
+
+
 def assert_home_write_allowed(
-    target_path: Path, writer_owner: str, *, repo_root: Path, allow_transfer_from: str | None = None
+    target_path: Path,
+    writer_owner: str,
+    *,
+    repo_root: Path,
+    allow_transfer_from: str | None = None,
+    writer_game_code: str | None = None,
 ) -> None:
     """Hard stop: raises HomeOwnershipError if target_path resolves to
     the canonical production HOME (<repo_root>/docs/index.html) and
@@ -92,7 +133,20 @@ def assert_home_write_allowed(
     this value is accepted as a deliberate, one-directional, code-
     reviewed ownership transfer TO writer_owner (see the module
     docstring's OWNER SUPERSESSION note) -- never a general bypass:
-    any other existing owner still hard-stops."""
+    any other existing owner still hard-stops.
+
+    writer_game_code: every past and future CURRENT_TOURNAMENT_OWNER-
+    class builder shares that one owner string, so the owner check
+    above cannot by itself tell a stale tournament's builder apart
+    from the actually-current one -- and allow_transfer_from is
+    routinely set to the owner's own value by exactly these builders
+    (each one allows itself to re-run), which makes the owner check a
+    complete no-op between any two current-tournament-class writers.
+    When writer_game_code is given and the file already carries a
+    DIFFERENT game-code marker (see embed_game_code/extract_game_code),
+    this hard-stops regardless of allow_transfer_from -- there is no
+    bypass parameter for this check by design. Omitting writer_game_code
+    preserves the old, game-code-unaware behavior exactly."""
     canonical_home = (repo_root / "docs" / "index.html").resolve()
     resolved_target = target_path.resolve()
     if resolved_target != canonical_home:
@@ -104,12 +158,23 @@ def assert_home_write_allowed(
             "the production root HOME."
         )
     if canonical_home.exists():
-        existing_owner = extract_owner(canonical_home.read_text(encoding="utf-8"))
+        existing_html = canonical_home.read_text(encoding="utf-8")
+        existing_owner = extract_owner(existing_html)
         if existing_owner is not None and existing_owner != writer_owner and existing_owner != allow_transfer_from:
             raise HomeOwnershipError(
                 f"HOME OWNERSHIP GUARD: {canonical_home} is already owned by "
                 f"'{existing_owner}', refusing overwrite by '{writer_owner}'."
             )
+        if writer_game_code is not None:
+            existing_game_code = extract_game_code(existing_html)
+            if existing_game_code is not None and existing_game_code != writer_game_code:
+                raise HomeOwnershipError(
+                    f"HOME OWNERSHIP GUARD: {canonical_home} is already claimed by "
+                    f"game_code '{existing_game_code}', refusing overwrite by a "
+                    f"writer for game_code '{writer_game_code}' -- no allow_transfer_from "
+                    "bypass exists for this check; update the writer's own game_code "
+                    "if it is deliberately meant to become the new current tournament."
+                )
 
 
 def validate_top120_population(dataset: dict) -> None:

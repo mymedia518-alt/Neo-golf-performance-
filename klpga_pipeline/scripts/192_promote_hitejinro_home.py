@@ -53,6 +53,7 @@ import json  # noqa: E402
 from klpga.website_v2.home_ownership_guard import (  # noqa: E402
     CURRENT_TOURNAMENT_OWNER,
     assert_home_write_allowed,
+    embed_game_code,
     embed_owner,
 )
 from klpga.website_v2.previous_tournament_link import latest_published_stage_url  # noqa: E402
@@ -123,9 +124,15 @@ def build() -> None:
     )
     html = f'<!DOCTYPE html>\n<html lang="ko">{head}{body}</html>'
     html = embed_owner(html, CURRENT_TOURNAMENT_OWNER)
+    html = embed_game_code(html, GAME_CODE)
 
+    # writer_game_code (added 2026-10-07, incident fix): see
+    # home_ownership_guard.assert_home_write_allowed's own docstring --
+    # allow_transfer_from=CURRENT_TOURNAMENT_OWNER alone cannot tell this
+    # script's own (HiteJinro) HOME apart from a newer tournament's.
     assert_home_write_allowed(
         DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=REPO_ROOT, allow_transfer_from=CURRENT_TOURNAMENT_OWNER,
+        writer_game_code=GAME_CODE,
     )
     DOCS_INDEX.write_text(html, encoding="utf-8")
     print(json.dumps({

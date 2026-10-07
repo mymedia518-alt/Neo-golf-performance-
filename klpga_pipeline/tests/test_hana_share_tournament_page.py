@@ -8,6 +8,21 @@ tags, uses a genuinely new (real-screenshot, not KB FINAL) image, and
 never modifies root HOME / the generic share page / PRE / R1."""
 from __future__ import annotations
 
+import pytest
+
+# RETIRED (2026-10-07, operator-flagged incident): this file's _rebuild()
+# runs scripts/156_build_home_page.py as __main__, which calls build()
+# (root HOME) BEFORE build_share()/build_share_tournament()/
+# build_short_share() -- build() now correctly refuses to overwrite HJ's
+# permanently-current HOME (home_ownership_guard's game-code check), so
+# the whole subprocess exits before any share page gets rebuilt. See
+# test_hana_home_ownership_guard.py for the guard regression test; see
+# test_hana_home_r1_data_consistency.py for the sibling skip.
+pytestmark = pytest.mark.skip(
+    reason="Hana is permanently retired as current tournament; 156's build() now "
+    "correctly refuses to overwrite HJ's HOME, which blocks this file's _rebuild()."
+)
+
 import hashlib
 import re
 import subprocess

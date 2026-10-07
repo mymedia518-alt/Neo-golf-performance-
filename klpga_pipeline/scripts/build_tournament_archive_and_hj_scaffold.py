@@ -14,6 +14,7 @@ Does not touch any file under docs/tournaments/2026/{2026090002,2026090003,
 """
 import json
 import re
+import sys
 from html import escape as _esc
 from pathlib import Path
 
@@ -21,6 +22,12 @@ ROOT = Path(__file__).resolve().parents[2]
 TOURNAMENTS_DIR = ROOT / "docs" / "tournaments" / "2026"
 CONTENT = ROOT / "klpga_pipeline" / "content" / "website_v2"
 HJ_GAME_CODE = "2026100004"
+
+sys.path.insert(0, str(ROOT / "klpga_pipeline" / "src"))
+from klpga.website_v2.home_ownership_guard import (  # noqa: E402
+    CURRENT_TOURNAMENT_OWNER,
+    assert_home_write_allowed,
+)
 
 STAGE_LABELS = {
     "pre": "사전 분석",
@@ -381,7 +388,8 @@ def _hj_neo_verification_html() -> str:
 
 def build_home() -> str:
     head = (
-        "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\"><meta charset=\"utf-8\">"
+        "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\">"
+        f"<meta name=\"neo-home-game-code\" content=\"{HJ_GAME_CODE}\"><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>NEO GOLF DATA · HJ중공업·동부건설 챔피언십</title>"
         "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 · 같은 경기력도 Stableford에서는 가치가 달라진다 · NEO GOLF DATA\">"
@@ -421,6 +429,21 @@ def main():
     hj_dir = TOURNAMENTS_DIR / "2026100004"
     hj_dir.mkdir(parents=True, exist_ok=True)
     (hj_dir / "index.html").write_text(hj_html, encoding="utf-8")
+
+    # HOME ownership guard (added 2026-10-07, incident fix): home_html
+    # already embeds both the owner and game_code markers literally in
+    # its own head (see build_home() above) -- this assert is this
+    # script's own claim-and-protect declaration, so a stale tournament
+    # script (156/109/192, etc, now all updated to pass their own fixed
+    # writer_game_code) gets hard-stopped if it ever runs again while HJ
+    # is the current tournament -- see home_ownership_guard.
+    assert_home_write_allowed(
+        ROOT / "docs" / "index.html",
+        CURRENT_TOURNAMENT_OWNER,
+        repo_root=ROOT,
+        allow_transfer_from=CURRENT_TOURNAMENT_OWNER,
+        writer_game_code=HJ_GAME_CODE,
+    )
     (ROOT / "docs" / "index.html").write_text(home_html, encoding="utf-8")
 
     print("wrote docs/tournaments/index.html", len(archive_html), "bytes")
