@@ -311,6 +311,47 @@ def _hj_top5_preview_html() -> str:
     )
 
 
+def _hj_neo_verification_html() -> str:
+    """Public NEO 검증 preview from the frozen pre-event 60,000-run result.
+
+    Keep public wording simple: no Monte Carlo/V1/seed/expected-value jargon.
+    Players are ordered by win probability, while each row reads in the
+    operator-locked order: 본선 진출 → TOP 20 → 우승.
+    """
+    result_path = CONTENT / "HJ_2026100004_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
+    if not result_path.is_file():
+        return ""
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    if result.get("target_game_code") != HJ_GAME_CODE:
+        return ""
+    eligible = [
+        p for p in result.get("players", [])
+        if p.get("data_status") == "OK"
+    ]
+    leaders = sorted(eligible, key=lambda p: p["win_pct"], reverse=True)[:5]
+    if not leaders:
+        return ""
+
+    rows = "".join(
+        "<li style='padding:.7rem 0;border-bottom:1px solid var(--line)'>"
+        f"<div style='display:flex;justify-content:space-between;gap:1rem;align-items:baseline'>"
+        f"<strong>{p['player_name']}</strong>"
+        f"<span style='color:var(--muted);font-size:.82rem'>{p.get('official_sponsor') or ''}</span></div>"
+        "<div style='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin-top:.35rem;font-size:.9rem'>"
+        f"<span>본선 진출 <strong>{p['make_cut_pct']:.1f}%</strong></span>"
+        f"<span>TOP 20 <strong>{p['top20_pct']:.1f}%</strong></span>"
+        f"<span>우승 <strong>{p['win_pct']:.1f}%</strong></span>"
+        "</div></li>"
+        for p in leaders
+    )
+    return (
+        '<section class="page-intro"><p class="eyebrow" style="margin-bottom:.45rem">NEO 검증</p>'
+        f'<ol style="list-style:none;margin:0;padding:0;max-width:36rem">{rows}</ol>'
+        '<p class="meta" style="margin-top:.7rem">대회 전 기록을 바탕으로 60,000번의 경기 흐름을 계산한 결과입니다.</p>'
+        f'<p><a href="/tournaments/2026/{HJ_GAME_CODE}/pre/">전체 사전분석 보기 →</a></p></section>'
+    )
+
+
 def build_home() -> str:
     head = (
         "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\"><meta charset=\"utf-8\">"
@@ -335,6 +376,7 @@ def build_home() -> str:
         + '<p class="meta">같은 경기력도 Stableford에서는 가치가 달라진다.</p></div></section>'
         + STABLEFORD_EXPLANATION_HTML
         + _hj_top5_preview_html()
+        + _hj_neo_verification_html()
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
         + "</main>"
