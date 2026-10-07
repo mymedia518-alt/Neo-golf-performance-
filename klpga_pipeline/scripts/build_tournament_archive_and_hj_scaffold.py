@@ -312,11 +312,12 @@ def _hj_top5_preview_html() -> str:
 
 
 def _hj_neo_verification_html() -> str:
-    """Public NEO 검증 preview from the frozen pre-event 60,000-run result.
+    """Public NEO 검증 for the full field.
 
-    Keep public wording simple: no Monte Carlo/V1/seed/expected-value jargon.
-    Players are ordered by win probability, while each row reads in the
-    operator-locked order: 본선 진출 → TOP 20 → 우승.
+    Public order is fixed: 본선 진출 → TOP 20 → 우승.
+    Keep model-internal terminology out of the page. Every entrant stays
+    visible; players without a trustworthy personal pre-event sample are
+    shown as 데이터 부족 rather than a synthetic probability.
     """
     result_path = CONTENT / "HJ_2026100004_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
     if not result_path.is_file():
@@ -324,31 +325,47 @@ def _hj_neo_verification_html() -> str:
     result = json.loads(result_path.read_text(encoding="utf-8"))
     if result.get("target_game_code") != HJ_GAME_CODE:
         return ""
-    eligible = [
-        p for p in result.get("players", [])
-        if p.get("data_status") == "OK"
-    ]
-    leaders = sorted(eligible, key=lambda p: p["win_pct"], reverse=True)[:5]
-    if not leaders:
+
+    players = list(result.get("players", []))
+    if not players:
         return ""
 
-    rows = "".join(
-        "<li style='padding:.7rem 0;border-bottom:1px solid var(--line)'>"
-        f"<div style='display:flex;justify-content:space-between;gap:1rem;align-items:baseline'>"
-        f"<strong>{p['player_name']}</strong>"
-        f"<span style='color:var(--muted);font-size:.82rem'>{p.get('official_sponsor') or ''}</span></div>"
-        "<div style='display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem;margin-top:.35rem;font-size:.9rem'>"
-        f"<span>본선 진출 <strong>{p['make_cut_pct']:.1f}%</strong></span>"
-        f"<span>TOP 20 <strong>{p['top20_pct']:.1f}%</strong></span>"
-        f"<span>우승 <strong>{p['win_pct']:.1f}%</strong></span>"
-        "</div></li>"
-        for p in leaders
-    )
+    # Keep the existing public Stableford pre-event order so HOME remains
+    # one coherent 108-player view rather than introducing a second ranking.
+    players.sort(key=lambda p: (
+        p.get("v1_pre_event_rank") is None,
+        p.get("v1_pre_event_rank") or 9999,
+        p.get("player_name") or "",
+    ))
+
+    rows = []
+    for p in players:
+        sponsor = p.get("official_sponsor") or ""
+        status = p.get("data_status")
+        if status == "OK":
+            cut = f"{p['make_cut_pct']:.1f}%"
+            top20 = f"{p['top20_pct']:.1f}%"
+            win = f"{p['win_pct']:.1f}%"
+        else:
+            cut = top20 = win = "데이터 부족"
+        rows.append(
+            "<tr>"
+            f"<th scope='row' style='text-align:left'><strong>{p['player_name']}</strong>"
+            f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{sponsor}</span></th>"
+            f"<td data-label='본선 진출'>{cut}</td>"
+            f"<td data-label='TOP 20'>{top20}</td>"
+            f"<td data-label='우승'><strong>{win}</strong></td>"
+            "</tr>"
+        )
+
     return (
-        '<section class="page-intro"><p class="eyebrow" style="margin-bottom:.45rem">NEO 검증</p>'
-        f'<ol style="list-style:none;margin:0;padding:0;max-width:36rem">{rows}</ol>'
+        '<section class="panel leaderboard-panel" id="neo-verification">'
+        '<div class="leaderboard-head"><p class="eyebrow" style="margin-bottom:.35rem">NEO 검증</p></div>'
+        '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
+        '<th>선수</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>'
+        '</tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>'
         '<p class="meta" style="margin-top:.7rem">대회 전 기록을 바탕으로 60,000번의 경기 흐름을 계산한 결과입니다.</p>'
-        f'<p><a href="/tournaments/2026/{HJ_GAME_CODE}/pre/">전체 사전분석 보기 →</a></p></section>'
+        '</section>'
     )
 
 
