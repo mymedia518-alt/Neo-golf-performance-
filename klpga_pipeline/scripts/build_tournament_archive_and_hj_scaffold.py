@@ -312,46 +312,51 @@ def _hj_top5_preview_html() -> str:
 
 
 def _hj_neo_verification_html() -> str:
-    """Public NEO 검증 for the full field.
-
-    Public order is fixed: 본선 진출 → TOP 20 → 우승.
-    Keep model-internal terminology out of the page. Every entrant stays
-    visible; players without a trustworthy personal pre-event sample are
-    shown as 데이터 부족 rather than a synthetic probability.
-    """
+    """Full-field HOME table: flag + player + sponsor + Stableford rank +
+    public NEO verification in the locked order 본선 진출 → TOP 20 → 우승."""
     result_path = CONTENT / "HJ_2026100004_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
-    if not result_path.is_file():
+    snapshot_path = CONTENT / "STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json"
+    if not result_path.is_file() or not snapshot_path.is_file():
         return ""
     result = json.loads(result_path.read_text(encoding="utf-8"))
-    if result.get("target_game_code") != HJ_GAME_CODE:
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    if result.get("target_game_code") != HJ_GAME_CODE or snapshot.get("target_game_code") != HJ_GAME_CODE:
         return ""
 
-    players = list(result.get("players", []))
-    if not players:
-        return ""
-
-    # Keep the existing public Stableford pre-event order so HOME remains
-    # one coherent 108-player view rather than introducing a second ranking.
-    players.sort(key=lambda p: (
-        p.get("v1_pre_event_rank") is None,
-        p.get("v1_pre_event_rank") or 9999,
-        p.get("player_name") or "",
+    sim_by_pid = {str(p["player_code"]): p for p in result.get("players", [])}
+    records = list(snapshot.get("records", []))
+    records.sort(key=lambda r: (
+        r.get("pre_event_rank") is None,
+        r.get("pre_event_rank") or 9999,
+        r.get("player_name") or "",
     ))
 
     rows = []
-    for p in players:
-        sponsor = p.get("official_sponsor") or ""
-        status = p.get("data_status")
-        if status == "OK":
-            cut = f"{p['make_cut_pct']:.1f}%"
-            top20 = f"{p['top20_pct']:.1f}%"
-            win = f"{p['win_pct']:.1f}%"
+    for r in records:
+        pid = str(r["player_code"])
+        sim = sim_by_pid.get(pid)
+        country = r.get("nationality") or ""
+        flag = (
+            f"<img src='/assets/flags/{country}.svg' alt='' width='16' height='12' "
+            "style='display:inline-block;vertical-align:middle;margin-right:6px'>"
+            if country else ""
+        )
+        sponsor = r.get("official_sponsor") or ""
+        player = (
+            f"{flag}<strong>{r['player_name']}</strong>"
+            + (f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{sponsor}</span>" if sponsor else "")
+        )
+        rank = f"#{r['pre_event_rank']}" if r.get("pre_event_rank") is not None else "<span style='color:var(--muted)'>데이터 부족</span>"
+        if sim and sim.get("data_status") == "OK":
+            cut = f"{sim['make_cut_pct']:.1f}%"
+            top20 = f"{sim['top20_pct']:.1f}%"
+            win = f"{sim['win_pct']:.1f}%"
         else:
-            cut = top20 = win = "데이터 부족"
+            cut = top20 = win = "<span style='color:var(--muted)'>데이터 부족</span>"
         rows.append(
             "<tr>"
-            f"<th scope='row' style='text-align:left'><strong>{p['player_name']}</strong>"
-            f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{sponsor}</span></th>"
+            f"<th scope='row' style='white-space:nowrap;text-align:left'>{player}</th>"
+            f"<td data-label='Stableford 사전평가'>{rank}</td>"
             f"<td data-label='본선 진출'>{cut}</td>"
             f"<td data-label='TOP 20'>{top20}</td>"
             f"<td data-label='우승'><strong>{win}</strong></td>"
@@ -362,9 +367,8 @@ def _hj_neo_verification_html() -> str:
         '<section class="panel leaderboard-panel" id="neo-verification">'
         '<div class="leaderboard-head"><p class="eyebrow" style="margin-bottom:.35rem">NEO 검증</p></div>'
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
-        '<th>선수</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>'
+        '<th>선수</th><th>Stableford 사전평가</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>'
         '</tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>'
-        '<p class="meta" style="margin-top:.7rem">대회 전 기록을 바탕으로 60,000번의 경기 흐름을 계산한 결과입니다.</p>'
         '</section>'
     )
 
@@ -392,7 +396,6 @@ def build_home() -> str:
         + '<h1>HJ중공업·동부건설 챔피언십</h1>'
         + '<p class="meta">같은 경기력도 Stableford에서는 가치가 달라진다.</p></div></section>'
         + STABLEFORD_EXPLANATION_HTML
-        + _hj_top5_preview_html()
         + _hj_neo_verification_html()
         + '<section class="page-intro"><h2>지난 대회 기록</h2>'
         + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
