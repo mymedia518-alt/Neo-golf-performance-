@@ -373,6 +373,7 @@ def _hj_neo_verification_html() -> str:
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
         '<th>선수</th><th>Stableford 사전평가</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>'
         '</tr></thead><tbody>' + "".join(rows) + '</tbody></table></div>'
+        '<p class="meta" style="margin-top:.7rem">※ 데이터 부족: 대회 전 분석에 필요한 최소 10라운드 기준 미달.</p>'
         '</section>'
     )
 
