@@ -1,0 +1,452 @@
+{
+  "run_at_utc": "2026-10-07T07:30:23.862571+00:00",
+  "results": [
+    {
+      "game_code": "2026030001",
+      "tournament_name": "리쥬란 챔피언십",
+      "start_date": "2026-03-12",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026030001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1533873,
+      "sha256": "bcfd5ade4a351ee50f84412f5801ae0db387d823e77b32ed855ecdc516561882",
+      "acquired_at_utc": "2026-10-07T07:29:40.333333+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 74,
+        "4R": 74
+      }
+    },
+    {
+      "game_code": "2026040003",
+      "tournament_name": "더 시에나 오픈 2026",
+      "start_date": "2026-04-02",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026040003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1424144,
+      "sha256": "63bd4aa453ea2ae7e2c5e5e40b1fc1e4565329d3a89500bbd3e975d16b2d714d",
+      "acquired_at_utc": "2026-10-07T07:29:41.359777+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2026040001",
+      "tournament_name": "iM금융오픈 2026",
+      "start_date": "2026-04-09",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026040001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1420909,
+      "sha256": "395a90bc75ce5f37d4dd9eda0142a89dca0097e4f68ce98e9cbd5ba41f372e57",
+      "acquired_at_utc": "2026-10-07T07:29:42.996484+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2026040004",
+      "tournament_name": "넥센 · 세인트나인 Masters 2026",
+      "start_date": "2026-04-17",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026040004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1241744,
+      "sha256": "161a2a45cd6e501dc74339ddb69578d651e140654d6faf9081530e942a892a8d",
+      "acquired_at_utc": "2026-10-07T07:29:44.960483+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 67
+      }
+    },
+    {
+      "game_code": "2026040002",
+      "tournament_name": "제2회 덕신EPC 챔피언십",
+      "start_date": "2026-04-24",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026040002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1224400,
+      "sha256": "5ce8751dfc86d5e575b57be9637809b537a29f35ec10a8d232d8266e73c4d499",
+      "acquired_at_utc": "2026-10-07T07:29:46.537146+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 117,
+        "3R": 66
+      }
+    },
+    {
+      "game_code": "2026040005",
+      "tournament_name": "제1회 DB 위민스 챔피언십",
+      "start_date": "2026-04-30",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026040005_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1491434,
+      "sha256": "a15b0fcb7c4ab53b12442bf0b0058c662f24dbde842cb8a8c2ba09bcf47f7188",
+      "acquired_at_utc": "2026-10-07T07:29:48.856818+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 117,
+        "3R": 71,
+        "4R": 70
+      }
+    },
+    {
+      "game_code": "2026050001",
+      "tournament_name": "2026 NH투자증권 레이디스 챔피언십",
+      "start_date": "2026-05-08",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026050001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1338704,
+      "sha256": "a3e71a191e9eb704ba09937a13ec0f29052e7f2b0c0cb84f57acd3593b7afea0",
+      "acquired_at_utc": "2026-10-07T07:29:50.887130+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 131,
+        "3R": 71
+      }
+    },
+    {
+      "game_code": "2026050003",
+      "tournament_name": "제14회 E1 채리티 오픈",
+      "start_date": "2026-05-22",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026050003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1320204,
+      "sha256": "fc49c84d75f8c55017d9fefc6814033e4291f4d2a47d89fe3d2597a4d08212e3",
+      "acquired_at_utc": "2026-10-07T07:29:53.159479+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 140,
+        "2R": 138,
+        "3R": 60
+      }
+    },
+    {
+      "game_code": "2026050004",
+      "tournament_name": "Sh수협은행 MBN 여자오픈",
+      "start_date": "2026-05-29",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026050004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1243804,
+      "sha256": "fb784bd66127a0d2b6f778bd37fd746ebe4f1a6ae154fde4562173d30e0e57dc",
+      "acquired_at_utc": "2026-10-07T07:29:55.300843+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 119,
+        "3R": 68
+      }
+    },
+    {
+      "game_code": "2026060001",
+      "tournament_name": "2026 셀트리온 퀸즈 마스터즈",
+      "start_date": "2026-06-05",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026060001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1279394,
+      "sha256": "e33c9bae793c59dcbf03bbcf10060151bf460e9c88ebed81b413385d8cf02a96",
+      "acquired_at_utc": "2026-10-07T07:29:57.285101+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 75
+      }
+    },
+    {
+      "game_code": "2026060003",
+      "tournament_name": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "start_date": "2026-06-11",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026060003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1494409,
+      "sha256": "7a63379147e28a4012692efb158442c8521f962116c30e034e12a8c3978dfb5e",
+      "acquired_at_utc": "2026-10-07T07:29:58.905144+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 129,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2026060004",
+      "tournament_name": "인카금융 더헤븐 마스터즈",
+      "start_date": "2026-06-19",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026060004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1264784,
+      "sha256": "4d7562e703982d0e3a41ec99046652a217ddfd60e963c05dc854f194b256dfa5",
+      "acquired_at_utc": "2026-10-07T07:30:00.412080+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 120,
+        "3R": 71
+      }
+    },
+    {
+      "game_code": "2026060002",
+      "tournament_name": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "start_date": "2026-06-26",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026060002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1267157,
+      "sha256": "1c23621388f6bdeb4423063d8a3b7c24b939bf98c803b14d5920a4bd3d4c8270",
+      "acquired_at_utc": "2026-10-07T07:30:02.150370+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 127,
+        "3R": 61
+      }
+    },
+    {
+      "game_code": "2026070003",
+      "tournament_name": "제16회 롯데 오픈",
+      "start_date": "2026-07-02",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026070003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1557369,
+      "sha256": "91799443920bbb0ca3b556f42bd0badf72a2fd5986b26c4d682ff8b8ca741127",
+      "acquired_at_utc": "2026-10-07T07:30:03.782698+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 132,
+        "2R": 132,
+        "3R": 68,
+        "4R": 68
+      }
+    },
+    {
+      "game_code": "2026070002",
+      "tournament_name": "하이원리조트 여자오픈 2026",
+      "start_date": "2026-07-09",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026070002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1380881,
+      "sha256": "3990941cdf62102baa0b0296d4831688817a6a57608e2eb9f77887e521b8affc",
+      "acquired_at_utc": "2026-10-07T07:30:05.578663+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 106,
+        "3R": 66,
+        "4R": 66
+      }
+    },
+    {
+      "game_code": "2026070001",
+      "tournament_name": "2026 오로라월드 챔피언십",
+      "start_date": "2026-07-30",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026070001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1410915,
+      "sha256": "f12130eaa1af4e7dff473938a316dbc9539bf3db581d351f9a9889289cd32fe1",
+      "acquired_at_utc": "2026-10-07T07:30:07.849249+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 61,
+        "4R": 61
+      }
+    },
+    {
+      "game_code": "2026080004",
+      "tournament_name": "제13회 제주삼다수 마스터스",
+      "start_date": "2026-08-06",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026080004_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1538039,
+      "sha256": "dae3771ca878ad72b6b5f288eac562fa393d6c91a39e3a26a7aaae133ab5b57c",
+      "acquired_at_utc": "2026-10-07T07:30:09.601890+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 128,
+        "2R": 127,
+        "3R": 69,
+        "4R": 69
+      }
+    },
+    {
+      "game_code": "2026080003",
+      "tournament_name": "메디힐 · 한국일보 챔피언십",
+      "start_date": "2026-08-13",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026080003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1496406,
+      "sha256": "9e0cba335ed6b50868a449ce33dbd7155fa5423a990759db4e4495b7f4a7b3df",
+      "acquired_at_utc": "2026-10-07T07:30:11.355408+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 123,
+        "2R": 122,
+        "3R": 68,
+        "4R": 68
+      }
+    },
+    {
+      "game_code": "2026080002",
+      "tournament_name": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "start_date": "2026-08-20",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026080002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1527307,
+      "sha256": "63fe34e442f2dad6085694b6d525ab531e60c5bfbf5a332f82e0d7d78eccffb9",
+      "acquired_at_utc": "2026-10-07T07:30:13.460351+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 123,
+        "2R": 119,
+        "3R": 72,
+        "4R": 72
+      }
+    },
+    {
+      "game_code": "2026080001",
+      "tournament_name": "제15회 KG 레이디스 오픈",
+      "start_date": "2026-08-27",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026080001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1406746,
+      "sha256": "250507cbe56a228d14d1679c2f0f5b7d30c5b6461151365a1092bfb3f1faebdf",
+      "acquired_at_utc": "2026-10-07T07:30:15.640628+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 119,
+        "2R": 116,
+        "3R": 62,
+        "4R": 62
+      }
+    },
+    {
+      "game_code": "2026120001",
+      "tournament_name": "OK저축은행 읏맨 오픈",
+      "start_date": "2026-09-04",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026120001_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1239711,
+      "sha256": "a7b8c3e8319858cded3b1383f9f3c4fad704a6ed0926cec5f12a17db25c5ff99",
+      "acquired_at_utc": "2026-10-07T07:30:17.129841+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 68
+      }
+    },
+    {
+      "game_code": "2026090003",
+      "tournament_name": "KB금융 골든라이프 챔피언십",
+      "start_date": "2026-09-10",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026090003_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1497977,
+      "sha256": "75d784a716c9c6ecf68f4bf274a41dc680edf9206f585996f8f0ca887aa24139",
+      "acquired_at_utc": "2026-10-07T07:30:18.911055+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 120,
+        "2R": 118,
+        "3R": 71,
+        "4R": 70
+      }
+    },
+    {
+      "game_code": "2026090002",
+      "tournament_name": "하나금융그룹 챔피언십",
+      "start_date": "2026-09-17",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026090002_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1355914,
+      "sha256": "893c75a5dac78afd5f07e4c1f9776d22434046a98683649b057f23e072aecec1",
+      "acquired_at_utc": "2026-10-07T07:30:21.183432+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 105,
+        "3R": 64,
+        "4R": 64
+      }
+    },
+    {
+      "game_code": "2026100005",
+      "tournament_name": "제26회 하이트진로 챔피언십",
+      "start_date": "2026-10-01",
+      "saved_to": "C:\\Users\\user\\Desktop\\neo-hj-2023\\klpga_pipeline\\evidence\\stableford_prior_2026\\2026100005_scoreRecord.html",
+      "response_status": 200,
+      "response_bytes": 1339875,
+      "sha256": "25e945cfea99b019b6a65e65dfeecf7d304e0d474c3a05391a3894f35cb3b04e",
+      "acquired_at_utc": "2026-10-07T07:30:23.164151+00:00",
+      "identity_verified": true,
+      "acquisition_status": "ACQUIRED",
+      "source_pass_fail": "SOURCE_PASS",
+      "unique_players_by_round": {
+        "1R": 108,
+        "2R": 107,
+        "3R": 61,
+        "4R": 61
+      }
+    }
+  ]
+}
