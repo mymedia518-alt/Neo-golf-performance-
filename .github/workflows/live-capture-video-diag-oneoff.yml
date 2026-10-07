@@ -77,6 +77,24 @@ jobs:
           out.mkdir(exist_ok=True)
           result = {}
 
+          # --- A0. direct HTTP checks on the HOME root URL (diagnose caching) ---
+          home_http = {}
+          try:
+              r_home = requests.get(home_url, timeout=30, headers={"Cache-Control": "no-cache"})
+              home_http["status"] = r_home.status_code
+              home_http["cache_control"] = r_home.headers.get("Cache-Control")
+              home_http["age"] = r_home.headers.get("Age")
+              home_http["etag"] = r_home.headers.get("ETag")
+              home_http["last_modified"] = r_home.headers.get("Last-Modified")
+              home_http["x_served_by"] = r_home.headers.get("X-Served-By") or r_home.headers.get("x-served-by")
+              home_http["x_cache"] = r_home.headers.get("X-Cache")
+              home_http["all_headers"] = dict(r_home.headers)
+              home_http["contains_seongajin"] = "성아진" in r_home.text
+              home_http["title"] = (r_home.text.split("<title>")[1].split("</title>")[0] if "<title>" in r_home.text else None)
+          except Exception as e:
+              home_http["error"] = str(e)
+          result["home_http"] = home_http
+
           # --- A. direct HTTP checks on the video asset itself ---
           video_http = {}
           try:
