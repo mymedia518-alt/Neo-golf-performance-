@@ -93,6 +93,10 @@ def build() -> dict:
     tourney = json.loads(TOURNAMENT_INFO_PATH.read_text(encoding="utf-8"))
     snapshot = json.loads(SNAPSHOT_PATH.read_text(encoding="utf-8"))
     records = snapshot["records"]
+    mc_path = CONTENT / "HJ_2026100004_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
+    mc = json.loads(mc_path.read_text(encoding="utf-8"))
+    assert mc["target_game_code"] == GAME_CODE
+    mc_by_pid = {str(p["player_code"]): p for p in mc["players"]}
     assert snapshot["target_game_code"] == GAME_CODE
     field_size = tourney["field_size"]
     assert len(records) == field_size, f"expected {field_size} entrants, found {len(records)}"
@@ -136,15 +140,26 @@ def build() -> dict:
         else:
             rank_cell = "<span style='color:var(--muted)'>데이터 부족</span>"
 
+        sim = mc_by_pid.get(str(pid))
+        if sim and sim.get("data_status") == "OK":
+            cut_cell = f"{sim['make_cut_pct']:.1f}%"
+            top20_cell = f"{sim['top20_pct']:.1f}%"
+            win_cell = f"{sim['win_pct']:.1f}%"
+        else:
+            cut_cell = top20_cell = win_cell = "<span style='color:var(--muted)'>데이터 부족</span>"
+
         return (
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{name_cell}</th>"
-            f"<td data-label='Stableford 사전평가'>{rank_cell}</td></tr>"
+            f"<td data-label='Stableford 사전평가'>{rank_cell}</td>"
+            f"<td data-label='본선 진출'>{cut_cell}</td>"
+            f"<td data-label='TOP 20'>{top20_cell}</td>"
+            f"<td data-label='우승'><strong>{win_cell}</strong></td></tr>"
         )
 
     rows_html = [_row(r) for r in ranked]
     if unranked:
         rows_html.append(
-            "<tr><td colspan='2' style='color:var(--muted);padding-top:.9rem'>"
+            "<tr><td colspan='5' style='color:var(--muted);padding-top:.9rem'>"
             "신규 출전 — 대회 전 기록 없음</td></tr>"
         )
         rows_html.extend(_row(r) for r in unranked)
@@ -223,7 +238,7 @@ def build() -> dict:
         '<section class="panel leaderboard-panel" id="pre">'
         f'<div class="leaderboard-head"><h2>PRE 참가 선수 <small>{field_size}명</small></h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
-        "<th>선수</th><th>Stableford 사전평가</th>"
+        "<th>선수</th><th>Stableford 사전평가</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
 
