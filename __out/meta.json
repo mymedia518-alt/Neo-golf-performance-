@@ -1,0 +1,23 @@
+{
+  "requested_url": "https://neogolfdata.com/",
+  "final_url": "https://neogolfdata.com/",
+  "http_status": 200,
+  "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십",
+  "cut_banner_found": false,
+  "cut_row_found": false,
+  "header_row_cell_texts": [
+    "선수",
+    "STABLEFORD 사전평가",
+    "본선 진출",
+    "TOP 20",
+    "우승"
+  ],
+  "normal_row_cell_texts": [
+    "서교림삼천리",
+    "#1",
+    "91.7%",
+    "69.6%",
+    "10.2%"
+  ],
+  "console_errors": []
+}
