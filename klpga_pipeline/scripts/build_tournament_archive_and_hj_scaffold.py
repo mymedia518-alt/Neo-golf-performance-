@@ -346,7 +346,11 @@ def _hj_neo_verification_html() -> str:
             f"{flag}<strong>{r['player_name']}</strong>"
             + (f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{sponsor}</span>" if sponsor else "")
         )
-        rank = f"#{r['pre_event_rank']}" if r.get("pre_event_rank") is not None else "<span style='color:var(--muted)'>데이터 부족</span>"
+        rank = (
+            f"#{r['pre_event_rank']}"
+            if r.get("data_status") == "OK" and (r.get("rounds") or 0) >= 10 and r.get("pre_event_rank") is not None
+            else "<span style='color:var(--muted)'>데이터 부족</span>"
+        )
         if sim and sim.get("data_status") == "OK":
             cut = f"{sim['make_cut_pct']:.1f}%"
             top20 = f"{sim['top20_pct']:.1f}%"
