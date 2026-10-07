@@ -642,15 +642,20 @@ def render_round_page(
     # here too so every round page -- not just PRE -- always reflects
     # the REAL current publication state, however many stages have been
     # published since this exact page was last (re)built.
+    # REGRESSION FIX (2026-10-07, operator "긴급 회귀 수정"): the
+    # 2026-10-04 "SEO discoverability mission" added a "최종 검증" nav
+    # entry (and linked /verification/, a page carrying internal NEO
+    # 검증/SG 분석/코스 분석 content) to every public round page. That
+    # directly contradicted this tournament's own earlier, explicit
+    # decision (commit 30a4de7, "hide internal NEO Verification/SG/
+    # Course Analysis from public page") and was never asked for by the
+    # operator -- removed. The public stage-nav is PRE/R1/R2/R3/FR only,
+    # same as the archive index's own PUBLIC_STAGE_ALLOWLIST already
+    # enforces for 2026100005. The /verification/ page itself is left
+    # on disk (same convention as the already-unlinked course-analysis/
+    # deep-dive pages), just no longer reachable from any public nav.
     stage_nav_items = []
-    # "최종 검증" (2026-10-04 SEO discoverability mission): a separate,
-    # distinct public page (build_hitejinro_round_pipeline.
-    # build_post_verification_page) carrying the NEO 검증/SG 분석/코스
-    # 분석 sections this tournament's own FR page deliberately keeps
-    # internal-only. Same real "file already exists on disk" check
-    # every other stage-nav entry already uses -- disabled until that
-    # page is actually built, never a dead link.
-    for key, label in [("pre", "사전 분석 PRE")] + [STAGE_LABELS[n] for n in (1, 2, 3, 4)] + [("verification", "최종 검증")]:
+    for key, label in [("pre", "사전 분석 PRE")] + [STAGE_LABELS[n] for n in (1, 2, 3, 4)]:
         display_label = "사전 분석 PRE" if key == "pre" else label
         href = f"/tournaments/2026/{GAME_CODE}/{key}/"
         if key == stage_key:
@@ -662,9 +667,12 @@ def render_round_page(
 
     seo_description = _round_seo_description(round_number, stage_label, tournament_name, played[0] if played else None)
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/{stage_key}/"
-    provenance_html = _page_provenance_html(
-        data_as_of=board.get("as_of"), forecast_source_round=forecast_doc.get("source_round"), round_number=round_number,
-    )
+    # REGRESSION FIX (2026-10-07): the same 2026-10-04 mission also added
+    # a "데이터 기준 / 예측 기준 / 페이지 업데이트" provenance line that
+    # never existed on this tournament's own public pages before --
+    # removed along with the 최종 검증 nav entry above (_page_provenance_
+    # html is kept, unused, in case a future explicit request wants a
+    # provenance line again, but nothing calls it on the public page now).
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">'
@@ -697,7 +705,6 @@ def render_round_page(
         f'<span aria-current="page">{stage_label}</span></nav>'
         f'<section class="hero" id="tournament"><div><p class="eyebrow">{stage_label} 업데이트</p>'
         f'<h1>{_esc(tournament_name)}</h1><p class="meta">{_esc(date_range)}</p>'
-        f'{provenance_html}'
         f'{previous_tournament_meta_html()}</div></section>'
     )
     stage_nav = f"<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>{''.join(stage_nav_items)}</ol></nav>"

@@ -225,9 +225,18 @@ def test_hj_scaffold_has_no_blocked_probability_output():
 
 
 def test_home_locked_copy_uses_reader_language_not_internal_terms():
+    """HOME's copy changed 2026-10-07 (operator instruction: ship the real
+    HJ homepage now instead of holding it on a "준비되는 대로 공개" /
+    예측 잠금 placeholder -- see scripts/225+226 and build_tournament_
+    archive_and_hj_scaffold.py's build_home()). The old placeholder-era
+    assertion ("준비되는 대로 공개합니다") is intentionally gone from HOME
+    -- it is still asserted on the untouched HJ scaffold page in
+    test_hj_scaffold_has_no_blocked_probability_output above. This test
+    now locks the NEW real copy instead, keeping the internal-term leak
+    check (still valid, still the point of this test)."""
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "변형 스테이블포드 방식으로 진행됩니다" in html
-    assert "준비되는 대로 공개합니다" in html
+    assert "같은 경기력도 Stableford에서는 가치가 달라진다" in html
     for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지"):
         assert leaked_internal_term not in html, f"internal term leaked into HOME public copy: {leaked_internal_term!r}"
 

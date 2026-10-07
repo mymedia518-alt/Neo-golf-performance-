@@ -1,5 +1,5 @@
 {
-  "_comment": "Legacy-protection manifest for the archive-navigation feature. Every file listed here must stay byte-identical sha256. v3 (deep-dive internal-label cleanup turn): 2026100005/deep-dive/index.html's visible 'DATA QUALITY'/'PASS'x3 block was explicitly rewritten to reader language ('자료 안내'/'확인 완료') per direct user instruction -- this is the one authorized exception to 'never edit legacy', scoped to that single <section id=data-quality> block; verified via diff that nothing else in the file changed. The page remains neo-mock-data=true / neo-stage-publication-ready=false and stays excluded from all archive navigation regardless. v2's OK/KG restored hashes and v1's KB/하나/하이트진로(other files)/assets/about hashes are otherwise unchanged. Regenerate only via explicit, reviewed intent to change legacy tournament content -- never to silence a failing test.",
+  "_comment": "Legacy-protection manifest for the archive-navigation feature. Every file listed here must stay byte-identical sha256. v4 (2026-10-07 regression fix): the 2026-10-04 'SEO readiness' commit (7f0b76b) had silently added a public 최종 검증(verification) stage-nav link + a 페이지 업데이트 timestamp to all five 2026100005 (하이트진로) stage pages (pre/r1/r2/r3/fr), contradicting an earlier explicit decision to keep NEO Verification internal (30a4de7) -- this manifest's own v1-v3 hashes had been captured AFTER that regression, so they were protecting the BUGGY state. Per explicit operator instruction ('긴급 회귀 수정'), those five files were surgically patched (verification nav li removed from all five; the ' · 페이지 업데이트 ...' suffix removed from FR's provenance line only -- the only one that had it) back to their pre-regression public structure, and the five hashes below updated to match -- this is an authorized, reviewed content fix, not a silenced test. v3's deep-dive internal-label cleanup (scoped to one <section id=data-quality> block) and v2/v1's other hashes are otherwise unchanged. Regenerate only via explicit, reviewed intent to change legacy tournament content -- never to silence a failing test.",
   "files": {
     "docs/tournaments/2026/2026090002/final/index.html": "1233f50c78ce8256b93ddad94d845e13664757de4e02f3ffee73fb1142859ee1",
     "docs/tournaments/2026/2026090002/pre/index.html": "067e60b6b4dbb147bf191d8992f34ee321dbaefd9442aa5d1319a4d6f7a75145",
@@ -14,11 +14,11 @@
     "docs/tournaments/2026/2026090003/r3/index.html": "24f647040231d89c98c4b31e703d51a181f0c59e0a246683b9dd4ea38df6843b",
     "docs/tournaments/2026/2026100005/course-analysis/index.html": "d35553a3409cdfcb0d208b515ec06cf62ab0151094d24348eb7876aacba09a5c",
     "docs/tournaments/2026/2026100005/deep-dive/index.html": "192016fb94945c856bace2ead182ad8456748ffcf6967851b11eaf8b9cde0d42",
-    "docs/tournaments/2026/2026100005/fr/index.html": "e71d528cac6b6531fa678ff06412c851eda0627ef39a70a64c82f106310247c3",
-    "docs/tournaments/2026/2026100005/pre/index.html": "12bfa9e46dc6481e97a5a3486c358a9b7188092ab027861144241690274e6104",
-    "docs/tournaments/2026/2026100005/r1/index.html": "5b599641b879d399eef4ca09729105a5b14fa17f2230b09c8a96c7156a7073b2",
-    "docs/tournaments/2026/2026100005/r2/index.html": "5d0981c4c773772df4760b28a3ea3bbf1852a2c6bd53e0f0800157aea69c7500",
-    "docs/tournaments/2026/2026100005/r3/index.html": "51058ed2c98b2b7cd1e38b7e101373b20cc115ff812f9df1d49ab4bf063240de",
+    "docs/tournaments/2026/2026100005/fr/index.html": "3049fde5011ae7bcacbd13540619d69b4267d4d0c45b5ac5d93c3fbaac58f048",
+    "docs/tournaments/2026/2026100005/pre/index.html": "5be11bd70446a151c81187415c2eb8d928ff9225079ae644328780bf2d17badc",
+    "docs/tournaments/2026/2026100005/r1/index.html": "e09ab1cee53f2ea6166cef3d8ec9f090fde9279cbb111bdcf7430a400add48e3",
+    "docs/tournaments/2026/2026100005/r2/index.html": "926524384ca62952160f88b3f93975345ed1405a6bd1c2d6e2147cb7aaa7884f",
+    "docs/tournaments/2026/2026100005/r3/index.html": "f0a9d658b77db67ad0ef589cacb848d463d2a30a125e8ff3a8d7f820f739f940",
     "docs/tournaments/2026/2026100005/verification/index.html": "8ec5134dee7a38534cffd2112f8ca731df96cb422b7434c7c8dfa08a8787563f",
     "docs/tournaments/2026/ok-savings-bank-open/final/index.html": "2c71cad29dcba65fd3da6cae39c6767590267e731a151fef517805322373a64d",
     "docs/tournaments/2026/ok-savings-bank-open/pre/index.html": "00cedb514e07bf70874b7350963d58188deac86881a5363b03bbd83dbcd8e699",
