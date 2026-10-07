@@ -59,3 +59,63 @@ def test_home_still_has_neo_home_owner_marker_and_global_nav():
     html = mod.build_home()
     assert 'name="neo-home-owner" content="current-tournament-v1"' in html
     assert 'class="neo-global-header"' in html
+
+
+def _row_html_for(html: str, player_name: str) -> str:
+    import re
+    for row in re.findall(r"<tr>.*?</tr>", html):
+        if player_name in row:
+            return row
+    raise AssertionError(f"row for {player_name!r} not found")
+
+
+def test_thin_sample_players_rank_and_probabilities_masked_as_data_limited():
+    """LIVE HOTFIX: same rounds < 10 masking policy as PRE -- 성아진 (6R)
+    and 박조은 0806(A) (2R) must never show a public rank or probability."""
+    mod = _load_module()
+    html = mod.build_home()
+    for name in ("성아진", "박조은 0806(A)", "김민서3", "이지유 0901(A)"):
+        row = _row_html_for(html, name)
+        assert row.count("데이터 부족") == 4, f"{name} must show 데이터 부족 in all 4 columns, got: {row}"
+        assert "#94" not in row and "#106" not in row
+
+
+def test_frozen_v1_raw_rank_value_unchanged_on_disk():
+    mod = _load_module()
+    import json
+    snapshot_path = mod.CONTENT / "STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json"
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    by_name = {r["player_name"]: r for r in snapshot["records"]}
+    assert by_name["성아진"]["pre_event_rank"] == 94
+    assert by_name["박조은 0806(A)"]["pre_event_rank"] == 106
+
+
+def test_eligible_players_ranks_unchanged():
+    mod = _load_module()
+    html = mod.build_home()
+    for name, expected_rank in (("서교림", 1), ("김민솔", 2)):
+        row = _row_html_for(html, name)
+        rank_cell = row.split("Stableford 사전평가'>", 1)[1].split("</td>", 1)[0]
+        assert rank_cell.startswith(f"#{expected_rank}")
+
+
+def test_home_and_pre_enforce_identical_masking_rule():
+    """HOME and PRE must mask the exact same set of players identically."""
+    import importlib.util
+    import sys as _sys
+    home_mod = _load_module()
+    pre_spec = importlib.util.spec_from_file_location(
+        "pre_225_from_home_test", Path(__file__).parent.parent / "scripts" / "225_build_hj_2026100004_pre_page.py"
+    )
+    pre_mod = importlib.util.module_from_spec(pre_spec)
+    _sys.modules["pre_225_from_home_test"] = pre_mod
+    pre_spec.loader.exec_module(pre_mod)
+
+    home_html = home_mod.build_home()
+    pre_html = pre_mod.build()["html"]
+    for name in ("성아진", "박조은 0806(A)", "김민서3", "이지유 0901(A)", "서교림", "김민솔"):
+        home_row = _row_html_for(home_html, name)
+        pre_row = _row_html_for(pre_html, name)
+        assert home_row.count("데이터 부족") == pre_row.count("데이터 부족"), (
+            f"{name}: HOME and PRE must apply the identical masking rule"
+        )

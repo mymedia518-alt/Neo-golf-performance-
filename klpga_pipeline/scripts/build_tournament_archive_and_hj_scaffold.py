@@ -14,6 +14,7 @@ Does not touch any file under docs/tournaments/2026/{2026090002,2026090003,
 """
 import json
 import re
+from html import escape as _esc
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -343,8 +344,8 @@ def _hj_neo_verification_html() -> str:
         )
         sponsor = r.get("official_sponsor") or ""
         player = (
-            f"{flag}<strong>{r['player_name']}</strong>"
-            + (f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{sponsor}</span>" if sponsor else "")
+            f"{flag}<strong>{_esc(r['player_name'])}</strong>"
+            + (f"<span style='color:var(--muted);font-size:.82rem;margin-left:.4rem'>{_esc(sponsor)}</span>" if sponsor else "")
         )
         rank = (
             f"#{r['pre_event_rank']}"

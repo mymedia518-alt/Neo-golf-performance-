@@ -1,0 +1,205 @@
+name: "LIVE capture -- video + data-limited masking diagnostics (on-demand, one-off)"
+
+# Manually dispatched only. Opens the REAL, already-deployed live site in a
+# real Chromium on this runner (which has real internet access, unlike the
+# agent sandbox), checks the PRE/HOME pages' DATA LIMITED masking and the
+# NEO GOLF DATA <video> element's actual runtime state (readyState, error,
+# duration, videoWidth/Height, bounding box) at both desktop and mobile
+# viewports, and fetches the video asset URL directly to record HTTP
+# status/Content-Type/Content-Length/Range support. Commits output to a
+# separate orphan branch (live-capture-output) so this never touches
+# neo-website-v2's own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      pre_url:
+        description: "PRE page URL"
+        required: false
+        default: "https://neogolfdata.com/tournaments/2026/2026100004/pre/"
+      home_url:
+        description: "HOME page URL"
+        required: false
+        default: "https://neogolfdata.com/"
+      video_url:
+        description: "Video asset URL"
+        required: false
+        default: "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-pre.mp4"
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright + requests
+        run: |
+          pip install playwright requests
+          # Use the "chrome" channel (real Google Chrome), not plain open-
+          # source Chromium: Chromium's default build ships with NO H.264
+          # decoder at all (proprietary_codecs disabled for licensing), so
+          # it would always report DEMUXER_ERROR_NO_SUPPORTED_STREAMS for
+          # an avc1/H.264 mp4 regardless of whether the file is actually
+          # fine -- confirmed via canPlayType('video/mp4; codecs="avc1...')
+          # returning "" on plain Chromium vs real Chrome, which bundles a
+          # licensed H.264 decoder matching what real-world users have.
+          python -m playwright install --with-deps chrome
+
+      - name: Capture live diagnostics (real browser, real network)
+        env:
+          PRE_URL: ${{ github.event.inputs.pre_url }}
+          HOME_URL: ${{ github.event.inputs.home_url }}
+          VIDEO_URL: ${{ github.event.inputs.video_url }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+
+          import requests
+          from playwright.sync_api import sync_playwright
+
+          pre_url = os.environ.get("PRE_URL") or "https://neogolfdata.com/tournaments/2026/2026100004/pre/"
+          home_url = os.environ.get("HOME_URL") or "https://neogolfdata.com/"
+          video_url = os.environ.get("VIDEO_URL") or "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-pre.mp4"
+
+          out = pathlib.Path("live_capture")
+          out.mkdir(exist_ok=True)
+          result = {}
+
+          # --- A. direct HTTP checks on the video asset itself ---
+          video_http = {}
+          try:
+              r_full = requests.get(video_url, timeout=30)
+              video_http["status"] = r_full.status_code
+              video_http["content_type"] = r_full.headers.get("Content-Type")
+              video_http["content_length"] = r_full.headers.get("Content-Length")
+              video_http["accept_ranges"] = r_full.headers.get("Accept-Ranges")
+              r_range = requests.get(video_url, headers={"Range": "bytes=0-1023"}, timeout=30)
+              video_http["range_status"] = r_range.status_code
+              video_http["range_content_range"] = r_range.headers.get("Content-Range")
+              video_http["range_supported"] = r_range.status_code == 206
+          except Exception as e:
+              video_http["error"] = str(e)
+          result["video_http"] = video_http
+
+          # --- B. DATA LIMITED masking text check (plain HTTP, no JS needed) ---
+          def masking_check(url):
+              try:
+                  resp = requests.get(url, timeout=30)
+                  html = resp.text
+                  names = ["성아진", "박조은 0806(A)", "김민서3", "이지유 0901(A)"]
+                  rows = {}
+                  import re
+                  trs = re.findall(r"<tr>.*?</tr>", html)
+                  for name in names:
+                      match = next((tr for tr in trs if name in tr), None)
+                      rows[name] = {
+                          "found": match is not None,
+                          "masked_count": match.count("데이터 부족") if match else None,
+                          "has_leaked_rank_94_or_106": bool(match and ("#94" in match or "#106" in match)),
+                      }
+                  return {"http_status": resp.status_code, "players": rows}
+              except Exception as e:
+                  return {"error": str(e)}
+
+          result["pre_masking"] = masking_check(pre_url)
+          result["home_masking"] = masking_check(home_url)
+
+          # --- C. real browser: PRE page video element + viewport QA ---
+          with sync_playwright() as p:
+              browser = p.chromium.launch(channel="chrome")
+
+              for viewport_name, viewport in (("desktop_1440x900", {"width": 1440, "height": 900}), ("mobile_390x844", {"width": 390, "height": 844})):
+                  page = browser.new_page(viewport=viewport)
+                  console_errors = []
+                  page.on("console", lambda m: console_errors.append(m.text) if m.type == "error" else None)
+
+                  resp = page.goto(pre_url, wait_until="networkidle", timeout=30000)
+                  page_result = {
+                      "http_status": resp.status if resp else None,
+                      "final_url": page.url,
+                  }
+
+                  # wait a bit for video metadata to load (best-effort, non-fatal)
+                  try:
+                      page.wait_for_function(
+                          "document.querySelector('video') && document.querySelector('video').readyState >= 1",
+                          timeout=8000,
+                      )
+                  except Exception:
+                      pass
+
+                  video_state = page.evaluate(
+                      """
+                      () => {
+                          const v = document.querySelector('video');
+                          if (!v) return null;
+                          const rect = v.getBoundingClientRect();
+                          const style = window.getComputedStyle(v);
+                          return {
+                              currentSrc: v.currentSrc,
+                              readyState: v.readyState,
+                              networkState: v.networkState,
+                              error: v.error ? {code: v.error.code, message: v.error.message} : null,
+                              duration: v.duration,
+                              videoWidth: v.videoWidth,
+                              videoHeight: v.videoHeight,
+                              boundingBox: {x: rect.x, y: rect.y, width: rect.width, height: rect.height},
+                              display: style.display,
+                              visibility: style.visibility,
+                              hasControlsAttr: v.hasAttribute('controls'),
+                          };
+                      }
+                      """
+                  )
+                  page_result["video_element"] = video_state
+                  page_result["console_errors"] = console_errors
+
+                  # overflow check
+                  overflow = page.evaluate(
+                      "() => ({scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth})"
+                  )
+                  page_result["horizontal_overflow"] = overflow["scrollWidth"] > overflow["clientWidth"] + 1
+                  page_result["overflow_detail"] = overflow
+
+                  page.screenshot(path=str(out / f"pre_{viewport_name}_top.png"))
+                  if video_state:
+                      try:
+                          page.locator("video").scroll_into_view_if_needed(timeout=5000)
+                          page.screenshot(path=str(out / f"pre_{viewport_name}_video.png"))
+                      except Exception:
+                          pass
+
+                  result[f"pre_{viewport_name}"] = page_result
+                  page.close()
+
+              browser.close()
+
+          (out / "meta.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+          )
+          print(json.dumps(result, ensure_ascii=False, indent=2, default=str))
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches neo-website-v2 content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan live-capture-video-diag-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv live_capture/* __out/
+          git add __out
+          git commit -m "LIVE video+masking diagnostics capture ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin live-capture-video-diag-output

@@ -19,11 +19,16 @@ markup as 190) and Stableford 사전평가 (the frozen V1 pre_event_rank,
 
 Source of truth (read-only, never recomputed here):
   content/website_v2/STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json
-  (sha256 575fd58e...), already-frozen last turn. 106/108 ranked
-  (104 OK + 2 DATA_LIMITED_THIN_SAMPLE, still ranked but visibly
-  marked "표본 적음"); 2 DATA_LIMITED_NO_PRIOR_DATA get no rank number
-  at all -- rendered in a separately-headed block, never spliced into
-  the ranked order with a guessed position.
+  (sha256 575fd58e...), already-frozen last turn. Public rank/probability
+  display requires data_status=="OK" AND rounds>=10 (MIN_ROUNDS_QUALIFIED)
+  -- 104 players meet this and show their real "#N"; the other 4 (2
+  DATA_LIMITED_THIN_SAMPLE with <10 rounds, 2 DATA_LIMITED_NO_PRIOR_DATA
+  with none) all render "데이터 부족" for rank AND every probability cell,
+  never a numeric rank. The frozen snapshot's own pre_event_rank value
+  for the 2 thin-sample players is read but never shown or altered --
+  masking happens only in this page's own display string, matching the
+  same policy build_tournament_archive_and_hj_scaffold.py's HOME table
+  already enforces.
 
 Name/sponsor/nationality come from the SAME frozen snapshot file (it
 already carries official_sponsor/nationality per the canonical identity
@@ -133,10 +138,18 @@ def build() -> dict:
         else:
             name_cell = linked_player_name_cell(pid, flag_cell + identity_html)
 
-        if r["pre_event_rank"] is not None:
+        # LIVE HOTFIX (2026-10-07, operator instruction): rounds < 10
+        # (MIN_ROUNDS_QUALIFIED) must never show a public rank number or
+        # any probability, period -- "표본 적음" + the real number was a
+        # masking bug (성아진 6R/#94, 박조은(A) 2R/#106 were both leaking
+        # their numeric rank). Mirrors the exact condition build_
+        # tournament_archive_and_hj_scaffold.py's _hj_neo_verification_
+        # html() already used correctly on HOME, so both pages now apply
+        # the identical policy. Frozen V1's own pre_event_rank value is
+        # untouched (read here, never written); only this page's display
+        # string changes. Other players' numbers are not renumbered.
+        if r["data_status"] == "OK" and (r.get("rounds") or 0) >= 10 and r["pre_event_rank"] is not None:
             rank_cell = f"#{r['pre_event_rank']}"
-            if r["data_status"] == "DATA_LIMITED_THIN_SAMPLE":
-                rank_cell += " <span style='color:var(--muted);font-size:.82em'>표본 적음</span>"
         else:
             rank_cell = "<span style='color:var(--muted)'>데이터 부족</span>"
 
@@ -217,7 +230,6 @@ def build() -> dict:
         f'<p class="meta">{_esc(course_line)}</p>'
         f'{provenance_html}'
         f'{previous_meta_html}</div></section>'
-        f'{STABLEFORD_EXPLANATION_HTML}'
     )
 
     _round_items = []
@@ -257,7 +269,12 @@ def build() -> dict:
         '</div></footer></body></html>'
     )
 
-    html = header + stage_nav + video_section + table_section + footer
+    # LIVE HOTFIX (2026-10-07, operator instruction): page order must be
+    # 대회 네비게이션(stage_nav) -> Stableford 설명 -> NEO GOLF DATA 영상 ->
+    # NEO 검증 선수표 so the video is visible as soon as the page opens.
+    # Previously the Stableford explanation was appended inside `header`
+    # BEFORE stage_nav, putting stage_nav after it; moved here instead.
+    html = header + stage_nav + STABLEFORD_EXPLANATION_HTML + video_section + table_section + footer
 
     return {
         "html": html,
