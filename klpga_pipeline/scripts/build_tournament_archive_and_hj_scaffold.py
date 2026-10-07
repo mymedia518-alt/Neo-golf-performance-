@@ -112,14 +112,21 @@ GLOBAL_HEAD_LINKS = (
 
 
 def global_header(active: str) -> str:
-    """active: 'home' | 'current' | 'archive' | other (no is-active match)."""
+    """active: 'home' | 'archive' | other (no is-active match).
+
+    2026-10-07 nav simplification (operator instruction): the former
+    'current' ("현재 대회") item is removed -- HOME is now the current
+    tournament's own entry point (hero card/CTA), so the global menu
+    never shows HOME and "현재 대회" at once. Every tournament page
+    (archive index, any tournament/stage page) marks 대회 기록 active,
+    matching the global nav normalizer (scripts/229) applied to every
+    already-published page site-wide."""
     def item(href, label, key):
         cur = ' class="is-active" aria-current="page"' if key == active else ""
         return f'<a href="{href}"{cur}>{label}</a>'
 
     nav = "".join([
         item("/", "홈", "home"),
-        item("/tournaments/2026/2026100004/", "현재 대회", "current"),
         item("/tournaments/", "대회 기록", "archive"),
         item("/ranking/", "랭킹", "other"),
         item("/deep-dive/", "딥다이브", "other"),
@@ -206,24 +213,49 @@ def build_archive_index() -> str:
 
 
 # ---------------------------------------------------------------- HJ scaffold (2026100004)
+HJ_STAGE_LABELS = [("pre", "PRE"), ("r1", "R1"), ("r2", "R2"), ("r3", "R3"), ("fr", "FR")]
+
+
 def build_hj_scaffold() -> str:
+    """2026-10-07 rewrite (operator instruction): the old copy claimed
+    "경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다"/"아직 공개된
+    분석은 없습니다" -- both false now that PRE is real and published.
+    Replaced with a concise root page: name, real game format, a PRE
+    entry link, and a stage-nav that only ever links to a stage whose
+    page actually exists on disk (same real-file-exists check every
+    other stage-nav in this codebase already uses) -- never implies a
+    round result is public before it is."""
+    tourney = json.loads((CONTENT / f"{HJ_GAME_CODE}_TOURNAMENT_INFO.json").read_text(encoding="utf-8"))
+    event_name = tourney["event_name"]
+
+    stage_items = []
+    for key, label in HJ_STAGE_LABELS:
+        href = f"/tournaments/2026/{HJ_GAME_CODE}/{key}/"
+        if (TOURNAMENTS_DIR / HJ_GAME_CODE / key / "index.html").is_file():
+            stage_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='{href}'>{label}</a></li>")
+        else:
+            stage_items.append(f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>{label}</span></li>")
+    stage_nav = (
+        "<nav class='stage-nav' aria-label='대회 단계' data-stage-nav><ol class='stage-nav__list'>"
+        + "".join(stage_items) + "</ol></nav>"
+    )
+
     head = (
         "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-        "<title>NEO GOLF DATA · HJ중공업·동부건설 챔피언십</title>"
-        "<meta name=\"description\" content=\"HJ중공업·동부건설 챔피언십 — NEO GOLF DATA 현재 대회. 변형 스테이블포드 방식으로 진행되며, 경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다.\">"
+        f"<title>NEO GOLF DATA · {event_name}</title>"
+        f"<meta name=\"description\" content=\"{event_name} — 변형 스테이블포드 방식 · Stableford 사전평가(PRE) 공개 중\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/2026/2026100004/\">"
         f"{GLOBAL_HEAD_LINKS}</head>"
     )
     body = (
         "<body>"
-        + global_header("current")
+        + global_header("archive")
         + "<main>"
-        + breadcrumb(("홈", "/"), ("대회 기록", "/tournaments/"), ("HJ중공업·동부건설 챔피언십", None))
-        + '<div class="tournament-context"><h1>HJ중공업·동부건설 챔피언십</h1>'
-        + '<p class="tournament-context__meta">NEO GOLF DATA 현재 대회</p></div>'
-        + '<div class="fixture-notice">이번 대회는 변형 스테이블포드 방식으로 진행됩니다. '
-        + '경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다.</div>'
-        + '<section class="page-intro"><p>대회가 진행되면 이 페이지를 통해 NEO의 실제 분석(사전 분석, 라운드별 결과 등)을 확인할 수 있습니다. 아직 공개된 분석은 없습니다.</p></section>'
+        + breadcrumb(("홈", "/"), ("대회 기록", "/tournaments/"), (event_name, None))
+        + f'<div class="tournament-context"><h1>{event_name}</h1>'
+        + '<p class="tournament-context__meta">변형 스테이블포드 방식으로 진행됩니다.</p></div>'
+        + '<p><a href="/tournaments/2026/2026100004/pre/">Stableford 사전평가 PRE 보기 →</a></p>'
+        + stage_nav
         + "</main>"
         + FOOTER
         + "</body>"

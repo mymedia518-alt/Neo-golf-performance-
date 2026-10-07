@@ -214,12 +214,19 @@ def test_no_public_page_links_to_hitejinro_verification_or_course_analysis():
 
 
 def test_hj_scaffold_has_no_blocked_probability_output():
+    """2026-10-07 nav-simplification turn also rewrote this page's own
+    copy (operator instruction): PRE is real and published now, so the
+    old "경기 방식에 맞춘 NEO 분석은 준비되는 대로 공개합니다"/"아직 공개된
+    분석은 없습니다" claims are false and were removed -- see
+    build_hj_scaffold()'s own docstring. The "no blocked probability
+    output" and "no leaked internal term" checks (the actual point of
+    this test) still apply to the new copy unchanged."""
     path = DOCS / "tournaments" / "2026" / "2026100004" / "index.html"
     assert path.exists(), "2026100004 HJ scaffold must exist"
     html = path.read_text(encoding="utf-8")
     assert_no_blocked_probability_output(html, model_validated=False, label="2026100004 HJ scaffold")
     assert "변형 스테이블포드 방식으로 진행됩니다" in html
-    assert "준비되는 대로 공개합니다" in html
+    assert "/tournaments/2026/2026100004/pre/" in html, "scaffold must link to the real, published PRE page"
     for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지"):
         assert leaked_internal_term not in html, f"internal term leaked into HJ public copy: {leaked_internal_term!r}"
 

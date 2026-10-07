@@ -288,7 +288,7 @@ def main() -> None:
         '<span class="neo-brand-legend__item">EVIDENCE</span>'
         '<span class="neo-brand-legend__item">ORACLE</span></span></a>'
         '<nav class="neo-global-nav" aria-label="주요 메뉴"><a href="/">홈</a>'
-        f'<a href="/tournaments/2026/{GAME_CODE}/pre/" class="is-active" aria-current="page">대회</a>'
+        '<a href="/tournaments/" class="is-active" aria-current="page">대회 기록</a>'
         '<a href="/ranking/">랭킹</a><a href="/deep-dive/">딥다이브</a>'
         '<a href="/neo-lab/">NEO LAB</a><a href="/about/">소개</a></nav></div></header>'
         '<main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a>'
