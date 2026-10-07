@@ -234,12 +234,18 @@ def build() -> dict:
         '</ol></nav>'
     )
 
+    video_section = (
+        "<section class='panel' id='final-video'><p class='note'>NEO GOLF DATA</p>"
+        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
+        f"src='/assets/tournaments/{GAME_CODE}/neo-golf-data-pre.mp4'></video></section>"
+    )
+
     table_section = (
         '<section class="panel leaderboard-panel" id="pre">'
         f'<div class="leaderboard-head"><h2>PRE 참가 선수 <small>{field_size}명</small></h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
         "<th>선수</th><th>Stableford 사전평가</th><th>본선 진출</th><th>TOP 20</th><th>우승</th>"
-        "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div><p class="meta" style="margin-top:.7rem">※ 데이터 부족: 대회 전 분석에 필요한 최소 10라운드 기준 미달.</p></section>"
+        "</tr></thead><tbody>" + "".join(rows_html) + '</tbody></table></div><p class="meta" style="margin-top:.7rem">※ 데이터 부족: 대회 전 분석에 필요한 최소 10라운드 기준 미달.</p></section>'
     )
 
     footer = (
@@ -251,7 +257,7 @@ def build() -> dict:
         '</div></footer></body></html>'
     )
 
-    html = header + stage_nav + table_section + footer
+    html = header + stage_nav + video_section + table_section + footer
 
     return {
         "html": html,

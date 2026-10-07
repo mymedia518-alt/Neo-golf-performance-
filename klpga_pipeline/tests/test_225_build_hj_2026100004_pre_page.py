@@ -55,8 +55,21 @@ def test_data_limited_players_never_get_a_fabricated_rank():
     result = mod.build()
     html = result["html"]
     assert "신규 출전" in html
-    assert html.count("데이터 부족") == result["no_prior_data_count"]
     assert "표본 적음" in html  # the 2 thin-sample players stay ranked but visibly marked
+    # "데이터 부족" appears once per no-prior-data player's rank cell, plus once
+    # per non-OK-sim-status player's cut/top20/win cells (3 each), plus once in
+    # the page's own explanatory footnote -- never a hardcoded magic count, since
+    # it depends on how many players the live Monte Carlo results mark non-OK.
+    import json
+    snapshot = json.loads(mod.SNAPSHOT_PATH.read_text(encoding="utf-8"))
+    mc = json.loads((mod.CONTENT / "HJ_2026100004_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").read_text(encoding="utf-8"))
+    mc_by_pid = {str(p["player_code"]): p for p in mc["players"]}
+    non_ok_sim = sum(
+        1 for r in snapshot["records"]
+        if (sim := mc_by_pid.get(str(r["player_code"]))) and sim.get("data_status") != "OK"
+    )
+    expected = result["no_prior_data_count"] + non_ok_sim * 3 + 1  # +1 for the footnote
+    assert html.count("데이터 부족") == expected
 
 
 def test_rank_format_is_hash_number_never_a_decimal_score():
