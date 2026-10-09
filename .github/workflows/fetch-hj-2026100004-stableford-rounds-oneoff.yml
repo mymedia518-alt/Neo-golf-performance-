@@ -116,6 +116,21 @@ jobs:
                   "first_1500_chars": body[:1500],
               }
 
+          # Also fetch the "전체 스코어" (full score / official final-per-
+          # round) record page, which the operator confirms shows R2 as
+          # ended and distinguishes cut players -- a different page/
+          # endpoint from the live round-in-progress roundLeaderboard
+          # fragment, so parsed separately in full.
+          score_record_resp = session.get(
+              f"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode={game_code}",
+              timeout=20,
+          )
+          (out / "score_record_page.html").write_text(score_record_resp.text, encoding="utf-8")
+          result["score_record_page"] = {
+              "status_code": score_record_resp.status_code,
+              "content_length": len(score_record_resp.text),
+          }
+
           (out / "meta.json").write_text(
               json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
           )
