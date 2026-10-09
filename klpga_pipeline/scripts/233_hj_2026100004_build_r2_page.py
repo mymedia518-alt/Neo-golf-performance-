@@ -139,7 +139,7 @@ def main():
                 "<tr>"
                 "<td data-label=\"순위\">—</td>"
                 + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"], status_badge="WD")
-                "<td data-label=\"R2\">—</td>"
+                + "<td data-label=\"R2\">—</td>"
                 + f"<td data-label=\"합계\">{score_label}</td>"
                 + forecast_cells(p["player_name"])
                 + "</tr>"
