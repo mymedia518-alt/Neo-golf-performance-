@@ -34,7 +34,14 @@ R2_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
 IDENTITY_PATH = CONTENT / "2026100004_CANONICAL_PLAYER_IDENTITY_V1.json"
 R1_PAGE_PATH = TOURNAMENT_DOCS_ROOT / "r1" / "index.html"
 
-TOTAL_COLS = 7  # official result columns plus the four published R1 forecast columns
+TOTAL_COLS = 8  # R2, cumulative total, and four published R1 forecast columns
+
+
+def format_points(value):
+    """Format Stableford points without producing ambiguous '+-N' labels."""
+    if value is None:
+        return "—"
+    return f"+{value}" if value > 0 else str(value)
 
 
 def main():
@@ -102,7 +109,8 @@ def main():
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"])
-            + f"<td data-label=\"R1+R2 포인트\">+{p['cum36_points']}</td>"
+            + f"<td data-label=\"R2\">{format_points(p['r2_points'])}</td>"
+            + f"<td data-label=\"합계\">{format_points(p['cum36_points'])}</td>"
             + forecast_cells(p["player_name"])
             + "</tr>"
         )
@@ -111,11 +119,13 @@ def main():
     for rank, p in zip(missed_ranks, missed):
         ident = by_name[p["player_name"]]
         score = (p["r1_points"] or 0) + (p["r2_points"] or 0)
+        r2_score = format_points(p["r2_points"])
         rows_html.append(
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"], status_badge="CUT")
-            + f"<td data-label=\"R1+R2 포인트\">+{score}</td>"
+            + f"<td data-label=\"R2\">{r2_score}</td>"
+            + f"<td data-label=\"합계\">{format_points(score)}</td>"
             + forecast_cells(p["player_name"])
             + "</tr>"
         )
@@ -124,19 +134,20 @@ def main():
         rows_html.append(cut_divider_row(f"기권 (WD) -- {len(withdrawn)}명", TOTAL_COLS))
         for p in withdrawn:
             ident = by_name[p["player_name"]]
-            score_label = f"+{p['r1_points']}" if p.get("r1_points") is not None else "—"
+            score_label = format_points(p.get("r1_points"))
             rows_html.append(
                 "<tr>"
                 "<td data-label=\"순위\">—</td>"
                 + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"], status_badge="WD")
-                + f"<td data-label=\"R1+R2 포인트\">{score_label}</td>"
+                "<td data-label=\"R2\">—</td>"
+                + f"<td data-label=\"합계\">{score_label}</td>"
                 + forecast_cells(p["player_name"])
                 + "</tr>"
             )
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
-        "<th>순위</th><th>선수</th><th>R1+R2 포인트</th>"
+        "<th>순위</th><th>선수</th><th>R2</th><th>합계</th>"
         "<th>R1 컷 예측</th><th>R1 TOP20</th><th>R1 TOP10</th><th>R1 우승확률</th></tr></thead><tbody>"
         + "".join(rows_html)
         + "</tbody></table></div>"
