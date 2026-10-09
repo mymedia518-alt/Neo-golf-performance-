@@ -1,0 +1,235 @@
+{
+  "home_http": {
+    "status": 200,
+    "cache_control": "max-age=600",
+    "age": "0",
+    "etag": "W/\"6ac90103-ce54\"",
+    "last_modified": "Fri, 09 Oct 2026 14:58:11 GMT",
+    "x_served_by": "cache-dfw-kdfw8210081-DFW",
+    "x_cache": "MISS",
+    "all_headers": {
+      "Connection": "keep-alive",
+      "Content-Length": "4422",
+      "Server": "GitHub.com",
+      "Content-Type": "text/html; charset=utf-8",
+      "Last-Modified": "Fri, 09 Oct 2026 14:58:11 GMT",
+      "Access-Control-Allow-Origin": "*",
+      "ETag": "W/\"6ac90103-ce54\"",
+      "expires": "Fri, 09 Oct 2026 15:09:20 GMT",
+      "Cache-Control": "max-age=600",
+      "Content-Encoding": "gzip",
+      "x-proxy-cache": "MISS",
+      "X-GitHub-Request-Id": "66E8:39D853:1153BA:124DF6:6AC90148",
+      "x-github-edge-region": "iad",
+      "Accept-Ranges": "bytes",
+      "Age": "0",
+      "Date": "Fri, 09 Oct 2026 14:59:20 GMT",
+      "Via": "1.1 varnish",
+      "X-Served-By": "cache-dfw-kdfw8210081-DFW",
+      "X-Cache": "MISS",
+      "X-Cache-Hits": "0",
+      "X-Timer": "S1791557961.695859,VS0,VE61",
+      "Vary": "Accept-Encoding",
+      "X-Fastly-Request-ID": "26c52bbd60d992de81735594d78aa77a0c426c49"
+    },
+    "contains_seongajin": true,
+    "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십"
+  },
+  "video_http": {
+    "status": 200,
+    "content_type": "video/mp4",
+    "content_length": "3847505",
+    "accept_ranges": "bytes",
+    "range_status": 206,
+    "range_content_range": "bytes 0-1023/3847505",
+    "range_supported": true
+  },
+  "pre_masking": {
+    "http_status": 200,
+    "players": {
+      "성아진": {
+        "found": true,
+        "masked_count": 4,
+        "has_leaked_rank_94_or_106": false
+      },
+      "박조은 0806(A)": {
+        "found": true,
+        "masked_count": 4,
+        "has_leaked_rank_94_or_106": false
+      },
+      "김민서3": {
+        "found": true,
+        "masked_count": 4,
+        "has_leaked_rank_94_or_106": false
+      },
+      "이지유 0901(A)": {
+        "found": true,
+        "masked_count": 4,
+        "has_leaked_rank_94_or_106": false
+      }
+    }
+  },
+  "home_masking": {
+    "http_status": 200,
+    "players": {
+      "성아진": {
+        "found": true,
+        "masked_count": 0,
+        "has_leaked_rank_94_or_106": false
+      },
+      "박조은 0806(A)": {
+        "found": true,
+        "masked_count": 0,
+        "has_leaked_rank_94_or_106": false
+      },
+      "김민서3": {
+        "found": false,
+        "masked_count": null,
+        "has_leaked_rank_94_or_106": false
+      },
+      "이지유 0901(A)": {
+        "found": false,
+        "masked_count": null,
+        "has_leaked_rank_94_or_106": false
+      }
+    }
+  },
+  "pre_desktop_1440x900": {
+    "http_status": 200,
+    "final_url": "https://neogolfdata.com/tournaments/2026/2026100004/pre/",
+    "video_element": {
+      "currentSrc": "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-pre.mp4",
+      "readyState": 4,
+      "networkState": 1,
+      "error": null,
+      "duration": 35.6,
+      "videoWidth": 1080,
+      "videoHeight": 1920,
+      "boundingBox": {
+        "x": 217,
+        "y": 635.09375,
+        "width": 1006,
+        "height": 1788.4375
+      },
+      "display": "block",
+      "visibility": "visible",
+      "hasControlsAttr": true,
+      "paused": true
+    },
+    "playback_after_play_call": {
+      "paused": false,
+      "currentTime": 1.202152
+    },
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "horizontal_overflow": false,
+    "overflow_detail": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    }
+  },
+  "home_desktop_1440x900": {
+    "http_status": 200,
+    "final_url": "https://neogolfdata.com/",
+    "video_element": {
+      "currentSrc": "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-3r.mp4",
+      "readyState": 4,
+      "networkState": 1,
+      "error": null,
+      "duration": 42.866667,
+      "videoWidth": 1080,
+      "videoHeight": 1920,
+      "boundingBox": {
+        "x": 217,
+        "y": 469.25,
+        "width": 1006,
+        "height": 1788.4375
+      },
+      "display": "block",
+      "visibility": "visible",
+      "hasControlsAttr": true,
+      "paused": true
+    },
+    "playback_after_play_call": {
+      "paused": false,
+      "currentTime": 1.122661
+    },
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "horizontal_overflow": false,
+    "overflow_detail": {
+      "scrollWidth": 1440,
+      "clientWidth": 1440
+    }
+  },
+  "pre_mobile_390x844": {
+    "http_status": 200,
+    "final_url": "https://neogolfdata.com/tournaments/2026/2026100004/pre/",
+    "video_element": {
+      "currentSrc": "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-pre.mp4",
+      "readyState": 4,
+      "networkState": 1,
+      "error": null,
+      "duration": 35.6,
+      "videoWidth": 1080,
+      "videoHeight": 1920,
+      "boundingBox": {
+        "x": 41,
+        "y": 682.6875,
+        "width": 308,
+        "height": 547.546875
+      },
+      "display": "block",
+      "visibility": "visible",
+      "hasControlsAttr": true,
+      "paused": true
+    },
+    "playback_after_play_call": {
+      "paused": false,
+      "currentTime": 1.204016
+    },
+    "console_errors": [],
+    "horizontal_overflow": false,
+    "overflow_detail": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  },
+  "home_mobile_390x844": {
+    "http_status": 200,
+    "final_url": "https://neogolfdata.com/",
+    "video_element": {
+      "currentSrc": "https://neogolfdata.com/assets/tournaments/2026100004/neo-golf-data-3r.mp4",
+      "readyState": 4,
+      "networkState": 1,
+      "error": null,
+      "duration": 42.866667,
+      "videoWidth": 1080,
+      "videoHeight": 1920,
+      "boundingBox": {
+        "x": 41,
+        "y": 541.125,
+        "width": 308,
+        "height": 547.546875
+      },
+      "display": "block",
+      "visibility": "visible",
+      "hasControlsAttr": true,
+      "paused": true
+    },
+    "playback_after_play_call": {
+      "paused": false,
+      "currentTime": 1.139507
+    },
+    "console_errors": [
+      "Failed to load resource: the server responded with a status of 404 ()"
+    ],
+    "horizontal_overflow": false,
+    "overflow_detail": {
+      "scrollWidth": 390,
+      "clientWidth": 390
+    }
+  }
+}
