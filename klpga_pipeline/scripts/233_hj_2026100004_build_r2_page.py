@@ -53,7 +53,7 @@ def main():
         player_name = name_match.group(1).strip()
         values = []
         for label in ("컷 통과확률", "TOP20", "TOP10", "우승확률"):
-            value_match = re.search(r'data-label="' + label + r'">([\\s\\S]*?)</td>', row)
+            value_match = re.search(r'data-label="' + label + r'">([\s\S]*?)</td>', row)
             if not value_match:
                 raise ValueError(f"R1 forecast missing {label}: {player_name}")
             values.append(re.sub(r"<[^>]+>", "", value_match.group(1)).strip())
