@@ -105,10 +105,10 @@ jobs:
                   page.on("response", on_response)
 
                   try:
-                      resp = page.goto(url, wait_until="networkidle", timeout=20000)
+                      resp = page.goto(url, wait_until="domcontentloaded", timeout=20000)
                       page_result["http_status"] = resp.status if resp else None
                       page_result["final_url"] = page.url
-                      page.wait_for_timeout(2000)
+                      page.wait_for_timeout(4000)
                       # try clicking any round-selector-looking tab to trigger more XHRs
                       for sel in ["text=1R", "text=2R", "text=R1", "text=라운드", "[class*=round]"]:
                           try:
