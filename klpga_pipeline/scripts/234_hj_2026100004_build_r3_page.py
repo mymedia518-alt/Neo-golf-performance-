@@ -34,7 +34,24 @@ R2_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
 R1_PAGE_PATH = TOURNAMENT_DOCS_ROOT / "r1" / "index.html"
 
 ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum36_points", "top20_pct", "top10_pct", "win_pct"}
-\n\ndef load_r1_cut_predictions() -> dict[str, str]:\n    """Read the frozen R1-page cut probabilities used for the 2R forecast."""\n    html = R1_PAGE_PATH.read_text(encoding="utf-8")\n    values: dict[str, str] = {}\n    for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):\n        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)\n        probability = re.search(r'data-label="컷 통과확률">([^<]+)</td>', row)\n        if name and probability:\n            player_name = unescape(name.group(1).strip())\n            if player_name in values:\n                raise ValueError(f"duplicate R1 cut prediction for {player_name}")\n            values[player_name] = probability.group(1).strip()\n    if len(values) != 108:\n        raise ValueError(f"expected 108 R1 cut predictions, found {len(values)}")\n    return values\n
+
+
+def load_r1_cut_predictions() -> dict[str, str]:
+    """Read the frozen R1-page cut probabilities used for the 2R forecast."""
+    html = R1_PAGE_PATH.read_text(encoding="utf-8")
+    values: dict[str, str] = {}
+    for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):
+        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+        probability = re.search(r'data-label="컷 통과확률">([^<]+)</td>', row)
+        if name and probability:
+            player_name = unescape(name.group(1).strip())
+            if player_name in values:
+                raise ValueError(f"duplicate R1 cut prediction for {player_name}")
+            values[player_name] = probability.group(1).strip()
+    if len(values) != 108:
+        raise ValueError(f"expected 108 R1 cut predictions, found {len(values)}")
+    return values
+
 
 
 def main():
