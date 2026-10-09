@@ -26,7 +26,10 @@ from klpga.website_v2.hj_2026100004_round_pages import (
     page_shell,
     rank_labels,
     stage_nav_html,
+    video_section_html,
 )
+
+R3_VIDEO_FILENAME = "neo-golf-data-3r.mp4"
 
 CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
@@ -98,7 +101,8 @@ def main():
     )
 
     body = (
-        "<section class=\"panel\"><h2>3R 예측 · 컷 통과 61명</h2>"
+        video_section_html(R3_VIDEO_FILENAME)
+        + "<section class=\"panel\"><h2>3R 예측 · 컷 통과 61명</h2>"
         f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['real_cum36_points']}</strong> "
         f"· 우승확률 {leader_win * 100:.1f}%</p>"
         + table_html

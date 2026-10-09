@@ -66,6 +66,19 @@ def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | 
 
 
 
+def video_section_html(filename: str, *, game_code: str = GAME_CODE) -> str:
+    """Same markup pattern as klpga.website_v2.hj_pre_video_section.
+    hj_pre_video_section_html -- width:100%;max-width:100%;height:auto
+    keeps the video at its own native aspect ratio (this tournament's
+    clips are 1080x1920, i.e. 9:16 portrait) instead of being stretched/
+    cropped to fill the viewport or forced into a 1:1 square."""
+    return (
+        "<section class='panel' id='final-video'><p class='note'>NEO GOLF DATA</p>"
+        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
+        f"src='/assets/tournaments/{game_code}/{filename}'></video></section>"
+    )
+
+
 def cut_divider_row(label: str, total_cols: int) -> str:
     return f"<tr class='cut-divider'><td colspan='{total_cols}'>{esc(label)}</td></tr>"
 
