@@ -34,7 +34,7 @@ R2_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
 IDENTITY_PATH = CONTENT / "2026100004_CANONICAL_PLAYER_IDENTITY_V1.json"
 R1_PAGE_PATH = TOURNAMENT_DOCS_ROOT / "r1" / "index.html"
 
-TOTAL_COLS = 8  # R2, cumulative total, and four published R1 forecast columns
+TOTAL_COLS = 9  # R2, cumulative total, and four published R1 forecast columns
 
 
 def format_points(value):
@@ -109,6 +109,7 @@ def main():
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"])
+            + f"<td data-label=\"R1\">{format_points(p['r1_points'])}</td>"
             + f"<td data-label=\"R2\">{format_points(p['r2_points'])}</td>"
             + f"<td data-label=\"합계\">{format_points(p['cum36_points'])}</td>"
             + forecast_cells(p["player_name"])
@@ -124,6 +125,7 @@ def main():
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"], status_badge="CUT")
+            + f"<td data-label=\"R1\">{format_points(p['r1_points'])}</td>"
             + f"<td data-label=\"R2\">{r2_score}</td>"
             + f"<td data-label=\"합계\">{format_points(score)}</td>"
             + forecast_cells(p["player_name"])
@@ -139,6 +141,7 @@ def main():
                 "<tr>"
                 "<td data-label=\"순위\">—</td>"
                 + name_cell(nationality=ident["nationality"], name=p["player_name"], sponsor=ident["official_sponsor"], status_badge="WD")
+                + f"<td data-label=\"R1\">{score_label}</td>"
                 + "<td data-label=\"R2\">—</td>"
                 + f"<td data-label=\"합계\">{score_label}</td>"
                 + forecast_cells(p["player_name"])
@@ -147,7 +150,7 @@ def main():
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
-        "<th>순위</th><th>선수</th><th>R2</th><th>합계</th>"
+        "<th>순위</th><th>선수</th><th>R1</th><th>R2</th><th>합계</th>"
         "<th>R1 컷 예측</th><th>R1 TOP20</th><th>R1 TOP10</th><th>R1 우승확률</th></tr></thead><tbody>"
         + "".join(rows_html)
         + "</tbody></table></div>"
