@@ -1,0 +1,187 @@
+{
+  "game_code": "2026100004",
+  "pages": [
+    {
+      "requested_url": "https://klpga.co.kr/web/leaderboard/sumScore?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/leaderboard/sumScore?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        }
+      ],
+      "responses_log": [],
+      "http_status": 404,
+      "final_url": "https://klpga.co.kr/web/leaderboard/sumScore?gameCode=2026100004",
+      "visible_text_snippet": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nFri Oct 09 17:27:02 KST 2026\nThere was an unexpected error (type=Not Found, status=404)."
+    },
+    {
+      "requested_url": "https://klpga.co.kr/web/leaderboard/stableford?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/leaderboard/stableford?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        }
+      ],
+      "responses_log": [],
+      "http_status": 404,
+      "final_url": "https://klpga.co.kr/web/leaderboard/stableford?gameCode=2026100004",
+      "visible_text_snippet": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nFri Oct 09 17:27:07 KST 2026\nThere was an unexpected error (type=Not Found, status=404)."
+    },
+    {
+      "requested_url": "https://klpga.co.kr/web/tourInfo/gameInfo?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/tourInfo/gameInfo?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        }
+      ],
+      "responses_log": [],
+      "http_status": 404,
+      "final_url": "https://klpga.co.kr/web/tourInfo/gameInfo?gameCode=2026100004",
+      "visible_text_snippet": "Whitelabel Error Page\n\nThis application has no explicit mapping for /error, so you are seeing this as a fallback.\n\nFri Oct 09 17:27:12 KST 2026\nThere was an unexpected error (type=Not Found, status=404)."
+    },
+    {
+      "requested_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a80h2v9132851858za208zd9132851858xf1&_p=1791534439196&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=200358061.1791534439&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534439&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2FtourInfo%2Fentry%3FgameCode%3D2026100004&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2529",
+          "post_data": null,
+          "resource_type": "fetch"
+        }
+      ],
+      "responses_log": [
+        {
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a80h2v9132851858za208zd9132851858xf1&_p=1791534439196&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=200358061.1791534439&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=1&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115616985~115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534439&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2FtourInfo%2Fentry%3FgameCode%3D2026100004&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2529",
+          "status": 204,
+          "body_snippet": null
+        }
+      ],
+      "http_status": 200,
+      "final_url": "https://klpga.co.kr/web/tourInfo/entry?gameCode=2026100004",
+      "visible_text_snippet": "ABOUT KLPGA\nDATA CENTER\nK-RANKING\nKLPGA 아카데미\n온라인 박물관\nOFFICIAL STORE\n Login\n리더보드\n투어일정\n선수\n기록\n미디어\n이벤트\nKLPGA투어 \n동부건설 · 한국토지신탁 챔피언십\n2022 동부건설 · 한국토지신탁 챔피언십\n2023 동부건설 · 한국토지신탁 챔피언십\n2024 동부건설 · 한국토지신탁 챔피언십\n2025 동부건설 · 한국토지신탁 챔피언십\n2026 HJ중공업 · 동부건설 챔피언십\n2026. 10. 08 (목) - 10. 11 (일)\n에이원\n|\n남, 서\n|\nPar 72\n|\n변형 스테이블포드\n경남 양산시\n총상금 : 1,000,000,000 원\n23 ℃\n피드\n대회정보\n리더보드\n선수 위치찾기\n참가자 명단\n조 편성표\n코스정보\n대회기록\n총 참가자\n108\n자격자\n104\n추천자\n4\n초청자\n0\n\n\n전체 선수\nFAV\t국적\t선수명\t소속\t참가 자격\n| 자격자 : 104명\t\n\n\t\t\n강가율\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n고지우\n\t\t2024 일반대회 우승자\n\n\t\t\n고지원\n\t\t2025 일반대회 우승자\n\n\t\t\n김가희2\n\t\t시드순위자\n\n\t\t\n김나현2\n\t\t시드순위자\n\n\t\t\n김리안\n\t\t시드순위자\n\n\t\t\n김민별\n\t\t2024 일반대회 우승자\n\n\t\t\n김민선7\n\t\t2025 일반대회 우승자\n\n\t\t\n김민솔\n\t\t2026 메이저대회 우승자\n\n\t\t\n김민주\n\t\t2025 일반대회 우승자\n\n\t\t\n김새로미\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n김소정\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n김수지\n\t\t2023 메이저대회 우승자\n\n\t\t\n김시현\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n김아현\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n김우정\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n김재희\n\t\t2024 일반대회 우승자\n\n\t\t\n김지수\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n김지영2\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n김지윤2\n\t\t시드순위자\n\n\t\t\n김하은2\n\t\t시드순위자\n\n\t\t\n김효문\n\t\t시드순위자\n\n\t\t\n김희지\n\t\t시드순위자\n\n\t\t\n노승희\n\t\t2024 메이저대회 우승자\n\n\t\t\n노원경\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n리 슈잉\n\t\t2025 일반대회 우승자\n\n\t\t\n마다솜\n\t\t2024 일반대회 우승자\n\n\t\t\n마서영\n\t\t시드순위자\n\n\t\t\n문정민\n\t\t2024 일반대회 우승자\n\n\t\t\n박결\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n박단유\n\t\t시드순위자\n\n\t\t\n박보겸\n\t\t2026 메이저대회 우승자\n\n\t\t\n박서현\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n박예지\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n박현경\n\t\t2024 일반대회 우승자\n\n\t\t\n방신실\n\t\t2025 일반대회 우승자\n\n\t\t\n배소현\n\t\t2024 일반대회 우승자\n\n\t\t\n빳차라쭈타 콩끄라판(I)\n\t\t2025 시즌 IQT 우승자\n\n\t\t\n서교림\n\t\t2026 메이저대회 우승자\n\n\t\t\n서어진\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n성아진\n\t\t드림투어 2승 이상자\n\n\t\t\n성유진\n\t\t2025 메이저대회 우승자\n\n\t\t\n성은정\n\t\t시드순위자\n\n\t\t\n손예빈\n\t\t시드순위자\n\n\t\t\n송은아\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n신다인\n\t\t2025 일반대회 우승자\n\n\t\t\n안선주\n\t\t영구시드권 선수\n\n\t\t\n안송이\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n안재희\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n안지현\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n양서후\n\t\t시드순위자\n\n\t\t\n양효리\n\t\t시드순위자\n\n\t\t\n유서연2\n\t\t시드순위자\n\n\t\t\n유지나\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n유현조\n\t\t2024 메이저대회 우승자\n\n\t\t\n윤수아\n\t\t시드순위자\n\n\t\t\n윤화영\n\t\t2025 드림투어 상금순위 20위 이내\n\n\t\t\n이가영\n\t\t2024 일반대회 우승자\n\n\t\t\n이서윤4\n\t\t시드순위자\n\n\t\t\n이세영\n\t\t시드순위자\n\n\t\t\n이세희\n\t\t2025 정규투어 상금순위 60위 이내\n\n\t\t\n이소영\n\t\tK-10 클럽 가입자 또는 생애 누적 상금"
+    },
+    {
+      "requested_url": "https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/leaderboard/leaderboard?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        },
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/stableford/leaderboard;jsessionid=93077C1F85B71C2326AD56E5E869452B?gameCode=2026100004&broadcastCheckCount=0",
+          "post_data": null,
+          "resource_type": "document"
+        },
+        {
+          "method": "POST",
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "post_data": "gameCode=2026100004&round=3",
+          "resource_type": "xhr"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534461499&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=853431731.1791534462&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534461&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard%3Bjsessionid%3D93077C1F85B71C2326AD56E5E869452B%3FgameCode%3D2026100004%26broadcastCheckCount%3D0&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2697",
+          "post_data": null,
+          "resource_type": "fetch"
+        },
+        {
+          "method": "POST",
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "post_data": "gameCode=2026100004&round=1",
+          "resource_type": "xhr"
+        },
+        {
+          "method": "POST",
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "post_data": "gameCode=2026100004&round=2",
+          "resource_type": "xhr"
+        },
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/stableford/leaderboard_top5?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534469916&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAAAAQ&cid=853431731.1791534462&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=12&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534461&sct=1&seg=1&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard_top5%3FgameCode%3D2026100004&dr=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard%3Bjsessionid%3D93077C1F85B71C2326AD56E5E869452B%3FgameCode%3D2026100004%26broadcastCheckCount%3D0&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_ee=1&tfd=5629",
+          "post_data": null,
+          "resource_type": "fetch"
+        }
+      ],
+      "responses_log": [
+        {
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534461499&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=853431731.1791534462&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=0&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938465~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534461&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard%3Bjsessionid%3D93077C1F85B71C2326AD56E5E869452B%3FgameCode%3D2026100004%26broadcastCheckCount%3D0&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2697",
+          "status": 204,
+          "body_snippet": null
+        },
+        {
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "status": 200,
+          "body_snippet": "\r\n\r\n\r\n\r\n\r\n\r\n\r\n<script type=\"text/javascript\">\r\n$(document).ready(function(){\r\n\t\r\n\t\r\n\r\n});\r\n\r\n\r\n$(document).off(\"click\", \"[id=btnDetail]\").on(\"click\", \"[id=btnDetail]\", function(event){\r\n\t\r\n\tif(!$(this).parents(\"details\").find(\".divDetail\").html() == \"\"){\r\n\t\t$(\".divDetail\").html(\"\");\r\n\t\treturn;\r\n\t}\r\n\t\r\n\t$(\"details\").removeAttr(\"open\");\r\n\t$(\".divDetail\").html(\"\");\r\n\t\r\n\tvar params = new Object();\r\n\tparams.playerCode = $(this).attr(\"_playerCode\");\r\n\tparams.gameCode = $(this).attr(\"_gameCode\");\r\n\tpar"
+        },
+        {
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "status": 200,
+          "body_snippet": "\r\n\r\n\r\n\r\n\r\n\r\n\r\n<script type=\"text/javascript\">\r\n$(document).ready(function(){\r\n\t\r\n\t\r\n\r\n});\r\n\r\n\r\n$(document).off(\"click\", \"[id=btnDetail]\").on(\"click\", \"[id=btnDetail]\", function(event){\r\n\t\r\n\tif(!$(this).parents(\"details\").find(\".divDetail\").html() == \"\"){\r\n\t\t$(\".divDetail\").html(\"\");\r\n\t\treturn;\r\n\t}\r\n\t\r\n\t$(\"details\").removeAttr(\"open\");\r\n\t$(\".divDetail\").html(\"\");\r\n\t\r\n\tvar params = new Object();\r\n\tparams.playerCode = $(this).attr(\"_playerCode\");\r\n\tparams.gameCode = $(this).attr(\"_gameCode\");\r\n\tpar"
+        },
+        {
+          "url": "https://klpga.co.kr/load/stableford/roundLeaderboard",
+          "status": 200,
+          "body_snippet": "\r\n\r\n\r\n\r\n\r\n\r\n\r\n<script type=\"text/javascript\">\r\n$(document).ready(function(){\r\n\t\r\n\t\r\n\r\n});\r\n\r\n\r\n$(document).off(\"click\", \"[id=btnDetail]\").on(\"click\", \"[id=btnDetail]\", function(event){\r\n\t\r\n\tif(!$(this).parents(\"details\").find(\".divDetail\").html() == \"\"){\r\n\t\t$(\".divDetail\").html(\"\");\r\n\t\treturn;\r\n\t}\r\n\t\r\n\t$(\"details\").removeAttr(\"open\");\r\n\t$(\".divDetail\").html(\"\");\r\n\t\r\n\tvar params = new Object();\r\n\tparams.playerCode = $(this).attr(\"_playerCode\");\r\n\tparams.gameCode = $(this).attr(\"_gameCode\");\r\n\tpar"
+        },
+        {
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534469916&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EAAAAAQ&cid=853431731.1791534462&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=12&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938466~115938468~118897920~118897930~120213116~120385423~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534461&sct=1&seg=1&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard_top5%3FgameCode%3D2026100004&dr=https%3A%2F%2Fklpga.co.kr%2Fweb%2Fstableford%2Fleaderboard%3Bjsessionid%3D93077C1F85B71C2326AD56E5E869452B%3FgameCode%3D2026100004%26broadcastCheckCount%3D0&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_ee=1&tfd=5629",
+          "status": 204,
+          "body_snippet": null
+        }
+      ],
+      "http_status": 200,
+      "final_url": "https://klpga.co.kr/web/stableford/leaderboard;jsessionid=93077C1F85B71C2326AD56E5E869452B?gameCode=2026100004&broadcastCheckCount=0",
+      "visible_text_snippet": "ABOUT KLPGA\nDATA CENTER\nK-RANKING\nKLPGA 아카데미\n온라인 박물관\nOFFICIAL STORE\n Login\n리더보드\n투어일정\n선수\n기록\n미디어\n이벤트\nKLPGA투어 \n동부건설 · 한국토지신탁 챔피언십\n2022 동부건설 · 한국토지신탁 챔피언십\n2023 동부건설 · 한국토지신탁 챔피언십\n2024 동부건설 · 한국토지신탁 챔피언십\n2025 동부건설 · 한국토지신탁 챔피언십\n2026 HJ중공업 · 동부건설 챔피언십\n2026. 10. 08 (목) - 10. 11 (일)\n에이원\n|\n남, 서\n|\nPar 72\n|\n변형 스테이블포드\n경남 양산시\n총상금 : 1,000,000,000 원\n23 ℃\n피드\n대회정보\n리더보드\n선수 위치찾기\n참가자 명단\n조 편성표\n코스정보\n대회기록\n리더보드\n조별보기\n진행라운드 TOP5 비교\nTOP5 비교\n유현조 \n순위\n1\n합계\n+34\n진행홀\n10:50\n오늘\n0\n1R\n+12\n2R\n+22\n3R\nFR\nTOT\n+34\nHOLE\t1\t2\t3\t4\t5\t6\t7\t8\t9\tOUT\t10\t11\t12\t13\t14\t15\t16\t17\t18\tIN\tTOT\nPAR\t4\t4\t5\t3\t4\t3\t4\t4\t5\t36\t4\t4\t3\t5\t4\t5\t4\t3\t4\t36\t72\nPoint\t\t\t\t\t\t\t\t\t\t0\t\t\t\t\t\t\t\t\t\t0\t0\nStatus\t\t\t\t\t\t\t\t\t\t-\t\t\t\t\t\t\t\t\t\t-\t-\n알바트로스: + 8\n이글: + 5\n버디: + 2\n파: 0\n보기: -1\n더블보기 이상: -3\n한아름 \n순위\n2\n합계\n+33\n진행홀\n10:50\n오늘\n0\n1R\n+16\n2R\n+17\n3R\nFR\nTOT\n+33\nHOLE\t1\t2\t3\t4\t5\t6\t7\t8\t9\tOUT\t10\t11\t12\t13\t14\t15\t16\t17\t18\tIN\tTOT\nPAR\t4\t4\t5\t3\t4\t3\t4\t4\t5\t36\t4\t4\t3\t5\t4\t5\t4\t3\t4\t36\t72\nPoint\t\t\t\t\t\t\t\t\t\t0\t\t\t\t\t\t\t\t\t\t0\t0\nStatus\t\t\t\t\t\t\t\t\t\t-\t\t\t\t\t\t\t\t\t\t-\t-\n알바트로스: + 8\n이글: + 5\n버디: + 2\n파: 0\n보기: -1\n더블보기 이상: -3\n김민선7 \n순위\n3\n합계\n+31\n진행홀\n10:50\n오늘\n0\n1R\n+15\n2R\n+16\n3R\nFR\nTOT\n+31\nHOLE\t1\t2\t3\t4\t5\t6\t7\t8\t9\tOUT\t10\t11\t12\t13\t14\t15\t16\t17\t18\tIN\tTOT\nPAR\t4\t4\t5\t3\t4\t3\t4\t4\t5\t36\t4\t4\t3\t5\t4\t5\t4\t3\t4\t36\t72\nPoint\t\t\t\t\t\t\t\t\t\t0\t\t\t\t\t\t\t\t\t\t0\t0\nStatus\t\t\t\t\t\t\t\t\t\t-\t\t\t\t\t\t\t\t\t\t-\t-\n알바트로스: + 8\n이글: + 5\n버디: + 2\n파: 0\n보기: -1\n더블보기 이상: -3\n서어진 \n순위\n4\n합계\n+28\n진행홀\n10:39\n오늘\n0\n1R\n+13\n2R\n+15\n3R\nFR\nTOT\n+28\nHOLE\t1\t2\t3\t4\t5\t6\t7\t8\t9\tOUT\t10\t11\t12\t13\t14\t15\t16\t17\t18\tIN\tTOT\nPAR\t4\t4\t5\t3\t4\t3\t4\t4\t5\t36\t4\t4\t3\t5\t4\t5\t4\t3\t4\t36\t72\nPoint\t\t\t\t\t\t\t\t\t\t0\t\t\t\t\t\t\t\t\t\t0\t0\nStatus\t\t\t\t\t\t\t\t\t\t-\t\t\t\t\t\t\t\t\t\t-\t-\n알바트로스: + 8\n이글: + 5\n버디: + 2\n파: 0\n보기: -1\n더블보기 이상: -3\n이예원 \n순위\n5\n합계\n+27\n진행홀\n10:39\n오늘\n0\n1R\n+14\n2R\n+13\n3R\nFR\nTOT\n+27\nHOLE\t1\t2\t3\t4\t5\t6\t7\t8\t9\tOUT\t10\t11\t12\t13\t14\t15\t16\t17\t18\tIN\tTOT\nPAR\t4\t4\t5\t3\t4\t3\t4\t4\t5\t36\t4\t4\t3\t5\t4\t5\t4\t3\t4\t36\t72\nPoint\t\t\t\t\t\t\t\t\t\t0\t\t\t\t\t\t\t\t\t\t0\t0\nStatus\t\t\t\t\t\t\t\t\t\t-\t\t\t\t\t\t\t\t\t\t-\t-\n알바트로스: + 8\n이글: + 5\n버디: + 2\n파: 0\n보기: -1\n더블보기 이상: -3\n팔로우\n\n©2023 KLPGA. All Rights Reserved. / 개인정보처리방침 / 연계정보처리방침 / 이용약관\n\n사업자 : 사단법인 한국여자프로골프협회 사업자번호 : 211-82-08253\n사업자 : 한국여자프로골프투어 주식회사 사업자번호 : 120-87-21445\n사업장 : 서울 강동구 천호대"
+    },
+    {
+      "requested_url": "https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004",
+      "requests_log": [
+        {
+          "method": "GET",
+          "url": "https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004",
+          "post_data": null,
+          "resource_type": "document"
+        },
+        {
+          "method": "POST",
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534491852&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=265500437.1791534492&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534492&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2FtourRecord%2FstablefordScoreRecord%3FgameCode%3D2026100004&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2535",
+          "post_data": null,
+          "resource_type": "fetch"
+        }
+      ],
+      "responses_log": [
+        {
+          "url": "https://www.google-analytics.com/g/collect?v=2&tid=G-28SRW4K5KQ&gtm=45je6a72h1v9132851858za208zd9132851858xf1&_p=1791534491852&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=EA&cid=265500437.1791534492&frm=0&ir=1&ngs=1&pscdl=noapi&rcb=8&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B153.0.8010.12%7CNot_A%2520Brand%3B8.0.0.0%7CChromium%3B153.0.8010.12&uam=&uamb=0&uap=Linux&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=115938465~115938469~118897920~118897930~120213116~120385422~120469145~120469153~121046263~121046271~121246026~121246034&sid=1791534492&sct=1&seg=0&dl=https%3A%2F%2Fklpga.co.kr%2Fweb%2FtourRecord%2FstablefordScoreRecord%3FgameCode%3D2026100004&dt=KLPGA%20-%20%ED%95%9C%EA%B5%AD%EC%97%AC%EC%9E%90%ED%94%84%EB%A1%9C%EA%B3%A8%ED%94%84%ED%98%91%ED%9A%8C&en=page_view&_fv=1&_nsi=1&_ss=1&_ee=1&tfd=2535",
+          "status": 204,
+          "body_snippet": null
+        }
+      ],
+      "http_status": 200,
+      "final_url": "https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004",
+      "visible_text_snippet": "ABOUT KLPGA\nDATA CENTER\nK-RANKING\nKLPGA 아카데미\n온라인 박물관\nOFFICIAL STORE\n Login\n리더보드\n투어일정\n선수\n기록\n미디어\n이벤트\nKLPGA투어 \n동부건설 · 한국토지신탁 챔피언십\n2022 동부건설 · 한국토지신탁 챔피언십\n2023 동부건설 · 한국토지신탁 챔피언십\n2024 동부건설 · 한국토지신탁 챔피언십\n2025 동부건설 · 한국토지신탁 챔피언십\n2026 HJ중공업 · 동부건설 챔피언십\n2026. 10. 08 (목) - 10. 11 (일)\n에이원\n|\n남, 서\n|\nPar 72\n|\n변형 스테이블포드\n경남 양산시\n총상금 : 1,000,000,000 원\n23 ℃\n피드\n대회정보\n리더보드\n선수 위치찾기\n참가자 명단\n조 편성표\n코스정보\n대회기록\n전체 스코어\n주요기록\n역대우승자\n역대기록\n대회 연혁\nFULL LEADERBOARD\nSCORE CARD\n\n\n* 전체스코어는 선수 스코어접수 완료시 확인 가능합니다.\n순위\t국적\t선수명\t\t합계\t1R\t2R\t3R\t4R\tTOTAL\t상금 (원)\n1\t\t\n유현조\n\t\t+34\t+12(12)\t+22(1)\t\t\t+34\t\n2\t\t\n한아름\n\t\t+33\t+16(1)\t+17(2)\t\t\t+33\t\n3\t\t\n김민선7\n\t\t+31\t+15(3)\t+16(4)\t\t\t+31\t\n4\t\t\n서어진\n\t\t+28\t+13(8)\t+15(5)\t\t\t+28\t\n5\t\t\n이예원\n\t\t+27\t+14(6)\t+13(10)\t\t\t+27\t\nT6\t\t\n유서연2\n\t\t+26\t+14(6)\t+12(18)\t\t\t+26\t\nT6\t\t\n성유진\n\t\t+26\t+13(8)\t+13(10)\t\t\t+26\t\n8\t\t\n김민솔\n\t\t+25\t+15(3)\t+10(25)\t\t\t+25\t\nT9\t\t\n안지현\n\t\t+24\t+7(33)\t+17(2)\t\t\t+24\t\nT9\t\t\n신다인\n\t\t+24\t+12(12)\t+12(18)\t\t\t+24\t\nT9\t\t\n최예본\n\t\t+24\t+16(1)\t+8(44)\t\t\t+24\t\nT12\t\t\n지한솔\n\t\t+23\t+11(18)\t+12(18)\t\t\t+23\t\nT12\t\t\n문정민\n\t\t+23\t+10(21)\t+13(10)\t\t\t+23\t\nT12\t\t\n김민주\n\t\t+23\t+12(12)\t+11(24)\t\t\t+23\t\nT15\t\t\n방신실\n\t\t+22\t+10(21)\t+12(18)\t\t\t+22\t\nT15\t\t\n홍진영2\n\t\t+22\t+12(12)\t+10(25)\t\t\t+22\t\nT17\t\t\n김가희2\n\t\t+21\t+7(33)\t+14(8)\t\t\t+21\t\nT17\t\t\n김새로미\n\t\t+21\t+8(29)\t+13(10)\t\t\t+21\t\nT17\t\t\n김수지\n\t\t+21\t+13(8)\t+8(44)\t\t\t+21\t\nT17\t\t\n이승연\n\t\t+21\t+11(18)\t+10(25)\t\t\t+21\t\n21\t\t\n고지우\n\t\t+20\t+10(21)\t+10(25)\t\t\t+20\t\nT22\t\t\n임희정\n\t\t+19\t+6(45)\t+13(10)\t\t\t+19\t\nT22\t\t\n최가빈\n\t\t+19\t+12(12)\t+7(58)\t\t\t+19\t\nT22\t\t\n김지수\n\t\t+19\t+4(65)\t+15(5)\t\t\t+19\t\n25\t\t\n이채은2\n\t\t+18\t+3(74)\t+15(5)\t\t\t+18\t\nT26\t\t\n노승희\n\t\t+17\t+7(33)\t+10(25)\t\t\t+17\t\nT26\t\t\n이율린\n\t\t+17\t+4(65)\t+13(10)\t\t\t+17\t\nT26\t\t\n조혜림\n\t\t+17\t+10(21)\t+7(58)\t\t\t+17\t\nT26\t\t\n이주미\n\t\t+17\t+9(26)\t+8(44)\t\t\t+17\t\nT30\t\t\n한지원\n\t\t+16\t+6(45)\t+10(25)\t\t\t+16\t\nT30\t\t\n김하은2\n\t\t+16\t+13(8)\t+3(90)\t\t\t+16\t\nT30\t\t\n김재희\n\t\t+16\t+7(33)\t+9(35)\t\t\t+16\t\nT30\t\t\n빳차라쭈타 콩끄라판(I)\n\t\t+16\t+12(12)\t+4(86)\t\t\t+16\t\nT34\t\t\n정윤지\n\t\t+15\t+7(33)\t+8(44)\t\t\t+15\t\nT34\t\t\n마다솜\n\t\t+15\t+7(33)\t+8(44)\t\t\t+15\t\nT34\t\t\n이지현3\n\t\t+15\t+3(74)\t+12(18)\t\t\t+15\t\nT34\t\t\n윤수아\n\t\t+15\t+5(56)\t+10(25)\t\t\t+15\t\nT34\t\t\n박보겸\n\t\t+15\t+6(45)\t+9(35)\t\t\t+15\t\nT34\t\t\n성아진\n\t\t+15\t+7(33)\t+8(44)\t\t\t+15\t\nT34\t\t\n박조은 0"
+    }
+  ]
+}
