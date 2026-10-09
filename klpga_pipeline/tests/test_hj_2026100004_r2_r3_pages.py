@@ -144,7 +144,10 @@ def test_no_internal_pipeline_language_on_public_pages():
     r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
     for html in (r2_html, r3_html):
-        for forbidden in ("종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음"):
+        for forbidden in (
+            "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음",
+            "Monte Carlo", "몬테카를로", "시뮬레이션",
+        ):
             assert forbidden not in html, f"internal pipeline language {forbidden!r} leaked onto a public page"
 
 

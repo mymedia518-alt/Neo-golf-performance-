@@ -96,7 +96,7 @@ def main():
         "<section class=\"page-intro\"><p class=\"eyebrow\">공식 결과 기반 예측 · 3R</p>"
         "<h1>HJ중공업·동부건설 챔피언십</h1>"
         "<p>변형 스테이블포드 · 2026.10.08–11 · 에이원CC · Par 72</p>"
-        f"<p class=\"meta\">2R 공식 컷 통과 {len(players)}명 대상 · NEO Monte Carlo 60,000회 시뮬레이션 기반 3R·4R 예측</p>"
+        f"<p class=\"meta\">2R 공식 컷 통과 {len(players)}명 대상 3R·4R 예측</p>"
         "</section>"
     )
 
