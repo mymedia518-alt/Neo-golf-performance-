@@ -1,0 +1,97 @@
+name: "LIVE capture -- neogolfdata.com HJ 2026100004 hub/PRE/R1/R2/R3 (on-demand, one-off)"
+
+# Manually dispatched only. Opens the REAL, already-deployed live site
+# in real Chromium on this runner (real internet access, unlike the
+# agent sandbox) at both a desktop and a mobile viewport, for all 5
+# pages of this tournament, and records exactly what a human sees:
+# stage-nav state, CUT/WD badges, table row counts, and whether SG/
+# Top5 text appears anywhere in the rendered page. Commits output to a
+# dedicated orphan branch -- never touches neo-website-v2's own tree.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Capture all 5 pages at desktop + mobile (real browser, real network)
+        run: |
+          python - <<'PY'
+          import json
+          import pathlib
+
+          from playwright.sync_api import sync_playwright
+
+          PAGES = [
+              ("hub", "https://neogolfdata.com/tournaments/2026/2026100004/"),
+              ("pre", "https://neogolfdata.com/tournaments/2026/2026100004/pre/"),
+              ("r1", "https://neogolfdata.com/tournaments/2026/2026100004/r1/"),
+              ("r2", "https://neogolfdata.com/tournaments/2026/2026100004/r2/"),
+              ("r3", "https://neogolfdata.com/tournaments/2026/2026100004/r3/"),
+          ]
+          VIEWPORTS = [("desktop", 1440, 900), ("mobile", 390, 844)]
+          FORBIDDEN_TEXT = ["top5", "Top5", "TOP5", "strokes gained", "strokes_gained", "SG_RAW", "6.47", "5.61"]
+
+          out = pathlib.Path("live_capture")
+          out.mkdir(exist_ok=True)
+          results = {}
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              for stage, url in PAGES:
+                  results[stage] = {}
+                  for vp_name, w, h in VIEWPORTS:
+                      page = browser.new_page(viewport={"width": w, "height": h})
+                      resp = page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                      page.wait_for_timeout(1500)
+                      body_text = page.inner_text("body")
+                      nav = page.locator("nav.stage-nav").first
+                      nav_html = nav.evaluate("el => el.outerHTML") if nav.count() > 0 else None
+                      rows = page.locator("table.leaderboard-table tbody tr, table.data tbody tr")
+                      shot = out / f"{stage}_{vp_name}.png"
+                      page.screenshot(path=str(shot), full_page=True)
+                      results[stage][vp_name] = {
+                          "http_status": resp.status if resp else None,
+                          "title": page.title(),
+                          "stage_nav_outer_html": nav_html,
+                          "table_row_count": rows.count(),
+                          "forbidden_terms_found": [t for t in FORBIDDEN_TEXT if t in body_text],
+                          "cut_badge_count": body_text.count("CUT"),
+                          "wd_badge_count": body_text.count("WD"),
+                      }
+                      page.close()
+              browser.close()
+
+          (out / "meta.json").write_text(json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8")
+          print(json.dumps(results, ensure_ascii=False, indent=2))
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches neo-website-v2 content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan live-capture-hj-2026100004-r2-r3-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv live_capture/* __out/
+          git add __out
+          git commit -m "LIVE capture: HJ 2026100004 hub/PRE/R1/R2/R3 ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin live-capture-hj-2026100004-r2-r3-output
