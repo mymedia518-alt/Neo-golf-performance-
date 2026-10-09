@@ -52,11 +52,13 @@ def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | 
     name/sponsor text itself."""
     identity = render_player_identity(name, sponsor)
     flag = (
-        f"<span style='display:inline-flex;align-items:flex-start;gap:6px;text-align:left'>"
-        f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"display:block;margin-top:3px\">"
-        f"<span>{identity}</span></span>"
-        if nationality else f"<span style='display:inline-flex;text-align:left'><span>{identity}</span></span>"
+        f"<span style='display:inline-block;vertical-align:top;margin-right:6px'>"
+        f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"display:block;margin-top:3px\"></span>"
+        if nationality else ""
     )
+    identity_html = f"<span style='display:inline-block;vertical-align:top;text-align:left'>{identity}</span>"
+    badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
+    return f"<th scope=\"row\" data-label=\"선수\">{flag}{identity_html}{badge}</th>"
     badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
     return f"<th scope=\"row\" data-label=\"선수\">{flag}{badge}</th>"
 
