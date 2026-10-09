@@ -171,9 +171,7 @@ def main():
         f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['cum36_points']}</strong> "
         f"· 컷 통과 {r2['advanced_count']}명이 3R에 진출합니다.</p>"
         + table_html
-        + "<p class=\"meta\">※ 컷 통과 선수의 3R 예측은 "
-        f"<a href=\"/tournaments/2026/{GAME_CODE}/r3/\">3R 예측 보기</a>에서 확인할 수 있습니다. "
-        "선수의 1R·2R 기록은 삭제되지 않으며, 컷 탈락·기권 상태만 별도로 표시됩니다.</p>"
+        + f"<p><a href=\"/tournaments/2026/{GAME_CODE}/r3/\">3R 예측 보기 ↗</a></p>"
         "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
         "</section>"
     )
