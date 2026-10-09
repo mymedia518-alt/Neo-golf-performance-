@@ -13,6 +13,8 @@ current score rather than by model output.
 from __future__ import annotations
 
 import json
+import re
+from html import unescape
 from pathlib import Path
 import sys
 
@@ -29,14 +31,17 @@ from klpga.website_v2.hj_2026100004_round_pages import (
 CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
 R2_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
+R1_PAGE_PATH = TOURNAMENT_DOCS_ROOT / "r1" / "index.html"
 
-ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum36_points", "make_cut_pct", "top20_pct", "top10_pct", "win_pct"}
+ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum36_points", "top20_pct", "top10_pct", "win_pct"}
+\n\ndef load_r1_cut_predictions() -> dict[str, str]:\n    """Read the frozen R1-page cut probabilities used for the 2R forecast."""\n    html = R1_PAGE_PATH.read_text(encoding="utf-8")\n    values: dict[str, str] = {}\n    for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):\n        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)\n        probability = re.search(r'data-label="컷 통과확률">([^<]+)</td>', row)\n        if name and probability:\n            player_name = unescape(name.group(1).strip())\n            if player_name in values:\n                raise ValueError(f"duplicate R1 cut prediction for {player_name}")\n            values[player_name] = probability.group(1).strip()\n    if len(values) != 108:\n        raise ValueError(f"expected 108 R1 cut predictions, found {len(values)}")\n    return values\n
 
 
 def main():
     forecast = json.loads(FORECAST_PATH.read_text(encoding="utf-8"))
     r2 = json.loads(R2_OFFICIAL_PATH.read_text(encoding="utf-8"))
     assert forecast["advanced_to_r3_count"] == r2["advanced_count"] == len(forecast["players"]) == 61
+    cut_predictions = load_r1_cut_predictions()
 
     players = sorted(forecast["players"], key=lambda p: -p["real_cum36_points"])
     ranks = rank_labels([p["real_cum36_points"] for p in players])
@@ -44,12 +49,15 @@ def main():
     rows_html = []
     for rank, p in zip(ranks, players):
         public = {k: v for k, v in p.items() if k in ALLOWED_PUBLIC_FIELDS}
+        cut_prediction = cut_predictions.get(public["player_name"])
+        if cut_prediction is None:
+            raise ValueError(f"missing R1 cut prediction for {public['player_name']}")
         rows_html.append(
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=public["nationality"], name=public["player_name"], sponsor=public["official_sponsor"])
             + f"<td data-label=\"R1+R2 포인트\">+{public['real_cum36_points']}</td>"
-            "<td class=\"win\" data-label=\"컷 통과\">통과</td>"
+            f'<td class="win" data-label="2R 컷 예측">{cut_prediction}</td>'
             f"<td class=\"win\" data-label=\"TOP20\">{public['top20_pct'] * 100:.1f}%</td>"
             f"<td class=\"win\" data-label=\"TOP10\">{public['top10_pct'] * 100:.1f}%</td>"
             f"<td class=\"win\" data-label=\"우승확률\"><strong>{public['win_pct'] * 100:.1f}%</strong></td>"
@@ -58,7 +66,7 @@ def main():
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
-        "<th>순위</th><th>선수</th><th>R1+R2 포인트</th><th>컷 통과</th><th>TOP20</th><th>TOP10</th><th>우승확률</th>"
+        '<th>순위</th><th>선수</th><th>R1+R2 포인트</th><th>2R 컷 예측</th><th>TOP20</th><th>TOP10</th><th>우승확률</th>'
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
     )
 
@@ -77,8 +85,8 @@ def main():
         f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['real_cum36_points']}</strong> "
         f"· 우승확률 {leader_win * 100:.1f}%</p>"
         + table_html
-        + "<p class=\"meta\">※ 2R 공식 컷(상위 60명 및 동타) 결과는 "
-        f"<a href=\"/tournaments/2026/{GAME_CODE}/r2/\">2R 최종 결과·컷 보기</a>에서 확인할 수 있습니다. "
+        '<p class="meta">※ 2R 컷 예측값은 R1 종료 시점에 산출한 컷 통과확률이며, 공식 컷 결과는 '
+        "에서 확인할 수 있습니다. TOP20·TOP10·우승확률은 실제 1R+2R 점수를 반영한 3R·4R 예측입니다. "
         "표시된 수치는 실제 1R+2R 점수에 기존 NEO 검증 엔진(seed 20261007, 60,000회)을 적용한 3R·4R 예측이며, "
         "컷 탈락 선수는 예측 대상에서 제외됩니다.</p>"
         "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
@@ -87,7 +95,7 @@ def main():
 
     html = page_shell(
         title="HJ중공업·동부건설 챔피언십 3R 예측 · NEO GOLF DATA",
-        description=f"2R 공식 컷 통과 {len(players)}명 대상 NEO 3R 예측 (TOP20/TOP10/우승확률)",
+        description=f"2R 공식 컷 통과 {len(players)}명 대상 NEO 3R 예측 (2R 컷 예측/TOP20/TOP10/우승확률)",
         canonical_suffix="r3",
         breadcrumb_label="3R",
         intro_html=intro,
