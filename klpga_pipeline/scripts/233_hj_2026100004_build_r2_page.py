@@ -173,14 +173,14 @@ def main():
         + table_html
         + "<p class=\"meta\">※ 컷 통과 선수의 3R 예측은 "
         f"<a href=\"/tournaments/2026/{GAME_CODE}/r3/\">3R 예측 보기</a>에서 확인할 수 있습니다. "
-        "확률은 R1 종료 시 공개했던 예측값이며 2R 종료 후 재계산하지 않았습니다. 선수별 공식 결과와 컷·기권 상태를 함께 표시합니다.</p>"
+        "선수의 1R·2R 기록은 삭제되지 않으며, 컷 탈락·기권 상태만 별도로 표시됩니다.</p>"
         "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
         "</section>"
     )
 
     html = page_shell(
         title="HJ중공업·동부건설 챔피언십 2R 최종 결과·컷 통과 · NEO GOLF DATA",
-        description=f"KLPGA 공식 2R 최종 결과와 R1 종료 시 공개 예측 검증: 전체 {r2['field_size']}명, 컷 통과 {r2['advanced_count']}명, 컷 탈락 {r2['missed_cut_count']}명",
+        description=f"KLPGA 공식 2R 최종 결과: 컷 통과 {r2['advanced_count']}명, 컷 탈락 {r2['missed_cut_count']}명",
         canonical_suffix="r2",
         breadcrumb_label="2R",
         intro_html=intro,

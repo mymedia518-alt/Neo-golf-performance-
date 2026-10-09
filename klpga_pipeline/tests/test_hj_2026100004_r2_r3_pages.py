@@ -80,7 +80,6 @@ def test_r2_shows_the_exact_forecasts_published_on_r1_page():
     assert len(original) == len(shown) == 108
     assert set(original) == set(shown)
     assert all(shown[name] == original[name] for name in original)
-    assert "2R 종료 후 재계산하지 않았습니다" in r2_html
     assert "<th>R1 컷 예측</th>" in r2_html
     assert "<th>R1 TOP20</th>" in r2_html
     assert "<th>R1 TOP10</th>" in r2_html
@@ -134,6 +133,19 @@ def test_no_sg_or_top5_data_on_either_public_page():
     for html in (r2_html, r3_html):
         for forbidden in ("top5", "top5_pct", "strokes_gained", "sg_total", "SG_RAW", "6.47", "5.61"):
             assert forbidden not in html, f"forbidden term {forbidden!r} leaked onto a public page"
+
+
+def test_no_internal_pipeline_language_on_public_pages():
+    """Standing guard: public pages must never describe internal
+    data-pipeline timing/methodology (e.g. 'this was frozen as of R1
+    and not recalculated'). Column headers may say 'R1 ~' (plain
+    labeling of which round a value is from), but prose explaining
+    *why*/*when internally* a number was computed must not appear."""
+    r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
+    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
+    for html in (r2_html, r3_html):
+        for forbidden in ("종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음"):
+            assert forbidden not in html, f"internal pipeline language {forbidden!r} leaked onto a public page"
 
 
 def test_stage_nav_consistent_and_correct_across_all_five_pages():
