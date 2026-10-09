@@ -6,6 +6,7 @@ no internal jargon, no fabricated 0-100 score."""
 from __future__ import annotations
 
 import importlib.util
+import re
 import sys
 from pathlib import Path
 
@@ -29,8 +30,12 @@ def test_main_message_present():
 
 
 def test_short_stableford_scoring_explanation_present():
+    """This PRE-era content only renders via build_home_pre_fallback()
+    now -- build_home() itself has moved on to mirroring the real
+    current stage (R2/R3) now that that evidence exists; see
+    test_home_stage_mirror.py for that path's own coverage."""
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     for term in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3"):
         assert term in html
     positions = [html.find(t) for t in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3")]
@@ -39,7 +44,7 @@ def test_short_stableford_scoring_explanation_present():
 
 def test_top5_preview_matches_frozen_snapshot_order_and_links_to_pre():
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     expected_top5 = ["서교림", "김민솔", "유현조", "박현경", "김민선7"]
     positions = [html.find(name) for name in expected_top5]
     assert all(p != -1 for p in positions)
@@ -73,9 +78,12 @@ def _row_html_for(html: str, player_name: str) -> str:
 
 def test_thin_sample_players_rank_and_probabilities_masked_as_data_limited():
     """LIVE HOTFIX: same rounds < 10 masking policy as PRE -- 성아진 (6R)
-    and 박조은 0806(A) (2R) must never show a public rank or probability."""
+    and 박조은 0806(A) (2R) must never show a public rank or probability.
+    (PRE-fallback path -- see module docstring on test_short_stableford_
+    scoring_explanation_present for why this no longer goes through
+    build_home() directly.)"""
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     for name in ("성아진", "박조은 0806(A)", "김민서3", "이지유 0901(A)"):
         row = _row_html_for(html, name)
         assert row.count("데이터 부족") == 4, f"{name} must show 데이터 부족 in all 4 columns, got: {row}"
@@ -94,7 +102,7 @@ def test_frozen_v1_raw_rank_value_unchanged_on_disk():
 
 def test_eligible_players_ranks_unchanged():
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     for name, expected_rank in (("서교림", 1), ("김민솔", 2)):
         row = _row_html_for(html, name)
         rank_cell = row.split("Stableford 사전평가'>", 1)[1].split("</td>", 1)[0]
@@ -113,7 +121,7 @@ def test_home_and_pre_enforce_identical_masking_rule():
     _sys.modules["pre_225_from_home_test"] = pre_mod
     pre_spec.loader.exec_module(pre_mod)
 
-    home_html = home_mod.build_home()
+    home_html = home_mod.build_home_pre_fallback()
     pre_html = pre_mod.build()["html"]
     for name in ("성아진", "박조은 0806(A)", "김민서3", "이지유 0901(A)", "서교림", "김민솔"):
         home_row = _row_html_for(home_html, name)
@@ -145,7 +153,7 @@ def test_home_video_section_present_with_same_source_as_pre():
     home_mod = _load_module()
     pre_mod = _load_pre_module()
 
-    home_html = home_mod.build_home()
+    home_html = home_mod.build_home_pre_fallback()
     pre_html = pre_mod.build()["html"]
 
     assert home_html.count("<video") == 1
@@ -162,7 +170,7 @@ def test_home_video_section_present_with_same_source_as_pre():
 
 def test_home_video_section_positioned_between_stableford_explanation_and_neo_verification():
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     stableford_idx = html.find("알바트로스 +8")
     video_idx = html.find("<video")
     neo_verification_idx = html.find('id="neo-verification"')
@@ -176,7 +184,7 @@ def test_home_stableford_and_neo_verification_content_unaffected_by_video_additi
     """Adding the video section must not change the existing Stableford
     explanation or NEO 검증/player data content -- only insert between them."""
     mod = _load_module()
-    html = mod.build_home()
+    html = mod.build_home_pre_fallback()
     for term in ("알바트로스 +8", "이글 +5", "버디 +2", "파 0", "보기 -1", "더블보기 이상 -3"):
         assert term in html
     assert html.count("데이터 부족") > 0
@@ -229,3 +237,82 @@ def test_stale_hana_builder_still_cannot_clobber_home_after_video_parity_fix():
 
     sha_after = hashlib.sha256(real_docs_index.read_text(encoding="utf-8").encode("utf-8")).hexdigest()
     assert sha_after == sha_before
+
+
+# ---------------------------------------------------------------------------
+# HOME STAGE SYNC (R2/R3 mirroring): once real R2/R3 evidence exists, HOME
+# must mirror that stage's own already-published page verbatim -- the
+# operator's "2R 페이지가 홈화면이 아닌데? 영상도 없고" report that HOME had
+# stayed frozen on hand-edited R1-era content with no video, long after R2
+# concluded and R3 (with its own video) was published.
+# ---------------------------------------------------------------------------
+
+def test_hj_current_stage_resolves_to_r3_once_r2_and_r3_evidence_exist():
+    mod = _load_module()
+    assert (mod.CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json").is_file()
+    assert (mod.CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").is_file()
+    assert mod.hj_current_stage() == "r3"
+
+
+def test_build_home_mirrors_the_real_r3_page_verbatim():
+    mod = _load_module()
+    home_html = mod.build_home()
+    r3_path = mod.TOURNAMENTS_DIR / mod.HJ_GAME_CODE / "r3" / "index.html"
+    r3_html = r3_path.read_text(encoding="utf-8")
+    r3_main = r3_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert r3_main in home_html, "HOME must embed R3's own <main> body verbatim, not a re-derived copy"
+
+
+def test_build_home_mirror_carries_the_r3_video():
+    mod = _load_module()
+    html = mod.build_home()
+    assert html.count("<video") == 1
+    assert "id='final-video'" in html
+    assert "/assets/tournaments/2026100004/neo-golf-data-3r.mp4" in html
+    assert "controls" in html
+
+
+def test_build_home_mirror_uses_homes_own_global_nav_not_r3s():
+    """The embedded main body's own header/nav must be discarded --
+    HOME keeps its own <head> and global nav with '홈' marked active,
+    never R3's '대회 기록'-active header stacked on top."""
+    mod = _load_module()
+    html = mod.build_home()
+    assert html.count("<header") == 1
+    assert html.count('<nav class="neo-global-nav"') == 1
+    nav = re.search(r"<nav class=\"neo-global-nav\".*?</nav>", html).group(0)
+    assert '<a href="/" class="is-active" aria-current="page">홈</a>' in nav
+
+
+def test_build_home_mirror_preserves_ownership_markers():
+    mod = _load_module()
+    html = mod.build_home()
+    assert 'name="neo-home-owner" content="current-tournament-v1"' in html
+    assert f'name="neo-home-game-code" content="{mod.HJ_GAME_CODE}"' in html
+
+
+def test_build_home_mirror_never_exposes_sg_or_top5():
+    mod = _load_module()
+    html = mod.build_home()
+    for forbidden in ("top5", "top5_pct", "strokes_gained", "sg_total", "SG_RAW"):
+        assert forbidden not in html
+
+
+def test_build_home_mirror_covers_all_61_r3_rows():
+    mod = _load_module()
+    html = mod.build_home()
+    assert html.count("<tr>") == 62  # 1 header row + 61 forecast rows
+
+
+def test_hj_current_stage_falls_back_to_pre_when_no_r2_evidence(tmp_path, monkeypatch):
+    mod = _load_module()
+    monkeypatch.setattr(mod, "CONTENT", tmp_path)
+    monkeypatch.setattr(mod, "TOURNAMENTS_DIR", tmp_path)
+    assert mod.hj_current_stage() == "pre"
+
+
+def test_hj_stage_main_body_raises_if_resolved_stage_page_is_missing(tmp_path, monkeypatch):
+    mod = _load_module()
+    monkeypatch.setattr(mod, "TOURNAMENTS_DIR", tmp_path)
+    with pytest.raises(mod.HjHomeStageError):
+        mod._hj_stage_main_body("r3")

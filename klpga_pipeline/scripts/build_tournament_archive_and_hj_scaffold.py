@@ -387,8 +387,52 @@ def _hj_neo_verification_html() -> str:
     )
 
 
-def build_home() -> str:
-    head = (
+# ---------------------------------------------------------------- HOME stage sync (2026100004)
+class HjHomeStageError(RuntimeError):
+    """Raised when hj_current_stage() resolves to a stage whose real
+    published page is missing -- never silently falls back to a stale
+    stage, matching klpga.website_v2.kb_home_stage_router's own
+    never-silently-stale contract."""
+
+
+def hj_current_stage() -> str:
+    """The most-advanced HJ 2026100004 stage with REAL publication
+    evidence behind it, checked most-advanced first -- never inferred
+    from a stage's HTML merely existing on disk (same principle as
+    klpga.website_v2.kb_home_stage_router.kb_current_stage, adapted to
+    this tournament's own, simpler evidence files: there is no freeze/
+    forecast-gate module for HJ, so the real evidence IS the already-
+    verified official-result/forecast JSON this session's own R2/R3
+    collection + Monte Carlo work produced)."""
+    r3_forecast = CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
+    r2_official = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
+    if r3_forecast.is_file() and r2_official.is_file():
+        return "r3"
+    if r2_official.is_file():
+        return "r2"
+    if (TOURNAMENTS_DIR / HJ_GAME_CODE / "r1" / "index.html").is_file():
+        return "r1"
+    return "pre"
+
+
+def _hj_stage_main_body(stage: str) -> str:
+    """Verbatim <main>...</main> inner content of `stage`'s own already-
+    published real page -- same extraction technique as
+    klpga.website_v2.kb_home_stage_router.sync_root_home_to_current_
+    stage: never rebuilt/resimulated here, only read. Raises
+    HjHomeStageError if that stage's real page is missing or has no
+    <main> body to mirror, rather than silently falling back."""
+    stage_page = TOURNAMENTS_DIR / HJ_GAME_CODE / stage / "index.html"
+    if not stage_page.is_file():
+        raise HjHomeStageError(f"hj_current_stage() resolved to {stage!r} but {stage_page} does not exist")
+    html = stage_page.read_text(encoding="utf-8")
+    if "<main>" not in html or "</main>" not in html:
+        raise HjHomeStageError(f"{stage_page} has no <main>...</main> body to mirror onto HOME")
+    return html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+
+
+def _home_head() -> str:
+    return (
         "<head><meta name=\"neo-home-owner\" content=\"current-tournament-v1\">"
         f"<meta name=\"neo-home-game-code\" content=\"{HJ_GAME_CODE}\"><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
@@ -402,6 +446,36 @@ def build_home() -> str:
         "<meta name=\"twitter:card\" content=\"summary_large_image\">"
         f"{GLOBAL_HEAD_LINKS}</head>"
     )
+
+
+def _build_home_stage_mirror(stage: str) -> str:
+    """HOME STAGE SYNC: mirror the most-advanced real stage (hj_current_
+    stage()) -- same principle as klpga.website_v2.kb_home_stage_
+    router, generalized to this tournament's own simpler evidence
+    files. Once real R2/R3 evidence exists, HOME shows that stage's
+    own already-published real page verbatim (results table, cut
+    status, video and all) instead of staying frozen on PRE content."""
+    body = (
+        "<body>"
+        + global_header("home")
+        + "<main>"
+        + _hj_stage_main_body(stage)
+        + '<section class="page-intro"><h2>지난 대회 기록</h2>'
+        + '<p>NEO가 분석했던 모든 대회는 <a href="/tournaments/">대회 기록</a>에서 다시 볼 수 있습니다.</p></section>'
+        + "</main>"
+        + FOOTER
+        + "</body>"
+    )
+    return f"<!doctype html><html lang=\"ko\">{_home_head()}{body}</html>"
+
+
+def build_home_pre_fallback() -> str:
+    """The PRE-era HOME rendering (hero + Stableford explanation + PRE
+    video + full-field NEO verification preview) -- used by build_home()
+    whenever hj_current_stage() resolves to 'pre' (no real R1/R2/R3
+    evidence yet), and kept directly callable so this code path (and
+    the tests covering it) stays exercised even once the real
+    tournament has moved past it."""
     body = (
         "<body>"
         + global_header("home")
@@ -426,7 +500,14 @@ def build_home() -> str:
         + FOOTER
         + "</body>"
     )
-    return f"<!doctype html><html lang=\"ko\">{head}{body}</html>"
+    return f"<!doctype html><html lang=\"ko\">{_home_head()}{body}</html>"
+
+
+def build_home() -> str:
+    stage = hj_current_stage()
+    if stage in ("r2", "r3"):
+        return _build_home_stage_mirror(stage)
+    return build_home_pre_fallback()
 
 
 def main():
