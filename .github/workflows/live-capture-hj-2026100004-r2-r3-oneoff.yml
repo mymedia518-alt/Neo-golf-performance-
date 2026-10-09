@@ -41,6 +41,7 @@ jobs:
           from playwright.sync_api import sync_playwright
 
           PAGES = [
+              ("home", "https://neogolfdata.com/"),
               ("hub", "https://neogolfdata.com/tournaments/2026/2026100004/"),
               ("pre", "https://neogolfdata.com/tournaments/2026/2026100004/pre/"),
               ("r1", "https://neogolfdata.com/tournaments/2026/2026100004/r1/"),
@@ -48,7 +49,10 @@ jobs:
               ("r3", "https://neogolfdata.com/tournaments/2026/2026100004/r3/"),
           ]
           VIEWPORTS = [("desktop", 1440, 900), ("mobile", 390, 844)]
-          FORBIDDEN_TEXT = ["top5", "Top5", "TOP5", "strokes gained", "strokes_gained", "SG_RAW", "6.47", "5.61"]
+          FORBIDDEN_TEXT = [
+              "top5", "Top5", "TOP5", "strokes gained", "strokes_gained", "SG_RAW", "6.47", "5.61",
+              "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않았으며", "재계산하지 않음",
+          ]
 
           out = pathlib.Path("live_capture")
           out.mkdir(exist_ok=True)
