@@ -1,0 +1,19 @@
+{
+  "game_code": "2026100004",
+  "rounds": {
+    "1": {
+      "status_code": 200,
+      "content_length": 68141,
+      "row_count_tr": 109,
+      "has_record_one_table": true,
+      "first_1500_chars": "\r\n\r\n\r\n\r\n\r\n\r\n<script type=\"text/javascript\">\r\n\r\n$(document).ready(function(){\r\n\t\r\n\t$(\".btnOrder\").click(function(){\r\n\t\tvar dataName = $(this).attr(\"_orderType\");\r\n\t\tvar order = \"desc\";\r\n\t\t\r\n\t\tif($(this).hasClass(\"sort-asc\")){\r\n\t\t\torder = \"desc\";\r\n\t\t} else if($(this).hasClass(\"sort-desc\")){\r\n\t\t\torder = \"asc\";\r\n\t\t}\r\n\t\t$(this).parent().children().removeClass(\"sort-asc sort-desc\");\r\n\t\t$(this).addClass(\"sort-\"+order);\r\n\t\t\r\n\t\tlistSort(dataName, order);\r\n\t});\r\n});\r\n\r\nfunction listSort(dataName, order){\r\n\t\r\n\t$targetObj = $(\"#record-one tbody tr\");\r\n\t\r\n\t$(\"#record-one tbody\").html(\r\n\t\t$targetObj.sort(function(a, b){\r\n\t\t\t$(a).find(\"td:eq(0)\").html($(a).data(dataName)==999 ? '' : $(a).data(dataName));\r\n\t\t\t$(b).find(\"td:eq(0)\").html($(b).data(dataName)==999 ? '' : $(b).data(dataName));\r\n\t\t\tif($(a).data(dataName)!=999){\r\n\t\t\t\tif(order==\"desc\"){\r\n\t\t\t\t\tif($(a).data(dataName)<$(b).data(dataName)) return -1;\r\n\t\t\t\t\telse return 1;\r\n\t\t\t\t}\r\n\t\t\t\telse {\r\n\t\t\t\t\tif($(a).data(dataName)<$(b).data(dataName)) return 1;\r\n\t\t\t\t\telse return -1;\r\n\t\t\t\t}\t\r\n\t\t\t}\r\n\t\t})\r\n\t);\r\n}\r\n</script>\r\n<style>\r\n.table-blue tr th, .table-blue tr td {\r\n\tborder: 0px;\r\n}\r\n.rank {\r\n    /* font-size: 1rem; */\r\n    color: #acaaaa;\r\n}\r\n</style>\r\n<div class=\"tab-pane fade show active\" id=\"record-one\" role=\"tabpanel\" aria-labelledby=\"record-one-tab\">\r\n\t<div class=\"table-responsive\">\r\n\t\t<table class=\"table table-blue text-center fixed-start fixed-second-60 table-hover\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th style=\"min-width: 60px;\">순위</th>\r\n\t\t\t\t\t"
+    },
+    "2": {
+      "status_code": 200,
+      "content_length": 67532,
+      "row_count_tr": 108,
+      "has_record_one_table": true,
+      "first_1500_chars": "\r\n\r\n\r\n\r\n\r\n\r\n<script type=\"text/javascript\">\r\n\r\n$(document).ready(function(){\r\n\t\r\n\t$(\".btnOrder\").click(function(){\r\n\t\tvar dataName = $(this).attr(\"_orderType\");\r\n\t\tvar order = \"desc\";\r\n\t\t\r\n\t\tif($(this).hasClass(\"sort-asc\")){\r\n\t\t\torder = \"desc\";\r\n\t\t} else if($(this).hasClass(\"sort-desc\")){\r\n\t\t\torder = \"asc\";\r\n\t\t}\r\n\t\t$(this).parent().children().removeClass(\"sort-asc sort-desc\");\r\n\t\t$(this).addClass(\"sort-\"+order);\r\n\t\t\r\n\t\tlistSort(dataName, order);\r\n\t});\r\n});\r\n\r\nfunction listSort(dataName, order){\r\n\t\r\n\t$targetObj = $(\"#record-one tbody tr\");\r\n\t\r\n\t$(\"#record-one tbody\").html(\r\n\t\t$targetObj.sort(function(a, b){\r\n\t\t\t$(a).find(\"td:eq(0)\").html($(a).data(dataName)==999 ? '' : $(a).data(dataName));\r\n\t\t\t$(b).find(\"td:eq(0)\").html($(b).data(dataName)==999 ? '' : $(b).data(dataName));\r\n\t\t\tif($(a).data(dataName)!=999){\r\n\t\t\t\tif(order==\"desc\"){\r\n\t\t\t\t\tif($(a).data(dataName)<$(b).data(dataName)) return -1;\r\n\t\t\t\t\telse return 1;\r\n\t\t\t\t}\r\n\t\t\t\telse {\r\n\t\t\t\t\tif($(a).data(dataName)<$(b).data(dataName)) return 1;\r\n\t\t\t\t\telse return -1;\r\n\t\t\t\t}\t\r\n\t\t\t}\r\n\t\t})\r\n\t);\r\n}\r\n</script>\r\n<style>\r\n.table-blue tr th, .table-blue tr td {\r\n\tborder: 0px;\r\n}\r\n.rank {\r\n    /* font-size: 1rem; */\r\n    color: #acaaaa;\r\n}\r\n</style>\r\n<div class=\"tab-pane fade show active\" id=\"record-one\" role=\"tabpanel\" aria-labelledby=\"record-one-tab\">\r\n\t<div class=\"table-responsive\">\r\n\t\t<table class=\"table table-blue text-center fixed-start fixed-second-60 table-hover\">\r\n\t\t\t<thead>\r\n\t\t\t\t<tr>\r\n\t\t\t\t\t<th style=\"min-width: 60px;\">순위</th>\r\n\t\t\t\t\t"
+    }
+  }
+}
