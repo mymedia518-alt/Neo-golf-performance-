@@ -1,0 +1,124 @@
+name: "TEST -- real KLPGA strokesGained_detail endpoint for HJ 2026100004 (Modified Stableford, on-demand, one-off)"
+
+# Manually dispatched only. scripts/collect_current_round_evidence.py
+# (the repo's only existing SG collector) asserts event["gameMethod"] ==
+# "0" (stroke play) and uses the generic, Stableford-incompatible
+# /load/leaderboard/roundLeaderboard endpoint for its row-count cross
+# -check, so it cannot run as-is against gameMethod="2" (Modified
+# Stableford) tournaments like 2026100004. This workflow isolates and
+# directly tests the ONE part of that script that's actually relevant
+# here -- the SG endpoint itself --
+#   POST https://klpga.co.kr/load/leaderboard/strokesGained_detail
+#   form: gameCode=<code>&round=<n>
+# -- to find out, from the real site (real network, GitHub-hosted
+# runner; this sandbox cannot reach klpga.co.kr directly), whether SG
+# data exists at all for a Modified Stableford event, independent of
+# the stroke-play-only collector script. Output goes to a dedicated
+# orphan branch -- never touches neo-website-v2's own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100004"
+      rounds:
+        description: "Comma-separated round numbers to test"
+        default: "1,2"
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright + requests
+        run: |
+          pip install playwright requests
+          python -m playwright install --with-deps chromium
+
+      - name: Test SG endpoint (real browser session + direct POST, real network)
+        env:
+          GAME_CODE: ${{ inputs.game_code }}
+          ROUNDS: ${{ inputs.rounds }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          import re
+
+          import requests
+          from playwright.sync_api import sync_playwright
+
+          game_code = os.environ.get("GAME_CODE") or "2026100004"
+          rounds = [r.strip() for r in (os.environ.get("ROUNDS") or "1,2").split(",") if r.strip()]
+
+          out = pathlib.Path("sg_test_out")
+          out.mkdir(exist_ok=True)
+          result = {"game_code": game_code, "rounds": {}}
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto(
+                  f"https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={game_code}",
+                  wait_until="domcontentloaded",
+                  timeout=20000,
+              )
+              page.wait_for_timeout(4000)
+              cookies = page.context.cookies()
+              browser.close()
+
+          session = requests.Session()
+          for c in cookies:
+              session.cookies.set(c["name"], c["value"], domain=c.get("domain"))
+          session.headers.update({
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+              "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8",
+              "X-Requested-With": "XMLHttpRequest",
+              "Referer": f"https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={game_code}",
+          })
+
+          for rnd in rounds:
+              resp = session.post(
+                  "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+                  data={"gameCode": game_code, "round": rnd},
+                  timeout=20,
+              )
+              body = resp.text
+              (out / f"sg_round_{rnd}_raw.html").write_text(body, encoding="utf-8")
+              result["rounds"][rnd] = {
+                  "status_code": resp.status_code,
+                  "content_length": len(body),
+                  "row_count_tr": len(re.findall(r"<tr", body)),
+                  "has_record_one_table": "record-one" in body,
+                  "first_1500_chars": body[:1500],
+              }
+
+          (out / "meta.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+          )
+          print(json.dumps(result, ensure_ascii=False, indent=2, default=str)[:4000])
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches neo-website-v2 content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan test-sg-endpoint-hj-2026100004-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv sg_test_out/* __out/
+          git add __out
+          git commit -m "TEST SG endpoint HJ 2026100004 ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin test-sg-endpoint-hj-2026100004-output
