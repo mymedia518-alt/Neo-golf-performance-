@@ -59,8 +59,7 @@ def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | 
     identity_html = f"<span style='display:inline-block;vertical-align:top;text-align:left'>{identity}</span>"
     badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
     return f"<th scope=\"row\" data-label=\"선수\">{flag}{identity_html}{badge}</th>"
-    badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
-    return f"<th scope=\"row\" data-label=\"선수\">{flag}{badge}</th>"
+
 
 
 def cut_divider_row(label: str, total_cols: int) -> str:
