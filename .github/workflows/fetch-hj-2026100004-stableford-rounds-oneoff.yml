@@ -1,0 +1,129 @@
+name: "FETCH -- real KLPGA Stableford leaderboard for HJ 2026100004, R1+R2 full field (on-demand, one-off)"
+
+# Manually dispatched only. Uses the REAL endpoint discovered via
+# discover-hj-2026100004-official-source-oneoff.yml's network-request
+# log: POST https://klpga.co.kr/load/stableford/roundLeaderboard, form
+# gameCode=<code>&round=<n> -- a DIFFERENT endpoint from the generic
+# /load/leaderboard/roundLeaderboard (which this repo's own prior
+# finding confirmed returns zero rows for Modified Stableford events;
+# this is why -- wrong endpoint entirely, not a data gap). Also loads
+# the real rendered leaderboard page itself (which shows live round
+# status, e.g. "진행홀: F" per player) to capture full-field round
+# completion state, not just the top-5 comparison view. Output goes to
+# a dedicated orphan branch -- never touches neo-website-v2's own
+# tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100004"
+      rounds:
+        description: "Comma-separated round numbers to fetch"
+        default: "1,2"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright + requests
+        run: |
+          pip install playwright requests
+          python -m playwright install --with-deps chromium
+
+      - name: Fetch (real browser session + direct POST, real network)
+        env:
+          GAME_CODE: ${{ inputs.game_code }}
+          ROUNDS: ${{ inputs.rounds }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          import re
+
+          import requests
+          from playwright.sync_api import sync_playwright
+
+          game_code = os.environ.get("GAME_CODE") or "2026100004"
+          rounds = [r.strip() for r in (os.environ.get("ROUNDS") or "1,2").split(",") if r.strip()]
+
+          out = pathlib.Path("fetch_out")
+          out.mkdir(exist_ok=True)
+          result = {"game_code": game_code, "rounds": {}}
+
+          # 1. Load the real leaderboard page in a real browser to get a
+          # valid session (jsessionid) and the full rendered field view.
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              page = browser.new_page()
+              page.goto(
+                  f"https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={game_code}",
+                  wait_until="networkidle",
+                  timeout=20000,
+              )
+              page.wait_for_timeout(2000)
+              result["leaderboard_page_url"] = page.url
+              result["leaderboard_page_full_text"] = page.inner_text("body")
+              (out / "leaderboard_page_source.html").write_text(page.content(), encoding="utf-8")
+              page.screenshot(path=str(out / "leaderboard_page.png"), full_page=True)
+
+              # carry the real session's cookies into `requests` so the
+              # POST below is made under the exact same session.
+              cookies = page.context.cookies()
+              browser.close()
+
+          session = requests.Session()
+          for c in cookies:
+              session.cookies.set(c["name"], c["value"], domain=c.get("domain"))
+          session.headers.update({
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+              "Accept-Language": "ko-KR,ko;q=0.9,en;q=0.8",
+              "X-Requested-With": "XMLHttpRequest",
+              "Referer": f"https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={game_code}",
+          })
+
+          for rnd in rounds:
+              resp = session.post(
+                  "https://klpga.co.kr/load/stableford/roundLeaderboard",
+                  data={"gameCode": game_code, "round": rnd},
+                  timeout=20,
+              )
+              body = resp.text
+              (out / f"round_{rnd}_raw.html").write_text(body, encoding="utf-8")
+              result["rounds"][rnd] = {
+                  "status_code": resp.status_code,
+                  "content_length": len(body),
+                  "row_count_tr": len(re.findall(r"<tr", body)),
+                  "first_1500_chars": body[:1500],
+              }
+
+          (out / "meta.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+          )
+          print(json.dumps({k: v for k, v in result.items() if k != "leaderboard_page_full_text"}, ensure_ascii=False, indent=2, default=str)[:3000])
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches neo-website-v2 content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan fetch-hj-2026100004-stableford-rounds-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv fetch_out/* __out/
+          git add __out
+          git commit -m "FETCH HJ 2026100004 Stableford rounds ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin fetch-hj-2026100004-stableford-rounds-output
