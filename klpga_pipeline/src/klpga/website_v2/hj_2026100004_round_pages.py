@@ -51,14 +51,18 @@ def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | 
     status badge as a separate sibling element, never appended to the
     name/sponsor text itself."""
     identity = render_player_identity(name, sponsor)
-    flag = (
-        f"<span style='display:inline-block;vertical-align:top;margin-right:6px'>"
-        f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"display:block;margin-top:3px\"></span>"
-        if nationality else ""
+    flag_cell = (
+        f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"grid-column:1;grid-row:1;display:block;margin-top:3px\">"
+        if nationality else "<span aria-hidden=\"true\" style=\"grid-column:1;grid-row:1\"></span>"
     )
-    identity_html = f"<span style='display:inline-block;vertical-align:top;text-align:left'>{identity}</span>"
     badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
-    return f"<th scope=\"row\" style=\"text-align:center\" data-label=\"선수\">{flag}{identity_html}{badge}</th>"
+    identity_cell = f"<span style=\"grid-column:2;grid-row:1;text-align:left\">{identity}{badge}</span>"
+    player_grid = (
+        "<span style=\"display:inline-grid;grid-template-columns:16px minmax(0,1fr);"
+        "column-gap:6px;align-items:start;width:10rem;vertical-align:top;text-align:left\">"
+        f"{flag_cell}{identity_cell}</span>"
+    )
+    return f"<th scope=\"row\" style=\"text-align:center\" data-label=\"선수\">{player_grid}</th>"
 
 
 
@@ -124,6 +128,7 @@ def page_shell(*, title: str, description: str, canonical_suffix: str, breadcrum
         f"<meta name=\"description\" content=\"{esc(description)}\">"
         f"<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/2026/{GAME_CODE}/{canonical_suffix}/\">"
         "<link rel=\"stylesheet\" href=\"/assets/neo-site.css\"><link rel=\"stylesheet\" href=\"/assets/neo.css\">"
+        "<style>.neo-global-header__inner{padding-inline:clamp(1rem,2.5vw,2.5rem)}</style>"
         "</head><body>"
         f"{GLOBAL_HEADER}"
         "<main>"
