@@ -87,16 +87,19 @@ def test_r2_shows_the_exact_forecasts_published_on_r1_page():
     assert "<th>R1 우승확률</th>" in r2_html
 
 
-def test_r2_shows_r2_round_score_and_cumulative_total():
+def test_r2_shows_r1_r2_round_scores_and_cumulative_total():
     html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r2 = json.loads((CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json").read_text(encoding="utf-8"))
     expected = {}
     for p in r2["advanced_to_r3"]:
-        expected[p["player_name"]] = (p["r2_points"], p["cum36_points"])
+        expected[p["player_name"]] = (p["r1_points"], p["r2_points"], p["cum36_points"])
     for p in r2["missed_cut"]:
-        expected[p["player_name"]] = (p["r2_points"], (p["r1_points"] or 0) + (p["r2_points"] or 0))
+        expected[p["player_name"]] = (
+            p["r1_points"], p["r2_points"],
+            (p["r1_points"] or 0) + (p["r2_points"] or 0),
+        )
     for p in r2["withdrawn"]:
-        expected[p["player_name"]] = (None, p["r1_points"] or 0)
+        expected[p["player_name"]] = (p["r1_points"], None, p["r1_points"] or 0)
 
     found = {}
     for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
@@ -104,14 +107,15 @@ def test_r2_shows_r2_round_score_and_cumulative_total():
         if not name:
             continue
         cells = dict(re.findall(r'<td[^>]*data-label="([^"]+)"[^>]*>(.*?)</td>', row, flags=re.DOTALL))
-        found[name.group(1)] = (cells["R2"], cells["합계"])
+        found[name.group(1)] = (cells["R1"], cells["R2"], cells["합계"])
     assert len(found) == len(expected) == 108
     assert set(found) == set(expected)
-    for name, (round_points, total) in expected.items():
-        round_label = "—" if round_points is None else (f"+{round_points}" if round_points > 0 else str(round_points))
+    for name, (r1_points, r2_points, total) in expected.items():
+        r1_label = "—" if r1_points is None else (f"+{r1_points}" if r1_points > 0 else str(r1_points))
+        r2_label = "—" if r2_points is None else (f"+{r2_points}" if r2_points > 0 else str(r2_points))
         total_label = f"+{total}" if total > 0 else str(total)
-        assert found[name] == (round_label, total_label)
-    assert "<th>R2</th>" in html and "<th>합계</th>" in html
+        assert found[name] == (r1_label, r2_label, total_label)
+    assert "<th>R1</th>" in html and "<th>R2</th>" in html and "<th>합계</th>" in html
 
 
 def test_r3_page_covers_exactly_the_61_survivors_no_more_no_less():
