@@ -1,0 +1,19 @@
+{
+  "primary_seed": 20261007,
+  "n_simulations": 60000,
+  "same_seed_rerun_bit_identical": true,
+  "cross_seed_checks": [
+    {
+      "seed": 20261008,
+      "max_abs_win_pct_delta_pct_points": 0.4447,
+      "mean_abs_win_pct_delta_pct_points": 0.0256,
+      "top10_win_overlap_with_primary": 10
+    },
+    {
+      "seed": 777,
+      "max_abs_win_pct_delta_pct_points": 0.1511,
+      "mean_abs_win_pct_delta_pct_points": 0.0198,
+      "top10_win_overlap_with_primary": 10
+    }
+  ]
+}
