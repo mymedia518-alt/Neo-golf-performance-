@@ -89,8 +89,8 @@ def main():
         + f'<a href="/tournaments/2026/{GAME_CODE}/r2/">2R 최종 결과·컷 보기</a>에서 확인할 수 있습니다. '
         + "TOP20·TOP10·우승확률은 실제 1R+2R 점수를 반영한 3R·4R 예측입니다. "
         + "컷 탈락 선수는 예측 대상에서 제외됩니다.</p>"
-        "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
-        "</section>"
+        + "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
+        + "</section>"
     )
 
     html = page_shell(
