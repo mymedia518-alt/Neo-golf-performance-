@@ -1,0 +1,147 @@
+name: "DISCOVER -- real KLPGA official data source for HJ 2026100004 (Modified Stableford, on-demand, one-off)"
+
+# Manually dispatched only. gameCode=2026100004 is Modified Stableford
+# (gameMethod="2"), and this repo's own prior, independently-confirmed
+# finding (klpga_pipeline/docs/SITE_STRUCTURE_TODO.md, 2026-08-24 real
+# 100-tournament sweep) is that the standard
+#   POST https://klpga.co.kr/load/leaderboard/roundLeaderboard
+# endpoint returns ZERO player rows for Modified Stableford events --
+# a real, structural site limitation, not this session's sandbox
+# network block. This workflow loads the real, public tournament pages
+# in real Chrome (on a GitHub-hosted runner with real internet access)
+# and logs EVERY network request the page itself makes while rendering
+# round/leaderboard data, so the actual endpoint this site uses for
+# Modified Stableford scoring can be found from real browser behavior
+# instead of guessed. Output goes to a dedicated orphan branch -- this
+# never touches neo-website-v2's own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        default: "2026100004"
+      candidate_urls:
+        description: "Newline or comma separated candidate URLs to try, in addition to the built-in defaults"
+        required: false
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Discover (real browser, real network, full request log)
+        env:
+          GAME_CODE: ${{ inputs.game_code }}
+          CANDIDATE_URLS: ${{ inputs.candidate_urls }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          import re
+
+          from playwright.sync_api import sync_playwright
+
+          game_code = os.environ.get("GAME_CODE") or "2026100004"
+          extra = os.environ.get("CANDIDATE_URLS") or ""
+          extra_urls = [u.strip() for u in re.split(r"[\n,]", extra) if u.strip()]
+
+          candidate_urls = [
+              f"https://klpga.co.kr/web/leaderboard/sumScore?gameCode={game_code}",
+              f"https://klpga.co.kr/web/leaderboard/stableford?gameCode={game_code}",
+              f"https://klpga.co.kr/web/tourInfo/gameInfo?gameCode={game_code}",
+              f"https://klpga.co.kr/web/tourInfo/entry?gameCode={game_code}",
+              f"https://klpga.co.kr/web/leaderboard/leaderboard?gameCode={game_code}",
+          ] + extra_urls
+
+          out = pathlib.Path("discover_out")
+          out.mkdir(exist_ok=True)
+          result = {"game_code": game_code, "pages": []}
+
+          with sync_playwright() as p:
+              browser = p.chromium.launch()
+              for i, url in enumerate(candidate_urls):
+                  page_result = {"requested_url": url, "requests_log": [], "responses_log": []}
+                  page = browser.new_page()
+
+                  def on_request(req):
+                      if req.resource_type in ("xhr", "fetch", "document"):
+                          page_result["requests_log"].append({
+                              "method": req.method,
+                              "url": req.url,
+                              "post_data": req.post_data,
+                              "resource_type": req.resource_type,
+                          })
+
+                  def on_response(resp):
+                      if resp.request.resource_type in ("xhr", "fetch"):
+                          try:
+                              body_snippet = resp.text()[:500]
+                          except Exception:
+                              body_snippet = None
+                          page_result["responses_log"].append({
+                              "url": resp.url,
+                              "status": resp.status,
+                              "body_snippet": body_snippet,
+                          })
+
+                  page.on("request", on_request)
+                  page.on("response", on_response)
+
+                  try:
+                      resp = page.goto(url, wait_until="networkidle", timeout=20000)
+                      page_result["http_status"] = resp.status if resp else None
+                      page_result["final_url"] = page.url
+                      page.wait_for_timeout(2000)
+                      # try clicking any round-selector-looking tab to trigger more XHRs
+                      for sel in ["text=1R", "text=2R", "text=R1", "text=라운드", "[class*=round]"]:
+                          try:
+                              loc = page.locator(sel).first
+                              if loc.count() > 0:
+                                  loc.click(timeout=2000)
+                                  page.wait_for_timeout(1500)
+                          except Exception:
+                              pass
+                      page_result["visible_text_snippet"] = page.inner_text("body")[:2000]
+                      page.screenshot(path=str(out / f"page_{i}.png"), full_page=True)
+                      (out / f"page_{i}_source.html").write_text(page.content(), encoding="utf-8")
+                  except Exception as e:
+                      page_result["error"] = str(e)
+
+                  result["pages"].append(page_result)
+                  page.close()
+              browser.close()
+
+          (out / "meta.json").write_text(
+              json.dumps(result, ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+          )
+          print(json.dumps(result, ensure_ascii=False, indent=2, default=str)[:4000])
+          PY
+
+      - name: Publish to dedicated orphan branch (never touches neo-website-v2 content)
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git checkout --orphan discover-hj-2026100004-official-source-output
+          git rm -rf --cached . > /dev/null
+          mkdir -p __out
+          mv discover_out/* __out/
+          git add __out
+          git commit -m "DISCOVER HJ 2026100004 official source ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push -f origin discover-hj-2026100004-official-source-output
