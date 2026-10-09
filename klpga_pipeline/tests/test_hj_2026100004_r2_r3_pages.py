@@ -49,6 +49,43 @@ def test_r2_page_player_count_matches_official_field_size():
     assert row_count == r2["field_size"]
 
 
+
+def test_r2_shows_the_exact_forecasts_published_on_r1_page():
+    r1_html = (DOCS_ROOT / "r1" / "index.html").read_text(encoding="utf-8")
+    r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
+
+    def values_by_player(html, labels):
+        found = {}
+        for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
+            name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+            if not name:
+                continue
+            cells = {
+                label: re.sub(r"<[^>]+>", "", value).strip()
+                for label, value in re.findall(
+                    r'<td[^>]*data-label="([^"]+)"[^>]*>(.*?)</td>',
+                    row,
+                    flags=re.DOTALL,
+                )
+            }
+            found[name.group(1)] = [cells[label] for label in labels]
+        return found
+
+    original = values_by_player(
+        r1_html, ("컷 통과확률", "TOP20", "TOP10", "우승확률")
+    )
+    shown = values_by_player(
+        r2_html, ("R1 컷 예측", "R1 TOP20", "R1 TOP10", "R1 우승확률")
+    )
+    assert len(original) == len(shown) == 108
+    assert set(original) == set(shown)
+    assert all(shown[name] == original[name] for name in original)
+    assert "2R 종료 후 재계산하지 않았습니다" in r2_html
+    assert "<th>R1 컷 예측</th>" in r2_html
+    assert "<th>R1 TOP20</th>" in r2_html
+    assert "<th>R1 TOP10</th>" in r2_html
+    assert "<th>R1 우승확률</th>" in r2_html
+
 def test_r3_page_covers_exactly_the_61_survivors_no_more_no_less():
     html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
     r2 = json.loads((CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json").read_text(encoding="utf-8"))
