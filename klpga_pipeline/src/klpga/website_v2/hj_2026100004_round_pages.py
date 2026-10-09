@@ -50,10 +50,15 @@ def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | 
     which is what previously defeated that rule) + an optional CUT/WD
     status badge as a separate sibling element, never appended to the
     name/sponsor text itself."""
-    flag = f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"float:left;margin:3px 6px 0 0\">" if nationality else ""
     identity = render_player_identity(name, sponsor)
+    flag = (
+        f"<span style='display:inline-flex;align-items:flex-start;gap:6px;text-align:left'>"
+        f"<img src=\\\"/assets/flags/{esc(nationality)}.svg\\\" alt=\\\"\\\" width=\\\"16\\\" height=\\\"12\\\" style=\\\"display:block;margin-top:3px\\\">"
+        f"<span>{identity}</span></span>"
+        if nationality else f"<span style='display:inline-flex;text-align:left'><span>{identity}</span></span>"
+    )
     badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
-    return f"<th scope=\"row\" data-label=\"선수\">{flag}{identity}{badge}</th>"
+    return f"<th scope=\\\"row\\\" data-label=\\\"선수\\\">{flag}{badge}</th>"
 
 
 def cut_divider_row(label: str, total_cols: int) -> str:
