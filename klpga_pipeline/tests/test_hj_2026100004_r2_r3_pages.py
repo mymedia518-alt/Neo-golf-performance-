@@ -114,4 +114,25 @@ def test_player_name_sponsor_and_status_badge_never_visually_run_together():
         for m in re.finditer(r"<span class=\"player-sponsor\">([^<]*)</span>", html):
             assert "CUT" not in m.group(1) and "WD" not in m.group(1), f"{stage}: status text leaked into the sponsor span itself: {m.group(1)!r}"
 
-\n\ndef test_r3_uses_r1_cut_prediction_for_2r_forecast_column():\n    r1_html = (DOCS_ROOT / "r1" / "index.html").read_text(encoding="utf-8")\n    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")\n    def values(html, label):\n        found = {}\n        for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):\n            name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)\n            value = re.search(r'data-label="' + label + r'">([^<]+)</td>', row)\n            if name and value:\n                found[name.group(1)] = value.group(1)\n        return found\n    predicted = values(r1_html, "컷 통과확률")\n    displayed = values(r3_html, "2R 컷 예측")\n    assert len(displayed) == 61\n    assert all(displayed[name] == predicted[name] for name in displayed)\n    assert "<th>2R 컷 예측</th>" in r3_html\n    assert 'data-label="컷 통과">통과' not in r3_html\n
+def test_r3_uses_r1_cut_prediction_for_2r_forecast_column():
+    r1_html = (DOCS_ROOT / "r1" / "index.html").read_text(encoding="utf-8")
+    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
+    def values(html, label):
+        found = {}
+        for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):
+            name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+            value = re.search(r'data-label="' + label + r'">([^<]+)</td>', row)
+            if name and value:
+                found[name.group(1)] = value.group(1)
+        return found
+    predicted = values(r1_html, "컷 통과확률")
+    displayed = values(r3_html, "2R 컷 예측")
+    assert len(displayed) == 61
+    assert all(displayed[name] == predicted[name] for name in displayed)
+    assert "<th>2R 컷 예측</th>" in r3_html
+    assert 'data-label="컷 통과">통과' not in r3_html
+
+def test_r2_r3_player_cells_center_under_player_heading():
+    for stage in ("r2", "r3"):
+        html = (DOCS_ROOT / stage / "index.html").read_text(encoding="utf-8")
+        assert 'data-label="선수" style="text-align:center"' in html
