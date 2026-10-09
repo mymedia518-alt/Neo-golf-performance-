@@ -12,6 +12,8 @@ from __future__ import annotations
 from html import escape
 from pathlib import Path
 
+from klpga.website_v2.player_identity import render_player_identity
+
 GAME_CODE = "2026100004"
 REPO_ROOT = Path(__file__).resolve().parents[4]
 DOCS_ROOT = REPO_ROOT / "docs"
@@ -41,14 +43,17 @@ def rank_labels(scores: list[int]) -> list[str]:
 
 
 def name_cell(*, nationality: str, name: str, sponsor: str, status_badge: str | None = None) -> str:
-    flag = f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"display:inline;vertical-align:middle;margin-right:4px\">" if nationality else ""
-    badge = f"<span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
-    return (
-        f"<th scope=\"row\" style=\"white-space:nowrap;text-align:left\">{flag}"
-        f"<span class=\"player-name\" style=\"display:inline;vertical-align:middle\">{esc(name)}</span>"
-        f"<span class=\"player-sponsor\" style=\"display:inline;vertical-align:middle;margin-left:6px\">{esc(sponsor)}</span>"
-        f"{badge}</th>"
-    )
+    """Player identity cell: flag + name/sponsor (sponsor directly
+    BELOW the name, per neo-site.css's site-wide GLOBAL SPONSOR RULE --
+    see klpga.website_v2.player_identity.render_player_identity, the
+    one shared markup for this; no inline display:inline override here,
+    which is what previously defeated that rule) + an optional CUT/WD
+    status badge as a separate sibling element, never appended to the
+    name/sponsor text itself."""
+    flag = f"<img src=\"/assets/flags/{esc(nationality)}.svg\" alt=\"\" width=\"16\" height=\"12\" style=\"float:left;margin:3px 6px 0 0\">" if nationality else ""
+    identity = render_player_identity(name, sponsor)
+    badge = f" <span class='status-badge'>{esc(status_badge)}</span>" if status_badge else ""
+    return f"<th scope=\"row\" data-label=\"선수\">{flag}{identity}{badge}</th>"
 
 
 def cut_divider_row(label: str, total_cols: int) -> str:

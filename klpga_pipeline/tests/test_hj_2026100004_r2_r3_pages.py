@@ -94,3 +94,22 @@ def test_r2_cut_rank_numbering_is_contiguous_and_matches_field_size():
     numeric = [int(r.lstrip("T")) for r in ranks if r not in ("—",)]
     assert max(numeric) <= 108
     assert min(numeric) == 1
+
+
+def test_player_name_sponsor_and_status_badge_never_visually_run_together():
+    """Regression guard: name/sponsor/CUT-WD badges must never be
+    squashed onto one line. neo-site.css's site-wide GLOBAL SPONSOR
+    RULE (.player-name/.player-sponsor{display:block}) only takes
+    effect if the markup carries no competing inline style -- an
+    earlier version of name_cell() set style="display:inline" directly
+    on both spans, which (being more specific than the external class
+    rule) silently defeated that site-wide fix and made the sponsor
+    and any CUT/WD badge run inline right after the player name."""
+    for stage in ("r2", "r3"):
+        html = (DOCS_ROOT / stage / "index.html").read_text(encoding="utf-8")
+        assert "player-name\" style=" not in html, f"{stage}: player-name must not carry an inline style override"
+        assert "player-sponsor\" style=" not in html, f"{stage}: player-sponsor must not carry an inline style override"
+        # status badge (where present) must never leak into the sponsor
+        # span's own text content
+        for m in re.finditer(r"<span class=\"player-sponsor\">([^<]*)</span>", html):
+            assert "CUT" not in m.group(1) and "WD" not in m.group(1), f"{stage}: status text leaked into the sponsor span itself: {m.group(1)!r}"
