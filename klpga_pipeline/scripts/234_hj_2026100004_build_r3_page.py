@@ -85,10 +85,10 @@ def main():
         f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['real_cum36_points']}</strong> "
         f"· 우승확률 {leader_win * 100:.1f}%</p>"
         + table_html
-        '<p class="meta">※ 2R 컷 예측값은 R1 종료 시점에 산출한 컷 통과확률이며, 공식 컷 결과는 '
-        "에서 확인할 수 있습니다. TOP20·TOP10·우승확률은 실제 1R+2R 점수를 반영한 3R·4R 예측입니다. "
-        "표시된 수치는 실제 1R+2R 점수에 기존 NEO 검증 엔진(seed 20261007, 60,000회)을 적용한 3R·4R 예측이며, "
-        "컷 탈락 선수는 예측 대상에서 제외됩니다.</p>"
+        + '<p class="meta">※ 2R 컷 예측값은 R1 종료 시점의 컷 통과확률입니다. 공식 컷 결과는 '
+        + f'<a href="/tournaments/2026/{GAME_CODE}/r2/">2R 최종 결과·컷 보기</a>에서 확인할 수 있습니다. '
+        + "TOP20·TOP10·우승확률은 실제 1R+2R 점수를 반영한 3R·4R 예측입니다. "
+        + "컷 탈락 선수는 예측 대상에서 제외됩니다.</p>"
         "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
         "</section>"
     )
