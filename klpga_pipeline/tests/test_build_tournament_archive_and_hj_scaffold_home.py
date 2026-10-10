@@ -307,12 +307,13 @@ def test_build_home_mirror_preserves_ownership_markers():
 
 
 def test_build_home_mirror_never_exposes_sg():
-    """TOP5 is public on FR (and so on its HOME mirror) as of 2026-10-10
-    -- SG stays forbidden on every stage, with no exception."""
+    """TOP5/TOP20 are public on FR (and so on its HOME mirror) as of
+    2026-10-10 -- SG stays forbidden on every stage, with no exception."""
     mod = _load_module()
     html = mod.build_home()
-    for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "top5_pct"):
+    for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "top5_pct", "top20_pct"):
         assert forbidden not in html
+    assert "<th>TOP20</th>" in html
     assert "<th>TOP5</th>" in html
 
 

@@ -37,6 +37,7 @@ jobs:
           python - <<'PY'
           import json
           import pathlib
+          import re
 
           from playwright.sync_api import sync_playwright
 
@@ -50,11 +51,20 @@ jobs:
               ("fr", "https://neogolfdata.com/tournaments/2026/2026100004/fr/"),
           ]
           VIEWPORTS = [("desktop", 1440, 900), ("mobile", 390, 844)]
+          # plain substring checks -- these are expected to fire (non-bug)
+          # on pages that legitimately show TOP5/TOP20 (FR/HOME, and R2/R3's
+          # own dated "R1 TOP20"/"2R TOP20" verification columns); kept as
+          # a visibility signal, not a hard pass/fail gate
           FORBIDDEN_TEXT = [
-              "top5", "Top5", "TOP5", "strokes gained", "strokes_gained", "SG_RAW", "6.47", "5.61",
+              "top5", "Top5", "TOP5", "top20", "Top20", "TOP20",
+              "strokes gained", "strokes_gained", "SG_RAW",
               "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않았으며", "재계산하지 않음",
               "Monte Carlo", "몬테카를로", "시뮬레이션",
           ]
+          # specific historical SG canary numbers -- checked separately as
+          # a regex so a legitimate 2-decimal percentage that happens to
+          # contain the same digits (e.g. "95.61%") is never a false hit
+          SG_CANARY_PATTERNS = [re.compile(re.escape(c) + r"(?!%)") for c in ("6.47", "5.61")]
 
           out = pathlib.Path("live_capture")
           out.mkdir(exist_ok=True)
@@ -76,6 +86,7 @@ jobs:
                           "() => ({scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth})"
                       )
                       top5_header = page.locator("th", has_text="TOP5")
+                      top20_header = page.locator("th", has_text="TOP20")
                       shot = out / f"{stage}_{vp_name}.png"
                       page.screenshot(path=str(shot), full_page=True)
                       results[stage][vp_name] = {
@@ -84,11 +95,13 @@ jobs:
                           "stage_nav_outer_html": nav_html,
                           "table_row_count": rows.count(),
                           "forbidden_terms_found": [t for t in FORBIDDEN_TEXT if t in body_text],
+                          "sg_canary_found": [p.pattern for p in SG_CANARY_PATTERNS if p.search(body_text)],
                           "cut_badge_count": body_text.count("CUT"),
                           "wd_badge_count": body_text.count("WD"),
                           "horizontal_overflow": overflow["scrollWidth"] > overflow["clientWidth"] + 1,
                           "overflow_detail": overflow,
                           "top5_header_count": top5_header.count(),
+                          "top20_header_count": top20_header.count(),
                       }
                       page.close()
               browser.close()

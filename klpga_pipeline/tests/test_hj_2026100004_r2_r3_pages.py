@@ -188,12 +188,14 @@ def test_no_sg_data_on_any_public_page():
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
     fr_html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     for html in (r2_html, r3_html, fr_html):
-        for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "6.47", "5.61"):
+        for forbidden in ("strokes_gained", "sg_total", "SG_RAW"):
             assert forbidden not in html, f"forbidden SG term {forbidden!r} leaked onto a public page"
-    # TOP20 is specifically not meaningful with 1 round left across 61
-    # players and must never appear on the FR page (R2's "R1 TOP20"
-    # forecast-verification column is a different, legitimate thing)
-    assert "TOP20" not in fr_html
+        # these two are specific historical SG canary values -- checked
+        # as a number NOT immediately followed by '%' (a legitimate
+        # TOP20/TOP10/TOP5/win percentage can innocently contain the
+        # same digits, e.g. "95.61%")
+        for canary in ("6.47", "5.61"):
+            assert re.search(re.escape(canary) + r"(?!%)", html) is None, f"forbidden SG canary {canary!r} leaked onto a public page outside a percentage value"
 
 
 def test_no_top5_data_on_r2_or_r3_page():
@@ -206,12 +208,29 @@ def test_no_top5_data_on_r2_or_r3_page():
             assert forbidden not in html, f"forbidden term {forbidden!r} leaked onto a page that must never show TOP5"
 
 
-def test_fr_top5_is_public_but_raw_field_name_is_not():
-    """FR legitimately shows a TOP5 column now, but must never leak the
-    internal JSON field name itself (would indicate a raw-data dump
-    rather than a rendered, formatted value)."""
+def test_bare_undated_top20_never_appears_on_r2_or_r3():
+    """TOP20 is public on FR/HOME (added 2026-10-10) and already
+    legitimately appears on R2 ('R1 TOP20') and R3 ('2R TOP20') as a
+    DATED verification column for a forecast that was actually
+    published back then -- but a bare, undated '<th>TOP20</th>' would
+    read as that page's own live forecast and must never appear on
+    R2/R3."""
+    r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
+    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
+    for html in (r2_html, r3_html):
+        assert "<th>TOP20</th>" not in html
+    assert "<th>R1 TOP20</th>" in r2_html
+    assert "<th>2R TOP20</th>" in r3_html
+
+
+def test_fr_top20_top5_are_public_but_raw_field_names_are_not():
+    """FR legitimately shows TOP20/TOP5 columns now, but must never
+    leak the internal JSON field names themselves (would indicate a
+    raw-data dump rather than a rendered, formatted value)."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    assert "<th>TOP20</th>" in html
     assert "<th>TOP5</th>" in html
+    assert "top20_pct" not in html
     assert "top5_pct" not in html
 
 
@@ -287,42 +306,56 @@ def test_fr_page_covers_exactly_the_61_r3_active_players():
     missed_names = {p["player_name"] for p in r3["missed_cut"]}
     for name in missed_names:
         assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR forecast page"
+    assert "<th>TOP20</th>" in html
     assert "<th>TOP10</th>" in html
     assert "<th>TOP5</th>" in html
     assert "<th>우승확률</th>" in html
 
 
+def test_fr_page_column_order_is_top20_top10_top5_win():
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    header = re.search(r"<thead><tr>(.*?)</tr></thead>", html).group(1)
+    headers = re.findall(r"<th>([^<]+)</th>", header)
+    assert headers == ["순위", "선수", "R1+R2+R3 포인트", "TOP20", "TOP10", "TOP5", "우승확률"], headers
+
+
 def test_fr_page_probabilities_use_two_decimal_places():
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    matches = list(re.finditer(r'data-label="(?:TOP10|TOP5|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html))
-    assert len(matches) == 61 * 3
+    matches = list(re.finditer(r'data-label="(?:TOP20|TOP10|TOP5|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html))
+    assert len(matches) == 61 * 4
     for m in matches:
         decimals = m.group(1).split(".")[1] if "." in m.group(1) else ""
         assert len(decimals) == 2, f"probability {m.group(1)}% is not formatted to two decimal places"
 
 
-def test_fr_page_win_le_top5_le_top10_per_player():
-    """TOP5 is 'probability of finishing in the top 5 after R4', a
-    strictly broader event than winning and strictly narrower than a
-    top-10 finish -- win_pct <= top5_pct <= top10_pct must hold for
-    every player, both in the raw model output and as rendered."""
+def test_fr_page_win_le_top5_le_top10_le_top20_per_player():
+    """TOPN is 'probability of finishing in the top N after R4' --
+    win_pct <= top5_pct <= top10_pct <= top20_pct must hold for every
+    player, both in the raw model output and as rendered, against ALL
+    61 players (not a sample)."""
     forecast = json.loads((CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").read_text(encoding="utf-8"))
+    assert len(forecast["players"]) == 61
     for p in forecast["players"]:
         assert p["win_pct"] <= p["top5_pct"] + 1e-9, f"{p['player_name']}: win_pct > top5_pct in raw model output"
         assert p["top5_pct"] <= p["top10_pct"] + 1e-9, f"{p['player_name']}: top5_pct > top10_pct in raw model output"
+        assert p["top10_pct"] <= p["top20_pct"] + 1e-9, f"{p['player_name']}: top10_pct > top20_pct in raw model output"
 
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    checked = 0
     for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
         name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
         if not name:
             continue
         cells = {}
-        for label in ("TOP10", "TOP5", "우승확률"):
+        for label in ("TOP20", "TOP10", "TOP5", "우승확률"):
             m = re.search(r'data-label="' + label + r'"[^>]*>(?:<strong>)?([\d.]+)%', row)
             assert m, f"{name.group(1)}: missing {label} cell"
             cells[label] = float(m.group(1))
         assert cells["우승확률"] <= cells["TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
         assert cells["TOP5"] <= cells["TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
+        assert cells["TOP10"] <= cells["TOP20"] + 1e-9, f"{name.group(1)}: rendered TOP10% > TOP20%"
+        checked += 1
+    assert checked == 61
 
 
 def test_r2_r3_fr_player_cells_center_under_player_heading():
