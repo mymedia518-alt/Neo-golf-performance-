@@ -137,14 +137,50 @@ def test_r3_official_page_shows_full_field_with_61_active_and_correct_cum54():
         assert found.get(p["player_name"]) == expected, f"{p['player_name']}: cum54 mismatch on R3 page"
 
 
-def test_r3_official_page_has_no_forecast_columns():
-    """R3 is now an official-results page, not a forecast -- it must not
-    carry any forecast-style column from its prior life as a pre-R3
-    forecast page (2R 컷 예측/TOP20/TOP10/우승확률 all belonged to that
-    now-obsolete version)."""
+def test_r3_official_page_carries_the_post_r2_forecast_as_dated_verification():
+    """R3 is an official-results page, but -- like R2 keeps R1's own
+    forecast under 'R1 예측 검증' -- it must still show the pre-R3
+    forecast that was actually published (from POST-R2 Monte Carlo),
+    clearly dated '2R ~' so it reads as a historical prediction being
+    checked against the real outcome, not as R3's own upcoming
+    forecast (operator report: '3R 페이지에 네오 예측들이 다 어디로
+    사라진거야?' -- the first rewrite dropped it entirely instead of
+    carrying it forward, unlike R2)."""
     html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
-    for forbidden_header in ("2R 컷 예측", "TOP20", "TOP10", "우승확률"):
-        assert f"<th>{forbidden_header}</th>" not in html, f"stale forecast column {forbidden_header!r} still on the R3 official page"
+    r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
+    forecast = json.loads((CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").read_text(encoding="utf-8"))
+    forecast_by_name = {p["player_name"]: p for p in forecast["players"]}
+
+    assert "<th>2R TOP20</th>" in html
+    assert "<th>2R TOP10</th>" in html
+    assert "<th>2R 우승확률</th>" in html
+    # the un-dated, ambiguous headers (which read as R3's OWN forecast,
+    # not a historical R2-era one) must never appear
+    assert "<th>TOP20</th>" not in html
+    assert "<th>TOP10</th>" not in html
+    assert "<th>우승확률</th>" not in html
+    assert "top5" not in html.lower()  # never Top5/SG here either, as before
+
+    found = {}
+    for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
+        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+        if not name:
+            continue
+        cells = dict(re.findall(r'<td[^>]*data-label="([^"]+)"[^>]*>([^<]*)</td>', row))
+        found[name.group(1)] = cells
+
+    for p in r3["active_players"]:
+        fc = forecast_by_name[p["player_name"]]
+        row = found[p["player_name"]]
+        assert row["2R TOP20"] == f"{fc['top20_pct'] * 100:.1f}%", p["player_name"]
+        assert row["2R TOP10"] == f"{fc['top10_pct'] * 100:.1f}%", p["player_name"]
+        assert row["2R 우승확률"] == f"{fc['win_pct'] * 100:.1f}%", p["player_name"]
+
+    for p in r3["missed_cut"] + r3["withdrawn"]:
+        row = found[p["player_name"]]
+        assert row["2R TOP20"] == row["2R TOP10"] == row["2R 우승확률"] == "—", (
+            f"{p['player_name']}: CUT/WD player never had a post-R2 forecast, must show em-dash"
+        )
 
 
 def test_no_sg_data_on_any_public_page():

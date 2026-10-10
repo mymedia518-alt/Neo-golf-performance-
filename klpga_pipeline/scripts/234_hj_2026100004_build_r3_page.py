@@ -11,8 +11,24 @@ active field.
 
 This replaces this script's PRIOR job (a pre-R3 forecast page, built
 from the POST-R2 Monte Carlo output) -- R3 has since actually happened,
-so showing a forecast for it would be stale/misleading. The R3->FR
-forecast now lives on its own page (236_hj_2026100004_build_fr_page.py).
+so re-publishing that forecast AS A FORECAST would be stale/misleading.
+The R3->FR forecast lives on its own page
+(236_hj_2026100004_build_fr_page.py).
+
+Operator report (2026-10-10): "3R 페이지에 네오 예측들이 다 어디로
+사라진거야?" -- the first version of this rewrite dropped the old
+pre-R3 forecast entirely instead of carrying it forward as a dated
+verification column, unlike 233_hj_2026100004_build_r2_page.py (which
+keeps R1's own forecast next to R2's real result under "R1 예측
+검증"). Fixed the same way here: the 61 active rows also show the
+"2R 예측 검증" columns (TOP20/TOP10/우승확률 as published right after
+R2 ended, from HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS
+.json, read-only, never recalculated with R3 hindsight) next to their
+real R1/R2/R3 scores -- clearly dated "2R ~" so it reads as a
+historical prediction being checked against the real outcome, not as
+R3's own upcoming forecast (that distinction is why FR exists as a
+separate page). CUT/WD rows never had a post-R2 forecast (that
+forecast only covers the 61 who survived the cut) and show "—".
 
 No SG data of any kind is read or rendered by this script.
 """
@@ -36,6 +52,7 @@ from klpga.website_v2.hj_2026100004_round_pages import (
 
 CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 R3_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json"
+POST_R2_FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
 IDENTITY_PATH = CONTENT / "2026100004_CANONICAL_PLAYER_IDENTITY_V1.json"
 R3_VIDEO_FILENAME = "neo-golf-data-3r.mp4"
 
@@ -47,10 +64,23 @@ def format_points(value):
     return f"+{value}" if value > 0 else str(value)
 
 
+def format_pct(value):
+    return f"{value * 100:.1f}%" if value is not None else "—"
+
+
 def main():
     r3 = json.loads(R3_OFFICIAL_PATH.read_text(encoding="utf-8"))
     identity = json.loads(IDENTITY_PATH.read_text(encoding="utf-8"))
     by_name = {r["player_name"]: r for r in identity["records"]}
+
+    post_r2_forecast = json.loads(POST_R2_FORECAST_PATH.read_text(encoding="utf-8"))
+    forecast_by_name = {p["player_name"]: p for p in post_r2_forecast["players"]}
+    if set(forecast_by_name) != {p["player_name"] for p in r3["active_players"]}:
+        raise ValueError(
+            "POST_R2 forecast field does not exactly match R3's 61 active players: "
+            f"missing={ {p['player_name'] for p in r3['active_players']} - set(forecast_by_name) }, "
+            f"extra={set(forecast_by_name) - {p['player_name'] for p in r3['active_players']} }"
+        )
 
     active = sorted(r3["active_players"], key=lambda p: -p["cum54_points"])
     missed = sorted(r3["missed_cut"], key=lambda p: -((p["r1_points"] or 0) + (p["r2_points"] or 0)))
@@ -67,7 +97,21 @@ def main():
         else:
             missed_ranks.append(str(int(label) + missed_ranks_base))
 
-    total_cols = 6  # 순위, 선수, R1, R2, R3, 합계
+    total_cols = 9  # 순위, 선수, R1, R2, R3, 합계, 2R TOP20, 2R TOP10, 2R 우승확률
+
+    def forecast_cells(player_name):
+        fc = forecast_by_name.get(player_name)
+        if fc is None:
+            return (
+                "<td class=\"win\" data-label=\"2R TOP20\">—</td>"
+                "<td class=\"win\" data-label=\"2R TOP10\">—</td>"
+                "<td class=\"win\" data-label=\"2R 우승확률\">—</td>"
+            )
+        return (
+            f"<td class=\"win\" data-label=\"2R TOP20\">{format_pct(fc['top20_pct'])}</td>"
+            f"<td class=\"win\" data-label=\"2R TOP10\">{format_pct(fc['top10_pct'])}</td>"
+            f"<td class=\"win\" data-label=\"2R 우승확률\">{format_pct(fc['win_pct'])}</td>"
+        )
 
     rows_html = []
     for rank, p in zip(active_ranks, active):
@@ -80,6 +124,7 @@ def main():
             + f"<td data-label=\"R2\">{format_points(p['r2_points'])}</td>"
             + f"<td data-label=\"R3\">{format_points(p['r3_points'])}</td>"
             + f"<td data-label=\"합계\">{format_points(p['cum54_points'])}</td>"
+            + forecast_cells(p["player_name"])
             + "</tr>"
         )
 
@@ -95,6 +140,7 @@ def main():
             + f"<td data-label=\"R2\">{format_points(p['r2_points'])}</td>"
             + "<td data-label=\"R3\">—</td>"
             + f"<td data-label=\"합계\">{format_points(score)}</td>"
+            + forecast_cells(p["player_name"])
             + "</tr>"
         )
 
@@ -111,12 +157,14 @@ def main():
                 + "<td data-label=\"R2\">—</td>"
                 + "<td data-label=\"R3\">—</td>"
                 + f"<td data-label=\"합계\">{score_label}</td>"
+                + forecast_cells(p["player_name"])
                 + "</tr>"
             )
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
         "<th>순위</th><th>선수</th><th>R1</th><th>R2</th><th>R3</th><th>합계</th>"
+        "<th>2R TOP20</th><th>2R TOP10</th><th>2R 우승확률</th>"
         "</tr></thead><tbody>"
         + "".join(rows_html)
         + "</tbody></table></div>"
@@ -134,7 +182,7 @@ def main():
 
     body = (
         video_section_html(R3_VIDEO_FILENAME)
-        + "<section class=\"panel\"><h2>3R 최종 결과</h2>"
+        + "<section class=\"panel\"><h2>3R 최종 결과 · 2R 예측 검증</h2>"
         f"<p>{leader['player_name']} 단독 선두 <strong>{format_points(leader['cum54_points'])}</strong> "
         f"· {r3['active_count']}명이 4R에 진출합니다.</p>"
         + table_html
