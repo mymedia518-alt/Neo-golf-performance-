@@ -47,11 +47,13 @@ jobs:
               ("r1", "https://neogolfdata.com/tournaments/2026/2026100004/r1/"),
               ("r2", "https://neogolfdata.com/tournaments/2026/2026100004/r2/"),
               ("r3", "https://neogolfdata.com/tournaments/2026/2026100004/r3/"),
+              ("fr", "https://neogolfdata.com/tournaments/2026/2026100004/fr/"),
           ]
           VIEWPORTS = [("desktop", 1440, 900), ("mobile", 390, 844)]
           FORBIDDEN_TEXT = [
               "top5", "Top5", "TOP5", "strokes gained", "strokes_gained", "SG_RAW", "6.47", "5.61",
               "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않았으며", "재계산하지 않음",
+              "Monte Carlo", "몬테카를로", "시뮬레이션",
           ]
 
           out = pathlib.Path("live_capture")
