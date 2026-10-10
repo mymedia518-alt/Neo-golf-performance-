@@ -317,6 +317,15 @@ def test_build_home_mirror_never_exposes_sg():
     assert "<th>TOP5</th>" in html
 
 
+def test_build_home_mirror_carries_the_fr_summary_image():
+    mod = _load_module()
+    html = mod.build_home()
+    assert "<img src='/assets/tournaments/2026100004/neo-golf-data-fr-summary.png'" in html
+    assert "width:100%;max-width:100%;height:auto" in html
+    for forbidden in ("시뮬레이션", "Monte Carlo", "몬테카를로"):
+        assert forbidden not in html
+
+
 def test_build_home_mirror_covers_all_61_fr_rows():
     mod = _load_module()
     html = mod.build_home()

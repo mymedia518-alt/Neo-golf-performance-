@@ -298,6 +298,26 @@ def test_player_name_sponsor_and_status_badge_never_visually_run_together():
             assert "CUT" not in m.group(1) and "WD" not in m.group(1), f"{stage}: status text leaked into the sponsor span itself: {m.group(1)!r}"
 
 
+def test_fr_summary_image_present_with_no_forbidden_terms_in_alt_text():
+    """Operator-supplied share graphic (verified against the real
+    model output before embedding): native-aspect-ratio <img>, same
+    width:100%;max-width:100%;height:auto pattern as the R3 video so
+    it never overflows or gets cropped. The graphic itself had its
+    bottom caption line (containing '시뮬레이션') cropped out before
+    being saved as a site asset -- this only re-checks the alt text,
+    since the pixels themselves aren't inspectable here."""
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    asset_path = Path(__file__).parent.parent.parent / "docs" / "assets" / "tournaments" / "2026100004" / "neo-golf-data-fr-summary.png"
+    assert asset_path.is_file(), f"missing FR summary image asset: {asset_path}"
+    assert asset_path.stat().st_size > 0
+    assert "<img src='/assets/tournaments/2026100004/neo-golf-data-fr-summary.png'" in html
+    assert "width:100%;max-width:100%;height:auto" in html
+    alt_match = re.search(r"<img[^>]*alt='([^']*)'", html)
+    assert alt_match, "FR summary image missing alt text"
+    for forbidden in ("시뮬레이션", "Monte Carlo", "몬테카를로", "strokes_gained", "sg_total", "SG_RAW"):
+        assert forbidden not in alt_match.group(1)
+
+
 def test_fr_page_covers_exactly_the_61_r3_active_players():
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))

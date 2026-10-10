@@ -35,6 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from klpga.website_v2.hj_2026100004_round_pages import (
     GAME_CODE,
     TOURNAMENT_DOCS_ROOT,
+    image_section_html,
     name_cell,
     page_shell,
     rank_labels,
@@ -44,6 +45,7 @@ from klpga.website_v2.hj_2026100004_round_pages import (
 CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
 R3_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json"
+FR_SUMMARY_IMAGE_FILENAME = "neo-golf-data-fr-summary.png"
 
 ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum54_points", "top20_pct", "top10_pct", "top5_pct", "win_pct"}
 
@@ -90,8 +92,14 @@ def main():
         "</section>"
     )
 
+    summary_alt = (
+        f"4R 우승확률 요약: {leader['player_name']} {leader_win * 100:.1f}% 1위"
+        f"(3R 단독 선두 +{leader['real_cum54_points']})"
+    )
+
     body = (
-        "<section class=\"panel\"><h2>4R 예측 · 3R 종료 {}명</h2>".format(len(players))
+        image_section_html(FR_SUMMARY_IMAGE_FILENAME, summary_alt, section_id="fr-summary")
+        + "<section class=\"panel\"><h2>4R 예측 · 3R 종료 {}명</h2>".format(len(players))
         + f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['real_cum54_points']}</strong> "
         f"· 우승확률 {leader_win * 100:.2f}%</p>"
         + table_html

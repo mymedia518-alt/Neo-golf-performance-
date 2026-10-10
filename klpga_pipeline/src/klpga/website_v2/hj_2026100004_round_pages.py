@@ -79,6 +79,17 @@ def video_section_html(filename: str, *, game_code: str = GAME_CODE) -> str:
     )
 
 
+def image_section_html(filename: str, alt: str, *, game_code: str = GAME_CODE, section_id: str) -> str:
+    """Same width:100%;max-width:100%;height:auto pattern as
+    video_section_html -- keeps the image at its own native aspect
+    ratio, no crop/stretch, no overflow at any viewport width."""
+    return (
+        f"<section class='panel' id='{esc(section_id)}'><p class='note'>NEO GOLF DATA</p>"
+        f"<img src='/assets/tournaments/{game_code}/{filename}' alt='{esc(alt)}' "
+        "style='display:block;width:100%;max-width:100%;height:auto'></section>"
+    )
+
+
 def cut_divider_row(label: str, total_cols: int) -> str:
     return f"<tr class='cut-divider'><td colspan='{total_cols}'>{esc(label)}</td></tr>"
 
