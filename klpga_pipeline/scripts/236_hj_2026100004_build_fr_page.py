@@ -1,12 +1,26 @@
 """Build the 4R (final round) forecast page for HJ 2026100004 (the 61
 official R3 active players).
 
-Reads ONLY the public-safe fields from content/website_v2/
-HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json: TOP10 and
-win probability. top5_pct is present in that source file but is NEVER
-read here -- it must never reach any public page. No SG field is read
-either. TOP20 is not computed by that script at all for public display
-(not meaningful with only 1 round left across 61 players).
+Reads the public-safe fields from content/website_v2/
+HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json: TOP10,
+TOP5, and win probability (operator instruction, 2026-10-10: TOP5 is
+now public on this page and its HOME mirror only -- R1/R2/R3 still
+never show it, see test_no_sg_or_top5_data_on_either_public_page). No
+SG field is read, on any page. TOP20 is not computed by that script at
+all for public display (not meaningful with only 1 round left across
+61 players).
+
+TOP5 here means "probability of finishing in the top 5 after R4", NOT
+"the 5 players with the highest win probability" -- it is read
+per-player directly from the Monte Carlo output's own top5_pct
+(_topN_pct(5) in 235_hj_2026100004_post_r3_stableford_monte_carlo.py),
+which counts a simulated trial as a top-5 finish whenever that
+player's final score is >= the 5th-highest score in that trial (ties
+at the boundary all count -- the same inclusion rule already used for
+TOP10/make_cut). Under that rule win_pct <= top5_pct <= top10_pct is a
+mathematical invariant per player (top-1 implies top-5 implies top-10
+within the same simulated trial); verified for all 61 current players
+with zero violations.
 
 Row order/rank is based on each player's REAL official R1+R2+R3 score
 (not on forecast win probability), matching how the R1/R2/R3 pages rank
@@ -32,7 +46,7 @@ CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
 R3_OFFICIAL_PATH = CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json"
 
-ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum54_points", "top10_pct", "win_pct"}
+ALLOWED_PUBLIC_FIELDS = {"player_code", "player_name", "official_sponsor", "nationality", "real_cum54_points", "top10_pct", "top5_pct", "win_pct"}
 
 
 def main():
@@ -46,19 +60,22 @@ def main():
     rows_html = []
     for rank, p in zip(ranks, players):
         public = {k: v for k, v in p.items() if k in ALLOWED_PUBLIC_FIELDS}
+        assert public["win_pct"] <= public["top5_pct"] + 1e-9, f"{public['player_name']}: win_pct > top5_pct"
+        assert public["top5_pct"] <= public["top10_pct"] + 1e-9, f"{public['player_name']}: top5_pct > top10_pct"
         rows_html.append(
             "<tr>"
             f"<td data-label=\"순위\">{rank}</td>"
             + name_cell(nationality=public["nationality"], name=public["player_name"], sponsor=public["official_sponsor"])
             + f"<td data-label=\"R1+R2+R3 포인트\">+{public['real_cum54_points']}</td>"
-            f"<td class=\"win\" data-label=\"TOP10\">{public['top10_pct'] * 100:.1f}%</td>"
-            f"<td class=\"win\" data-label=\"우승확률\"><strong>{public['win_pct'] * 100:.1f}%</strong></td>"
+            f"<td class=\"win\" data-label=\"TOP10\">{public['top10_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"TOP5\">{public['top5_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"우승확률\"><strong>{public['win_pct'] * 100:.2f}%</strong></td>"
             "</tr>"
         )
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
-        '<th>순위</th><th>선수</th><th>R1+R2+R3 포인트</th><th>TOP10</th><th>우승확률</th>'
+        '<th>순위</th><th>선수</th><th>R1+R2+R3 포인트</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>'
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
     )
 
@@ -75,7 +92,7 @@ def main():
     body = (
         "<section class=\"panel\"><h2>4R 예측 · 3R 종료 {}명</h2>".format(len(players))
         + f"<p>{leader['player_name']} 단독 선두 <strong>+{leader['real_cum54_points']}</strong> "
-        f"· 우승확률 {leader_win * 100:.1f}%</p>"
+        f"· 우승확률 {leader_win * 100:.2f}%</p>"
         + table_html
         + f"<p><a href=\"/tournaments/2026/{GAME_CODE}/r3/\">3R 최종 결과 보기</a></p>"
         + "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
@@ -84,7 +101,7 @@ def main():
 
     html = page_shell(
         title="HJ중공업·동부건설 챔피언십 4R 예측 · NEO GOLF DATA",
-        description=f"3R 공식 결과 {len(players)}명 대상 NEO 4R 예측 (TOP10/우승확률)",
+        description=f"3R 공식 결과 {len(players)}명 대상 NEO 4R 예측 (TOP10/TOP5/우승확률)",
         canonical_suffix="fr",
         breadcrumb_label="4R",
         intro_html=intro,

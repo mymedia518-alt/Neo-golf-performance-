@@ -32,12 +32,14 @@ Writes, under klpga_pipeline/content/website_v2/:
   HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_METHODOLOGY.md
   HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_REPRODUCIBILITY.json
 
-PUBLIC DISCLOSURE LIMIT (operator instruction): the results JSON keeps
-top5_pct for internal red-team use, but nothing outside this script's
-own content/ output may render Top5 or any SG value -- the HOME/PRE/R1/
-R2/R3/FR page builders must only read make_cut_pct (trivially 100% here,
-kept only for schema parity)/top10_pct/win_pct (TOP20 does not apply
-with only 61 players and 1 round left -- see note in main()).
+PUBLIC DISCLOSURE LIMIT (operator instruction, updated 2026-10-10): FR
+(236_hj_2026100004_build_fr_page.py) and its HOME mirror are now
+allowed to read and render top5_pct -- "probability of a top-5 finish
+after R4", not "the 5 highest win_pct players". PRE/R1/R2/R3 must still
+never render it (see test_no_sg_or_top5_data_on_either_public_page).
+No SG value may ever be rendered publicly on any page, on any stage --
+that restriction is unchanged. TOP20 does not apply with only 61
+players and 1 round left (see note in main()).
 
 Never touches STABLEFORD_2026_FROZEN_PREEVENT_SNAPSHOT_V1.json, the
 PRE-event or POST-R2 results JSONs, or any docs/ public page.
@@ -195,7 +197,7 @@ def main() -> None:
             "same_seed_rerun_bit_identical": same_seed_bit_identical,
             "cross_seed_checks": cross_seed_checks,
         },
-        "public_disclosure_limit": "top10/win only -- top5_pct is kept in this file for internal red-team use but must never be rendered on any public page; TOP20 is not meaningful with 1 round left across 61 players and is intentionally not computed for public display",
+        "public_disclosure_limit": "top10/top5/win on FR and its HOME mirror only (updated 2026-10-10); PRE/R1/R2/R3 must still never render top5_pct; TOP20 is not meaningful with 1 round left across 61 players and is intentionally not computed for public display",
         "players": rows,
     }
     assert same_seed_bit_identical, "same-seed rerun was not bit-identical -- do not publish"
@@ -213,8 +215,9 @@ def main() -> None:
         "results. Final score = real R1+R2+R3 total + simulated R4.\n"
         f"Seed={PRIMARY_SEED}, n_sims={N_SIMS}, cross-seed checks at {CROSS_CHECK_SEEDS}.\n"
         "No cut-line is simulated -- all 61 players are already through by\n"
-        "construction. Public output is limited to TOP10/우승 -- Top5, TOP20,\n"
-        "and SG are never rendered publicly.\n",
+        "construction. Public output on FR/HOME is TOP10/TOP5/우승 (updated\n"
+        "2026-10-10); PRE/R1/R2/R3 never show TOP5. TOP20 and SG are never\n"
+        "rendered publicly, on any page.\n",
         encoding="utf-8",
     )
 

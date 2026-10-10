@@ -147,17 +147,36 @@ def test_r3_official_page_has_no_forecast_columns():
         assert f"<th>{forbidden_header}</th>" not in html, f"stale forecast column {forbidden_header!r} still on the R3 official page"
 
 
-def test_no_sg_or_top5_data_on_either_public_page():
+def test_no_sg_data_on_any_public_page():
     r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
     fr_html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     for html in (r2_html, r3_html, fr_html):
-        for forbidden in ("top5", "top5_pct", "strokes_gained", "sg_total", "SG_RAW", "6.47", "5.61"):
-            assert forbidden not in html, f"forbidden term {forbidden!r} leaked onto a public page"
+        for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "6.47", "5.61"):
+            assert forbidden not in html, f"forbidden SG term {forbidden!r} leaked onto a public page"
     # TOP20 is specifically not meaningful with 1 round left across 61
     # players and must never appear on the FR page (R2's "R1 TOP20"
     # forecast-verification column is a different, legitimate thing)
     assert "TOP20" not in fr_html
+
+
+def test_no_top5_data_on_r2_or_r3_page():
+    """TOP5 is public ONLY on FR and its HOME mirror (operator
+    instruction, 2026-10-10) -- R2/R3 must never show it."""
+    r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
+    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
+    for html in (r2_html, r3_html):
+        for forbidden in ("top5", "Top5", "TOP5", "top5_pct"):
+            assert forbidden not in html, f"forbidden term {forbidden!r} leaked onto a page that must never show TOP5"
+
+
+def test_fr_top5_is_public_but_raw_field_name_is_not():
+    """FR legitimately shows a TOP5 column now, but must never leak the
+    internal JSON field name itself (would indicate a raw-data dump
+    rather than a rendered, formatted value)."""
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    assert "<th>TOP5</th>" in html
+    assert "top5_pct" not in html
 
 
 def test_no_internal_pipeline_language_on_public_pages():
@@ -233,14 +252,41 @@ def test_fr_page_covers_exactly_the_61_r3_active_players():
     for name in missed_names:
         assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR forecast page"
     assert "<th>TOP10</th>" in html
+    assert "<th>TOP5</th>" in html
     assert "<th>우승확률</th>" in html
 
 
-def test_fr_page_probabilities_use_one_decimal_place():
+def test_fr_page_probabilities_use_two_decimal_places():
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    for m in re.finditer(r'data-label="(?:TOP10|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html):
+    matches = list(re.finditer(r'data-label="(?:TOP10|TOP5|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html))
+    assert len(matches) == 61 * 3
+    for m in matches:
         decimals = m.group(1).split(".")[1] if "." in m.group(1) else ""
-        assert len(decimals) == 1, f"probability {m.group(1)}% is not formatted to one decimal place"
+        assert len(decimals) == 2, f"probability {m.group(1)}% is not formatted to two decimal places"
+
+
+def test_fr_page_win_le_top5_le_top10_per_player():
+    """TOP5 is 'probability of finishing in the top 5 after R4', a
+    strictly broader event than winning and strictly narrower than a
+    top-10 finish -- win_pct <= top5_pct <= top10_pct must hold for
+    every player, both in the raw model output and as rendered."""
+    forecast = json.loads((CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").read_text(encoding="utf-8"))
+    for p in forecast["players"]:
+        assert p["win_pct"] <= p["top5_pct"] + 1e-9, f"{p['player_name']}: win_pct > top5_pct in raw model output"
+        assert p["top5_pct"] <= p["top10_pct"] + 1e-9, f"{p['player_name']}: top5_pct > top10_pct in raw model output"
+
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
+        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+        if not name:
+            continue
+        cells = {}
+        for label in ("TOP10", "TOP5", "우승확률"):
+            m = re.search(r'data-label="' + label + r'"[^>]*>(?:<strong>)?([\d.]+)%', row)
+            assert m, f"{name.group(1)}: missing {label} cell"
+            cells[label] = float(m.group(1))
+        assert cells["우승확률"] <= cells["TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
+        assert cells["TOP5"] <= cells["TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
 
 
 def test_r2_r3_fr_player_cells_center_under_player_heading():

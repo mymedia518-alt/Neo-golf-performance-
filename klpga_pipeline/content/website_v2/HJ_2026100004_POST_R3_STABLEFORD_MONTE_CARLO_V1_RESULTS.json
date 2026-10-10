@@ -2,7 +2,7 @@
   "schema_version": 1,
   "target_game_code": "2026100004",
   "stage": "POST_R3_FR_FORECAST",
-  "generated_at_utc": "2026-10-10T07:53:26.859275+00:00",
+  "generated_at_utc": "2026-10-10T08:32:34.266872+00:00",
   "field_size_total": 108,
   "active_for_fr_count": 61,
   "missed_cut_count": 46,
@@ -32,7 +32,7 @@
       }
     ]
   },
-  "public_disclosure_limit": "top10/win only -- top5_pct is kept in this file for internal red-team use but must never be rendered on any public page; TOP20 is not meaningful with 1 round left across 61 players and is intentionally not computed for public display",
+  "public_disclosure_limit": "top10/top5/win on FR and its HOME mirror only (updated 2026-10-10); PRE/R1/R2/R3 must still never render top5_pct; TOP20 is not meaningful with 1 round left across 61 players and is intentionally not computed for public display",
   "players": [
     {
       "player_code": "10146",
