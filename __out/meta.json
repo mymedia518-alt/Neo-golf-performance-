@@ -1,0 +1,278 @@
+{
+  "home": {
+    "desktop": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 61,
+      "forbidden_terms_found": [
+        "TOP5",
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 1,
+      "top20_header_count": 1
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 61,
+      "forbidden_terms_found": [
+        "TOP5",
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 1,
+      "top20_header_count": 1
+    }
+  },
+  "hub": {
+    "desktop": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 0,
+      "forbidden_terms_found": [],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 0
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 0,
+      "forbidden_terms_found": [],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 0
+    }
+  },
+  "pre": {
+    "desktop": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십 사전 분석",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\" aria-current=\"page\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 109,
+      "forbidden_terms_found": [],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 0
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "NEO GOLF DATA · HJ중공업·동부건설 챔피언십 사전 분석",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\" aria-current=\"page\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 109,
+      "forbidden_terms_found": [],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 0
+    }
+  },
+  "r1": {
+    "desktop": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 1R 결과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 108,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 1R 결과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 108,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    }
+  },
+  "r2": {
+    "desktop": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 2R 최종 결과·컷 통과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 110,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 47,
+      "wd_badge_count": 2,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 2R 최종 결과·컷 통과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 110,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 47,
+      "wd_badge_count": 2,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    }
+  },
+  "r3": {
+    "desktop": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 3R 최종 결과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 110,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 47,
+      "wd_badge_count": 2,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 3R 최종 결과 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 110,
+      "forbidden_terms_found": [
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 47,
+      "wd_badge_count": 2,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 0,
+      "top20_header_count": 1
+    }
+  },
+  "fr": {
+    "desktop": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 4R 예측 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 61,
+      "forbidden_terms_found": [
+        "TOP5",
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 1440,
+        "clientWidth": 1440
+      },
+      "top5_header_count": 1,
+      "top20_header_count": 1
+    },
+    "mobile": {
+      "http_status": 200,
+      "title": "HJ중공업·동부건설 챔피언십 4R 예측 · NEO GOLF DATA",
+      "stage_nav_outer_html": "<nav class=\"stage-nav\" aria-label=\"대회 단계\" data-stage-nav=\"\"><ol class=\"stage-nav__list\"><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/pre/\">PRE</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r1/\">R1</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r2/\">R2</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link\" href=\"/tournaments/2026/2026100004/r3/\">R3</a></li><li class=\"stage-nav__item\"><a class=\"stage-nav__link is-active\" aria-current=\"page\" href=\"/tournaments/2026/2026100004/fr/\">FR</a></li></ol></nav>",
+      "table_row_count": 61,
+      "forbidden_terms_found": [
+        "TOP5",
+        "TOP20"
+      ],
+      "sg_canary_found": [],
+      "cut_badge_count": 0,
+      "wd_badge_count": 0,
+      "horizontal_overflow": false,
+      "overflow_detail": {
+        "scrollWidth": 390,
+        "clientWidth": 390
+      },
+      "top5_header_count": 1,
+      "top20_header_count": 1
+    }
+  }
+}
