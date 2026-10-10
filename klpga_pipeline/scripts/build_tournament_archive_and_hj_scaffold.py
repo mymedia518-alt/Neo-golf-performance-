@@ -273,7 +273,11 @@ def build_hj_scaffold() -> str:
         f"<title>NEO GOLF DATA · {event_name}</title>"
         f"<meta name=\"description\" content=\"{event_name} — 변형 스테이블포드 방식 · Stableford 사전평가(PRE) 공개 중\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/2026/2026100004/\">"
-        f"{GLOBAL_HEAD_LINKS}</head>"
+        f"{GLOBAL_HEAD_LINKS}"
+        # Same header/body left-edge alignment fix as _home_head() /
+        # hj_2026100004_round_pages.page_shell() -- see those for why.
+        "<style>.neo-global-header__inner{padding-inline:clamp(1rem,2.5vw,2.5rem)}</style>"
+        "</head>"
     )
     body = (
         "<body>"

@@ -208,7 +208,14 @@ def build() -> dict:
         '<meta property="og:type" content="website">'
         '<meta name="twitter:card" content="summary_large_image">'
         '<link rel="stylesheet" href="/assets/neo-site.css">'
-        '<link rel="stylesheet" href="../../../../assets/neo.css"></head><body>'
+        '<link rel="stylesheet" href="../../../../assets/neo.css">'
+        # Same header/body left-edge alignment fix as hj_2026100004_round_
+        # pages.page_shell() (R1/R2/R3/FR) -- without it the header's
+        # .neo-global-header__inner has no inline padding while <main>
+        # below it does (from neo.css's own main{padding:...}), so the
+        # "NEO GOLF DATA" brand mark sits ~36px left of the body content.
+        '<style>.neo-global-header__inner{padding-inline:clamp(1rem,2.5vw,2.5rem)}</style>'
+        '</head><body>'
         '<header class="neo-global-header" data-neo-global-navigation>'
         '<div class="neo-global-header__inner">'
         '<a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span>'
