@@ -448,7 +448,15 @@ def _home_head() -> str:
         "<meta property=\"og:url\" content=\"https://neogolfdata.com/\">"
         "<meta property=\"og:type\" content=\"website\">"
         "<meta name=\"twitter:card\" content=\"summary_large_image\">"
-        f"{GLOBAL_HEAD_LINKS}</head>"
+        f"{GLOBAL_HEAD_LINKS}"
+        # Same header/body left-edge alignment fix as hj_2026100004_round_
+        # pages.page_shell() (used by R1/R2/R3/FR) -- without it the
+        # header's .neo-global-header__inner has no inline padding while
+        # <main> below it does (from neo.css's own main{padding:...}),
+        # so the "NEO GOLF DATA" brand mark sits ~36px left of the body
+        # content under every stage HOME mirrors.
+        "<style>.neo-global-header__inner{padding-inline:clamp(1rem,2.5vw,2.5rem)}</style>"
+        "</head>"
     )
 
 
