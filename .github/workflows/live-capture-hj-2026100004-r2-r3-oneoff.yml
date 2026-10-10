@@ -72,6 +72,10 @@ jobs:
                       nav = page.locator("nav.stage-nav").first
                       nav_html = nav.evaluate("el => el.outerHTML") if nav.count() > 0 else None
                       rows = page.locator("table.leaderboard-table tbody tr, table.data tbody tr")
+                      overflow = page.evaluate(
+                          "() => ({scrollWidth: document.documentElement.scrollWidth, clientWidth: document.documentElement.clientWidth})"
+                      )
+                      top5_header = page.locator("th", has_text="TOP5")
                       shot = out / f"{stage}_{vp_name}.png"
                       page.screenshot(path=str(shot), full_page=True)
                       results[stage][vp_name] = {
@@ -82,6 +86,9 @@ jobs:
                           "forbidden_terms_found": [t for t in FORBIDDEN_TEXT if t in body_text],
                           "cut_badge_count": body_text.count("CUT"),
                           "wd_badge_count": body_text.count("WD"),
+                          "horizontal_overflow": overflow["scrollWidth"] > overflow["clientWidth"] + 1,
+                          "overflow_detail": overflow,
+                          "top5_header_count": top5_header.count(),
                       }
                       page.close()
               browser.close()
