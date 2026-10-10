@@ -1,0 +1,799 @@
+{
+  "schema_version": 1,
+  "game_code": "2026100004",
+  "source": "https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004 (official 전체 스코어 record page, populated per KLPGA's own documented rule '전체스코어는 선수 스코어접수 완료시 확인 가능합니다') + https://klpga.co.kr/load/stableford/roundLeaderboard (gameCode/round=4 form POST, confirms round 4 not started) -- real network fetch via GitHub Actions (this sandbox cannot reach klpga.co.kr directly)",
+  "capture_timestamp_utc": "2026-10-10T07:47:48Z",
+  "capture_timestamp_kst": "2026-10-10T16:47:48+09:00",
+  "r3_official_end_evidence": [
+    "Official '전체 스코어' record page (stablefordScoreRecord) lists all 61 active players with non-null 1R/2R/3R scores whose sum exactly equals the displayed 합계(total) for every row -- per the page's own documented rule, this table is populated only once a player's score submission is complete, not while a round is in progress",
+    "The 4R column is empty for all 61 active players on this same official page",
+    "POST /load/stableford/roundLeaderboard with round=4 returns data-inghole=\"1\" data-todaypoint=\"0\" for every player (confirmed for leader 유현조, player_code 10146) -- the round-4 tee sheet exists but no round-4 score has been recorded for anyone, confirming round 3 is the most recently completed round, not round 4",
+    "All 61 player_codes and their R1/R2 points on this page exactly match the already-verified HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json advanced_to_r3 list -- zero mismatches, zero missing/extra players"
+  ],
+  "r4_not_started_evidence": [
+    "4R column empty for all 61 players on the official score record page",
+    "round=4 roundLeaderboard POST shows data-inghole=1 (not yet begun) and data-todaypoint=0 for every player checked"
+  ],
+  "known_caveat": "KLPGA's own page note: '전체 참가인원의 최종 스코어가 접수되기 전까지 실시간 리더보드와 성적은 다를 수 있습니다' (live leaderboard and official record may still differ until every participant's final score is received) -- standard boilerplate present on this page; not itself evidence of incompleteness given the row-level completeness checks above all passed",
+  "cut_rule_note": "No additional cut applied after round 2 (standard for this tournament format) -- same 61 players who advanced past the R2 cut continue through R3; missed_cut/withdrawn carried over unchanged from HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json (no new withdrawals observed during R3: all 61 R2 survivors appear in the R3 official list with no WD/DQ/DNS marker)",
+  "field_size": 108,
+  "active_count": 61,
+  "missed_cut_count": 46,
+  "wd_count": 1,
+  "active_players": [
+    {
+      "player_code": "10146",
+      "player_name": "유현조",
+      "r1_points": 12,
+      "r2_points": 22,
+      "r3_points": 12,
+      "cum54_points": 46
+    },
+    {
+      "player_code": "10097",
+      "player_name": "김민선7",
+      "r1_points": 15,
+      "r2_points": 16,
+      "r3_points": 11,
+      "cum54_points": 42
+    },
+    {
+      "player_code": "8881",
+      "player_name": "성유진",
+      "r1_points": 13,
+      "r2_points": 13,
+      "r3_points": 13,
+      "cum54_points": 39
+    },
+    {
+      "player_code": "9784",
+      "player_name": "이예원",
+      "r1_points": 14,
+      "r2_points": 13,
+      "r3_points": 10,
+      "cum54_points": 37
+    },
+    {
+      "player_code": "10577",
+      "player_name": "최예본",
+      "r1_points": 16,
+      "r2_points": 8,
+      "r3_points": 11,
+      "cum54_points": 35
+    },
+    {
+      "player_code": "9134",
+      "player_name": "서어진",
+      "r1_points": 13,
+      "r2_points": 15,
+      "r3_points": 7,
+      "cum54_points": 35
+    },
+    {
+      "player_code": "11447",
+      "player_name": "한아름",
+      "r1_points": 16,
+      "r2_points": 17,
+      "r3_points": 2,
+      "cum54_points": 35
+    },
+    {
+      "player_code": "10112",
+      "player_name": "고지우",
+      "r1_points": 10,
+      "r2_points": 10,
+      "r3_points": 14,
+      "cum54_points": 34
+    },
+    {
+      "player_code": "8300",
+      "player_name": "김수지",
+      "r1_points": 13,
+      "r2_points": 8,
+      "r3_points": 13,
+      "cum54_points": 34
+    },
+    {
+      "player_code": "8811",
+      "player_name": "이채은2",
+      "r1_points": 3,
+      "r2_points": 15,
+      "r3_points": 15,
+      "cum54_points": 33
+    },
+    {
+      "player_code": "10296",
+      "player_name": "문정민",
+      "r1_points": 10,
+      "r2_points": 13,
+      "r3_points": 10,
+      "cum54_points": 33
+    },
+    {
+      "player_code": "11066",
+      "player_name": "유서연2",
+      "r1_points": 14,
+      "r2_points": 12,
+      "r3_points": 6,
+      "cum54_points": 32
+    },
+    {
+      "player_code": "10095",
+      "player_name": "방신실",
+      "r1_points": 10,
+      "r2_points": 12,
+      "r3_points": 10,
+      "cum54_points": 32
+    },
+    {
+      "player_code": "10725",
+      "player_name": "김민솔",
+      "r1_points": 15,
+      "r2_points": 10,
+      "r3_points": 7,
+      "cum54_points": 32
+    },
+    {
+      "player_code": "9465",
+      "player_name": "안지현",
+      "r1_points": 7,
+      "r2_points": 17,
+      "r3_points": 6,
+      "cum54_points": 30
+    },
+    {
+      "player_code": "10081",
+      "player_name": "김민주",
+      "r1_points": 12,
+      "r2_points": 11,
+      "r3_points": 6,
+      "cum54_points": 29
+    },
+    {
+      "player_code": "8380",
+      "player_name": "김새로미",
+      "r1_points": 8,
+      "r2_points": 13,
+      "r3_points": 8,
+      "cum54_points": 29
+    },
+    {
+      "player_code": "9487",
+      "player_name": "김재희",
+      "r1_points": 7,
+      "r2_points": 9,
+      "r3_points": 13,
+      "cum54_points": 29
+    },
+    {
+      "player_code": "9082",
+      "player_name": "전예성",
+      "r1_points": 2,
+      "r2_points": 12,
+      "r3_points": 14,
+      "cum54_points": 28
+    },
+    {
+      "player_code": "8859",
+      "player_name": "이승연",
+      "r1_points": 11,
+      "r2_points": 10,
+      "r3_points": 6,
+      "cum54_points": 27
+    },
+    {
+      "player_code": "10083",
+      "player_name": "마서영",
+      "r1_points": 5,
+      "r2_points": 9,
+      "r3_points": 12,
+      "cum54_points": 26
+    },
+    {
+      "player_code": "8234",
+      "player_name": "이주미",
+      "r1_points": 9,
+      "r2_points": 8,
+      "r3_points": 9,
+      "cum54_points": 26
+    },
+    {
+      "player_code": "9135",
+      "player_name": "신다인",
+      "r1_points": 12,
+      "r2_points": 12,
+      "r3_points": 2,
+      "cum54_points": 26
+    },
+    {
+      "player_code": "1521",
+      "player_name": "지한솔",
+      "r1_points": 11,
+      "r2_points": 12,
+      "r3_points": 3,
+      "cum54_points": 26
+    },
+    {
+      "player_code": "11056",
+      "player_name": "박예지",
+      "r1_points": 5,
+      "r2_points": 9,
+      "r3_points": 11,
+      "cum54_points": 25
+    },
+    {
+      "player_code": "9483",
+      "player_name": "한지원",
+      "r1_points": 6,
+      "r2_points": 10,
+      "r3_points": 9,
+      "cum54_points": 25
+    },
+    {
+      "player_code": "10586",
+      "player_name": "홍진영2",
+      "r1_points": 12,
+      "r2_points": 10,
+      "r3_points": 3,
+      "cum54_points": 25
+    },
+    {
+      "player_code": "9113",
+      "player_name": "노승희",
+      "r1_points": 7,
+      "r2_points": 10,
+      "r3_points": 7,
+      "cum54_points": 24
+    },
+    {
+      "player_code": "9391",
+      "player_name": "최가빈",
+      "r1_points": 12,
+      "r2_points": 7,
+      "r3_points": 5,
+      "cum54_points": 24
+    },
+    {
+      "player_code": "9708",
+      "player_name": "이재윤",
+      "r1_points": 5,
+      "r2_points": 9,
+      "r3_points": 9,
+      "cum54_points": 23
+    },
+    {
+      "player_code": "9990",
+      "player_name": "윤수아",
+      "r1_points": 5,
+      "r2_points": 10,
+      "r3_points": 8,
+      "cum54_points": 23
+    },
+    {
+      "player_code": "9145",
+      "player_name": "임희정",
+      "r1_points": 6,
+      "r2_points": 13,
+      "r3_points": 4,
+      "cum54_points": 23
+    },
+    {
+      "player_code": "9000",
+      "player_name": "김지수",
+      "r1_points": 4,
+      "r2_points": 15,
+      "r3_points": 4,
+      "cum54_points": 23
+    },
+    {
+      "player_code": "9759",
+      "player_name": "이율린",
+      "r1_points": 4,
+      "r2_points": 13,
+      "r3_points": 5,
+      "cum54_points": 22
+    },
+    {
+      "player_code": "11060",
+      "player_name": "안재희",
+      "r1_points": 4,
+      "r2_points": 10,
+      "r3_points": 8,
+      "cum54_points": 22
+    },
+    {
+      "player_code": "10790",
+      "player_name": "김하은2",
+      "r1_points": 13,
+      "r2_points": 3,
+      "r3_points": 6,
+      "cum54_points": 22
+    },
+    {
+      "player_code": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "r1_points": 12,
+      "r2_points": 4,
+      "r3_points": 6,
+      "cum54_points": 22
+    },
+    {
+      "player_code": "10726",
+      "player_name": "김가희2",
+      "r1_points": 7,
+      "r2_points": 14,
+      "r3_points": 1,
+      "cum54_points": 22
+    },
+    {
+      "player_code": "9449",
+      "player_name": "이지현3",
+      "r1_points": 3,
+      "r2_points": 12,
+      "r3_points": 6,
+      "cum54_points": 21
+    },
+    {
+      "player_code": "8589",
+      "player_name": "배소현",
+      "r1_points": 8,
+      "r2_points": 6,
+      "r3_points": 7,
+      "cum54_points": 21
+    },
+    {
+      "player_code": "9130",
+      "player_name": "박현경",
+      "r1_points": 15,
+      "r2_points": 0,
+      "r3_points": 5,
+      "cum54_points": 20
+    },
+    {
+      "player_code": "9820",
+      "player_name": "정윤지",
+      "r1_points": 7,
+      "r2_points": 8,
+      "r3_points": 5,
+      "cum54_points": 20
+    },
+    {
+      "player_code": "11640",
+      "player_name": "성아진",
+      "r1_points": 7,
+      "r2_points": 8,
+      "r3_points": 5,
+      "cum54_points": 20
+    },
+    {
+      "player_code": "10727",
+      "player_name": "황민정",
+      "r1_points": 5,
+      "r2_points": 8,
+      "r3_points": 6,
+      "cum54_points": 19
+    },
+    {
+      "player_code": "9136",
+      "player_name": "조혜림",
+      "r1_points": 10,
+      "r2_points": 7,
+      "r3_points": 2,
+      "cum54_points": 19
+    },
+    {
+      "player_code": "9431",
+      "player_name": "박보겸",
+      "r1_points": 6,
+      "r2_points": 9,
+      "r3_points": 3,
+      "cum54_points": 18
+    },
+    {
+      "player_code": "11057",
+      "player_name": "송은아",
+      "r1_points": 9,
+      "r2_points": 6,
+      "r3_points": 2,
+      "cum54_points": 17
+    },
+    {
+      "player_code": "8770",
+      "player_name": "조아연",
+      "r1_points": 11,
+      "r2_points": 3,
+      "r3_points": 3,
+      "cum54_points": 17
+    },
+    {
+      "player_code": "12069",
+      "player_name": "박조은 0806(A)",
+      "r1_points": 9,
+      "r2_points": 6,
+      "r3_points": 2,
+      "cum54_points": 17
+    },
+    {
+      "player_code": "9089",
+      "player_name": "김소정",
+      "r1_points": 7,
+      "r2_points": 8,
+      "r3_points": 2,
+      "cum54_points": 17
+    },
+    {
+      "player_code": "8243",
+      "player_name": "장은수",
+      "r1_points": 8,
+      "r2_points": 5,
+      "r3_points": 3,
+      "cum54_points": 16
+    },
+    {
+      "player_code": "9401",
+      "player_name": "마다솜",
+      "r1_points": 7,
+      "r2_points": 8,
+      "r3_points": 0,
+      "cum54_points": 15
+    },
+    {
+      "player_code": "12038",
+      "player_name": "이지민",
+      "r1_points": 6,
+      "r2_points": 7,
+      "r3_points": 2,
+      "cum54_points": 15
+    },
+    {
+      "player_code": "11042",
+      "player_name": "홍현지",
+      "r1_points": 7,
+      "r2_points": 6,
+      "r3_points": 0,
+      "cum54_points": 13
+    },
+    {
+      "player_code": "9183",
+      "player_name": "박결",
+      "r1_points": 3,
+      "r2_points": 10,
+      "r3_points": 0,
+      "cum54_points": 13
+    },
+    {
+      "player_code": "8434",
+      "player_name": "김지영2",
+      "r1_points": 4,
+      "r2_points": 9,
+      "r3_points": 0,
+      "cum54_points": 13
+    },
+    {
+      "player_code": "11143",
+      "player_name": "김시현",
+      "r1_points": 0,
+      "r2_points": 13,
+      "r3_points": 0,
+      "cum54_points": 13
+    },
+    {
+      "player_code": "8277",
+      "player_name": "최민경",
+      "r1_points": 7,
+      "r2_points": 6,
+      "r3_points": 0,
+      "cum54_points": 13
+    },
+    {
+      "player_code": "9937",
+      "player_name": "황유나",
+      "r1_points": 0,
+      "r2_points": 13,
+      "r3_points": -1,
+      "cum54_points": 12
+    },
+    {
+      "player_code": "11469",
+      "player_name": "이윤서",
+      "r1_points": 5,
+      "r2_points": 8,
+      "r3_points": -1,
+      "cum54_points": 12
+    },
+    {
+      "player_code": "8838",
+      "player_name": "김우정",
+      "r1_points": 0,
+      "r2_points": 14,
+      "r3_points": -3,
+      "cum54_points": 11
+    }
+  ],
+  "missed_cut": [
+    {
+      "player_code": "10789",
+      "player_name": "리 슈잉",
+      "r1_points": 6,
+      "r2_points": 6
+    },
+    {
+      "player_code": "6916",
+      "player_name": "안송이",
+      "r1_points": 2,
+      "r2_points": 10
+    },
+    {
+      "player_code": "9277",
+      "player_name": "김아현",
+      "r1_points": 4,
+      "r2_points": 8
+    },
+    {
+      "player_code": "10138",
+      "player_name": "임진영",
+      "r1_points": 6,
+      "r2_points": 5
+    },
+    {
+      "player_code": "9714",
+      "player_name": "유지나",
+      "r1_points": 5,
+      "r2_points": 6
+    },
+    {
+      "player_code": "12472",
+      "player_name": "이지유 0901(A)",
+      "r1_points": 5,
+      "r2_points": 6
+    },
+    {
+      "player_code": "9235",
+      "player_name": "최은우",
+      "r1_points": 3,
+      "r2_points": 8
+    },
+    {
+      "player_code": "10178",
+      "player_name": "김희지",
+      "r1_points": 10,
+      "r2_points": 1
+    },
+    {
+      "player_code": "11216",
+      "player_name": "김지윤2",
+      "r1_points": 6,
+      "r2_points": 5
+    },
+    {
+      "player_code": "10002",
+      "player_name": "김민별",
+      "r1_points": 6,
+      "r2_points": 5
+    },
+    {
+      "player_code": "9111",
+      "player_name": "박서현",
+      "r1_points": 3,
+      "r2_points": 8
+    },
+    {
+      "player_code": "10109",
+      "player_name": "고지원",
+      "r1_points": 1,
+      "r2_points": 9
+    },
+    {
+      "player_code": "10481",
+      "player_name": "이서윤4",
+      "r1_points": 4,
+      "r2_points": 6
+    },
+    {
+      "player_code": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "r1_points": 3,
+      "r2_points": 7
+    },
+    {
+      "player_code": "8240",
+      "player_name": "황정미",
+      "r1_points": 4,
+      "r2_points": 6
+    },
+    {
+      "player_code": "9426",
+      "player_name": "한진선",
+      "r1_points": 7,
+      "r2_points": 3
+    },
+    {
+      "player_code": "9652",
+      "player_name": "이세희",
+      "r1_points": 8,
+      "r2_points": 2
+    },
+    {
+      "player_code": "9174",
+      "player_name": "강가율",
+      "r1_points": 2,
+      "r2_points": 7
+    },
+    {
+      "player_code": "9389",
+      "player_name": "전우리",
+      "r1_points": 3,
+      "r2_points": 6
+    },
+    {
+      "player_code": "9750",
+      "player_name": "홍정민",
+      "r1_points": 4,
+      "r2_points": 5
+    },
+    {
+      "player_code": "11134",
+      "player_name": "서교림",
+      "r1_points": 1,
+      "r2_points": 8
+    },
+    {
+      "player_code": "9765",
+      "player_name": "정소이",
+      "r1_points": -1,
+      "r2_points": 9
+    },
+    {
+      "player_code": "8972",
+      "player_name": "조정민",
+      "r1_points": 6,
+      "r2_points": 2
+    },
+    {
+      "player_code": "9705",
+      "player_name": "홍지원",
+      "r1_points": 1,
+      "r2_points": 7
+    },
+    {
+      "player_code": "9723",
+      "player_name": "노원경",
+      "r1_points": 7,
+      "r2_points": 1
+    },
+    {
+      "player_code": "10867",
+      "player_name": "양서후",
+      "r1_points": 5,
+      "r2_points": 2
+    },
+    {
+      "player_code": "9503",
+      "player_name": "이슬기2",
+      "r1_points": -2,
+      "r2_points": 9
+    },
+    {
+      "player_code": "8386",
+      "player_name": "성은정",
+      "r1_points": 6,
+      "r2_points": 1
+    },
+    {
+      "player_code": "10531",
+      "player_name": "현세린",
+      "r1_points": 6,
+      "r2_points": 1
+    },
+    {
+      "player_code": "8884",
+      "player_name": "윤화영",
+      "r1_points": 2,
+      "r2_points": 4
+    },
+    {
+      "player_code": "8318",
+      "player_name": "박단유",
+      "r1_points": 2,
+      "r2_points": 4
+    },
+    {
+      "player_code": "9702",
+      "player_name": "김리안",
+      "r1_points": 2,
+      "r2_points": 3
+    },
+    {
+      "player_code": "4905",
+      "player_name": "안선주",
+      "r1_points": 2,
+      "r2_points": 3
+    },
+    {
+      "player_code": "8840",
+      "player_name": "정수빈",
+      "r1_points": -1,
+      "r2_points": 6
+    },
+    {
+      "player_code": "10139",
+      "player_name": "양효리",
+      "r1_points": 0,
+      "r2_points": 5
+    },
+    {
+      "player_code": "8284",
+      "player_name": "최예림",
+      "r1_points": -1,
+      "r2_points": 6
+    },
+    {
+      "player_code": "11426",
+      "player_name": "김민서3",
+      "r1_points": -1,
+      "r2_points": 5
+    },
+    {
+      "player_code": "9752",
+      "player_name": "김나현2",
+      "r1_points": -4,
+      "r2_points": 8
+    },
+    {
+      "player_code": "8271",
+      "player_name": "김효문",
+      "r1_points": -4,
+      "r2_points": 7
+    },
+    {
+      "player_code": "8246",
+      "player_name": "이소영",
+      "r1_points": 1,
+      "r2_points": 2
+    },
+    {
+      "player_code": "8355",
+      "player_name": "장수연",
+      "r1_points": -4,
+      "r2_points": 6
+    },
+    {
+      "player_code": "8430",
+      "player_name": "조은채",
+      "r1_points": 2,
+      "r2_points": 0
+    },
+    {
+      "player_code": "10821",
+      "player_name": "유아현",
+      "r1_points": -1,
+      "r2_points": 2
+    },
+    {
+      "player_code": "11073",
+      "player_name": "최정원",
+      "r1_points": 0,
+      "r2_points": 1
+    },
+    {
+      "player_code": "8883",
+      "player_name": "이가영",
+      "r1_points": -4,
+      "r2_points": 4
+    },
+    {
+      "player_code": "11040",
+      "player_name": "이세영",
+      "r1_points": -1,
+      "r2_points": 0
+    }
+  ],
+  "withdrawn": [
+    {
+      "player_code": "10022",
+      "player_name": "손예빈",
+      "r1_points": 4,
+      "r2_points": 0
+    }
+  ]
+}

@@ -182,7 +182,7 @@ def main():
         canonical_suffix="r2",
         breadcrumb_label="2R",
         intro_html=intro,
-        stage_nav=stage_nav_html("r2", live_stages={"pre", "r1", "r2", "r3"}),
+        stage_nav=stage_nav_html("r2", live_stages={"pre", "r1", "r2", "r3", "fr"}),
         body_html=body,
     )
 

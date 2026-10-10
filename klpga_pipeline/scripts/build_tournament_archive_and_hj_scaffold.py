@@ -404,8 +404,12 @@ def hj_current_stage() -> str:
     forecast-gate module for HJ, so the real evidence IS the already-
     verified official-result/forecast JSON this session's own R2/R3
     collection + Monte Carlo work produced)."""
+    fr_forecast = CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
+    r3_official = CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json"
     r3_forecast = CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
     r2_official = CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json"
+    if fr_forecast.is_file() and r3_official.is_file():
+        return "fr"
     if r3_forecast.is_file() and r2_official.is_file():
         return "r3"
     if r2_official.is_file():
@@ -505,7 +509,7 @@ def build_home_pre_fallback() -> str:
 
 def build_home() -> str:
     stage = hj_current_stage()
-    if stage in ("r2", "r3"):
+    if stage in ("r2", "r3", "fr"):
         return _build_home_stage_mirror(stage)
     return build_home_pre_fallback()
 

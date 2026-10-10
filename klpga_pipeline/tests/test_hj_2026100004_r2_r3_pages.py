@@ -117,22 +117,47 @@ def test_r2_shows_r1_r2_round_scores_and_cumulative_total():
     assert "<th>R1</th>" in html and "<th>R2</th>" in html and "<th>합계</th>" in html
 
 
-def test_r3_page_covers_exactly_the_61_survivors_no_more_no_less():
+def test_r3_official_page_shows_full_field_with_61_active_and_correct_cum54():
     html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
-    r2 = json.loads((CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json").read_text(encoding="utf-8"))
-    row_count = len(re.findall(r"<tr>", html)) - 1
-    assert row_count == r2["advanced_count"] == 61
-    missed_names = {p["player_name"] for p in r2["missed_cut"]}
-    for name in missed_names:
-        assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the R3 forecast page"
+    r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
+    row_count = len(re.findall(r"<tr>", html)) - 1  # minus thead row
+    assert row_count == r3["field_size"] == 108
+    assert html.count("status-badge'>CUT") == r3["missed_cut_count"] == 46
+    assert html.count("status-badge'>WD") == r3["wd_count"] == 1
+
+    found = {}
+    for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
+        name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
+        if not name:
+            continue
+        cum = re.search(r'data-label="합계">([^<]+)</td>', row)
+        found[name.group(1)] = cum.group(1) if cum else None
+    for p in r3["active_players"]:
+        expected = f"+{p['cum54_points']}" if p["cum54_points"] > 0 else str(p["cum54_points"])
+        assert found.get(p["player_name"]) == expected, f"{p['player_name']}: cum54 mismatch on R3 page"
+
+
+def test_r3_official_page_has_no_forecast_columns():
+    """R3 is now an official-results page, not a forecast -- it must not
+    carry any forecast-style column from its prior life as a pre-R3
+    forecast page (2R 컷 예측/TOP20/TOP10/우승확률 all belonged to that
+    now-obsolete version)."""
+    html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
+    for forbidden_header in ("2R 컷 예측", "TOP20", "TOP10", "우승확률"):
+        assert f"<th>{forbidden_header}</th>" not in html, f"stale forecast column {forbidden_header!r} still on the R3 official page"
 
 
 def test_no_sg_or_top5_data_on_either_public_page():
     r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
-    for html in (r2_html, r3_html):
+    fr_html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    for html in (r2_html, r3_html, fr_html):
         for forbidden in ("top5", "top5_pct", "strokes_gained", "sg_total", "SG_RAW", "6.47", "5.61"):
             assert forbidden not in html, f"forbidden term {forbidden!r} leaked onto a public page"
+    # TOP20 is specifically not meaningful with 1 round left across 61
+    # players and must never appear on the FR page (R2's "R1 TOP20"
+    # forecast-verification column is a different, legitimate thing)
+    assert "TOP20" not in fr_html
 
 
 def test_no_internal_pipeline_language_on_public_pages():
@@ -143,7 +168,8 @@ def test_no_internal_pipeline_language_on_public_pages():
     *why*/*when internally* a number was computed must not appear."""
     r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
-    for html in (r2_html, r3_html):
+    fr_html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    for html in (r2_html, r3_html, fr_html):
         for forbidden in (
             "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음",
             "Monte Carlo", "몬테카를로", "시뮬레이션",
@@ -151,24 +177,23 @@ def test_no_internal_pipeline_language_on_public_pages():
             assert forbidden not in html, f"internal pipeline language {forbidden!r} leaked onto a public page"
 
 
-def test_stage_nav_consistent_and_correct_across_all_five_pages():
+def test_stage_nav_consistent_and_correct_across_all_six_pages():
     pages = {
         "hub": DOCS_ROOT / "index.html",
         "pre": DOCS_ROOT / "pre" / "index.html",
         "r1": DOCS_ROOT / "r1" / "index.html",
         "r2": DOCS_ROOT / "r2" / "index.html",
         "r3": DOCS_ROOT / "r3" / "index.html",
+        "fr": DOCS_ROOT / "fr" / "index.html",
     }
     for name, path in pages.items():
         html = path.read_text(encoding="utf-8")
         nav = re.search(r"<nav class=['\"]stage-nav['\"].*?</nav>", html)
         assert nav, f"{name} page missing stage-nav"
         nav_html = nav.group(0)
-        # PRE/R1/R2/R3 must each be a real <a> (live) on every page now that all 4 are published
-        for stage in ("pre", "r1", "r2", "r3"):
+        # PRE/R1/R2/R3/FR must each be a real <a> (live) on every page now that all 5 are published
+        for stage in ("pre", "r1", "r2", "r3", "fr"):
             assert f"2026100004/{stage}/" in nav_html, f"{name} page's stage-nav missing a live link to {stage}"
-        # FR has no page yet -- must still render as disabled, not a dead link
-        assert "FR</span>" in nav_html or "is-disabled" in nav_html.split("FR")[0][-120:]
 
 
 def test_r2_cut_rank_numbering_is_contiguous_and_matches_field_size():
@@ -189,7 +214,7 @@ def test_player_name_sponsor_and_status_badge_never_visually_run_together():
     on both spans, which (being more specific than the external class
     rule) silently defeated that site-wide fix and made the sponsor
     and any CUT/WD badge run inline right after the player name."""
-    for stage in ("r2", "r3"):
+    for stage in ("r2", "r3", "fr"):
         html = (DOCS_ROOT / stage / "index.html").read_text(encoding="utf-8")
         assert "player-name\" style=" not in html, f"{stage}: player-name must not carry an inline style override"
         assert "player-sponsor\" style=" not in html, f"{stage}: player-sponsor must not carry an inline style override"
@@ -198,25 +223,27 @@ def test_player_name_sponsor_and_status_badge_never_visually_run_together():
         for m in re.finditer(r"<span class=\"player-sponsor\">([^<]*)</span>", html):
             assert "CUT" not in m.group(1) and "WD" not in m.group(1), f"{stage}: status text leaked into the sponsor span itself: {m.group(1)!r}"
 
-def test_r3_uses_r1_cut_prediction_for_2r_forecast_column():
-    r1_html = (DOCS_ROOT / "r1" / "index.html").read_text(encoding="utf-8")
-    r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
-    def values(html, label):
-        found = {}
-        for row in re.findall(r'<tr>(.*?)</tr>', html, flags=re.DOTALL):
-            name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
-            value = re.search(r'data-label="' + label + r'">([^<]+)</td>', row)
-            if name and value:
-                found[name.group(1)] = value.group(1)
-        return found
-    predicted = values(r1_html, "컷 통과확률")
-    displayed = values(r3_html, "2R 컷 예측")
-    assert len(displayed) == 61
-    assert all(displayed[name] == predicted[name] for name in displayed)
-    assert "<th>2R 컷 예측</th>" in r3_html
-    assert 'data-label="컷 통과">통과' not in r3_html
 
-def test_r2_r3_player_cells_center_under_player_heading():
-    for stage in ("r2", "r3"):
+def test_fr_page_covers_exactly_the_61_r3_active_players():
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
+    row_count = len(re.findall(r"<tr>", html)) - 1
+    assert row_count == r3["active_count"] == 61
+    missed_names = {p["player_name"] for p in r3["missed_cut"]}
+    for name in missed_names:
+        assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR forecast page"
+    assert "<th>TOP10</th>" in html
+    assert "<th>우승확률</th>" in html
+
+
+def test_fr_page_probabilities_use_one_decimal_place():
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    for m in re.finditer(r'data-label="(?:TOP10|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html):
+        decimals = m.group(1).split(".")[1] if "." in m.group(1) else ""
+        assert len(decimals) == 1, f"probability {m.group(1)}% is not formatted to one decimal place"
+
+
+def test_r2_r3_fr_player_cells_center_under_player_heading():
+    for stage in ("r2", "r3", "fr"):
         html = (DOCS_ROOT / stage / "index.html").read_text(encoding="utf-8")
         assert 'data-label="선수" style="text-align:center"' in html

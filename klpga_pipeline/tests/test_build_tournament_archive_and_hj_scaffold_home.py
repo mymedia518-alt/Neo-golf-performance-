@@ -206,8 +206,8 @@ def test_home_video_survives_a_fresh_rebuild():
     file after the fact, so it cannot be silently dropped by a future
     rebuild the way it was before this fix."""
     mod = _load_module()
-    html_first = mod.build_home()
-    html_second = mod.build_home()
+    html_first = mod.build_home_pre_fallback()
+    html_second = mod.build_home_pre_fallback()
     assert html_first == html_second
     assert html_first.count("<video") == 1
 
@@ -247,29 +247,44 @@ def test_stale_hana_builder_still_cannot_clobber_home_after_video_parity_fix():
 # concluded and R3 (with its own video) was published.
 # ---------------------------------------------------------------------------
 
-def test_hj_current_stage_resolves_to_r3_once_r2_and_r3_evidence_exist():
+def test_hj_current_stage_resolves_to_fr_once_r3_official_and_fr_forecast_evidence_exist():
     mod = _load_module()
-    assert (mod.CONTENT / "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json").is_file()
-    assert (mod.CONTENT / "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").is_file()
+    assert (mod.CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").is_file()
+    assert (mod.CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").is_file()
+    assert mod.hj_current_stage() == "fr"
+
+
+def test_hj_current_stage_resolves_to_r3_when_only_r2_and_r3_forecast_evidence_exists(tmp_path, monkeypatch):
+    """Isolated regression check for the earlier stage transition (R2
+    official + pre-R3 forecast, no R3-official/FR-forecast evidence
+    yet): must still resolve to 'r3', proving that code path still
+    works even though the real repo has since advanced past it."""
+    mod = _load_module()
+    import shutil
+    for name in (
+        "HJ_2026100004_R2_OFFICIAL_RESULTS_AND_CUT_V1.json",
+        "HJ_2026100004_POST_R2_STABLEFORD_MONTE_CARLO_V1_RESULTS.json",
+    ):
+        shutil.copy(mod.CONTENT / name, tmp_path / name)
+    monkeypatch.setattr(mod, "CONTENT", tmp_path)
     assert mod.hj_current_stage() == "r3"
 
 
-def test_build_home_mirrors_the_real_r3_page_verbatim():
+def test_build_home_mirrors_the_real_fr_page_verbatim():
     mod = _load_module()
     home_html = mod.build_home()
-    r3_path = mod.TOURNAMENTS_DIR / mod.HJ_GAME_CODE / "r3" / "index.html"
-    r3_html = r3_path.read_text(encoding="utf-8")
-    r3_main = r3_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
-    assert r3_main in home_html, "HOME must embed R3's own <main> body verbatim, not a re-derived copy"
+    fr_path = mod.TOURNAMENTS_DIR / mod.HJ_GAME_CODE / "fr" / "index.html"
+    fr_html = fr_path.read_text(encoding="utf-8")
+    fr_main = fr_html.split("<main>", 1)[1].rsplit("</main>", 1)[0]
+    assert fr_main in home_html, "HOME must embed FR's own <main> body verbatim, not a re-derived copy"
 
 
-def test_build_home_mirror_carries_the_r3_video():
+def test_build_home_mirror_has_no_video_at_fr_stage():
+    """The FR forecast page carries no video (only R3's page does) --
+    HOME mirroring FR must not fabricate one either."""
     mod = _load_module()
     html = mod.build_home()
-    assert html.count("<video") == 1
-    assert "id='final-video'" in html
-    assert "/assets/tournaments/2026100004/neo-golf-data-3r.mp4" in html
-    assert "controls" in html
+    assert "<video" not in html
 
 
 def test_build_home_mirror_uses_homes_own_global_nav_not_r3s():
@@ -298,7 +313,7 @@ def test_build_home_mirror_never_exposes_sg_or_top5():
         assert forbidden not in html
 
 
-def test_build_home_mirror_covers_all_61_r3_rows():
+def test_build_home_mirror_covers_all_61_fr_rows():
     mod = _load_module()
     html = mod.build_home()
     assert html.count("<tr>") == 62  # 1 header row + 61 forecast rows
