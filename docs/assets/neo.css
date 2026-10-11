@@ -83,14 +83,45 @@
    different column layout). A new, grid-rule-free modifier instead:
    nowrap only, every width, no mobile grid side effects. */
 .leaderboard-table.leaderboard-table--hitejinro tbody td{white-space:nowrap}
-/* HJ 2026100004 FR MERGED-ROW COLUMN WRAP FIX (2026-10-11): same root
-   cause/fix as the --r2-full and --hitejinro rules above -- the FR
-   page's table merges the official result (R1/R2/R3/4R/최종 포인트)
-   and the pre-FR forecast (TOP20/TOP10/TOP5/우승확률) into one row,
-   11 columns total, which left short numeric/percent cells wrapping
-   mid-value ("+1"/"2", "T1"/"0"). Reuses the same grid-rule-free,
-   <td>-only nowrap modifier (never the player-name <th>). */
+/* HJ 2026100004 FR MERGED-ROW LAYOUT (2026-10-11): FR's own public
+   leaderboard (순위/선수/R1/R2/R3/4R/최종 포인트/TOP20/TOP10/TOP5/
+   우승확률, 11 DOM columns, official result + pre-FR forecast merged
+   into one row per player per operator instruction). Purely additive
+   -- a NEW modifier class, never used by any existing page, so
+   nothing above is touched.
+
+   Desktop (>760px, tbody tr never display:grid): the 11-column row
+   hit the same white-space:normal root cause already fixed twice in
+   this file (--r2-full, --hitejinro) -- short numeric/percent cells
+   wrapped mid-value ("+12" -> "+1"/"2", "T10" -> "T1"/"0"). Same fix:
+   nowrap on <td> only, never the player-name <th>.
+
+   Mobile (<=760px): the generic auto-fit card above packs every
+   metric's data-label::before text into whatever column width it
+   lands in -- with 9 non-identity columns (vs. the auto-fit layout's
+   design budget of ~5-6) the four forecast-probability labels
+   ("4R 시작 전 예측 TOP20" etc, longer than r2-full's bare "TOP20")
+   collided into unreadable run-on text. Reuses leaderboard-table--
+   r2-full/--fr-full's established rank/name/highlight-column geometry
+   (rank col1 rows1-2, name cols2-4 rows1-2, 최종 포인트/4R as the two
+   highlight numbers top-right since 최종 포인트 is this table's own
+   last-before-forecast column) plus ONE dedicated row for R1/R2/R3
+   and a SECOND dedicated row for the 4 forecast cells (its own
+   distinguishing background tint), rather than r2-full/fr-full's
+   single probability row -- this table has both a 3-metric row
+   (R1/R2/R3) and a 4-metric forecast row where they only ever had one
+   or the other. */
 .leaderboard-table.leaderboard-table--hj-fr-final tbody td{white-space:nowrap}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody tr{grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto;align-items:center;column-gap:6px;row-gap:4px}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(1){grid-column:1;grid-row:1/3;background:transparent;font-size:16px;font-weight:800}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody th[scope=row]{grid-column:2/5;grid-row:1/3;border-bottom:0;padding:0;margin:0}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(7){grid-column:4;grid-row:1;background:transparent;font-size:16px;font-weight:800;color:var(--ink)}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(6){grid-column:4;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
+/* row3: R1/R2/R3 (DOM columns 3-5) -- column4 of this row left empty (only 3 values, 4-column grid), same as --fr-full. */
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(n+3):nth-child(-n+5){grid-row:3;background:var(--soft)}
+/* row4: 4R 시작 전 예측 TOP20/TOP10/TOP5/우승확률 (DOM columns 8-11) -- one full 4-col row, own tint distinguishes it from row3. */
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(n+8){grid-row:4;background:var(--soft)}
+@media(max-width:380px){.leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(n+8){font-size:12px}}
 /* HITE JINRO R2_CUT INLINE BADGE (2026-10-02 "R2 Renderer 재설계"):
    a player cut after completing R2 keeps their REAL rank/total
    (klpga.co.kr's own real convention for a standard cut, confirmed
