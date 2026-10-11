@@ -83,6 +83,14 @@
    different column layout). A new, grid-rule-free modifier instead:
    nowrap only, every width, no mobile grid side effects. */
 .leaderboard-table.leaderboard-table--hitejinro tbody td{white-space:nowrap}
+/* HJ 2026100004 FR MERGED-ROW COLUMN WRAP FIX (2026-10-11): same root
+   cause/fix as the --r2-full and --hitejinro rules above -- the FR
+   page's table merges the official result (R1/R2/R3/4R/최종 포인트)
+   and the pre-FR forecast (TOP20/TOP10/TOP5/우승확률) into one row,
+   11 columns total, which left short numeric/percent cells wrapping
+   mid-value ("+1"/"2", "T1"/"0"). Reuses the same grid-rule-free,
+   <td>-only nowrap modifier (never the player-name <th>). */
+.leaderboard-table.leaderboard-table--hj-fr-final tbody td{white-space:nowrap}
 /* HITE JINRO R2_CUT INLINE BADGE (2026-10-02 "R2 Renderer 재설계"):
    a player cut after completing R2 keeps their REAL rank/total
    (klpga.co.kr's own real convention for a standard cut, confirmed

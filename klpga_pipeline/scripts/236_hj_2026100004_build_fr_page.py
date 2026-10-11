@@ -90,7 +90,7 @@ def main():
         )
 
     table_html = (
-        "<div class=\"table-wrap\"><table class=\"data leaderboard-table\"><thead><tr>"
+        "<div class=\"table-wrap\"><table class=\"data leaderboard-table leaderboard-table--hj-fr-final\"><thead><tr>"
         "<th>순위</th><th>선수</th><th>R1</th><th>R2</th><th>R3</th><th>4R</th><th>최종 포인트</th>"
         f"<th>{FORECAST_LABEL} TOP20</th><th>{FORECAST_LABEL} TOP10</th>"
         f"<th>{FORECAST_LABEL} TOP5</th><th>{FORECAST_LABEL} 우승확률</th>"
