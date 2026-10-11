@@ -14,9 +14,12 @@ The forecast values come straight from HJ_2026100004_POST_R3_
 STABLEFORD_MONTE_CARLO_V1_RESULTS.json (the real 60,000-run Monte
 Carlo output generated 2026-10-10 from verified 3R input, already
 public on this exact page before today) -- read, never recomputed or
-adjusted to match the real outcome. Columns are explicitly prefixed
-"4R 시작 전" so they can never be mistaken for a live/current forecast.
-No SG field is read, on any page.
+adjusted to match the real outcome. Column headers are bare (TOP20/
+TOP10/TOP5/우승확률, no "4R 시작 전 예측" prefix -- operator
+instruction, 2026-10-11: drop that exact phrase, keep the columns and
+values); the body prose above the table still states the basis
+(검증된 3R 입력) and timing (4R이 시작되기 전) in full. No SG field is
+read, on any page.
 
 Primary row order is by REAL official final points (not by forecast
 win probability), matching how every other round page on this
@@ -45,7 +48,6 @@ FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESUL
 FR_SUMMARY_IMAGE_FILENAME = "neo-golf-data-fr-summary.png"
 
 FORECAST_PUBLIC_FIELDS = {"top20_pct", "top10_pct", "top5_pct", "win_pct"}
-FORECAST_LABEL = "4R 시작 전 예측"
 
 
 def main():
@@ -82,18 +84,17 @@ def main():
             f"<td data-label=\"R3\">+{p['r3_points']}</td>"
             f"<td data-label=\"4R\">{'+' if p['r4_points'] >= 0 else ''}{p['r4_points']}</td>"
             f"<td data-label=\"최종 포인트\"><strong>{'+' if p['final_points'] >= 0 else ''}{p['final_points']}</strong></td>"
-            f"<td class=\"win\" data-label=\"{FORECAST_LABEL} TOP20\">{fpub['top20_pct'] * 100:.2f}%</td>"
-            f"<td class=\"win\" data-label=\"{FORECAST_LABEL} TOP10\">{fpub['top10_pct'] * 100:.2f}%</td>"
-            f"<td class=\"win\" data-label=\"{FORECAST_LABEL} TOP5\">{fpub['top5_pct'] * 100:.2f}%</td>"
-            f"<td class=\"win\" data-label=\"{FORECAST_LABEL} 우승확률\">{fpub['win_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"TOP20\">{fpub['top20_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"TOP10\">{fpub['top10_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"TOP5\">{fpub['top5_pct'] * 100:.2f}%</td>"
+            f"<td class=\"win\" data-label=\"우승확률\">{fpub['win_pct'] * 100:.2f}%</td>"
             "</tr>"
         )
 
     table_html = (
         "<div class=\"table-wrap\"><table class=\"data leaderboard-table leaderboard-table--hj-fr-final\"><thead><tr>"
         "<th>순위</th><th>선수</th><th>R1</th><th>R2</th><th>R3</th><th>4R</th><th>최종 포인트</th>"
-        f"<th>{FORECAST_LABEL} TOP20</th><th>{FORECAST_LABEL} TOP10</th>"
-        f"<th>{FORECAST_LABEL} TOP5</th><th>{FORECAST_LABEL} 우승확률</th>"
+        "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
     )
 
@@ -106,12 +107,12 @@ def main():
         "<section class=\"page-intro\"><p class=\"eyebrow\">공식 최종 결과 · FR</p>"
         "<h1>HJ중공업·동부건설 챔피언십</h1>"
         "<p>변형 스테이블포드 · 2026.10.08–11 · 에이원CC · Par 72</p>"
-        f"<p class=\"meta\">KLPGA 공식 기록 기준 최종 결과 · 전체 {len(players)}명 · {FORECAST_LABEL} 확률 비교 포함</p>"
+        f"<p class=\"meta\">KLPGA 공식 기록 기준 최종 결과 · 전체 {len(players)}명 · 예측 확률 비교 포함</p>"
         "</section>"
     )
 
     summary_alt = (
-        f"{FORECAST_LABEL} 요약: {winner['player_name']} 우승확률 "
+        f"예측 요약: {winner['player_name']} 우승확률 "
         f"{winner_forecast_win_pct * 100:.1f}% 1위"
     )
 
@@ -120,8 +121,8 @@ def main():
         + f"<p><strong>{winner['player_name']}</strong> 우승 "
         f"<strong>{'+' if winner['final_points'] >= 0 else ''}{winner['final_points']}</strong>"
         f" · 2위와 {margin}점 차</p>"
-        + f"<p>'R1'~'최종 포인트'는 KLPGA 공식 최종 결과이고, '{FORECAST_LABEL}' 열은 4R이 시작되기 전 "
-        "검증된 3R 입력으로 공개했던 NEO 예측입니다. 예측 수치는 공개 당시 값 그대로이며, "
+        + "<p>'R1'~'최종 포인트'는 KLPGA 공식 최종 결과이고, 'TOP20'·'TOP10'·'TOP5'·'우승확률' 열은 "
+        "4R이 시작되기 전 검증된 3R 입력으로 공개했던 NEO 예측입니다. 예측 수치는 공개 당시 값 그대로이며, "
         "실제 결과가 나온 뒤에도 다시 계산하거나 결과에 맞춰 바꾸지 않습니다.</p>"
         + table_html
         + "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
@@ -132,7 +133,7 @@ def main():
 
     html = page_shell(
         title="HJ중공업·동부건설 챔피언십 공식 최종 결과 · NEO GOLF DATA",
-        description=f"HJ중공업·동부건설 챔피언십 KLPGA 공식 최종 결과 전체 {len(players)}명 (우승 {winner['player_name']} {winner['final_points']}) · {FORECAST_LABEL} 확률 비교",
+        description=f"HJ중공업·동부건설 챔피언십 KLPGA 공식 최종 결과 전체 {len(players)}명 (우승 {winner['player_name']} {winner['final_points']}) · 예측 확률 비교",
         canonical_suffix="fr",
         breadcrumb_label="FR",
         intro_html=intro,

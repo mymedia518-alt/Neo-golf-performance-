@@ -307,17 +307,19 @@ def test_build_home_mirror_preserves_ownership_markers():
 
 
 def test_build_home_mirror_never_exposes_sg():
-    """TOP5/TOP20 are public on FR (and so on its HOME mirror) as of
-    2026-10-10, now as a dated '4R 시작 전 예측 TOP20'-style column
-    merged into the single official-final-results row per player
-    (2026-10-11 redesign: compare prediction vs. outcome in one row) --
-    SG stays forbidden on every stage, with no exception."""
+    """TOP5/TOP20 are public on FR (and so on its HOME mirror), merged
+    into the single official-final-results row per player. The
+    "4R 시작 전 예측" column-label prefix was removed per operator
+    instruction (2026-10-11): bare TOP20/TOP5 headers now, same values,
+    same columns -- SG stays forbidden on every stage, with no
+    exception."""
     mod = _load_module()
     html = mod.build_home()
     for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "top5_pct", "top20_pct"):
         assert forbidden not in html
-    assert "<th>4R 시작 전 예측 TOP20</th>" in html
-    assert "<th>4R 시작 전 예측 TOP5</th>" in html
+    assert "4R 시작 전 예측" not in html
+    assert "<th>TOP20</th>" in html
+    assert "<th>TOP5</th>" in html
 
 
 def test_build_home_mirror_carries_the_fr_summary_image():

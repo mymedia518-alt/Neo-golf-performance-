@@ -224,15 +224,16 @@ def test_bare_undated_top20_never_appears_on_r2_or_r3():
 
 
 def test_fr_top20_top5_are_public_but_raw_field_names_are_not():
-    """FR legitimately shows TOP20/TOP5 columns now, as a dated
-    '4R 시작 전 예측 TOP20'-style column merged into the single
-    official-final-results row per player (2026-10-11 redesign) --
-    but must never leak the internal JSON field names themselves
-    (would indicate a raw-data dump rather than a rendered, formatted
-    value)."""
+    """FR legitimately shows TOP20/TOP5 columns now, merged into the
+    single official-final-results row per player. The "4R 시작 전 예측"
+    column-label prefix was removed per operator instruction
+    (2026-10-11): bare headers, same columns/values -- but must never
+    leak the internal JSON field names themselves (would indicate a
+    raw-data dump rather than a rendered, formatted value)."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    assert "<th>4R 시작 전 예측 TOP20</th>" in html
-    assert "<th>4R 시작 전 예측 TOP5</th>" in html
+    assert "4R 시작 전 예측" not in html
+    assert "<th>TOP20</th>" in html
+    assert "<th>TOP5</th>" in html
     assert "top20_pct" not in html
     assert "top5_pct" not in html
 
@@ -330,9 +331,10 @@ def test_fr_summary_image_present_with_no_forbidden_terms_in_alt_text():
 
 
 def test_fr_page_covers_exactly_the_61_r3_active_players():
-    """2026-10-11 redesign: FR is a single merged table, official final
-    result + pre-FR forecast columns together in one row per player,
-    header row + 61 players."""
+    """FR is a single merged table, official final result + pre-FR
+    forecast columns together in one row per player, header row + 61
+    players. Column headers are bare (no "4R 시작 전 예측" prefix,
+    operator instruction 2026-10-11)."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
     fr = json.loads((CONTENT / "HJ_2026100004_FR_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
@@ -342,10 +344,11 @@ def test_fr_page_covers_exactly_the_61_r3_active_players():
     missed_names = {p["player_name"] for p in r3["missed_cut"]}
     for name in missed_names:
         assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR page"
-    assert "<th>4R 시작 전 예측 TOP20</th>" in html
-    assert "<th>4R 시작 전 예측 TOP10</th>" in html
-    assert "<th>4R 시작 전 예측 TOP5</th>" in html
-    assert "<th>4R 시작 전 예측 우승확률</th>" in html
+    assert "4R 시작 전 예측" not in html
+    assert "<th>TOP20</th>" in html
+    assert "<th>TOP10</th>" in html
+    assert "<th>TOP5</th>" in html
+    assert "<th>우승확률</th>" in html
 
 
 def test_fr_page_single_table_columns_official_then_forecast_and_winner():
@@ -353,7 +356,9 @@ def test_fr_page_single_table_columns_official_then_forecast_and_winner():
     R1/R2/R3/4R points + final total) and the pre-FR forecast columns
     in the same row per player, in that order, so a reader can compare
     prediction vs. outcome without cross-referencing two tables
-    (operator instruction, 2026-10-11)."""
+    (operator instruction, 2026-10-11; the "4R 시작 전 예측" label
+    prefix itself was later removed per a further operator
+    instruction, same day -- columns/values unchanged)."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     fr = json.loads((CONTENT / "HJ_2026100004_FR_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
     theads = re.findall(r"<thead><tr>(.*?)</tr></thead>", html)
@@ -361,7 +366,7 @@ def test_fr_page_single_table_columns_official_then_forecast_and_winner():
     headers = re.findall(r"<th>([^<]+)</th>", theads[0])
     assert headers == [
         "순위", "선수", "R1", "R2", "R3", "4R", "최종 포인트",
-        "4R 시작 전 예측 TOP20", "4R 시작 전 예측 TOP10", "4R 시작 전 예측 TOP5", "4R 시작 전 예측 우승확률",
+        "TOP20", "TOP10", "TOP5", "우승확률",
     ], headers
     winner = max(fr["final_players"], key=lambda p: p["final_points"])
     assert winner["player_name"] == "유현조"
@@ -372,7 +377,7 @@ def test_fr_page_single_table_columns_official_then_forecast_and_winner():
 
 def test_fr_page_probabilities_use_two_decimal_places():
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    labels = "4R 시작 전 예측 TOP20|4R 시작 전 예측 TOP10|4R 시작 전 예측 TOP5|4R 시작 전 예측 우승확률"
+    labels = "TOP20|TOP10|TOP5|우승확률"
     matches = list(re.finditer(r'data-label="(?:' + labels + r')"[^>]*>(?:<strong>)?([\d.]+)%', html))
     assert len(matches) == 61 * 4
     for m in matches:
@@ -396,7 +401,7 @@ def test_fr_page_win_le_top5_le_top10_le_top20_per_player():
         assert p["top10_pct"] <= p["top20_pct"] + 1e-9, f"{p['player_name']}: top10_pct > top20_pct in raw model output"
 
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    labels = ("4R 시작 전 예측 TOP20", "4R 시작 전 예측 TOP10", "4R 시작 전 예측 TOP5", "4R 시작 전 예측 우승확률")
+    labels = ("TOP20", "TOP10", "TOP5", "우승확률")
     checked = 0
     for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
         name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
@@ -407,9 +412,9 @@ def test_fr_page_win_le_top5_le_top10_le_top20_per_player():
             m = re.search(r'data-label="' + label + r'"[^>]*>(?:<strong>)?([\d.]+)%', row)
             assert m, f"{name.group(1)}: missing {label} cell"
             cells[label] = float(m.group(1))
-        assert cells["4R 시작 전 예측 우승확률"] <= cells["4R 시작 전 예측 TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
-        assert cells["4R 시작 전 예측 TOP5"] <= cells["4R 시작 전 예측 TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
-        assert cells["4R 시작 전 예측 TOP10"] <= cells["4R 시작 전 예측 TOP20"] + 1e-9, f"{name.group(1)}: rendered TOP10% > TOP20%"
+        assert cells["우승확률"] <= cells["TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
+        assert cells["TOP5"] <= cells["TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
+        assert cells["TOP10"] <= cells["TOP20"] + 1e-9, f"{name.group(1)}: rendered TOP10% > TOP20%"
         checked += 1
     assert checked == 61
 
