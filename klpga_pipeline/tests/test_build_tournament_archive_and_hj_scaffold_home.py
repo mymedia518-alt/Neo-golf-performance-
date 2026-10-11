@@ -279,12 +279,16 @@ def test_build_home_mirrors_the_real_fr_page_verbatim():
     assert fr_main in home_html, "HOME must embed FR's own <main> body verbatim, not a re-derived copy"
 
 
-def test_build_home_mirror_has_no_video_at_fr_stage():
-    """The FR forecast page carries no video (only R3's page does) --
-    HOME mirroring FR must not fabricate one either."""
+def test_build_home_mirror_carries_fr_stage_video_verbatim():
+    """FR now carries a real "4R 결과 리뷰" video (operator-supplied,
+    data verified against the published official-result/forecast
+    JSON before embedding, 2026-10-11) -- HOME mirrors FR's own real
+    <video> verbatim (same principle as R3's own video mirroring),
+    never fabricating one of its own and never silently dropping it."""
     mod = _load_module()
     html = mod.build_home()
-    assert "<video" not in html
+    assert "<video" in html
+    assert "/assets/tournaments/2026100004/neo-golf-data-fr-review.mp4" in html
 
 
 def test_build_home_mirror_uses_homes_own_global_nav_not_r3s():

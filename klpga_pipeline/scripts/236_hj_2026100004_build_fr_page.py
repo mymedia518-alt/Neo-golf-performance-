@@ -40,12 +40,14 @@ from klpga.website_v2.hj_2026100004_round_pages import (
     page_shell,
     rank_labels,
     stage_nav_html,
+    video_section_html,
 )
 
 CONTENT = Path(__file__).resolve().parents[1] / "content" / "website_v2"
 FR_OFFICIAL_PATH = CONTENT / "HJ_2026100004_FR_OFFICIAL_RESULTS_V1.json"
 FORECAST_PATH = CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json"
 FR_SUMMARY_IMAGE_FILENAME = "neo-golf-data-fr-summary.png"
+FR_REVIEW_VIDEO_FILENAME = "neo-golf-data-fr-review.mp4"
 
 FORECAST_PUBLIC_FIELDS = {"top20_pct", "top10_pct", "top5_pct", "win_pct"}
 
@@ -117,7 +119,8 @@ def main():
     )
 
     body = (
-        "<section class=\"panel\"><h2>공식 최종 순위 · {}명</h2>".format(len(players))
+        video_section_html(FR_REVIEW_VIDEO_FILENAME)
+        + "<section class=\"panel\"><h2>공식 최종 순위 · {}명</h2>".format(len(players))
         + f"<p><strong>{winner['player_name']}</strong> 우승 "
         f"<strong>{'+' if winner['final_points'] >= 0 else ''}{winner['final_points']}</strong>"
         f" · 2위와 {margin}점 차</p>"

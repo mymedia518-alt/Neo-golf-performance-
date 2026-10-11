@@ -330,6 +330,25 @@ def test_fr_summary_image_present_with_no_forbidden_terms_in_alt_text():
         assert forbidden not in alt_match.group(1)
 
 
+def test_fr_review_video_present_and_placed_before_the_results_panel():
+    """Operator-supplied "4R 결과 리뷰" video (verified player-by-player
+    against the published official-result/forecast JSON before
+    embedding -- TOP20/TOP10/TOP5 accuracy counts, winner, and every
+    spot-checked player row all matched exactly). Same video pattern
+    as R3's own video (native-aspect-ratio <video>, width:100%;
+    max-width:100%;height:auto), placed first in the body like R3's."""
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    asset_path = Path(__file__).parent.parent.parent / "docs" / "assets" / "tournaments" / "2026100004" / "neo-golf-data-fr-review.mp4"
+    assert asset_path.is_file(), f"missing FR review video asset: {asset_path}"
+    assert asset_path.stat().st_size > 0
+    assert "<video controls playsinline" in html
+    assert "/assets/tournaments/2026100004/neo-golf-data-fr-review.mp4" in html
+    assert "width:100%;max-width:100%;height:auto" in html
+    video_idx = html.find("<video")
+    table_idx = html.find("공식 최종 순위")
+    assert 0 <= video_idx < table_idx, "video must appear before the results panel, matching R3's own placement"
+
+
 def test_fr_page_covers_exactly_the_61_r3_active_players():
     """FR is a single merged table, official final result + pre-FR
     forecast columns together in one row per player, header row + 61
