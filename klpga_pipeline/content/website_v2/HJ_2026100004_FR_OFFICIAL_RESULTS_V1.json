@@ -25,7 +25,9 @@
       "r4_points": 6,
       "final_points": 52,
       "official_rank": "1",
-      "prize_krw": 180000000
+      "prize_krw": 180000000,
+      "nationality": "KOR",
+      "official_sponsor": "롯데"
     },
     {
       "player_code": "9465",
@@ -36,7 +38,9 @@
       "r4_points": 21,
       "final_points": 51,
       "official_rank": "T2",
-      "prize_krw": 95000000
+      "prize_krw": 95000000,
+      "nationality": "KOR",
+      "official_sponsor": "메디힐"
     },
     {
       "player_code": "10097",
@@ -47,7 +51,9 @@
       "r4_points": 9,
       "final_points": 51,
       "official_rank": "T2",
-      "prize_krw": 95000000
+      "prize_krw": 95000000,
+      "nationality": "KOR",
+      "official_sponsor": "대방건설"
     },
     {
       "player_code": "9784",
@@ -58,7 +64,9 @@
       "r4_points": 13,
       "final_points": 50,
       "official_rank": "4",
-      "prize_krw": 50000000
+      "prize_krw": 50000000,
+      "nationality": "KOR",
+      "official_sponsor": "메디힐"
     },
     {
       "player_code": "11447",
@@ -69,7 +77,9 @@
       "r4_points": 12,
       "final_points": 47,
       "official_rank": "5",
-      "prize_krw": 40000000
+      "prize_krw": 40000000,
+      "nationality": "KOR",
+      "official_sponsor": "DB손해보험"
     },
     {
       "player_code": "9134",
@@ -80,7 +90,9 @@
       "r4_points": 10,
       "final_points": 45,
       "official_rank": "6",
-      "prize_krw": 35000000
+      "prize_krw": 35000000,
+      "nationality": "KOR",
+      "official_sponsor": "대보건설"
     },
     {
       "player_code": "10296",
@@ -91,7 +103,9 @@
       "r4_points": 11,
       "final_points": 44,
       "official_rank": "7",
-      "prize_krw": 30000000
+      "prize_krw": 30000000,
+      "nationality": "KOR",
+      "official_sponsor": "동부건설"
     },
     {
       "player_code": "8300",
@@ -102,7 +116,9 @@
       "r4_points": 8,
       "final_points": 42,
       "official_rank": "T8",
-      "prize_krw": 22500000
+      "prize_krw": 22500000,
+      "nationality": "KOR",
+      "official_sponsor": "동부건설"
     },
     {
       "player_code": "8881",
@@ -113,7 +129,9 @@
       "r4_points": 3,
       "final_points": 42,
       "official_rank": "T8",
-      "prize_krw": 22500000
+      "prize_krw": 22500000,
+      "nationality": "KOR",
+      "official_sponsor": "대방건설"
     },
     {
       "player_code": "10577",
@@ -124,7 +142,9 @@
       "r4_points": 6,
       "final_points": 41,
       "official_rank": "T10",
-      "prize_krw": 14500000
+      "prize_krw": 14500000,
+      "nationality": "KOR",
+      "official_sponsor": "까르마"
     },
     {
       "player_code": "8811",
@@ -135,7 +155,9 @@
       "r4_points": 8,
       "final_points": 41,
       "official_rank": "T10",
-      "prize_krw": 14500000
+      "prize_krw": 14500000,
+      "nationality": "KOR",
+      "official_sponsor": "메디힐"
     },
     {
       "player_code": "10095",
@@ -146,7 +168,9 @@
       "r4_points": 8,
       "final_points": 40,
       "official_rank": "T12",
-      "prize_krw": 12500000
+      "prize_krw": 12500000,
+      "nationality": "KOR",
+      "official_sponsor": "KB금융그룹"
     },
     {
       "player_code": "11066",
@@ -157,7 +181,9 @@
       "r4_points": 8,
       "final_points": 40,
       "official_rank": "T12",
-      "prize_krw": 12500000
+      "prize_krw": 12500000,
+      "nationality": "KOR",
+      "official_sponsor": ""
     },
     {
       "player_code": "10112",
@@ -168,7 +194,9 @@
       "r4_points": 6,
       "final_points": 40,
       "official_rank": "T12",
-      "prize_krw": 12500000
+      "prize_krw": 12500000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "10725",
@@ -179,7 +207,9 @@
       "r4_points": 7,
       "final_points": 39,
       "official_rank": "T15",
-      "prize_krw": 11350000
+      "prize_krw": 11350000,
+      "nationality": "KOR",
+      "official_sponsor": "두산건설 We've"
     },
     {
       "player_code": "10081",
@@ -190,7 +220,9 @@
       "r4_points": 10,
       "final_points": 39,
       "official_rank": "T15",
-      "prize_krw": 11350000
+      "prize_krw": 11350000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "9082",
@@ -201,7 +233,9 @@
       "r4_points": 9,
       "final_points": 37,
       "official_rank": "T17",
-      "prize_krw": 10750000
+      "prize_krw": 10750000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "10726",
@@ -212,7 +246,9 @@
       "r4_points": 15,
       "final_points": 37,
       "official_rank": "T17",
-      "prize_krw": 10750000
+      "prize_krw": 10750000,
+      "nationality": "KOR",
+      "official_sponsor": "SBI저축은행"
     },
     {
       "player_code": "8234",
@@ -223,7 +259,9 @@
       "r4_points": 10,
       "final_points": 36,
       "official_rank": "T19",
-      "prize_krw": 10150000
+      "prize_krw": 10150000,
+      "nationality": "KOR",
+      "official_sponsor": "골든블루"
     },
     {
       "player_code": "11056",
@@ -234,7 +272,9 @@
       "r4_points": 11,
       "final_points": 36,
       "official_rank": "T19",
-      "prize_krw": 10150000
+      "prize_krw": 10150000,
+      "nationality": "KOR",
+      "official_sponsor": "KB금융그룹"
     },
     {
       "player_code": "9487",
@@ -245,7 +285,9 @@
       "r4_points": 6,
       "final_points": 35,
       "official_rank": "21",
-      "prize_krw": 9800000
+      "prize_krw": 9800000,
+      "nationality": "KOR",
+      "official_sponsor": "SK텔레콤"
     },
     {
       "player_code": "1485",
@@ -256,7 +298,9 @@
       "r4_points": 12,
       "final_points": 34,
       "official_rank": "T22",
-      "prize_krw": 9500000
+      "prize_krw": 9500000,
+      "nationality": "THA",
+      "official_sponsor": ""
     },
     {
       "player_code": "9990",
@@ -267,7 +311,9 @@
       "r4_points": 11,
       "final_points": 34,
       "official_rank": "T22",
-      "prize_krw": 9500000
+      "prize_krw": 9500000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "9000",
@@ -278,7 +324,9 @@
       "r4_points": 10,
       "final_points": 33,
       "official_rank": "T24",
-      "prize_krw": 8920000
+      "prize_krw": 8920000,
+      "nationality": "KOR",
+      "official_sponsor": ""
     },
     {
       "player_code": "8380",
@@ -289,7 +337,9 @@
       "r4_points": 4,
       "final_points": 33,
       "official_rank": "T24",
-      "prize_krw": 8920000
+      "prize_krw": 8920000,
+      "nationality": "KOR",
+      "official_sponsor": "넥센그룹"
     },
     {
       "player_code": "8859",
@@ -300,7 +350,9 @@
       "r4_points": 6,
       "final_points": 33,
       "official_rank": "T24",
-      "prize_krw": 8920000
+      "prize_krw": 8920000,
+      "nationality": "KOR",
+      "official_sponsor": "까르마"
     },
     {
       "player_code": "9113",
@@ -311,7 +363,9 @@
       "r4_points": 9,
       "final_points": 33,
       "official_rank": "T24",
-      "prize_krw": 8920000
+      "prize_krw": 8920000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "9145",
@@ -322,7 +376,9 @@
       "r4_points": 10,
       "final_points": 33,
       "official_rank": "T24",
-      "prize_krw": 8920000
+      "prize_krw": 8920000,
+      "nationality": "KOR",
+      "official_sponsor": "두산건설 We've"
     },
     {
       "player_code": "9449",
@@ -333,7 +389,9 @@
       "r4_points": 11,
       "final_points": 32,
       "official_rank": "29",
-      "prize_krw": 8600000
+      "prize_krw": 8600000,
+      "nationality": "KOR",
+      "official_sponsor": "대선주조"
     },
     {
       "player_code": "9431",
@@ -344,7 +402,9 @@
       "r4_points": 13,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "11640",
@@ -355,7 +415,9 @@
       "r4_points": 11,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "하이트진로"
     },
     {
       "player_code": "10586",
@@ -366,7 +428,9 @@
       "r4_points": 6,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "9708",
@@ -377,7 +441,9 @@
       "r4_points": 8,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "1521",
@@ -388,7 +454,9 @@
       "r4_points": 5,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "동부건설"
     },
     {
       "player_code": "9130",
@@ -399,7 +467,9 @@
       "r4_points": 11,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "메디힐"
     },
     {
       "player_code": "10083",
@@ -410,7 +480,9 @@
       "r4_points": 5,
       "final_points": 31,
       "official_rank": "T30",
-      "prize_krw": 8200000
+      "prize_krw": 8200000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "11143",
@@ -421,7 +493,9 @@
       "r4_points": 17,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "NH투자증권"
     },
     {
       "player_code": "11042",
@@ -432,7 +506,9 @@
       "r4_points": 17,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "기프트코"
     },
     {
       "player_code": "11060",
@@ -443,7 +519,9 @@
       "r4_points": 8,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "DB손해보험"
     },
     {
       "player_code": "9759",
@@ -454,7 +532,9 @@
       "r4_points": 8,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "두산건설 We've"
     },
     {
       "player_code": "9135",
@@ -465,7 +545,9 @@
       "r4_points": 4,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "요진건설산업"
     },
     {
       "player_code": "9483",
@@ -476,7 +558,9 @@
       "r4_points": 5,
       "final_points": 30,
       "official_rank": "T37",
-      "prize_krw": 7550000
+      "prize_krw": 7550000,
+      "nationality": "KOR",
+      "official_sponsor": "후라이드참잘하는집"
     },
     {
       "player_code": "9820",
@@ -487,7 +571,9 @@
       "r4_points": 9,
       "final_points": 29,
       "official_rank": "43",
-      "prize_krw": 7200000
+      "prize_krw": 7200000,
+      "nationality": "KOR",
+      "official_sponsor": "NH투자증권"
     },
     {
       "player_code": "11057",
@@ -498,7 +584,9 @@
       "r4_points": 10,
       "final_points": 27,
       "official_rank": "T44",
-      "prize_krw": 7000000
+      "prize_krw": 7000000,
+      "nationality": "KOR",
+      "official_sponsor": "대보건설"
     },
     {
       "player_code": "9136",
@@ -509,7 +597,9 @@
       "r4_points": 8,
       "final_points": 27,
       "official_rank": "T44",
-      "prize_krw": 7000000
+      "prize_krw": 7000000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "9391",
@@ -520,7 +610,9 @@
       "r4_points": 3,
       "final_points": 27,
       "official_rank": "T44",
-      "prize_krw": 7000000
+      "prize_krw": 7000000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "9401",
@@ -531,7 +623,9 @@
       "r4_points": 11,
       "final_points": 26,
       "official_rank": "T47",
-      "prize_krw": 6750000
+      "prize_krw": 6750000,
+      "nationality": "KOR",
+      "official_sponsor": "삼천리"
     },
     {
       "player_code": "10790",
@@ -542,7 +636,9 @@
       "r4_points": 4,
       "final_points": 26,
       "official_rank": "T47",
-      "prize_krw": 6750000
+      "prize_krw": 6750000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "9089",
@@ -553,7 +649,9 @@
       "r4_points": 8,
       "final_points": 25,
       "official_rank": "49",
-      "prize_krw": 6600000
+      "prize_krw": 6600000,
+      "nationality": "KOR",
+      "official_sponsor": ""
     },
     {
       "player_code": "10727",
@@ -564,7 +662,9 @@
       "r4_points": 5,
       "final_points": 24,
       "official_rank": "T50",
-      "prize_krw": 6400000
+      "prize_krw": 6400000,
+      "nationality": "KOR",
+      "official_sponsor": "대보건설"
     },
     {
       "player_code": "8243",
@@ -575,7 +675,9 @@
       "r4_points": 8,
       "final_points": 24,
       "official_rank": "T50",
-      "prize_krw": 6400000
+      "prize_krw": 6400000,
+      "nationality": "KOR",
+      "official_sponsor": "굿빈스"
     },
     {
       "player_code": "8589",
@@ -586,7 +688,9 @@
       "r4_points": 3,
       "final_points": 24,
       "official_rank": "T50",
-      "prize_krw": 6400000
+      "prize_krw": 6400000,
+      "nationality": "KOR",
+      "official_sponsor": "메디힐"
     },
     {
       "player_code": "8770",
@@ -597,7 +701,9 @@
       "r4_points": 6,
       "final_points": 23,
       "official_rank": "53",
-      "prize_krw": 6200000
+      "prize_krw": 6200000,
+      "nationality": "KOR",
+      "official_sponsor": "HJ중공업"
     },
     {
       "player_code": "12038",
@@ -608,7 +714,9 @@
       "r4_points": 7,
       "final_points": 22,
       "official_rank": "54",
-      "prize_krw": 6100000
+      "prize_krw": 6100000,
+      "nationality": "KOR",
+      "official_sponsor": "KB금융그룹"
     },
     {
       "player_code": "9183",
@@ -619,7 +727,9 @@
       "r4_points": 7,
       "final_points": 20,
       "official_rank": "55",
-      "prize_krw": 6000000
+      "prize_krw": 6000000,
+      "nationality": "KOR",
+      "official_sponsor": "두산건설 We've"
     },
     {
       "player_code": "12069",
@@ -630,7 +740,9 @@
       "r4_points": 0,
       "final_points": 17,
       "official_rank": "56",
-      "prize_krw": 0
+      "prize_krw": 0,
+      "nationality": "KOR",
+      "official_sponsor": ""
     },
     {
       "player_code": "8838",
@@ -641,7 +753,9 @@
       "r4_points": 2,
       "final_points": 13,
       "official_rank": "57",
-      "prize_krw": 5900000
+      "prize_krw": 5900000,
+      "nationality": "KOR",
+      "official_sponsor": "OK저축은행"
     },
     {
       "player_code": "9937",
@@ -652,7 +766,9 @@
       "r4_points": 0,
       "final_points": 12,
       "official_rank": "T58",
-      "prize_krw": 5700000
+      "prize_krw": 5700000,
+      "nationality": "KOR",
+      "official_sponsor": "리쥬란"
     },
     {
       "player_code": "11469",
@@ -663,7 +779,9 @@
       "r4_points": 0,
       "final_points": 12,
       "official_rank": "T58",
-      "prize_krw": 5700000
+      "prize_krw": 5700000,
+      "nationality": "KOR",
+      "official_sponsor": "SBI저축은행"
     },
     {
       "player_code": "8434",
@@ -674,7 +792,9 @@
       "r4_points": -1,
       "final_points": 12,
       "official_rank": "T58",
-      "prize_krw": 5700000
+      "prize_krw": 5700000,
+      "nationality": "KOR",
+      "official_sponsor": "휴온스"
     },
     {
       "player_code": "8277",
@@ -685,7 +805,9 @@
       "r4_points": -3,
       "final_points": 10,
       "official_rank": "61",
-      "prize_krw": 5500000
+      "prize_krw": 5500000,
+      "nationality": "KOR",
+      "official_sponsor": "휴온스"
     }
   ]
 }

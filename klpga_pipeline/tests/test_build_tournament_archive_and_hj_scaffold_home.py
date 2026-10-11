@@ -306,33 +306,23 @@ def test_build_home_mirror_preserves_ownership_markers():
     assert f'name="neo-home-game-code" content="{mod.HJ_GAME_CODE}"' in html
 
 
-def test_build_home_mirror_never_exposes_sg():
-    """TOP5/TOP20 are public on FR (and so on its HOME mirror) as of
-    2026-10-10, now as a dated '4R 시작 전 예측 TOP20'-style column
-    merged into the single official-final-results row per player
-    (2026-10-11 redesign: compare prediction vs. outcome in one row) --
-    SG stays forbidden on every stage, with no exception."""
+def test_build_home_mirror_never_exposes_sg_or_forecast():
+    """2026-10-11 operator instruction: FR (and so its HOME mirror)
+    shows only the real official final result -- no pre-4R forecast
+    (TOP5/TOP20/win probability), no forecast image, no SG, ever."""
     mod = _load_module()
     html = mod.build_home()
-    for forbidden in ("strokes_gained", "sg_total", "SG_RAW", "top5_pct", "top20_pct"):
-        assert forbidden not in html
-    assert "<th>4R 시작 전 예측 TOP20</th>" in html
-    assert "<th>4R 시작 전 예측 TOP5</th>" in html
-
-
-def test_build_home_mirror_carries_the_fr_summary_image():
-    mod = _load_module()
-    html = mod.build_home()
-    assert "<img src='/assets/tournaments/2026100004/neo-golf-data-fr-summary.png'" in html
-    assert "width:100%;max-width:100%;height:auto" in html
-    for forbidden in ("시뮬레이션", "Monte Carlo", "몬테카를로"):
+    for forbidden in (
+        "strokes_gained", "sg_total", "SG_RAW", "top5_pct", "top20_pct", "win_pct",
+        "TOP20", "TOP10", "TOP5", "우승확률", "예측",
+        "Monte Carlo", "몬테카를로", "시뮬레이션", "neo-golf-data-fr-summary",
+    ):
         assert forbidden not in html
 
 
 def test_build_home_mirror_covers_all_61_fr_rows():
-    """FR's page (2026-10-11 redesign: single merged table, official
-    result + pre-FR forecast columns per row) has 1 header row + 61
-    player rows."""
+    """FR's page (2026-10-11 redesign: official result only, no
+    forecast) has 1 header row + 61 player rows."""
     mod = _load_module()
     html = mod.build_home()
     assert html.count("<tr>") == 62  # 1 header row + 61 rows
