@@ -121,9 +121,7 @@ def main():
         + f"<p><strong>{winner['player_name']}</strong> 우승 "
         f"<strong>{'+' if winner['final_points'] >= 0 else ''}{winner['final_points']}</strong>"
         f" · 2위와 {margin}점 차</p>"
-        + "<p>'R1'부터 '최종 포인트'까지는 KLPGA 공식 최종 기록입니다. "
-        "'TOP20'·'TOP10'·'TOP5'·'우승확률'은 4R 시작 전에 공개한 예측 수치이며, "
-        "실제 결과가 나온 뒤에도 변경하지 않았습니다.</p>"
+        + "<p>'NEO 검증'의 'TOP20'·'TOP10'·'TOP5'·'우승확률'은 4R 시작 전에 공개한 예측 수치입니다.</p>"
         + table_html
         + "<p><a href=\"https://klpga.co.kr/web/tourRecord/stablefordScoreRecord?gameCode=2026100004\" rel=\"noopener\">KLPGA 공식 기록 원문 ↗</a></p>"
         + image_section_html(FR_SUMMARY_IMAGE_FILENAME, summary_alt, section_id="fr-summary")
