@@ -224,12 +224,15 @@ def test_bare_undated_top20_never_appears_on_r2_or_r3():
 
 
 def test_fr_top20_top5_are_public_but_raw_field_names_are_not():
-    """FR legitimately shows TOP20/TOP5 columns now, but must never
-    leak the internal JSON field names themselves (would indicate a
-    raw-data dump rather than a rendered, formatted value)."""
+    """FR legitimately shows TOP20/TOP5 columns now, as a dated
+    '4R 종료 전 TOP20'-style pre-FR-forecast column (2026-10-11: FR's
+    own primary table became the official final results, so these
+    headers carry the dated prefix rather than appearing bare) -- but
+    must never leak the internal JSON field names themselves (would
+    indicate a raw-data dump rather than a rendered, formatted value)."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    assert "<th>TOP20</th>" in html
-    assert "<th>TOP5</th>" in html
+    assert "<th>4R 종료 전 TOP20</th>" in html
+    assert "<th>4R 종료 전 TOP5</th>" in html
     assert "top20_pct" not in html
     assert "top5_pct" not in html
 
@@ -237,15 +240,23 @@ def test_fr_top20_top5_are_public_but_raw_field_names_are_not():
 def test_no_internal_pipeline_language_on_public_pages():
     """Standing guard: public pages must never describe internal
     data-pipeline timing/methodology (e.g. 'this was frozen as of R1
-    and not recalculated'). Column headers may say 'R1 ~' (plain
-    labeling of which round a value is from), but prose explaining
-    *why*/*when internally* a number was computed must not appear."""
+    and not recalculated', the original flagged phrase '...종료 시점의
+    컷 통과확률입니다'). Column headers may say 'R1 ~' (plain labeling
+    of which round a value is from), but prose explaining *why*/*when
+    internally* a number was computed must not appear.
+
+    '종료 시점' alone (unqualified by '의') is explicitly NOT forbidden
+    as of 2026-10-11: the operator's own instruction for the FR page's
+    preserved pre-FR forecast requires a plain, public-facing dated
+    label reading '...3R 종료 시점(2026-10-10 공개)' -- a transparent
+    disclosure of *when a reader saw this number*, the opposite of the
+    internal-jargon phrasing this guard exists to catch."""
     r2_html = (DOCS_ROOT / "r2" / "index.html").read_text(encoding="utf-8")
     r3_html = (DOCS_ROOT / "r3" / "index.html").read_text(encoding="utf-8")
     fr_html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     for html in (r2_html, r3_html, fr_html):
         for forbidden in (
-            "종료 시점", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음",
+            "종료 시점의", "종료 시 공개", "재계산하지 않았습니다", "재계산하지 않음",
             "Monte Carlo", "몬테카를로", "시뮬레이션",
         ):
             assert forbidden not in html, f"internal pipeline language {forbidden!r} leaked onto a public page"
@@ -319,29 +330,54 @@ def test_fr_summary_image_present_with_no_forbidden_terms_in_alt_text():
 
 
 def test_fr_page_covers_exactly_the_61_r3_active_players():
+    """2026-10-11: FR is now the official final-results page, with two
+    tables (official final results + the dated pre-FR forecast),
+    header row + 61 players each."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
     r3 = json.loads((CONTENT / "HJ_2026100004_R3_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
-    row_count = len(re.findall(r"<tr>", html)) - 1
-    assert row_count == r3["active_count"] == 61
+    fr = json.loads((CONTENT / "HJ_2026100004_FR_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
+    assert fr["field_size"] == len(fr["final_players"]) == 61
+    row_count = len(re.findall(r"<tr>", html)) - 2  # minus the 2 thead rows
+    assert row_count == 61 * 2 == r3["active_count"] * 2
     missed_names = {p["player_name"] for p in r3["missed_cut"]}
     for name in missed_names:
-        assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR forecast page"
-    assert "<th>TOP20</th>" in html
-    assert "<th>TOP10</th>" in html
-    assert "<th>TOP5</th>" in html
-    assert "<th>우승확률</th>" in html
+        assert f">{name}<" not in html, f"missed-cut player {name} must not appear on the FR page"
+    assert "<th>4R 종료 전 TOP20</th>" in html
+    assert "<th>4R 종료 전 TOP10</th>" in html
+    assert "<th>4R 종료 전 TOP5</th>" in html
+    assert "<th>4R 종료 전 우승확률</th>" in html
 
 
-def test_fr_page_column_order_is_top20_top10_top5_win():
+def test_fr_page_official_results_table_columns_and_winner():
+    """FR's primary table is now the official final results (real
+    R1/R2/R3/4R points + final total), ranked by real final points --
+    this is the actual outcome, not a forecast."""
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    fr = json.loads((CONTENT / "HJ_2026100004_FR_OFFICIAL_RESULTS_V1.json").read_text(encoding="utf-8"))
     header = re.search(r"<thead><tr>(.*?)</tr></thead>", html).group(1)
     headers = re.findall(r"<th>([^<]+)</th>", header)
-    assert headers == ["순위", "선수", "R1+R2+R3 포인트", "TOP20", "TOP10", "TOP5", "우승확률"], headers
+    assert headers == ["순위", "선수", "R1", "R2", "R3", "4R", "최종 포인트"], headers
+    winner = max(fr["final_players"], key=lambda p: p["final_points"])
+    assert winner["player_name"] == "유현조"
+    assert winner["final_points"] == 52
+    assert f">{winner['player_name']}<" in html
+    assert "+52" in html
+
+
+def test_fr_page_pre_fr_forecast_table_column_order_is_top20_top10_top5_win():
+    html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    theads = re.findall(r"<thead><tr>(.*?)</tr></thead>", html)
+    assert len(theads) == 2, "FR page must have exactly 2 tables (official results + pre-FR forecast)"
+    forecast_headers = re.findall(r"<th>([^<]+)</th>", theads[1])
+    assert forecast_headers == [
+        "순위", "선수", "4R 종료 전 TOP20", "4R 종료 전 TOP10", "4R 종료 전 TOP5", "4R 종료 전 우승확률",
+    ], forecast_headers
 
 
 def test_fr_page_probabilities_use_two_decimal_places():
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
-    matches = list(re.finditer(r'data-label="(?:TOP20|TOP10|TOP5|우승확률)"[^>]*>(?:<strong>)?([\d.]+)%', html))
+    labels = "4R 종료 전 TOP20|4R 종료 전 TOP10|4R 종료 전 TOP5|4R 종료 전 우승확률"
+    matches = list(re.finditer(r'data-label="(?:' + labels + r')"[^>]*>(?:<strong>)?([\d.]+)%', html))
     assert len(matches) == 61 * 4
     for m in matches:
         decimals = m.group(1).split(".")[1] if "." in m.group(1) else ""
@@ -351,8 +387,11 @@ def test_fr_page_probabilities_use_two_decimal_places():
 def test_fr_page_win_le_top5_le_top10_le_top20_per_player():
     """TOPN is 'probability of finishing in the top N after R4' --
     win_pct <= top5_pct <= top10_pct <= top20_pct must hold for every
-    player, both in the raw model output and as rendered, against ALL
-    61 players (not a sample)."""
+    player, both in the raw model output and as rendered (now in the
+    dated pre-FR-forecast table), against ALL 61 players (not a
+    sample). This forecast is historical/preserved, not recomputed
+    against the real outcome -- see HJ_2026100004_POST_R3_STABLEFORD_
+    MONTE_CARLO_V1_RESULTS.json's own generated_at_utc."""
     forecast = json.loads((CONTENT / "HJ_2026100004_POST_R3_STABLEFORD_MONTE_CARLO_V1_RESULTS.json").read_text(encoding="utf-8"))
     assert len(forecast["players"]) == 61
     for p in forecast["players"]:
@@ -361,19 +400,23 @@ def test_fr_page_win_le_top5_le_top10_le_top20_per_player():
         assert p["top10_pct"] <= p["top20_pct"] + 1e-9, f"{p['player_name']}: top10_pct > top20_pct in raw model output"
 
     html = (DOCS_ROOT / "fr" / "index.html").read_text(encoding="utf-8")
+    labels = ("4R 종료 전 TOP20", "4R 종료 전 TOP10", "4R 종료 전 TOP5", "4R 종료 전 우승확률")
     checked = 0
     for row in re.findall(r"<tr>(.*?)</tr>", html, flags=re.DOTALL):
         name = re.search(r'class="player-name"[^>]*>(.*?)</span>', row)
         if not name:
             continue
         cells = {}
-        for label in ("TOP20", "TOP10", "TOP5", "우승확률"):
+        for label in labels:
             m = re.search(r'data-label="' + label + r'"[^>]*>(?:<strong>)?([\d.]+)%', row)
-            assert m, f"{name.group(1)}: missing {label} cell"
+            if not m:
+                break
             cells[label] = float(m.group(1))
-        assert cells["우승확률"] <= cells["TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
-        assert cells["TOP5"] <= cells["TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
-        assert cells["TOP10"] <= cells["TOP20"] + 1e-9, f"{name.group(1)}: rendered TOP10% > TOP20%"
+        if len(cells) != 4:
+            continue  # this row belongs to the official-results table, not the forecast table
+        assert cells["4R 종료 전 우승확률"] <= cells["4R 종료 전 TOP5"] + 1e-9, f"{name.group(1)}: rendered win% > TOP5%"
+        assert cells["4R 종료 전 TOP5"] <= cells["4R 종료 전 TOP10"] + 1e-9, f"{name.group(1)}: rendered TOP5% > TOP10%"
+        assert cells["4R 종료 전 TOP10"] <= cells["4R 종료 전 TOP20"] + 1e-9, f"{name.group(1)}: rendered TOP10% > TOP20%"
         checked += 1
     assert checked == 61
 

@@ -256,6 +256,19 @@ def build_hj_scaffold() -> str:
     tourney = json.loads((CONTENT / f"{HJ_GAME_CODE}_TOURNAMENT_INFO.json").read_text(encoding="utf-8"))
     event_name = tourney["event_name"]
 
+    # 2026-10-11 operator instruction: once FR (official final results)
+    # is live, the hub's one summary line/link should point there
+    # instead of always pointing back to PRE -- every earlier stage
+    # keeps the exact prior PRE-link behavior unchanged (no regression
+    # for pre/r1/r2/r3, see test_build_tournament_archive_and_hj_
+    # scaffold_home.py).
+    if hj_current_stage() == "fr":
+        summary_description = f"{event_name} — 변형 스테이블포드 방식 · 공식 최종 결과 공개"
+        summary_link_html = '<p><a href="/tournaments/2026/2026100004/fr/">공식 최종 결과 FR 보기 →</a></p>'
+    else:
+        summary_description = f"{event_name} — 변형 스테이블포드 방식 · Stableford 사전평가(PRE) 공개 중"
+        summary_link_html = '<p><a href="/tournaments/2026/2026100004/pre/">Stableford 사전평가 PRE 보기 →</a></p>'
+
     stage_items = []
     for key, label in HJ_STAGE_LABELS:
         href = f"/tournaments/2026/{HJ_GAME_CODE}/{key}/"
@@ -271,7 +284,7 @@ def build_hj_scaffold() -> str:
     head = (
         "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         f"<title>NEO GOLF DATA · {event_name}</title>"
-        f"<meta name=\"description\" content=\"{event_name} — 변형 스테이블포드 방식 · Stableford 사전평가(PRE) 공개 중\">"
+        f"<meta name=\"description\" content=\"{summary_description}\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/2026/2026100004/\">"
         f"{GLOBAL_HEAD_LINKS}"
         # Same header/body left-edge alignment fix as _home_head() /
@@ -286,7 +299,7 @@ def build_hj_scaffold() -> str:
         + breadcrumb(("홈", "/"), ("대회 기록", "/tournaments/"), (event_name, None))
         + f'<div class="tournament-context"><h1>{event_name}</h1>'
         + '<p class="tournament-context__meta">변형 스테이블포드 방식으로 진행됩니다.</p></div>'
-        + '<p><a href="/tournaments/2026/2026100004/pre/">Stableford 사전평가 PRE 보기 →</a></p>'
+        + summary_link_html
         + stage_nav
         + "</main>"
         + FOOTER
