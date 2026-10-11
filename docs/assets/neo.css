@@ -122,7 +122,18 @@
 .leaderboard-table.leaderboard-table--hj-fr-final tbody td::before{white-space:normal}
 .leaderboard-table.leaderboard-table--hj-fr-final tbody tr{grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto auto auto;align-items:center;column-gap:6px;row-gap:4px}
 .leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(1){grid-column:1;grid-row:1/3;background:transparent;font-size:16px;font-weight:800}
-.leaderboard-table.leaderboard-table--hj-fr-final tbody th[scope=row]{grid-column:2/5;grid-row:1/3;border-bottom:0;padding:0;margin:0}
+.leaderboard-table.leaderboard-table--hj-fr-final tbody th[scope=row]{grid-column:2/5;grid-row:1/3}
+/* border-bottom:0/padding:0/margin:0 on the name <th> belong ONLY to
+   the mobile card layout above (tr is display:grid there, so the name
+   sits inside its own card header with no separate cell border) --
+   unscoped, they also hit desktop (>760px, tr is a normal table row),
+   silently stripping the row-divider line under every player's name
+   while every sibling <td> kept its own border-bottom via the base
+   `.leaderboard-table tbody td,.leaderboard-table tbody th` rule
+   (operator-reported regression, 2026-10-11: name-cell row lines
+   missing on FR/HOME). Media-gated here so desktop keeps the same
+   border-bottom/padding as every other cell in the row. */
+@media(max-width:760px){.leaderboard-table.leaderboard-table--hj-fr-final tbody th[scope=row]{border-bottom:0;padding:0;margin:0}}
 .leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(7){grid-column:4;grid-row:1;background:transparent;font-size:16px;font-weight:800;color:var(--ink)}
 .leaderboard-table.leaderboard-table--hj-fr-final tbody td:nth-child(6){grid-column:4;grid-row:2;background:transparent;font-size:12px;color:var(--muted)}
 /* row3: R1/R2/R3 (DOM columns 3-5) -- column4 of this row left empty (only 3 values, 4-column grid), same as --fr-full. */
