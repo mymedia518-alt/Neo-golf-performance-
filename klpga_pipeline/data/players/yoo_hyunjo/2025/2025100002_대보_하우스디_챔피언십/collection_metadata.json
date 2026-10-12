@@ -1,0 +1,305 @@
+{
+  "player_name": "유현조",
+  "player_code": "10146",
+  "season": 2025,
+  "game_code": "2025100002",
+  "event_name": "대보 하우스디 챔피언십",
+  "official_start_date": null,
+  "official_scheduled_rounds": 3,
+  "endpoint_template": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode={gameCode}&playerCode=10146&round=4&hole={hole}",
+  "round_parameter_used": 4,
+  "retrieval_date": "2026-10-12",
+  "official_entry_probe": {
+    "status": 200,
+    "bytes": 387130,
+    "sha256": "9b108531e6f5df2f27a7b30fa74643677e429b10e62fc8442dd932a503138cb0",
+    "target_code_occurrences": 4,
+    "target_name": true,
+    "participation_candidate": true
+  },
+  "holes": [
+    {
+      "hole": 1,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=1",
+      "http_status": 200,
+      "bytes": 4647,
+      "sha256": "1696cc0696e2f97a0627a8e77b98452d0cf301acd26a2d82ef8dd514934db4f6",
+      "response_records": 18,
+      "yoo_records": 18,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 2,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=2",
+      "http_status": 200,
+      "bytes": 3874,
+      "sha256": "11e64b5de504c062a832c1789204e51bc714dff1e7a6c146f11910d087719dc2",
+      "response_records": 15,
+      "yoo_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 3,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=3",
+      "http_status": 200,
+      "bytes": 4113,
+      "sha256": "5875eb50c983e301f6705e668f59c1d91a78ab14c8a55e2360ca469e310cda30",
+      "response_records": 16,
+      "yoo_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 4,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=4",
+      "http_status": 200,
+      "bytes": 3083,
+      "sha256": "b0a04aac916294237a59d108aeabd7951d7dd60f75ab96414f73a2aba47b1b4b",
+      "response_records": 12,
+      "yoo_records": 12,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 5,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=5",
+      "http_status": 200,
+      "bytes": 3341,
+      "sha256": "a4e3251d64fa0809ba212adcde380b5056ae12055784381b6c2bffefa18ae9c3",
+      "response_records": 13,
+      "yoo_records": 13,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 6,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=6",
+      "http_status": 200,
+      "bytes": 4117,
+      "sha256": "2fd641852d268758f914145fe474342b520b9030fdf571728fec31d4b722bfb7",
+      "response_records": 16,
+      "yoo_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 7,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=7",
+      "http_status": 200,
+      "bytes": 2809,
+      "sha256": "3709104f3b4b6aec86d63b62f11610c685765c8076c0eedc1206e6fda9854d5f",
+      "response_records": 11,
+      "yoo_records": 11,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 8,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=8",
+      "http_status": 200,
+      "bytes": 4680,
+      "sha256": "0b905ec6c1fe6b8af620b7c5cc77b073c106885b3b1b14e9ef8d56b1bf15bec2",
+      "response_records": 18,
+      "yoo_records": 18,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 9,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=9",
+      "http_status": 200,
+      "bytes": 3609,
+      "sha256": "e078aa91f3d3d03a8d1e8b2149590237d83e9f2d9fde32778aa96e2c748a2511",
+      "response_records": 14,
+      "yoo_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 10,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=10",
+      "http_status": 200,
+      "bytes": 4153,
+      "sha256": "4d8b7c9ceda86e32c8bf8eceef2e5722f2e4a9d3bc60ef68310380b230a5483d",
+      "response_records": 16,
+      "yoo_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 11,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=11",
+      "http_status": 200,
+      "bytes": 4418,
+      "sha256": "b720893985b14376fc90c66be70cb22ca893a1364fe8e9b1aec8e4183bd86253",
+      "response_records": 17,
+      "yoo_records": 17,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 12,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=12",
+      "http_status": 200,
+      "bytes": 4137,
+      "sha256": "1ab5ff8e224bdf07e107dd3f8faf99999df84257efaeff02d6d2bbb162f8da4d",
+      "response_records": 16,
+      "yoo_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 13,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=13",
+      "http_status": 200,
+      "bytes": 3884,
+      "sha256": "ce6ef9da2cf2fffc87b383349b34ad4d02a99d9e579eef7f0f3a4ec769849a4a",
+      "response_records": 15,
+      "yoo_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 14,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=14",
+      "http_status": 200,
+      "bytes": 3099,
+      "sha256": "fedbdc3d7b76dd265de737d59d25f3213c10949c54b467c03406d4401b47ca60",
+      "response_records": 12,
+      "yoo_records": 12,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 15,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=15",
+      "http_status": 200,
+      "bytes": 4682,
+      "sha256": "e71d05b90d30cc8924acfbada8f16691d20763e04d04d7159ec44cccb3d5b415",
+      "response_records": 18,
+      "yoo_records": 18,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 16,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=16",
+      "http_status": 200,
+      "bytes": 2835,
+      "sha256": "894bbeeee0bd31c6492d69c332d56f0fd26fb8dafc53cf7fcf4cc8168a118f21",
+      "response_records": 11,
+      "yoo_records": 11,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 17,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=17",
+      "http_status": 200,
+      "bytes": 3880,
+      "sha256": "1d48d910bdc0751c10a7d6e7701645837cf1bf85c9cf76020aa3ebe6a4e93ce7",
+      "response_records": 15,
+      "yoo_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "hole": 18,
+      "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025100002&playerCode=10146&round=4&hole=18",
+      "http_status": 200,
+      "bytes": 3887,
+      "sha256": "2b105bb57286903e7156daba132fc01f853c3c4b9758a5dadd0f7d13dafc5017",
+      "response_records": 15,
+      "yoo_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "request_count": 18,
+  "http_200_count": 18,
+  "yoo_rows_total": 268,
+  "coverage_rounds": [
+    1,
+    2,
+    3
+  ],
+  "hole_coverage": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "zero_target_holes": [],
+  "unique_yoo_shot_keys": 268,
+  "duplicate_yoo_shot_keys": 0
+}

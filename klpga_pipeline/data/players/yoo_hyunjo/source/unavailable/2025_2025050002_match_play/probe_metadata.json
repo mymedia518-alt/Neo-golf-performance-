@@ -1,0 +1,11 @@
+{
+  "gameCode": "2025050002",
+  "event": "제17회 두산 매치플레이",
+  "playerCode": "10146",
+  "request_url": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2025050002&playerCode=10146&round=4&hole=1",
+  "retrieved_date": "2026-10-12",
+  "http_status": 500,
+  "body_bytes": 6375,
+  "body_sha256": "08424b4b3ac8a058bbd81173377b0761bf25250e56805212e2bcff8a9925e460",
+  "note": "First-hole probe only. Endpoint returned non-200; no full-hole crawl was attempted."
+}

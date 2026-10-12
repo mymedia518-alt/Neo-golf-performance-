@@ -1,0 +1,838 @@
+{
+  "collected_at_utc": "2026-10-12T11:10:53.935993+00:00",
+  "endpoint_template": "https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode={gameCode}&playerCode=10146&round=4&hole=1",
+  "probe_hole": 1,
+  "target_player_code": "10146",
+  "probes": [
+    {
+      "year": 2025,
+      "gameCode": "2025030001",
+      "title": "블루캐니언 레이디스 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 2,
+      "records": 0,
+      "target_records": 0,
+      "rounds": [],
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "has_shot_data": false
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025040001",
+      "title": "두산건설 We’ve 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8257,
+      "records": 32,
+      "target_records": 21,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "cf92568aa51cdee9f7fccaf4ba6ad79ab6821d2f0a74c35b191d498f9fddb678",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025040002",
+      "title": "iM금융오픈 2025",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7726,
+      "records": 30,
+      "target_records": 20,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "a1a4e8d87b7d2af69241d9c44f1e21a9ca425620232340b355f1d777eb3c5568",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025040003",
+      "title": "넥센 · 세인트나인 마스터즈 2025",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3877,
+      "records": 15,
+      "target_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "daf4b493c6016f720a4f1e38e56786896537e8bcec56cdd062e4499df7ea400f",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025040005",
+      "title": "덕신EPC 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7752,
+      "records": 30,
+      "target_records": 20,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "6fc4808f120f54d03c1da6a76f83c64c04469b81f26bd32e90c2ceb873aa78eb",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025040004",
+      "title": "크리스에프앤씨 제47회 KLPGA 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8819,
+      "records": 34,
+      "target_records": 23,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "045c82b29b38fd579da725023cf8c1046f854acc82737c9e5e9edbef39d9edc5",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025050001",
+      "title": "2025 NH투자증권 레이디스 챔피언십",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3587,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "39e31bb69eeebe074fdb030144bfc132b02b644adb1bc1710ac798439c368e0b",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025050002",
+      "title": "제17회 두산 매치플레이",
+      "totalRound": 5,
+      "status": 500,
+      "error": "HTTP Error 500: 500",
+      "has_shot_data": false
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025060001",
+      "title": "2025 셀트리온 퀸즈 마스터즈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3619,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "021cb3417ff19db72f616d3b2ee804dca6fbbd8f4f4117f3db38620471f6119b",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025060002",
+      "title": "DB그룹 제39회 한국여자오픈골프선수권대회",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 2,
+      "records": 0,
+      "target_records": 0,
+      "rounds": [],
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "has_shot_data": false
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025070003",
+      "title": "더헤븐 마스터즈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 4151,
+      "records": 16,
+      "target_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "f772a89d054b3bed334a31358790e8175d4b03d4525e82b98d6b60d26d27bca8",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025060004",
+      "title": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3607,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "917c0e09989dba059d37e5f4bec252cd730771781a0cef90b7f016b082cbeec4",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025070001",
+      "title": "제15회 롯데 오픈",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7738,
+      "records": 30,
+      "target_records": 19,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "ca41f768cd99cd08f28630dca91a84c567470148cecad36db0d01aa0565b1526",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025070002",
+      "title": "하이원리조트 여자오픈 2025",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 6693,
+      "records": 26,
+      "target_records": 17,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "11fc955acc8819031367259576aac1a7dafa43a1651f555c903fdd5373801b02",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025070004",
+      "title": "2025 오로라월드 레이디스 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8557,
+      "records": 33,
+      "target_records": 22,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "1c0d08047bbc408daa8c3c69c10d1bb1a3fefa1217d8fb7488e245b60aa738a5",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025070005",
+      "title": "제12회 제주삼다수 마스터스",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8263,
+      "records": 32,
+      "target_records": 22,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "d83f7e4d154b3acc5a50b4a5a401e8f07a89fc443c111cc816ccac04cc90db8e",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025080001",
+      "title": "메디힐 · 한국일보 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7214,
+      "records": 28,
+      "target_records": 18,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "841284fe1e8187e99c3742602af9d1eefdec35274fd0218d31f4b6ce7d7e5609",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025060003",
+      "title": "BC카드 · 한경 레이디스컵 2025",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 3115,
+      "records": 12,
+      "target_records": 12,
+      "rounds": [
+        1,
+        2
+      ],
+      "sha256": "cfaa9f007d87deab2e38207a53e3f9bb839d776102ee219a4aa35e7e80b29b09",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025080003",
+      "title": "제14회 KG 레이디스 오픈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3328,
+      "records": 13,
+      "target_records": 13,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "0896b5c329383ed10c6670b99afd1cb6356eae6fcffae38f203d72f8e72fc8ad",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025090001",
+      "title": "KB금융 스타챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 9594,
+      "records": 37,
+      "target_records": 23,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "a4feee0b576d606e74882a8525f2500984a7f90dd451730e9f3552c3e402d922",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025090002",
+      "title": "OK저축은행 읏맨 오픈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3870,
+      "records": 15,
+      "target_records": 15,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "a03a68a7a21919786a6046f54987d911226228b822ecbf3ef9262c91e6425863",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025090003",
+      "title": "하나금융그룹 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 5886,
+      "records": 23,
+      "target_records": 16,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "a39e04830ec02893bbc14895a54e0d8d3aac386cddbf5abcdb1f20794f0cbf21",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025090004",
+      "title": "제25회 하이트진로 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7205,
+      "records": 28,
+      "target_records": 18,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "3c7778cb5762845d0dd7c714ab14a40503001e46016df077e639015abbe48255",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100001",
+      "title": "2025 동부건설 · 한국토지신탁 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7729,
+      "records": 30,
+      "target_records": 20,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "1b71dd5252ab9b5ae9b47b8d923791d84265e27132917459614a3791abae2653",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100012",
+      "title": "K-FOOD 놀부·화미 마스터즈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3602,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "b85800570468ef9787f0478a252e2cdf067fd3b41fc5586b5ecb2a59901187d6",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100003",
+      "title": "상상인 · 한경 와우넷 오픈 2025",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8000,
+      "records": 31,
+      "target_records": 20,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "b984c36996d2bfa6d3afb95b0e66bc8dff3b86f76d078cdc6fbcc4a2acac77c6",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100004",
+      "title": "광남일보 · 해피니스 오픈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 2836,
+      "records": 11,
+      "target_records": 11,
+      "rounds": [
+        1,
+        2
+      ],
+      "sha256": "090a1b25877b3ad52d389241661ef35490433520bb9415462e5d3f56513f2240",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100005",
+      "title": "S-OIL 챔피언십 2025",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8764,
+      "records": 34,
+      "target_records": 24,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "a5ead684b0be39b85bb22fef6b94cb4ab060d6ed3aaa92603ec04d03d9ee0bac",
+      "has_shot_data": true
+    },
+    {
+      "year": 2025,
+      "gameCode": "2025100002",
+      "title": "대보 하우스디 챔피언십",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 4647,
+      "records": 18,
+      "target_records": 18,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "1696cc0696e2f97a0627a8e77b98452d0cf301acd26a2d82ef8dd514934db4f6",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026030001",
+      "title": "리쥬란 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7797,
+      "records": 30,
+      "target_records": 20,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "296593324ab80fea5d74c8fb94cb644d3d7e0f69283225a48d6dfdc01069e986",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026040003",
+      "title": "더 시에나 오픈 2026",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7763,
+      "records": 30,
+      "target_records": 19,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "87180fdda75a265dd09e45b00c663c96a1369ea5db1e56cdc90f44b51dc44520",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026040001",
+      "title": "iM금융오픈 2026",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8032,
+      "records": 31,
+      "target_records": 21,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "58d8aeaad3250724482cd1abdbfaeb8ff787d63e923ca2074cb166e69205cc6f",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026040004",
+      "title": "넥센 · 세인트나인 Masters 2026",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 2318,
+      "records": 9,
+      "target_records": 9,
+      "rounds": [
+        1,
+        2
+      ],
+      "sha256": "4385d09a7648506154ca8c9c0cde536ad61092599009c12d4d84950b40968cd0",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026040002",
+      "title": "제2회 덕신EPC 챔피언십",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 4148,
+      "records": 16,
+      "target_records": 16,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "dbf8a60c35581c820249678ffc1c7decb3e07339b3b7a1128bf24b40b9a35055",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026040005",
+      "title": "제1회 DB 위민스 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 9051,
+      "records": 35,
+      "target_records": 23,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "47b877731555718f8941667f373d253f92e661680dc94e5100462a7c4277f673",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026050002",
+      "title": "제18회 두산 매치플레이",
+      "totalRound": 5,
+      "status": 200,
+      "bytes": 2,
+      "records": 0,
+      "target_records": 0,
+      "rounds": [],
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "has_shot_data": false
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026050003",
+      "title": "제14회 E1 채리티 오픈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 2592,
+      "records": 10,
+      "target_records": 10,
+      "rounds": [
+        1,
+        2
+      ],
+      "sha256": "36b54818242d71c01142c668ed941f536de7f96a99db305ed7765dfdaf90de68",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026050004",
+      "title": "Sh수협은행 MBN 여자오픈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 4659,
+      "records": 18,
+      "target_records": 18,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "56edec3f8035d97cea0fa6d3ffa797ce76711909ee58f9c40a297489c05054bd",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026060003",
+      "title": "메르세데스-벤츠 제40회 한국여자오픈골프선수권대회",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 2,
+      "records": 0,
+      "target_records": 0,
+      "rounds": [],
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "has_shot_data": false
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026060004",
+      "title": "인카금융 더헤븐 마스터즈",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3614,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "88ee811dd00477498e719a4c97918788a708c13aa96b6f6508bb82caaf60cd56",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026060002",
+      "title": "맥콜 · 모나 용평 오픈 with SBS Golf",
+      "totalRound": 3,
+      "status": 200,
+      "bytes": 3589,
+      "records": 14,
+      "target_records": 14,
+      "rounds": [
+        1,
+        2,
+        3
+      ],
+      "sha256": "d41344cec76664657c9c18c05d3808e368a8d54684b0b33a27a323b5e3d00c4c",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026070003",
+      "title": "제16회 롯데 오픈",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7470,
+      "records": 29,
+      "target_records": 19,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "7c5dd5c6ae3e551f1ef421f6bdb70067942ce6fe9aad87450b6c03f1782ef13c",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026070001",
+      "title": "2026 오로라월드 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 8808,
+      "records": 34,
+      "target_records": 22,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "c69eefb91753b922b14874d9f0ecb4276210678b06a1dd4994b1aef2bf7a6118",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026080004",
+      "title": "제13회 제주삼다수 마스터스",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7194,
+      "records": 28,
+      "target_records": 18,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "a461f92f82d66eefdba78d627b554e9c6a4bd88627e304def91c62ed49551e9e",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026080003",
+      "title": "메디힐 · 한국일보 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7474,
+      "records": 29,
+      "target_records": 19,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "65cbca5dded816081498446e57904deeb355767fbb8ab0e58a79245cf22c369f",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026080002",
+      "title": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 9085,
+      "records": 34,
+      "target_records": 23,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "2360e0877b82ffdff76b9a8967bcc4e7ca38867ba8ef2790e0ddf2daed6e5c3e",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026090003",
+      "title": "KB금융 골든라이프 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 3373,
+      "records": 13,
+      "target_records": 13,
+      "rounds": [
+        1,
+        2
+      ],
+      "sha256": "686aae89c483f1928c9ff85102504f57c28c346a82254592dd596a5a4c6c28dc",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026090002",
+      "title": "하나금융그룹 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 7979,
+      "records": 31,
+      "target_records": 21,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "d3bd4493e3cd39582744e601882f8e079f6d65d4a982ac4391fb271dbf67f1cb",
+      "has_shot_data": true
+    },
+    {
+      "year": 2026,
+      "gameCode": "2026100004",
+      "title": "2026 HJ중공업 · 동부건설 챔피언십",
+      "totalRound": 4,
+      "status": 200,
+      "bytes": 6941,
+      "records": 27,
+      "target_records": 17,
+      "rounds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "sha256": "848215931571b6cbf6e25f32ce900be5ae30dd764a755150abd7cb2db0cc8380",
+      "has_shot_data": true
+    }
+  ]
+}

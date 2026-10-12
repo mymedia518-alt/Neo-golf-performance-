@@ -1,0 +1,58 @@
+season,gameCode,event_title,startDate,endDate,scheduled_rounds,entry_page_status,entry_player_code_hits,entry_name_found,probe_http_status,probe_target_rows,status,notes
+2025,2025030001,블루캐니언 레이디스 챔피언십,20250313,20250316,4,200,4,True,200,0,no_target_rows_in_probe,"API returned HTTP 200, but hole 1 contained no target-player rows; all 18 holes were subsequently queried where probe status was 200."
+2025,2025040001,두산건설 We’ve 챔피언십,20250403,20250406,4,200,4,True,200,21,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025040002,iM금융오픈 2025,20250410,20250413,4,200,4,True,200,20,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025040003,넥센 · 세인트나인 마스터즈 2025,20250418,20250420,3,200,4,True,200,15,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025040005,덕신EPC 챔피언십,20250424,20250427,4,200,4,True,200,20,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025040004,크리스에프앤씨 제47회 KLPGA 챔피언십,20250501,20250504,4,200,4,True,200,23,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025050001,2025 NH투자증권 레이디스 챔피언십,20250509,20250511,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025050002,제17회 두산 매치플레이,20250514,20250518,5,200,4,True,500,,shot_api_error,Probe request returned HTTP 500; full-hole collection not attempted.
+2025,2025050003,제13회 E1 채리티 오픈,20250523,20250525,3,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2025,2025050004,Sh수협은행 MBN 여자오픈,20250530,20250601,3,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2025,2025060001,2025 셀트리온 퀸즈 마스터즈,20250606,20250608,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025060002,DB그룹 제39회 한국여자오픈골프선수권대회,20250612,20250615,4,200,4,True,200,0,no_target_rows_in_probe,"API returned HTTP 200, but hole 1 contained no target-player rows; all 18 holes were subsequently queried where probe status was 200."
+2025,2025070003,더헤븐 마스터즈,20250620,20250622,3,200,4,True,200,16,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025060004,맥콜 · 모나 용평 오픈 with SBS Golf,20250627,20250629,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025070001,제15회 롯데 오픈,20250703,20250706,4,200,4,True,200,19,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025070002,하이원리조트 여자오픈 2025,20250710,20250713,4,200,4,True,200,17,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025070004,2025 오로라월드 레이디스 챔피언십,20250731,20250803,4,200,4,True,200,22,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025070005,제12회 제주삼다수 마스터스,20250807,20250810,4,200,4,True,200,22,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025080001,메디힐 · 한국일보 챔피언십,20250814,20250817,4,200,4,True,200,18,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025060003,BC카드 · 한경 레이디스컵 2025,20250821,20250824,4,200,4,True,200,12,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025080003,제14회 KG 레이디스 오픈,20250829,20250831,3,200,4,True,200,13,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025090001,KB금융 스타챔피언십,20250904,20250907,4,200,4,True,200,23,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025090002,OK저축은행 읏맨 오픈,20250912,20250914,3,200,4,True,200,15,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025090003,하나금융그룹 챔피언십,20250918,20250921,4,200,4,True,200,16,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025090004,제25회 하이트진로 챔피언십,20250925,20250928,4,200,4,True,200,18,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100001,2025 동부건설 · 한국토지신탁 챔피언십,20251001,20251004,4,200,4,True,200,20,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100012,K-FOOD 놀부·화미 마스터즈,20251010,20251012,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100003,상상인 · 한경 와우넷 오픈 2025,20251016,20251019,4,200,4,True,200,20,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100004,광남일보 · 해피니스 오픈,20251024,20251026,3,200,4,True,200,11,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100005,S-OIL 챔피언십 2025,20251030,20251102,4,200,4,True,200,24,collected,All 18 hole requests collected; see event collection_metadata.json.
+2025,2025100002,대보 하우스디 챔피언십,20251107,20251109,3,200,4,True,200,18,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026030001,리쥬란 챔피언십,20260312,20260315,4,200,4,True,200,20,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026040003,더 시에나 오픈 2026,20260402,20260405,4,200,4,True,200,19,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026040001,iM금융오픈 2026,20260409,20260412,4,200,4,True,200,21,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026040004,넥센 · 세인트나인 Masters 2026,20260417,20260419,3,200,4,True,200,9,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026040002,제2회 덕신EPC 챔피언십,20260424,20260426,3,200,4,True,200,16,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026040005,제1회 DB 위민스 챔피언십,20260430,20260503,4,200,4,True,200,23,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026050001,2026 NH투자증권 레이디스 챔피언십,20260508,20260510,3,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026050002,제18회 두산 매치플레이,20260513,20260517,5,200,4,True,200,0,no_target_rows_in_probe,"API returned HTTP 200, but hole 1 contained no target-player rows; all 18 holes were subsequently queried where probe status was 200."
+2026,2026050003,제14회 E1 채리티 오픈,20260522,20260524,3,200,4,True,200,10,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026050004,Sh수협은행 MBN 여자오픈,20260529,20260531,3,200,4,True,200,18,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026060001,2026 셀트리온 퀸즈 마스터즈,20260605,20260607,3,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026060003,메르세데스-벤츠 제40회 한국여자오픈골프선수권대회,20260611,20260614,4,200,4,True,200,0,no_target_rows_in_probe,"API returned HTTP 200, but hole 1 contained no target-player rows; all 18 holes were subsequently queried where probe status was 200."
+2026,2026060004,인카금융 더헤븐 마스터즈,20260619,20260621,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026060002,맥콜 · 모나 용평 오픈 with SBS Golf,20260626,20260628,3,200,4,True,200,14,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026070003,제16회 롯데 오픈,20260702,20260705,4,200,4,True,200,19,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026070002,하이원리조트 여자오픈 2026,20260709,20260712,4,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026070001,2026 오로라월드 챔피언십,20260730,20260802,4,200,4,True,200,22,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026080004,제13회 제주삼다수 마스터스,20260806,20260809,4,200,4,True,200,18,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026080003,메디힐 · 한국일보 챔피언십,20260813,20260816,4,200,4,True,200,19,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026080002,BC카드 · 한경 제48회 KLPGA 챔피언십,20260820,20260823,4,200,4,True,200,23,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026080001,제15회 KG 레이디스 오픈,20260827,20260830,4,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026120001,OK저축은행 읏맨 오픈,20260904,20260906,3,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026090003,KB금융 골든라이프 챔피언십,20260910,20260913,4,200,4,True,200,13,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026090002,하나금융그룹 챔피언십,20260917,20260920,4,200,4,True,200,21,collected,All 18 hole requests collected; see event collection_metadata.json.
+2026,2026100005,제26회 하이트진로 챔피언십,20261001,20261004,4,200,0,False,,,not_on_official_entry_list,Target code/name not found on official entry page; no shot API requests made.
+2026,2026100004,2026 HJ중공업 · 동부건설 챔피언십,20261008,20261011,4,200,4,True,200,17,collected,All 18 hole requests collected; see event collection_metadata.json.
