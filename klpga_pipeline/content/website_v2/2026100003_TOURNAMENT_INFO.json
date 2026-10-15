@@ -1,0 +1,20 @@
+{
+  "game_code": "2026100003",
+  "event_name": "아이스버그골프 · 서울신문 오픈",
+  "event_eng_name": "Iceberg Golf · Seoul Shinmun Open",
+  "season": 2026,
+  "start_date": "20261016",
+  "end_date": "20261018",
+  "course_name": "H1",
+  "course_eng_name": "H1",
+  "out_course_text": "마운틴",
+  "in_course_text": "레이크",
+  "game_finish": "S",
+  "prize_money": 1500000000,
+  "game_method": "0",
+  "is_completed": false,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T09:13:26.254852+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}

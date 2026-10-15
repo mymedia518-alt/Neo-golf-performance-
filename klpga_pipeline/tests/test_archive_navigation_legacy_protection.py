@@ -88,7 +88,7 @@ def test_archive_index_real_tournaments_link_to_existing_files_no_dead_links():
     assert "NEO GOLF DATA - 공사중" not in html, "archive index itself must no longer be the placeholder stub"
     soup = BeautifulSoup(html, "html.parser")
     cards = soup.select(".archive-card")
-    assert len(cards) == 5, f"expected exactly 5 archive cards (3 real + 2 placeholder-only), got {len(cards)}"
+    assert len(cards) == 6, f"expected exactly 6 archive cards (all real, no placeholder-only), got {len(cards)}"
 
     all_hrefs = [a["href"] for a in soup.select("a[href]")]
     for href in all_hrefs:
@@ -99,7 +99,7 @@ def test_archive_index_real_tournaments_link_to_existing_files_no_dead_links():
             assert target.exists(), f"archive link points to a nonexistent page: {href} (expected {target})"
 
     real_names = {
-        "제26회 하이트진로 챔피언십", "하나금융그룹 챔피언십", "KB금융 골든라이프 챔피언십",
+        "HJ중공업·동부건설 챔피언십", "제26회 하이트진로 챔피언십", "하나금융그룹 챔피언십", "KB금융 골든라이프 챔피언십",
         "OK저축은행 읏맨 오픈", "제15회 KG 레이디스 오픈",
     }
     placeholder_names = set()
@@ -240,11 +240,19 @@ def test_home_locked_copy_uses_reader_language_not_internal_terms():
     -- it is still asserted on the untouched HJ scaffold page in
     test_hj_scaffold_has_no_blocked_probability_output above. This test
     now locks the NEW real copy instead, keeping the internal-term leak
-    check (still valid, still the point of this test)."""
+    check (still valid, still the point of this test).
+
+    HOME transferred again 2026-10-16 (scripts/239_promote_iceberg_
+    2026100003_home.py) from HJ (a modified-Stableford fixture, hence the
+    old HJ-era assertions here) to 아이스버그골프 · 서울신문 오픈 (ordinary
+    stroke play -- no Stableford fixture-notice applies). Locks the new
+    real copy -- the probability-withheld reader note (model_publication_
+    gate blocks the 5 probability columns while M4 stays
+    VALIDATION_MODEL_NOT_PRODUCTION) -- instead of the retired HJ strings."""
     html = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert "변형 스테이블포드 방식으로 진행됩니다" in html
-    assert "같은 경기력도 Stableford에서는 가치가 달라진다" in html
-    for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지"):
+    assert "아이스버그골프 · 서울신문 오픈" in html
+    assert "컷 통과확률·TOP20·TOP10·TOP5·우승확률은 시뮬레이션 점검으로 검증 완료 전까지 비공개 처리됩니다" in html
+    for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지", "M4", "VALIDATION_MODEL_NOT_PRODUCTION"):
         assert leaked_internal_term not in html, f"internal term leaked into HOME public copy: {leaked_internal_term!r}"
 
 
@@ -293,7 +301,7 @@ def test_dummy_data_disclosure_confined_to_the_known_mock_page_only():
 def _all_public_tournament_pages():
     pages = [DOCS / "index.html", DOCS / "tournaments" / "index.html"]
     pages.append(DOCS / "tournaments" / "2026" / "2026100004" / "index.html")
-    for gc in ("2026090002", "2026090003", "2026100005", "ok-savings-bank-open", "kg-ladies-open"):
+    for gc in ("2026090002", "2026090003", "2026100005", "2026100003", "ok-savings-bank-open", "kg-ladies-open"):
         base = DOCS / "tournaments" / "2026" / gc
         if base.exists():
             pages.extend(sorted(base.rglob("index.html")))

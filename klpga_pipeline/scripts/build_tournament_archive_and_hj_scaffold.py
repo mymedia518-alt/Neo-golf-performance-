@@ -107,6 +107,7 @@ def public_stages(dirname: str) -> list[str]:
 
 ARCHIVE_TOURNAMENTS = [
     # (dirname, display_name, date_range, venue, primary_stage_for_card_name_link)
+    ("2026100004", "HJ중공업·동부건설 챔피언십", "2026.10.08 — 10.11", "에이원CC", "fr"),
     ("2026100005", "제26회 하이트진로 챔피언십", "2026.10.01 — 10.04", "블루헤런", "fr"),
     ("2026090002", "하나금융그룹 챔피언십", "2026.09.17 — 09.20", "더헤븐", "final"),
     ("2026090003", "KB금융 골든라이프 챔피언십", "2026.09.10 — 09.13", "블랙스톤 이천", "final"),
