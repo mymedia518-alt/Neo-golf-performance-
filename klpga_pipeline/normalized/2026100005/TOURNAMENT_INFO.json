@@ -1,0 +1,20 @@
+{
+  "game_code": "2026100005",
+  "event_name": "제26회 하이트진로 챔피언십",
+  "event_eng_name": "The 26th HITE JINRO Championship",
+  "season": 2026,
+  "start_date": "20261001",
+  "end_date": "20261004",
+  "course_name": "블루헤런",
+  "course_eng_name": "Blue Heron",
+  "out_course_text": "동",
+  "in_course_text": "서",
+  "game_finish": "F",
+  "prize_money": 1500000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:00:05.373387+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}

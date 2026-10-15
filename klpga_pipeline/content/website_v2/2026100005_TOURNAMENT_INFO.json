@@ -9,12 +9,12 @@
   "course_eng_name": "Blue Heron",
   "out_course_text": "동",
   "in_course_text": "서",
-  "game_finish": "S",
+  "game_finish": "F",
   "prize_money": 1500000000,
   "game_method": "0",
-  "is_completed": false,
+  "is_completed": true,
   "is_regular_tour": true,
   "is_stroke_play": true,
-  "collected_at": "2026-09-30T10:43:17.739201+00:00",
+  "collected_at": "2026-10-15T13:00:05.373387+00:00",
   "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
 }
