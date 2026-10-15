@@ -1,0 +1,20 @@
+{
+  "game_code": "2026070003",
+  "event_name": "제16회 롯데 오픈",
+  "event_eng_name": "The 16th LOTTE Open",
+  "season": 2026,
+  "start_date": "20260702",
+  "end_date": "20260705",
+  "course_name": "베어즈베스트 청라",
+  "course_eng_name": "BEAR`S BEST CHEONGNA",
+  "out_course_text": "미국",
+  "in_course_text": "오스트랄아시아",
+  "game_finish": "F",
+  "prize_money": 1200000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:02:10.442154+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
