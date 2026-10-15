@@ -1,0 +1,20 @@
+{
+  "game_code": "2026090003",
+  "event_name": "KB금융 골든라이프 챔피언십",
+  "event_eng_name": "KB Financial Group Golden Life Championship",
+  "season": 2026,
+  "start_date": "20260910",
+  "end_date": "20260913",
+  "course_name": "블랙스톤 이천",
+  "course_eng_name": "BlackStone Icheon",
+  "out_course_text": "북 코스",
+  "in_course_text": "서 코스",
+  "game_finish": "F",
+  "prize_money": 1500000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T12:59:54.032985+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
