@@ -141,9 +141,9 @@ _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 # MODEL_VALIDATED_FOR_PUBLICATION gate.
 MODEL_VALIDATED_FOR_PUBLICATION = False
 PROBABILITY_WITHHELD_NOTE = (
-    "컷 통과확률·TOP20·TOP10·TOP5·우승확률은 시뮬레이션 점검으로 검증 완료 전까지 비공개 처리됩니다. "
-    "NEO 경기력은 가장 최근 완료 대회(제26회 하이트진로 챔피언십, 10/4 종료) 결과가 아직 반영되지 않은 "
-    "이전 시점 기준이며, 새 기준으로 갱신되는 대로 업데이트됩니다."
+    "예측 확률(컷 통과·TOP20·TOP10·TOP5·우승)은 검증이 끝난 뒤 공개합니다. "
+    "NEO 경기력은 가장 최근 대회(제26회 하이트진로 챔피언십, 10월 4일 종료) 결과가 아직 반영되지 않은 "
+    "이전 시점 기준이며, 새 기준으로 업데이트되는 대로 반영됩니다."
 )
 
 
@@ -219,7 +219,7 @@ def main() -> None:
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
             f"{name_cell}"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
-            f"<td data-label='KLPGA K-RANKING'>{k_rank_cell}</td>"
+            f"<td data-label='KLPGA 순위'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"
             f"{prob_cells}</tr>"
         )
@@ -238,7 +238,7 @@ def main() -> None:
     seo_description = f"{event_name} 사전 분석 · {course_line} · {date_range} · NEO GOLF DATA 우승확률 예측"
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/pre/"
     provenance_html = (
-        f"<p class='meta provenance'>예측 기준 사전(PRE) 모델 · "
+        f"<p class='meta provenance'>예측 기준 대회 전 모델 · "
         f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
     )
 
@@ -277,8 +277,8 @@ def main() -> None:
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         f'<span>{_esc(event_name)}</span>'
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
-        '<span aria-current="page">PRE</span></nav>'
-        '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
+        '<span aria-current="page">대회 전</span></nav>'
+        '<section class="hero" id="tournament"><div><p class="eyebrow">대회 전 분석</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
         f'{provenance_html}'
@@ -295,7 +295,7 @@ def main() -> None:
 
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
-        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">사전 분석 PRE</a></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">대회 전 분석</a></li>'
         + "".join(_round_items) +
         '</ol></nav>'
     )
@@ -308,10 +308,10 @@ def main() -> None:
 
     table_section = (
         '<section class="panel leaderboard-panel" id="pre">'
-        '<div class="leaderboard-head"><h2>PRE 참가 선수 <small>108명</small></h2></div>'
+        '<div class="leaderboard-head"><h2>대회 전 참가 선수 <small>108명</small></h2></div>'
         + validation_notice +
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
-        "<th>선수</th><th>KLPGA K-RANKING</th>"
+        "<th>선수</th><th>KLPGA 순위</th>"
         "<th class='band-head'>NEO 경기력 "
         "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
         "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"

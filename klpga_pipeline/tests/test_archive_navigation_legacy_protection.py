@@ -251,7 +251,7 @@ def test_home_locked_copy_uses_reader_language_not_internal_terms():
     VALIDATION_MODEL_NOT_PRODUCTION) -- instead of the retired HJ strings."""
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "아이스버그골프 · 서울신문 오픈" in html
-    assert "컷 통과확률·TOP20·TOP10·TOP5·우승확률은 시뮬레이션 점검으로 검증 완료 전까지 비공개 처리됩니다" in html
+    assert "예측 확률(컷 통과·TOP20·TOP10·TOP5·우승)은 검증이 끝난 뒤 공개합니다" in html
     for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지", "M4", "VALIDATION_MODEL_NOT_PRODUCTION"):
         assert leaked_internal_term not in html, f"internal term leaked into HOME public copy: {leaked_internal_term!r}"
 
