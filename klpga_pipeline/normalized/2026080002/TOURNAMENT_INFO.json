@@ -1,0 +1,20 @@
+{
+  "game_code": "2026080002",
+  "event_name": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+  "event_eng_name": "BC Card · Hankyung The 48th KLPGA Championship",
+  "season": 2026,
+  "start_date": "20260820",
+  "end_date": "20260823",
+  "course_name": "포천힐스",
+  "course_eng_name": "Fortune Hills",
+  "out_course_text": "가든",
+  "in_course_text": "팰리스",
+  "game_finish": "F",
+  "prize_money": 1500000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:02:03.167383+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
