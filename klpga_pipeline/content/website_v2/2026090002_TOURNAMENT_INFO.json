@@ -1,0 +1,20 @@
+{
+  "game_code": "2026090002",
+  "event_name": "하나금융그룹 챔피언십",
+  "event_eng_name": "Hana Financial Group Championship",
+  "season": 2026,
+  "start_date": "20260917",
+  "end_date": "20260920",
+  "course_name": "더헤븐",
+  "course_eng_name": "TheHeaven",
+  "out_course_text": "West",
+  "in_course_text": "South",
+  "game_finish": "F",
+  "prize_money": 1500000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:00:03.377416+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
