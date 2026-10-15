@@ -1,0 +1,20 @@
+{
+  "game_code": "2026080004",
+  "event_name": "제13회 제주삼다수 마스터스",
+  "event_eng_name": "The 13th JejuSamdasoo Masters",
+  "season": 2026,
+  "start_date": "20260806",
+  "end_date": "20260809",
+  "course_name": "테디밸리 골프앤리조트",
+  "course_eng_name": "Teddyvalley",
+  "out_course_text": "밸리",
+  "in_course_text": "테디",
+  "game_finish": "F",
+  "prize_money": 1000000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:02:02.164260+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
