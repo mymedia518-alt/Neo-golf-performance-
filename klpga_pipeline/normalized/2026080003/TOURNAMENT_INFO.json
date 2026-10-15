@@ -1,0 +1,20 @@
+{
+  "game_code": "2026080003",
+  "event_name": "메디힐 · 한국일보 챔피언십",
+  "event_eng_name": "MEDIHEAL · HANKOOKILBO Championship",
+  "season": 2026,
+  "start_date": "20260813",
+  "end_date": "20260816",
+  "course_name": "몽베르",
+  "course_eng_name": "Montvert",
+  "out_course_text": "명성산-아웃",
+  "in_course_text": "명성산-인",
+  "game_finish": "F",
+  "prize_money": 1200000000,
+  "game_method": "0",
+  "is_completed": true,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-15T13:01:58.557884+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
