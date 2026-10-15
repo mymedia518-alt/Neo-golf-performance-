@@ -1,0 +1,41 @@
+{
+  "game_code": "2026070002",
+  "overall": "PASS",
+  "checks": [
+    {
+      "name": "tournament_info_required_fields",
+      "status": "PASS",
+      "detail": "event_name='하이원리조트 여자오픈 2026' end_date='20260712'"
+    },
+    {
+      "name": "tournament_info_game_code_matches",
+      "status": "PASS",
+      "detail": "game_code matches"
+    },
+    {
+      "name": "entry_list_nonempty",
+      "status": "PASS",
+      "detail": "108 entrants parsed"
+    },
+    {
+      "name": "entry_list_no_unparsed_rows",
+      "status": "PASS",
+      "detail": "every row on the page parsed"
+    },
+    {
+      "name": "entry_list_matches_page_total",
+      "status": "PASS",
+      "detail": "108 == page's own 총 참가자"
+    },
+    {
+      "name": "kranking_top10_crosscheck",
+      "status": "PASS",
+      "detail": "TOP10 agrees between both official sources"
+    },
+    {
+      "name": "kranking_top120_population",
+      "status": "PASS",
+      "detail": "745 ranked players found"
+    }
+  ]
+}
