@@ -28,6 +28,12 @@ it (R2/FR builders don't exist yet; when they're written, copy the
 table without the NEO 경기력 <th>/<td> and without the info_js block,
 same as here). Other tournaments' already-published pages are untouched.
 
+PROVENANCE PARAGRAPH REMOVED FROM R1 (operator instruction, 2026-10-16):
+the hero's own internal-methodology line (워크포워드 검증/SG 보정/
+시뮬레이션 횟수 등) read as developer jargon on the public page -- not
+shown at all now, same scope as the NEO 경기력 removal above (R1/R2/FR
+for this tournament only; PRE and other tournaments' pages untouched).
+
 Source of truth:
  - 2026100003_ENTRY_KRANKING_JOIN.json (same roster/sponsor/K-ranking PRE uses)
  - the real R1 roundLeaderboard, collected via the one-off GitHub Actions
@@ -43,12 +49,10 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timedelta, timezone
 from html import escape as _esc
 from pathlib import Path
 
 _SITE_ORIGIN = "https://neogolfdata.com"
-_KST = timezone(timedelta(hours=9))
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
@@ -215,17 +219,6 @@ def main() -> None:
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/r1/"
 
     previous_meta_html = previous_tournament_meta_html()
-    data_as_of = "2026-10-16 (R1 공식 종료, KLPGA 공식 리더보드 기준)"
-    n_sim = forecast.get("n_simulations", 0)
-    forecast_part = (
-        "예측 기준 1R 종료 시점 재계산(실제 1R 스코어 반영, 잔여 라운드는 선수별 과거 평균 기반 시뮬레이션"
-        f" {n_sim:,}회) · SG 보정은 과거 대회 워크포워드 검증에서 근거가 확인되지 않아 미적용"
-        " · 컷 통과확률은 별도의 사전(PRE) 모델 값 유지"
-    )
-    provenance_html = (
-        f"<p class='meta provenance'>데이터 기준 {_esc(data_as_of)} · {forecast_part} · "
-        f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
-    )
 
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
@@ -262,7 +255,7 @@ def main() -> None:
         '<section class="hero" id="tournament"><div><p class="eyebrow">1R 공식 결과</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
-        f'{previous_meta_html}{provenance_html}</div></section>'
+        f'{previous_meta_html}</div></section>'
     )
 
     _round_items = []
