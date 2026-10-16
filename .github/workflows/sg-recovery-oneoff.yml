@@ -1,0 +1,110 @@
+name: "Recover historical official SG -- one-off (manual dispatch)"
+
+# Manually dispatched only. Runs scripts/sg_recovery_oneoff.py for real --
+# real network access to klpga.co.kr (the agent sandbox cannot reach it
+# directly) -- fetching the official roundLeaderboard + strokesGained_detail
+# tables (cumulative + every played round) for one named, already-completed
+# stroke-play tournament.
+#
+# Publishes raw+processed output to the orphan branch
+# collector-output/sg-recovery-<gameCode> (same git-publish pattern as the
+# existing collect-r3-sg-oneoff.yml), so it never touches neo-website-v2's
+# (or any analysis branch's) own tree/history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      game_code:
+        description: "Official KLPGA gameCode"
+        required: true
+      season:
+        description: "Season year (e.g. 2026)"
+        required: true
+      tournament:
+        description: "Tournament name (for provenance only, not used to fetch)"
+        required: true
+      end_date:
+        description: "Official end date YYYY-MM-DD, from the official schedule -- never guessed from game_code order"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: klpga_pipeline
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests beautifulsoup4 lxml tenacity
+
+      - name: Run sg_recovery_oneoff.py (real network)
+        id: recover
+        env:
+          PYTHONPATH: ${{ github.workspace }}/klpga_pipeline/src
+        run: |
+          set +e
+          python scripts/sg_recovery_oneoff.py \
+            --game-code "${{ inputs.game_code }}" \
+            --season "${{ inputs.season }}" \
+            --tournament "${{ inputs.tournament }}" \
+            --end-date "${{ inputs.end_date }}" \
+            --output "sg_recovery_output"
+          echo "exit_code=$?" >> "$GITHUB_OUTPUT"
+          set -e
+
+      - name: Summarize what was actually collected
+        if: always()
+        run: |
+          {
+            echo "## SG recovery output -- gameCode=${{ inputs.game_code }}"
+            echo ""
+            if [ -f "sg_recovery_output/MANIFEST.json" ]; then
+              echo '```json'
+              cat "sg_recovery_output/MANIFEST.json" | python3 -c "import json,sys; d=json.load(sys.stdin); d.pop('requests',None); print(json.dumps(d, ensure_ascii=False, indent=2))"
+              echo '```'
+            else
+              echo "No MANIFEST.json was created."
+            fi
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Git-publish raw+processed output to collector-output/sg-recovery-<gameCode> branch
+        if: always()
+        run: |
+          git config --global user.name "neo-sg-recovery-bot"
+          git config --global user.email "neo-sg-recovery-bot@users.noreply.github.com"
+          BRANCH="collector-output/sg-recovery-${{ inputs.game_code }}"
+          SRC="$GITHUB_WORKSPACE/klpga_pipeline/sg_recovery_output"
+          PUBLISH_DIR=$(mktemp -d)
+          mkdir -p "$PUBLISH_DIR/__out"
+          if [ -d "$SRC" ]; then
+            cp -r "$SRC"/. "$PUBLISH_DIR/__out/" 2>/dev/null || true
+          fi
+          cd "$PUBLISH_DIR"
+          git init -q
+          git checkout -q -b "$BRANCH"
+          git add __out
+          git commit -q -m "SG recovery output (game_code=${{ inputs.game_code }}, season=${{ inputs.season }})" --allow-empty
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
+          git push -f origin "$BRANCH"
+
+      - name: Fail the job if collection did not succeed
+        if: ${{ steps.recover.outputs.exit_code != '0' }}
+        run: |
+          echo "sg_recovery_oneoff.py exited with code ${{ steps.recover.outputs.exit_code }} -- see the job summary above."
+          exit 1
