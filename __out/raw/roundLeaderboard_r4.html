@@ -1,0 +1,588 @@
+
+
+
+
+
+
+
+<script type="text/javascript">
+var map3dResourceYN = "Y";
+
+$(document).ready(function(){
+	
+	
+	
+});
+
+
+$(document).off("click", "[id=btnDetail]").on("click", "[id=btnDetail]", function(event){
+	
+	if(!$(this).parents("details").find(".divDetail").html() == ""){
+		$(".divDetail").html("");
+		setRefreshTimeout("4");
+		return;
+	}
+	
+	// 선수상세보기 활성화시 리프레시 안함
+	clearTimeout(refreshTimer);
+	
+	$("details").removeAttr("open");
+	$(".divDetail").html("");
+	
+	var params = new Object();
+	params.playerCode = $(this).attr("_playerCode");
+	params.gameCode = $(this).attr("_gameCode");
+	params.playerName = $(this).attr("_playerName");
+	params.playerEngName = $(this).attr("_playerEngName");
+	params.groupNo = $(this).attr("_groupNo");
+	params.playerImg = $(this).attr("_playerImg");
+	params.round = $(this).attr("_round");
+	params.hole = $(this).attr("_hole");
+	params.level = $(this).attr("_level");
+	params.ballModelText = $(this).attr("_ballModelText");
+	
+	$(this).parents("details").find(".divDetail").load("/load/leaderboard/playerDetail", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+		if(scrollValue+20 > $(this).offset().top){
+			window.scrollTo({top:$(this).offset().top-100, left:0});	
+		}
+	});
+	
+});
+
+$(document).off("click", "[id=btnNameExtra]").on("click", "[id=btnNameExtra]", function(event){
+	
+	$("[id=btnNameExtra]").find("button").removeClass("active");
+	$("[id=btnNameExtra][_index="+$(this).attr("_index")+"]").find("button").addClass("active");
+	
+	$("[id=trShotStateExtra]").css("display","none");
+	$("[id=trShotStateExtra][data-index="+$(this).attr("_index")+"]").css("display","");
+	
+});
+
+// 연장전 샷비디오
+$(document).off("click", "[id=btnExtraShotVideo]").on("click", "[id=btnExtraShotVideo]", function(event){
+	var params = new Object();
+	params.playerCode = $(this).data("playerCode");
+	params.gameCode = $(this).data("gameCode");
+	params.round = $(this).data("round");
+	params.shot = $(this).data("shot");
+	params.refererExtraYN = "Y";
+	
+	$("#mediaModal").find("div").load("/load/shotVideo", params, function(responseText, textStatus, XMLHttpRequest){
+		if (XMLHttpRequest.status != 200){
+			//location.reload();
+			alert("error");
+		}
+	});
+});
+
+
+function getExtraShotTracker(extraNo, hole){
+	
+	// 2024년 이후 연장전 샷트래커 진행
+	if("20260508" < "20240101"){
+		return;	
+	}
+	
+	$.ajax({
+		  "url"   : "/ajax/leaderboard/getExtraShotTracker"
+	    , "type"  : "POST"
+	    , "async" : false
+	    , "data"  : {
+	    	gameCode : "2026050001"
+	    	, ingRound : "3"
+	    	, extraNo : extraNo
+	    	, hole : hole
+  		}
+		, success: function(res,ststus,xhr) {
+			
+			var evalData 		= eval(res);
+			var baseHoleInfo	= evalData.baseHoleInfo;
+			var extraPlayerList	= evalData.extraPlayerList;
+			var extraShotTrackerList = evalData.extraShotTrackerList;
+			
+			var holeInfo		= evalData.holeInfo;
+			$("#holeInfo_extra_no").html(extraNo);
+			$("#holeInfo_extra_holeNo").html(holeInfo.hole);
+			$("#holeInfo_extra_par").html(holeInfo.stdScore);
+			if("1" == '1'){
+				$("#holeInfo_extra_yds").html(holeInfo.yds);
+				$("#holeInfo_extra_meter").html(holeInfo.meter);
+			}
+			if(holeInfo.avgScore != 0){
+				$("#holeInfo_extra_difficult").html((holeInfo.count>1?"T":"")+holeInfo.rank);
+				$("#holeInfo_extra_avgScore").html(holeInfo.avgScore);	
+			} else {
+				$("#holeInfo_extra_difficult").html("-");
+				$("#holeInfo_extra_avgScore").html("-");
+			}
+			
+			var hole_html = "";
+			var green_html = "";
+			var state_html ="";
+			
+			var bi_sy = 0;
+			var bi_sx = 0;
+			var bi_gpy = 0;
+			var bi_gpx = 0;
+			var bi_gx = 0;
+			var bi_gy = 0;
+			
+			if(baseHoleInfo != null){
+				bi_sy = baseHoleInfo.bi_sy == null?0:baseHoleInfo.bi_sy;
+				bi_sx = baseHoleInfo.bi_sx == null?0:baseHoleInfo.bi_sx;
+				bi_gpy = baseHoleInfo.bi_gpy == null?0:baseHoleInfo.bi_gpy;
+				bi_gpx = baseHoleInfo.bi_gpx == null?0:baseHoleInfo.bi_gpx;
+				bi_gx = baseHoleInfo.bi_gx == null?0:baseHoleInfo.bi_gx;
+				bi_gy = baseHoleInfo.bi_gy == null?0:baseHoleInfo.bi_gy;
+			}
+			
+			hole_html += "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden'>"
+			green_html += "<svg viewBox='0 0 708 471' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' style='overflow:hidden'>"
+			
+			for(var i=0; i<extraPlayerList.length; i++){
+				
+				var shotTrackerList = extraShotTrackerList[i];
+				
+				hole_html +=  "<g class='player"+(i+1)+"'>";
+				green_html += "<g class='player"+(i+1)+"'>";
+
+				
+				for(var j = 0; j < shotTrackerList.length; j++){
+					
+					var v = shotTrackerList[j];
+					var x = (390-(v.pp_y*2))*1.815;
+					var y = (v.pp_x*2)*1.815;
+					var x_g = (390-(v.pp_greeny*2))*1.815;
+					var y_g = (v.pp_greenx*2)*1.815;
+					
+					if(j==0){
+						// 전체
+						hole_html += "<circle cx='"+(390-bi_sy)*1.815+"' cy='"+bi_sx*1.815+"' r='4.611'></circle>";
+						hole_html += "<path d='M"+ (390-bi_sy)*1.815 +" "+ bi_sx*1.815 +" L"+ x +" "+ y +"' h></path>";
+						hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+						// 그린
+						green_html += "<path d='M"+ (390-bi_gpy)*1.815 +" "+ bi_gpx*1.815 +" L"+ x_g +" "+ y_g +"' g></path>";
+						green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+						
+						
+					} else {
+						// 전체
+						var pre_x = (390-(shotTrackerList[j-1].pp_y*2))*1.815;
+						var pre_y = (shotTrackerList[j-1].pp_x*2)*1.815;
+						hole_html += "<path d='M"+ pre_x +" "+ pre_y +" L"+ x +" "+ y +"' h></path>";
+						hole_html += "<circle cx='"+x+"' cy='"+y+"' r='4.611'></circle>";
+						// 그린
+						var pre_x_g = (390-(shotTrackerList[j-1].pp_greeny*2))*1.815;
+						var pre_y_g = (shotTrackerList[j-1].pp_greenx*2)*1.815;
+						green_html += "<path d='M"+ pre_x_g +" "+ pre_y_g +" L"+ x_g +" "+ y_g +"' g></path>";
+						green_html += "<circle cx='"+x_g+"' cy='"+y_g+"' r='4.611'></circle>";
+					}
+					
+					// 샷정보
+					state_html += "<tr id='trShotStateExtra' data-index='"+(i+1)+"' style='"+(i==0 ? '':'display:none;')+"'>";
+					state_html += 	"<td>"+v.shot+"</td>";
+					state_html += 	"<td class='td-video'>";
+					if(v.shotVideoYN == "Y") {
+						state_html += "<button class='btn btn-video p-0' id='btnExtraShotVideo' data-bs-toggle='modal' data-bs-target='#mediaModal'"
+							+" data-player-code='"+v.playerCode+"' data-game-code='"+v.gameCode+"' data-round='"+v.round+"' data-hole='"+v.hole+"' data-shot='"+v.shot+"'>";
+// 						state_html +=	"<img src='/resources/web/images/btn-videoarrow.svg'></button>";
+					}
+					state_html += 	"</td>";
+					state_html += 	"<td>"+v.pp_distanceLen+"</td>";
+					switch(v.pp_state){
+						case "1" : state_html += 	"<td>페어웨이</td>"; break;
+						case "2" : state_html += 	"<td>러프</td>"; break;
+						case "3" : state_html += 	"<td>그린</td>"; break;
+						case "4" : state_html += 	"<td>OB</td>"; break;
+						case "5" : state_html += 	"<td>페널티구역</td>"; break;
+						case "6" : state_html += 	"<td>벙커</td>"; break;
+						case "7" : state_html += 	"<td>분실구</td>"; break;
+						case "8" : state_html += 	"<td>벌타</td>"; break;
+						case "9" : state_html += 	"<td>그린주변벙커</td>"; break;
+						case "10" : state_html += 	"<td>홀인</td>"; break;
+						case "12" : state_html += 	"<td>프린지</td>"; break;
+					}
+					if(v.pp_state == "10"){
+						var scoreText = shotTrackerScoreText(shotTrackerList.length, holeInfo.stdScore);
+						state_html += 	"<td colspan='"+(map3dResourceYN == "Y" ? '2':'1')+"'><button class='btn btn-sm btn-outline-gray rounded-pill w-100' style='cursor: default; font-weight: bold; color:#212529;' >"+scoreText+"</button></td>";
+						
+					} else {
+						state_html += 	"<td>"+v.pp_distance+"</td>";
+						if(map3dResourceYN == "Y") {
+							state_html += 	"<td>";
+							if(v.pp_altitude !== undefined && v.pp_altitude != "999.0" && v.pp_state != "10" && v.pp_state != "7" ){
+								state_html += 	"<span class='"+(v.pp_altitude == 0 ? '': (v.pp_altitude > 0 ? 'text-red' : 'text-blue'))+"'>"+(v.pp_altitude > 0 ? '+':'')+v.pp_altitude+"</span>";	
+							}
+							state_html += 	"</td>";
+						}
+					}
+					state_html += "</tr>";
+
+				}
+				hole_html += "</g>";
+				green_html += "</g>";
+			}
+			
+			// 거리
+			for(var i=0; i<extraPlayerList.length; i++){
+				var shotTrackerList = extraShotTrackerList[i];
+				hole_html +=  "<g class='player"+(i+1)+"'>";
+				
+				// 거리
+				for(var j = 0; j < shotTrackerList.length; j++){
+					var v = shotTrackerList[j];
+					var x = (390-(v.pp_y*2))*1.815;
+					var y = (v.pp_x*2)*1.815;
+					var x_g = (390-(v.pp_greeny*2))*1.815;
+					var y_g = (v.pp_greenx*2)*1.815;
+					
+					if(j==0){
+						var rectX = 0;
+						var rectY = 0;
+						var tmpX = (390-bi_sy)*1.815;
+						var tmpY = bi_sx*1.815;
+						if((i+1)==1){
+							rectX = (3*tmpX + x)/4-25;
+							rectY = (3*tmpY + y)/4-13;
+						}
+						else if((i+1)==2){
+							rectX = (tmpX + x)/2-25;
+							rectY = (tmpY + y)/2-13;
+						}
+						else if((i+1)==3){
+							rectX = (tmpX + 3*x)/4-25;
+							rectY = (tmpY + 3*y)/4-13;
+						}
+						if((v.pp_state!="4" && v.pp_state!="7" && v.pp_state!="8") && !(v.pp_state=="5" && shotTrackerList[j+1].pp_state=="8")){
+							hole_html += '<rect x="'+rectX+'" y="'+rectY+'" width="50" height="25" rx="10" fill="#ffffff" stroke-width="2"></rect>';
+							hole_html += '<text text-anchor="middle" x="'+rectX+'" y="'+rectY+'" dx="24" dy="19" font-weight="600" font-size="18">'+v.pp_distanceLen+'</text>';
+						}
+					}
+
+				}
+				hole_html += "</g>";
+			}
+			
+			// 홀컵위치
+			green_html += "<image href='/resources/web/images/holeCup.png' x='"+(390-bi_gy-4)*1.815+"' y='"+(bi_gx-30)*1.815+"' />";
+			
+			hole_html += "</svg>";
+			green_html += "</svg>";
+			
+			hole_html += '<div class="map-hole-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026050001/'+holeInfo.hole+'.png?ver=" style="width:100%;"></div>';
+			green_html += '<div class="map-green-img"><img src="https://klpga.co.kr/DATA/holeImg2/2026050001/'+holeInfo.hole+'_G.png?ver=" style="width:100%;"></div>';
+			
+			$("#divShotTracker_hole_extra").html(hole_html);
+			
+			$("#divShotTracker_green_extra").html(green_html);
+			$("[id=tbodyShotStateExtra]").html(state_html);
+			
+			
+			
+		}
+		, error:function(request,status,error){
+	    }
+	});
+	
+	
+}
+
+
+function shotTrackerScoreText(strokeScore, stdScore){
+	
+	var result = "";
+	
+	var score = strokeScore-stdScore;
+	if(stdScore == "5" && score == -3){
+		result = "알바트로스";
+	} else if(strokeScore == 1){
+		result = "홀인원";
+	} else if(score == -2){
+		result = "이글";
+	} else if(score == -1){
+		result = "버디";
+	} else if(score == 0){
+		result = "파";
+	} else if(score == 1){
+		result = "보기";
+	} else if(score == 2){
+		result = "더블 보기";
+	} else if(score == 3){
+		result = "트리플 보기";
+	} else if(score == 4){
+		result = "쿼드러플 보기";
+	} else if(score == 5){
+		result = "퀸튜플 보기";
+	} else if(score == 6){
+		result = "섹스터플 보기";
+	} else if(score == 7){
+		result = "셉터플 보기";
+	} else if(score == 8){
+		result = "옥튜플 보기";
+	}
+	
+	return result;
+}
+
+
+
+</script>
+
+
+<!--------------------------------------------------------------------------------------------------------------------------->
+<!-------------------------------------------- 리더보드 컨텐츠 : FULL LEADERBOARD -------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------->        
+<div class="tab-pane fade show active" id="leaderboard-full" role="tabpanel" aria-labelledby="leaderboard-full-tab">
+
+	
+             
+	<!-- 마이 리더보드 -->
+	
+	<section class="section-leaderboard my-leaderboard section-favorit" style="display:none">    	
+		<ul class="table-leaderboard">
+			<li class="table-header">
+				<div class="table-accordion">
+					<table>            
+						<tr>
+	                        <th>FAV</th>
+	                        <th id="btnOrder" _orderType="rank" _round="">순위</th>
+	                        <th id="btnOrder" _orderType="updown" _round="">등락</th>
+	                        <th id="btnOrder" _orderType="nat" _round="">국적</th>
+	                        <th id="btnOrder" _orderType="name" _round="" >선수명</th>
+	                        <th id="btnOrder" _orderType="totunderpar" _round="">합계</th>
+	                        <th id="btnOrder" _orderType="inghole" _round="">진행홀</th>
+	                        <th id="btnOrder" _orderType="todayunderpar" _round="">오늘</th>
+	                        <th class="round" id="btnOrder" _orderType="round1score" _round="">1R</th>
+	                        <th class="round" id="btnOrder" _orderType="round2score" _round="">2R</th>
+	                        <th class="round" id="btnOrder" _orderType="round3score" _round="">3R</th>
+	                        
+	                        <th id="btnOrder" _orderType="score" _round="">합계</th>
+                               
+							
+								<th>볼</th>
+							
+							
+							
+								<th><img src="/resources/web/images/icon-3D.svg"></th>
+							
+							
+						</tr>
+					</table>
+				</div> <!-- end .table-accordion -->
+			</li>
+			<div id="myLeaderboard">
+			
+				
+			</div>
+	
+		</ul>
+	</section>
+	<br>
+	
+	<!-- 전체선수 리더보드 -->
+	<section class="section-leaderboard leaderboard" >    	
+		<ul class="table-leaderboard">
+			<li class="table-header">
+				<div class="table-accordion">
+					<table>            
+						<tr>
+							<th>FAV</th>
+							<th id="btnOrder" _orderType="rank" _round="4">순위</th>
+							<th id="btnOrder" _orderType="updown" _round="4">등락</th>
+							<th id="btnOrder" _orderType="nat" _round="4">국적</th>
+							<th id="btnOrder" _orderType="name" _round="4" >선수명</th>
+							<th id="btnOrder" _orderType="totunderpar" _round="4">합계</th>
+							<th id="btnOrder" _orderType="inghole" _round="4">진행홀</th>
+							<th id="btnOrder" _orderType="todayunderpar" _round="4">오늘</th>
+							<th class="round" id="btnOrder" _orderType="round1score" _round="1">1R</th>
+							<th class="round" id="btnOrder" _orderType="round2score" _round="2">2R</th>
+							<th class="round" id="btnOrder" _orderType="round3score" _round="3">3R</th>
+							
+							<th id="btnOrder" _orderType="score" _round="4">합계</th>
+							
+							
+							<th>볼</th>
+							
+							
+							<th><img src="/resources/web/images/icon-3D.svg"></th>
+							
+						</tr>
+					</table>
+				</div> <!-- end .table-accordion -->
+			</li>
+			<div id="leaderboard">
+				
+				
+					
+					
+					
+				
+				
+				
+				
+			</div>
+		</ul>
+	</section>
+	
+	<br><br>
+
+	<div class="table-caption">
+	    <div class="container">
+	    	
+	    		
+	    		<ul>
+	             <li>* 진행홀에서의 (*)표시는 IN Course 시작 선수 표시 입니다.</li>
+	             <li>* 무단 불참 (Did Not Show)* = DNS*</li>
+	             <li>* 불참 (Did Not Show) = DNS</li>
+	             <li>* 기권 (Withdrawn) = WD</li>
+	             <li>* 실격 (Disqualified) = DQ</li>
+	             <li>* 공동순위(Tied) = T</li>
+	             <li>* +16 컷오프 = CUT</li>
+	         </ul>	
+	    		
+	    		
+	    	
+	    </div>
+	</div>
+</div>
+<!-- END 리더보드 탭메뉴 컨텐츠-->
+
+
+<!--------------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------ 리더보드 컨텐츠 : SCORECARD ----------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------------------->
+<div class="tab-pane fade" id="leaderboard-score" role="tabpanel" aria-labelledby="leaderboard-score-tab">
+
+	
+	
+	<!-- MY SCORECARD -->
+	<div class="section-favorit" style="display:none">
+		<div class="table table-scorecard totalscore">
+			<table>
+				<thead>
+					<tr>
+						<th rowspan="2" class="rank">FAV</th>
+						<th rowspan="2" class="rank">순위</th>
+						<th rowspan="2" class="nation">국적</th>
+						<th rowspan="2" class="name">선수명</th>
+						<th rowspan="2" class="total">합계</th>
+						<th class="today">오늘</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th class="out">OUT</th>
+						<th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th class="in">IN</th>
+						 <th rowspan="2">1R</th>
+						 <th rowspan="2">2R</th>
+						 <th rowspan="2">3R</th>
+						
+						<th rowspan="2" class="total">TOT</th>
+					</tr>
+                   	<tr>
+                       	<th class="today">4R</th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th class="out"></th>
+                   	 	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th></th>
+                       	<th class="in"></th>
+					</tr>
+				</thead>
+	           	<tbody>
+	           		
+				</tbody>
+			</table>
+		</div> <!-- end .table-scorecard -->
+	
+	
+		<div class="table-legend mb-3">
+			<ul class="d-flex justify-content-end">
+				<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-eagles.svg" style="width: 1rem;"></span>이글이하</li>
+	                   	<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-birdies.svg" style="width: 1rem;"></span>버디</li>
+	                   	<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-bogeys.svg" style="width: 1rem;"></span>보기</li>
+	                   	<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-Dbogeys.svg" style="width: 1rem;"></span>더블보기 이상</li>
+			</ul>
+		</div>
+	</div>
+	
+	<br>
+	<div class="table table-scorecard totalscore">
+		<table>
+			<thead>
+			    <tr>
+			    	<th rowspan="2" class="rank">FAV</th>
+			        <th rowspan="2" class="rank">순위</th>
+					<th rowspan="2" class="nation">국적</th>
+					<th rowspan="2" class="name">선수명</th>
+					<th rowspan="2" class="total">합계</th>
+					<th class="today">오늘</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th class="out">OUT</th>
+					<th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th class="in">IN</th>
+					 <th rowspan="2">1R</th>
+					 <th rowspan="2">2R</th>
+					 <th rowspan="2">3R</th>
+					
+					<th rowspan="2" class="total">TOT</th>
+				</tr>
+				<tr>
+			    	<th class="today">R</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th class="out"></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th class="in"></th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				
+				
+               	
+			</tbody>
+		</table>
+		
+		<div class="table-legend mb-3">
+			<ul class="d-flex justify-content-end">
+				<li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-eagles.svg" style="width: 1rem;"></span>이글이하</li>
+                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-birdies.svg" style="width: 1rem;"></span>버디</li>
+                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-bogeys.svg" style="width: 1rem;"></span>보기</li>
+                <li><span class="mx-2"><img src="/resources/web/images/scorecard-bg-Dbogeys.svg" style="width: 1rem;"></span>더블보기 이상</li>
+			</ul>
+		</div>
+	</div> <!-- end .table-scorecard -->
+	           
+</div>
+
+
+
+
+
