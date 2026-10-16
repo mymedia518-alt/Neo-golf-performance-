@@ -40,7 +40,7 @@ from klpga.backtest.point_in_time_features import load_corpus, compute_point_in_
 from klpga.backtest.temporal import is_strictly_before  # noqa: E402
 from klpga.ops.paths import db_path  # noqa: E402
 
-SCRATCH_SG_ALL = Path("/tmp/claude-0/-home-user-Neo-golf-performance-/bee7b372-e13f-52b9-816d-77030a003a04/scratchpad/sg_all")
+SG_HISTORY_DIR = ROOT / "content" / "website_v2" / "sg_official_history"
 HISTORICAL_CODES = [
     "2026070001", "2026070002", "2026070003", "2026080001", "2026080002",
     "2026080003", "2026080004", "2026090002", "2026090003", "2026100005",
@@ -50,11 +50,15 @@ MODEL_IDS = ("BASE", "R1SG")
 
 
 def load_r1_sg_index() -> dict[tuple[str, str], float]:
-    """(game_code, player_id) -> real official R1 SG total, from the
-    already sha256-verified RECORDS.json for each historical event."""
+    """(game_code, player_id) -> real official R1 SG total, from each
+    historical event's RECORDS.json committed under
+    content/website_v2/sg_official_history/<game_code>/RECORDS.json
+    (pulled from the sha256-verified collector-output/sg-recovery-<code>
+    branches so this script has no /tmp or scratchpad dependency and is
+    reproducible from the repo alone)."""
     idx: dict[tuple[str, str], float] = {}
     for gc in HISTORICAL_CODES:
-        path = SCRATCH_SG_ALL / gc / "RECORDS.json"
+        path = SG_HISTORY_DIR / gc / "RECORDS.json"
         recs = json.loads(path.read_text(encoding="utf-8"))
         for r in recs:
             if r.get("scope") == "single_round" and r.get("round") == 1 and r.get("player_id") and r.get("total") is not None:

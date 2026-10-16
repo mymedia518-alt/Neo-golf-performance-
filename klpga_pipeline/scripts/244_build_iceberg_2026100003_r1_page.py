@@ -1,17 +1,22 @@
 """Build docs/tournaments/2026/2026100003/r1/index.html -- real official
 R1 leaderboard + the same NEO 경기력 bands PRE already shows + the
-real R1-conditioned win/TOP20/TOP10/TOP5 probabilities
-(ICEBERG_2026100003_POST_R1_FORECAST_V2.json, built by scripts/247:
-Monte Carlo using the real R1 score + remaining rounds drawn from each
-player's own point-in-time BASE prior, same mechanics already shipped
-in klpga.neo_win.round_update_r2/r3 for other tournaments, applied one
-round earlier). scripts/246's walk-forward test found real R1 Strokes
-Gained does NOT improve next-round prediction beyond BASE (event wins
-tied 4-4 across 10 real historical events) -- so no SG adjustment is
-applied; this page's provenance line says so explicitly. 컷 통과확률
-stays the original frozen PRE logistic model's own value (a separate,
-round-scoped model untouched by round-conditioning, same convention
-hitejinro_round_page.py's own comment documents).
+SG-adjusted, R1-conditioned win/TOP20/TOP10/TOP5 probabilities
+(ICEBERG_2026100003_POST_R1_FORECAST_SG_V1.json, built by scripts/249:
+same Monte Carlo mechanics scripts/247 already shipped -- real R1 score
++ remaining rounds drawn from Normal(expected, spread) -- but the
+expectation now comes from scripts/246's walk-forward-fit R1SG model
+(prior_avg_round_to_par AND real official R1 Strokes Gained together),
+not plain BASE alone. scripts/246's own walk-forward found R1SG does
+NOT beat BASE on held-out accuracy (event wins tied 4-4 across 8
+evaluated historical events, 0.0035-stroke pooled MAE difference) --
+the SG-adjusted numbers are published anyway, as the operator-directed
+follow-through on having collected real official R1 SG (see scripts/
+249's own docstring for the full disclosure), not withheld for a weak
+validation result. 컷 통과확률 stays the original frozen PRE logistic
+model's own value, untouched by SG (official cut rule for this 3-round
+tournament unconfirmed -- same convention hitejinro_round_page.py's own
+comment documents for round-scoped models kept separate from round-
+conditioning).
 
 Structure copied verbatim from scripts/238_build_iceberg_2026100003_pre_page.py
 (this project's own "self-contained per-tournament builder" convention)
@@ -86,7 +91,7 @@ from klpga.neo_win.hitejinro_player_metrics import (  # noqa: E402
 GAME_CODE = "2026100003"
 ROUND_NUMBER = 1
 RAW_R1_LEADERBOARD = CONTENT / "raw_capture" / "2026100003_r1" / "roundLeaderboard_r1.html"
-FORECAST_V2_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R1_FORECAST_V2.json"
+FORECAST_SG_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R1_FORECAST_SG_V1.json"
 M4_CANDIDATE_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_PRE_M4_CANDIDATE_V1.json"
 JOIN_PATH = CONTENT / f"{GAME_CODE}_ENTRY_KRANKING_JOIN.json"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html"
@@ -111,9 +116,8 @@ def main() -> None:
     r1_by_id = {r["player_id"]: r for r in r1_rows}
     assert set(r1_by_id) == set(join_records), "R1 leaderboard player_id set does not match the 108-entrant roster"
 
-    forecast = json.loads(FORECAST_V2_PATH.read_text(encoding="utf-8"))
+    forecast = json.loads(FORECAST_SG_PATH.read_text(encoding="utf-8"))
     assert forecast["game_code"] == GAME_CODE
-    assert forecast["sg_adjustment_applied"] is False
     forecast_by_id = {r["player_id"]: r for r in forecast["records"]}
 
     m4_candidate = json.loads(M4_CANDIDATE_PATH.read_text(encoding="utf-8"))
@@ -122,17 +126,19 @@ def main() -> None:
         for r in m4_candidate.get("records", [])
         if r.get("analysis_status") == "PASS" and r.get("cut_probability") is not None
     }
-    # Merged view _render uses: win/top5/top10/top20 from the real R1-conditioned
-    # forecast; cut_probability from the unrelated, unchanged frozen PRE model.
+    # Merged view _render uses: win/top5/top10/top20 from the SG-adjusted
+    # R1-conditioned forecast (scripts/249); cut_probability from the
+    # unrelated, unchanged frozen PRE model (official cut rule for this
+    # 3-round tournament unconfirmed -- see scripts/249's own docstring).
     m4_by_id = {}
     for pid, rec in forecast_by_id.items():
         if pid in cut_by_id:
             m4_by_id[pid] = {
                 "cut_probability": cut_by_id[pid],
-                "top20_probability": rec["top20_probability"],
-                "top10_probability": rec["top10_probability"],
-                "top5_probability": rec["top5_probability"],
-                "win_probability": rec["win_probability"],
+                "top20_probability": rec["sg_adjusted_top20_probability"],
+                "top10_probability": rec["sg_adjusted_top10_probability"],
+                "top5_probability": rec["sg_adjusted_top5_probability"],
+                "win_probability": rec["sg_adjusted_win_probability"],
             }
 
     sponsor_cache = cross_tournament_verified_sponsor_cache()
@@ -334,7 +340,7 @@ def main() -> None:
         "monotonicity_pass": len(monotonic_problems) == 0,
         "forecast_n_simulations": forecast.get("n_simulations"),
         "forecast_random_seed": forecast.get("random_seed"),
-        "forecast_sg_adjustment_applied": forecast.get("sg_adjustment_applied"),
+        "forecast_walk_forward_r1sg_beats_base": forecast.get("walk_forward_r1sg_beats_base"),
         "forecast_excluded": forecast.get("excluded"),
     }, ensure_ascii=False, indent=2))
 
