@@ -1,0 +1,117 @@
+{
+  "game_code": "2026100003",
+  "season": 2026,
+  "tournament": "아이스버그골프 · 서울신문 오픈",
+  "official_end_date": "2026-10-16",
+  "official_sg_page": "https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026100003",
+  "collection_started_at": "2026-10-16T11:32:32.654428+00:00",
+  "requests": [
+    {
+      "label": "roundLeaderboard_r4",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "4"
+      },
+      "retrieved_at": "2026-10-16T11:32:32.654443+00:00",
+      "sha256": "1196462f85b43ec98f4befa7d63b9a7bef6784daf3b3f6c49feb37623fa7f63f",
+      "bytes": 20785,
+      "saved_as": "raw/roundLeaderboard_r4.html"
+    },
+    {
+      "label": "roundLeaderboard_r3",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "3"
+      },
+      "retrieved_at": "2026-10-16T11:32:33.668536+00:00",
+      "sha256": "1c0d45669aeab56e49b7055c1dcaf8d83a8853b0e8a94b77aa0aa5dad94ad5fe",
+      "bytes": 20785,
+      "saved_as": "raw/roundLeaderboard_r3.html"
+    },
+    {
+      "label": "roundLeaderboard_r2",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "2"
+      },
+      "retrieved_at": "2026-10-16T11:32:34.593613+00:00",
+      "sha256": "cd842e149d15641f5ac6f8e3352d6e16fdc3f52a5c4fd5a83b6495c58c65a533",
+      "bytes": 1691706,
+      "saved_as": "raw/roundLeaderboard_r2.html"
+    },
+    {
+      "label": "roundLeaderboard_r1",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "1"
+      },
+      "retrieved_at": "2026-10-16T11:32:38.187695+00:00",
+      "sha256": "a31c7ebdcc5d17c15c0e67b2227bb95ee83785c1f79067036cb3df24b4b156c8",
+      "bytes": 1817397,
+      "saved_as": "raw/roundLeaderboard_r1.html"
+    },
+    {
+      "label": "sg_cumulative",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026100003",
+        "round": ""
+      },
+      "retrieved_at": "2026-10-16T11:32:39.126519+00:00",
+      "sha256": "680a56df2b449fb93b741784141bf30edde41f8842b60aecbed1e780c0609d14",
+      "bytes": 68234,
+      "saved_as": "raw/sg_cumulative.html"
+    },
+    {
+      "label": "sg_r1",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "1"
+      },
+      "retrieved_at": "2026-10-16T11:32:40.078337+00:00",
+      "sha256": "680a56df2b449fb93b741784141bf30edde41f8842b60aecbed1e780c0609d14",
+      "bytes": 68234,
+      "saved_as": "raw/sg_r1.html"
+    },
+    {
+      "label": "sg_r2",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026100003",
+        "round": "2"
+      },
+      "retrieved_at": "2026-10-16T11:32:42.043121+00:00",
+      "sha256": "f5fb42690e41ec964d494b66f1bd8de5f51a3f2a7d9ebe065918d923a646557d",
+      "bytes": 2287,
+      "saved_as": "raw/sg_r2.html"
+    }
+  ],
+  "status": "success",
+  "latest_round_detected": 2,
+  "per_scope_row_counts": {
+    "sg_cumulative": 107,
+    "sg_r1": 107,
+    "sg_r2": 0
+  },
+  "total_rows": 214,
+  "batch_validation": {
+    "valid": true,
+    "rows": 214,
+    "duplicate_count": 0,
+    "missing_identity": 0,
+    "errors": []
+  },
+  "cumulative_vs_rounds_check": {
+    "players_checked": 107,
+    "players_missing_rounds": 0,
+    "players_inconsistent_total": 0,
+    "missing_rounds_detail": [],
+    "inconsistent_detail": []
+  },
+  "collection_finished_at": "2026-10-16T11:32:43.676118+00:00"
+}
