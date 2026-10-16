@@ -1,9 +1,17 @@
 """Build docs/tournaments/2026/2026100003/r1/index.html -- real official
 R1 leaderboard + the same NEO 경기력 bands PRE already shows + the
-frozen PRE M4 probabilities (ICEBERG_2026100003_POST_R1_FORECAST.json,
-built by scripts/243; see that script's own docstring for why these are
-NOT recalculated from the real R1 scores -- no round_update_r1 model
-exists anywhere in this codebase).
+real R1-conditioned win/TOP20/TOP10/TOP5 probabilities
+(ICEBERG_2026100003_POST_R1_FORECAST_V2.json, built by scripts/247:
+Monte Carlo using the real R1 score + remaining rounds drawn from each
+player's own point-in-time BASE prior, same mechanics already shipped
+in klpga.neo_win.round_update_r2/r3 for other tournaments, applied one
+round earlier). scripts/246's walk-forward test found real R1 Strokes
+Gained does NOT improve next-round prediction beyond BASE (event wins
+tied 4-4 across 10 real historical events) -- so no SG adjustment is
+applied; this page's provenance line says so explicitly. 컷 통과확률
+stays the original frozen PRE logistic model's own value (a separate,
+round-scoped model untouched by round-conditioning, same convention
+hitejinro_round_page.py's own comment documents).
 
 Structure copied verbatim from scripts/238_build_iceberg_2026100003_pre_page.py
 (this project's own "self-contained per-tournament builder" convention)
@@ -20,7 +28,8 @@ Source of truth:
    under klpga_pipeline/content/website_v2/raw_capture/2026100003_r1/.
  - klpga.neo_win.hitejinro_player_metrics.load_current_form_by_id/
    neo_band_by_id (the same generic, no-gameCode-coupling helpers 238 uses)
- - ICEBERG_2026100003_POST_R1_FORECAST.json for win/cut/top5/10/20
+ - ICEBERG_2026100003_POST_R1_FORECAST_V2.json for win/TOP20/TOP10/TOP5
+   (scripts/247); ICEBERG_2026100003_PRE_M4_CANDIDATE_V1.json for 컷 통과확률
 """
 from __future__ import annotations
 
@@ -55,7 +64,8 @@ from klpga.neo_win.hitejinro_player_metrics import (  # noqa: E402
 GAME_CODE = "2026100003"
 ROUND_NUMBER = 1
 RAW_R1_LEADERBOARD = CONTENT / "raw_capture" / "2026100003_r1" / "roundLeaderboard_r1.html"
-FORECAST_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R1_FORECAST.json"
+FORECAST_V2_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R1_FORECAST_V2.json"
+M4_CANDIDATE_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_PRE_M4_CANDIDATE_V1.json"
 JOIN_PATH = CONTENT / f"{GAME_CODE}_ENTRY_KRANKING_JOIN.json"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "r1" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
@@ -79,9 +89,29 @@ def main() -> None:
     r1_by_id = {r["player_id"]: r for r in r1_rows}
     assert set(r1_by_id) == set(join_records), "R1 leaderboard player_id set does not match the 108-entrant roster"
 
-    forecast = json.loads(FORECAST_PATH.read_text(encoding="utf-8"))
+    forecast = json.loads(FORECAST_V2_PATH.read_text(encoding="utf-8"))
     assert forecast["game_code"] == GAME_CODE
-    m4_by_id = {r["player_id"]: r for r in forecast["records"]}
+    assert forecast["sg_adjustment_applied"] is False
+    forecast_by_id = {r["player_id"]: r for r in forecast["records"]}
+
+    m4_candidate = json.loads(M4_CANDIDATE_PATH.read_text(encoding="utf-8"))
+    cut_by_id = {
+        str(r["playerCode"]): r["cut_probability"]
+        for r in m4_candidate.get("records", [])
+        if r.get("analysis_status") == "PASS" and r.get("cut_probability") is not None
+    }
+    # Merged view _render uses: win/top5/top10/top20 from the real R1-conditioned
+    # forecast; cut_probability from the unrelated, unchanged frozen PRE model.
+    m4_by_id = {}
+    for pid, rec in forecast_by_id.items():
+        if pid in cut_by_id:
+            m4_by_id[pid] = {
+                "cut_probability": cut_by_id[pid],
+                "top20_probability": rec["top20_probability"],
+                "top10_probability": rec["top10_probability"],
+                "top5_probability": rec["top5_probability"],
+                "win_probability": rec["win_probability"],
+            }
 
     sponsor_cache = cross_tournament_verified_sponsor_cache()
     all_ids = list(join_records.keys())
@@ -188,7 +218,12 @@ def main() -> None:
 
     previous_meta_html = previous_tournament_meta_html()
     data_as_of = "2026-10-16 (R1 공식 종료, KLPGA 공식 리더보드 기준)"
-    forecast_part = "예측 기준 사전(PRE) 모델 (R1 스코어 미반영 — 이 대회의 R1 전용 재계산 모델은 존재하지 않습니다)"
+    n_sim = forecast.get("n_simulations", 0)
+    forecast_part = (
+        "예측 기준 1R 종료 시점 재계산(실제 1R 스코어 반영, 잔여 라운드는 선수별 과거 평균 기반 시뮬레이션"
+        f" {n_sim:,}회) · SG 보정은 과거 대회 워크포워드 검증에서 근거가 확인되지 않아 미적용"
+        " · 컷 통과확률은 별도의 사전(PRE) 모델 값 유지"
+    )
     provenance_html = (
         f"<p class='meta provenance'>데이터 기준 {_esc(data_as_of)} · {forecast_part} · "
         f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
@@ -312,6 +347,10 @@ def main() -> None:
         "m4_missing": len(rows_data) - len(m4_by_id),
         "monotonicity_problems": monotonic_problems,
         "monotonicity_pass": len(monotonic_problems) == 0,
+        "forecast_n_simulations": forecast.get("n_simulations"),
+        "forecast_random_seed": forecast.get("random_seed"),
+        "forecast_sg_adjustment_applied": forecast.get("sg_adjustment_applied"),
+        "forecast_excluded": forecast.get("excluded"),
     }, ensure_ascii=False, indent=2))
 
 
