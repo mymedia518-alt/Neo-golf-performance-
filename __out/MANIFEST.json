@@ -1,0 +1,1374 @@
+{
+  "game_code": "2026040005",
+  "season": 2026,
+  "tournament": "제1회 DB 위민스 챔피언십",
+  "official_end_date": "2026-05-03",
+  "official_sg_page": "https://klpga.co.kr/web/leaderboard/strokesGained?gameCode=2026040005",
+  "collection_started_at": "2026-10-16T10:42:50.330497+00:00",
+  "requests": [
+    {
+      "label": "roundLeaderboard_r4",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "4"
+      },
+      "retrieved_at": "2026-10-16T10:42:50.330512+00:00",
+      "sha256": "f3541c838189910c2c9b942167ea9b97741efd5fbd585fd63f6be65cd04fd2a7",
+      "bytes": 1208904,
+      "saved_as": "raw/roundLeaderboard_r4.html"
+    },
+    {
+      "label": "roundLeaderboard_r3",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "3"
+      },
+      "retrieved_at": "2026-10-16T10:42:52.447601+00:00",
+      "sha256": "b32c5e02f2f4aae947ebcfdd5844be80e65830bb5841cb2e4b08eff280e3e2f4",
+      "bytes": 1223291,
+      "saved_as": "raw/roundLeaderboard_r3.html"
+    },
+    {
+      "label": "roundLeaderboard_r2",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "2"
+      },
+      "retrieved_at": "2026-10-16T10:42:53.241648+00:00",
+      "sha256": "8dfe2465197f378d65c9b7ebdd0427c100ff1cfa7bed54539a524463c8f63616",
+      "bytes": 1987276,
+      "saved_as": "raw/roundLeaderboard_r2.html"
+    },
+    {
+      "label": "roundLeaderboard_r1",
+      "url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "1"
+      },
+      "retrieved_at": "2026-10-16T10:42:55.606660+00:00",
+      "sha256": "02fecac7e4435956c8238eff4f35410bccf2455b00ea1d8d2a97466d35f22af9",
+      "bytes": 2035062,
+      "saved_as": "raw/roundLeaderboard_r1.html"
+    },
+    {
+      "label": "sg_cumulative",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026040005",
+        "round": ""
+      },
+      "retrieved_at": "2026-10-16T10:42:57.186676+00:00",
+      "sha256": "728baa4e9531a52896b727ad6cebb0db65cbd4aa4723c4e5c2847529140fc904",
+      "bytes": 74543,
+      "saved_as": "raw/sg_cumulative.html"
+    },
+    {
+      "label": "sg_r1",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "1"
+      },
+      "retrieved_at": "2026-10-16T10:42:57.840367+00:00",
+      "sha256": "f8088cce4f869c1f66694132bdbd429b326d3120f3bcebfd0d331fbdcfa22014",
+      "bytes": 74511,
+      "saved_as": "raw/sg_r1.html"
+    },
+    {
+      "label": "sg_r2",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "2"
+      },
+      "retrieved_at": "2026-10-16T10:42:59.893305+00:00",
+      "sha256": "b44d458947eeecf26bf1375a626e350c85ba82c4895390102d0935371564b819",
+      "bytes": 71368,
+      "saved_as": "raw/sg_r2.html"
+    },
+    {
+      "label": "sg_r3",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "3"
+      },
+      "retrieved_at": "2026-10-16T10:43:02.023123+00:00",
+      "sha256": "66ebe7f2d99456294ad611521262d1da8d1a3e0192ed8a188200ece0f2f37fde",
+      "bytes": 45312,
+      "saved_as": "raw/sg_r3.html"
+    },
+    {
+      "label": "sg_r4",
+      "url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail",
+      "params": {
+        "gameCode": "2026040005",
+        "round": "4"
+      },
+      "retrieved_at": "2026-10-16T10:43:03.635424+00:00",
+      "sha256": "874c11dceb0fbe18462751e67cff8328123ff017f573ef7923db8b744d6b9311",
+      "bytes": 45303,
+      "saved_as": "raw/sg_r4.html"
+    }
+  ],
+  "status": "success",
+  "latest_round_detected": 4,
+  "per_scope_row_counts": {
+    "sg_cumulative": 117,
+    "sg_r1": 117,
+    "sg_r2": 112,
+    "sg_r3": 70,
+    "sg_r4": 70
+  },
+  "total_rows": 486,
+  "batch_validation": {
+    "valid": false,
+    "rows": 486,
+    "duplicate_count": 3,
+    "missing_identity": 8,
+    "errors": [
+      {
+        "type": "duplicate",
+        "key": [
+          "",
+          2026,
+          "2026040005",
+          "tournament_cumulative",
+          null
+        ]
+      },
+      {
+        "type": "duplicate",
+        "key": [
+          "",
+          2026,
+          "2026040005",
+          "single_round",
+          1
+        ]
+      },
+      {
+        "type": "duplicate",
+        "key": [
+          "",
+          2026,
+          "2026040005",
+          "single_round",
+          2
+        ]
+      }
+    ]
+  },
+  "cumulative_vs_rounds_check": {
+    "players_checked": 115,
+    "players_missing_rounds": 0,
+    "players_inconsistent_total": 109,
+    "missing_rounds_detail": [],
+    "inconsistent_detail": [
+      {
+        "player_id": "10109",
+        "player": "고지원",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 4.15,
+        "sum_of_round_totals": 16.6,
+        "delta": -12.45,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8392",
+        "player": "이다연",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 4.1,
+        "sum_of_round_totals": 16.38,
+        "delta": -12.28,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10146",
+        "player": "유현조",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 4.05,
+        "sum_of_round_totals": 16.2,
+        "delta": -12.15,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10725",
+        "player": "김민솔",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.97,
+        "sum_of_round_totals": 15.86,
+        "delta": -11.89,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9426",
+        "player": "한진선",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.82,
+        "sum_of_round_totals": 15.29,
+        "delta": -11.47,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8859",
+        "player": "이승연",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.44,
+        "sum_of_round_totals": 13.77,
+        "delta": -10.33,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "1485",
+        "player": "빳차라쭈타 콩끄라판(I)",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.37,
+        "sum_of_round_totals": 13.49,
+        "delta": -10.12,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8300",
+        "player": "김수지",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.27,
+        "sum_of_round_totals": 13.07,
+        "delta": -9.8,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "6781",
+        "player": "박주영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 3.01,
+        "sum_of_round_totals": 12.05,
+        "delta": -9.04,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9788",
+        "player": "박혜준",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.86,
+        "sum_of_round_totals": 11.44,
+        "delta": -8.58,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11143",
+        "player": "김시현",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.74,
+        "sum_of_round_totals": 10.95,
+        "delta": -8.21,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8881",
+        "player": "성유진",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.74,
+        "sum_of_round_totals": 10.95,
+        "delta": -8.21,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11042",
+        "player": "홍현지",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.34,
+        "sum_of_round_totals": 9.38,
+        "delta": -7.04,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10586",
+        "player": "홍진영2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.11,
+        "sum_of_round_totals": 8.45,
+        "delta": -6.34,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8770",
+        "player": "조아연",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.05,
+        "sum_of_round_totals": 8.22,
+        "delta": -6.17,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11134",
+        "player": "서교림",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 2.0,
+        "sum_of_round_totals": 7.99,
+        "delta": -5.99,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9145",
+        "player": "임희정",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.99,
+        "sum_of_round_totals": 7.94,
+        "delta": -5.95,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10083",
+        "player": "마서영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.83,
+        "sum_of_round_totals": 7.33,
+        "delta": -5.5,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8284",
+        "player": "최예림",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.78,
+        "sum_of_round_totals": 7.14,
+        "delta": -5.36,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10577",
+        "player": "최예본",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.68,
+        "sum_of_round_totals": 6.73,
+        "delta": -5.05,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "13502",
+        "player": "왕 즈쉬엔",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.6,
+        "sum_of_round_totals": 6.42,
+        "delta": -4.82,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11066",
+        "player": "유서연2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.5,
+        "sum_of_round_totals": 6.02,
+        "delta": -4.52,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10095",
+        "player": "방신실",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.48,
+        "sum_of_round_totals": 5.91,
+        "delta": -4.43,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9750",
+        "player": "홍정민",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.44,
+        "sum_of_round_totals": 5.76,
+        "delta": -4.32,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9652",
+        "player": "이세희",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.43,
+        "sum_of_round_totals": 5.71,
+        "delta": -4.28,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9990",
+        "player": "윤수아",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.42,
+        "sum_of_round_totals": 5.67,
+        "delta": -4.25,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9807",
+        "player": "김서윤2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.4,
+        "sum_of_round_totals": 5.58,
+        "delta": -4.18,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8277",
+        "player": "최민경",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.38,
+        "sum_of_round_totals": 5.5,
+        "delta": -4.12,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9465",
+        "player": "안지현",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.36,
+        "sum_of_round_totals": 5.46,
+        "delta": -4.1,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10726",
+        "player": "김가희2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.34,
+        "sum_of_round_totals": 5.34,
+        "delta": -4.0,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8772",
+        "player": "박민지",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.29,
+        "sum_of_round_totals": 5.16,
+        "delta": -3.87,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9235",
+        "player": "최은우",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.28,
+        "sum_of_round_totals": 5.12,
+        "delta": -3.84,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9759",
+        "player": "이율린",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.2,
+        "sum_of_round_totals": 4.81,
+        "delta": -3.61,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10161",
+        "player": "박아름2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.17,
+        "sum_of_round_totals": 4.69,
+        "delta": -3.52,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9708",
+        "player": "이재윤",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 1.1,
+        "sum_of_round_totals": 4.39,
+        "delta": -3.29,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "6916",
+        "player": "안송이",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.9,
+        "sum_of_round_totals": 3.58,
+        "delta": -2.68,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9483",
+        "player": "한지원",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.79,
+        "sum_of_round_totals": 3.14,
+        "delta": -2.35,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9449",
+        "player": "이지현3",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.71,
+        "sum_of_round_totals": 2.83,
+        "delta": -2.12,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8589",
+        "player": "배소현",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.67,
+        "sum_of_round_totals": 2.67,
+        "delta": -2.0,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9135",
+        "player": "신다인",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.67,
+        "sum_of_round_totals": 2.68,
+        "delta": -2.01,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8863",
+        "player": "윤혜림",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.67,
+        "sum_of_round_totals": 2.69,
+        "delta": -2.02,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9113",
+        "player": "노승희",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.58,
+        "sum_of_round_totals": 2.3,
+        "delta": -1.72,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11073",
+        "player": "최정원",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.5,
+        "sum_of_round_totals": 1.99,
+        "delta": -1.49,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9134",
+        "player": "서어진",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.47,
+        "sum_of_round_totals": 1.89,
+        "delta": -1.42,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9389",
+        "player": "전우리",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.39,
+        "sum_of_round_totals": 1.57,
+        "delta": -1.18,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10097",
+        "player": "김민선7",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.31,
+        "sum_of_round_totals": 1.22,
+        "delta": -0.91,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11374",
+        "player": "전승희",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": 0.23,
+        "sum_of_round_totals": 0.92,
+        "delta": -0.69,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8386",
+        "player": "성은정",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.05,
+        "sum_of_round_totals": -0.19,
+        "delta": 0.14,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10727",
+        "player": "황민정",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.07,
+        "sum_of_round_totals": -0.28,
+        "delta": 0.21,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9174",
+        "player": "강가율",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.15,
+        "sum_of_round_totals": -0.3,
+        "delta": 0.15,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9714",
+        "player": "유지나",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.21,
+        "sum_of_round_totals": -0.85,
+        "delta": 0.64,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10296",
+        "player": "문정민",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.24,
+        "sum_of_round_totals": -0.96,
+        "delta": 0.72,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11045",
+        "player": "양효진",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.27,
+        "sum_of_round_totals": -0.53,
+        "delta": 0.26,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8318",
+        "player": "박단유",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.3,
+        "sum_of_round_totals": -1.18,
+        "delta": 0.88,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11630",
+        "player": "정지효",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.33,
+        "sum_of_round_totals": -1.31,
+        "delta": 0.98,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9000",
+        "player": "김지수",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.35,
+        "sum_of_round_totals": -1.42,
+        "delta": 1.07,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11469",
+        "player": "이윤서",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.38,
+        "sum_of_round_totals": -0.76,
+        "delta": 0.38,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8793",
+        "player": "전효민",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.38,
+        "sum_of_round_totals": -1.52,
+        "delta": 1.14,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8883",
+        "player": "이가영",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.39,
+        "sum_of_round_totals": -0.78,
+        "delta": 0.39,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9487",
+        "player": "김재희",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.43,
+        "sum_of_round_totals": -1.7,
+        "delta": 1.27,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11485",
+        "player": "신지우",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.46,
+        "sum_of_round_totals": -0.92,
+        "delta": 0.46,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10022",
+        "player": "손예빈",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.53,
+        "sum_of_round_totals": -1.07,
+        "delta": 0.54,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9391",
+        "player": "최가빈",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.57,
+        "sum_of_round_totals": -1.15,
+        "delta": 0.58,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8246",
+        "player": "이소영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.6,
+        "sum_of_round_totals": -2.41,
+        "delta": 1.81,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9937",
+        "player": "황유나",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.68,
+        "sum_of_round_totals": -1.37,
+        "delta": 0.69,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11040",
+        "player": "이세영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.79,
+        "sum_of_round_totals": -3.15,
+        "delta": 2.36,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8243",
+        "player": "장은수",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.8,
+        "sum_of_round_totals": -3.19,
+        "delta": 2.39,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8240",
+        "player": "황정미",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.8,
+        "sum_of_round_totals": -3.22,
+        "delta": 2.42,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10531",
+        "player": "현세린",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.83,
+        "sum_of_round_totals": -3.33,
+        "delta": 2.5,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11057",
+        "player": "송은아",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.84,
+        "sum_of_round_totals": -3.33,
+        "delta": 2.49,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9277",
+        "player": "김아현",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -0.85,
+        "sum_of_round_totals": -1.71,
+        "delta": 0.86,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8884",
+        "player": "윤화영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -0.85,
+        "sum_of_round_totals": -3.42,
+        "delta": 2.57,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11062",
+        "player": "정세진",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.01,
+        "sum_of_round_totals": -2.01,
+        "delta": 1.0,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8799",
+        "player": "오경은",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.1,
+        "sum_of_round_totals": -2.2,
+        "delta": 1.1,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10138",
+        "player": "임진영",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -1.2,
+        "sum_of_round_totals": -4.8,
+        "delta": 3.6,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10157",
+        "player": "황연서",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.28,
+        "sum_of_round_totals": -2.56,
+        "delta": 1.28,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11216",
+        "player": "김지윤2",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.31,
+        "sum_of_round_totals": -2.63,
+        "delta": 1.32,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9401",
+        "player": "마다솜",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.36,
+        "sum_of_round_totals": -2.73,
+        "delta": 1.37,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9436",
+        "player": "구래현",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -1.42,
+        "sum_of_round_totals": -5.68,
+        "delta": 4.26,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "12154",
+        "player": "현세린 0901(A)",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.53,
+        "sum_of_round_totals": -3.06,
+        "delta": 1.53,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8811",
+        "player": "이채은2",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.66,
+        "sum_of_round_totals": -3.32,
+        "delta": 1.66,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9705",
+        "player": "홍지원",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.67,
+        "sum_of_round_totals": -3.34,
+        "delta": 1.67,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10002",
+        "player": "김민별",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.74,
+        "sum_of_round_totals": -3.48,
+        "delta": 1.74,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9089",
+        "player": "김소정",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.76,
+        "sum_of_round_totals": -3.51,
+        "delta": 1.75,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11060",
+        "player": "안재희",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -1.81,
+        "sum_of_round_totals": -7.23,
+        "delta": 5.42,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11056",
+        "player": "박예지",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -1.83,
+        "sum_of_round_totals": -3.66,
+        "delta": 1.83,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10101",
+        "player": "임지유",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -1.85,
+        "sum_of_round_totals": -7.42,
+        "delta": 5.57,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8434",
+        "player": "김지영2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -1.87,
+        "sum_of_round_totals": -7.48,
+        "delta": 5.61,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9111",
+        "player": "박서현",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -2.28,
+        "sum_of_round_totals": -4.56,
+        "delta": 2.28,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10481",
+        "player": "이서윤4",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -2.42,
+        "sum_of_round_totals": -4.85,
+        "delta": 2.43,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10790",
+        "player": "김하은2",
+        "rounds_collected": 4,
+        "rounds_expected": 4,
+        "cumulative_total": -2.59,
+        "sum_of_round_totals": -10.37,
+        "delta": 7.78,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11447",
+        "player": "한아름",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -2.67,
+        "sum_of_round_totals": -5.34,
+        "delta": 2.67,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11446",
+        "player": "강민진",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -2.8,
+        "sum_of_round_totals": -5.6,
+        "delta": 2.8,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10081",
+        "player": "김민주",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -3.2,
+        "sum_of_round_totals": -6.41,
+        "delta": 3.21,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9728",
+        "player": "허윤서",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -3.67,
+        "sum_of_round_totals": -7.33,
+        "delta": 3.66,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9726",
+        "player": "신이솔",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -3.68,
+        "sum_of_round_totals": -7.36,
+        "delta": 3.68,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8380",
+        "player": "김새로미",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -3.73,
+        "sum_of_round_totals": -7.47,
+        "delta": 3.74,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9364",
+        "player": "박소혜",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.06,
+        "sum_of_round_totals": -8.12,
+        "delta": 4.06,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9752",
+        "player": "김나현2",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.17,
+        "sum_of_round_totals": -8.34,
+        "delta": 4.17,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9384",
+        "player": "김하니",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.25,
+        "sum_of_round_totals": -8.49,
+        "delta": 4.24,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10178",
+        "player": "김희지",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.57,
+        "sum_of_round_totals": -9.13,
+        "delta": 4.56,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8430",
+        "player": "조은채",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.6,
+        "sum_of_round_totals": -9.21,
+        "delta": 4.61,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "12127",
+        "player": "방지나 0810(A)",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -4.72,
+        "sum_of_round_totals": -9.44,
+        "delta": 4.72,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8271",
+        "player": "김효문",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -5.1,
+        "sum_of_round_totals": -10.2,
+        "delta": 5.1,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "11926",
+        "player": "유다겸(I)",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -5.5,
+        "sum_of_round_totals": -10.99,
+        "delta": 5.49,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "9723",
+        "player": "노원경",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -5.75,
+        "sum_of_round_totals": -11.51,
+        "delta": 5.76,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10867",
+        "player": "양서후",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -5.82,
+        "sum_of_round_totals": -11.64,
+        "delta": 5.82,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "8972",
+        "player": "조정민",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -7.65,
+        "sum_of_round_totals": -15.29,
+        "delta": 7.64,
+        "within_tolerance": false,
+        "round_count_matches": true
+      },
+      {
+        "player_id": "10776",
+        "player": "윤서정",
+        "rounds_collected": 2,
+        "rounds_expected": 2,
+        "cumulative_total": -9.99,
+        "sum_of_round_totals": -19.98,
+        "delta": 9.99,
+        "within_tolerance": false,
+        "round_count_matches": true
+      }
+    ]
+  },
+  "collection_finished_at": "2026-10-16T10:43:05.463498+00:00"
+}
