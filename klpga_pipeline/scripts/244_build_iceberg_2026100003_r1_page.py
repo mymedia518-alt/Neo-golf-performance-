@@ -34,6 +34,16 @@ the hero's own internal-methodology line (워크포워드 검증/SG 보정/
 shown at all now, same scope as the NEO 경기력 removal above (R1/R2/FR
 for this tournament only; PRE and other tournaments' pages untouched).
 
+MOBILE KEPT AS A REAL TABLE, NOT CARDS (operator instruction, 2026-10-16):
+table-wrap--iceberg-r1 on the wrapper div, combined with the table's own
+leaderboard-table--iceberg-r1 class, opts into the same real table/row/
+cell mobile display + horizontal-scroll mechanics already shipped for
+HANA's pages (leaderboard-table--flat-scroll in neo.css) -- but under
+its own, separately-named CSS rules so a future change to HANA's class
+can never reach this page and vice versa. Same column order as desktop,
+no wrapped cells, no shrunk columns; HOME mirrors this verbatim via
+scripts/245. No other tournament's markup carries this class.
+
 Source of truth:
  - 2026100003_ENTRY_KRANKING_JOIN.json (same roster/sponsor/K-ranking PRE uses)
  - the real R1 roundLeaderboard, collected via the one-off GitHub Actions
@@ -276,7 +286,7 @@ def main() -> None:
     table_section = (
         '<section class="panel leaderboard-panel" id="r1">'
         '<div class="leaderboard-head"><h2>1R 공식 결과 <small>108명</small></h2></div>'
-        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--iceberg-r1"><thead><tr>'
+        '<div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>R1</th><th>R2</th><th>FR</th>"
         "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
