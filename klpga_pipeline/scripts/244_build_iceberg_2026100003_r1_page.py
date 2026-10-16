@@ -20,6 +20,14 @@ section replaces PRE's entry list, matching this tournament's own real
 3-round (54-hole) shape (scripts/238's own 2026-10-16 operator-confirmed
 note), not hitejinro's 4-round layout.
 
+NEO 경기력 COLUMN DROPPED FROM R1 (operator instruction, 2026-10-16): the
+column overflowed the on-screen table once the wrap fix below widened
+every other cell to one line. PRE (scripts/238) is unaffected and keeps
+showing NEO 경기력 -- only this tournament's R1/R2/FR stage pages drop
+it (R2/FR builders don't exist yet; when they're written, copy the
+table without the NEO 경기력 <th>/<td> and without the info_js block,
+same as here). Other tournaments' already-published pages are untouched.
+
 Source of truth:
  - 2026100003_ENTRY_KRANKING_JOIN.json (same roster/sponsor/K-ranking PRE uses)
  - the real R1 roundLeaderboard, collected via the one-off GitHub Actions
@@ -161,15 +169,6 @@ def main() -> None:
         if is_wd:
             name_cell += "<span class='status-badge'>WD</span>"
 
-        if pid in neo_band_by_id:
-            label, score = neo_band_by_id[pid]
-            band_cell = (
-                f"<span class='band' role='img' aria-label='NEO 경기력 {label}' "
-                f"data-neo-score='{score:.2f}'>{label}</span>"
-            )
-        else:
-            band_cell = f"<span class='band' role='img' aria-label='NEO 경기력 데이터 부족'>{_NOWRAP}</span>"
-
         if is_wd:
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
             metric_class = "win metric-empty"
@@ -193,7 +192,6 @@ def main() -> None:
             f"<td data-label='R1'>{r1_cell}</td>"
             f"<td data-label='R2'>-</td>"
             f"<td data-label='FR'>-</td>"
-            f"<td data-label='NEO 경기력'>{band_cell}</td>"
             f"<td class='{metric_class}' data-label='컷 통과확률'>{cut_cell}</td>"
             f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
             f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
@@ -287,28 +285,12 @@ def main() -> None:
         '<div class="leaderboard-head"><h2>1R 공식 결과 <small>108명</small></h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--iceberg-r1"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>R1</th><th>R2</th><th>FR</th>"
-        "<th class='band-head'>NEO 경기력 "
-        "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
-        "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"
         "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
 
-    info_js = (
-        "<script>(function(){const b=document.querySelector('.info-control'),p=document.getElementById('neo-info');"
-        "if(!b||!p)return;function close(){p.classList.remove('is-open');b.setAttribute('aria-expanded','false')}"
-        "function place(){if(window.innerWidth<=760)return;const r=b.getBoundingClientRect();"
-        "let left=Math.min(r.left,window.innerWidth-p.offsetWidth-16);left=Math.max(16,left);"
-        "p.style.left=left+'px';p.style.top=(r.bottom+6)+'px'}"
-        "b.addEventListener('click',function(){const open=p.classList.toggle('is-open');"
-        "b.setAttribute('aria-expanded',String(open));if(open){place();p.focus()}});"
-        "document.addEventListener('keydown',function(e){if(e.key==='Escape'&&p.classList.contains('is-open'))close()});"
-        "document.addEventListener('click',function(e){if(!b.contains(e.target)&&!p.contains(e.target))close()});"
-        "window.addEventListener('scroll',close,true);window.addEventListener('resize',close)})();</script>"
-    )
-
     footer = (
-        '</main>' + info_js +
+        '</main>' +
         '<nav class="sr-data" aria-label="추가 탐색 링크"><a href="/">NEO GOLF DATA</a> <a href="/">홈</a> '
         f'<a href="/tournaments/2026/{GAME_CODE}/r1/">대회</a> <a href="/deep-dive/">딥다이브</a> <a href="/about/">소개</a></nav>'
         '<footer class="site-footer"><div class="site-footer__inner">'
