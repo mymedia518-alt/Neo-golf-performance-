@@ -83,6 +83,17 @@
    different column layout). A new, grid-rule-free modifier instead:
    nowrap only, every width, no mobile grid side effects. */
 .leaderboard-table.leaderboard-table--hitejinro tbody td{white-space:nowrap}
+/* ICEBERG 2026100003 R1 COLUMN WRAP FIX (visual-alignment-only request):
+   same root cause/fix as --r2-full and --hitejinro above -- iceberg's R1
+   table never carried either modifier, so its 순위/합계/R1/R2/FR and
+   percent cells (and, at narrower widths, the thead labels) fell back to
+   the base white-space:normal rule and could wrap a short value onto two
+   lines. Nowrap only, both thead and tbody <td> (never the player-name
+   <th>, which must stay free to wrap a long name/sponsor); .table-wrap's
+   existing overflow-x:auto already lets the table grow past the panel
+   width and scroll if nowrap needs more room than the container has. */
+.leaderboard-table.leaderboard-table--iceberg-r1 thead th{white-space:nowrap}
+.leaderboard-table.leaderboard-table--iceberg-r1 tbody td{white-space:nowrap}
 /* HJ 2026100004 FR MERGED-ROW LAYOUT (2026-10-11): FR's own public
    leaderboard (순위/선수/R1/R2/R3/4R/최종 포인트/TOP20/TOP10/TOP5/
    우승확률, 11 DOM columns, official result + pre-FR forecast merged

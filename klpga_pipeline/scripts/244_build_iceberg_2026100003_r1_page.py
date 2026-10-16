@@ -285,7 +285,7 @@ def main() -> None:
     table_section = (
         '<section class="panel leaderboard-panel" id="r1">'
         '<div class="leaderboard-head"><h2>1R 공식 결과 <small>108명</small></h2></div>'
-        '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
+        '<div class="table-wrap"><table class="data leaderboard-table leaderboard-table--iceberg-r1"><thead><tr>'
         "<th>순위</th><th>선수</th><th>합계</th><th>R1</th><th>R2</th><th>FR</th>"
         "<th class='band-head'>NEO 경기력 "
         "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
