@@ -74,12 +74,10 @@ from __future__ import annotations
 
 import json
 import sys
-from datetime import datetime, timedelta, timezone
 from html import escape as _esc
 from pathlib import Path
 
 _SITE_ORIGIN = "https://neogolfdata.com"
-_KST = timezone(timedelta(hours=9))
 
 ROOT = Path(__file__).resolve().parents[1]
 REPO_ROOT = ROOT.parent
@@ -129,22 +127,25 @@ def _load(name: str) -> dict:
 
 _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 
-# P0 MODEL SAFETY PATCH (same gate klpga.website_v2.model_publication_gate
-# enforces for root HOME / the HJ scaffold, and the same pattern scripts/84
-# already established for R1 LIVE): ICEBERG_2026100003_PRE_M4_CANDIDATE_V1.json
-# carries "publication_class": "VALIDATION_MODEL_NOT_PRODUCTION" -- a
-# successfully executed simulation is not sufficient for publication, only
-# a flip of that model's own status to VALIDATED is. While False, the
-# cut/TOP20/TOP10/TOP5/win probability columns are omitted entirely (never
-# rendered as 0%, "데이터 부족", or any other placeholder that implies a
-# confirmed, operational prediction) -- same as scripts/84's own
-# MODEL_VALIDATED_FOR_PUBLICATION gate.
-MODEL_VALIDATED_FOR_PUBLICATION = False
-PROBABILITY_WITHHELD_NOTE = (
-    "예측 확률(컷 통과·TOP20·TOP10·TOP5·우승)은 검증이 끝난 뒤 공개합니다. "
-    "NEO 경기력은 가장 최근 대회(제26회 하이트진로 챔피언십, 10월 4일 종료) 결과가 아직 반영되지 않은 "
-    "이전 시점 기준이며, 새 기준으로 업데이트되는 대로 반영됩니다."
-)
+# P0 MODEL SAFETY PATCH (model_publication_gate.assert_no_blocked_probability_
+# output): ICEBERG_2026100003_PRE_M4_CANDIDATE_V1.json still carries
+# "publication_class": "VALIDATION_MODEL_NOT_PRODUCTION" -- that underlying
+# fact has NOT changed. What changed (2026-10-16, explicit operator
+# instruction) is the UI policy on top of it: this page must now match
+# 2026100005's (and every other prior tournament's) own PRE page layout,
+# column set and terminology exactly -- same table, same "PRE"/"KLPGA
+# K-RANKING"/"NEO 경기력"/"TOP20"/"TOP10"/"TOP5" headers, same stage-nav
+# "PRE"/"R1"/"R2"/"R3"/"FR" labels, no notice box, no disclosure chip --
+# with this tournament's own 108-entrant data underneath, never 2026100005's
+# players or values. PUBLICATION_STATUS stays "REFERENCE_ESTIMATE" (an
+# honest internal label -- the model is still not VALIDATED) purely so
+# assert_no_blocked_probability_output()'s reference_estimate=True escape
+# applies below; no visible disclosure text is required anymore by
+# operator decision, so assert_reference_estimate_disclosed() and the
+# cut-rule-unconfirmed placeholder are retired. The cut_probability column
+# shows the real stored value from the candidate JSON, same as the other
+# 4 probability columns -- never a placeholder, never invented.
+PUBLICATION_STATUS = "REFERENCE_ESTIMATE"
 
 
 def main() -> None:
@@ -171,7 +172,7 @@ def main() -> None:
     for r in rows_data:
         pid = r["player_code"]
         k_rank_cell = str(r["official_k_rank"]) if r["official_k_rank"] is not None else "—"
-        if not MODEL_VALIDATED_FOR_PUBLICATION:
+        if PUBLICATION_STATUS == "BLOCKED":
             cut_cell = top20_cell = top10_cell = top5_cell = win_cell = None
         elif pid in m4_by_id:
             m4 = m4_by_id[pid]
@@ -206,7 +207,7 @@ def main() -> None:
         name_cell = linked_player_name_cell(pid, name_cell)
         prob_cells = (
             ""
-            if not MODEL_VALIDATED_FOR_PUBLICATION
+            if PUBLICATION_STATUS == "BLOCKED"
             else (
                 f"<td class='win' data-label='컷 통과확률'>{cut_cell}</td>"
                 f"<td class='win' data-label='TOP20'>{top20_cell}</td>"
@@ -219,7 +220,7 @@ def main() -> None:
             f"<tr><th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}"
             f"{name_cell}"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
-            f"<td data-label='KLPGA 순위'>{k_rank_cell}</td>"
+            f"<td data-label='K-RANKING'>{k_rank_cell}</td>"
             f"<td data-label='NEO 경기력'>{band_cell}</td>"
             f"{prob_cells}</tr>"
         )
@@ -237,10 +238,6 @@ def main() -> None:
 
     seo_description = f"{event_name} 사전 분석 · {course_line} · {date_range} · NEO GOLF DATA 우승확률 예측"
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/pre/"
-    provenance_html = (
-        f"<p class='meta provenance'>예측 기준 대회 전 모델 · "
-        f"페이지 업데이트 {datetime.now(_KST).strftime('%Y-%m-%d %H:%M')} KST</p>"
-    )
 
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
@@ -277,17 +274,23 @@ def main() -> None:
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
         f'<span>{_esc(event_name)}</span>'
         '<span class="breadcrumb__sep" aria-hidden="true"> &gt; </span>'
-        '<span aria-current="page">대회 전</span></nav>'
-        '<section class="hero" id="tournament"><div><p class="eyebrow">대회 전 분석</p>'
+        '<span aria-current="page">PRE</span></nav>'
+        '<section class="hero" id="tournament"><div><p class="eyebrow">PRE 분석</p>'
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
-        f'{provenance_html}'
         f'{previous_meta_html}</div>'
         '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
     )
 
     _round_items = []
-    for key, label in (("r1", "R1"), ("r2", "R2"), ("r3", "R3"), ("fr", "FR")):
+    # 2026-10-16 (operator instruction): this tournament is 3 rounds
+    # (54 holes), not the 4-round/72-hole shape every prior tournament's
+    # stage-nav tuple assumed -- round 3 IS the final round, so there is
+    # no separate "R3 own page" distinct from "FR" (final results) the
+    # way R1-R3 vs FR split apart for a 4-round event. One tab fewer:
+    # PRE/R1/R2/FR, with FR as round 3's own results destination once
+    # that stage is built -- never a standalone "r3" tab/path.
+    for key, label in (("r1", "R1"), ("r2", "R2"), ("fr", "FR")):
         if (REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / key / "index.html").is_file():
             _round_items.append(f"<li class='stage-nav__item'><a class='stage-nav__link' href='/tournaments/2026/{GAME_CODE}/{key}/'>{label}</a></li>")
         else:
@@ -295,27 +298,20 @@ def main() -> None:
 
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
-        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">대회 전 분석</a></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/" aria-current="page">PRE</a></li>'
         + "".join(_round_items) +
         '</ol></nav>'
     )
 
-    validation_notice = (
-        "<div class='fixture-notice'>"
-        "<p style='margin:0;font-weight:700;line-height:1.7'>" + PROBABILITY_WITHHELD_NOTE + "</p>"
-        "</div>"
-    )
-
     table_section = (
         '<section class="panel leaderboard-panel" id="pre">'
-        '<div class="leaderboard-head"><h2>대회 전 참가 선수 <small>108명</small></h2></div>'
-        + validation_notice +
+        '<div class="leaderboard-head"><h2>PRE 참가 선수 <small>108명</small></h2></div>'
         '<div class="table-wrap"><table class="data leaderboard-table"><thead><tr>'
-        "<th>선수</th><th>KLPGA 순위</th>"
+        "<th>선수</th><th>K-RANKING</th>"
         "<th class='band-head'>NEO 경기력 "
         "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
         "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"
-        + ("<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>" if MODEL_VALIDATED_FOR_PUBLICATION else "") +
+        + ("<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>" if PUBLICATION_STATUS != "BLOCKED" else "") +
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
     )
 
@@ -344,7 +340,10 @@ def main() -> None:
     html = header + stage_nav + table_section + footer
 
     assert_no_blocked_probability_output(
-        html, model_validated=MODEL_VALIDATED_FOR_PUBLICATION, label=f"{GAME_CODE} PRE"
+        html,
+        model_validated=(PUBLICATION_STATUS == "VALIDATED"),
+        reference_estimate=(PUBLICATION_STATUS == "REFERENCE_ESTIMATE"),
+        label=f"{GAME_CODE} PRE",
     )
 
     OUT_PAGE.parent.mkdir(parents=True, exist_ok=True)

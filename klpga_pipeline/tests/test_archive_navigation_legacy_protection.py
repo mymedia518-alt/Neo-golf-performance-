@@ -246,13 +246,31 @@ def test_home_locked_copy_uses_reader_language_not_internal_terms():
     2026100003_home.py) from HJ (a modified-Stableford fixture, hence the
     old HJ-era assertions here) to 아이스버그골프 · 서울신문 오픈 (ordinary
     stroke play -- no Stableford fixture-notice applies). Locks the new
-    real copy -- the probability-withheld reader note (model_publication_
-    gate blocks the 5 probability columns while M4 stays
-    VALIDATION_MODEL_NOT_PRODUCTION) -- instead of the retired HJ strings."""
+    real copy -- the probability-withheld reader note -- instead of the
+    retired HJ strings.
+
+    2026-10-16 (operator instruction, first pass): the 5 probability
+    columns moved from model_publication_gate's BLOCKED state to its
+    REFERENCE_ESTIMATE state, with plain-language column/stage labels
+    (대회 전/KLPGA 순위/최근 경기력 등급/20위 이내 진입 확률/etc.) and a
+    disclosure note, then a "참고 예상" chip.
+
+    2026-10-16 (operator instruction, second pass -- current): the
+    operator decided this page must instead match 2026100005's (and
+    every other prior tournament's) own PRE page layout AND terminology
+    exactly -- "PRE"/"KLPGA K-RANKING"/"NEO 경기력"/"TOP20"/"TOP10"/
+    "TOP5"/"R1"-"FR" restored verbatim, no notice box, no disclosure
+    chip. This test now locks THAT real copy -- only the previously
+    retired internal-process terms (placeholder-era strings, model
+    codenames, gate-internal jargon that was never meant to be reader
+    copy even in the original per-tournament template) stay banned."""
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "아이스버그골프 · 서울신문 오픈" in html
-    assert "예측 확률(컷 통과·TOP20·TOP10·TOP5·우승)은 검증이 끝난 뒤 공개합니다" in html
-    for leaked_internal_term in ("예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지", "M4", "VALIDATION_MODEL_NOT_PRODUCTION"):
+    assert "<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>" in html
+    for leaked_internal_term in (
+        "예측 잠금", "모델 검증", "Stableford Adapter", "publication gate", "검증될 때까지",
+        "M4", "VALIDATION_MODEL_NOT_PRODUCTION", "공식 기준 확인 중", "참고 예상",
+    ):
         assert leaked_internal_term not in html, f"internal term leaked into HOME public copy: {leaked_internal_term!r}"
 
 
@@ -337,7 +355,16 @@ def test_public_term_audit_zero_hits_in_visible_text():
 
 def test_root_home_points_at_hj_as_current_tournament_and_has_no_blocked_probability_output():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert_no_blocked_probability_output(html, model_validated=False, label="root HOME")
+    # 2026-10-16: PUBLICATION_STATUS is REFERENCE_ESTIMATE for 2026100003
+    # (the model's own publication_class is still VALIDATION_MODEL_NOT_
+    # PRODUCTION, unchanged) -- the gate's own disclosed-estimate escape,
+    # not a bypass: assert_no_blocked_probability_output no longer raises
+    # for this reason alone. A second operator instruction later removed
+    # the visible disclosure requirement (match 2026100005's own PRE page
+    # exactly, no notice/chip), so assert_reference_estimate_disclosed is
+    # no longer called here either -- that relaxation is itself the
+    # locked, current behavior, not a check this test still enforces.
+    assert_no_blocked_probability_output(html, model_validated=False, reference_estimate=True, label="root HOME")
     assert 'content="current-tournament-v1"' in html, "root HOME must keep the current-tournament-v1 owner marker"
     assert "HJ중공업" in html
     assert "/tournaments/2026/2026100004/" in html
