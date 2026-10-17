@@ -1,0 +1,79 @@
+
+
+
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	$(".btnOrder").click(function(){
+		var dataName = $(this).attr("_orderType");
+		var order = "desc";
+		
+		if($(this).hasClass("sort-asc")){
+			order = "desc";
+		} else if($(this).hasClass("sort-desc")){
+			order = "asc";
+		}
+		$(this).parent().children().removeClass("sort-asc sort-desc");
+		$(this).addClass("sort-"+order);
+		
+		listSort(dataName, order);
+	});
+});
+
+function listSort(dataName, order){
+	
+	$targetObj = $("#record-one tbody tr");
+	
+	$("#record-one tbody").html(
+		$targetObj.sort(function(a, b){
+			$(a).find("td:eq(0)").html($(a).data(dataName)==999 ? '' : $(a).data(dataName));
+			$(b).find("td:eq(0)").html($(b).data(dataName)==999 ? '' : $(b).data(dataName));
+			if($(a).data(dataName)!=999){
+				if(order=="desc"){
+					if($(a).data(dataName)<$(b).data(dataName)) return -1;
+					else return 1;
+				}
+				else {
+					if($(a).data(dataName)<$(b).data(dataName)) return 1;
+					else return -1;
+				}	
+			}
+		})
+	);
+}
+</script>
+<style>
+.table-blue tr th, .table-blue tr td {
+	border: 0px;
+}
+.rank {
+    /* font-size: 1rem; */
+    color: #acaaaa;
+}
+</style>
+<div class="tab-pane fade show active" id="record-one" role="tabpanel" aria-labelledby="record-one-tab">
+	<div class="table-responsive">
+		<table class="table table-blue text-center fixed-start fixed-second-60 table-hover">
+			<thead>
+				<tr>
+					<th style="min-width: 60px;">순위</th>
+					<th style="min-width: 90px;">선수명</th>
+					<th class="btnOrder sort-desc" _orderType="sgrank" style="min-width: 110px;">SG : 전체 </th>
+					<th class="btnOrder" _orderType="teetogreenrank" style="min-width: 130px;">SG : 티샷 to 그린</th>
+					<th class="btnOrder" _orderType="driverrank" style="min-width: 110px;">SG : 티샷</th>
+					<th class="btnOrder" _orderType="approachrank" style="min-width: 110px;">SG : 어프로치</th>
+					<th class="btnOrder" _orderType="aroundrank" style="min-width: 110px;">SG : 그린주변</th>
+					<th class="btnOrder" _orderType="putterrank" style="min-width: 110px;">SG : 퍼팅</th>
+					<th style="min-width: 110px;">라운드 수</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
+</div>
