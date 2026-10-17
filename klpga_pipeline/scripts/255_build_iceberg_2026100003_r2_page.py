@@ -3,16 +3,28 @@ R1+R2 results + the SG-adjusted, R2-conditioned FR forecast
 (ICEBERG_2026100003_POST_R2_FORECAST_V1.json, scripts/254), continuing
 the exact structure scripts/244 established for R1 one stage later.
 
-CUT STATUS: a real fact (scripts/251, from the official R3 tee sheet),
-not a simulated probability. A missed-cut player keeps their real R1+R2
-score/rank in the table (never removed), gets a 'CUT' status badge next
-to their name (same .status-badge class WD already uses), and a real,
-known 0.0% across all four forward probability columns -- not "—"
-(that marker stays reserved for genuinely missing/not-applicable data,
-e.g. WD). 컷 통과확률 itself becomes 100.0%/0.0% (real fact) instead of
-the PRE-stage model's probabilistic estimate, same convention
-klpga.neo_win.round_update_r2 already established site-wide for every
-other tournament's own post-cut stage.
+CUT STATUS (operator correction, 2026-10-17): the real cut outcome
+(scripts/251, from the official R3 tee sheet) and the 컷 통과확률
+COLUMN are two different things, kept deliberately separate --
+컷 통과확률 is the R1-end prediction (same ICEBERG_2026100003_
+PRE_M4_CANDIDATE_V1.json cut_probability value scripts/244's own R1
+page already shows, keyed by player_id, never recomputed here), and it
+is NOT overwritten by the real outcome once the cut is known -- an
+earlier version of this script did overwrite it with 100.0%/0.0% (the
+real fact), which silently destroyed the preserved prediction; fixed
+here. A player with no R1-end prediction available shows 데이터 부족
+in that column even if they really did make the cut -- never
+backfilled with 100%.
+
+The real outcome is shown separately, as a status badge next to the
+name: '컷 통과' for a real cutmaker, 'CUT' for a real missed-cut
+player (both using the existing .status-badge class WD already uses --
+no new CSS), 'WD' for a withdrawal. The other four forward-looking
+columns (TOP20/TOP10/TOP5/우승확률) are untouched by this correction:
+a real missed-cut player still shows a real, known 0.0% there (not
+"—" -- they are mathematically out, same convention klpga.neo_win.
+round_update_r2 already established site-wide), WD still shows "—",
+and a real cutmaker still shows scripts/254's SG-adjusted forecast.
 
 No NEO 경기력 column and no provenance paragraph, same operator
 instruction scripts/244 already applies to this tournament's R1/R2/FR
@@ -43,6 +55,7 @@ from klpga.website_v2.previous_tournament_link import previous_tournament_meta_h
 GAME_CODE = "2026100003"
 R2_OFFICIAL_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_R2_OFFICIAL_V1.json"
 FORECAST_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R2_FORECAST_V1.json"
+M4_CANDIDATE_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_PRE_M4_CANDIDATE_V1.json"
 JOIN_PATH = CONTENT / f"{GAME_CODE}_ENTRY_KRANKING_JOIN.json"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "r2" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
@@ -72,6 +85,16 @@ def main() -> None:
     forecast = json.loads(FORECAST_PATH.read_text(encoding="utf-8"))
     assert forecast["game_code"] == GAME_CODE
     forecast_by_id = {r["player_id"]: r for r in forecast["cutmaker_records"]}
+
+    # R1-end 컷 통과확률 prediction -- same source/filter scripts/244's own
+    # R1 page already uses for this exact column. Independent of the real
+    # cut outcome: never recomputed, never overwritten by it.
+    m4_candidate = json.loads(M4_CANDIDATE_PATH.read_text(encoding="utf-8"))
+    cut_prob_by_id = {
+        str(r["playerCode"]): r["cut_probability"]
+        for r in m4_candidate.get("records", [])
+        if r.get("analysis_status") == "PASS" and r.get("cut_probability") is not None
+    }
 
     sponsor_cache = cross_tournament_verified_sponsor_cache()
 
@@ -134,16 +157,31 @@ def main() -> None:
             name_cell += "<span class='status-badge'>WD</span>"
         elif is_cut:
             name_cell += "<span class='status-badge'>CUT</span>"
+        else:
+            name_cell += "<span class='status-badge'>컷 통과</span>"
 
+        # 컷 통과확률 column: ALWAYS the R1-end prediction, independent of
+        # the real outcome above -- never recomputed, never replaced by
+        # 100.0%/0.0% even for a confirmed real cutmaker/missed-cut player.
         if is_wd:
-            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "—"
+            cut_cell = "—"
+        elif pid in cut_prob_by_id:
+            cut_cell = _pct(cut_prob_by_id[pid])
+        else:
+            cut_cell = _NOWRAP
+
+        # Forward-looking columns (TOP20/TOP10/TOP5/우승확률): unchanged
+        # from before -- real, known 0.0% for a real missed-cut player,
+        # the SG-adjusted forecast for a real cutmaker, 데이터 부족 only
+        # when that forecast genuinely could not be computed.
+        if is_wd:
+            top20_cell = top10_cell = top5_cell = win_cell = "—"
             metric_class = "win metric-empty"
         elif is_cut:
-            cut_cell = top20_cell = top10_cell = top5_cell = win_cell = "0.0%"
+            top20_cell = top10_cell = top5_cell = win_cell = "0.0%"
             metric_class = "win"
         elif pid in forecast_by_id:
             f = forecast_by_id[pid]
-            cut_cell = _pct(f["cut_probability"])
             top20_cell = _pct(f["sg_adjusted_top20_probability"])
             top10_cell = _pct(f["sg_adjusted_top10_probability"])
             top5_cell = _pct(f["sg_adjusted_top5_probability"])
@@ -151,10 +189,8 @@ def main() -> None:
             metric_class = "win"
         else:
             # made_cut=True (real fact) but excluded from the forward
-            # simulation (e.g. no BASE feature) -- cut_probability stays
-            # the real 100.0% fact; only the forward-looking columns,
-            # which genuinely couldn't be computed, show 데이터 부족.
-            cut_cell = "100.0%"
+            # simulation (e.g. no BASE feature) -- only these four
+            # genuinely-uncomputable columns show 데이터 부족.
             top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
             metric_class = "win"
 
@@ -284,6 +320,7 @@ def main() -> None:
         "rows": len(rows_data),
         "r2_leaderboard_rows": r2_official["r2_leaderboard_rows"],
         "made_cut_counts": r2_official["made_cut_counts"],
+        "cut_probability_prediction_connected": len(cut_prob_by_id),
         "forecast_connected": len(forecast_by_id),
         "forecast_excluded": forecast.get("excluded_cutmakers"),
         "monotonicity_problems": monotonic_problems,
