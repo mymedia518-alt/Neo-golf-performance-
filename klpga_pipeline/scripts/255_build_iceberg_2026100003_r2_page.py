@@ -16,13 +16,21 @@ here. A player with no R1-end prediction available shows 데이터 부족
 in that column even if they really did make the cut -- never
 backfilled with 100%.
 
-The real outcome is shown separately, as a status badge next to the
-name: '컷 통과' for a real cutmaker, 'CUT' for a real missed-cut
-player (both using the existing .status-badge class WD already uses --
-no new CSS), 'WD' for a withdrawal. The other four forward-looking
-columns (TOP20/TOP10/TOP5/우승확률) are untouched by this correction:
-a real missed-cut player still shows a real, known 0.0% there (not
-"—" -- they are mathematically out, same convention klpga.neo_win.
+The real outcome is shown separately (operator instruction, 2026-10-17,
+revised from an earlier '컷 통과' badge): a real missed-cut player
+still gets the 'CUT' status badge next to their name (existing
+.status-badge class, no new CSS) and a real withdrawal still gets 'WD'
+-- a real cutmaker gets NO badge. Instead, a single divider row reading
+"Missed cut" (existing .leaderboard-table tbody tr.cut-divider CSS,
+already shipped and used by hitejinro_round_page.py -- reused here
+verbatim, no new CSS) separates the made-cut rows from the missed-cut
+rows, inserted exactly once at the real transition point (rows_data is
+sorted by real score, and scripts/251's own made_cut boundary is a
+verified zero-exception split, so made-cut and missed-cut rows are
+already contiguous blocks). The other four forward-looking columns
+(TOP20/TOP10/TOP5/우승확률) are untouched by either correction: a real
+missed-cut player still shows a real, known 0.0% there (not "—" --
+they are mathematically out, same convention klpga.neo_win.
 round_update_r2 already established site-wide), WD still shows "—",
 and a real cutmaker still shows scripts/254's SG-adjusted forecast.
 
@@ -124,6 +132,9 @@ def main() -> None:
             if tp is not None:
                 rank_counts[tp] = rank_counts.get(tp, 0) + 1
 
+    TOTAL_COLS = 11  # 순위/선수/합계/R1/R2/FR/컷통과확률/TOP20/TOP10/TOP5/우승확률
+    cut_divider_inserted = False
+
     rows_html = []
     for pid in rows_data:
         jr = join_records[pid]
@@ -131,6 +142,17 @@ def main() -> None:
         is_known_r1_wd = r is None  # 8243, never appears past R1
         is_wd = is_known_r1_wd or r["r2_status"] == "WD"
         is_cut = (not is_wd) and (not r["made_cut"])
+
+        # One-line divider between real cutmakers and real missed-cut
+        # players -- operator instruction, 2026-10-17. rows_data is
+        # sorted by real 2-round score ascending within the non-WD
+        # group (scripts/251's own made_cut<=+4/>=+5 boundary, verified
+        # zero exceptions), so made-cut and missed-cut rows are already
+        # contiguous blocks; this fires exactly once, at the real
+        # transition, never guessed or recomputed from score alone.
+        if is_cut and not cut_divider_inserted:
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{TOTAL_COLS}'>Missed cut</td></tr>")
+            cut_divider_inserted = True
 
         if is_wd:
             rank_cell = "WD"
@@ -157,8 +179,6 @@ def main() -> None:
             name_cell += "<span class='status-badge'>WD</span>"
         elif is_cut:
             name_cell += "<span class='status-badge'>CUT</span>"
-        else:
-            name_cell += "<span class='status-badge'>컷 통과</span>"
 
         # 컷 통과확률 column: ALWAYS the R1-end prediction, independent of
         # the real outcome above -- never recomputed, never replaced by
