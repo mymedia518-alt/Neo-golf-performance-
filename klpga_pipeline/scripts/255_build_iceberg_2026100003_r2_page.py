@@ -22,10 +22,14 @@ still gets the 'CUT' status badge next to their name (existing
 .status-badge class, no new CSS) and a real withdrawal still gets 'WD'
 -- a real cutmaker gets NO badge. Instead, a single divider row reading
 "Missed cut" (existing .leaderboard-table tbody tr.cut-divider CSS,
-already shipped and used by hitejinro_round_page.py -- reused here
-verbatim, no new CSS) separates the made-cut rows from the missed-cut
-rows, inserted exactly once at the real transition point (rows_data is
-sorted by real score, and scripts/251's own made_cut boundary is a
+already shipped and used by hitejinro_round_page.py -- reused as-is,
+no change to that shared class so hitejinro's own pages are unaffected;
+the operator asked for THIS divider's text centered, so a one-off
+inline style='text-align:center' is set on this <td> only, instead of
+touching the shared left-aligned class default) separates the made-cut
+rows from the missed-cut rows, inserted exactly once at the real
+transition point (rows_data is sorted by real score, and scripts/251's
+own made_cut boundary is a
 verified zero-exception split, so made-cut and missed-cut rows are
 already contiguous blocks). The other four forward-looking columns
 (TOP20/TOP10/TOP5/우승확률) are untouched by either correction: a real
@@ -151,7 +155,7 @@ def main() -> None:
         # contiguous blocks; this fires exactly once, at the real
         # transition, never guessed or recomputed from score alone.
         if is_cut and not cut_divider_inserted:
-            rows_html.append(f"<tr class='cut-divider'><td colspan='{TOTAL_COLS}'>Missed cut</td></tr>")
+            rows_html.append(f"<tr class='cut-divider'><td colspan='{TOTAL_COLS}' style='text-align:center'>Missed cut</td></tr>")
             cut_divider_inserted = True
 
         if is_wd:
