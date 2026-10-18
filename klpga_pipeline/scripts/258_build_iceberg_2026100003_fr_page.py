@@ -2,27 +2,44 @@
 FINAL result page for 아이스버그골프·서울신문 오픈 (game_code 2026100003),
 from ICEBERG_2026100003_FR_OFFICIAL_V1.json (scripts/257).
 
-OPERATOR INSTRUCTION (2026-10-18): this page shows the official final
-leaderboard ONLY -- no NEO forecast/prediction columns, no probability
-metrics, continuing scripts/244/255's house style (same header/hero/
-stage-nav/table-wrap/leaderboard-table classes, same CUT/WD badge
-convention and 'Missed cut' divider scripts/255 already established)
-but with the forecast columns (컷 통과확률/TOP20/TOP10/TOP5/우승확률)
-simply dropped -- this page has none of them.
+OPERATOR CORRECTION (2026-10-18, supersedes this script's own earlier
+"no NEO forecast columns" instruction): the FR results table shows the
+official result AND, in the same row, the already-verified pre-FR NEO
+forecast (TOP20/TOP10/TOP5/우승확률) for each real finisher -- values
+come straight from ICEBERG_2026100003_POST_R2_FORECAST_V1.json's own
+sg_adjusted_* fields (scripts/254, the same R2-gated Monte Carlo output
+already shown on the R2 page before FR started), read verbatim and
+never recomputed or adjusted to match the real FR outcome.
 
-Full 108-entrant roster shown, same convention as every prior stage on
-this tournament: 61 real finishers ranked by their official final
-result (scripts/257's own rank text, trusted verbatim -- including the
-rank-1/rank-2 strokes tie resolved by the official site's own
-countback, not re-derived here), then the 41 real missed-cut players
-(below a reused 'Missed cut' divider), then the 6 real WD players
-(5 WD at/by R2, 1 WD at R1) with WD badges, matching scripts/255's own
-group ordering and divider placement exactly.
+MAIN TABLE SCOPE: the operator's reference screenshot (another, 4-round
+tournament's own FR page) titles its panel "FR 결과 <N>명" where N is
+the real number of players who actually played the final round -- for
+THIS tournament that is 61 (the already-verified real cutmakers;
+scripts/251/257). The 47 CUT/WD players are NOT mixed into that ranked
+table; the already-shipped separate-status treatment (a 'Missed cut'
+divider, then CUT/WD name badges, scripts/255's own established
+convention) is kept exactly as before for them, below the panel, so
+"컷·기권 선수는 FR 결과 대상 선수 표에 섞지 않는다" is honored while
+reusing rather than reinventing the existing status display.
+
+COLUMN SET: operator specified 순위/선수/합계/R1/R2/R3/FR/TOP20/TOP10/
+TOP5/우승확률, copied from that other (4-round) tournament's own FR
+page. This tournament is independently verified 3-round (scripts/257:
+official round=4 returns 0 rows) -- its FR IS official round 3, so an
+R3 column would be a byte-for-byte duplicate of FR for every one of
+the 61 real finishers. The duplicate column is dropped; the column set
+actually built is 순위/선수/합계/R1/R2/FR/TOP20/TOP10/TOP5/우승확률.
+
+Players outside the forecast's cutmaker set for a reason unrelated to
+status (the 4 real finishers scripts/254 could not simulate --
+NO_BASE_FEATURE) show '데이터 부족' in the four NEO columns, never a
+fabricated number.
 """
 from __future__ import annotations
 
 import json
 import sys
+from html import escape as _esc
 from pathlib import Path
 
 _SITE_ORIGIN = "https://neogolfdata.com"
@@ -32,21 +49,29 @@ REPO_ROOT = ROOT.parent
 CONTENT = ROOT / "content" / "website_v2"
 sys.path.insert(0, str(ROOT / "src"))
 
+from klpga.website_v2.model_publication_gate import assert_no_blocked_probability_output  # noqa: E402
 from klpga.website_v2.player_link import linked_player_name_cell  # noqa: E402
 from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache  # noqa: E402
 from klpga.website_v2.previous_tournament_link import previous_tournament_meta_html  # noqa: E402
 
 GAME_CODE = "2026100003"
 FR_OFFICIAL_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_FR_OFFICIAL_V1.json"
+FORECAST_PATH = CONTENT / f"ICEBERG_{GAME_CODE}_POST_R2_FORECAST_V1.json"
 JOIN_PATH = CONTENT / f"{GAME_CODE}_ENTRY_KRANKING_JOIN.json"
 OUT_PAGE = REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / "fr" / "index.html"
 FLAG_ASSETS = {p.stem for p in (REPO_ROOT / "docs" / "assets" / "flags").glob("*.svg")}
+_NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 
-TOTAL_COLS = 6  # 순위/선수/R1/R2/FR/합계
+TOTAL_COLS = 10  # 순위/선수/합계/R1/R2/FR/TOP20/TOP10/TOP5/우승확률
+PUBLICATION_STATUS = "REFERENCE_ESTIMATE"
 
 
 def _load(name: str) -> dict:
     return json.loads((CONTENT / f"{GAME_CODE}_{name}").read_text(encoding="utf-8"))
+
+
+def _pct(x) -> str:
+    return f"{x * 100:.1f}%" if isinstance(x, float) and x <= 1.0 else f"{x:.1f}%"
 
 
 def main() -> None:
@@ -59,6 +84,14 @@ def main() -> None:
     assert fr_official["verification_pass"], "FR official data failed its own arithmetic/consistency verification -- refusing to build the page"
     fr_by_id = {r["player_id"]: r for r in fr_official["records"]}
     assert set(fr_by_id) == set(join_records), "FR official player_id set does not match the 108-entrant roster"
+
+    forecast = json.loads(FORECAST_PATH.read_text(encoding="utf-8"))
+    assert forecast["game_code"] == GAME_CODE
+    forecast_by_id = {r["player_id"]: r for r in forecast["cutmaker_records"]}
+
+    finisher_ids = {pid for pid, r in fr_by_id.items() if r["status"] == "FINISHED"}
+    assert len(finisher_ids) == 61, f"expected 61 real FR finishers, found {len(finisher_ids)}"
+    assert set(forecast_by_id) <= finisher_ids, "forecast carries a player who did not finish FR -- must never happen (forecast is cutmaker-gated)"
 
     sponsor_cache = cross_tournament_verified_sponsor_cache()
 
@@ -111,7 +144,6 @@ def main() -> None:
             f"style='display:inline-block;vertical-align:middle;margin-right:4px'>"
             if country_code in FLAG_ASSETS else ""
         )
-        from html import escape as _esc
         sponsor_text = _esc(sponsor_cache.get(pid, ""))
         name_cell = f"<span class='player-name' style='display:inline;vertical-align:middle'>{_esc(jr['player_name'])}</span>"
         name_cell = linked_player_name_cell(pid, name_cell)
@@ -120,14 +152,42 @@ def main() -> None:
         elif is_cut:
             name_cell += "<span class='status-badge'>CUT</span>"
 
+        # NEO forecast columns (pre-FR, R2-gated, never recomputed from
+        # the real outcome): populated only for real finishers. A real
+        # CUT player is mathematically out -- real, known 0.0% (same
+        # site-wide convention klpga.neo_win.round_update_r2 and the R2
+        # page already use). A real WD never had a forecast -- '—'.
+        # A real finisher missing from the forecast's cutmaker set
+        # (NO_BASE_FEATURE) shows 데이터 부족, never a fabricated value.
+        if is_wd:
+            top20_cell = top10_cell = top5_cell = win_cell = "—"
+            metric_class = "win metric-empty"
+        elif is_cut:
+            top20_cell = top10_cell = top5_cell = win_cell = "0.0%"
+            metric_class = "win"
+        elif pid in forecast_by_id:
+            f = forecast_by_id[pid]
+            top20_cell = _pct(f["sg_adjusted_top20_probability"])
+            top10_cell = _pct(f["sg_adjusted_top10_probability"])
+            top5_cell = _pct(f["sg_adjusted_top5_probability"])
+            win_cell = _pct(f["sg_adjusted_win_probability"])
+            metric_class = "win"
+        else:
+            top20_cell = top10_cell = top5_cell = win_cell = _NOWRAP
+            metric_class = "win"
+
         rows_html.append(
             f"<tr><td data-label='순위'>{rank_cell}</td>"
             f"<th scope='row' style='white-space:nowrap;text-align:left'>{flag_cell}{name_cell}"
             f"<span class='player-sponsor' style='display:inline;vertical-align:middle;margin-left:6px'>{sponsor_text}</span></th>"
+            f"<td data-label='합계'><strong>{total_cell}</strong></td>"
             f"<td data-label='R1'>{r1_cell}</td>"
             f"<td data-label='R2'>{r2_cell}</td>"
             f"<td data-label='FR'>{fr_cell}</td>"
-            f"<td data-label='합계'><strong>{total_cell}</strong></td></tr>"
+            f"<td class='{metric_class}' data-label='TOP20'>{top20_cell}</td>"
+            f"<td class='{metric_class}' data-label='TOP10'>{top10_cell}</td>"
+            f"<td class='{metric_class}' data-label='TOP5'>{top5_cell}</td>"
+            f"<td class='{metric_class}' data-label='우승확률'>{win_cell}</td></tr>"
         )
 
     event_name = tourney["event_name"]
@@ -140,7 +200,6 @@ def main() -> None:
 
     winner_name = fr_official["winner_player_name"]
     winner_to_par = fr_official["winner_to_par"]
-    from html import escape as _esc
 
     seo_description = f"{event_name} 공식 최종 결과 · 우승 {winner_name} {winner_to_par} · NEO GOLF DATA"
     canonical_url = f"{_SITE_ORIGIN}/tournaments/2026/{GAME_CODE}/fr/"
@@ -197,9 +256,10 @@ def main() -> None:
 
     table_section = (
         '<section class="panel leaderboard-panel" id="fr">'
-        '<div class="leaderboard-head"><h2>공식 최종 결과 <small>108명</small></h2></div>'
+        f'<div class="leaderboard-head"><h2>FR 결과 <small>{len(finisher_ids)}명</small></h2></div>'
         '<div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1"><thead><tr>'
-        "<th>순위</th><th>선수</th><th>R1</th><th>R2</th><th>FR</th><th>합계</th>"
+        "<th>순위</th><th>선수</th><th>합계</th><th>R1</th><th>R2</th><th>FR</th>"
+        "<th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>"
         "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
         f'<p><a href="https://klpga.co.kr/web/tourRecord/scoreRecord?gameCode={GAME_CODE}" rel="noopener">KLPGA 공식 기록 원문 ↗</a></p>'
         '</section>'
@@ -216,12 +276,21 @@ def main() -> None:
 
     html = header + stage_nav + table_section + footer
 
+    assert_no_blocked_probability_output(
+        html,
+        model_validated=(PUBLICATION_STATUS == "VALIDATED"),
+        reference_estimate=(PUBLICATION_STATUS == "REFERENCE_ESTIMATE"),
+        label=f"{GAME_CODE} FR",
+    )
+
     OUT_PAGE.parent.mkdir(parents=True, exist_ok=True)
     OUT_PAGE.write_text(html, encoding="utf-8", newline="\n")
 
     print(json.dumps({
         "written": str(OUT_PAGE),
         "rows": len(rows_data),
+        "finisher_count": len(finisher_ids),
+        "forecast_connected": len(set(forecast_by_id) & finisher_ids),
         "winner": winner_name,
         "winner_to_par": winner_to_par,
     }, ensure_ascii=False, indent=2))
