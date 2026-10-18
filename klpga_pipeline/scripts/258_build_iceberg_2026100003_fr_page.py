@@ -34,6 +34,20 @@ Players outside the forecast's cutmaker set for a reason unrelated to
 status (the 4 real finishers scripts/254 could not simulate --
 NO_BASE_FEATURE) show '데이터 부족' in the four NEO columns, never a
 fabricated number.
+
+FR REVIEW VIDEO (operator-supplied clip, 2026-10-18): a video panel is
+inserted between the stage-nav and the results table, same markup
+pattern/placement klpga.website_v2.hj_2026100004_round_pages.
+video_section_html already established for this site's other
+tournaments -- width:100%;max-width:100%;height:auto keeps the clip at
+its own native aspect ratio. The asset lives at docs/assets/
+tournaments/2026100003/neo-golf-data-fr-review.mp4 (committed directly,
+same convention as the other tournaments' review clips -- no Git LFS
+on this repo). The build fails closed (AssertionError) if the file is
+missing, never silently omits the section or references a path that
+does not exist. HOME is not written by this script -- scripts/259
+mirrors this page's <main> (video included) onto docs/index.html,
+exactly as it already does for the results table.
 """
 from __future__ import annotations
 
@@ -65,6 +79,9 @@ _NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
 TOTAL_COLS = 10  # 순위/선수/합계/R1/R2/FR/TOP20/TOP10/TOP5/우승확률
 PUBLICATION_STATUS = "REFERENCE_ESTIMATE"
 
+FR_REVIEW_VIDEO_FILENAME = "neo-golf-data-fr-review.mp4"
+FR_REVIEW_VIDEO_PATH = REPO_ROOT / "docs" / "assets" / "tournaments" / GAME_CODE / FR_REVIEW_VIDEO_FILENAME
+
 
 def _load(name: str) -> dict:
     return json.loads((CONTENT / f"{GAME_CODE}_{name}").read_text(encoding="utf-8"))
@@ -72,6 +89,20 @@ def _load(name: str) -> dict:
 
 def _pct(x) -> str:
     return f"{x * 100:.1f}%" if isinstance(x, float) and x <= 1.0 else f"{x:.1f}%"
+
+
+def _video_section_html(filename: str) -> str:
+    """Same markup pattern klpga.website_v2.hj_2026100004_round_pages.
+    video_section_html already established for this site (operator-
+    supplied review clip): width:100%;max-width:100%;height:auto keeps
+    the video at its own native aspect ratio, never stretched/cropped.
+    Self-contained here (not imported) per this file's own existing
+    self-contained-per-tournament-builder convention."""
+    return (
+        "<section class='panel' id='fr-video'><p class='note'>NEO GOLF DATA</p>"
+        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
+        f"src='/assets/tournaments/{GAME_CODE}/{filename}'></video></section>"
+    )
 
 
 def main() -> None:
@@ -254,6 +285,9 @@ def main() -> None:
         '</ol></nav>'
     )
 
+    assert FR_REVIEW_VIDEO_PATH.is_file(), f"FR review video not found at {FR_REVIEW_VIDEO_PATH} -- refusing to reference a missing asset"
+    video_section = _video_section_html(FR_REVIEW_VIDEO_FILENAME)
+
     table_section = (
         '<section class="panel leaderboard-panel" id="fr">'
         f'<div class="leaderboard-head"><h2>FR 결과 <small>{len(finisher_ids)}명</small></h2></div>'
@@ -274,7 +308,7 @@ def main() -> None:
         '</div></footer></body></html>'
     )
 
-    html = header + stage_nav + table_section + footer
+    html = header + stage_nav + video_section + table_section + footer
 
     assert_no_blocked_probability_output(
         html,
