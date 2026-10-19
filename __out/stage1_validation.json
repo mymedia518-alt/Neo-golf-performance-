@@ -1,0 +1,11 @@
+{
+  "game": "2026100003",
+  "shots": 0,
+  "player_round_holes": 0,
+  "holed": 0,
+  "duplicate_keys": 0,
+  "nonsequential_holes": 0,
+  "unknown_pp_state_values_preserved": [],
+  "codes_neither_known_nor_tagged_unknown": []
+}
+VALIDATION: PASS
