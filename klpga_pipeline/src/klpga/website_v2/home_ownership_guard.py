@@ -16,7 +16,23 @@ the root HOME instead -- see scripts/109_build_kb_r1_page.py's
 write_root_home(). TOP120_OWNER's own build/promotion path (scripts
 86/88/94) is untouched and still the sole legitimate writer for
 CURRENT_TOURNAMENT_OWNER to itself supersede, if a future owner
-decision reverses this one."""
+decision reverses this one.
+
+OWNER SUPERSESSION 2 (BRAND DIRECTION, 2026-10-20): the operator
+reversed the "root HOME = whichever tournament is active" state-router
+policy above. Root HOME is now a single, fixed six-section composite
+page (brand intro / rankings / current tournament data / Deep Dive /
+NEO LAB / company info) that no longer changes shape with tournament
+state -- see scripts/263_build_neo_home_v3.py. Neither prior owner
+identity describes this correctly (it is not a pure ranking page, and
+it no longer ever becomes a tournament's own stage page verbatim), so
+a third identity is declared. It supersedes BOTH prior owners: whoever
+currently holds root HOME (TOP120_OWNER from a quiet period, or
+CURRENT_TOURNAMENT_OWNER from the state-router era) is a legitimate
+predecessor, never a conflict to hard-stop on. Per-round tournament
+stage pages (PRE/R1/R2/R3/FR) are completely unaffected -- they keep
+publishing at their own stage URLs exactly as before; only what root
+HOME itself renders has changed."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -42,7 +58,10 @@ TOP120_OWNER = "top120-v1"
 # only while root HOME points at the current tournament instead of the
 # K-Ranking/NEO Ranking page.
 CURRENT_TOURNAMENT_OWNER = "current-tournament-v1"
-_RECOGNIZED_OWNERS = (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER)
+# The fixed six-section composite HOME (see OWNER SUPERSESSION 2 above)
+# -- the current, sole legitimate owner of root HOME going forward.
+COMPOSITE_HOME_OWNER = "composite-home-v1"
+_RECOGNIZED_OWNERS = (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER, COMPOSITE_HOME_OWNER)
 
 
 class HomeOwnershipError(Exception):

@@ -726,3 +726,26 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
    this mission does not touch. */
 .ph-page .evidence-detail summary::after{content:"▸";margin-left:.75rem;color:var(--muted);font-size:.85em;flex-shrink:0}
 .ph-page .evidence-detail[open]>summary::after{content:"▾";color:var(--green)}
+
+/* BRAND REDESIGN (2026-10-20): minimal, real-content-only additions for
+   the new six-section composite HOME and its linked pages (Deep Dive
+   hub, About/data-standards). No decorative imagery, no invented
+   metrics -- these three classes only lay out real links/definitions
+   already supplied by their page's own data. */
+.card-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:1px;background:var(--line);border:1px solid var(--line);list-style:none;margin:0;padding:0}
+.card-list .card{background:var(--surface);padding:0}
+.card-list .card a{display:block;padding:1rem;font-weight:700;color:var(--ink);text-decoration:none}
+.card-list .card a:hover{background:var(--panel)}
+.data-standards{margin:0}
+.data-standards dt{font-weight:800;margin-top:1.1rem}
+.data-standards dt:first-child{margin-top:0}
+.data-standards dd{margin:.35rem 0 0;color:var(--muted)}
+.home-section{padding:2.25rem 0;border-bottom:1px solid var(--line)}
+.home-section:last-of-type{border-bottom:none}
+.home-brand-intro p{max-width:46rem;color:var(--muted)}
+.home-ranking-preview{width:100%;min-width:0;border-collapse:collapse;background:var(--surface);font-size:.875rem;margin-bottom:1rem}
+.home-ranking-preview th,.home-ranking-preview td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:left}
+.home-ranking-preview th{background:var(--panel);color:var(--muted);font-size:.75rem}
+.neo-status-card{background:var(--panel);border:1px solid var(--line);padding:1rem 1.25rem;margin-top:1rem}
+.neo-status-card .status-pill{display:inline-block;background:var(--green-2);color:var(--green);font-weight:800;font-size:.78rem;padding:.2rem .55rem;margin-bottom:.5rem}
+.section-link-row{margin-top:1rem}

@@ -50,22 +50,32 @@ def test_production_docs_root_home_actually_contains_the_feature():
     """This is the check that was skipped before: read docs/index.html
     itself (what GitHub Pages actually serves), not
     candidate/neo-data-home-top120/index.html (what the earlier task
-    verified instead). HOME STATE ROUTER (20260911): root HOME is now
-    state-dependent -- owner is TOP120_OWNER (player-first fallback) or
-    CURRENT_TOURNAMENT_OWNER (an active tournament's own stage page),
-    never anything else, and each state has its own real content, never
-    a sentinel either way."""
+    verified instead).
+
+    BRAND REDESIGN (2026-10-20): root HOME is no longer state-dependent
+    -- it is the fixed six-section composite page (owner
+    composite-home-v1, see home_ownership_guard.py's "OWNER
+    SUPERSESSION 2" note), regardless of tournament state. The prior
+    two owner states (top120-v1 player-first fallback, current-
+    tournament-v1 mirroring an active tournament's stage page) are
+    still recognized owner identities for other routes/history, but
+    root HOME itself should now always be composite-home-v1 with real
+    content from every section."""
     home = (DOCS / "index.html").read_text(encoding="utf-8")
     owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home)
     assert owner_match is not None, "root HOME must carry a neo-home-owner marker"
     owner = owner_match.group(1)
-    assert owner in ("top120-v1", "current-tournament-v1")
+    assert owner in ("top120-v1", "current-tournament-v1", "composite-home-v1")
     assert "999999" not in home
     if owner == "top120-v1":
         assert home.count("data-player-row") == 120
         assert home.count('class="player-name"') == 120
         assert "metric-sg" in home
         assert "k-rank-cell" in home
+    elif owner == "composite-home-v1":
+        for section_id in ("ranking", "tournament-data", "deep-dive", "neo-lab", "about"):
+            assert f'id="{section_id}"' in home, f"composite HOME missing real section {section_id!r}"
+        assert "검증 진행 중" in home, "composite HOME must show the honest NEO Ranking gate status, never a fabricated ranking"
     else:
         assert home.count("class='player-name'") > 0
         assert "KB금융" in home or "챔피언십" in home
