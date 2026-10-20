@@ -127,6 +127,10 @@ def main() -> None:
     current = chronology.get("current")
     last = chronology.get("last")
     featured = current or last
+    STAGE_LABELS = {
+        "pre": "사전 분석", "r1": "R1", "r2": "R2", "r3": "R3",
+        "fr": "FR", "final": "FINAL",
+    }
     tournament_section_html = ""
     if featured is not None and featured.url_base:
         stage_url = latest_published_stage_url(featured.url_base, repo_root=REPO_ROOT)
@@ -135,12 +139,25 @@ def main() -> None:
         if featured.winner:
             score = f" ({featured.winning_score})" if featured.winning_score else ""
             result_line = f"<p>우승: <strong>{escape(featured.winner)}</strong>{escape(score)}</p>"
+        # Real stage links only -- same stage_order the registry already
+        # carries for this game_code (no guessing, no invented stages);
+        # only stages whose page actually exists on disk are linked.
+        reg_entry = registry.get(featured.game_code, {})
+        stage_chip_items = "".join(
+            f"<li><a href='{escape(featured.url_base)}{escape(stage)}/'>{escape(STAGE_LABELS.get(stage, stage.upper()))}</a></li>"
+            for stage in reg_entry.get("stage_order", [])
+            if (REPO_ROOT / "docs" / featured.url_base.strip("/") / stage / "index.html").is_file()
+        )
+        stage_chips_html = f"<ul class='home-stage-chips'>{stage_chip_items}</ul>" if stage_chip_items else ""
         tournament_section_html = (
+            "<div class='home-tournament-card'>"
             f"<p class='meta'>{escape(status_label)} · {escape(featured.date_range_display)}"
             + (f" · {escape(featured.venue)}" if featured.venue else "") + "</p>"
             f"<h3>{escape(featured.tournament_name)}</h3>"
             + result_line +
-            f"<p><a href='{escape(stage_url)}'>공식 기록 보기 →</a></p>"
+            stage_chips_html +
+            f"<p class='section-link-row'><a href='{escape(stage_url)}'>공식 기록 보기 →</a></p>"
+            "</div>"
         )
     else:
         tournament_section_html = "<p>현재 공개된 대회 데이터가 없습니다.</p>"
@@ -194,6 +211,9 @@ def main() -> None:
         "<h2>데이터와 모델을 검증하는 방식</h2></div></div>"
         "<p>NEO GOLF DATA가 공식 기록을 확인하고, 예측을 검증하는 방식을 설명합니다. "
         "검증 기준을 통과하지 못한 지표는 공개하지 않습니다.</p>"
+        f"<p class='home-lab-stat'>검증 시도 모델 {len(gate['gate_table'])}개"
+        f"({escape(', '.join(gate['gate_table'].keys()))}) · 공통 미통과 항목: "
+        f"<code>{escape(', '.join(sorted(set.intersection(*[set(v) for v in gate['failing_gates_by_candidate'].values()]))))}</code></p>"
         "<p class='section-link-row'><a href='/neo-lab/'>NEO LAB 보기 →</a></p>"
         "</section>"
         # 6. 회사 소개와 데이터 기준
@@ -201,6 +221,8 @@ def main() -> None:
         '<div class="section-heading"><div><p class="section-label">소개</p>'
         "<h2>회사 소개와 데이터 기준</h2></div></div>"
         "<p>분석 범위, 기록 기준, 자료 출처와 한계를 설명합니다.</p>"
+        "<p class='home-about-stat'>수집 범위: 대회 리더보드 · Strokes Gained 세부 기록 · K-Ranking "
+        "(KLPGA 공식 홈페이지 게시 자료 기준)</p>"
         "<p class='section-link-row'><a href='/about/'>자세히 보기 →</a></p>"
         "</section>"
         "</main>"

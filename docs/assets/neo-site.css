@@ -1,6 +1,7 @@
 :root {
   --ink:#14201c; --muted:#5d6964; --paper:#f7f9f6; --surface:#fff; --panel:#edf2ed;
   --line:#d5ddd7; --green:#0f5c46; --green-2:#d9ebe3; --gold:#b08b3e; --red:#9b493f;
+  --neutral-bg:#eeece6; --neutral-ink:#6b655a;
   --max:70rem; --font:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
   --font-num:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
   --font-tech:"Roboto Mono",SFMono-Regular,Consolas,monospace;
@@ -747,5 +748,22 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
 .home-ranking-preview th,.home-ranking-preview td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:left}
 .home-ranking-preview th{background:var(--panel);color:var(--muted);font-size:.75rem}
 .neo-status-card{background:var(--panel);border:1px solid var(--line);padding:1rem 1.25rem;margin-top:1rem}
-.neo-status-card .status-pill{display:inline-block;background:var(--green-2);color:var(--green);font-weight:800;font-size:.78rem;padding:.2rem .55rem;margin-bottom:.5rem}
+/* NEO Ranking is publication-BLOCKED (not a pass/success state), so its
+   status pill must never read as a green "success" badge -- neutral
+   warm-gray tokens, not --green/--green-2, which stay reserved for
+   things that actually passed verification or are live. */
+.neo-status-card .status-pill{display:inline-block;background:var(--neutral-bg);color:var(--neutral-ink);font-weight:800;font-size:.78rem;padding:.2rem .55rem;margin-bottom:.5rem}
 .section-link-row{margin-top:1rem}
+/* HOME card-based layout (2026-10-20, operator instruction): adopt
+   Golf Radar's card/pill information-density pattern -- NOT its dark
+   background or colors, which stay out entirely. White surface, a
+   left accent bar, and small stage-link chips reusing the palette
+   already defined above (--surface/--line/--green/--panel/--muted) --
+   no new brand colors, no photos, no gradients/shadows. */
+.home-tournament-card{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--green);padding:1.1rem 1.35rem;margin-top:.75rem}
+.home-tournament-card .meta{margin:0;color:var(--muted);font-size:.78rem}
+.home-tournament-card h3{margin:.3rem 0}
+.home-stage-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0 0;padding:0;list-style:none}
+.home-stage-chips a{display:inline-block;padding:.3rem .7rem;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-weight:700;font-size:.78rem;text-decoration:none}
+.home-stage-chips a:hover{background:var(--green-2);border-color:var(--green)}
+.home-lab-stat,.home-about-stat{margin:.5rem 0 0;color:var(--muted);font-size:.85rem}
