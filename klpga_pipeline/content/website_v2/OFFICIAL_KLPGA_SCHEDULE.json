@@ -61,6 +61,17 @@
       "source_identity": "content/website_v2/2026100004_TOURNAMENT_INFO.json",
       "retrieved_at": "2026-10-06",
       "source_hash": "19ec9d88a2a8d93f37866fa7107550d1dd5c92b206e271d24566d0892dda66b2"
+    },
+    {
+      "game_code": "2026100003",
+      "tournament_name": "아이스버그골프 · 서울신문 오픈",
+      "start_date": "2026-10-16",
+      "end_date": "2026-10-18",
+      "venue": "H1",
+      "source_identity": "content/website_v2/2026100003_TOURNAMENT_INFO.json",
+      "retrieved_at": "2026-10-15T09:13:26.254852+00:00",
+      "source_hash": "f542b82d6692a7bcd241bc8908b40341a3161d125de6d9591a45c5d6ceee736d",
+      "_comment": "Missing from this calendar entirely until 2026-10-20 (while building the new six-section composite HOME, scripts/263_build_neo_home_v3.py) -- same gap, same fix pattern as the prior 2026100004/2026100005 additions. start_date/end_date/venue/source_hash are read straight from the already-collected 2026100003_TOURNAMENT_INFO.json (course_name field), no new collection performed."
     }
   ]
 }

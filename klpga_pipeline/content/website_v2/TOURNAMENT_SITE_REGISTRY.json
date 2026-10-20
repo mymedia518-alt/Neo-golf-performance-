@@ -164,6 +164,19 @@
       "venue": "에이원CC",
       "_chronology_comment": "HJ중공업·동부건설 챔피언십. Added 2026-10-15 while building the NEXT tournament's (아이스버그골프·서울신문 오픈, 2026100003) PRE page: klpga.website_v2.previous_tournament_link.previous_tournament_meta_html() resolved 이전 대회 to this tournament by calendar date (OFFICIAL_KLPGA_SCHEDULE.json already had it) but, with no entry here at all, fell through tournament_chronology.py's documented 'known tournament, no public page yet' contract (url_base='') even though this tournament's real site (built by a separate, bespoke pipeline -- klpga.website_v2.hj_2026100004_round_pages / build_tournament_archive_and_hj_scaffold.py, never scripts/86/139's registry-driven one) has always existed, producing a broken relative href on the new PRE page instead of a real link. This entry only supplies the missing route/presentation metadata (url_base/has_hub_index/stage_order) this one shared resolver needs -- it does not add, remove, or alter any HJ page, script, or content file. start_date/end_date/venue mirror the same real official fields already in content/website_v2/2026100004_TOURNAMENT_INFO.json and OFFICIAL_KLPGA_SCHEDULE.json, just carried here in this registry's own shape too (same convention 2026100005's entry already follows) so the generic resolver can join without re-reading tournament-specific content files.",
       "_hub_card_comment": "No hub_card block here: HJ's own hub/stage pages are built and content-governed entirely by build_tournament_archive_and_hj_scaffold.py (build_hj_scaffold()) and hj_2026100004_round_pages.py, not by this registry's hub_card/nav_stages convention -- has_hub_index=true alone (the real docs/tournaments/2026/2026100004/index.html hub page) is what satisfies tournament_chronology.py's has_real_public_page check, matching kg-ladies-open's own has_hub_index-only entry above."
+    },
+    "2026100003": {
+      "url_base": "/tournaments/2026/2026100003/",
+      "stage_order": ["pre", "r1", "r2", "fr"],
+      "start_date": "2026-10-16",
+      "end_date": "2026-10-18",
+      "venue": "H1",
+      "hub_card": {
+        "nav_stages": ["pre", "r1", "r2", "fr"],
+        "winner": "마서영",
+        "winning_score": "-4"
+      },
+      "_chronology_comment": "아이스버그골프 · 서울신문 오픈. Added 2026-10-20 while building the new six-section composite HOME (scripts/263_build_neo_home_v3.py): this game_code was never registered here at all (unlike 2026100004/2026100005, which got entries the same way, for the same reason), so klpga.website_v2.previous_tournament_link.resolve_previous_tournament_link() and tournament_chronology.build_home_tournament_chronology() both silently fell through the 'known tournament, no public page yet' contract (url_base='') even though this tournament's real 4-stage site (scripts/244/255/258, no hub index page) has existed since 2026-10-16. This entry only supplies the missing route/presentation metadata this one shared resolver needs -- it does not add, remove, or alter any PRE/R1/R2/FR page or script. No hub index exists (docs/tournaments/2026/2026100003/index.html does not exist), so has_hub_index is correctly omitted and hub_card.nav_stages is used instead, same convention 2026100005's entry already follows. start_date/end_date/venue mirror 2026100003_TOURNAMENT_INFO.json's real official fields. winner/winning_score mirror ICEBERG_2026100003_FR_OFFICIAL_V1.json's own confirmed winner_player_name/winner_to_par (scripts/257, verified 2026-10-18)."
     }
   }
 }

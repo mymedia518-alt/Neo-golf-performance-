@@ -147,11 +147,21 @@ def test_stale_hana_builder_cannot_clobber_real_production_home_once_hj_has_clai
     dangerous call -- importing scripts/156_build_home_page.py and
     calling its real build() against the REAL repo paths, with no
     tmp_path isolation at all -- and asserts it is now hard-blocked by
-    the game-code-aware ownership guard (home_ownership_guard.
-    assert_home_write_allowed's writer_game_code check), instead of
-    silently clobbering the real file the way it did before this fix.
-    Confirms both the raise AND that the real file is provably
-    untouched (SHA256 identical before and after the blocked attempt)."""
+    the ownership guard, instead of silently clobbering the real file
+    the way it did before this fix. Confirms both the raise AND that
+    the real file is provably untouched (SHA256 identical before and
+    after the blocked attempt).
+
+    BRAND REDESIGN (2026-10-20): root HOME is now owned by
+    composite-home-v1 (see home_ownership_guard.py's "OWNER
+    SUPERSESSION 2" note), not by another current-tournament-v1-class
+    writer -- so this exact stale call is now rejected one level
+    earlier, by the OWNER-class mismatch check (assert_home_write_
+    allowed's writer_owner-vs-existing_owner check) rather than the
+    game_code check specifically. The real invariant this regression
+    lock protects -- a stale builder can never clobber real production
+    HOME -- is unchanged and, if anything, enforced more broadly now;
+    only which branch of the same guard function raises has moved."""
     import importlib.util
 
     from klpga.website_v2.home_ownership_guard import HomeOwnershipError
@@ -163,7 +173,7 @@ def test_stale_hana_builder_cannot_clobber_real_production_home_once_hj_has_clai
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    with pytest.raises(HomeOwnershipError, match="game_code"):
+    with pytest.raises(HomeOwnershipError, match="already owned by"):
         module.build()
 
     sha_after = _sha256(real_docs_index)

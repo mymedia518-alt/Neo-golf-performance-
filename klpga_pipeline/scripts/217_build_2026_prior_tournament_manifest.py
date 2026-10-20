@@ -56,8 +56,24 @@ def build_entries() -> list[dict]:
         if r.get("season") == 2026
     ]
     seen = {e["game_code"] for e in entries}
+    target = date.fromisoformat(TARGET_START_DATE)
     for t in schedule["tournaments"]:
+        # BUG FIX (2026-10-20, found while adding 2026100003's own real
+        # entry to this shared schedule file for an unrelated HOME
+        # redesign): this originally excluded only the literal
+        # TARGET_GAME_CODE, implicitly assuming every OTHER schedule
+        # entry was chronologically before the target -- true only
+        # because, at the time this script was written, the schedule
+        # file never held anything dated after the target. That
+        # assumption no longer holds once later tournaments (the site
+        # has since moved on in time) get their own real entries here.
+        # Excluding by date, not just by the one hardcoded game_code,
+        # is what this file's own docstring/assert_no_leakage already
+        # promises -- this is a correctness fix for that existing
+        # intent, not a loosening of the leakage guard.
         if t["game_code"] == TARGET_GAME_CODE or t["game_code"] in seen:
+            continue
+        if date.fromisoformat(t["start_date"]) >= target:
             continue
         entries.append({
             "game_code": t["game_code"], "tournament_name": t["tournament_name"], "start_date": t["start_date"],
