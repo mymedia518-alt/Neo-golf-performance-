@@ -176,8 +176,8 @@ def main() -> None:
         '<p class="kicker">NEO GOLF DATA</p>'
         "<h1>골프 기록을 분석해 경기력을 읽습니다</h1>"
         "<p>NEO GOLF DATA는 KLPGA 공식 기록을 수집·정리·분석하는 데이터 분석 회사입니다. "
-        "K-Ranking과 NEO Ranking을 제공하고, 선수·대회 분석을 Deep Dive에서, "
-        "예측과 검증 과정을 NEO LAB에서 확인할 수 있습니다.</p>"
+        "공식 K-Ranking과 대회별 경기력 분석을 제공하며, 선수·대회 분석과 예측 검증 과정을 "
+        "공개합니다. NEO Ranking은 검증 기준을 통과할 때까지 공개를 보류합니다.</p>"
         "</section>"
         # 2. 랭킹
         '<section class="home-section" id="ranking">'
