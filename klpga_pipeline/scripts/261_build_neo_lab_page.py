@@ -81,30 +81,32 @@ def main() -> None:
 
     body = (
         '<header data-neo-global-navigation></header><main>'
-        '<section class="page-head"><p class="kicker">NEO LAB</p>'
+        '<section class="neo-page-head"><p class="kicker">NEO LAB</p>'
         "<h1>NEO는 숫자를 어떻게 만드나요</h1>"
         "<p>NEO GOLF DATA가 골프 데이터를 수집하고 검증하는 방식을 설명합니다.</p>"
         "</section>"
-        '<section class="product-section"><h2>공식 기록만 사용합니다</h2>'
+        '<section class="neo-panel"><h2>공식 기록만 사용합니다</h2>'
         "<p>모든 순위와 기록은 KLPGA 공식 자료를 기준으로 합니다. 확인되지 않은 정보는 추정하지 않고 빈 칸으로 남깁니다.</p></section>"
-        '<section class="product-section" id="neo-ranking-verification"><h2>NEO Ranking 검증 현황</h2>'
-        f"<p><strong>현재 상태: 검증 진행 중 · 공개 보류</strong> (판정 기준일 {escape(gate_date)})</p>"
+        '<section class="neo-panel" id="neo-ranking-verification"><h2>NEO Ranking 검증 현황</h2>'
+        "<div class='neo-status-card'>"
+        f"<p class='status-pill'>검증 진행 중 · 공개 보류</p>"
+        f"<p>판정 기준일 {escape(gate_date)}</p></div>"
         "<p>NEO Ranking은 선수의 최근 경기력을 수치로 비교해보려는 자체 모델입니다. "
         "공개하려면 11개 검증 항목을 모두 통과해야 하며, 지금까지 시도한 세 가지 버전(V1·V2A·V2B) 모두 "
         "'노출 편향(EXPOSURE_BIAS)' 검증을 통과하지 못해 공개하지 않습니다.</p>"
-        "<div class='table-scroll' tabindex='0'><table class='data-table'><thead><tr><th>모델</th><th>통과하지 못한 검증 항목</th></tr></thead>"
-        f"<tbody>{''.join(candidate_rows)}</tbody></table></div>"
+        "<div class='neo-table-wrap'><div class='table-scroll' tabindex='0'><table class='neo-table'><thead><tr><th>모델</th><th>통과하지 못한 검증 항목</th></tr></thead>"
+        f"<tbody>{''.join(candidate_rows)}</tbody></table></div></div>"
         f"<p class='meta'>근거: {escape(gate_rationale)}</p>"
         f"<p class='meta'>출처 파일: <code>content/website_v2/NEO_RANKING_PUBLICATION_GATE_DECISION.json</code> (기준일 {escape(gate_date)})</p>"
         f"<p class='meta'>배경 검증 보고서: <code>klpga_pipeline/docs/NEO_RANKING_V1_REDTEAM_BACKTEST.md</code> (기준일 {escape(backtest_date)}) — {escape(backtest_verdict)}</p>"
         "<p>검증 기준을 통과하는 항목부터 순서대로 공개하며, 기준을 통과하지 못한 지표는 이 페이지에도, "
         "다른 어떤 페이지에도 순위나 점수로 표시하지 않습니다.</p>"
         "</section>"
-        '<section class="product-section"><h2>대회별 "NEO 경기력"과는 다릅니다</h2>'
+        '<section class="neo-panel"><h2>대회별 "NEO 경기력"과는 다릅니다</h2>'
         "<p>일부 대회 페이지에 보이는 'NEO 경기력'은 그 대회에 실제로 출전한 선수들만을 대상으로, "
         "같은 계산식을 해당 대회 안에서만 적용한 참고 지표입니다. 시즌 전체를 비교하는 순위가 아니며, "
         "'NEO Ranking'이나 시즌 랭킹으로 표시하지 않습니다.</p></section>"
-        '<section class="product-section"><h2>스폰서 표기</h2>'
+        '<section class="neo-panel"><h2>스폰서 표기</h2>'
         "<p>선수 이름 아래 스폰서는 KLPGA 공식 프로필에서 확인된 경우에만 표시합니다. 확인되지 않은 스폰서는 표시하지 않습니다.</p></section>"
         "</main>"
     )

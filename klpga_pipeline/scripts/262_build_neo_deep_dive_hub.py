@@ -60,22 +60,22 @@ def main() -> None:
     cards = []
     for p in players:
         cards.append(
-            "<li class='card'>"
+            "<li class='neo-card'>"
             f"<a href='/player/{escape(p['player_id'])}/'>{escape(p['name'])}</a>"
             "</li>"
         )
 
     body = (
         '<header data-neo-global-navigation></header><main>'
-        '<section class="page-head"><p class="kicker">딥다이브</p>'
+        '<section class="neo-page-head"><p class="kicker">딥다이브</p>'
         "<h1>Deep Dive</h1>"
         "<p>검증된 선수·대회 분석으로 연결합니다. 실제 분석이 완료된 항목만 표시합니다.</p>"
         "</section>"
-        '<section class="product-section"><h2>선수 분석</h2>'
-        f"<ul class='card-list'>{''.join(cards)}</ul>"
+        '<section class="neo-panel"><h2>선수 분석</h2>'
+        f"<ul class='neo-card-grid'>{''.join(cards)}</ul>"
         "</section>"
-        '<section class="product-section"><h2>대회 기록</h2>'
-        "<p>전체 대회의 공식 결과와 라운드별 기록은 <a href='/tournaments/'>대회 기록</a>에서 확인할 수 있습니다.</p>"
+        '<section class="neo-panel"><h2>대회 기록</h2>'
+        "<p>전체 대회의 공식 결과와 라운드별 기록은 <a class='neo-link-pill' href='/tournaments/'>대회 기록 보기 →</a></p>"
         "</section>"
         "</main>"
     )

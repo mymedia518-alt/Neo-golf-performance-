@@ -96,23 +96,24 @@ def main() -> None:
 
     body = (
         '<header data-neo-global-navigation></header><main>'
-        '<section class="page-head"><p class="kicker">랭킹</p>'
+        '<section class="neo-page-head"><p class="kicker">랭킹</p>'
         '<h1>K-Ranking</h1>'
         f"<p>KLPGA가 매주 발표하는 공식 랭킹입니다. 기준 주차 {escape(ranking_week)}, "
         f"수집 시각 {escape(retrieved_at)} · <a href='{escape(official_source)}' rel='noopener'>공식 출처 ↗</a></p>"
         '</section>'
-        '<section class="product-section">'
-        '<div class="table-scroll" tabindex="0" aria-label="K-Ranking 표 가로 스크롤">'
-        "<table class='data-table'><thead><tr><th>순위</th><th>선수</th><th>포인트</th><th>레이팅</th><th>출전</th></tr></thead>"
-        f"<tbody>{''.join(rows_html)}</tbody></table></div>"
+        '<section class="neo-panel">'
+        '<div class="neo-table-wrap"><div class="table-scroll" tabindex="0" aria-label="K-Ranking 표 가로 스크롤">'
+        "<table class='neo-table'><thead><tr><th>순위</th><th>선수</th><th>포인트</th><th>레이팅</th><th>출전</th></tr></thead>"
+        f"<tbody>{''.join(rows_html)}</tbody></table></div></div>"
         "</section>"
-        '<section class="product-section" id="neo-ranking-status">'
+        '<section class="neo-panel" id="neo-ranking-status">'
         "<h2>NEO Ranking</h2>"
-        f"<p><strong>검증 진행 중 · 공개 보류</strong> — NEO Ranking은 아직 공개 기준을 통과하지 못했습니다.</p>"
+        "<div class='neo-status-card'><p class='status-pill'>검증 진행 중 · 공개 보류</p>"
+        "<p>NEO Ranking은 아직 공개 기준을 통과하지 못했습니다.</p>"
         f"<p>검증 게이트 판정: <code>{escape(gate_status)}</code> (기준일 {escape(gate_date)}, "
         f"근거 파일 <code>NEO_RANKING_PUBLICATION_GATE_DECISION.json</code>)</p>"
         f"<p>{escape(gate_rationale)}</p>"
-        "<p>검증 과정과 세부 근거는 <a href='/neo-lab/'>NEO LAB</a>에서 확인할 수 있습니다.</p>"
+        "<p><a class='neo-link-pill' href='/neo-lab/'>NEO LAB에서 검증 근거 보기 →</a></p></div>"
         "</section>"
         "</main>"
     )
