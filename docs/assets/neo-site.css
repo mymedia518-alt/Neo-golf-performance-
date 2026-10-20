@@ -2,6 +2,8 @@
   --ink:#14201c; --muted:#5d6964; --paper:#f7f9f6; --surface:#fff; --panel:#edf2ed;
   --line:#d5ddd7; --green:#0f5c46; --green-2:#d9ebe3; --gold:#b08b3e; --red:#9b493f;
   --neutral-bg:#eeece6; --neutral-ink:#6b655a;
+  --mint:#eef6f1; --mint-deep:#dceee3; --radius:.65rem; --radius-sm:.4rem;
+  --shadow-card:0 1px 3px rgba(20,32,28,.08);
   --max:70rem; --font:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
   --font-num:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
   --font-tech:"Roboto Mono",SFMono-Regular,Consolas,monospace;
@@ -733,37 +735,84 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
    hub, About/data-standards). No decorative imagery, no invented
    metrics -- these three classes only lay out real links/definitions
    already supplied by their page's own data. */
-.card-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:1px;background:var(--line);border:1px solid var(--line);list-style:none;margin:0;padding:0}
-.card-list .card{background:var(--surface);padding:0}
-.card-list .card a{display:block;padding:1rem;font-weight:700;color:var(--ink);text-decoration:none}
-.card-list .card a:hover{background:var(--panel)}
 .data-standards{margin:0}
 .data-standards dt{font-weight:800;margin-top:1.1rem}
 .data-standards dt:first-child{margin-top:0}
 .data-standards dd{margin:.35rem 0 0;color:var(--muted)}
-.home-section{padding:2.25rem 0;border-bottom:1px solid var(--line)}
-.home-section:last-of-type{border-bottom:none}
-.home-brand-intro p{max-width:46rem;color:var(--muted)}
-.home-ranking-preview{width:100%;min-width:0;border-collapse:collapse;background:var(--surface);font-size:.875rem;margin-bottom:1rem}
-.home-ranking-preview th,.home-ranking-preview td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:left}
-.home-ranking-preview th{background:var(--panel);color:var(--muted);font-size:.75rem}
-.neo-status-card{background:var(--panel);border:1px solid var(--line);padding:1rem 1.25rem;margin-top:1rem}
+.section-link-row{margin-top:1rem}
+
+/* =================================================================
+   NEO PRODUCT DESIGN SYSTEM V2 (2026-10-20, operator instruction).
+   Direction: bright/warm-ivory background PRESERVED, but replace the
+   old flat "white page + thin 1px dividers" feel with real card/panel
+   density -- pale mint/sage surfaces on background washes and data
+   panels, vivid --green reserved for key numbers/active nav/links,
+   rounded corners + a hairline shadow (never heavy), no dark theme,
+   no photos/video thumbnails. Explicitly modeled on Golf Radar's
+   CARD/PILL layout density, never its dark colors (see Golf Radar
+   upload analysis earlier this session).
+
+   Scope: this new .neo-* system applies ONLY to the 6 pages HOME
+   links to -- home itself (264), /ranking/ (260), /neo-lab/ (261),
+   /deep-dive/ (262), /about/ (263), and the 대회 기록 archive hub
+   (build_tournament_archive_and_hj_scaffold.py's build_archive_index)
+   -- deliberately NEW, separately-named classes so none of this
+   touches .product-section/.page-head/.data-table/.card-list, which
+   stay byte-for-byte as they were for the many already-shipped,
+   already-reviewed tournament-stage and player-profile pages that
+   still use those names (KG Ladies Open, KB FINAL, HJ deep-dive,
+   5 player-intelligence pages) -- out of scope for this redesign and
+   not to be touched without a separate instruction. */
+.neo-page-head{background:var(--mint);border:1px solid var(--line);border-radius:var(--radius);padding:2.1rem 2rem;margin:1.5rem 0}
+.neo-page-head h1{margin:.4rem 0 .6rem}
+.neo-page-head p{margin:0;max-width:46rem;color:var(--muted)}
+.neo-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:1.6rem 1.8rem;margin:1.25rem 0}
+.neo-panel:nth-of-type(even){background:var(--mint)}
+.neo-panel>h2:first-child{margin-top:0}
+.neo-panel .meta{color:var(--muted);font-size:.8rem}
+.neo-table-wrap{border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.neo-table-wrap .table-scroll{border:0}
+.neo-table{width:100%;min-width:32rem;border-collapse:collapse;background:var(--surface);font-size:.875rem}
+.neo-table th,.neo-table td{padding:.6rem .75rem;text-align:left}
+.neo-table th{background:var(--mint-deep);color:var(--ink);font-weight:800;font-size:.72rem;letter-spacing:.03em;text-transform:uppercase}
+.neo-table td{border-top:1px solid var(--line);font-variant-numeric:tabular-nums}
+.neo-table tbody tr:nth-child(even){background:var(--mint)}
+.neo-table tbody tr:hover{background:var(--green-2)}
+.neo-card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(10rem,1fr));gap:.75rem;list-style:none;margin:0;padding:0}
+.neo-card-grid .neo-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);box-shadow:var(--shadow-card)}
+.neo-card-grid .neo-card a{display:block;padding:1rem;font-weight:750;color:var(--ink);text-decoration:none}
+.neo-card-grid .neo-card:hover{background:var(--mint);border-color:var(--green)}
+.neo-link-pill{display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .9rem;border-radius:999px;background:var(--green-2);color:var(--green);font-weight:750;font-size:.85rem;text-decoration:none}
+.neo-link-pill:hover{background:var(--green);color:#fff}
+.neo-status-card{background:var(--mint);border:1px solid var(--line);border-radius:var(--radius-sm);padding:1.1rem 1.3rem;margin-top:1rem}
 /* NEO Ranking is publication-BLOCKED (not a pass/success state), so its
    status pill must never read as a green "success" badge -- neutral
    warm-gray tokens, not --green/--green-2, which stay reserved for
    things that actually passed verification or are live. */
-.neo-status-card .status-pill{display:inline-block;background:var(--neutral-bg);color:var(--neutral-ink);font-weight:800;font-size:.78rem;padding:.2rem .55rem;margin-bottom:.5rem}
-.section-link-row{margin-top:1rem}
-/* HOME card-based layout (2026-10-20, operator instruction): adopt
-   Golf Radar's card/pill information-density pattern -- NOT its dark
-   background or colors, which stay out entirely. White surface, a
-   left accent bar, and small stage-link chips reusing the palette
-   already defined above (--surface/--line/--green/--panel/--muted) --
-   no new brand colors, no photos, no gradients/shadows. */
-.home-tournament-card{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--green);padding:1.1rem 1.35rem;margin-top:.75rem}
+.neo-status-card .status-pill{display:inline-block;background:var(--neutral-bg);color:var(--neutral-ink);border-radius:999px;font-weight:800;font-size:.78rem;padding:.25rem .7rem;margin-bottom:.5rem}
+/* HOME's 6 fixed sections: alternating mint/white panels, rounded
+   corners, hairline shadow -- replaces the old flat divider-only look
+   while keeping the exact same section order/content. */
+.home-section{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card);padding:2.1rem 2rem;margin:1.25rem 0}
+.home-section:nth-of-type(even){background:var(--mint)}
+.home-brand-intro{background:var(--mint)}
+.home-brand-intro p{max-width:46rem;color:var(--muted)}
+.home-ranking-preview{width:100%;min-width:0;border-collapse:collapse;background:var(--surface);font-size:.875rem;margin-bottom:1rem}
+.home-ranking-preview th,.home-ranking-preview td{padding:.55rem .6rem;border-bottom:1px solid var(--line);text-align:left}
+.home-ranking-preview th{background:var(--mint-deep);color:var(--ink);font-weight:800;font-size:.75rem;text-transform:uppercase;letter-spacing:.03em}
+.home-ranking-preview tbody tr:nth-child(even){background:var(--mint)}
+.home-tournament-card{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--green);border-radius:var(--radius-sm);box-shadow:var(--shadow-card);padding:1.1rem 1.35rem;margin-top:.75rem}
 .home-tournament-card .meta{margin:0;color:var(--muted);font-size:.78rem}
 .home-tournament-card h3{margin:.3rem 0}
 .home-stage-chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.75rem 0 0;padding:0;list-style:none}
-.home-stage-chips a{display:inline-block;padding:.3rem .7rem;background:var(--panel);border:1px solid var(--line);color:var(--ink);font-weight:700;font-size:.78rem;text-decoration:none}
+.home-stage-chips a{display:inline-block;padding:.3rem .8rem;border-radius:999px;background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:700;font-size:.78rem;text-decoration:none}
 .home-stage-chips a:hover{background:var(--green-2);border-color:var(--green)}
 .home-lab-stat,.home-about-stat{margin:.5rem 0 0;color:var(--muted);font-size:.85rem}
+/* 대회 기록 archive hub -- isolated classes (only docs/tournaments/
+   index.html uses them), safe to restyle in place without affecting
+   any other page. */
+.page-intro{background:var(--mint);border:1px solid var(--line);border-radius:var(--radius);padding:2rem 2rem 1.75rem;margin:1.5rem 0}
+.archive-card{padding:1.4rem 1.6rem;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-card);background:var(--surface);margin-bottom:1rem}
+.archive-card:nth-of-type(even){background:var(--mint)}
+.archive-card h2{margin-top:0}
+.stage-links a{border-radius:999px}

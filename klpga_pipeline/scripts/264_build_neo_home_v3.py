@@ -165,7 +165,7 @@ def main() -> None:
     # SECTION 4: Deep Dive preview
     players = _real_player_cards()
     deep_dive_cards = "".join(
-        f"<li class='card'><a href='/player/{escape(p['player_id'])}/'>{escape(p['name'])}</a></li>"
+        f"<li class='neo-card'><a href='/player/{escape(p['player_id'])}/'>{escape(p['name'])}</a></li>"
         for p in players[:6]
     )
 
@@ -202,7 +202,7 @@ def main() -> None:
         '<section class="home-section" id="deep-dive">'
         '<div class="section-heading"><div><p class="section-label">딥다이브</p>'
         "<h2>선수·대회 분석</h2></div></div>"
-        f"<ul class='card-list'>{deep_dive_cards}</ul>"
+        f"<ul class='neo-card-grid'>{deep_dive_cards}</ul>"
         "<p class='section-link-row'><a href='/deep-dive/'>Deep Dive 전체 보기 →</a></p>"
         "</section>"
         # 5. NEO LAB

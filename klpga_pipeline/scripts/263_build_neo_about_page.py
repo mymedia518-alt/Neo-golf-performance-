@@ -38,13 +38,13 @@ def _source_git_sha() -> str:
 def main() -> None:
     body = (
         '<header data-neo-global-navigation></header><main>'
-        '<section class="page-head"><p class="kicker">소개</p>'
+        '<section class="neo-page-head"><p class="kicker">소개</p>'
         "<h1>NEO GOLF DATA</h1>"
         "<p>NEO GOLF DATA는 골프 기록을 수집·정리·분석하는 데이터 분석 회사입니다. "
         "영상이나 뉴스를 만드는 콘텐츠 사이트가 아니라, KLPGA 공식 기록을 기반으로 "
         "경기력을 읽을 수 있는 수치와 분석을 제공합니다.</p>"
         "</section>"
-        '<section class="product-section"><h2>데이터 기준</h2>'
+        '<section class="neo-panel"><h2>데이터 기준</h2>'
         "<dl class='data-standards'>"
         "<dt>수집 범위</dt><dd>KLPGA 공식 홈페이지에 게시되는 대회 리더보드, Strokes Gained(SG) 세부 기록, "
         "K-Ranking을 대상으로 합니다.</dd>"
@@ -57,7 +57,7 @@ def main() -> None:
         "<dt>검증 기준을 통과하지 못한 모델</dt><dd>자체 검증을 통과하지 못한 지표나 모델은 "
         "순위·점수로 공개하지 않습니다. 현재 상태는 <a href='/neo-lab/'>NEO LAB</a>에서 확인할 수 있습니다.</dd>"
         "</dl></section>"
-        '<section class="product-section"><h2>현재 범위와 한계</h2>'
+        '<section class="neo-panel"><h2>현재 범위와 한계</h2>'
         "<ul>"
         "<li>선수 분석은 공식 기록이 충분히 확보된 선수부터 순서대로 제공하며, 전체 선수를 다루지 않습니다.</li>"
         "<li>코스 단위 분석은 아직 제공하지 않습니다.</li>"
