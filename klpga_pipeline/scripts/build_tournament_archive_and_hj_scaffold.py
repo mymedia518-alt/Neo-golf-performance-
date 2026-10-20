@@ -107,6 +107,13 @@ def public_stages(dirname: str) -> list[str]:
 
 ARCHIVE_TOURNAMENTS = [
     # (dirname, display_name, date_range, venue, primary_stage_for_card_name_link)
+    # 2026100003 (아이스버그골프·서울신문 오픈, 2026.10.16-18) was never
+    # added here at all -- added 2026-10-20 after it was reported missing
+    # from the public 대회 기록 archive. Chronologically the MOST RECENT
+    # tournament (later than 2026100004's 10.08-11), so it leads the list.
+    # venue "H1" mirrors the real official course_name field from
+    # 2026100003_TOURNAMENT_INFO.json, same as every other entry's venue.
+    ("2026100003", "아이스버그골프 · 서울신문 오픈", "2026.10.16 — 10.18", "H1", "fr"),
     ("2026100004", "HJ중공업·동부건설 챔피언십", "2026.10.08 — 10.11", "에이원CC", "fr"),
     ("2026100005", "제26회 하이트진로 챔피언십", "2026.10.01 — 10.04", "블루헤런", "fr"),
     ("2026090002", "하나금융그룹 챔피언십", "2026.09.17 — 09.20", "더헤븐", "final"),
