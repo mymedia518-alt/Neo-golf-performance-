@@ -152,16 +152,26 @@ def test_stale_hana_builder_cannot_clobber_real_production_home_once_hj_has_clai
     the real file is provably untouched (SHA256 identical before and
     after the blocked attempt).
 
-    BRAND REDESIGN (2026-10-20): root HOME is now owned by
+    BRAND REDESIGN (2026-10-20): root HOME was briefly owned by
     composite-home-v1 (see home_ownership_guard.py's "OWNER
     SUPERSESSION 2" note), not by another current-tournament-v1-class
-    writer -- so this exact stale call is now rejected one level
-    earlier, by the OWNER-class mismatch check (assert_home_write_
-    allowed's writer_owner-vs-existing_owner check) rather than the
-    game_code check specifically. The real invariant this regression
-    lock protects -- a stale builder can never clobber real production
-    HOME -- is unchanged and, if anything, enforced more broadly now;
-    only which branch of the same guard function raises has moved."""
+    writer -- so this exact stale call was rejected one level earlier,
+    by the OWNER-class mismatch check (assert_home_write_allowed's
+    writer_owner-vs-existing_owner check) rather than the game_code
+    check specifically.
+
+    OPERATOR ROLLBACK (2026-10-21): root HOME was then rolled back to
+    mirroring the Iceberg FR page (scripts/259, current-tournament-v1
+    again, game_code 2026100003) because the composite HOME shipped
+    before it was finished -- see scripts/259_promote_iceberg_
+    2026100003_home_fr.py's own rollback note. 156 (Hana, game_code
+    2026090002) is CURRENT_TOURNAMENT_OWNER-class too, so the owner-
+    class check now passes and the call falls through to the game-code
+    check instead -- a different branch of the same guard function,
+    not a weaker one. The real invariant this regression lock protects
+    -- a stale builder can never clobber real production HOME -- is
+    unchanged; only which branch raises has moved, exactly as the
+    previous transition's note already anticipated."""
     import importlib.util
 
     from klpga.website_v2.home_ownership_guard import HomeOwnershipError
@@ -173,7 +183,7 @@ def test_stale_hana_builder_cannot_clobber_real_production_home_once_hj_has_clai
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    with pytest.raises(HomeOwnershipError, match="already owned by"):
+    with pytest.raises(HomeOwnershipError, match="already (owned by|claimed by game_code)"):
         module.build()
 
     sha_after = _sha256(real_docs_index)

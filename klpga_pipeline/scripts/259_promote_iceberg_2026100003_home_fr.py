@@ -21,10 +21,13 @@ REPO_ROOT = ROOT.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from klpga.website_v2.home_ownership_guard import (  # noqa: E402
+    COMPOSITE_HOME_OWNER,
     CURRENT_TOURNAMENT_OWNER,
+    TOP120_OWNER,
     assert_home_write_allowed,
     embed_game_code,
     embed_owner,
+    extract_owner,
 )
 
 sys.path.insert(0, str(ROOT / "scripts"))
@@ -93,8 +96,22 @@ def build() -> None:
     html = embed_owner(html, CURRENT_TOURNAMENT_OWNER)
     html = embed_game_code(html, GAME_CODE)
 
+    # OPERATOR ROLLBACK (2026-10-21): the fixed six-section composite HOME
+    # (COMPOSITE_HOME_OWNER, see home_ownership_guard.py's OWNER
+    # SUPERSESSION 2 note) went live before it was finished -- operator
+    # instruction is to roll root HOME back to mirroring the Iceberg FR
+    # page (this script's original, pre-composite job) until the
+    # composite HOME is actually ready. Accept a transfer from whichever
+    # owner currently holds root HOME (composite-home-v1 is the expected
+    # real case here, but top120-v1/current-tournament-v1 stay accepted
+    # too since this script's own prior behavior already allowed them
+    # implicitly via re-running itself) -- never a blind bypass, still
+    # hard-stops on any unrecognized owner or a different game_code.
+    existing_owner = extract_owner(DOCS_INDEX.read_text(encoding="utf-8")) if DOCS_INDEX.is_file() else None
+    transfer_from = existing_owner if existing_owner in (TOP120_OWNER, COMPOSITE_HOME_OWNER, CURRENT_TOURNAMENT_OWNER) else CURRENT_TOURNAMENT_OWNER
     assert_home_write_allowed(
-        DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=REPO_ROOT, writer_game_code=GAME_CODE,
+        DOCS_INDEX, CURRENT_TOURNAMENT_OWNER, repo_root=REPO_ROOT,
+        allow_transfer_from=transfer_from, writer_game_code=GAME_CODE,
     )
     DOCS_INDEX.write_text(html, encoding="utf-8")
     print(json.dumps({
