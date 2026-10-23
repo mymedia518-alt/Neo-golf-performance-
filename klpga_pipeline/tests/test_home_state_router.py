@@ -269,8 +269,14 @@ def test_case_12_exactly_one_authorized_home_writer(builder):
     # regardless of tournament state); this assertion is updated to
     # match that real, documented architecture change, not loosened
     # generally.
-    from klpga.website_v2.home_ownership_guard import COMPOSITE_HOME_OWNER
-    assert guard._RECOGNIZED_OWNERS == (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER, COMPOSITE_HOME_OWNER)
+    #
+    # OWNER SUPERSESSION 3 (2026-10-23): a fourth owner,
+    # INTERIM_VIDEO_HOME_OWNER, was added the same way -- see that same
+    # docstring's "OWNER SUPERSESSION 3" note (composite HOME shipped
+    # unfinished and was rolled back twice; root HOME is now a minimal,
+    # non-tournament-specific interim page).
+    from klpga.website_v2.home_ownership_guard import COMPOSITE_HOME_OWNER, INTERIM_VIDEO_HOME_OWNER
+    assert guard._RECOGNIZED_OWNERS == (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER, COMPOSITE_HOME_OWNER, INTERIM_VIDEO_HOME_OWNER)
 
     promotion_src = (ROOT / "scripts" / "111_promote_top120_root_home_only.py").read_text(encoding="utf-8")
     # The sole sanctioned promoter must make no state decision of its

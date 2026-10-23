@@ -60,12 +60,19 @@ def test_production_docs_root_home_actually_contains_the_feature():
     tournament-v1 mirroring an active tournament's stage page) are
     still recognized owner identities for other routes/history, but
     root HOME itself should now always be composite-home-v1 with real
-    content from every section."""
+    content from every section.
+
+    OWNER SUPERSESSION 3 (2026-10-23): the composite HOME shipped
+    unfinished and was rolled back; root HOME is now the minimal
+    interim-video-home-v1 page (see home_ownership_guard.py's "OWNER
+    SUPERSESSION 3" note) -- a season-wide video, not a tournament
+    mirror, with tournament results left only at their own stage URLs
+    and the 대회 기록 archive."""
     home = (DOCS / "index.html").read_text(encoding="utf-8")
     owner_match = re.search(r'neo-home-owner" content="([^"]*)"', home)
     assert owner_match is not None, "root HOME must carry a neo-home-owner marker"
     owner = owner_match.group(1)
-    assert owner in ("top120-v1", "current-tournament-v1", "composite-home-v1")
+    assert owner in ("top120-v1", "current-tournament-v1", "composite-home-v1", "interim-video-home-v1")
     assert "999999" not in home
     if owner == "top120-v1":
         assert home.count("data-player-row") == 120
@@ -76,6 +83,9 @@ def test_production_docs_root_home_actually_contains_the_feature():
         for section_id in ("ranking", "tournament-data", "deep-dive", "neo-lab", "about"):
             assert f'id="{section_id}"' in home, f"composite HOME missing real section {section_id!r}"
         assert "검증 진행 중" in home, "composite HOME must show the honest NEO Ranking gate status, never a fabricated ranking"
+    elif owner == "interim-video-home-v1":
+        assert "<video" in home, "interim video HOME must actually embed the video"
+        assert "/tournaments/" in home, "interim video HOME must link out to the 대회 기록 archive"
     else:
         assert home.count("class='player-name'") > 0
         assert "KB금융" in home or "챔피언십" in home
