@@ -1,0 +1,1484 @@
+{
+  "season": 2026,
+  "ranking_cutoff": "2026-10-18",
+  "source_window": {
+    "from": "2026-07-05",
+    "through": "2026-10-18"
+  },
+  "source_tournaments": 11,
+  "source_round_records": 3882,
+  "profile_method": "Equal-weight average of official single-round SG records retained in the repository for each player.",
+  "coverage_note": "This chart uses the recorded official SG component rounds from 11 tournaments between July 5 and October 18. It is a confirmed subset of the 2026 season records, not a complete season component total.",
+  "scale": {
+    "min": -6,
+    "max": 6
+  },
+  "components": [
+    {
+      "key": "off_the_tee",
+      "label": "티샷"
+    },
+    {
+      "key": "approach",
+      "label": "어프로치"
+    },
+    {
+      "key": "around_green",
+      "label": "그린 주변"
+    },
+    {
+      "key": "putting",
+      "label": "퍼팅"
+    },
+    {
+      "key": "tee_to_green",
+      "label": "티샷부터 그린"
+    },
+    {
+      "key": "total",
+      "label": "전체"
+    }
+  ],
+  "players": {
+    "11134": {
+      "rounds": 37,
+      "events": 10,
+      "means": {
+        "total": 2.276216,
+        "tee_to_green": 1.987027,
+        "off_the_tee": 0.778378,
+        "approach": 1.148108,
+        "around_green": 0.058649,
+        "putting": 0.29
+      }
+    },
+    "10725": {
+      "rounds": 35,
+      "events": 9,
+      "means": {
+        "total": 1.840286,
+        "tee_to_green": 1.533429,
+        "off_the_tee": 1.204286,
+        "approach": 0.354857,
+        "around_green": -0.026286,
+        "putting": 0.306857
+      }
+    },
+    "10146": {
+      "rounds": 29,
+      "events": 8,
+      "means": {
+        "total": 2.228621,
+        "tee_to_green": 1.716552,
+        "off_the_tee": 0.373103,
+        "approach": 1.123448,
+        "around_green": 0.219655,
+        "putting": 0.513103
+      }
+    },
+    "10097": {
+      "rounds": 34,
+      "events": 9,
+      "means": {
+        "total": 1.690588,
+        "tee_to_green": 2.059118,
+        "off_the_tee": 0.678529,
+        "approach": 1.311176,
+        "around_green": 0.07,
+        "putting": -0.368235
+      }
+    },
+    "10081": {
+      "rounds": 41,
+      "events": 11,
+      "means": {
+        "total": 2.104634,
+        "tee_to_green": 1.696341,
+        "off_the_tee": 0.305854,
+        "approach": 1.212683,
+        "around_green": 0.178049,
+        "putting": 0.40878
+      }
+    },
+    "8392": {
+      "rounds": 32,
+      "events": 8,
+      "means": {
+        "total": 1.989062,
+        "tee_to_green": 1.669375,
+        "off_the_tee": 0.229687,
+        "approach": 1.060938,
+        "around_green": 0.379375,
+        "putting": 0.32
+      }
+    },
+    "9784": {
+      "rounds": 33,
+      "events": 9,
+      "means": {
+        "total": 1.957879,
+        "tee_to_green": 1.374848,
+        "off_the_tee": 0.656364,
+        "approach": 0.322121,
+        "around_green": 0.397273,
+        "putting": 0.58303
+      }
+    },
+    "8881": {
+      "rounds": 38,
+      "events": 11,
+      "means": {
+        "total": 1.650789,
+        "tee_to_green": 1.679737,
+        "off_the_tee": 0.375263,
+        "approach": 1.098684,
+        "around_green": 0.205263,
+        "putting": -0.029737
+      }
+    },
+    "9449": {
+      "rounds": 39,
+      "events": 10,
+      "means": {
+        "total": 2.298974,
+        "tee_to_green": 1.659231,
+        "off_the_tee": 0.22641,
+        "approach": 1.249487,
+        "around_green": 0.183846,
+        "putting": 0.638974
+      }
+    },
+    "9788": {
+      "rounds": 28,
+      "events": 9,
+      "means": {
+        "total": 1.173214,
+        "tee_to_green": 1.474643,
+        "off_the_tee": 0.781429,
+        "approach": 0.623214,
+        "around_green": 0.07,
+        "putting": -0.301429
+      }
+    },
+    "9082": {
+      "rounds": 31,
+      "events": 9,
+      "means": {
+        "total": 1.197097,
+        "tee_to_green": 0.530645,
+        "off_the_tee": -0.047419,
+        "approach": 0.430645,
+        "around_green": 0.148387,
+        "putting": 0.666452
+      }
+    },
+    "8284": {
+      "rounds": 39,
+      "events": 11,
+      "means": {
+        "total": 1.646923,
+        "tee_to_green": 1.028974,
+        "off_the_tee": 0.048974,
+        "approach": 0.652308,
+        "around_green": 0.326667,
+        "putting": 0.617692
+      }
+    },
+    "11143": {
+      "rounds": 39,
+      "events": 11,
+      "means": {
+        "total": 0.85359,
+        "tee_to_green": 0.837692,
+        "off_the_tee": 0.359487,
+        "approach": 0.47,
+        "around_green": 0.007436,
+        "putting": 0.015641
+      }
+    },
+    "11066": {
+      "rounds": 38,
+      "events": 10,
+      "means": {
+        "total": 1.414737,
+        "tee_to_green": 0.241842,
+        "off_the_tee": -0.261316,
+        "approach": 0.612895,
+        "around_green": -0.109737,
+        "putting": 1.171842
+      }
+    },
+    "8772": {
+      "rounds": 35,
+      "events": 10,
+      "means": {
+        "total": 1.260571,
+        "tee_to_green": 1.716571,
+        "off_the_tee": 0.502571,
+        "approach": 1.117429,
+        "around_green": 0.098,
+        "putting": -0.456
+      }
+    },
+    "10296": {
+      "rounds": 43,
+      "events": 11,
+      "means": {
+        "total": 1.558837,
+        "tee_to_green": 1.617674,
+        "off_the_tee": 0.883256,
+        "approach": 0.556047,
+        "around_green": 0.17814,
+        "putting": -0.05907
+      }
+    },
+    "8300": {
+      "rounds": 35,
+      "events": 10,
+      "means": {
+        "total": 1.338857,
+        "tee_to_green": 1.273429,
+        "off_the_tee": 0.434,
+        "approach": 0.753143,
+        "around_green": 0.086286,
+        "putting": 0.066571
+      }
+    },
+    "9235": {
+      "rounds": 37,
+      "events": 10,
+      "means": {
+        "total": 1.59,
+        "tee_to_green": 1.146757,
+        "off_the_tee": 0.252162,
+        "approach": 0.665946,
+        "around_green": 0.23,
+        "putting": 0.442432
+      }
+    },
+    "8243": {
+      "rounds": 36,
+      "events": 10,
+      "means": {
+        "total": 1.307778,
+        "tee_to_green": 0.751944,
+        "off_the_tee": -0.059167,
+        "approach": 0.706944,
+        "around_green": 0.105,
+        "putting": 0.555278
+      }
+    },
+    "9113": {
+      "rounds": 41,
+      "events": 11,
+      "means": {
+        "total": 1.209268,
+        "tee_to_green": 0.725366,
+        "off_the_tee": 0.12878,
+        "approach": 0.513171,
+        "around_green": 0.082683,
+        "putting": 0.483659
+      }
+    },
+    "9130": {
+      "rounds": 27,
+      "events": 9,
+      "means": {
+        "total": 0.557037,
+        "tee_to_green": 0.181481,
+        "off_the_tee": 0.102963,
+        "approach": 0.01037,
+        "around_green": 0.068519,
+        "putting": 0.375556
+      }
+    },
+    "10586": {
+      "rounds": 36,
+      "events": 11,
+      "means": {
+        "total": 1.189167,
+        "tee_to_green": 0.634167,
+        "off_the_tee": 0.314444,
+        "approach": 0.1275,
+        "around_green": 0.191111,
+        "putting": 0.554444
+      }
+    },
+    "10095": {
+      "rounds": 38,
+      "events": 10,
+      "means": {
+        "total": 0.947368,
+        "tee_to_green": 0.424211,
+        "off_the_tee": 0.065789,
+        "approach": 0.175789,
+        "around_green": 0.182895,
+        "putting": 0.523158
+      }
+    },
+    "9134": {
+      "rounds": 37,
+      "events": 10,
+      "means": {
+        "total": 1.443784,
+        "tee_to_green": 1.177297,
+        "off_the_tee": -0.078919,
+        "approach": 0.872432,
+        "around_green": 0.382973,
+        "putting": 0.265676
+      }
+    },
+    "9426": {
+      "rounds": 35,
+      "events": 10,
+      "means": {
+        "total": 0.698571,
+        "tee_to_green": 0.563143,
+        "off_the_tee": 0.275143,
+        "approach": 0.606571,
+        "around_green": -0.317714,
+        "putting": 0.135429
+      }
+    },
+    "11770": {
+      "rounds": 31,
+      "events": 9,
+      "means": {
+        "total": 1.18129,
+        "tee_to_green": 1.093226,
+        "off_the_tee": 0.316452,
+        "approach": 0.638065,
+        "around_green": 0.13871,
+        "putting": 0.088065
+      }
+    },
+    "10109": {
+      "rounds": 33,
+      "events": 11,
+      "means": {
+        "total": 0.376667,
+        "tee_to_green": 0.763636,
+        "off_the_tee": 0.344848,
+        "approach": 0.161515,
+        "around_green": 0.258485,
+        "putting": -0.386667
+      }
+    },
+    "10577": {
+      "rounds": 36,
+      "events": 11,
+      "means": {
+        "total": 0.581111,
+        "tee_to_green": 0.26,
+        "off_the_tee": 0.07,
+        "approach": 0.401111,
+        "around_green": -0.209722,
+        "putting": 0.321111
+      }
+    },
+    "9135": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.913514,
+        "tee_to_green": 1.030811,
+        "off_the_tee": 0.828649,
+        "approach": 0.287297,
+        "around_green": -0.085946,
+        "putting": -0.115405
+      }
+    },
+    "9431": {
+      "rounds": 37,
+      "events": 10,
+      "means": {
+        "total": 1.334865,
+        "tee_to_green": 1.485946,
+        "off_the_tee": 0.151351,
+        "approach": 0.745405,
+        "around_green": 0.59027,
+        "putting": -0.151081
+      }
+    },
+    "8589": {
+      "rounds": 36,
+      "events": 10,
+      "means": {
+        "total": 0.959722,
+        "tee_to_green": 1.226389,
+        "off_the_tee": 0.4575,
+        "approach": 0.653611,
+        "around_green": 0.115556,
+        "putting": -0.268889
+      }
+    },
+    "9820": {
+      "rounds": 31,
+      "events": 10,
+      "means": {
+        "total": 0.572903,
+        "tee_to_green": 0.858065,
+        "off_the_tee": 0.746129,
+        "approach": 0.59,
+        "around_green": -0.476129,
+        "putting": -0.285484
+      }
+    },
+    "9990": {
+      "rounds": 34,
+      "events": 9,
+      "means": {
+        "total": 0.850588,
+        "tee_to_green": 0.579706,
+        "off_the_tee": 0.030294,
+        "approach": 0.403824,
+        "around_green": 0.146765,
+        "putting": 0.270588
+      }
+    },
+    "9807": {
+      "rounds": 16,
+      "events": 5,
+      "means": {
+        "total": 0.460625,
+        "tee_to_green": -0.464375,
+        "off_the_tee": -0.788125,
+        "approach": 0.049375,
+        "around_green": 0.27625,
+        "putting": 0.92375
+      }
+    },
+    "8811": {
+      "rounds": 39,
+      "events": 11,
+      "means": {
+        "total": 0.691026,
+        "tee_to_green": 0.399744,
+        "off_the_tee": 0.233846,
+        "approach": 0.050769,
+        "around_green": 0.115128,
+        "putting": 0.291538
+      }
+    },
+    "10726": {
+      "rounds": 33,
+      "events": 11,
+      "means": {
+        "total": 0.022424,
+        "tee_to_green": 0.135152,
+        "off_the_tee": 0.364242,
+        "approach": -0.265152,
+        "around_green": 0.036061,
+        "putting": -0.111515
+      }
+    },
+    "11057": {
+      "rounds": 39,
+      "events": 11,
+      "means": {
+        "total": 0.552821,
+        "tee_to_green": 1.136923,
+        "off_the_tee": 1.029487,
+        "approach": 0.221026,
+        "around_green": -0.11359,
+        "putting": -0.58359
+      }
+    },
+    "8883": {
+      "rounds": 29,
+      "events": 10,
+      "means": {
+        "total": 0.117586,
+        "tee_to_green": 0.197241,
+        "off_the_tee": -0.113103,
+        "approach": -0.042069,
+        "around_green": 0.352414,
+        "putting": -0.07931
+      }
+    },
+    "1521": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.448108,
+        "tee_to_green": 0.242432,
+        "off_the_tee": -0.176216,
+        "approach": -0.032432,
+        "around_green": 0.450811,
+        "putting": 0.206216
+      }
+    },
+    "1485": {
+      "rounds": 32,
+      "events": 10,
+      "means": {
+        "total": 0.277813,
+        "tee_to_green": 0.759688,
+        "off_the_tee": 0.719062,
+        "approach": -0.189063,
+        "around_green": 0.230625,
+        "putting": -0.482188
+      }
+    },
+    "9652": {
+      "rounds": 34,
+      "events": 9,
+      "means": {
+        "total": 0.819706,
+        "tee_to_green": 0.484706,
+        "off_the_tee": 0.108235,
+        "approach": 0.300294,
+        "around_green": 0.075588,
+        "putting": 0.335588
+      }
+    },
+    "10083": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.683243,
+        "tee_to_green": 0.04,
+        "off_the_tee": 0.452432,
+        "approach": -0.456486,
+        "around_green": 0.044054,
+        "putting": 0.643243
+      }
+    },
+    "11042": {
+      "rounds": 29,
+      "events": 10,
+      "means": {
+        "total": 0.035862,
+        "tee_to_green": 0.245862,
+        "off_the_tee": 0.395172,
+        "approach": -0.077586,
+        "around_green": -0.071724,
+        "putting": -0.209655
+      }
+    },
+    "9401": {
+      "rounds": 28,
+      "events": 10,
+      "means": {
+        "total": 0.116786,
+        "tee_to_green": -0.4975,
+        "off_the_tee": -0.428571,
+        "approach": -0.095,
+        "around_green": 0.025357,
+        "putting": 0.613571
+      }
+    },
+    "8859": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.53,
+        "tee_to_green": 0.664324,
+        "off_the_tee": 0.268919,
+        "approach": 0.361351,
+        "around_green": 0.032703,
+        "putting": -0.134595
+      }
+    },
+    "10002": {
+      "rounds": 41,
+      "events": 11,
+      "means": {
+        "total": 0.376341,
+        "tee_to_green": 0.283659,
+        "off_the_tee": 0.487317,
+        "approach": -0.21878,
+        "around_green": 0.015366,
+        "putting": 0.091951
+      }
+    },
+    "9391": {
+      "rounds": 34,
+      "events": 11,
+      "means": {
+        "total": 0.575294,
+        "tee_to_green": 0.39,
+        "off_the_tee": -0.221765,
+        "approach": 0.416176,
+        "around_green": 0.196176,
+        "putting": 0.184412
+      }
+    },
+    "9465": {
+      "rounds": 34,
+      "events": 10,
+      "means": {
+        "total": -0.022059,
+        "tee_to_green": -0.919706,
+        "off_the_tee": -0.388235,
+        "approach": -0.777941,
+        "around_green": 0.247059,
+        "putting": 0.898235
+      }
+    },
+    "9487": {
+      "rounds": 33,
+      "events": 11,
+      "means": {
+        "total": 0.098788,
+        "tee_to_green": -0.04697,
+        "off_the_tee": 0.099091,
+        "approach": 0.099697,
+        "around_green": -0.24697,
+        "putting": 0.144848
+      }
+    },
+    "11045": {
+      "rounds": 34,
+      "events": 10,
+      "means": {
+        "total": -0.073235,
+        "tee_to_green": 0.156471,
+        "off_the_tee": 0.159706,
+        "approach": 0.333235,
+        "around_green": -0.336765,
+        "putting": -0.231176
+      }
+    },
+    "10138": {
+      "rounds": 31,
+      "events": 10,
+      "means": {
+        "total": -0.024839,
+        "tee_to_green": 0.487419,
+        "off_the_tee": -0.024839,
+        "approach": 0.302581,
+        "around_green": 0.209355,
+        "putting": -0.512258
+      }
+    },
+    "9145": {
+      "rounds": 33,
+      "events": 10,
+      "means": {
+        "total": -0.096667,
+        "tee_to_green": 0.502121,
+        "off_the_tee": 0.472727,
+        "approach": 0.270303,
+        "around_green": -0.240909,
+        "putting": -0.598788
+      }
+    },
+    "9389": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.511892,
+        "tee_to_green": 0.564865,
+        "off_the_tee": 0.365405,
+        "approach": 0.256486,
+        "around_green": -0.056216,
+        "putting": -0.052432
+      }
+    },
+    "11447": {
+      "rounds": 43,
+      "events": 11,
+      "means": {
+        "total": 0.717907,
+        "tee_to_green": 0.619767,
+        "off_the_tee": 0.09186,
+        "approach": 0.434186,
+        "around_green": 0.092326,
+        "putting": 0.098372
+      }
+    },
+    "11056": {
+      "rounds": 38,
+      "events": 11,
+      "means": {
+        "total": 0.726316,
+        "tee_to_green": 0.677632,
+        "off_the_tee": 0.467895,
+        "approach": 0.376053,
+        "around_green": -0.166053,
+        "putting": 0.048684
+      }
+    },
+    "8380": {
+      "rounds": 36,
+      "events": 11,
+      "means": {
+        "total": 0.363611,
+        "tee_to_green": -0.049444,
+        "off_the_tee": -0.111111,
+        "approach": 0.038333,
+        "around_green": 0.024722,
+        "putting": 0.413333
+      }
+    },
+    "11073": {
+      "rounds": 29,
+      "events": 11,
+      "means": {
+        "total": -0.525172,
+        "tee_to_green": -0.982759,
+        "off_the_tee": 0.37931,
+        "approach": -1.189655,
+        "around_green": -0.171034,
+        "putting": 0.457241
+      }
+    },
+    "9000": {
+      "rounds": 31,
+      "events": 11,
+      "means": {
+        "total": -0.155806,
+        "tee_to_green": 0.460968,
+        "off_the_tee": -0.246452,
+        "approach": 0.509032,
+        "around_green": 0.195806,
+        "putting": -0.615806
+      }
+    },
+    "10112": {
+      "rounds": 31,
+      "events": 11,
+      "means": {
+        "total": -0.334194,
+        "tee_to_green": 0.074516,
+        "off_the_tee": 0.177097,
+        "approach": -0.015806,
+        "around_green": -0.085806,
+        "putting": -0.408387
+      }
+    },
+    "8277": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": -0.241,
+        "tee_to_green": -0.519667,
+        "off_the_tee": -0.718667,
+        "approach": 0.135333,
+        "around_green": 0.063,
+        "putting": 0.278667
+      }
+    },
+    "9705": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": 0.258108,
+        "tee_to_green": 0.192162,
+        "off_the_tee": -0.157297,
+        "approach": 0.369459,
+        "around_green": -0.021081,
+        "putting": 0.066486
+      }
+    },
+    "10790": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": 0.341333,
+        "tee_to_green": 0.218333,
+        "off_the_tee": -0.276,
+        "approach": 0.662333,
+        "around_green": -0.168,
+        "putting": 0.124333
+      }
+    },
+    "9765": {
+      "rounds": 38,
+      "events": 11,
+      "means": {
+        "total": -0.277105,
+        "tee_to_green": -0.020263,
+        "off_the_tee": -0.115526,
+        "approach": 0.314211,
+        "around_green": -0.217895,
+        "putting": -0.256842
+      }
+    },
+    "9708": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": 0.023,
+        "tee_to_green": 0.014,
+        "off_the_tee": -0.138,
+        "approach": 0.469333,
+        "around_green": -0.317,
+        "putting": 0.010333
+      }
+    },
+    "8234": {
+      "rounds": 34,
+      "events": 11,
+      "means": {
+        "total": 0.086765,
+        "tee_to_green": -0.154118,
+        "off_the_tee": 0.047647,
+        "approach": -0.049412,
+        "around_green": -0.152059,
+        "putting": 0.241176
+      }
+    },
+    "8838": {
+      "rounds": 36,
+      "events": 11,
+      "means": {
+        "total": -0.161944,
+        "tee_to_green": -0.227778,
+        "off_the_tee": -0.293611,
+        "approach": 0.136667,
+        "around_green": -0.070556,
+        "putting": 0.066389
+      }
+    },
+    "11060": {
+      "rounds": 39,
+      "events": 11,
+      "means": {
+        "total": 0.106923,
+        "tee_to_green": 0.739231,
+        "off_the_tee": 0.475641,
+        "approach": 0.254359,
+        "around_green": 0.009744,
+        "putting": -0.632821
+      }
+    },
+    "9089": {
+      "rounds": 31,
+      "events": 11,
+      "means": {
+        "total": 0.371613,
+        "tee_to_green": 0.220968,
+        "off_the_tee": 0.083871,
+        "approach": 0.487419,
+        "around_green": -0.351613,
+        "putting": 0.15129
+      }
+    },
+    "8770": {
+      "rounds": 24,
+      "events": 10,
+      "means": {
+        "total": -1.13,
+        "tee_to_green": -0.996667,
+        "off_the_tee": -0.648333,
+        "approach": -0.600417,
+        "around_green": 0.25,
+        "putting": -0.13375
+      }
+    },
+    "9752": {
+      "rounds": 18,
+      "events": 6,
+      "means": {
+        "total": -0.211111,
+        "tee_to_green": 0.604444,
+        "off_the_tee": 0.31,
+        "approach": 0.621111,
+        "around_green": -0.327222,
+        "putting": -0.816667
+      }
+    },
+    "13502": {
+      "rounds": 26,
+      "events": 8,
+      "means": {
+        "total": -0.559231,
+        "tee_to_green": -0.333462,
+        "off_the_tee": -0.185769,
+        "approach": 0.139231,
+        "around_green": -0.285769,
+        "putting": -0.227308
+      }
+    },
+    "9483": {
+      "rounds": 30,
+      "events": 11,
+      "means": {
+        "total": -0.687667,
+        "tee_to_green": -0.706333,
+        "off_the_tee": 0.039333,
+        "approach": -0.342333,
+        "around_green": -0.403667,
+        "putting": 0.02
+      }
+    },
+    "10022": {
+      "rounds": 26,
+      "events": 10,
+      "means": {
+        "total": -0.625385,
+        "tee_to_green": -1.57,
+        "off_the_tee": -1.065,
+        "approach": -0.844231,
+        "around_green": 0.341154,
+        "putting": 0.943846
+      }
+    },
+    "10727": {
+      "rounds": 26,
+      "events": 9,
+      "means": {
+        "total": -1.077308,
+        "tee_to_green": -1.75,
+        "off_the_tee": -0.721154,
+        "approach": -0.760769,
+        "around_green": -0.268077,
+        "putting": 0.672308
+      }
+    },
+    "9714": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": -0.315135,
+        "tee_to_green": 0.091622,
+        "off_the_tee": 0.054054,
+        "approach": -0.049459,
+        "around_green": 0.088108,
+        "putting": -0.408378
+      }
+    },
+    "11216": {
+      "rounds": 23,
+      "events": 11,
+      "means": {
+        "total": -1.318261,
+        "tee_to_green": -0.870435,
+        "off_the_tee": -0.598261,
+        "approach": -0.358696,
+        "around_green": 0.087826,
+        "putting": -0.44913
+      }
+    },
+    "6916": {
+      "rounds": 31,
+      "events": 10,
+      "means": {
+        "total": -0.324194,
+        "tee_to_green": -0.366129,
+        "off_the_tee": 0.085806,
+        "approach": -0.531613,
+        "around_green": 0.079355,
+        "putting": 0.04129
+      }
+    },
+    "9937": {
+      "rounds": 36,
+      "events": 11,
+      "means": {
+        "total": -0.624722,
+        "tee_to_green": -0.437222,
+        "off_the_tee": -0.205833,
+        "approach": -0.241111,
+        "around_green": 0.010556,
+        "putting": -0.1875
+      }
+    },
+    "8318": {
+      "rounds": 33,
+      "events": 11,
+      "means": {
+        "total": -0.395152,
+        "tee_to_green": -0.884545,
+        "off_the_tee": 0.015758,
+        "approach": -0.983636,
+        "around_green": 0.082121,
+        "putting": 0.490303
+      }
+    },
+    "9183": {
+      "rounds": 27,
+      "events": 9,
+      "means": {
+        "total": -1.007407,
+        "tee_to_green": -1.204444,
+        "off_the_tee": -0.76,
+        "approach": -1.209259,
+        "around_green": 0.765556,
+        "putting": 0.198519
+      }
+    },
+    "9759": {
+      "rounds": 32,
+      "events": 11,
+      "means": {
+        "total": -0.95125,
+        "tee_to_green": -0.688438,
+        "off_the_tee": -0.985938,
+        "approach": 0.375937,
+        "around_green": -0.077812,
+        "putting": -0.263125
+      }
+    },
+    "9136": {
+      "rounds": 26,
+      "events": 10,
+      "means": {
+        "total": -0.581538,
+        "tee_to_green": -0.021923,
+        "off_the_tee": 0.291538,
+        "approach": -0.198462,
+        "around_green": -0.114615,
+        "putting": -0.558846
+      }
+    },
+    "10139": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": -0.410333,
+        "tee_to_green": -0.495667,
+        "off_the_tee": -0.242,
+        "approach": -0.329667,
+        "around_green": 0.077,
+        "putting": 0.086333
+      }
+    },
+    "8386": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": -1.393667,
+        "tee_to_green": -1.112,
+        "off_the_tee": -0.522,
+        "approach": -0.547333,
+        "around_green": -0.041333,
+        "putting": -0.283
+      }
+    },
+    "9111": {
+      "rounds": 33,
+      "events": 10,
+      "means": {
+        "total": -0.879091,
+        "tee_to_green": -0.886061,
+        "off_the_tee": -0.06697,
+        "approach": -0.677576,
+        "around_green": -0.141212,
+        "putting": 0.007273
+      }
+    },
+    "9702": {
+      "rounds": 23,
+      "events": 8,
+      "means": {
+        "total": -0.464783,
+        "tee_to_green": -0.07,
+        "off_the_tee": 0.046087,
+        "approach": -0.41,
+        "around_green": 0.294348,
+        "putting": -0.393478
+      }
+    },
+    "8271": {
+      "rounds": 20,
+      "events": 7,
+      "means": {
+        "total": -0.952,
+        "tee_to_green": -0.2345,
+        "off_the_tee": 0.1455,
+        "approach": -0.1805,
+        "around_green": -0.198,
+        "putting": -0.7185
+      }
+    },
+    "8240": {
+      "rounds": 23,
+      "events": 10,
+      "means": {
+        "total": -1.173478,
+        "tee_to_green": -0.585652,
+        "off_the_tee": -0.230435,
+        "approach": -0.405652,
+        "around_green": 0.05,
+        "putting": -0.58913
+      }
+    },
+    "10789": {
+      "rounds": 11,
+      "events": 6,
+      "means": {
+        "total": -2.986364,
+        "tee_to_green": -2.687273,
+        "off_the_tee": -0.360909,
+        "approach": -1.73,
+        "around_green": -0.594545,
+        "putting": -0.299091
+      }
+    },
+    "9436": {
+      "rounds": 24,
+      "events": 9,
+      "means": {
+        "total": -1.30125,
+        "tee_to_green": -1.459167,
+        "off_the_tee": -0.23,
+        "approach": -1.377917,
+        "around_green": 0.147917,
+        "putting": 0.1575
+      }
+    },
+    "11040": {
+      "rounds": 28,
+      "events": 10,
+      "means": {
+        "total": -1.75,
+        "tee_to_green": 0.043571,
+        "off_the_tee": -0.01,
+        "approach": 0.317857,
+        "around_green": -0.265,
+        "putting": -1.794643
+      }
+    },
+    "8884": {
+      "rounds": 26,
+      "events": 11,
+      "means": {
+        "total": -1.083462,
+        "tee_to_green": -0.452692,
+        "off_the_tee": -0.368462,
+        "approach": 0.018462,
+        "around_green": -0.103462,
+        "putting": -0.630769
+      }
+    },
+    "10531": {
+      "rounds": 32,
+      "events": 11,
+      "means": {
+        "total": -1.150625,
+        "tee_to_green": -1.274375,
+        "off_the_tee": -0.693125,
+        "approach": -0.456562,
+        "around_green": -0.122187,
+        "putting": 0.124063
+      }
+    },
+    "9723": {
+      "rounds": 31,
+      "events": 11,
+      "means": {
+        "total": -1.360645,
+        "tee_to_green": -0.873548,
+        "off_the_tee": 0.002258,
+        "approach": -0.774194,
+        "around_green": -0.1,
+        "putting": -0.487097
+      }
+    },
+    "9981": {
+      "rounds": 17,
+      "events": 7,
+      "means": {
+        "total": -1.047059,
+        "tee_to_green": -0.448235,
+        "off_the_tee": 0.612941,
+        "approach": -0.392941,
+        "around_green": -0.668824,
+        "putting": -0.597647
+      }
+    },
+    "9277": {
+      "rounds": 27,
+      "events": 11,
+      "means": {
+        "total": -1.31,
+        "tee_to_green": -0.080741,
+        "off_the_tee": -0.039259,
+        "approach": 0.157407,
+        "around_green": -0.198148,
+        "putting": -1.228889
+      }
+    },
+    "12038": {
+      "rounds": 28,
+      "events": 10,
+      "means": {
+        "total": -0.935357,
+        "tee_to_green": -0.211071,
+        "off_the_tee": 0.201429,
+        "approach": -0.192857,
+        "around_green": -0.218214,
+        "putting": -0.725714
+      }
+    },
+    "8246": {
+      "rounds": 22,
+      "events": 11,
+      "means": {
+        "total": -2.709545,
+        "tee_to_green": -3.130455,
+        "off_the_tee": -0.585,
+        "approach": -2.862727,
+        "around_green": 0.317273,
+        "putting": 0.42
+      }
+    },
+    "10481": {
+      "rounds": 30,
+      "events": 10,
+      "means": {
+        "total": -1.832667,
+        "tee_to_green": -1.167,
+        "off_the_tee": -0.279333,
+        "approach": -0.566,
+        "around_green": -0.322667,
+        "putting": -0.664667
+      }
+    },
+    "11469": {
+      "rounds": 22,
+      "events": 9,
+      "means": {
+        "total": -1.718182,
+        "tee_to_green": -0.955909,
+        "off_the_tee": -0.836364,
+        "approach": -0.269545,
+        "around_green": 0.150455,
+        "putting": -0.762727
+      }
+    },
+    "10867": {
+      "rounds": 24,
+      "events": 11,
+      "means": {
+        "total": -2.115,
+        "tee_to_green": -1.730417,
+        "off_the_tee": -0.290833,
+        "approach": -1.338333,
+        "around_green": -0.100417,
+        "putting": -0.384583
+      }
+    },
+    "8972": {
+      "rounds": 25,
+      "events": 11,
+      "means": {
+        "total": -1.4504,
+        "tee_to_green": -2.3388,
+        "off_the_tee": -1.2424,
+        "approach": -1.4708,
+        "around_green": 0.3756,
+        "putting": 0.8896
+      }
+    },
+    "9174": {
+      "rounds": 22,
+      "events": 11,
+      "means": {
+        "total": -2.900909,
+        "tee_to_green": -2.549091,
+        "off_the_tee": -0.258636,
+        "approach": -1.936364,
+        "around_green": -0.355,
+        "putting": -0.352273
+      }
+    },
+    "9503": {
+      "rounds": 20,
+      "events": 10,
+      "means": {
+        "total": -3.541,
+        "tee_to_green": -2.8545,
+        "off_the_tee": -2.024,
+        "approach": -0.7795,
+        "around_green": -0.0505,
+        "putting": -0.687
+      }
+    },
+    "8840": {
+      "rounds": 37,
+      "events": 11,
+      "means": {
+        "total": -0.077297,
+        "tee_to_green": -0.255946,
+        "off_the_tee": -0.159459,
+        "approach": -0.423243,
+        "around_green": 0.327297,
+        "putting": 0.178649
+      }
+    },
+    "10178": {
+      "rounds": 22,
+      "events": 11,
+      "means": {
+        "total": -2.540455,
+        "tee_to_green": -2.967273,
+        "off_the_tee": -2.814545,
+        "approach": -0.586364,
+        "around_green": 0.435455,
+        "putting": 0.425909
+      }
+    },
+    "8430": {
+      "rounds": 18,
+      "events": 9,
+      "means": {
+        "total": -2.637778,
+        "tee_to_green": -1.655556,
+        "off_the_tee": -0.302778,
+        "approach": -1.103889,
+        "around_green": -0.248889,
+        "putting": -0.981111
+      }
+    },
+    "8434": {
+      "rounds": 16,
+      "events": 9,
+      "means": {
+        "total": -4.843125,
+        "tee_to_green": -5.98625,
+        "off_the_tee": -0.735,
+        "approach": -5.344375,
+        "around_green": 0.0925,
+        "putting": 1.143125
+      }
+    },
+    "11374": {
+      "rounds": 10,
+      "events": 3,
+      "means": {
+        "total": -0.255,
+        "tee_to_green": 0.257,
+        "off_the_tee": -0.317,
+        "approach": 0.693,
+        "around_green": -0.119,
+        "putting": -0.511
+      }
+    },
+    "10075": {
+      "rounds": 14,
+      "events": 4,
+      "means": {
+        "total": 0.299286,
+        "tee_to_green": -0.275,
+        "off_the_tee": -0.336429,
+        "approach": -0.067857,
+        "around_green": 0.127857,
+        "putting": 0.575
+      }
+    },
+    "8799": {
+      "rounds": 16,
+      "events": 5,
+      "means": {
+        "total": 0.501875,
+        "tee_to_green": -0.1325,
+        "off_the_tee": -0.23375,
+        "approach": 0.426875,
+        "around_green": -0.326875,
+        "putting": 0.635
+      }
+    },
+    "8863": {
+      "rounds": 8,
+      "events": 2,
+      "means": {
+        "total": 0.3125,
+        "tee_to_green": -0.3,
+        "off_the_tee": 0.12375,
+        "approach": -0.57875,
+        "around_green": 0.15375,
+        "putting": 0.61125
+      }
+    },
+    "8854": {
+      "rounds": 16,
+      "events": 4,
+      "means": {
+        "total": 0.593125,
+        "tee_to_green": 0.744375,
+        "off_the_tee": -0.14875,
+        "approach": 1.01375,
+        "around_green": -0.121875,
+        "putting": -0.15125
+      }
+    },
+    "11630": {
+      "rounds": 8,
+      "events": 3,
+      "means": {
+        "total": -1.68,
+        "tee_to_green": -2.0375,
+        "off_the_tee": -1.5725,
+        "approach": -0.03375,
+        "around_green": -0.4325,
+        "putting": 0.355
+      }
+    },
+    "9750": {
+      "rounds": 12,
+      "events": 6,
+      "means": {
+        "total": -2.6075,
+        "tee_to_green": -2.310833,
+        "off_the_tee": -0.665,
+        "approach": -1.21,
+        "around_green": -0.436667,
+        "putting": -0.295833
+      }
+    },
+    "10157": {
+      "rounds": 8,
+      "events": 3,
+      "means": {
+        "total": -1.11,
+        "tee_to_green": -1.19125,
+        "off_the_tee": -0.095,
+        "approach": -0.885,
+        "around_green": -0.21375,
+        "putting": 0.085
+      }
+    },
+    "12352": {
+      "rounds": 2,
+      "events": 1,
+      "means": {
+        "total": 0.075,
+        "tee_to_green": 0.41,
+        "off_the_tee": -0.225,
+        "approach": 0.73,
+        "around_green": -0.095,
+        "putting": -0.335
+      }
+    },
+    "9728": {
+      "rounds": 12,
+      "events": 4,
+      "means": {
+        "total": -1.303333,
+        "tee_to_green": -1.734167,
+        "off_the_tee": -0.3375,
+        "approach": -0.853333,
+        "around_green": -0.544167,
+        "putting": 0.43
+      }
+    },
+    "4905": {
+      "rounds": 10,
+      "events": 4,
+      "means": {
+        "total": -0.587,
+        "tee_to_green": -0.596,
+        "off_the_tee": -0.165,
+        "approach": -0.252,
+        "around_green": -0.18,
+        "putting": 0.011
+      }
+    },
+    "11446": {
+      "rounds": 10,
+      "events": 3,
+      "means": {
+        "total": -2.618,
+        "tee_to_green": -2.735,
+        "off_the_tee": 0.144,
+        "approach": -1.901,
+        "around_green": -0.977,
+        "putting": 0.117
+      }
+    }
+  }
+}
