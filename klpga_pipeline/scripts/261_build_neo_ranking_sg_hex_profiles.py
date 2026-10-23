@@ -187,7 +187,7 @@ def main() -> None:
         "source_tournaments": event_count,
         "source_round_records": len(records),
         "profile_method": "Equal-weight average of official single-round SG records retained in the repository for each player.",
-        "coverage_note": "This chart uses the recorded official SG component rounds from 11 tournaments between July 5 and October 18. It is a confirmed subset of the 2026 season records, not a complete season component total.",
+        "coverage_note": "이 그래프는 7월 5일부터 10월 18일까지 11개 대회에서 확인된 공식 SG 기록을 바탕으로 합니다. 2026시즌 전체 기록이 모두 포함된 것은 아닙니다.",
         "scale": {"min": -6, "max": 6},
         "components": [
             {"key": "off_the_tee", "label": "티샷"},
