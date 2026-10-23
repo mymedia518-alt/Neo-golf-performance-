@@ -1,5 +1,14 @@
-:root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--accent-soft:#e2f2f0;--soft:#f4f7f7;--band-1:#0c6b68;--band-2:#3f9188;--band-3:#8a97a3;--band-4:#c98a3a;--band-5:#b1503f}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:min(96vw,1680px);margin:auto;padding:22px clamp(1rem,2.5vw,2.5rem)}h1{font-size:clamp(26px,2.6vw,38px);font-weight:900;margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;font-weight:800;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
+/* DARK THEME V3 (2026-10-23): color-only conversion -- every variable
+   NAME, every layout/grid/flex/padding/display declaration in this
+   file is untouched (this file carries dozens of hard-won, very
+   specific mobile-layout fixes for individual tournament leaderboards;
+   touching their structural rules risks regressing real, previously-
+   reported bugs). Only :root's literal values and a handful of
+   hardcoded light-tuned hex colors below changed. Shares the same
+   near-black background / lime accent as neo-site.css, loaded
+   alongside it on every tournament page. */
+:root{--ink:#eef1ee;--muted:#96a39b;--line:#2b332e;--accent:#c6f24e;--accent-soft:#1f2a14;--soft:#171c19;--surface:#141917;--band-1:#c6f24e;--band-2:#7fae3a;--band-3:#8a978f;--band-4:#d8ab5c;--band-5:#e8776a}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#0b0f0d;line-height:1.5}main{max-width:min(96vw,1680px);margin:auto;padding:22px clamp(1rem,2.5vw,2.5rem)}h1{font-size:clamp(26px,2.6vw,38px);font-weight:900;margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;font-weight:800;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
 /* TYPOGRAPHY WEIGHT/CONTRAST PASS (2026-10-23, operator review request):
    match the font weight/boldness and numeric "pop" of Golf Radar's own
    cards -- headings and key scores heavier (900), the single most
@@ -18,9 +27,9 @@
 .hero{padding:14px 0 12px;display:flex;justify-content:space-between;gap:24px;align-items:center;flex-wrap:wrap}
 .hero h1{font-size:clamp(20px,2.2vw,28px);margin:2px 0}
 .hero .meta{margin:2px 0 0}
-.status{font-size:13px;color:var(--accent);border:1px solid #acd0cc;border-radius:999px;padding:5px 11px}
-.panel{border:1px solid var(--line);border-radius:14px;background:#fff;padding:20px}
-.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:#edf4f3;color:#245c58;font-size:12px}.win{font-weight:800;color:var(--accent)}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:16px}.status{display:inline-block;margin-top:8px}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
+.status{font-size:13px;color:var(--accent);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
+.panel{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:20px}
+.table-wrap{overflow-x:auto}.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.data th,.data td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-size:14px}.data th:first-child,.data td:first-child{text-align:left}.data tbody tr:hover{background:var(--soft)}.band{display:inline-block;padding:3px 7px;border-radius:999px;background:var(--soft);color:var(--accent);font-size:12px}.win{font-weight:800;color:var(--accent)}.checkpoint{display:flex;align-items:baseline;gap:10px;border-left:3px solid var(--accent);padding:10px 14px;background:var(--soft);margin-top:12px}.checkpoint .note{margin:0}.metric{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums;flex-shrink:0}.help{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:760px){main{padding:18px 16px}.hero{padding-top:16px}.status{display:inline-block;margin-top:8px}.panel{padding:14px}.data{min-width:700px}.table-wrap:after{content:"↔ 표를 옆으로 밀어 더 많은 열 보기";display:block;color:var(--muted);font-size:12px;padding-top:8px}.data th,.data td{padding:10px 8px}}
 /* MOBILE_CONTAINMENT */
 /* KB FR BUILD (2026-09-13) fix: this rule's own overflow-y:hidden was
    a latent vertical-clipping defect on every .table-wrap on the site
@@ -47,7 +56,7 @@
    overflow-x/overflow-y containment. JS (below) sets left/top from the
    trigger button's real viewport position; max-width is clamped to the
    viewport so it can never overflow off-screen either. */
-.info-popover{display:none;position:fixed;z-index:20;max-width:min(260px,calc(100vw - 2rem));padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;box-shadow:0 4px 14px #17202a1a;color:var(--ink);font-size:13px;font-weight:400;line-height:1.5;text-align:left;white-space:normal;overflow-wrap:break-word;word-break:keep-all}
+.info-popover{display:none;position:fixed;z-index:20;max-width:min(260px,calc(100vw - 2rem));padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);box-shadow:0 4px 14px rgba(0,0,0,.4);color:var(--ink);font-size:13px;font-weight:400;line-height:1.5;text-align:left;white-space:normal;overflow-wrap:break-word;word-break:keep-all}
 .info-popover.is-open{display:block}
 @media(max-width:760px){.info-popover{left:16px!important;right:16px!important;top:112px!important;width:auto;max-width:none}}
 /* PRODUCT RECOVERY V1 REDESIGN -- KB PRE leaderboard: replaces the
@@ -170,20 +179,20 @@
    next to their name is the only visual signal they're out, same
    visual language as .band's own pill (different color so it never
    reads as a NEO 경기력 band). */
-.status-badge{display:inline-block;padding:2px 7px;border-radius:999px;background:#fdecea;color:#b3261e;font-size:11px;font-weight:800;margin-left:6px;vertical-align:middle}
-.leaderboard-table tbody tr:nth-child(even){background:#fafcfc}
+.status-badge{display:inline-block;padding:2px 7px;border-radius:999px;background:var(--soft);color:var(--band-5);font-size:11px;font-weight:800;margin-left:6px;vertical-align:middle}
+.leaderboard-table tbody tr:nth-child(even){background:var(--soft)}
 .leaderboard-table tbody tr:hover{background:var(--accent-soft)}
 .leaderboard-table tbody th[scope=row]{text-align:left;min-width:11rem}
 .leaderboard-table .player-name{font-size:15px;font-weight:800}
 .leaderboard-table .player-sponsor{font-size:12px}
 .leaderboard-table tbody td:nth-child(2){font-weight:800;color:var(--accent);font-size:15px}
 .leaderboard-table tbody td:nth-child(4){font-weight:800;color:var(--ink)}
-.band[aria-label="NEO 경기력 최상위"]{background:var(--band-1);color:#fff}
-.band[aria-label="NEO 경기력 상위"]{background:var(--band-2);color:#fff}
-.band[aria-label="NEO 경기력 중위"]{background:#eef1f3;color:var(--band-3)}
-.band[aria-label="NEO 경기력 하위"]{background:#fbeee0;color:var(--band-4)}
-.band[aria-label="NEO 경기력 최하위"]{background:#f7e4e1;color:var(--band-5)}
-.band[aria-label="NEO 경기력 데이터 부족"]{background:#f1f2f4;color:#9aa5af;border:1px dashed #cbd3da}
+.band[aria-label="NEO 경기력 최상위"]{background:var(--band-1);color:#0b0f0d}
+.band[aria-label="NEO 경기력 상위"]{background:var(--band-2);color:#0b0f0d}
+.band[aria-label="NEO 경기력 중위"]{background:var(--soft);color:var(--band-3)}
+.band[aria-label="NEO 경기력 하위"]{background:var(--soft);color:var(--band-4)}
+.band[aria-label="NEO 경기력 최하위"]{background:var(--soft);color:var(--band-5)}
+.band[aria-label="NEO 경기력 데이터 부족"]{background:var(--soft);color:var(--muted);border:1px dashed var(--line)}
 .leaderboard-panel .table-wrap:after{content:none}
 @media(max-width:760px){
 /* OWNER VISUAL REVIEW FAIL, item 4 (KB PRE MOBILE): the first card
@@ -214,7 +223,7 @@
    floating pill at a real on-screen location while thead itself stays
    exactly as off-screen as before. Same DOM node, same button, same
    #neo-info popover, same JS -- nothing is duplicated. */
-.leaderboard-table thead th.band-head{position:fixed;top:76px;left:auto;right:16px;z-index:15;display:inline-flex;align-items:center;gap:4px;width:auto;max-width:calc(100vw - 32px);padding:6px 10px;background:#fff;border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 8px #17202a1a;color:var(--ink);font-size:12px;font-weight:800;text-transform:none;letter-spacing:normal;white-space:nowrap}
+.leaderboard-table thead th.band-head{position:fixed;top:76px;left:auto;right:16px;z-index:15;display:inline-flex;align-items:center;gap:4px;width:auto;max-width:calc(100vw - 32px);padding:6px 10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 8px rgba(0,0,0,.4);color:var(--ink);font-size:12px;font-weight:800;text-transform:none;letter-spacing:normal;white-space:nowrap}
 /* MOBILE HOTFIX 20260911 (KB current-page audit): the previous mobile
    card packed every metric <td> into ONE flex row with flex:1 1 0 --
    with 7-8 metric columns (PRE's K-RANKING/NEO 경기력/최근5R SG/4-5
@@ -229,7 +238,7 @@
    same card instead of over-shrinking them -- still zero horizontal
    scroll, still one player = one card, just as many rows per card as
    the metric count actually needs. */
-.leaderboard-table tbody tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:4px;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:#fff}
+.leaderboard-table tbody tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:4px;margin-bottom:8px;border:1px solid var(--line);border-radius:12px;padding:8px 10px 6px;background:var(--surface)}
 .leaderboard-table tbody th[scope=row]{grid-column:1/-1;display:block;border-bottom:1px solid var(--line);padding:2px 0 6px;margin-bottom:2px;min-width:0;text-align:left}
 .leaderboard-table tbody td{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:var(--soft);border-radius:8px;padding:4px 4px;text-align:center}
 .leaderboard-table tbody td::before{content:attr(data-label);color:var(--muted);font-size:9px;font-weight:700;line-height:1.2;text-align:center}
@@ -293,7 +302,7 @@
    small inline pill (reuses the .band family's visual language, own
    color so it's never confused with a NEO 경기력 band) so a real
    status is legible without needing a whole extra column. */
-.status-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:#f7e4e1;color:var(--band-5);font-size:11px;font-weight:800;vertical-align:middle}
+.status-badge{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;background:var(--soft);color:var(--band-5);font-size:11px;font-weight:800;vertical-align:middle}
 /* Narrow-phone wrap fix (360px QA finding), now covering the 4
    Top5/Top10/Top20/우승 percentage cells (DOM columns 5-8) since the
    R2 PUBLIC TABLE COLUMN FIX removed the SG cells this rule

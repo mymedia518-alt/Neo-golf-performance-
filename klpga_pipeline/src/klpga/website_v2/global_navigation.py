@@ -29,6 +29,17 @@ GLOBAL_NAV_ITEMS = (
     ("about", "소개", "/about/"),
 )
 
+# PUBLICATION SCOPE (2026-10-23, operator instruction): only 홈 and 대회
+# (the tournament archive + each tournament's own stage pages) stay
+# publicly live with real content. The other four nav destinations show
+# a short, fixed "공사중" (under construction) placeholder instead of
+# their real page (see scripts/266_build_under_construction_pages.py) --
+# their own builder scripts/data are untouched, just not what's
+# currently live. The nav itself must say so, on every page site-wide,
+# so a visitor never has to click through to discover a route is not
+# actually published yet.
+UNDER_CONSTRUCTION_NAV_KEYS = ("ranking", "deep-dive", "neo-lab", "about")
+
 # PUBLIC UI Phase 8 -- the one immutable brand lockup every public page
 # must show in its top-left brand area: the "NEO GOLF DATA" wordmark,
 # then NUMBER / EVIDENCE / ORACLE stacked one per line underneath (never
@@ -54,10 +65,11 @@ def _nav_html(active_section: str | None, nav_overrides: dict[str, str] | None =
     links = []
     for key, label, url in GLOBAL_NAV_ITEMS:
         url = overrides.get(key, url)
+        badge = ' <span class="nav-status">공사중</span>' if key in UNDER_CONSTRUCTION_NAV_KEYS else ""
         if key == active_section:
-            links.append(f'<a href="{url}" class="is-active" aria-current="page">{label}</a>')
+            links.append(f'<a href="{url}" class="is-active" aria-current="page">{label}{badge}</a>')
         else:
-            links.append(f'<a href="{url}">{label}</a>')
+            links.append(f'<a href="{url}">{label}{badge}</a>')
     return '<nav class="neo-global-nav" aria-label="주요 메뉴">\n' + "\n".join(links) + '\n</nav>'
 
 

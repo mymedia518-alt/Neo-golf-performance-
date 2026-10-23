@@ -96,11 +96,12 @@ def main() -> None:
         '<section class="home-section">'
         '<div class="section-heading"><div><p class="section-label">더 보기</p>'
         "<h2>랭킹 · Deep Dive · NEO LAB · 소개</h2></div></div>"
+        "<p class='meta'>아래 메뉴는 준비 중입니다. 정리가 끝나면 차례로 공개합니다.</p>"
         "<ul class='neo-card-grid'>"
-        "<li class='neo-card'><a href='/ranking/'>K-Ranking</a></li>"
-        "<li class='neo-card'><a href='/deep-dive/'>Deep Dive</a></li>"
-        "<li class='neo-card'><a href='/neo-lab/'>NEO LAB</a></li>"
-        "<li class='neo-card'><a href='/about/'>소개</a></li>"
+        "<li class='neo-card'><a href='/ranking/'>K-Ranking <span class='nav-status'>공사중</span></a></li>"
+        "<li class='neo-card'><a href='/deep-dive/'>Deep Dive <span class='nav-status'>공사중</span></a></li>"
+        "<li class='neo-card'><a href='/neo-lab/'>NEO LAB <span class='nav-status'>공사중</span></a></li>"
+        "<li class='neo-card'><a href='/about/'>소개 <span class='nav-status'>공사중</span></a></li>"
         "</ul>"
         "</section>"
         "</main>"
@@ -108,7 +109,7 @@ def main() -> None:
 
     head = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        '<meta name="viewport" content="width=1280">'
         "<title>NEO GOLF DATA · 골프 데이터 분석</title>"
         "<meta name='description' content='NEO GOLF DATA는 KLPGA 공식 기록을 분석하는 데이터 분석 회사입니다.'>"
         '<link rel="canonical" href="https://neogolfdata.com/">'
