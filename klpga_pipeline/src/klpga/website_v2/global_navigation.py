@@ -29,6 +29,21 @@ GLOBAL_NAV_ITEMS = (
     ("about", "소개", "/about/"),
 )
 
+# PUBLICATION SCOPE (2026-10-23, operator instruction): only 홈 and 대회
+# (the tournament archive + each tournament's own stage pages) stay
+# publicly live with real content. The other four nav destinations show
+# a short, fixed placeholder instead of their real page (see
+# scripts/266_build_under_construction_pages.py) -- their own builder
+# scripts/data are untouched, just not what's currently live.
+#
+# UPDATE (2026-10-23, later operator instruction): the nav itself no
+# longer marks these with a "공사중" badge/label -- menu items show
+# only their plain name and stay clickable, landing on that
+# placeholder page. This tuple is kept (not deleted) because it still
+# documents which routes are placeholders for anyone re-running the
+# builder scripts; it just no longer drives any visible nav markup.
+UNDER_CONSTRUCTION_NAV_KEYS = ("ranking", "deep-dive", "neo-lab", "about")
+
 # PUBLIC UI Phase 8 -- the one immutable brand lockup every public page
 # must show in its top-left brand area: the "NEO GOLF DATA" wordmark,
 # then NUMBER / EVIDENCE / ORACLE stacked one per line underneath (never
