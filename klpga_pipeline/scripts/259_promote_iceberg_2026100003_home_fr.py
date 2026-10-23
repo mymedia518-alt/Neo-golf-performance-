@@ -67,6 +67,26 @@ def _stage_description() -> str:
 
 def build() -> None:
     main_html = _stage_main_html()
+    # HOME-only addition (operator instruction, 2026-10-23): a season-wide
+    # KLPGA prize-money ranking video, not specific to this tournament --
+    # inserted only into the HOME mirror, never into the real FR page
+    # itself (/tournaments/2026/2026100003/fr/ stays untouched, exactly as
+    # scripts/244/255/258 already never write to it from here). Placed
+    # right before the leaderboard panel, after this tournament's own FR
+    # review video. The video's own on-screen captions already cite their
+    # source/as-of date per slide (KLPGA 공식 기록, 2026.10.18 종료 대회
+    # 기준) -- no additional claim is made here beyond what it shows.
+    main_html = main_html.replace(
+        '<section class="panel leaderboard-panel" id="fr">',
+        "<section class='panel' id='season-prize-video'>"
+        "<p class='note'>NEO GOLF DATA</p><h2>2026 시즌 KLPGA 상금 순위</h2>"
+        "<p class='note'>대회별 상금 순위를 정리한 영상입니다. 출처: KLPGA 공식 기록 (영상 내 각 슬라이드에 기준일 표시).</p>"
+        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
+        "src='/assets/clips/klpga-2026-prize-money-top20.mp4'></video>"
+        "</section>"
+        '<section class="panel leaderboard-panel" id="fr">',
+        1,
+    )
     main_html = main_html.replace(
         "</main>",
         '<section class="page-intro"><h2>지난 대회 기록</h2>'
