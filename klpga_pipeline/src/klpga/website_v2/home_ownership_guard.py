@@ -32,7 +32,26 @@ CURRENT_TOURNAMENT_OWNER from the state-router era) is a legitimate
 predecessor, never a conflict to hard-stop on. Per-round tournament
 stage pages (PRE/R1/R2/R3/FR) are completely unaffected -- they keep
 publishing at their own stage URLs exactly as before; only what root
-HOME itself renders has changed."""
+HOME itself renders has changed.
+
+OWNER SUPERSESSION 3 (2026-10-21/23): the six-section composite HOME
+shipped before it was finished and was rolled back (scripts/259) to
+mirroring the current tournament's FR stage verbatim again --
+CURRENT_TOURNAMENT_OWNER. Two operator instructions then moved root
+HOME again: first to embed an unrelated, season-wide KLPGA prize-money
+video into that FR mirror (still CURRENT_TOURNAMENT_OWNER, content-
+only change), then to decouple root HOME from any single tournament's
+result page entirely -- the Iceberg FR page stays published at its own
+stage URL and listed in the 대회 기록 archive exactly as before, but
+root HOME itself becomes a minimal, non-tournament-specific page whose
+centerpiece is that video (see scripts/265_build_neo_home_video_
+interim.py). Neither CURRENT_TOURNAMENT_OWNER (it no longer mirrors a
+tournament stage) nor COMPOSITE_HOME_OWNER (it is not the six-section
+page and does not carry that owner's required section ids) describes
+this correctly, so a fourth identity is declared: a deliberately
+narrow, interim shape while the composite HOME is finished. Whoever
+currently holds root HOME (any of the three prior owners) is a
+legitimate predecessor."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -59,9 +78,13 @@ TOP120_OWNER = "top120-v1"
 # K-Ranking/NEO Ranking page.
 CURRENT_TOURNAMENT_OWNER = "current-tournament-v1"
 # The fixed six-section composite HOME (see OWNER SUPERSESSION 2 above)
-# -- the current, sole legitimate owner of root HOME going forward.
+# -- shipped before it was finished; see OWNER SUPERSESSION 3.
 COMPOSITE_HOME_OWNER = "composite-home-v1"
-_RECOGNIZED_OWNERS = (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER, COMPOSITE_HOME_OWNER)
+# The minimal, non-tournament-specific interim HOME (see OWNER
+# SUPERSESSION 3 above) -- the current, sole legitimate owner of root
+# HOME going forward, until the composite HOME is finished.
+INTERIM_VIDEO_HOME_OWNER = "interim-video-home-v1"
+_RECOGNIZED_OWNERS = (TOP120_OWNER, CURRENT_TOURNAMENT_OWNER, COMPOSITE_HOME_OWNER, INTERIM_VIDEO_HOME_OWNER)
 
 
 class HomeOwnershipError(Exception):

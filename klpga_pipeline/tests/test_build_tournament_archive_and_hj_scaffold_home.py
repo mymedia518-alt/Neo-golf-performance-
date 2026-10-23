@@ -215,7 +215,17 @@ def test_home_video_survives_a_fresh_rebuild():
 def test_stale_hana_builder_still_cannot_clobber_home_after_video_parity_fix():
     """Ensures the daa8a85 HOME clobber guard (game-code-aware
     ownership check) still holds after this change -- the video parity
-    fix must never weaken it."""
+    fix must never weaken it.
+
+    OWNER SUPERSESSION 3 (2026-10-23): root HOME is now owned by
+    interim-video-home-v1 (see home_ownership_guard.py's "OWNER
+    SUPERSESSION 3" note), not another current-tournament-v1-class
+    writer -- so this stale call is now rejected by the OWNER-class
+    mismatch check instead of the game_code check specifically, the
+    same kind of branch-shift already documented for the composite-HOME
+    transition. The real invariant -- a stale builder can never clobber
+    real production HOME -- is unchanged; the match is widened to
+    accept either guard message instead of re-hardcoding one branch."""
     import importlib.util
 
     from klpga.website_v2.home_ownership_guard import HomeOwnershipError
@@ -232,7 +242,7 @@ def test_stale_hana_builder_still_cannot_clobber_home_after_video_parity_fix():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    with pytest.raises(HomeOwnershipError, match="game_code"):
+    with pytest.raises(HomeOwnershipError, match="already (owned by|claimed by game_code)"):
         module.build()
 
     sha_after = hashlib.sha256(real_docs_index.read_text(encoding="utf-8").encode("utf-8")).hexdigest()

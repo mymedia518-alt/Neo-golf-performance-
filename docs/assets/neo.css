@@ -1,5 +1,16 @@
 :root{--ink:#17202a;--muted:#65717d;--line:#dfe5ea;--accent:#0c6b68;--accent-soft:#e2f2f0;--soft:#f4f7f7;--band-1:#0c6b68;--band-2:#3f9188;--band-3:#8a97a3;--band-4:#c98a3a;--band-5:#b1503f}
-*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:min(96vw,1680px);margin:auto;padding:22px clamp(1rem,2.5vw,2.5rem)}h1{font-size:clamp(26px,2.6vw,38px);margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;background:#fff;line-height:1.45}main{max-width:min(96vw,1680px);margin:auto;padding:22px clamp(1rem,2.5vw,2.5rem)}h1{font-size:clamp(26px,2.6vw,38px);font-weight:900;margin:8px 0 6px;letter-spacing:-.03em;word-break:keep-all;overflow-wrap:normal}h2{font-size:20px;font-weight:800;margin:0 0 6px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--accent);text-transform:uppercase}.meta,.note{color:var(--muted);font-size:14px}
+/* TYPOGRAPHY WEIGHT/CONTRAST PASS (2026-10-23, operator review request):
+   match the font weight/boldness and numeric "pop" of Golf Radar's own
+   cards -- headings and key scores heavier (900), the single most
+   important figure per leaderboard row (합계/to-par, already wrapped in
+   <strong> by the table builders) bigger and in the page's own accent
+   color -- while keeping the existing light background/palette exactly
+   as-is (no dark theme, no new colors). Experimental: on a review
+   branch, not yet merged to neo-website-v2. */
+.leaderboard-table td strong,.data td strong{font-weight:900;font-size:1.08em;color:var(--accent)}
+.win{font-weight:900}
+.metric{font-weight:900}
 /* PRODUCT RECOVERY V1 (real redesign, not content gating): the
    tournament header is now compact -- a slim single row, not a tall
    hero block -- so the player leaderboard is the dominant first-screen

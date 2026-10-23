@@ -364,8 +364,18 @@ def test_root_home_points_at_hj_as_current_tournament_and_has_no_blocked_probabi
     # exactly, no notice/chip), so assert_reference_estimate_disclosed is
     # no longer called here either -- that relaxation is itself the
     # locked, current behavior, not a check this test still enforces.
+    #
+    # OWNER SUPERSESSION 3 (2026-10-23): root HOME no longer mirrors any
+    # tournament's stage page at all (owner interim-video-home-v1, see
+    # home_ownership_guard.py's "OWNER SUPERSESSION 3" note) -- it is a
+    # minimal page centered on a season-wide video, with tournament
+    # results linked out to their own stage URLs / the 대회 기록 archive
+    # instead of embedded. The "no blocked probability output" guard
+    # still applies (trivially true: this page carries no probability
+    # content at all, and must never regain any without passing through
+    # this same guard); the HJ-specific/current-tournament-v1 assertions
+    # no longer describe what root HOME is and are replaced with the
+    # real, current contract.
     assert_no_blocked_probability_output(html, model_validated=False, reference_estimate=True, label="root HOME")
-    assert 'content="current-tournament-v1"' in html, "root HOME must keep the current-tournament-v1 owner marker"
-    assert "HJ중공업" in html
-    assert "/tournaments/2026/2026100004/" in html
+    assert 'content="interim-video-home-v1"' in html, "root HOME must keep the interim-video-home-v1 owner marker"
     assert "/tournaments/" in html, "root HOME must link to the 대회 기록 archive"
