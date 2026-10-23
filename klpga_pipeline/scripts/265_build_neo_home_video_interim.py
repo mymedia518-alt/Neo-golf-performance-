@@ -81,8 +81,8 @@ def main() -> None:
         '<section class="home-section home-brand-intro">'
         '<p class="kicker">NEO GOLF DATA</p>'
         "<h1>골프 기록을 분석해 경기력을 읽습니다</h1>"
-        "<p>NEO GOLF DATA는 KLPGA 공식 기록을 수집·정리하고, 데이터를 분석합니다. "
-        "대회별 공식 기록은 <a href='/tournaments/'>대회 기록</a>에서 확인할 수 있습니다.</p>"
+        "<p>NEO GOLF DATA는 KLPGA 공식 기록을 수집·정리하고, 데이터를 분석합니다.</p>"
+        "<p>대회별 공식 기록은 <a href='/tournaments/'>대회 기록</a>에서 확인할 수 있습니다.</p>"
         + recent_tournament_html +
         "</section>"
         '<section class="home-section" id="season-prize-video">'
