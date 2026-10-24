@@ -844,7 +844,7 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
 .archive-card h2{margin-top:0}
 /* NEO MOBILE BOTTOM NAV: keep the desktop page scaled as requested,
    while placing the shared section links in a thumb-friendly dock. */
-@media (max-device-width:700px){
+@media (hover:none) and (pointer:coarse){
   .neo-global-nav{
     position:fixed;left:0;right:0;bottom:0;z-index:1000;
     display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;
