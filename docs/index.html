@@ -76,7 +76,7 @@ function updateSearch(){const q=search.value.trim().toLocaleLowerCase('ko-KR');f
 const found=data.filter(d=>d.name.toLocaleLowerCase('ko-KR').includes(q)).sort((a,b)=>Number(b.name.toLocaleLowerCase('ko-KR').startsWith(q))-Number(a.name.toLocaleLowerCase('ko-KR').startsWith(q))||a.name.localeCompare(b.name,'ko'));
 for(const d of data){const c=circleById.get(d.id);if(found.some(x=>x.id===d.id))c.classList.add('is-match');else c.classList.add('is-dimmed')}
 status.textContent=found.length?found.length+'명 찾았습니다. 선수 이름을 누르면 차트에서 위치를 확인할 수 있습니다.':'일치하는 선수가 없습니다.';matchesBox.hidden=found.length===0;search.setAttribute('aria-expanded',String(found.length>0));clear.hidden=false;
-for(const d of found.slice(0,8)){const li=document.createElement('li'),button=document.createElement('button'),c=circleById.get(d.id);button.type='button';button.textContent=d.name+' · 메이저 '+fmt(d.major)+' · 일반 '+fmt(d.regular);button.addEventListener('click',()=>{search.value=d.name;updateSearch();c.classList.add('is-selected');c.focus();show(c)});li.appendChild(button);matchesBox.appendChild(li)}
+for(const d of found){const li=document.createElement('li'),button=document.createElement('button'),c=circleById.get(d.id);button.type='button';button.textContent=d.name+' · 메이저 '+fmt(d.major)+' · 일반 '+fmt(d.regular);button.addEventListener('click',()=>{search.value=d.name;updateSearch();c.classList.add('is-selected');c.focus();show(c)});li.appendChild(button);matchesBox.appendChild(li)}
 }
 search.addEventListener('input',updateSearch);clear.addEventListener('click',()=>{search.value='';updateSearch();search.focus()});
 window.addEventListener('resize',hide,{passive:true});
