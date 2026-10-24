@@ -842,3 +842,36 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
 .page-intro{padding:1.75rem 0;margin:0;border-bottom:1px solid var(--line)}
 .archive-card{padding:1.4rem 0;border-bottom:1px solid var(--line)}
 .archive-card h2{margin-top:0}
+/* NEO MOBILE BOTTOM NAV: keep the desktop page scaled as requested,
+   while placing the shared section links in a thumb-friendly dock. */
+@media (max-device-width:700px){
+  .neo-global-nav{
+    position:fixed;left:0;right:0;bottom:0;z-index:1000;
+    display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;
+    overflow:visible;white-space:normal;min-width:0;
+    padding:0 .5rem env(safe-area-inset-bottom,0px);
+    border-top:1px solid var(--line);background:rgba(11,15,13,.98);
+    box-shadow:0 -12px 36px rgba(0,0,0,.3);backdrop-filter:blur(12px);
+  }
+  .neo-global-nav a{
+    position:relative;display:flex;flex-direction:column;justify-content:center;
+    gap:.1rem;min-width:0;min-height:210px;padding:1rem .15rem 1.15rem;
+    font-size:2.8rem;line-height:1.15;text-align:center;
+  }
+  .neo-global-nav a::before{
+    display:block;color:var(--muted);font-size:3.7rem;line-height:1.1;font-weight:500;
+  }
+  .neo-global-nav a[href="/"]::before{content:"⌂"}
+  .neo-global-nav a[href="/tournaments/"]::before{content:"▦"}
+  .neo-global-nav a[href="/ranking/"]::before{content:"▥"}
+  .neo-global-nav a[href="/deep-dive/"]::before{content:"◉"}
+  .neo-global-nav a[href="/neo-lab/"]::before{content:"⚗"}
+  .neo-global-nav a[href="/about/"]::before{content:"ⓘ"}
+  .neo-global-nav a.is-active{color:var(--green);background:var(--surface)}
+  .neo-global-nav a.is-active::before{color:var(--green)}
+  .neo-global-nav a.is-active::after{
+    content:"";position:absolute;left:20%;right:20%;bottom:18px;height:6px;
+    background:var(--green);
+  }
+  main{padding-bottom:250px}
+}
