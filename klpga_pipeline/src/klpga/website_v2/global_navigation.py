@@ -45,7 +45,7 @@ GLOBAL_NAV_ITEMS = (
 UNDER_CONSTRUCTION_NAV_KEYS = ("ranking", "deep-dive", "neo-lab", "about")
 
 # PUBLIC UI Phase 8 -- the one immutable brand lockup every public page
-# must show in its top-left brand area: the "NEO GOLF DATA" wordmark,
+# must show in its top-left brand area: the NEO GOLF DATA logo mark,
 # then NUMBER / EVIDENCE / ORACLE stacked one per line underneath (never
 # abbreviated to single letters, never run together on one line -- that
 # was the literal P0 FAIL example in the v3 UI/UX spec, "NEONumber ·
@@ -54,8 +54,15 @@ UNDER_CONSTRUCTION_NAV_KEYS = ("ranking", "deep-dive", "neo-lab", "about")
 # deliberate significant whitespace text nodes, so even with no
 # stylesheet loaded the unstyled rendering still reads as separate words
 # instead of one unreadable run-on string.
+#
+# LOGO (2026-10-26, operator-supplied asset): docs/assets/neo-logo.png
+# replaces the plain-text "NEO GOLF DATA" wordmark. Transparent-background
+# PNG (confirmed: all four corners alpha=0), so it sits directly on the
+# dark header with no white box. alt text carries the same "NEO GOLF
+# DATA" string the text span used to show, for screen readers/no-image
+# fallback.
 _BRAND_HTML = '''<a class="neo-global-brand" href="/">
-<span class="neo-brand-mark">NEO GOLF DATA</span>
+<img class="neo-brand-logo" src="/assets/neo-logo.png" alt="NEO GOLF DATA" width="362" height="160">
 <span class="neo-brand-legend">
 <span class="neo-brand-legend__item">NUMBER</span>
 <span class="neo-brand-legend__item">EVIDENCE</span>

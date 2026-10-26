@@ -202,10 +202,10 @@ h1,h2,h3,.home-head h1,.page-head h1,.product-hero h1,.tournament-context h1{wor
    viewport (never hidden on mobile): the legend just shrinks and drops
    its divider below ~480px so the header never pushes nav down. */
 .neo-global-brand{display:inline-flex;align-items:center;gap:.55rem;flex:0 0 auto;color:var(--ink);text-decoration:none}
-.neo-brand-mark{font:850 1.05rem/1 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.07em}
+.neo-brand-logo{display:block;height:38px;width:auto;background:#eef1ee;padding:.3rem .5rem;border-radius:.3rem}
 .neo-brand-legend{display:flex;flex-direction:column;gap:0;padding-left:.55rem;border-left:1px solid var(--line);line-height:1.15}
 .neo-brand-legend__item{display:block;font:650 .58rem/1.15 Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:.05em;color:var(--muted);white-space:nowrap}
-@media(max-width:480px){.neo-brand-mark{font-size:.85rem}.neo-brand-legend{padding-left:.4rem}.neo-brand-legend__item{font-size:.48rem}}
+@media(max-width:480px){.neo-brand-logo{height:30px}.neo-brand-legend{padding-left:.4rem}.neo-brand-legend__item{font-size:.48rem}}
 
 /* Active-section nav state: green text + underline, matching the legacy
    .global-nav__link[aria-current=page] treatment used elsewhere. */
