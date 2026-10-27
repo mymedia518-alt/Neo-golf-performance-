@@ -1,0 +1,1981 @@
+{
+  "schema_version": "SOIL_2026100001_PRE_SG_CANDIDATE_V1",
+  "gameCode": "2026100001",
+  "stage": "PRE",
+  "tournament_name": "제20회 S-OIL 챔피언십",
+  "model_version": "NEO_PRE_SG_V1",
+  "probability_method": "round_level_total_sg_simulation_with_official_cut",
+  "performance_signal": "official single-round total SG",
+  "features": [
+    "recency_weighted_total_sg_per_round"
+  ],
+  "sg_cutoff_exclusive": "2026-10-29",
+  "sg_latest_source_date": "2026-10-18",
+  "sg_source_summary": {
+    "round_rows": 3882,
+    "event_count": 11,
+    "player_count": 221,
+    "unresolved_id_rows": 18,
+    "components_complete": true,
+    "latest_date": "2026-10-18"
+  },
+  "recency_half_life_days": 90.0,
+  "prior_equivalent_rounds": 20.0,
+  "volatility_prior_degrees_of_freedom": 12.0,
+  "official_cut_position": 60,
+  "rounds": 4,
+  "cut_after_round": 2,
+  "simulation_count": 60000,
+  "random_seed": 20261028,
+  "generated_at": "2026-10-27T15:34:34.876889+00:00",
+  "source_hashes": {
+    "content/website_v2/2026100001_ENTRY_SNAPSHOT.json": "be5aeec2cc2c99d4a3803eca5cdcb37ed4fd51baaf5dd55f59f22dfe0bf70b3c",
+    "content/website_v2/2026100001_TOURNAMENT_INFO.json": "d92ab517bd9eab9c234411e388adf5e6a5f2dbab5445690d2f86dedf66f0e9ca",
+    "content/website_v2/ICEBERG_2026100003_R1_SG_OFFICIAL_V1.json": "59c9b036bf80a27989acc81ae3aa590861984a2e36e123d4849574dd83315c3a",
+    "content/website_v2/ICEBERG_2026100003_R2_SG_OFFICIAL_V1.json": "17808b1b7a1c2167bbee88446d38403beb132bd4657cb86eeccedfe2e1629c25",
+    "content/website_v2/raw_capture/2026100003_fr/sg_r3.html": "7e1fa377e3ea8bc6c7bf8c47bb7f0a30bf58a50ab2761ab4ef2be0ce2adbd802",
+    "content/website_v2/sg_official_history/2026070001/RECORDS.json": "b3a02989384bc8f0c810e9f73777f8278988b3b1ea0c51e622f32cd29c573988",
+    "content/website_v2/sg_official_history/2026070002/RECORDS.json": "f2fb59f819097966ee781be054aeffa83691bb113653210fc77a4c13e1e094c1",
+    "content/website_v2/sg_official_history/2026070003/RECORDS.json": "947db9aa35664470e6ce481746dee4456aa16e0e8587efc1ae4d02d493a54516",
+    "content/website_v2/sg_official_history/2026080001/RECORDS.json": "c26be0043bd2419edceee673f77712d2ce68a5f36b20c704f5863090c7f1500f",
+    "content/website_v2/sg_official_history/2026080002/RECORDS.json": "a135ae22d8d701eb8f6d3fff7f5ca747d6bd6c65fe0a1756287ae30f5c9995b3",
+    "content/website_v2/sg_official_history/2026080003/RECORDS.json": "50b77b7cd042568a062dea2f030fa87ba0ce6c656e56260474f1084f311be1bf",
+    "content/website_v2/sg_official_history/2026080004/RECORDS.json": "f285cb5694255957d6df3e8164a5bbb4974946d01cd09ac9c5638311f1636f8f",
+    "content/website_v2/sg_official_history/2026090002/RECORDS.json": "9f4c0950ab2ba62c5d981a38f7a8c93670d249d741c97f1aa272cdf3db8c84a1",
+    "content/website_v2/sg_official_history/2026090003/RECORDS.json": "5beacf7d39171f1ae829f960257bcdc237113e84236d54311628424f1a998df9",
+    "content/website_v2/sg_official_history/2026100005/RECORDS.json": "640c39f817a25ee8c335297347ac830de8b56689348d9c5387046f249b1c927e"
+  },
+  "summary": {
+    "field_count": 96,
+    "sg_connected": 91,
+    "sg_data_insufficient": 5,
+    "sum_cut_probabilities": 64.439183,
+    "sum_top20_probabilities": 22.35415,
+    "sum_top10_probabilities": 11.57465,
+    "sum_top5_probabilities": 5.944967,
+    "sum_win_probabilities": 1.0,
+    "nesting_violations": 0
+  },
+  "records": [
+    {
+      "playerCode": "10002",
+      "playerName": "김민별",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6744666666666667,
+      "top20_probability": 0.26095,
+      "top10_probability": 0.146,
+      "top5_probability": 0.08086666666666667,
+      "win_probability": 0.015898333333333358,
+      "sg_features": {
+        "prior_sg_rounds": 41,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 25.2528,
+        "prior_sg_mean_raw": 0.376341,
+        "prior_sg_mean_shrunk": 0.222804,
+        "round_sd": 3.00227,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10022",
+      "playerName": "손예빈",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.59845,
+      "top20_probability": 0.16363333333333333,
+      "top10_probability": 0.07753333333333333,
+      "top5_probability": 0.036116666666666665,
+      "win_probability": 0.005575992063492062,
+      "sg_features": {
+        "prior_sg_rounds": 26,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 16.2927,
+        "prior_sg_mean_raw": -0.625385,
+        "prior_sg_mean_shrunk": -0.214998,
+        "round_sd": 2.832531,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "10081",
+      "playerName": "김민주",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8545,
+      "top20_probability": 0.50415,
+      "top10_probability": 0.31661666666666666,
+      "top5_probability": 0.18915,
+      "win_probability": 0.04040423280423278,
+      "sg_features": {
+        "prior_sg_rounds": 41,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 25.0316,
+        "prior_sg_mean_raw": 2.104634,
+        "prior_sg_mean_shrunk": 1.200561,
+        "round_sd": 2.573641,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10083",
+      "playerName": "마서영",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7268333333333333,
+      "top20_probability": 0.28113333333333335,
+      "top10_probability": 0.14625,
+      "top5_probability": 0.07383333333333333,
+      "win_probability": 0.01161444444444445,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.5565,
+        "prior_sg_mean_raw": 0.683243,
+        "prior_sg_mean_shrunk": 0.418168,
+        "round_sd": 2.652425,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10109",
+      "playerName": "고지원",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6876333333333333,
+      "top20_probability": 0.23926666666666666,
+      "top10_probability": 0.12378333333333333,
+      "top5_probability": 0.06161666666666667,
+      "win_probability": 0.00939833333333333,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.8741,
+        "prior_sg_mean_raw": 0.376667,
+        "prior_sg_mean_shrunk": 0.217227,
+        "round_sd": 2.738075,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10112",
+      "playerName": "고지우",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5729333333333333,
+      "top20_probability": 0.1814,
+      "top10_probability": 0.10203333333333334,
+      "top5_probability": 0.05615,
+      "win_probability": 0.011511944444444443,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 18.9536,
+        "prior_sg_mean_raw": -0.334194,
+        "prior_sg_mean_shrunk": -0.301033,
+        "round_sd": 3.32762,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "10146",
+      "playerName": "유현조",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8389833333333333,
+      "top20_probability": 0.4434166666666667,
+      "top10_probability": 0.25675,
+      "top5_probability": 0.14216666666666666,
+      "win_probability": 0.023933968253968225,
+      "sg_features": {
+        "prior_sg_rounds": 29,
+        "prior_sg_events": 8,
+        "prior_sg_effective_rounds": 17.5623,
+        "prior_sg_mean_raw": 2.228621,
+        "prior_sg_mean_shrunk": 0.997524,
+        "round_sd": 2.446729,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10178",
+      "playerName": "김희지",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.4203,
+      "top20_probability": 0.037983333333333334,
+      "top10_probability": 0.011233333333333333,
+      "top5_probability": 0.0037166666666666667,
+      "win_probability": 0.00028388888888888886,
+      "sg_features": {
+        "prior_sg_rounds": 22,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 13.7052,
+        "prior_sg_mean_raw": -2.540455,
+        "prior_sg_mean_shrunk": -1.07496,
+        "round_sd": 2.508876,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "10296",
+      "playerName": "문정민",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7815166666666666,
+      "top20_probability": 0.39111666666666667,
+      "top10_probability": 0.23706666666666668,
+      "top5_probability": 0.13878333333333334,
+      "win_probability": 0.02990325396825391,
+      "sg_features": {
+        "prior_sg_rounds": 43,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 26.5127,
+        "prior_sg_mean_raw": 1.558837,
+        "prior_sg_mean_shrunk": 0.808801,
+        "round_sd": 2.804694,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10531",
+      "playerName": "현세린",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5580833333333334,
+      "top20_probability": 0.14658333333333334,
+      "top10_probability": 0.07168333333333334,
+      "top5_probability": 0.0366,
+      "win_probability": 0.0056243253968253975,
+      "sg_features": {
+        "prior_sg_rounds": 32,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.4209,
+        "prior_sg_mean_raw": -1.150625,
+        "prior_sg_mean_shrunk": -0.427185,
+        "round_sd": 3.064047,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "10577",
+      "playerName": "최예본",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7010333333333333,
+      "top20_probability": 0.27996666666666664,
+      "top10_probability": 0.15676666666666667,
+      "top5_probability": 0.08601666666666667,
+      "win_probability": 0.01655071428571431,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.0881,
+        "prior_sg_mean_raw": 0.581111,
+        "prior_sg_mean_shrunk": 0.35834,
+        "round_sd": 2.890691,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10586",
+      "playerName": "홍진영2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7657166666666667,
+      "top20_probability": 0.3672666666666667,
+      "top10_probability": 0.21655,
+      "top5_probability": 0.12413333333333333,
+      "win_probability": 0.026232103174603137,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.3623,
+        "prior_sg_mean_raw": 1.189167,
+        "prior_sg_mean_shrunk": 0.718829,
+        "round_sd": 2.798523,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10725",
+      "playerName": "김민솔",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8223833333333334,
+      "top20_probability": 0.4436833333333333,
+      "top10_probability": 0.2700166666666667,
+      "top5_probability": 0.15783333333333333,
+      "win_probability": 0.032335595238095156,
+      "sg_features": {
+        "prior_sg_rounds": 35,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 21.9618,
+        "prior_sg_mean_raw": 1.840286,
+        "prior_sg_mean_shrunk": 1.007901,
+        "round_sd": 2.648725,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10726",
+      "playerName": "김가희2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6706666666666666,
+      "top20_probability": 0.2008,
+      "top10_probability": 0.09233333333333334,
+      "top5_probability": 0.040916666666666664,
+      "win_probability": 0.00547201058201058,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 21.0938,
+        "prior_sg_mean_raw": 0.022424,
+        "prior_sg_mean_shrunk": 0.081949,
+        "round_sd": 2.583121,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "10727",
+      "playerName": "황민정",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5478666666666666,
+      "top20_probability": 0.12651666666666667,
+      "top10_probability": 0.05988333333333333,
+      "top5_probability": 0.027716666666666667,
+      "win_probability": 0.00403638888888889,
+      "sg_features": {
+        "prior_sg_rounds": 26,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 15.1582,
+        "prior_sg_mean_raw": -1.077308,
+        "prior_sg_mean_shrunk": -0.482217,
+        "round_sd": 2.943241,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "10789",
+      "playerName": "리 슈잉",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.4783833333333333,
+      "top20_probability": 0.08213333333333334,
+      "top10_probability": 0.0344,
+      "top5_probability": 0.014216666666666667,
+      "win_probability": 0.0018727777777777775,
+      "sg_features": {
+        "prior_sg_rounds": 11,
+        "prior_sg_events": 6,
+        "prior_sg_effective_rounds": 7.3785,
+        "prior_sg_mean_raw": -2.986364,
+        "prior_sg_mean_shrunk": -0.828552,
+        "round_sd": 2.895104,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "10790",
+      "playerName": "김하은2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6896333333333333,
+      "top20_probability": 0.23395,
+      "top10_probability": 0.11575,
+      "top5_probability": 0.05705,
+      "win_probability": 0.008066825396825393,
+      "sg_features": {
+        "prior_sg_rounds": 30,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 18.74,
+        "prior_sg_mean_raw": 0.341333,
+        "prior_sg_mean_shrunk": 0.225378,
+        "round_sd": 2.654911,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "11042",
+      "playerName": "홍현지",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6527,
+      "top20_probability": 0.20745,
+      "top10_probability": 0.10391666666666667,
+      "top5_probability": 0.0514,
+      "win_probability": 0.007741547619047612,
+      "sg_features": {
+        "prior_sg_rounds": 29,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 18.4412,
+        "prior_sg_mean_raw": 0.035862,
+        "prior_sg_mean_shrunk": 0.046553,
+        "round_sd": 2.767785,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "11045",
+      "playerName": "양효진",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6033833333333334,
+      "top20_probability": 0.19508333333333333,
+      "top10_probability": 0.10488333333333333,
+      "top5_probability": 0.05773333333333333,
+      "win_probability": 0.0109875,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 19.5749,
+        "prior_sg_mean_raw": -0.073235,
+        "prior_sg_mean_shrunk": -0.139377,
+        "round_sd": 3.162247,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "11056",
+      "playerName": "박예지",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6738166666666666,
+      "top20_probability": 0.2995833333333333,
+      "top10_probability": 0.1887,
+      "top5_probability": 0.11773333333333333,
+      "win_probability": 0.032215317460317416,
+      "sg_features": {
+        "prior_sg_rounds": 38,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.7504,
+        "prior_sg_mean_raw": 0.726316,
+        "prior_sg_mean_shrunk": 0.357286,
+        "round_sd": 3.37138,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "11057",
+      "playerName": "송은아",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7007166666666667,
+      "top20_probability": 0.2599166666666667,
+      "top10_probability": 0.13468333333333332,
+      "top5_probability": 0.06941666666666667,
+      "win_probability": 0.01172571428571429,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.7318,
+        "prior_sg_mean_raw": 0.552821,
+        "prior_sg_mean_shrunk": 0.320354,
+        "round_sd": 2.724618,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11060",
+      "playerName": "안재희",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6792333333333334,
+      "top20_probability": 0.21033333333333334,
+      "top10_probability": 0.10031666666666667,
+      "top5_probability": 0.046483333333333335,
+      "win_probability": 0.00611488095238095,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 24.5771,
+        "prior_sg_mean_raw": 0.106923,
+        "prior_sg_mean_shrunk": 0.123401,
+        "round_sd": 2.604301,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11066",
+      "playerName": "유서연2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.78945,
+      "top20_probability": 0.3707666666666667,
+      "top10_probability": 0.20838333333333334,
+      "top5_probability": 0.11346666666666666,
+      "win_probability": 0.01948555555555557,
+      "sg_features": {
+        "prior_sg_rounds": 38,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 22.6317,
+        "prior_sg_mean_raw": 1.414737,
+        "prior_sg_mean_shrunk": 0.754406,
+        "round_sd": 2.600089,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "11073",
+      "playerName": "최정원",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5878833333333333,
+      "top20_probability": 0.13981666666666667,
+      "top10_probability": 0.06166666666666667,
+      "top5_probability": 0.02795,
+      "win_probability": 0.0036377777777777793,
+      "sg_features": {
+        "prior_sg_rounds": 29,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 17.7534,
+        "prior_sg_mean_raw": -0.525172,
+        "prior_sg_mean_shrunk": -0.295603,
+        "round_sd": 2.723727,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11080",
+      "playerName": "길예람",
+      "analysis_status": "DATA_INSUFFICIENT",
+      "data_status": "SG 기록 없음",
+      "cut_probability": 0.6463833333333333,
+      "top20_probability": 0.19316666666666665,
+      "top10_probability": 0.09261666666666667,
+      "top5_probability": 0.044816666666666664,
+      "win_probability": 0.006450714285714285,
+      "sg_features": {
+        "prior_sg_rounds": 0,
+        "prior_sg_events": 0,
+        "prior_sg_effective_rounds": 0.0,
+        "prior_sg_mean_raw": null,
+        "prior_sg_mean_shrunk": 0.0,
+        "round_sd": 2.732098,
+        "latest_sg_date": null
+      }
+    },
+    {
+      "playerCode": "11143",
+      "playerName": "김시현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.75285,
+      "top20_probability": 0.32858333333333334,
+      "top10_probability": 0.1845,
+      "top5_probability": 0.09908333333333333,
+      "win_probability": 0.01816238095238098,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.7717,
+        "prior_sg_mean_raw": 0.85359,
+        "prior_sg_mean_shrunk": 0.576463,
+        "round_sd": 2.723754,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11216",
+      "playerName": "김지윤2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5501333333333334,
+      "top20_probability": 0.0842,
+      "top10_probability": 0.028133333333333333,
+      "top5_probability": 0.009716666666666667,
+      "win_probability": 0.0007372222222222222,
+      "sg_features": {
+        "prior_sg_rounds": 23,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 14.624,
+        "prior_sg_mean_raw": -1.318261,
+        "prior_sg_mean_shrunk": -0.513066,
+        "round_sd": 2.39463,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11447",
+      "playerName": "한아름",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7371,
+      "top20_probability": 0.25306666666666666,
+      "top10_probability": 0.11921666666666667,
+      "top5_probability": 0.0533,
+      "win_probability": 0.006264880952380949,
+      "sg_features": {
+        "prior_sg_rounds": 43,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 26.5127,
+        "prior_sg_mean_raw": 0.717907,
+        "prior_sg_mean_shrunk": 0.365953,
+        "round_sd": 2.409743,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11640",
+      "playerName": "성아진",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6764,
+      "top20_probability": 0.22666666666666666,
+      "top10_probability": 0.1111,
+      "top5_probability": 0.0546,
+      "win_probability": 0.008001111111111105,
+      "sg_features": {
+        "prior_sg_rounds": 4,
+        "prior_sg_events": 1,
+        "prior_sg_effective_rounds": 3.2994,
+        "prior_sg_mean_raw": 1.075,
+        "prior_sg_mean_shrunk": 0.152231,
+        "round_sd": 2.721353,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "11649",
+      "playerName": "이동은",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7668,
+      "top20_probability": 0.27631666666666665,
+      "top10_probability": 0.1291,
+      "top5_probability": 0.05778333333333333,
+      "win_probability": 0.005752777777777776,
+      "sg_features": {
+        "prior_sg_rounds": 7,
+        "prior_sg_events": 2,
+        "prior_sg_effective_rounds": 5.5419,
+        "prior_sg_mean_raw": 2.24,
+        "prior_sg_mean_shrunk": 0.472672,
+        "round_sd": 2.311651,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "11770",
+      "playerName": "짜라위 분짠(I)",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7826,
+      "top20_probability": 0.31985,
+      "top10_probability": 0.15873333333333334,
+      "top5_probability": 0.07731666666666667,
+      "win_probability": 0.010384603174603178,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 20.0132,
+        "prior_sg_mean_raw": 1.18129,
+        "prior_sg_mean_shrunk": 0.599791,
+        "round_sd": 2.41012,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "12010",
+      "playerName": "이시은 0901(A)",
+      "analysis_status": "DATA_INSUFFICIENT",
+      "data_status": "SG 기록 없음",
+      "cut_probability": 0.6455,
+      "top20_probability": 0.19445,
+      "top10_probability": 0.09311666666666667,
+      "top5_probability": 0.045116666666666666,
+      "win_probability": 0.006230158730158727,
+      "sg_features": {
+        "prior_sg_rounds": 0,
+        "prior_sg_events": 0,
+        "prior_sg_effective_rounds": 0.0,
+        "prior_sg_mean_raw": null,
+        "prior_sg_mean_shrunk": 0.0,
+        "round_sd": 2.732098,
+        "latest_sg_date": null
+      }
+    },
+    {
+      "playerCode": "12015",
+      "playerName": "문아린 0905(A)",
+      "analysis_status": "DATA_INSUFFICIENT",
+      "data_status": "SG 기록 없음",
+      "cut_probability": 0.6498666666666667,
+      "top20_probability": 0.19493333333333332,
+      "top10_probability": 0.09195,
+      "top5_probability": 0.044333333333333336,
+      "win_probability": 0.006699047619047617,
+      "sg_features": {
+        "prior_sg_rounds": 0,
+        "prior_sg_events": 0,
+        "prior_sg_effective_rounds": 0.0,
+        "prior_sg_mean_raw": null,
+        "prior_sg_mean_shrunk": 0.0,
+        "round_sd": 2.732098,
+        "latest_sg_date": null
+      }
+    },
+    {
+      "playerCode": "12053",
+      "playerName": "성해인 0909(A)",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6425166666666666,
+      "top20_probability": 0.18933333333333333,
+      "top10_probability": 0.08946666666666667,
+      "top5_probability": 0.04275,
+      "win_probability": 0.005817777777777775,
+      "sg_features": {
+        "prior_sg_rounds": 2,
+        "prior_sg_events": 1,
+        "prior_sg_effective_rounds": 0.8185,
+        "prior_sg_mean_raw": -0.54,
+        "prior_sg_mean_shrunk": -0.021231,
+        "round_sd": 2.732098,
+        "latest_sg_date": "2026-07-05"
+      }
+    },
+    {
+      "playerCode": "1521",
+      "playerName": "지한솔",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7063666666666667,
+      "top20_probability": 0.24718333333333334,
+      "top10_probability": 0.12298333333333333,
+      "top5_probability": 0.05923333333333333,
+      "win_probability": 0.008746666666666658,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.3664,
+        "prior_sg_mean_raw": 0.448108,
+        "prior_sg_mean_shrunk": 0.264461,
+        "round_sd": 2.625866,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "6916",
+      "playerName": "안송이",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6069666666666667,
+      "top20_probability": 0.15195,
+      "top10_probability": 0.06883333333333333,
+      "top5_probability": 0.031316666666666666,
+      "win_probability": 0.004180873015873017,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 18.6401,
+        "prior_sg_mean_raw": -0.324194,
+        "prior_sg_mean_shrunk": -0.21883,
+        "round_sd": 2.737082,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8234",
+      "playerName": "이주미",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6565666666666666,
+      "top20_probability": 0.19338333333333332,
+      "top10_probability": 0.08968333333333334,
+      "top5_probability": 0.04125,
+      "win_probability": 0.005731944444444444,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.871,
+        "prior_sg_mean_raw": 0.086765,
+        "prior_sg_mean_shrunk": 0.025067,
+        "round_sd": 2.63794,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8243",
+      "playerName": "장은수",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7737833333333334,
+      "top20_probability": 0.3485333333333333,
+      "top10_probability": 0.1942,
+      "top5_probability": 0.10268333333333333,
+      "win_probability": 0.01731238095238097,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 21.8278,
+        "prior_sg_mean_raw": 1.307778,
+        "prior_sg_mean_shrunk": 0.672253,
+        "round_sd": 2.615061,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "8246",
+      "playerName": "이소영",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.41738333333333333,
+      "top20_probability": 0.07071666666666666,
+      "top10_probability": 0.032883333333333334,
+      "top5_probability": 0.016466666666666668,
+      "win_probability": 0.0029551851851851853,
+      "sg_features": {
+        "prior_sg_rounds": 22,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 13.7083,
+        "prior_sg_mean_raw": -2.709545,
+        "prior_sg_mean_shrunk": -1.20053,
+        "round_sd": 3.280571,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8264",
+      "playerName": "장보람",
+      "analysis_status": "DATA_INSUFFICIENT",
+      "data_status": "SG 기록 없음",
+      "cut_probability": 0.6495666666666666,
+      "top20_probability": 0.1963,
+      "top10_probability": 0.0953,
+      "top5_probability": 0.04611666666666667,
+      "win_probability": 0.006384047619047617,
+      "sg_features": {
+        "prior_sg_rounds": 0,
+        "prior_sg_events": 0,
+        "prior_sg_effective_rounds": 0.0,
+        "prior_sg_mean_raw": null,
+        "prior_sg_mean_shrunk": 0.0,
+        "round_sd": 2.732098,
+        "latest_sg_date": null
+      }
+    },
+    {
+      "playerCode": "8277",
+      "playerName": "최민경",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6071,
+      "top20_probability": 0.12685,
+      "top10_probability": 0.04908333333333333,
+      "top5_probability": 0.019216666666666667,
+      "win_probability": 0.0017847222222222216,
+      "sg_features": {
+        "prior_sg_rounds": 30,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 18.8873,
+        "prior_sg_mean_raw": -0.241,
+        "prior_sg_mean_shrunk": -0.236742,
+        "round_sd": 2.449214,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8284",
+      "playerName": "최예림",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8195833333333333,
+      "top20_probability": 0.39485,
+      "top10_probability": 0.21503333333333333,
+      "top5_probability": 0.11163333333333333,
+      "win_probability": 0.01764980158730161,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 24.4254,
+        "prior_sg_mean_raw": 1.646923,
+        "prior_sg_mean_shrunk": 0.847038,
+        "round_sd": 2.425373,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8300",
+      "playerName": "김수지",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7794,
+      "top20_probability": 0.33786666666666665,
+      "top10_probability": 0.18275,
+      "top5_probability": 0.0939,
+      "win_probability": 0.014826666666666696,
+      "sg_features": {
+        "prior_sg_rounds": 35,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 21.5605,
+        "prior_sg_mean_raw": 1.338857,
+        "prior_sg_mean_shrunk": 0.646992,
+        "round_sd": 2.543868,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8318",
+      "playerName": "박단유",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6189,
+      "top20_probability": 0.13118333333333335,
+      "top10_probability": 0.05035,
+      "top5_probability": 0.019016666666666668,
+      "win_probability": 0.0015938888888888888,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.9051,
+        "prior_sg_mean_raw": -0.395152,
+        "prior_sg_mean_shrunk": -0.203355,
+        "round_sd": 2.410875,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8380",
+      "playerName": "김새로미",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.66205,
+      "top20_probability": 0.2387,
+      "top10_probability": 0.12703333333333333,
+      "top5_probability": 0.06688333333333334,
+      "win_probability": 0.012826547619047637,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.2418,
+        "prior_sg_mean_raw": 0.363611,
+        "prior_sg_mean_shrunk": 0.1483,
+        "round_sd": 2.941544,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8392",
+      "playerName": "이다연",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8140833333333334,
+      "top20_probability": 0.4265,
+      "top10_probability": 0.25698333333333334,
+      "top5_probability": 0.1472,
+      "win_probability": 0.030027843915343865,
+      "sg_features": {
+        "prior_sg_rounds": 32,
+        "prior_sg_events": 8,
+        "prior_sg_effective_rounds": 19.1141,
+        "prior_sg_mean_raw": 1.989062,
+        "prior_sg_mean_shrunk": 0.941983,
+        "round_sd": 2.652547,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "8430",
+      "playerName": "조은채",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.4735,
+      "top20_probability": 0.06013333333333333,
+      "top10_probability": 0.02175,
+      "top5_probability": 0.007633333333333333,
+      "win_probability": 0.0007932142857142858,
+      "sg_features": {
+        "prior_sg_rounds": 18,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 10.4076,
+        "prior_sg_mean_raw": -2.637778,
+        "prior_sg_mean_shrunk": -0.858886,
+        "round_sd": 2.599517,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "8589",
+      "playerName": "배소현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7612166666666667,
+      "top20_probability": 0.30448333333333333,
+      "top10_probability": 0.15628333333333333,
+      "top5_probability": 0.07626666666666666,
+      "win_probability": 0.010973888888888885,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 22.0586,
+        "prior_sg_mean_raw": 0.959722,
+        "prior_sg_mean_shrunk": 0.527622,
+        "round_sd": 2.515873,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8770",
+      "playerName": "조아연",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5355666666666666,
+      "top20_probability": 0.11678333333333334,
+      "top10_probability": 0.051,
+      "top5_probability": 0.022516666666666667,
+      "win_probability": 0.003291944444444445,
+      "sg_features": {
+        "prior_sg_rounds": 24,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 15.0544,
+        "prior_sg_mean_raw": -1.13,
+        "prior_sg_mean_shrunk": -0.547652,
+        "round_sd": 2.878989,
+        "latest_sg_date": "2026-10-16"
+      }
+    },
+    {
+      "playerCode": "8799",
+      "playerName": "오경은",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7126166666666667,
+      "top20_probability": 0.19901666666666668,
+      "top10_probability": 0.08036666666666667,
+      "top5_probability": 0.03265,
+      "win_probability": 0.0031330555555555565,
+      "sg_features": {
+        "prior_sg_rounds": 16,
+        "prior_sg_events": 5,
+        "prior_sg_effective_rounds": 8.6308,
+        "prior_sg_mean_raw": 0.501875,
+        "prior_sg_mean_shrunk": 0.177401,
+        "round_sd": 2.290819,
+        "latest_sg_date": "2026-09-13"
+      }
+    },
+    {
+      "playerCode": "8811",
+      "playerName": "이채은2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.72465,
+      "top20_probability": 0.279,
+      "top10_probability": 0.14243333333333333,
+      "top5_probability": 0.07245,
+      "win_probability": 0.011164325396825407,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.9991,
+        "prior_sg_mean_raw": 0.691026,
+        "prior_sg_mean_shrunk": 0.40311,
+        "round_sd": 2.634718,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8838",
+      "playerName": "김우정",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6638166666666667,
+      "top20_probability": 0.15241666666666667,
+      "top10_probability": 0.056433333333333335,
+      "top5_probability": 0.02195,
+      "win_probability": 0.0018005555555555552,
+      "sg_features": {
+        "prior_sg_rounds": 36,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.5098,
+        "prior_sg_mean_raw": -0.161944,
+        "prior_sg_mean_shrunk": -0.041614,
+        "round_sd": 2.314865,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8840",
+      "playerName": "정수빈",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6291666666666667,
+      "top20_probability": 0.17158333333333334,
+      "top10_probability": 0.07815,
+      "top5_probability": 0.0364,
+      "win_probability": 0.0046975,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.518,
+        "prior_sg_mean_raw": -0.077297,
+        "prior_sg_mean_shrunk": -0.097325,
+        "round_sd": 2.681648,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8859",
+      "playerName": "이승연",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6909666666666666,
+      "top20_probability": 0.27143333333333336,
+      "top10_probability": 0.15206666666666666,
+      "top5_probability": 0.08271666666666666,
+      "win_probability": 0.015600039682539708,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.8849,
+        "prior_sg_mean_raw": 0.53,
+        "prior_sg_mean_shrunk": 0.293725,
+        "round_sd": 2.93917,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8881",
+      "playerName": "성유진",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8008833333333333,
+      "top20_probability": 0.4155333333333333,
+      "top10_probability": 0.25015,
+      "top5_probability": 0.14306666666666668,
+      "win_probability": 0.029199920634920582,
+      "sg_features": {
+        "prior_sg_rounds": 38,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.5861,
+        "prior_sg_mean_raw": 1.650789,
+        "prior_sg_mean_shrunk": 0.906933,
+        "round_sd": 2.697159,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8883",
+      "playerName": "이가영",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.64445,
+      "top20_probability": 0.2154,
+      "top10_probability": 0.11303333333333333,
+      "top5_probability": 0.05921666666666667,
+      "win_probability": 0.010426388888888886,
+      "sg_features": {
+        "prior_sg_rounds": 29,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 18.011,
+        "prior_sg_mean_raw": 0.117586,
+        "prior_sg_mean_shrunk": 0.040067,
+        "round_sd": 2.93966,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "8906",
+      "playerName": "이정은6",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6254166666666666,
+      "top20_probability": 0.19666666666666666,
+      "top10_probability": 0.10251666666666667,
+      "top5_probability": 0.05241666666666667,
+      "win_probability": 0.009205555555555552,
+      "sg_features": {
+        "prior_sg_rounds": 3,
+        "prior_sg_events": 1,
+        "prior_sg_effective_rounds": 2.7352,
+        "prior_sg_mean_raw": -0.406667,
+        "prior_sg_mean_shrunk": -0.051367,
+        "round_sd": 2.954309,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "8972",
+      "playerName": "조정민",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.54245,
+      "top20_probability": 0.07156666666666667,
+      "top10_probability": 0.02235,
+      "top5_probability": 0.007233333333333333,
+      "win_probability": 0.0004638888888888888,
+      "sg_features": {
+        "prior_sg_rounds": 25,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 15.7551,
+        "prior_sg_mean_raw": -1.4504,
+        "prior_sg_mean_shrunk": -0.552822,
+        "round_sd": 2.338551,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9000",
+      "playerName": "김지수",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6468333333333334,
+      "top20_probability": 0.1833,
+      "top10_probability": 0.08305,
+      "top5_probability": 0.03813333333333333,
+      "win_probability": 0.0047255555555555575,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 19.4625,
+        "prior_sg_mean_raw": -0.155806,
+        "prior_sg_mean_shrunk": -0.026476,
+        "round_sd": 2.635562,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9082",
+      "playerName": "전예성",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7455666666666667,
+      "top20_probability": 0.31083333333333335,
+      "top10_probability": 0.17126666666666668,
+      "top5_probability": 0.09111666666666667,
+      "win_probability": 0.015556547619047643,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 19.4107,
+        "prior_sg_mean_raw": 1.197097,
+        "prior_sg_mean_shrunk": 0.5297,
+        "round_sd": 2.691117,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9089",
+      "playerName": "김소정",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7048166666666666,
+      "top20_probability": 0.20696666666666666,
+      "top10_probability": 0.0896,
+      "top5_probability": 0.03796666666666667,
+      "win_probability": 0.0037547222222222235,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 18.9684,
+        "prior_sg_mean_raw": 0.371613,
+        "prior_sg_mean_shrunk": 0.179327,
+        "round_sd": 2.398292,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9111",
+      "playerName": "박서현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5491166666666667,
+      "top20_probability": 0.14946666666666666,
+      "top10_probability": 0.07738333333333333,
+      "top5_probability": 0.040966666666666665,
+      "win_probability": 0.007779325396825393,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 20.4664,
+        "prior_sg_mean_raw": -0.879091,
+        "prior_sg_mean_shrunk": -0.45737,
+        "round_sd": 3.207094,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9113",
+      "playerName": "노승희",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8020833333333334,
+      "top20_probability": 0.36205,
+      "top10_probability": 0.18945,
+      "top5_probability": 0.09391666666666666,
+      "win_probability": 0.014537103174603194,
+      "sg_features": {
+        "prior_sg_rounds": 41,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 25.6488,
+        "prior_sg_mean_raw": 1.209268,
+        "prior_sg_mean_shrunk": 0.730824,
+        "round_sd": 2.439376,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9130",
+      "playerName": "박현경",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6834166666666667,
+      "top20_probability": 0.22901666666666667,
+      "top10_probability": 0.11305,
+      "top5_probability": 0.0549,
+      "win_probability": 0.007044325396825392,
+      "sg_features": {
+        "prior_sg_rounds": 27,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 15.9506,
+        "prior_sg_mean_raw": 0.557037,
+        "prior_sg_mean_shrunk": 0.174354,
+        "round_sd": 2.677585,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9134",
+      "playerName": "서어진",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8316333333333333,
+      "top20_probability": 0.3735,
+      "top10_probability": 0.18611666666666668,
+      "top5_probability": 0.08711666666666666,
+      "win_probability": 0.010166825396825395,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 22.9773,
+        "prior_sg_mean_raw": 1.443784,
+        "prior_sg_mean_shrunk": 0.797624,
+        "round_sd": 2.229697,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9135",
+      "playerName": "신다인",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7106333333333333,
+      "top20_probability": 0.29278333333333334,
+      "top10_probability": 0.16461666666666666,
+      "top5_probability": 0.0913,
+      "win_probability": 0.01823611111111113,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.6127,
+        "prior_sg_mean_raw": 0.913514,
+        "prior_sg_mean_shrunk": 0.412497,
+        "round_sd": 2.877266,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9136",
+      "playerName": "조혜림",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5841833333333334,
+      "top20_probability": 0.13491666666666666,
+      "top10_probability": 0.05971666666666667,
+      "top5_probability": 0.027,
+      "win_probability": 0.0032382142857142865,
+      "sg_features": {
+        "prior_sg_rounds": 26,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 15.6869,
+        "prior_sg_mean_raw": -0.581538,
+        "prior_sg_mean_shrunk": -0.311773,
+        "round_sd": 2.708961,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9145",
+      "playerName": "임희정",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6489333333333334,
+      "top20_probability": 0.16408333333333333,
+      "top10_probability": 0.07018333333333333,
+      "top5_probability": 0.0291,
+      "win_probability": 0.0029169841269841273,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 21.404,
+        "prior_sg_mean_raw": -0.096667,
+        "prior_sg_mean_shrunk": -0.057259,
+        "round_sd": 2.477229,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9183",
+      "playerName": "박결",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.56145,
+      "top20_probability": 0.09603333333333333,
+      "top10_probability": 0.035333333333333335,
+      "top5_probability": 0.013583333333333333,
+      "win_probability": 0.0012769444444444443,
+      "sg_features": {
+        "prior_sg_rounds": 27,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 17.699,
+        "prior_sg_mean_raw": -1.007407,
+        "prior_sg_mean_shrunk": -0.464795,
+        "round_sd": 2.463462,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9235",
+      "playerName": "최은우",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8339166666666666,
+      "top20_probability": 0.39875,
+      "top10_probability": 0.21038333333333334,
+      "top5_probability": 0.1052,
+      "win_probability": 0.01402837301587303,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 23.6538,
+        "prior_sg_mean_raw": 1.59,
+        "prior_sg_mean_shrunk": 0.868953,
+        "round_sd": 2.310083,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9277",
+      "playerName": "김아현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5044166666666666,
+      "top20_probability": 0.09675,
+      "top10_probability": 0.0415,
+      "top5_probability": 0.01835,
+      "win_probability": 0.002277658730158729,
+      "sg_features": {
+        "prior_sg_rounds": 27,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 16.8717,
+        "prior_sg_mean_raw": -1.31,
+        "prior_sg_mean_shrunk": -0.686194,
+        "round_sd": 2.866954,
+        "latest_sg_date": "2026-10-16"
+      }
+    },
+    {
+      "playerCode": "9389",
+      "playerName": "전우리",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7213166666666667,
+      "top20_probability": 0.24205,
+      "top10_probability": 0.11441666666666667,
+      "top5_probability": 0.05255,
+      "win_probability": 0.00665129629629629,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.0819,
+        "prior_sg_mean_raw": 0.511892,
+        "prior_sg_mean_shrunk": 0.304184,
+        "round_sd": 2.477202,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9391",
+      "playerName": "최가빈",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6964166666666667,
+      "top20_probability": 0.2429,
+      "top10_probability": 0.12035,
+      "top5_probability": 0.0608,
+      "win_probability": 0.00947611111111111,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.9228,
+        "prior_sg_mean_raw": 0.575294,
+        "prior_sg_mean_shrunk": 0.247972,
+        "round_sd": 2.6747,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9401",
+      "playerName": "마다솜",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6574833333333333,
+      "top20_probability": 0.175,
+      "top10_probability": 0.07453333333333333,
+      "top5_probability": 0.03238333333333333,
+      "win_probability": 0.003622103174603175,
+      "sg_features": {
+        "prior_sg_rounds": 28,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 16.6834,
+        "prior_sg_mean_raw": 0.116786,
+        "prior_sg_mean_shrunk": -0.006238,
+        "round_sd": 2.507102,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9426",
+      "playerName": "한진선",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6799833333333334,
+      "top20_probability": 0.27798333333333336,
+      "top10_probability": 0.16248333333333334,
+      "top5_probability": 0.09391666666666666,
+      "win_probability": 0.020496269841269846,
+      "sg_features": {
+        "prior_sg_rounds": 35,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 22.5095,
+        "prior_sg_mean_raw": 0.698571,
+        "prior_sg_mean_shrunk": 0.28519,
+        "round_sd": 3.104479,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9431",
+      "playerName": "박보겸",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.78285,
+      "top20_probability": 0.40865,
+      "top10_probability": 0.25295,
+      "top5_probability": 0.15218333333333334,
+      "win_probability": 0.03476543650793643,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 22.8617,
+        "prior_sg_mean_raw": 1.334865,
+        "prior_sg_mean_shrunk": 0.853502,
+        "round_sd": 2.884778,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9436",
+      "playerName": "구래현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5425666666666666,
+      "top20_probability": 0.10825,
+      "top10_probability": 0.0459,
+      "top5_probability": 0.01863333333333333,
+      "win_probability": 0.002172777777777777,
+      "sg_features": {
+        "prior_sg_rounds": 24,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 13.9348,
+        "prior_sg_mean_raw": -1.30125,
+        "prior_sg_mean_shrunk": -0.51159,
+        "round_sd": 2.741757,
+        "latest_sg_date": "2026-10-04"
+      }
+    },
+    {
+      "playerCode": "9449",
+      "playerName": "이지현3",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8640833333333333,
+      "top20_probability": 0.5157833333333334,
+      "top10_probability": 0.32526666666666665,
+      "top5_probability": 0.19326666666666667,
+      "win_probability": 0.04081448412698411,
+      "sg_features": {
+        "prior_sg_rounds": 39,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 23.9929,
+        "prior_sg_mean_raw": 2.298974,
+        "prior_sg_mean_shrunk": 1.238675,
+        "round_sd": 2.540534,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9465",
+      "playerName": "안지현",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6307,
+      "top20_probability": 0.19245,
+      "top10_probability": 0.09785,
+      "top5_probability": 0.048133333333333334,
+      "win_probability": 0.00722583333333333,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 20.7871,
+        "prior_sg_mean_raw": -0.022059,
+        "prior_sg_mean_shrunk": -0.054189,
+        "round_sd": 2.880091,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9483",
+      "playerName": "한지원",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5684166666666667,
+      "top20_probability": 0.13716666666666666,
+      "top10_probability": 0.06341666666666666,
+      "top5_probability": 0.02965,
+      "win_probability": 0.004047658730158731,
+      "sg_features": {
+        "prior_sg_rounds": 30,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 18.4984,
+        "prior_sg_mean_raw": -0.687667,
+        "prior_sg_mean_shrunk": -0.377327,
+        "round_sd": 2.851951,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9487",
+      "playerName": "김재희",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.67655,
+      "top20_probability": 0.19443333333333335,
+      "top10_probability": 0.08688333333333334,
+      "top5_probability": 0.03788333333333333,
+      "win_probability": 0.004279722222222225,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 20.8556,
+        "prior_sg_mean_raw": 0.098788,
+        "prior_sg_mean_shrunk": 0.086892,
+        "round_sd": 2.501269,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9652",
+      "playerName": "이세희",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6996833333333333,
+      "top20_probability": 0.28108333333333335,
+      "top10_probability": 0.15676666666666667,
+      "top5_probability": 0.08615,
+      "win_probability": 0.01554972222222224,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 20.9305,
+        "prior_sg_mean_raw": 0.819706,
+        "prior_sg_mean_shrunk": 0.356355,
+        "round_sd": 2.901143,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9702",
+      "playerName": "김리안",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6063,
+      "top20_probability": 0.17018333333333333,
+      "top10_probability": 0.0806,
+      "top5_probability": 0.03991666666666667,
+      "win_probability": 0.005714603174603174,
+      "sg_features": {
+        "prior_sg_rounds": 23,
+        "prior_sg_events": 8,
+        "prior_sg_effective_rounds": 13.873,
+        "prior_sg_mean_raw": -0.464783,
+        "prior_sg_mean_shrunk": -0.181512,
+        "round_sd": 2.850765,
+        "latest_sg_date": "2026-10-16"
+      }
+    },
+    {
+      "playerCode": "9705",
+      "playerName": "홍지원",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6748833333333333,
+      "top20_probability": 0.20913333333333334,
+      "top10_probability": 0.09988333333333334,
+      "top5_probability": 0.04638333333333333,
+      "win_probability": 0.0064921296296296255,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.0309,
+        "prior_sg_mean_raw": 0.258108,
+        "prior_sg_mean_shrunk": 0.121242,
+        "round_sd": 2.621779,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9708",
+      "playerName": "이재윤",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.66265,
+      "top20_probability": 0.20268333333333333,
+      "top10_probability": 0.0981,
+      "top5_probability": 0.046566666666666666,
+      "win_probability": 0.0064943518518518475,
+      "sg_features": {
+        "prior_sg_rounds": 30,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 19.2823,
+        "prior_sg_mean_raw": 0.023,
+        "prior_sg_mean_shrunk": 0.073917,
+        "round_sd": 2.673788,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9714",
+      "playerName": "유지나",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6269833333333333,
+      "top20_probability": 0.12096666666666667,
+      "top10_probability": 0.042916666666666665,
+      "top5_probability": 0.014816666666666667,
+      "win_probability": 0.0009512698412698415,
+      "sg_features": {
+        "prior_sg_rounds": 37,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 22.2658,
+        "prior_sg_mean_raw": -0.315135,
+        "prior_sg_mean_shrunk": -0.196463,
+        "round_sd": 2.295277,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9723",
+      "playerName": "노원경",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5315,
+      "top20_probability": 0.09126666666666666,
+      "top10_probability": 0.034833333333333334,
+      "top5_probability": 0.013966666666666667,
+      "win_probability": 0.001226547619047619,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 18.9035,
+        "prior_sg_mean_raw": -1.360645,
+        "prior_sg_mean_shrunk": -0.588105,
+        "round_sd": 2.624704,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9752",
+      "playerName": "김나현2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.6566333333333333,
+      "top20_probability": 0.1599,
+      "top10_probability": 0.06338333333333333,
+      "top5_probability": 0.025883333333333335,
+      "win_probability": 0.002504722222222223,
+      "sg_features": {
+        "prior_sg_rounds": 18,
+        "prior_sg_events": 6,
+        "prior_sg_effective_rounds": 10.4807,
+        "prior_sg_mean_raw": -0.211111,
+        "prior_sg_mean_shrunk": -0.03489,
+        "round_sd": 2.405103,
+        "latest_sg_date": "2026-09-13"
+      }
+    },
+    {
+      "playerCode": "9759",
+      "playerName": "이율린",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.5276,
+      "top20_probability": 0.15706666666666666,
+      "top10_probability": 0.0909,
+      "top5_probability": 0.05096666666666667,
+      "win_probability": 0.011034629629629629,
+      "sg_features": {
+        "prior_sg_rounds": 32,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 19.1246,
+        "prior_sg_mean_raw": -0.95125,
+        "prior_sg_mean_shrunk": -0.551675,
+        "round_sd": 3.52197,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9765",
+      "playerName": "정소이",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.62065,
+      "top20_probability": 0.13848333333333335,
+      "top10_probability": 0.055483333333333336,
+      "top5_probability": 0.022283333333333332,
+      "win_probability": 0.0023747222222222225,
+      "sg_features": {
+        "prior_sg_rounds": 38,
+        "prior_sg_events": 11,
+        "prior_sg_effective_rounds": 23.7145,
+        "prior_sg_mean_raw": -0.277105,
+        "prior_sg_mean_shrunk": -0.204995,
+        "round_sd": 2.483226,
+        "latest_sg_date": "2026-10-17"
+      }
+    },
+    {
+      "playerCode": "9784",
+      "playerName": "이예원",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.8491166666666666,
+      "top20_probability": 0.46036666666666665,
+      "top10_probability": 0.26793333333333336,
+      "top5_probability": 0.14693333333333333,
+      "win_probability": 0.025937169312169297,
+      "sg_features": {
+        "prior_sg_rounds": 33,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 21.4466,
+        "prior_sg_mean_raw": 1.957879,
+        "prior_sg_mean_shrunk": 1.058825,
+        "round_sd": 2.440656,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9786",
+      "playerName": "주가인",
+      "analysis_status": "DATA_INSUFFICIENT",
+      "data_status": "SG 기록 없음",
+      "cut_probability": 0.6447833333333334,
+      "top20_probability": 0.19395,
+      "top10_probability": 0.09568333333333333,
+      "top5_probability": 0.046033333333333336,
+      "win_probability": 0.006428888888888888,
+      "sg_features": {
+        "prior_sg_rounds": 0,
+        "prior_sg_events": 0,
+        "prior_sg_effective_rounds": 0.0,
+        "prior_sg_mean_raw": null,
+        "prior_sg_mean_shrunk": 0.0,
+        "round_sd": 2.732098,
+        "latest_sg_date": null
+      }
+    },
+    {
+      "playerCode": "9788",
+      "playerName": "박혜준",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7540166666666667,
+      "top20_probability": 0.29733333333333334,
+      "top10_probability": 0.14965,
+      "top5_probability": 0.07573333333333333,
+      "win_probability": 0.010753888888888896,
+      "sg_features": {
+        "prior_sg_rounds": 28,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 16.3508,
+        "prior_sg_mean_raw": 1.173214,
+        "prior_sg_mean_shrunk": 0.511612,
+        "round_sd": 2.502738,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9807",
+      "playerName": "김서윤2",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.66185,
+      "top20_probability": 0.2239,
+      "top10_probability": 0.11505,
+      "top5_probability": 0.059116666666666665,
+      "win_probability": 0.010186706349206352,
+      "sg_features": {
+        "prior_sg_rounds": 16,
+        "prior_sg_events": 5,
+        "prior_sg_effective_rounds": 8.2621,
+        "prior_sg_mean_raw": 0.460625,
+        "prior_sg_mean_shrunk": 0.100936,
+        "round_sd": 2.851125,
+        "latest_sg_date": "2026-08-30"
+      }
+    },
+    {
+      "playerCode": "9820",
+      "playerName": "정윤지",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7070333333333333,
+      "top20_probability": 0.23328333333333334,
+      "top10_probability": 0.10851666666666666,
+      "top5_probability": 0.05146666666666667,
+      "win_probability": 0.006816825396825395,
+      "sg_features": {
+        "prior_sg_rounds": 31,
+        "prior_sg_events": 10,
+        "prior_sg_effective_rounds": 19.4724,
+        "prior_sg_mean_raw": 0.572903,
+        "prior_sg_mean_shrunk": 0.250791,
+        "round_sd": 2.523544,
+        "latest_sg_date": "2026-10-18"
+      }
+    },
+    {
+      "playerCode": "9990",
+      "playerName": "윤수아",
+      "analysis_status": "PASS",
+      "data_status": "SG 기록 확인",
+      "cut_probability": 0.7449666666666667,
+      "top20_probability": 0.2759333333333333,
+      "top10_probability": 0.13246666666666668,
+      "top5_probability": 0.06138333333333333,
+      "win_probability": 0.008548492063492057,
+      "sg_features": {
+        "prior_sg_rounds": 34,
+        "prior_sg_events": 9,
+        "prior_sg_effective_rounds": 19.9968,
+        "prior_sg_mean_raw": 0.850588,
+        "prior_sg_mean_shrunk": 0.432024,
+        "round_sd": 2.457809,
+        "latest_sg_date": "2026-10-04"
+      }
+    }
+  ]
+}

@@ -1,0 +1,804 @@
+{
+  "schema_version": "NEO_PRE_SG_V1_WALK_FORWARD_2026_EXPLORATORY",
+  "model_version": "NEO_PRE_SG_V1",
+  "evaluation_type": "strictly_prior_rolling_origin",
+  "data_cutoff": "2026-10-18",
+  "signal_formula": {
+    "input": "official total SG per round; strictly prior to target event start",
+    "recency_half_life_days": 90.0,
+    "prior_equivalent_rounds": 20.0,
+    "round_sd": "pooled within-player SD, with player SD shrunk toward pooled SD",
+    "simulation": "independent round-level SG draws; convert to stroke differences; apply 60th-place cut and ties after R2",
+    "component_handling": "total SG only; component SG is not added again"
+  },
+  "simulation_count_per_event": 5000,
+  "source_summary": {
+    "round_rows": 3882,
+    "event_count": 11,
+    "player_count": 221,
+    "unresolved_id_rows": 18,
+    "components_complete": true,
+    "latest_date": "2026-10-18"
+  },
+  "test_event_count": 10,
+  "skipped_events": [
+    {
+      "game_code": "2026070003",
+      "reason": "no prior official SG event"
+    }
+  ],
+  "aggregate": {
+    "sg": {
+      "cut_probability": {
+        "brier": 0.22309743715506833,
+        "log_loss": 0.6368177687987264
+      },
+      "top20_probability": {
+        "brier": 0.1462550354172176,
+        "log_loss": 0.45628984256810645
+      },
+      "top10_probability": {
+        "brier": 0.08571907161936977,
+        "log_loss": 0.29744255285141347
+      },
+      "top5_probability": {
+        "brier": 0.04709570216298019,
+        "log_loss": 0.18309292677328284
+      },
+      "win_probability": {
+        "brier": 0.008587566567516036,
+        "log_loss": 0.047811608524350416
+      },
+      "winner_log_loss": 4.500616032451212,
+      "winner_top10_rate": 0.1,
+      "actual_top20_capture_rate": 0.445
+    },
+    "score_only": {
+      "cut_probability": {
+        "brier": 0.22333512647492598,
+        "log_loss": 0.6377509405930487
+      },
+      "top20_probability": {
+        "brier": 0.14791734656665897,
+        "log_loss": 0.46018099710560634
+      },
+      "top10_probability": {
+        "brier": 0.08666133940183032,
+        "log_loss": 0.3007755080662752
+      },
+      "top5_probability": {
+        "brier": 0.04746562323662503,
+        "log_loss": 0.1852071032473947
+      },
+      "win_probability": {
+        "brier": 0.008609051346913584,
+        "log_loss": 0.0482762375389118
+      },
+      "winner_log_loss": 4.567975067469039,
+      "winner_top10_rate": 0.1,
+      "actual_top20_capture_rate": 0.43
+    }
+  },
+  "sg_minus_score_only_deltas": {
+    "cut_probability": {
+      "brier": -0.00023768931985765351,
+      "log_loss": -0.000933171794322285
+    },
+    "top20_probability": {
+      "brier": -0.0016623111494413756,
+      "log_loss": -0.0038911545374998857
+    },
+    "top10_probability": {
+      "brier": -0.0009422677824605513,
+      "log_loss": -0.0033329552148617103
+    },
+    "top5_probability": {
+      "brier": -0.00036992107364484245,
+      "log_loss": -0.0021141764741118563
+    },
+    "win_probability": {
+      "brier": -2.148477939754867e-05,
+      "log_loss": -0.000464629014561381
+    }
+  },
+  "events": [
+    {
+      "game_code": "2026070002",
+      "event_name": "하이원리조트 여자오픈 2026",
+      "start_date": "2026-07-09",
+      "rounds": 4,
+      "field_size": 108,
+      "prior_sg_round_rows": 396,
+      "sg_connected_players": 97,
+      "actual_winner": "고지우",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.2257660225925926,
+          "log_loss": 0.6427043251431237
+        },
+        "top20_probability": {
+          "brier": 0.15477515703703706,
+          "log_loss": 0.4831317927760275
+        },
+        "top10_probability": {
+          "brier": 0.09614359777777777,
+          "log_loss": 0.33560826443324715
+        },
+        "top5_probability": {
+          "brier": 0.044107560000000004,
+          "log_loss": 0.18581937770647733
+        },
+        "win_probability": {
+          "brier": 0.009223410353418157,
+          "log_loss": 0.05420244124003138
+        },
+        "winner": {
+          "probability": 0.007783333333333331,
+          "predicted_rank": 56,
+          "top20_hits": 8
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.22360012148148148,
+          "log_loss": 0.6379726216675535
+        },
+        "top20_probability": {
+          "brier": 0.1546942488888889,
+          "log_loss": 0.48288169305887685
+        },
+        "top10_probability": {
+          "brier": 0.09603416074074074,
+          "log_loss": 0.3346789920435243
+        },
+        "top5_probability": {
+          "brier": 0.044256485185185185,
+          "log_loss": 0.18679941542813502
+        },
+        "win_probability": {
+          "brier": 0.009210803991563786,
+          "log_loss": 0.053300985350916465
+        },
+        "winner": {
+          "probability": 0.008573333333333334,
+          "predicted_rank": 47,
+          "top20_hits": 8
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026070001",
+      "event_name": "2026 오로라월드 챔피언십",
+      "start_date": "2026-07-30",
+      "rounds": 4,
+      "field_size": 120,
+      "prior_sg_round_rows": 737,
+      "sg_connected_players": 108,
+      "actual_winner": "이다연",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.242780674,
+          "log_loss": 0.6786651251435606
+        },
+        "top20_probability": {
+          "brier": 0.15274385333333335,
+          "log_loss": 0.4769148803798544
+        },
+        "top10_probability": {
+          "brier": 0.07545562633333333,
+          "log_loss": 0.28009581707707404
+        },
+        "top5_probability": {
+          "brier": 0.046860089333333334,
+          "log_loss": 0.19065633286165665
+        },
+        "win_probability": {
+          "brier": 0.008240445451243387,
+          "log_loss": 0.04507494994420337
+        },
+        "winner": {
+          "probability": 0.012100000000000003,
+          "predicted_rank": 19,
+          "top20_hits": 8
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.24048989566666668,
+          "log_loss": 0.6740840708919855
+        },
+        "top20_probability": {
+          "brier": 0.152924726,
+          "log_loss": 0.47672964359834713
+        },
+        "top10_probability": {
+          "brier": 0.07497243966666667,
+          "log_loss": 0.2778019067886163
+        },
+        "top5_probability": {
+          "brier": 0.04693400466666667,
+          "log_loss": 0.19249409109679513
+        },
+        "win_probability": {
+          "brier": 0.008289894345555555,
+          "log_loss": 0.0469883628230482
+        },
+        "winner": {
+          "probability": 0.00964666666666667,
+          "predicted_rank": 30,
+          "top20_hits": 8
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026080004",
+      "event_name": "제13회 제주삼다수 마스터스",
+      "start_date": "2026-08-06",
+      "rounds": 4,
+      "field_size": 128,
+      "prior_sg_round_rows": 1091,
+      "sg_connected_players": 107,
+      "actual_winner": "장은수",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.2344944734375,
+          "log_loss": 0.6616187138226156
+        },
+        "top20_probability": {
+          "brier": 0.12949074625,
+          "log_loss": 0.41942694070815734
+        },
+        "top10_probability": {
+          "brier": 0.080258976875,
+          "log_loss": 0.28672267260022044
+        },
+        "top5_probability": {
+          "brier": 0.0356815909375,
+          "log_loss": 0.14744222627880357
+        },
+        "win_probability": {
+          "brier": 0.007795917400868056,
+          "log_loss": 0.04598853579753991
+        },
+        "winner": {
+          "probability": 0.007540000000000001,
+          "predicted_rank": 47,
+          "top20_hits": 10
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.23142916125,
+          "log_loss": 0.6555054645394076
+        },
+        "top20_probability": {
+          "brier": 0.129626519375,
+          "log_loss": 0.4181535595141481
+        },
+        "top10_probability": {
+          "brier": 0.080245510625,
+          "log_loss": 0.2863052769937791
+        },
+        "top5_probability": {
+          "brier": 0.03552609125,
+          "log_loss": 0.14573571143223427
+        },
+        "win_probability": {
+          "brier": 0.007781445373784722,
+          "log_loss": 0.044715149594980616
+        },
+        "winner": {
+          "probability": 0.008866666666666669,
+          "predicted_rank": 36,
+          "top20_hits": 10
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026080003",
+      "event_name": "메디힐 · 한국일보 챔피언십",
+      "start_date": "2026-08-13",
+      "rounds": 4,
+      "field_size": 123,
+      "prior_sg_round_rows": 1478,
+      "sg_connected_players": 114,
+      "actual_winner": "서교림",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.22529589788617888,
+          "log_loss": 0.6422973223430292
+        },
+        "top20_probability": {
+          "brier": 0.15425901918699186,
+          "log_loss": 0.47612542745008296
+        },
+        "top10_probability": {
+          "brier": 0.10554223674796748,
+          "log_loss": 0.35269679942495546
+        },
+        "top5_probability": {
+          "brier": 0.04355889203252033,
+          "log_loss": 0.16844498870916555
+        },
+        "win_probability": {
+          "brier": 0.007959423691521486,
+          "log_loss": 0.040638572013805
+        },
+        "winner": {
+          "probability": 0.018149999999999996,
+          "predicted_rank": 15,
+          "top20_hits": 8
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.22410324065040652,
+          "log_loss": 0.6400503925001934
+        },
+        "top20_probability": {
+          "brier": 0.152901881300813,
+          "log_loss": 0.4694436854700434
+        },
+        "top10_probability": {
+          "brier": 0.10613449528455283,
+          "log_loss": 0.3524043005076212
+        },
+        "top5_probability": {
+          "brier": 0.04382236487804878,
+          "log_loss": 0.169714010023324
+        },
+        "win_probability": {
+          "brier": 0.008122538973080398,
+          "log_loss": 0.04741554800170238
+        },
+        "winner": {
+          "probability": 0.007966666666666667,
+          "predicted_rank": 42,
+          "top20_hits": 9
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026080002",
+      "event_name": "BC카드 · 한경 제48회 KLPGA 챔피언십",
+      "start_date": "2026-08-20",
+      "rounds": 4,
+      "field_size": 123,
+      "prior_sg_round_rows": 1853,
+      "sg_connected_players": 116,
+      "actual_winner": "서교림",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.2155837456910569,
+          "log_loss": 0.621324729959743
+        },
+        "top20_probability": {
+          "brier": 0.13225048227642278,
+          "log_loss": 0.416464405250139
+        },
+        "top10_probability": {
+          "brier": 0.0647832806504065,
+          "log_loss": 0.23245795860446075
+        },
+        "top5_probability": {
+          "brier": 0.03519977365853658,
+          "log_loss": 0.13737583103990997
+        },
+        "win_probability": {
+          "brier": 0.007605799578371403,
+          "log_loss": 0.0339618400742373
+        },
+        "winner": {
+          "probability": 0.04034666666666667,
+          "predicted_rank": 2,
+          "top20_hits": 10
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.21381631902439024,
+          "log_loss": 0.6177579616547826
+        },
+        "top20_probability": {
+          "brier": 0.13288767902439025,
+          "log_loss": 0.41621875205278613
+        },
+        "top10_probability": {
+          "brier": 0.06481725756097562,
+          "log_loss": 0.23060080530328878
+        },
+        "top5_probability": {
+          "brier": 0.035629649756097566,
+          "log_loss": 0.13856305454128734
+        },
+        "win_probability": {
+          "brier": 0.007784294280036133,
+          "log_loss": 0.036591681837197854
+        },
+        "winner": {
+          "probability": 0.02953,
+          "predicted_rank": 6,
+          "top20_hits": 9
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026080001",
+      "event_name": "제15회 KG 레이디스 오픈",
+      "start_date": "2026-08-27",
+      "rounds": 4,
+      "field_size": 119,
+      "prior_sg_round_rows": 2231,
+      "sg_connected_players": 111,
+      "actual_winner": "신다인",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.23608535764705882,
+          "log_loss": 0.6641963755910073
+        },
+        "top20_probability": {
+          "brier": 0.15363462890756302,
+          "log_loss": 0.4740778304964792
+        },
+        "top10_probability": {
+          "brier": 0.10234232168067227,
+          "log_loss": 0.3444238858102944
+        },
+        "top5_probability": {
+          "brier": 0.05155643831932773,
+          "log_loss": 0.19960244638111965
+        },
+        "win_probability": {
+          "brier": 0.008381271871015072,
+          "log_loss": 0.046036075743902276
+        },
+        "winner": {
+          "probability": 0.011340000000000003,
+          "predicted_rank": 28,
+          "top20_hits": 9
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.23640355226890758,
+          "log_loss": 0.6649978930885825
+        },
+        "top20_probability": {
+          "brier": 0.15569316302521008,
+          "log_loss": 0.48096678030627776
+        },
+        "top10_probability": {
+          "brier": 0.10443826521008404,
+          "log_loss": 0.35595136399170235
+        },
+        "top5_probability": {
+          "brier": 0.052236459159663864,
+          "log_loss": 0.20504522684635637
+        },
+        "win_probability": {
+          "brier": 0.00833014373557423,
+          "log_loss": 0.04442920987914377
+        },
+        "winner": {
+          "probability": 0.013686666666666668,
+          "predicted_rank": 20,
+          "top20_hits": 9
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026090003",
+      "event_name": "KB금융 골든라이프 챔피언십",
+      "start_date": "2026-09-10",
+      "rounds": 4,
+      "field_size": 120,
+      "prior_sg_round_rows": 2578,
+      "sg_connected_players": 114,
+      "actual_winner": "박보겸",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.21545809733333335,
+          "log_loss": 0.6214181758159306
+        },
+        "top20_probability": {
+          "brier": 0.12079998733333334,
+          "log_loss": 0.3893409038257292
+        },
+        "top10_probability": {
+          "brier": 0.06944196366666668,
+          "log_loss": 0.24988638292623394
+        },
+        "top5_probability": {
+          "brier": 0.03664803366666667,
+          "log_loss": 0.14371297036323563
+        },
+        "win_probability": {
+          "brier": 0.008220478309814814,
+          "log_loss": 0.043124230726219785
+        },
+        "winner": {
+          "probability": 0.015273333333333331,
+          "predicted_rank": 21,
+          "top20_hits": 9
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.21590024033333333,
+          "log_loss": 0.6224057102978765
+        },
+        "top20_probability": {
+          "brier": 0.122111384,
+          "log_loss": 0.3929622307564479
+        },
+        "top10_probability": {
+          "brier": 0.07041387033333332,
+          "log_loss": 0.25369717813759735
+        },
+        "top5_probability": {
+          "brier": 0.036873181000000005,
+          "log_loss": 0.1451734132740712
+        },
+        "win_probability": {
+          "brier": 0.008323448293703704,
+          "log_loss": 0.04778665932880568
+        },
+        "winner": {
+          "probability": 0.008783333333333336,
+          "predicted_rank": 40,
+          "top20_hits": 8
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026090002",
+      "event_name": "하나금융그룹 챔피언십",
+      "start_date": "2026-09-17",
+      "rounds": 4,
+      "field_size": 108,
+      "prior_sg_round_rows": 2953,
+      "sg_connected_players": 96,
+      "actual_winner": "김민선7",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.21958458962962962,
+          "log_loss": 0.6289827168412224
+        },
+        "top20_probability": {
+          "brier": 0.1764092614814815,
+          "log_loss": 0.527279398134038
+        },
+        "top10_probability": {
+          "brier": 0.08206803592592592,
+          "log_loss": 0.285972595285998
+        },
+        "top5_probability": {
+          "brier": 0.04431400814814815,
+          "log_loss": 0.17626175036141345
+        },
+        "win_probability": {
+          "brier": 0.00930630543206937,
+          "log_loss": 0.0542059394502967
+        },
+        "winner": {
+          "probability": 0.007816666666666666,
+          "predicted_rank": 44,
+          "top20_hits": 8
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.2234241225925926,
+          "log_loss": 0.6385511016330873
+        },
+        "top20_probability": {
+          "brier": 0.1798407262962963,
+          "log_loss": 0.5369713456142109
+        },
+        "top10_probability": {
+          "brier": 0.08033289111111112,
+          "log_loss": 0.2792004579566273
+        },
+        "top5_probability": {
+          "brier": 0.04386911740740741,
+          "log_loss": 0.17493799174702768
+        },
+        "win_probability": {
+          "brier": 0.009276577619958848,
+          "log_loss": 0.054511583925669155
+        },
+        "winner": {
+          "probability": 0.00755,
+          "predicted_rank": 60,
+          "top20_hits": 7
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026100005",
+      "event_name": "제26회 하이트진로 챔피언십",
+      "start_date": "2026-10-01",
+      "rounds": 4,
+      "field_size": 108,
+      "prior_sg_round_rows": 3281,
+      "sg_connected_players": 104,
+      "actual_winner": "유해란",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.19774236925925925,
+          "log_loss": 0.5807576024255665
+        },
+        "top20_probability": {
+          "brier": 0.1411643877777778,
+          "log_loss": 0.44035570840610266
+        },
+        "top10_probability": {
+          "brier": 0.08195979222222222,
+          "log_loss": 0.2827198975523279
+        },
+        "top5_probability": {
+          "brier": 0.06525850259259258,
+          "log_loss": 0.24222078264592253
+        },
+        "win_probability": {
+          "brier": 0.009331699566049382,
+          "log_loss": 0.05679698423002905
+        },
+        "winner": {
+          "probability": 0.005916666666666666,
+          "predicted_rank": 55,
+          "top20_hits": 10
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.2040991925925926,
+          "log_loss": 0.595734693164554
+        },
+        "top20_probability": {
+          "brier": 0.14571429814814815,
+          "log_loss": 0.4516975978466426
+        },
+        "top10_probability": {
+          "brier": 0.08274898740740741,
+          "log_loss": 0.28452143645776906
+        },
+        "top5_probability": {
+          "brier": 0.06495816259259259,
+          "log_loss": 0.2361368306560427
+        },
+        "win_probability": {
+          "brier": 0.009208083831407995,
+          "log_loss": 0.05109098492255149
+        },
+        "winner": {
+          "probability": 0.010883333333333335,
+          "predicted_rank": 35,
+          "top20_hits": 10
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    },
+    {
+      "game_code": "2026100003",
+      "event_name": "아이스버그골프 · 서울신문 오픈",
+      "start_date": "2026-10-16",
+      "rounds": 3,
+      "field_size": 108,
+      "prior_sg_round_rows": 3612,
+      "sg_connected_players": 100,
+      "actual_winner": "마서영",
+      "sg": {
+        "cut_probability": {
+          "brier": 0.21818314407407408,
+          "log_loss": 0.6262126009014662
+        },
+        "top20_probability": {
+          "brier": 0.1470228305882353,
+          "log_loss": 0.4597811382544538
+        },
+        "top10_probability": {
+          "brier": 0.09919488431372549,
+          "log_loss": 0.32384125479932274
+        },
+        "top5_probability": {
+          "brier": 0.06777213294117647,
+          "log_loss": 0.23939256138512405
+        },
+        "win_probability": {
+          "brier": 0.00981091402078924,
+          "log_loss": 0.058086516023239346
+        },
+        "winner": {
+          "probability": 0.006829999999999998,
+          "predicted_rank": 53,
+          "top20_hits": 9
+        }
+      },
+      "score_only": {
+        "cut_probability": {
+          "brier": 0.22008541888888888,
+          "log_loss": 0.6304494964924645
+        },
+        "top20_probability": {
+          "brier": 0.15277883960784314,
+          "log_loss": 0.47578468283828257
+        },
+        "top10_probability": {
+          "brier": 0.10647551607843138,
+          "log_loss": 0.35259336248222556
+        },
+        "top5_probability": {
+          "brier": 0.07055071647058823,
+          "log_loss": 0.2574712874286732
+        },
+        "win_probability": {
+          "brier": 0.009763283024470467,
+          "log_loss": 0.05593220972510239
+        },
+        "winner": {
+          "probability": 0.008512222222222223,
+          "predicted_rank": 53,
+          "top20_hits": 8
+        }
+      },
+      "probability_invariants": {
+        "sum_win_sg": 1.0,
+        "sum_win_score_only": 1.0,
+        "sg_nesting_violations": 0
+      }
+    }
+  ],
+  "limitations": [
+    "The evaluation covers one 2026 season and only events with retained round-level SG.",
+    "The sample is exploratory and cannot establish multi-season probability calibration.",
+    "The score-only comparator uses the same simulator and shrinkage recipe; it is not the frozen M4 production baseline.",
+    "Historical fields are reconstructed from players in the final result records; pre-event entry snapshots are not retained for every test event.",
+    "The S-OIL joint SG simulation has not observed its future tournament result."
+  ],
+  "generated_at": "2026-10-27T15:34:08.967771+00:00"
+}
