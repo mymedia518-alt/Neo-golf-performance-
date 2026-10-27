@@ -840,8 +840,11 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
 .under-construction h1{margin:.4rem 0 .75rem}
 .under-construction p{color:var(--muted)}
 .page-intro{padding:1.75rem 0;margin:0;border-bottom:1px solid var(--line)}
-.archive-card{padding:1.4rem 0;border-bottom:1px solid var(--line)}
-.archive-card h2{margin-top:0}
+.archive-card{display:block;padding:1.5rem clamp(1.1rem,3vw,1.75rem);margin:0 0 1rem;border:1px solid var(--line);border-left:4px solid var(--green);background:rgba(198,242,78,.04)}
+.archive-card:last-child{margin-bottom:0}
+.archive-card h2{margin:0 0 .5rem;font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.2;letter-spacing:-.02em}
+.archive-card h2 a{text-decoration:none}
+.archive-card h2 a:hover,.archive-card h2 a:focus-visible{color:var(--green)}
 /* NEO MOBILE BOTTOM NAV: keep the desktop page scaled as requested,
    while placing the shared section links in a thumb-friendly dock. */
 @media (hover:none) and (pointer:coarse){

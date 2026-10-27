@@ -227,7 +227,13 @@ def build_archive_index() -> str:
     cards_html = "\n".join(cards)
 
     head = (
-        "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
+        # 2026-10-27: width=1000, matching HOME's own current viewport
+        # (docs/index.html) and this operator request's own "대회기록
+        # 페이지도 홈화면처럼 일률적으로 맞춰줘" -- the original
+        # "width=device-width,initial-scale=1" here was already stale
+        # (the live page had long since been hand-patched to width=1000,
+        # same drift pattern found on the S-OIL PRE page build).
+        "<head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=1000\">"
         "<title>NEO GOLF DATA · 대회 기록</title>"
         "<meta name=\"description\" content=\"NEO GOLF DATA가 분석한 모든 KLPGA 대회 기록 — 사전 분석부터 최종 결과까지 다시 볼 수 있습니다.\">"
         "<link rel=\"canonical\" href=\"https://neogolfdata.com/tournaments/\">"
