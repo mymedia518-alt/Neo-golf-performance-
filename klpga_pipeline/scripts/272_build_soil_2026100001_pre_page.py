@@ -93,7 +93,7 @@ def _load(name: str) -> dict:
     return json.loads((CONTENT / f"{GAME_CODE}_{name}").read_text(encoding="utf-8"))
 
 
-_NOWRAP = "<span style='white-space:nowrap'>데이터 부족</span>"
+_NOWRAP = "<span style='white-space:nowrap'>—</span>"
 
 PUBLICATION_STATUS = "REFERENCE_ESTIMATE"
 
@@ -191,7 +191,20 @@ def main() -> None:
 
     header = (
         '<!doctype html><html lang="ko"><head><meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        # 2026-10-27: use the site's current fixed-width mobile-scaling
+        # viewport (width=1280), matching every other currently-live
+        # tournament/player page (confirmed: docs/tournaments/2026/
+        # 2026100005/pre/, docs/player/9431/, docs/about/ all use
+        # width=1280 today) and the mobile bottom-nav CSS (neo-site.css's
+        # "@media (hover:none) and (pointer:coarse)" block) it was tuned
+        # for. The original 238/190 template's own
+        # "width=device-width,initial-scale=1" is stale: those two
+        # scripts' committed source still has it, but their OWN live
+        # output pages were hand-patched to width=1280 after generation,
+        # so copying the script source verbatim reproduced a since-fixed
+        # bug (oversized, unscaled mobile bottom-nav text) -- caught via
+        # a real mobile screenshot before publishing.
+        '<meta name="viewport" content="width=1280">'
         f'<title>NEO GOLF DATA · {_esc(event_name)} 사전 분석</title>'
         f'<meta name="description" content="{_esc(seo_description)}">'
         f'<link rel="canonical" href="{canonical_url}">'
@@ -258,7 +271,9 @@ def main() -> None:
         "<button type='button' class='info-control' aria-label='NEO 경기력 설명' aria-expanded='false' aria-controls='neo-info'>ⓘ</button>"
         "<span id='neo-info' class='info-popover' role='tooltip' tabindex='-1'>최근 공식 경기 데이터를 출전 선수들과 비교한 상대적 경기력 위치입니다.</span></th>"
         + ("<th>컷 통과확률</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th>" if PUBLICATION_STATUS != "BLOCKED" else "") +
-        "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div></section>"
+        "</tr></thead><tbody>" + "".join(rows_html) + "</tbody></table></div>"
+        "<p class='meta'>자료가 없어 표시하지 않은 항목입니다.</p>"
+        "</section>"
     )
 
     info_js = (
