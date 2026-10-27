@@ -177,6 +177,17 @@
         "winning_score": "-4"
       },
       "_chronology_comment": "아이스버그골프 · 서울신문 오픈. Added 2026-10-20 while building the new six-section composite HOME (scripts/263_build_neo_home_v3.py): this game_code was never registered here at all (unlike 2026100004/2026100005, which got entries the same way, for the same reason), so klpga.website_v2.previous_tournament_link.resolve_previous_tournament_link() and tournament_chronology.build_home_tournament_chronology() both silently fell through the 'known tournament, no public page yet' contract (url_base='') even though this tournament's real 4-stage site (scripts/244/255/258, no hub index page) has existed since 2026-10-16. This entry only supplies the missing route/presentation metadata this one shared resolver needs -- it does not add, remove, or alter any PRE/R1/R2/FR page or script. No hub index exists (docs/tournaments/2026/2026100003/index.html does not exist), so has_hub_index is correctly omitted and hub_card.nav_stages is used instead, same convention 2026100005's entry already follows. start_date/end_date/venue mirror 2026100003_TOURNAMENT_INFO.json's real official fields. winner/winning_score mirror ICEBERG_2026100003_FR_OFFICIAL_V1.json's own confirmed winner_player_name/winner_to_par (scripts/257, verified 2026-10-18)."
+    },
+    "2026100001": {
+      "url_base": "/tournaments/2026/2026100001/",
+      "stage_order": ["pre", "r1", "r2", "r3", "fr"],
+      "start_date": "2026-10-29",
+      "end_date": "2026-11-01",
+      "venue": "엘리시안 제주",
+      "hub_card": {
+        "nav_stages": ["pre"]
+      },
+      "_chronology_comment": "제20회 S-OIL 챔피언십. Added 2026-10-27 while building this tournament's PRE page (scripts/272_build_soil_2026100001_pre_page.py), same reason and same minimal shape as 2026100003/2026100005's own entries above: with no entry here, klpga.website_v2.previous_tournament_link.resolve_previous_tournament_link() and tournament_chronology.build_home_tournament_chronology() would fall through the 'known tournament, no public page yet' contract even once this tournament's real PRE page exists. gameCode confirmed via neo-sync.yml's find_title diagnostic (season=2026, substring='S-OIL') against the live official schedule, not guessed -- exact title/date match: '제20회 S-OIL 챔피언십' 20261029-20261101. start_date/end_date/venue mirror 2026100001_TOURNAMENT_INFO.json's real official getGameList fields (course_name='엘리시안 제주'). No hub index page exists yet, so has_hub_index is correctly omitted; hub_card.nav_stages lists only the one real, published stage (pre) -- update it, never invent the others, once a later stage is genuinely built. stage_order follows the standard 4-round shape (190's own default), not 2026100003's 3-round one-off variant -- this event spans 2026-10-29 to 2026-11-01 (4 days)."
     }
   }
 }

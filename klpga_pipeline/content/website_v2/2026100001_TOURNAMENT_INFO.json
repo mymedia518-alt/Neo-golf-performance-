@@ -1,0 +1,20 @@
+{
+  "game_code": "2026100001",
+  "event_name": "제20회 S-OIL 챔피언십",
+  "event_eng_name": "The 20th S-OIL Championship",
+  "season": 2026,
+  "start_date": "20261029",
+  "end_date": "20261101",
+  "course_name": "엘리시안 제주",
+  "course_eng_name": "Elysian Jeju",
+  "out_course_text": "레이크",
+  "in_course_text": "파인",
+  "game_finish": "S",
+  "prize_money": 1000000000,
+  "game_method": "0",
+  "is_completed": false,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-10-27T09:33:28.016286+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
