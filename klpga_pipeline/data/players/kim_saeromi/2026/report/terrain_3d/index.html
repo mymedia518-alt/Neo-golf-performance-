@@ -1,0 +1,464 @@
+<title>김새로미 블루헤런 실지형 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: scorecard summary, then a large terrain stage with a data rail; NEO black edition, single dark look by choice */
+:root {
+  color-scheme: dark;
+  --bg: #0d0f0c; --panel: #161a14; --panel-2: #1d2219; --line: #2c3326;
+  --fg: #ecebe3; --muted: #9a9c8f; --gold: #d4af37; --neon: #c6ff00;
+  --eagle: #f6d55c; --birdie: #4fd1a5; --par: #2a3024; --bogey: #c9774b; --double: #d84b4b;
+  --font-ui: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--font-ui); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1320px; margin: 0 auto; padding-block: 20px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+.wrap > * { min-width: 0; }
+header { display: grid; gap: 4px; }
+.eyebrow { font-family: var(--font-num); font-size: 12px; letter-spacing: .14em; color: var(--gold); text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(22px, 3.2vw, 32px); font-weight: 700; text-wrap: balance; }
+.sub { color: var(--muted); }
+.sub b { color: var(--fg); font-weight: 500; }
+.card-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table.sc { border-collapse: collapse; width: 100%; min-width: 760px; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13px; }
+.sc th, .sc td { text-align: center; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+.sc th { color: var(--muted); font-weight: 500; font-size: 12px; }
+.sc th.lab, .sc td.lab { text-align: left; padding-left: 12px; white-space: nowrap; font-family: var(--font-ui); }
+.sc td.cell { cursor: pointer; }
+.sc td.cell span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; }
+.sc td.cell:focus-visible span, .sc td.cell:hover span { outline: 2px solid var(--fg); outline-offset: 1px; }
+.s-eagle span { background: var(--eagle); color: #111; } .s-birdie span { background: var(--birdie); color: #082018; }
+.s-par span { background: var(--par); } .s-bogey span { background: var(--bogey); color: #1a0d05; } .s-double span { background: var(--double); color: #fff; }
+.sc tr.sel-round td.lab { color: var(--neon); }
+.sc td.selcol, .sc th.selcol { background: rgba(198,255,0,.07); }
+.sc tr.delta td { color: var(--muted); font-size: 12px; }
+.sc tr.delta td.lose { color: var(--double); } .sc tr.delta td.gain { color: var(--birdie); }
+.sc .tot { color: var(--gold); }
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; }
+@media (max-width: 960px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.view { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: #0a0c09; min-height: 460px; aspect-ratio: 16 / 10; max-width: 100%; }
+#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.toolbar { position: absolute; left: 10px; top: 10px; right: 10px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
+.toolbar > * { pointer-events: auto; }
+.seg { display: inline-flex; background: rgba(13,15,12,.82); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-size: 12px; color: var(--muted); background: none; border: 0; padding: 6px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { color: #111; background: var(--neon); }
+.seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.chip { font: inherit; font-size: 12px; color: var(--muted); background: rgba(13,15,12,.82); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.chip input { accent-color: var(--neon); margin: 0; }
+button.chip { color: var(--gold); border-color: var(--gold); }
+.player { position: absolute; right: 10px; bottom: 10px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; background: rgba(13,15,12,.86); border: 1px solid var(--line); border-radius: 10px; padding: 4px; }
+.player button { font: inherit; font-size: 13px; color: var(--fg); background: var(--panel-2); border: 1px solid transparent; border-radius: 7px; padding: 6px 10px; cursor: pointer; font-family: var(--font-num); }
+.player button.play { background: var(--neon); color: #111; font-family: var(--font-ui); font-weight: 700; min-width: 86px; }
+.player button:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.follow { font-size: 12px; color: var(--muted); display: inline-flex; gap: 5px; align-items: center; padding: 0 6px; }
+.follow input { accent-color: var(--neon); margin: 0; }
+.caption { position: absolute; left: 10px; bottom: 62px; max-width: calc(100% - 20px); background: rgba(13,15,12,.88); border: 1px solid var(--line); border-left: 3px solid var(--neon); border-radius: 8px; padding: 8px 12px; display: grid; gap: 2px; }
+.caption .t { font-family: var(--font-num); font-size: 12px; color: var(--gold); letter-spacing: .06em; }
+.caption .d { font-size: 14px; }
+.caption .d b { font-family: var(--font-num); font-weight: 600; }
+.shots tr.now td { background: rgba(198,255,0,.12); }
+@media (max-width: 560px) { .follow { display: none; } .caption { bottom: 58px; } .caption .d { font-size: 12.5px; } }
+.hint { display: none; position: absolute; left: 10px; bottom: 10px; font-size: 11px; color: var(--muted); background: rgba(13,15,12,.7); padding: 3px 8px; border-radius: 6px; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 13px; }
+aside { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.box { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; display: grid; gap: 8px; min-width: 0; }
+.box h2 { margin: 0; font-size: 15px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.box h2 small { color: var(--muted); font-weight: 400; font-size: 12px; }
+.kv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; }
+@media (max-width: 420px) { .kv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kv div { background: var(--panel-2); border-radius: 8px; padding: 6px 8px; }
+.kv dt { font-size: 11px; color: var(--muted); } .kv dd { margin: 0; font-family: var(--font-num); font-size: 16px; }
+.rounds4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.rounds4 button { font: inherit; background: var(--panel-2); border: 1px solid transparent; border-radius: 8px; color: var(--fg); padding: 6px; cursor: pointer; display: grid; gap: 2px; }
+.rounds4 button[aria-pressed="true"] { border-color: var(--neon); }
+.rounds4 b { font-family: var(--font-num); font-size: 18px; } .rounds4 small { color: var(--muted); font-size: 11px; }
+table.shots { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.shots th { color: var(--muted); font-weight: 500; text-align: left; padding: 4px; border-bottom: 1px solid var(--line); font-size: 11px; }
+.shots td { padding: 5px 4px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.shots td.n { font-family: var(--font-num); color: var(--gold); width: 22px; }
+.shots td.num, .shots th.num { text-align: right; font-family: var(--font-num); }
+.lie { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+#green { width: 100%; height: auto; aspect-ratio: 650 / 433; border-radius: 8px; display: block; background: var(--panel-2); }
+.note { color: var(--muted); font-size: 12px; margin: 0; }
+#appText b { color: var(--fg); font-weight: 500; } #appText .big { font-family: var(--font-num); font-size: 22px; color: var(--fg); }
+.notes { color: var(--muted); font-size: 12px; display: grid; gap: 4px; max-width: 90ch; }
+.notes b { color: var(--fg); font-weight: 500; }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NEO GOLF DATA · 실지형 3D · GPS Shot Data</div>
+    <h1>김새로미 · 제26회 하이트진로 챔피언십 · 블루헤런</h1>
+    <div class="sub">2026.10.1–10.4 · 파72 · <b>77-73-75-78 = 303 (+15), T55</b> · 실제 GPS 좌표와 해발 고도로 그린 303샷</div>
+  </header>
+
+  <section aria-label="스코어카드"><div class="card-scroll"><table class="sc" id="sc"></table></div></section>
+
+  <section class="stage">
+    <div class="view">
+      <canvas id="gl" aria-label="블루헤런 실지형 3D"></canvas>
+      <div class="loading" id="loading">지형과 샷 데이터를 불러오는 중…</div>
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="라운드" id="roundSeg"></div>
+        <div class="seg" role="group" aria-label="시점" id="camSeg">
+          <button type="button" data-cam="tee" aria-pressed="true">티에서</button>
+          <button type="button" data-cam="hole">홀 전체</button>
+          <button type="button" data-cam="green">그린</button>
+          <button type="button" data-cam="course">코스 전체</button>
+        </div>
+        <div class="seg" role="group" aria-label="고저 강조" id="vexSeg">
+          <button type="button" data-v="1" aria-pressed="true">고저 ×1</button>
+          <button type="button" data-v="2">×2</button>
+        </div>
+        <label class="chip"><input type="checkbox" id="fieldToggle"> 필드 티샷 착지</label>
+        <label class="chip"><input type="checkbox" id="appToggle"> 러프 125–150yd (필드)</label>
+        <button type="button" class="chip" id="sceneBtn">대표 장면 · 1R 12번 홀</button>
+      </div>
+      <div class="caption" id="caption" hidden></div>
+      <div class="player" role="group" aria-label="샷 재생">
+        <button type="button" id="pPrev" aria-label="이전 샷">⏮</button>
+        <button type="button" id="pPlay" class="play" aria-label="재생">▶ 재생</button>
+        <button type="button" id="pNext" aria-label="다음 샷">⏭</button>
+        <button type="button" id="pSpeed" aria-label="재생 속도">1×</button>
+        <label class="follow"><input type="checkbox" id="pFollow" checked> 카메라 따라가기</label>
+      </div>
+    </div>
+    <aside>
+      <div class="box"><h2 id="holeTitle">12번 홀</h2><dl class="kv" id="holeKv"></dl><div class="rounds4" id="holeRounds"></div></div>
+      <div class="box">
+        <h2><span id="shotTitle">샷 기록</span><small>yd · 고저 m</small></h2>
+        <table class="shots"><thead><tr><th>#</th><th>도착 위치</th><th class="num">샷 거리</th><th class="num">남은 거리</th><th class="num">고저</th></tr></thead><tbody id="shotRows"></tbody></table>
+        <p class="note" id="shotNote"></p>
+      </div>
+      <div class="box" id="appBox" hidden><h2>같은 조건, 필드는? <small>러프 · 125–150yd</small></h2><div id="appText" class="note"></div></div>
+      <div class="box"><h2>그린 <small>KLPGA 그린 상세 이미지 위 실제 좌표</small></h2><canvas id="green" width="650" height="433"></canvas></div>
+    </aside>
+  </section>
+
+  <section class="notes" aria-label="데이터 설명">
+    <div><b>샷 위치·고도</b> · KLPGA 3D Shot Tracker(cmpro) 응답의 위도·경도·해발 고도. 샷 사이 거리를 좌표로 다시 재면 기록된 샷 거리와 0.01% 안에서 맞습니다. 티 위치는 응답의 0번 기록입니다.</div>
+    <div><b>지형</b> · 공개 지형 자료(AWS Terrain Tiles, 한국 지역 약 30m 위성 측량 기반)를 약 3.8m 격자로 그렸습니다. 샷 지점 450곳의 실제 고도와 상관 0.991, 지형이 평균 3.75m 높아 그만큼 내렸고, 남은 차이는 중앙값 약 2.5m입니다. 벙커·그린 굴곡 같은 세부 형상은 지형에 없습니다.</div>
+    <div><b>코스 그림</b> · KLPGA가 이 대회에 제공한 홀 이미지를 실제 위치에 맞춰 지형 위에 입혔습니다. 같은 샷의 화면 좌표와 GPS 좌표로 홀마다 맞췄고 오차는 중앙값 1m 이하, 최대 1.9m입니다.</div>
+    <div><b>궤적 높이·재생 속도</b> · 공의 비행 높이와 시간은 자료에 없어 샷 거리에 비례한 표현용입니다. 출발점과 도착점의 위치·고도는 실측입니다. 퍼트는 지면을 따라 그렸습니다.</div>
+    <div><b>필드</b> · 같은 대회 다른 선수 106명의 샷은 2D Shot Tracker 좌표를 같은 홀별 정합식으로 실제 위치에 옮긴 것입니다.</div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(async function () {
+  const D = await (await fetch('data.json')).json();
+  const RC = ['#c6ff00', '#5ec8ff', '#ff9f43', '#e07bff'];
+  const LIE = { '1': ['페어웨이', '#7fb04a'], '2': ['러프', '#5c7a34'], '3': ['그린', '#b8e07a'], '4': ['OB', '#ffffff'], '5': ['페널티구역', '#3aa0e0'], '6': ['벙커', '#e8d9a8'], '7': ['분실구', '#ffffff'], '8': ['벌타', '#d84b4b'], '9': ['그린주변벙커', '#e8d9a8'], '10': ['홀인', '#c6ff00'], '12': ['프린지', '#9cc65e'] };
+  const S = { hole: 12, round: 1, cam: 'tee', vex: 1, field: false, app: false };
+  const par = h => D.holes[h].par;
+  const sh = (r, h) => D.shots[r + '-' + h];
+  const strokes = (r, h) => sh(r, h).length - 1;
+
+  // ---------- scorecard
+  const cls = d => d <= -2 ? 's-eagle' : d === -1 ? 's-birdie' : d === 0 ? 's-par' : d === 1 ? 's-bogey' : 's-double';
+  (function () {
+    const t = document.getElementById('sc');
+    let h = '<thead><tr><th class="lab">홀</th>';
+    for (let i = 1; i <= 18; i++) h += `<th data-col="${i}">${i}</th>`;
+    h += '<th>합계</th></tr><tr><th class="lab">파</th>';
+    for (let i = 1; i <= 18; i++) h += `<th data-col="${i}">${par(i)}</th>`;
+    h += '<th>72</th></tr></thead><tbody>';
+    for (let r = 1; r <= 4; r++) {
+      let tot = 0; h += `<tr data-row="${r}"><td class="lab"><span style="color:${RC[r - 1]}">●</span> ${r}R</td>`;
+      for (let i = 1; i <= 18; i++) { const s = strokes(r, i); tot += s; h += `<td class="cell ${cls(s - par(i))}" data-col="${i}" data-r="${r}" tabindex="0" aria-label="${r}라운드 ${i}번 홀 ${s}타"><span>${s}</span></td>`; }
+      h += `<td class="tot">${tot}</td></tr>`;
+    }
+    h += '<tr class="delta"><td class="lab">필드 대비</td>'; let ds = 0;
+    for (let i = 1; i <= 18; i++) { let d = 0; for (let r = 1; r <= 4; r++) d += strokes(r, i) - D.holes[i].avg[r]; ds += d; h += `<td data-col="${i}" class="${d >= .75 ? 'lose' : d <= -.75 ? 'gain' : ''}">${d > 0 ? '+' : ''}${d.toFixed(1)}</td>`; }
+    h += `<td>${ds > 0 ? '+' : ''}${ds.toFixed(1)}</td></tr></tbody>`;
+    t.innerHTML = h;
+    t.addEventListener('click', e => { const c = e.target.closest('td.cell'); if (c) pick(+c.dataset.col, +c.dataset.r); });
+    t.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('td.cell')) { e.preventDefault(); pick(+e.target.dataset.col, +e.target.dataset.r); } });
+  })();
+
+  // ---------- terrain sampling
+  const T = D.terrain; const Hm = Int16Array.from(T.h_dm);
+  let hmin = Infinity; for (const v of Hm) hmin = Math.min(hmin, v / 10);
+  const H0 = hmin;
+  function ground(e, n) { // bilinear, metres above sea level
+    const fx = (e - T.e0) / T.dx, fy = (n - T.n0) / T.dy;
+    const x0 = Math.max(0, Math.min(T.nx - 2, Math.floor(fx))), y0 = Math.max(0, Math.min(T.ny - 2, Math.floor(fy)));
+    const ax = Math.min(1, Math.max(0, fx - x0)), ay = Math.min(1, Math.max(0, fy - y0));
+    const g = (x, y) => Hm[y * T.nx + x] / 10;
+    return g(x0, y0) * (1 - ax) * (1 - ay) + g(x0 + 1, y0) * ax * (1 - ay) + g(x0, y0 + 1) * (1 - ax) * ay + g(x0 + 1, y0 + 1) * ax * ay;
+  }
+  const W = (e, n, alt) => new THREE.Vector3(e, (alt - H0) * S.vex, -n);
+
+  // ---------- three setup
+  const canvas = document.getElementById('gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1)); renderer.setClearColor(0x0a0c09);
+  const scene = new THREE.Scene(); scene.fog = new THREE.Fog(0x0a0c09, 1400, 3200);
+  const camera = new THREE.PerspectiveCamera(45, 1.6, 1, 8000);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true; controls.maxPolarAngle = Math.PI * 0.495; controls.minDistance = 20; controls.maxDistance = 2600;
+  scene.add(new THREE.HemisphereLight(0xdfe8d0, 0x1a2014, 0.75));
+  const sun = new THREE.DirectionalLight(0xfff2dc, 0.85); sun.position.set(-600, 900, 400); scene.add(sun);
+
+  let terrainMesh = null, holeMeshes = [], layer = new THREE.Group(); scene.add(layer);
+  const loader = new THREE.TextureLoader(); const tex = {};
+
+  function buildTerrain() {
+    if (terrainMesh) { scene.remove(terrainMesh); terrainMesh.geometry.dispose(); }
+    const step = 2, nx = Math.floor((T.nx - 1) / step) + 1, ny = Math.floor((T.ny - 1) / step) + 1;
+    const pos = new Float32Array(nx * ny * 3), col = new Float32Array(nx * ny * 3), idx = [];
+    const c1 = new THREE.Color('#1f2a18'), c2 = new THREE.Color('#4a5a33'), c3 = new THREE.Color('#8a8a63');
+    let hmax = -Infinity; for (const v of Hm) hmax = Math.max(hmax, v / 10);
+    for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+      const gx = i * step, gy = j * step, h = Hm[gy * T.nx + gx] / 10, k = (j * nx + i) * 3;
+      const e = T.e0 + gx * T.dx, n = T.n0 + gy * T.dy;
+      pos[k] = e; pos[k + 1] = (h - H0) * S.vex; pos[k + 2] = -n;
+      const t = (h - H0) / (hmax - H0); const c = t < .5 ? c1.clone().lerp(c2, t * 2) : c2.clone().lerp(c3, (t - .5) * 2);
+      col[k] = c.r; col[k + 1] = c.g; col[k + 2] = c.b;
+    }
+    for (let j = 0; j < ny - 1; j++) for (let i = 0; i < nx - 1; i++) { const a = j * nx + i, b = a + 1, c = a + nx, d = c + 1; idx.push(a, c, b, b, c, d); }
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('color', new THREE.BufferAttribute(col, 3)); g.setIndex(idx); g.computeVertexNormals();
+    terrainMesh = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ vertexColors: true })); scene.add(terrainMesh);
+  }
+  function buildHoles() {
+    holeMeshes.forEach(m => { scene.remove(m); m.geometry.dispose(); }); holeMeshes = [];
+    for (let h = 1; h <= 18; h++) {
+      const M = D.affine[h], gu = 40, gv = 28, pos = [], uv = [], idx = [];
+      for (let j = 0; j <= gv; j++) for (let i = 0; i <= gu; i++) {
+        const u = 650 * i / gu, v = 433 * j / gv;
+        const e = M[0][0] * u + M[0][1] * v + M[0][2], n = M[1][0] * u + M[1][1] * v + M[1][2];
+        const p = W(e, n, ground(e, n) + 0.6); pos.push(p.x, p.y, p.z); uv.push(i / gu, 1 - j / gv);
+      }
+      for (let j = 0; j < gv; j++) for (let i = 0; i < gu; i++) { const a = j * (gu + 1) + i, b = a + 1, c = a + gu + 1, d = c + 1; idx.push(a, c, b, b, c, d); }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+      const url = `images/h${h}.png`; if (!tex[url]) { tex[url] = loader.load(url, () => render()); tex[url].anisotropy = 8; }
+      const m = new THREE.Mesh(g, new THREE.MeshLambertMaterial({ map: tex[url], transparent: true, alphaTest: 0.05, polygonOffset: true, polygonOffsetFactor: -2, depthWrite: true }));
+      m.userData.hole = h; scene.add(m); holeMeshes.push(m);
+    }
+  }
+
+  function label(text, color) {
+    const c = document.createElement('canvas'); c.width = 64; c.height = 64; const g = c.getContext('2d');
+    g.fillStyle = 'rgba(13,15,12,.85)'; g.beginPath(); g.arc(32, 32, 26, 0, Math.PI * 2); g.fill(); g.strokeStyle = color; g.lineWidth = 4; g.stroke();
+    g.fillStyle = '#ecebe3'; g.font = '600 30px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, 32, 34);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false })); sp.renderOrder = 10; sp.scale.set(9, 9, 1); return sp;
+  }
+  const ballY = s => Math.max(s.alt == null ? -1e9 : s.alt, ground(s.e, s.nn) + 0.4);
+
+  const REG = {}; // REG[r] = [{line, marks:[...], pts, a, b}] per shot index (1-based)
+  function addRound(r, labels) {
+    const col = new THREE.Color(RC[r - 1]); const L = sh(r, S.hole); REG[r] = [];
+    const mat = new THREE.LineBasicMaterial({ color: col });
+    const tee = L[0]; const tp = W(tee.e, tee.nn, ground(tee.e, tee.nn) + 0.4);
+    const teeM = new THREE.Mesh(new THREE.BoxGeometry(4, 1, 4), new THREE.MeshBasicMaterial({ color: col })); teeM.position.copy(tp); layer.add(teeM);
+    for (let i = 1; i < L.length; i++) {
+      const a = L[i - 1], b = L[i];
+      const pa = i === 1 ? tp.clone() : W(a.e, a.nn, ballY(a)), pb = W(b.e, b.nn, ballY(b));
+      const putt = a.st === '3', d = Math.hypot(b.e - a.e, b.nn - a.nn), pts = [];
+      const hgt = putt ? 0 : Math.min(38, d * (d < 25 ? 0.08 : 0.13)) * S.vex;
+      for (let k = 0; k <= 40; k++) {
+        const t = k / 40, e = a.e + (b.e - a.e) * t, n = a.nn + (b.nn - a.nn) * t;
+        let y = pa.y + (pb.y - pa.y) * t + Math.sin(Math.PI * t) * hgt;
+        if (putt) y = (ground(e, n) + 0.4 - H0) * S.vex;
+        pts.push(new THREE.Vector3(e, y, -n));
+      }
+      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), mat); layer.add(line);
+      const marks = [];
+      const lie = LIE[b.st] || ['?', '#fff'];
+      const m = new THREE.Mesh(new THREE.SphereGeometry(b.st === '10' ? 1.6 : 1.3, 16, 12), new THREE.MeshStandardMaterial({ color: b.st === '10' ? col : new THREE.Color(lie[1]), emissive: col, emissiveIntensity: .35 }));
+      m.position.copy(pb); m.position.y += 1; layer.add(m); marks.push(m);
+      if (b.st === '10') {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(.18, .18, 9, 6), new THREE.MeshBasicMaterial({ color: 0xecebe3 })); pole.position.set(pb.x, pb.y + 4.5, pb.z); layer.add(pole); marks.push(pole);
+        const flag = new THREE.Mesh(new THREE.PlaneGeometry(3, 2), new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide })); flag.position.set(pb.x + 1.5, pb.y + 8, pb.z); layer.add(flag); marks.push(flag);
+      }
+      if (labels) { const l = label(String(b.n), RC[r - 1]); l.position.set(pb.x, pb.y + 6, pb.z); layer.add(l); marks.push(l); }
+      REG[r][i] = { line, marks, pts, a, b, putt, d };
+    }
+  }
+  function addField() {
+    const pos = [];
+    (S.round ? [S.round] : [1, 2, 3, 4]).forEach(r => (D.field_tee[r + '-' + S.hole] || []).forEach(([e, n]) => { const p = W(e, n, ground(e, n) + 0.8); pos.push(p.x, p.y, p.z); }));
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    layer.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xecebe3, size: 2.2, transparent: true, opacity: .55 }))); return pos.length / 3;
+  }
+  let appStat = { n: 0, on: 0 };
+  function addApp() {
+    let n = 0, on = 0; const mOn = new THREE.LineBasicMaterial({ color: 0xd4af37 }), mOff = new THREE.LineBasicMaterial({ color: 0x9a9c8f, transparent: true, opacity: .6 });
+    (S.round ? [S.round] : [1, 2, 3, 4]).forEach(r => (D.field_rough_app[r + '-' + S.hole] || []).forEach(([e1, n1, e2, n2, ok]) => {
+      n++; on += ok; const pts = [], d = Math.hypot(e2 - e1, n2 - n1), y1 = ground(e1, n1) + .5, y2 = ground(e2, n2) + .5;
+      for (let k = 0; k <= 24; k++) { const t = k / 24; pts.push(new THREE.Vector3(e1 + (e2 - e1) * t, (y1 + (y2 - y1) * t - H0) * S.vex + Math.sin(Math.PI * t) * d * .12 * S.vex, -(n1 + (n2 - n1) * t))); }
+      layer.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), ok ? mOn : mOff));
+    }));
+    return { n, on };
+  }
+  let fieldN = 0;
+  function draw() {
+    stopPlay(true);
+    scene.remove(layer); layer.traverse(o => o.geometry && o.geometry.dispose()); layer = new THREE.Group(); scene.add(layer);
+    holeMeshes.forEach(m => { m.material.opacity = m.userData.hole === S.hole ? 1 : .55; });
+    fieldN = S.field ? addField() : 0;
+    appStat = S.app ? addApp() : { n: 0, on: 0 };
+    if (S.round) addRound(S.round, true); else [1, 2, 3, 4].forEach(r => addRound(r, false));
+    render();
+  }
+
+  function setCam(kind) {
+    S.cam = kind; document.querySelectorAll('#camSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.cam === kind));
+    const L = sh(S.round || 1, S.hole), tee = L[0], pin = L[L.length - 1];
+    const tp = W(tee.e, tee.nn, ground(tee.e, tee.nn)), pp = W(pin.e, pin.nn, ballY(pin));
+    const dir = pp.clone().sub(tp); dir.y = 0; const len = dir.length(); dir.normalize();
+    const side = new THREE.Vector3(-dir.z, 0, dir.x);
+    if (kind === 'tee') { const c = tp.clone().addScaledVector(dir, -45); c.y += 28 * S.vex + 14; camera.position.copy(c); controls.target.copy(tp.clone().lerp(pp, .55)); }
+    else if (kind === 'hole') { const mid = tp.clone().lerp(pp, .5); const c = mid.clone().addScaledVector(side, len * .75); c.y += len * .55; camera.position.copy(c); controls.target.copy(mid); }
+    else if (kind === 'green') { const c = pp.clone().addScaledVector(dir, -55).addScaledVector(side, 18); c.y += 30; camera.position.copy(c); controls.target.copy(pp); }
+    else { camera.position.set(150, 620, 700); controls.target.set(0, 20, 0); }
+    controls.update(); render();
+  }
+  function resize() { const r = canvas.getBoundingClientRect(); renderer.setSize(r.width, r.height, false); camera.aspect = r.width / Math.max(1, r.height); camera.updateProjectionMatrix(); render(); }
+  let raf = 0; function render() { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderer.render(scene, camera); }); }
+  controls.addEventListener('change', render); (function loop() { controls.update(); requestAnimationFrame(loop); })();
+  new ResizeObserver(resize).observe(canvas);
+
+  // ---------- playback
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const P = { on: false, queue: [], qi: 0, t: 0, phase: 'fly', hold: 0, speed: 1, follow: true, ball: null, camPos: null, camTgt: null };
+  const cap = document.getElementById('caption'), playBtn = document.getElementById('pPlay');
+  function rounds() { return S.round ? [S.round] : [1, 2, 3, 4]; }
+  function buildQueue() { P.queue = []; rounds().forEach(r => { (REG[r] || []).forEach((x, i) => { if (x) P.queue.push({ r, i }); }); }); }
+  function setVisibleUpTo(qi, partial) {
+    P.queue.forEach((q, k) => {
+      const x = REG[q.r][q.i], done = k < qi, cur = k === qi;
+      x.line.visible = done || cur; x.marks.forEach(m => m.visible = done);
+      x.line.geometry.setDrawRange(0, done ? Infinity : (cur ? Math.max(2, Math.ceil(partial * x.pts.length)) : 0));
+    });
+  }
+  function showAll() { Object.values(REG).forEach(arr => arr.forEach(x => { if (!x) return; x.line.visible = true; x.line.geometry.setDrawRange(0, Infinity); x.marks.forEach(m => m.visible = true); })); }
+  function ensureBall() {
+    if (P.ball) return; P.ball = new THREE.Mesh(new THREE.SphereGeometry(1.5, 18, 14), new THREE.MeshStandardMaterial({ color: 0xffffff, emissive: 0x666666 }));
+    scene.add(P.ball);
+  }
+  function durOf(x) { const base = x.putt ? 0.5 + x.d / 12 : 0.7 + x.d / 110; return Math.min(4, base) / P.speed; }
+  function caption(q) {
+    const x = REG[q.r][q.i], a = x.a, b = x.b, from = q.i === 1 ? '티' : (LIE[a.st] || ['?'])[0], to = (LIE[b.st] || ['?'])[0];
+    const za = q.i === 1 ? ground(a.e, a.nn) : a.alt, dz = b.alt - za;
+    cap.hidden = false;
+    cap.innerHTML = `<div class="t">${q.r}R · ${S.hole}번 홀 · SHOT ${q.i}</div><div class="d">${from} → ${to} · <b>${b.len.toFixed(1)}</b>yd · ${b.st === '10' ? '<b>홀인</b>' : '남은 거리 <b>' + b.rem.toFixed(1) + '</b>yd'} · 고저 <b>${dz > 0 ? '+' : ''}${dz.toFixed(1)}</b>m</div>`;
+    document.querySelectorAll('#shotRows tr').forEach(tr => tr.classList.toggle('now', (S.round || 1) === q.r && +tr.dataset.i === q.i));
+  }
+  function aimCam(q, snap) {
+    const x = REG[q.r][q.i], s0 = x.pts[0], s1 = x.pts[x.pts.length - 1];
+    const dir = s1.clone().sub(s0); dir.y = 0; if (dir.length() < .01) dir.set(1, 0, 0); dir.normalize();
+    const back = x.putt ? 14 : Math.min(70, 22 + x.d * .18), up = x.putt ? 7 : 14 + x.d * .06;
+    P.camPos = s0.clone().addScaledVector(dir, -back); P.camPos.y += up * (S.vex > 1 ? 1.4 : 1);
+    P.camTgt = s0.clone().lerp(s1, x.putt ? .7 : .6);
+    if (snap) { camera.position.copy(P.camPos); controls.target.copy(P.camTgt); controls.update(); }
+  }
+  function startShot(snap) {
+    const q = P.queue[P.qi]; if (!q) { finish(); return; }
+    P.t = 0; P.phase = 'fly'; caption(q); if (P.follow) aimCam(q, snap);
+    setVisibleUpTo(P.qi, 0);
+  }
+  function play() {
+    if (!P.queue.length) buildQueue();
+    if (P.qi >= P.queue.length) P.qi = 0;
+    ensureBall(); P.ball.visible = true; P.on = true; playBtn.textContent = '⏸ 일시정지'; playBtn.setAttribute('aria-label', '일시정지');
+    startShot(P.t === 0 && P.qi === 0);
+  }
+  function pause() { P.on = false; playBtn.textContent = '▶ 재생'; playBtn.setAttribute('aria-label', '재생'); }
+  function finish() { pause(); P.qi = 0; P.t = 0; P.queue = []; if (P.ball) P.ball.visible = false; showAll(); cap.hidden = true; document.querySelectorAll('#shotRows tr').forEach(tr => tr.classList.remove('now')); render(); }
+  function stopPlay(silent) { P.on = false; P.qi = 0; P.t = 0; P.queue = []; if (P.ball) P.ball.visible = false; if (cap) cap.hidden = true; if (playBtn) { playBtn.textContent = '▶ 재생'; playBtn.setAttribute('aria-label', '재생'); } }
+  function step(delta) {
+    if (!P.queue.length) buildQueue();
+    P.on = false; P.qi = Math.max(0, Math.min(P.queue.length - 1, P.qi + delta)); P.t = 0;
+    ensureBall(); P.ball.visible = true; startShot(false);
+    const x = REG[P.queue[P.qi].r][P.queue[P.qi].i]; setVisibleUpTo(P.qi, 1); P.ball.position.copy(x.pts[x.pts.length - 1]); P.ball.position.y += 1.2;
+    playBtn.textContent = '▶ 재생'; render();
+  }
+  let last = performance.now();
+  function tick(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    if (P.on) {
+      const q = P.queue[P.qi], x = REG[q.r][q.i];
+      if (P.phase === 'fly') {
+        P.t += dt / (reduce ? 0.001 : durOf(x));
+        const u = Math.min(1, P.t), k = u * (x.pts.length - 1), k0 = Math.floor(k), f = k - k0;
+        const p = x.pts[Math.min(k0, x.pts.length - 1)].clone().lerp(x.pts[Math.min(k0 + 1, x.pts.length - 1)], f);
+        P.ball.position.copy(p); P.ball.position.y += 1.2;
+        setVisibleUpTo(P.qi, u);
+        if (u >= 1) { P.phase = 'hold'; P.hold = reduce ? 1.2 : 0.7 / P.speed; setVisibleUpTo(P.qi + 1, 0); }
+      } else { P.hold -= dt; if (P.hold <= 0) { P.qi++; if (P.qi >= P.queue.length) finish(); else startShot(false); } }
+      if (P.follow && P.camPos && !reduce) { camera.position.lerp(P.camPos, 1 - Math.pow(.02, dt)); controls.target.lerp(P.camTgt, 1 - Math.pow(.02, dt)); }
+      else if (P.follow && P.camPos && reduce) { camera.position.copy(P.camPos); controls.target.copy(P.camTgt); }
+      controls.update(); render();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+  playBtn.addEventListener('click', () => P.on ? pause() : play());
+  document.getElementById('pPrev').addEventListener('click', () => step(-1));
+  document.getElementById('pNext').addEventListener('click', () => step(1));
+  document.getElementById('pSpeed').addEventListener('click', e => { P.speed = P.speed === 1 ? 2 : 1; e.currentTarget.textContent = P.speed + '×'; });
+  document.getElementById('pFollow').addEventListener('change', e => { P.follow = e.target.checked; });
+
+  // ---------- panels
+  function panel() {
+    const h = D.holes[S.hole], r = S.round || 1, L = sh(r, S.hole);
+    document.getElementById('holeTitle').textContent = `${S.hole}번 홀 · 파${['', '', '', '쓰리', '포', '파이브'][h.par]}`;
+    const tee = L[0], pin = L[L.length - 1], teeG = ground(tee.e, tee.nn), dz = pin.alt - teeG;
+    document.getElementById('holeKv').innerHTML = `<div><dt>거리 (${r}R)</dt><dd>${h.yds[r]}</dd></div><div><dt>필드 평균</dt><dd>${h.avg[r].toFixed(2)}</dd></div><div><dt>난이도</dt><dd>${h.rank[r]}위</dd></div><div><dt>티→핀 고저</dt><dd>${dz > 0 ? '+' : ''}${dz.toFixed(0)}m</dd></div>`;
+    let rb = ''; for (let k = 1; k <= 4; k++) { const s = strokes(k, S.hole), d = s - h.par; rb += `<button type="button" data-r="${k}" aria-pressed="${S.round === k}"><small style="color:${RC[k - 1]}">${k}R</small><b>${s}</b><small>${d === 0 ? '파' : (d > 0 ? '+' + d : d)}</small></button>`; }
+    const hr = document.getElementById('holeRounds'); hr.innerHTML = rb; hr.querySelectorAll('button').forEach(b => b.onclick = () => pick(S.hole, +b.dataset.r));
+    document.getElementById('shotTitle').textContent = `${r}R 샷 기록 · ${L.length - 1}타`;
+    let prevAlt = teeG;
+    document.getElementById('shotRows').innerHTML = L.slice(1).map((s, i) => {
+      const l = LIE[s.st] || [s.st, '#fff'], dz = s.alt - prevAlt; const approx = i === 0 ? '≈' : ''; prevAlt = s.alt;
+      return `<tr data-i="${s.n}"><td class="n">${s.n}</td><td><span class="lie" style="background:${l[1]}"></span>${l[0]}</td><td class="num">${s.len.toFixed(1)}</td><td class="num">${s.st === '10' ? '홀인' : s.rem.toFixed(1)}</td><td class="num">${approx}${dz > 0 ? '+' : ''}${dz.toFixed(1)}</td></tr>`;
+    }).join('');
+    document.getElementById('shotNote').textContent = '고저 = 앞 위치 대비 공이 멈춘 곳의 해발 고도 차이(실측). 1번 샷의 티 고도는 지형 자료 값이라 ≈ 표시.' + (S.round ? '' : ' 라운드를 고르지 않으면 1R 기록을 보여줍니다.');
+    const ab = document.getElementById('appBox'); ab.hidden = !S.app;
+    if (S.app) document.getElementById('appText').innerHTML = appStat.n
+      ? `<div><span class="big">${appStat.on}/${appStat.n}</span> &nbsp;필드가 그린에 올린 샷 (${Math.round(appStat.on / appStat.n * 100)}%)</div><div>대회 전체: 필드 <b>42.2%</b> (221/524), 김새로미 <b>4/10</b>. 시즌 김새로미 같은 조건: 1R <b>34%</b>, 2R <b>63%</b>.</div><div>금색 = 그린 적중, 회색 = 그린 놓침.</div>`
+      : '이 홀·라운드에는 필드에서 이 조건의 샷이 없습니다.';
+    drawGreen();
+  }
+  const gimg = {};
+  function drawGreen() {
+    const c = document.getElementById('green'), g = c.getContext('2d'), url = `images/g${S.hole}.jpg`;
+    const go = img => {
+      g.drawImage(img, 0, 0, 650, 433);
+      (S.round ? [S.round] : [1, 2, 3, 4]).forEach(r => { let prev = null; sh(r, S.hole).slice(1).forEach(s => {
+        if (!['3', '10', '12'].includes(s.st)) { prev = null; return; }
+        g.strokeStyle = RC[r - 1]; g.lineWidth = 3; if (prev) { g.beginPath(); g.moveTo(prev.gx, prev.gy); g.lineTo(s.gx, s.gy); g.stroke(); }
+        g.beginPath(); g.arc(s.gx, s.gy, s.st === '10' ? 9 : 7, 0, Math.PI * 2); g.fillStyle = s.st === '10' ? RC[r - 1] : 'rgba(13,15,12,.85)'; g.fill(); g.stroke();
+        if (s.st !== '10') { g.fillStyle = '#ecebe3'; g.font = '600 11px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s.n, s.gx, s.gy + 1); }
+        prev = s; }); });
+    };
+    if (gimg[url] && gimg[url].complete) go(gimg[url]); else { const im = new Image(); im.onload = () => go(im); im.src = url; gimg[url] = im; }
+  }
+
+  // ---------- controls
+  const seg = document.getElementById('roundSeg');
+  seg.innerHTML = ['전체', '1R', '2R', '3R', '4R'].map((t, i) => `<button type="button" data-r="${i}" aria-pressed="${i === S.round}">${t}</button>`).join('');
+  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(S.hole, +b.dataset.r); });
+  document.getElementById('camSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setCam(b.dataset.cam); });
+  document.getElementById('vexSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; S.vex = +b.dataset.v; document.querySelectorAll('#vexSeg button').forEach(x => x.setAttribute('aria-pressed', x === b)); buildTerrain(); buildHoles(); draw(); setCam(S.cam); });
+  document.getElementById('fieldToggle').addEventListener('change', e => { S.field = e.target.checked; draw(); panel(); });
+  document.getElementById('appToggle').addEventListener('change', e => { S.app = e.target.checked; draw(); panel(); });
+  document.getElementById('sceneBtn').addEventListener('click', () => { S.app = true; document.getElementById('appToggle').checked = true; S.cam = 'tee'; pick(12, 1); play(); });
+  function pick(hole, round) {
+    S.hole = hole; S.round = round; seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.r === round));
+    document.querySelectorAll('#sc [data-col]').forEach(el => el.classList.toggle('selcol', +el.dataset.col === S.hole));
+    document.querySelectorAll('#sc tr[data-row]').forEach(el => el.classList.toggle('sel-round', +el.dataset.row === S.round));
+    draw(); panel(); setCam(S.cam);
+  }
+  buildTerrain(); buildHoles(); resize();
+  document.getElementById('loading').hidden = true; document.getElementById('loading').style.display = 'none';
+  pick(12, 1);
+})();
+</script>

@@ -1,0 +1,51 @@
+{
+ "player_code": "8380",
+ "player_name": "김새로미",
+ "season": "2026",
+ "endpoint": "/ajax/leaderboard/getShotTracker",
+ "official_profile": "source/profile_getToursRecord_2026.json",
+ "raw_layout": "2026/raw/<gameCode>/player_shot/8380/R<round>/H<hole>.json",
+ "join_keys": {
+  "event": [
+   "game_code"
+  ],
+  "round": [
+   "game_code",
+   "round"
+  ],
+  "hole": [
+   "game_code",
+   "round",
+   "hole"
+  ],
+  "shot": [
+   "game_code",
+   "player_code",
+   "round",
+   "hole",
+   "shot"
+  ]
+ },
+ "counts": {
+  "events": 26,
+  "rounds_with_raw": 74,
+  "hole_files": 1332,
+  "shot_rows": 5369
+ },
+ "official_record_summary": {
+  "joinGameNum": "26",
+  "getGameNum": "14",
+  "cutPassCnt": "14",
+  "cutOffCnt": "12",
+  "abstentionCnt": "1",
+  "money": "168907262",
+  "moneyRank": "59",
+  "avgScore": "72.7711"
+ },
+ "normalized": [
+  "2026/normalized/events.csv",
+  "2026/normalized/rounds.csv",
+  "2026/normalized/holes.csv",
+  "2026/normalized/shots.csv"
+ ]
+}

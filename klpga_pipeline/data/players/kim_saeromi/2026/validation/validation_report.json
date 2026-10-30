@@ -1,0 +1,507 @@
+{
+ "player_code": "8380",
+ "season": "2026",
+ "result": "PASS",
+ "status_counts": {
+  "PASS": 19,
+  "INFO": 6,
+  "WARN": 1
+ },
+ "checks": [
+  {
+   "id": "A1",
+   "status": "PASS",
+   "title": "Every official round has raw data and vice versa",
+   "detail": {
+    "official_events": 26,
+    "official_rounds": 74,
+    "raw_events": 26,
+    "raw_rounds": 74,
+    "missing_raw_rounds": [],
+    "raw_rounds_not_in_official": [],
+    "official_joinGameNum": "26"
+   }
+  },
+  {
+   "id": "A2",
+   "status": "PASS",
+   "title": "Each raw round has holes 1-18",
+   "detail": null
+  },
+  {
+   "id": "A3",
+   "status": "PASS",
+   "title": "No conflicting re-collections (sha-suffixed copies)",
+   "detail": null
+  },
+  {
+   "id": "A4",
+   "status": "PASS",
+   "title": "Stated events count",
+   "detail": {
+    "stated": 26,
+    "actual": 26
+   }
+  },
+  {
+   "id": "A4",
+   "status": "PASS",
+   "title": "Stated rounds count",
+   "detail": {
+    "stated": 74,
+    "actual": 74
+   }
+  },
+  {
+   "id": "A4",
+   "status": "PASS",
+   "title": "Stated hole files count",
+   "detail": {
+    "stated": 1332,
+    "actual": 1332
+   }
+  },
+  {
+   "id": "B1",
+   "status": "PASS",
+   "title": "Stored raw bytes still match intake sha256",
+   "detail": null
+  },
+  {
+   "id": "B2",
+   "status": "PASS",
+   "title": "Collector error log is empty",
+   "detail": null
+  },
+  {
+   "id": "C1",
+   "status": "PASS",
+   "title": "Response structure identical across files; top-level blocks equal model blocks",
+   "detail": null
+  },
+  {
+   "id": "D1",
+   "status": "PASS",
+   "title": "gameCode/round/hole/playerCode inside every response match its path",
+   "detail": null
+  },
+  {
+   "id": "E1",
+   "status": "PASS",
+   "title": "Shots are 1..n per hole, exactly one HOLED(10), and it is the last shot",
+   "detail": null
+  },
+  {
+   "id": "F1",
+   "status": "PASS",
+   "title": "All pp_state codes are in the official table",
+   "detail": {
+    "state_counts": {
+     "1": 837,
+     "2": 717,
+     "3": 2216,
+     "4": 2,
+     "5": 12,
+     "6": 39,
+     "7": 6,
+     "8": 23,
+     "9": 45,
+     "10": 1332,
+     "12": 140
+    },
+    "unknown": {}
+   }
+  },
+  {
+   "id": "F2",
+   "status": "PASS",
+   "title": "No shot fields outside the known set",
+   "detail": null
+  },
+  {
+   "id": "G1",
+   "status": "INFO",
+   "title": "pp_distance on the HOLED shot (consistent with a remaining-to-hole distance if all 0)",
+   "detail": {
+    "n": 1332,
+    "values": {
+     "0.0": 1332
+    }
+   }
+  },
+  {
+   "id": "H1",
+   "status": "PASS",
+   "title": "Stroke-play rounds: shot rows == official round score",
+   "detail": {
+    "stroke_play_rounds": 70,
+    "match": 70,
+    "mismatch": []
+   }
+  },
+  {
+   "id": "H2",
+   "status": "INFO",
+   "title": "Non-stroke-play rounds excluded from score comparison (official value is not a stroke total)",
+   "detail": [
+    {
+     "game_code": "2026100004",
+     "title": "2026 HJ중공업 · 동부건설 챔피언십",
+     "round": 1,
+     "official": "8",
+     "shot_rows": 69,
+     "game_type": "2"
+    },
+    {
+     "game_code": "2026100004",
+     "title": "2026 HJ중공업 · 동부건설 챔피언십",
+     "round": 2,
+     "official": "13",
+     "shot_rows": 66,
+     "game_type": "2"
+    },
+    {
+     "game_code": "2026100004",
+     "title": "2026 HJ중공업 · 동부건설 챔피언십",
+     "round": 3,
+     "official": "8",
+     "shot_rows": 68,
+     "game_type": "2"
+    },
+    {
+     "game_code": "2026100004",
+     "title": "2026 HJ중공업 · 동부건설 챔피언십",
+     "round": 4,
+     "official": "4",
+     "shot_rows": 70,
+     "game_type": "2"
+    }
+   ]
+  },
+  {
+   "id": "H3",
+   "status": "PASS",
+   "title": "Official schedule lists every event and its gameMethod equals the player record's gameType",
+   "detail": {
+    "not_in_schedule": [],
+    "format_disagreement": [],
+    "non_stroke_events": [
+     "2026100004"
+    ]
+   }
+  },
+  {
+   "id": "I1",
+   "status": "PASS",
+   "title": "Par of a hole is the same in every round of an event",
+   "detail": null
+  },
+  {
+   "id": "I2",
+   "status": "INFO",
+   "title": "Holes whose listed yds differ between rounds (tee changes are normal)",
+   "detail": {
+    "2026030001H14": [
+     "360",
+     "395"
+    ],
+    "2026030001H17": [
+     "142",
+     "164"
+    ],
+    "2026050004H11": [
+     "295",
+     "404"
+    ],
+    "2026070001H8": [
+     "180",
+     "208"
+    ],
+    "2026120001H11": [
+     "486",
+     "549"
+    ],
+    "2026120001H15": [
+     "478",
+     "528"
+    ]
+   }
+  },
+  {
+   "id": "I3",
+   "status": "INFO",
+   "title": "Course par per event (sum of holeInfo.stdScore)",
+   "detail": {
+    "2026030001": [
+     72
+    ],
+    "2026040001": [
+     72
+    ],
+    "2026040002": [
+     72
+    ],
+    "2026040003": [
+     72
+    ],
+    "2026040004": [
+     72
+    ],
+    "2026040005": [
+     72
+    ],
+    "2026050001": [
+     72
+    ],
+    "2026050003": [
+     72
+    ],
+    "2026050004": [
+     72
+    ],
+    "2026060001": [
+     72
+    ],
+    "2026060002": [
+     72
+    ],
+    "2026060003": [
+     71
+    ],
+    "2026060004": [
+     72
+    ],
+    "2026070001": [
+     72
+    ],
+    "2026070002": [
+     73
+    ],
+    "2026070003": [
+     72
+    ],
+    "2026080001": [
+     72
+    ],
+    "2026080002": [
+     72
+    ],
+    "2026080003": [
+     72
+    ],
+    "2026080004": [
+     72
+    ],
+    "2026090002": [
+     72
+    ],
+    "2026090003": [
+     72
+    ],
+    "2026100003": [
+     72
+    ],
+    "2026100004": [
+     72
+    ],
+    "2026100005": [
+     72
+    ],
+    "2026120001": [
+     72
+    ]
+   }
+  },
+  {
+   "id": "J1",
+   "status": "INFO",
+   "title": "Par-4/5 shot 1: pp_distanceLen + pp_distance compared with holeInfo.yds and holeInfo.meter",
+   "detail": {
+    "n": 1032,
+    "median_minus_yds": -9.6,
+    "median_abs_minus_yds": 11.2,
+    "median_minus_meter": 26.7,
+    "median_abs_minus_meter": 26.9,
+    "reading": "the field closer to 0 indicates which unit the distance fields share; it is evidence, not a label from the source"
+   }
+  },
+  {
+   "id": "J2",
+   "status": "INFO",
+   "title": "Observed value ranges (coordinate systems are NOT geographic; see archive README)",
+   "detail": {
+    "bi_gpx": [
+     -472.0,
+     724.0
+    ],
+    "bi_gpy": [
+     535.0,
+     4221.0
+    ],
+    "bi_gx": [
+     40.0,
+     224.0
+    ],
+    "bi_gy": [
+     70.0,
+     312.0
+    ],
+    "bi_sx": [
+     39.0,
+     190.0
+    ],
+    "bi_sy": [
+     169.0,
+     387.0
+    ],
+    "pp_altitude": [
+     -10000.0,
+     37.7
+    ],
+    "pp_distance": [
+     0.0,
+     540.7
+    ],
+    "pp_distanceLen": [
+     0.0,
+     319.7
+    ],
+    "pp_greenx": [
+     -396.0,
+     439.0
+    ],
+    "pp_greeny": [
+     9.0,
+     2047.0
+    ],
+    "pp_x": [
+     13.0,
+     110.0
+    ],
+    "pp_y": [
+     3.0,
+     189.0
+    ]
+   }
+  },
+  {
+   "id": "J3",
+   "status": "WARN",
+   "title": "pp_altitude sentinel values (<= -1000) -- preserved as-is; must be excluded from any elevation use",
+   "detail": {
+    "n": 8,
+    "rows": [
+     {
+      "key": [
+       "2026060003",
+       1,
+       7,
+       1
+      ],
+      "pp_state": "2",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       1,
+       7,
+       2
+      ],
+      "pp_state": "1",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       1,
+       7,
+       3
+      ],
+      "pp_state": "12",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       2,
+       2,
+       3
+      ],
+      "pp_state": "3",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       2,
+       3,
+       3
+      ],
+      "pp_state": "3",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       2,
+       8,
+       3
+      ],
+      "pp_state": "3",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       2,
+       15,
+       3
+      ],
+      "pp_state": "3",
+      "pp_altitude": "-10000.0"
+     },
+     {
+      "key": [
+       "2026060003",
+       2,
+       16,
+       3
+      ],
+      "pp_state": "3",
+      "pp_altitude": "-10000.0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "K1",
+   "status": "PASS",
+   "title": "Normalized CSVs reproduce raw exactly (row counts, raw_json, sha256)",
+   "detail": null
+  },
+  {
+   "id": "K2",
+   "status": "PASS",
+   "title": "Stated shot count",
+   "detail": {
+    "stated": 5369,
+    "actual": 5369
+   }
+  },
+  {
+   "id": "L1",
+   "status": "PASS",
+   "title": "Same shots in independent collection (group endpoint full-field run, branch collector-output/2026100005-shot-tracker-full-field)",
+   "detail": {
+    "events_compared": [
+     "2026100005"
+    ],
+    "shots_compared": 303,
+    "field_diffs": [],
+    "only_in_archive": [],
+    "only_in_other": []
+   }
+  }
+ ]
+}

@@ -1,0 +1,441 @@
+<title>김새로미 하이트진로 3D</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: scorecard band on top (summary), then a 3D hole stage with a data rail beside it; one dark NEO look, single theme by choice */
+:root {
+  color-scheme: dark;
+  --bg: #0d0f0c;          /* NEO black */
+  --panel: #161a14;
+  --panel-2: #1d2219;
+  --line: #2c3326;
+  --fg: #ecebe3;
+  --muted: #9a9c8f;
+  --gold: #d4af37;        /* NEO gold */
+  --neon: #c6ff00;        /* NEO neon */
+  --r1: #c6ff00; --r2: #5ec8ff; --r3: #ff9f43; --r4: #e07bff;
+  --eagle: #f6d55c; --birdie: #4fd1a5; --par: #2a3024; --bogey: #c9774b; --double: #d84b4b;
+  --font-ui: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-num: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--font-ui); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 20px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+.wrap > * { min-width: 0; }
+header { display: grid; gap: 4px; }
+.eyebrow { font-family: var(--font-num); font-size: 12px; letter-spacing: .14em; color: var(--gold); text-transform: uppercase; }
+h1 { margin: 0; font-size: clamp(22px, 3.2vw, 32px); font-weight: 700; text-wrap: balance; }
+.sub { color: var(--muted); }
+.sub b { color: var(--fg); font-weight: 500; }
+
+.card-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+table.sc { border-collapse: collapse; width: 100%; min-width: 760px; font-family: var(--font-num); font-variant-numeric: tabular-nums; font-size: 13px; }
+.sc th, .sc td { text-align: center; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+.sc th { color: var(--muted); font-weight: 500; font-size: 12px; }
+.sc th.lab, .sc td.lab { text-align: left; padding-left: 12px; white-space: nowrap; font-family: var(--font-ui); }
+.sc td.cell { cursor: pointer; }
+.sc td.cell span { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 6px; }
+.sc td.cell:focus-visible span, .sc td.cell:hover span { outline: 2px solid var(--fg); outline-offset: 1px; }
+.s-eagle span { background: var(--eagle); color: #111; }
+.s-birdie span { background: var(--birdie); color: #082018; }
+.s-par span { background: var(--par); }
+.s-bogey span { background: var(--bogey); color: #1a0d05; }
+.s-double span { background: var(--double); color: #fff; }
+.sc tr.sel-round td.lab { color: var(--neon); }
+.sc td.selcol { background: rgba(198,255,0,.07); }
+.sc tr.delta td { color: var(--muted); font-size: 12px; }
+.sc tr.delta td.lose { color: var(--double); }
+.sc tr.delta td.gain { color: var(--birdie); }
+.sc .tot { color: var(--gold); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; color: var(--muted); font-size: 12px; padding: 8px 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; }
+@media (max-width: 900px) { .stage { grid-template-columns: minmax(0, 1fr); } }
+.view { position: relative; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: radial-gradient(ellipse at 50% 30%, #1b2117 0%, var(--bg) 75%); min-height: 420px; aspect-ratio: 16 / 10; max-width: 100%; }
+#gl { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+.toolbar { position: absolute; left: 10px; top: 10px; right: 10px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none; }
+.toolbar > * { pointer-events: auto; }
+.seg { display: inline-flex; background: rgba(13,15,12,.82); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { font: inherit; font-size: 12px; color: var(--muted); background: none; border: 0; padding: 6px 10px; cursor: pointer; }
+.seg button[aria-pressed="true"] { color: #111; background: var(--neon); }
+.seg button:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; }
+.chip { font-size: 12px; color: var(--muted); background: rgba(13,15,12,.82); border: 1px solid var(--line); border-radius: 8px; padding: 5px 10px; display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.chip input { accent-color: var(--neon); margin: 0; }
+button.chip { font: inherit; font-size: 12px; color: var(--gold); border-color: var(--gold); }
+button.chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+#appText b { color: var(--fg); font-weight: 500; }
+#appText .big { font-family: var(--font-num); font-size: 22px; color: var(--fg); }
+.hint { position: absolute; left: 10px; bottom: 10px; font-size: 11px; color: var(--muted); background: rgba(13,15,12,.7); padding: 3px 8px; border-radius: 6px; }
+
+aside { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.box { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 12px 14px; display: grid; gap: 8px; min-width: 0; }
+.box h2 { margin: 0; font-size: 15px; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.box h2 small { color: var(--muted); font-weight: 400; font-size: 12px; }
+.kv { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; margin: 0; }
+@media (max-width: 420px) { .kv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kv div { background: var(--panel-2); border-radius: 8px; padding: 6px 8px; }
+.kv dt { font-size: 11px; color: var(--muted); }
+.kv dd { margin: 0; font-family: var(--font-num); font-size: 16px; font-variant-numeric: tabular-nums; }
+.rounds4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.rounds4 button { font: inherit; background: var(--panel-2); border: 1px solid transparent; border-radius: 8px; color: var(--fg); padding: 6px; cursor: pointer; display: grid; gap: 2px; }
+.rounds4 button[aria-pressed="true"] { border-color: var(--neon); }
+.rounds4 b { font-family: var(--font-num); font-size: 18px; }
+.rounds4 small { color: var(--muted); font-size: 11px; }
+table.shots { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.shots th { color: var(--muted); font-weight: 500; text-align: left; padding: 4px 4px; border-bottom: 1px solid var(--line); font-size: 11px; }
+.shots td { padding: 5px 4px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.shots td.n { font-family: var(--font-num); color: var(--gold); width: 22px; }
+.shots td.num { font-family: var(--font-num); text-align: right; }
+.shots th.num { text-align: right; }
+.lie { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; vertical-align: 0; }
+#green { width: 100%; height: auto; aspect-ratio: 650 / 433; border-radius: 8px; display: block; background: var(--panel-2); }
+.note { color: var(--muted); font-size: 12px; }
+.notes { color: var(--muted); font-size: 12px; display: grid; gap: 4px; max-width: 80ch; }
+.notes b { color: var(--fg); font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">NEO GOLF DATA · Shot Tracker 3D</div>
+    <h1>김새로미 · 제26회 하이트진로 챔피언십</h1>
+    <div class="sub">블루헤런 (동·서) · 2026.10.1–10.4 · 파72 · <b>77-73-75-78 = 303 (+15), T55</b> · 4라운드 72홀 303샷</div>
+  </header>
+
+  <section aria-label="스코어카드">
+    <div class="card-scroll"><table class="sc" id="sc"></table></div>
+    <div class="legend">
+      <span><i style="background:var(--eagle)"></i>이글 이하</span>
+      <span><i style="background:var(--birdie)"></i>버디</span>
+      <span><i style="background:var(--par);border:1px solid var(--line)"></i>파</span>
+      <span><i style="background:var(--bogey)"></i>보기</span>
+      <span><i style="background:var(--double)"></i>더블 이상</span>
+      <span>· 마지막 줄 = 4라운드 합계 − 라운드별 필드 평균 합계 (+ 는 필드보다 많이 친 타수)</span>
+    </div>
+  </section>
+
+  <section class="stage">
+    <div class="view">
+      <canvas id="gl" aria-label="홀 3D 보기"></canvas>
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="라운드" id="roundSeg"></div>
+        <div class="seg" role="group" aria-label="시점" id="camSeg">
+          <button type="button" data-cam="over" aria-pressed="true">전체</button>
+          <button type="button" data-cam="tee">티 방향</button>
+          <button type="button" data-cam="green">그린</button>
+        </div>
+        <label class="chip"><input type="checkbox" id="fieldToggle" checked> 필드 티샷 착지</label>
+        <label class="chip"><input type="checkbox" id="appToggle"> 러프 125–150yd 어프로치 (필드)</label>
+        <button type="button" class="chip" id="sceneBtn">대표 장면 · 1R 12번 홀</button>
+      </div>
+      <div class="hint">드래그 회전 · 휠/핀치 확대</div>
+    </div>
+
+    <aside>
+      <div class="box">
+        <h2 id="holeTitle">1번 홀</h2>
+        <dl class="kv" id="holeKv"></dl>
+        <div class="rounds4" id="holeRounds"></div>
+      </div>
+      <div class="box">
+        <h2><span id="shotTitle">샷 기록</span><small>거리 단위 yd</small></h2>
+        <table class="shots"><thead><tr><th>#</th><th>도착 위치</th><th class="num">샷 거리</th><th class="num">남은 거리</th></tr></thead><tbody id="shotRows"></tbody></table>
+        <p class="note" id="shotNote"></p>
+      </div>
+      <div class="box" id="appBox" hidden>
+        <h2>같은 조건, 필드는? <small>러프 · 핀까지 125–150yd</small></h2>
+        <div id="appText" class="note"></div>
+      </div>
+      <div class="box">
+        <h2>그린 <small>KLPGA 그린 상세 이미지 위 실제 좌표</small></h2>
+        <canvas id="green" width="650" height="433"></canvas>
+      </div>
+    </aside>
+  </section>
+
+  <section class="notes" aria-label="데이터 설명">
+    <div><b>데이터</b> · KLPGA Shot Tracker 선수별 응답(김새로미, playerCode 8380)과 같은 대회 전 필드 107명 응답. 공식 라운드 타수와 샷 수 4라운드 모두 일치.</div>
+    <div><b>지면</b> · KLPGA가 이 대회에 제공한 홀 이미지를 평평한 바닥에 깐 것입니다. 실제 지형 높낮이는 자료에 없어서 반영하지 않았습니다.</div>
+    <div><b>궤적 높이</b> · 공의 실제 비행 높이는 자료에 없습니다. 샷 거리에 비례한 표현용 곡선이며, 퍼트는 바닥에 붙여 그렸습니다.</div>
+    <div><b>1번 샷</b> · 자료의 1번 샷 좌표는 티샷이 떨어진 곳입니다. 티 위치는 자료에 없어 착지 지점만 표시했습니다.</div>
+    <div><b>좌표</b> · 위경도가 아니라 KLPGA 홀 이미지용 화면 좌표이며, KLPGA 사이트의 변환식으로 이미지 위에 올렸습니다.</div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(async function () {
+  const D = await (await fetch('data.json')).json();
+  const RC = ['#c6ff00', '#5ec8ff', '#ff9f43', '#e07bff'];
+  const LIE = { '1': ['페어웨이', '#7fb04a'], '2': ['러프', '#5c7a34'], '3': ['그린', '#b8e07a'], '4': ['OB', '#ffffff'],
+    '5': ['페널티구역', '#3aa0e0'], '6': ['벙커', '#e8d9a8'], '7': ['분실구', '#ffffff'], '8': ['벌타', '#d84b4b'],
+    '9': ['그린주변벙커', '#e8d9a8'], '10': ['홀인', '#c6ff00'], '12': ['프린지', '#9cc65e'] };
+  const S = { hole: 1, round: 0, cam: 'over', field: true, app: false }; // round 0 = 전체
+
+  // ---------- scorecard
+  const par = h => D.holes[h].par;
+  const strokes = (r, h) => D.shots[r + '-' + h].length;
+  const cls = d => d <= -2 ? 's-eagle' : d === -1 ? 's-birdie' : d === 0 ? 's-par' : d === 1 ? 's-bogey' : 's-double';
+  function buildScorecard() {
+    const t = document.getElementById('sc');
+    let h = '<thead><tr><th class="lab">홀</th>';
+    for (let i = 1; i <= 18; i++) h += `<th data-col="${i}">${i}</th>`;
+    h += '<th>합계</th></tr><tr><th class="lab">파</th>';
+    for (let i = 1; i <= 18; i++) h += `<th data-col="${i}">${par(i)}</th>`;
+    h += '<th>72</th></tr></thead><tbody>';
+    for (let r = 1; r <= 4; r++) {
+      let tot = 0;
+      h += `<tr data-row="${r}"><td class="lab"><span style="color:${RC[r - 1]}">●</span> ${r}R</td>`;
+      for (let i = 1; i <= 18; i++) {
+        const s = strokes(r, i); tot += s;
+        h += `<td class="cell ${cls(s - par(i))}" data-col="${i}" data-r="${r}" tabindex="0" aria-label="${r}라운드 ${i}번 홀 ${s}타"><span>${s}</span></td>`;
+      }
+      h += `<td class="tot">${tot}</td></tr>`;
+    }
+    h += '<tr class="delta"><td class="lab">필드 대비</td>';
+    let dsum = 0;
+    for (let i = 1; i <= 18; i++) {
+      let d = 0; for (let r = 1; r <= 4; r++) d += strokes(r, i) - D.holes[i].avg[r];
+      dsum += d;
+      h += `<td data-col="${i}" class="${d >= 0.75 ? 'lose' : d <= -0.75 ? 'gain' : ''}">${d > 0 ? '+' : ''}${d.toFixed(1)}</td>`;
+    }
+    h += `<td>${dsum > 0 ? '+' : ''}${dsum.toFixed(1)}</td></tr></tbody>`;
+    t.innerHTML = h;
+    t.addEventListener('click', e => { const c = e.target.closest('td.cell'); if (c) pick(+c.dataset.col, +c.dataset.r); });
+    t.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('td.cell')) { e.preventDefault(); pick(+e.target.dataset.col, +e.target.dataset.r); } });
+  }
+  function markScorecard() {
+    document.querySelectorAll('#sc [data-col]').forEach(el => el.classList.toggle('selcol', +el.dataset.col === S.hole));
+    document.querySelectorAll('#sc tr[data-row]').forEach(el => el.classList.toggle('sel-round', +el.dataset.row === S.round));
+  }
+
+  // ---------- 3D
+  const canvas = document.getElementById('gl');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1.6, 1, 5000);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true; controls.maxPolarAngle = Math.PI * 0.49; controls.minDistance = 60; controls.maxDistance = 1400;
+  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  const sun = new THREE.DirectionalLight(0xffffff, 0.5); sun.position.set(-200, 400, 200); scene.add(sun);
+
+  const W = 650, H = 433;
+  const toXZ = (u, v) => new THREE.Vector3(u - W / 2, 0, v - H / 2);
+  const loader = new THREE.TextureLoader();
+  const texCache = {};
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(W, H), new THREE.MeshBasicMaterial({ transparent: true }));
+  ground.rotation.x = -Math.PI / 2; scene.add(ground);
+  const base = new THREE.Mesh(new THREE.PlaneGeometry(W + 40, H + 40), new THREE.MeshBasicMaterial({ color: 0x141812 }));
+  base.rotation.x = -Math.PI / 2; base.position.y = -0.6; scene.add(base);
+  const grid = new THREE.GridHelper(760, 38, 0x2c3326, 0x1f251b); grid.position.y = -0.8; scene.add(grid);
+
+  let layer = new THREE.Group(); scene.add(layer);
+
+  function label(text, color) {
+    const c = document.createElement('canvas'); c.width = 64; c.height = 64;
+    const g = c.getContext('2d');
+    g.fillStyle = 'rgba(13,15,12,.85)'; g.beginPath(); g.arc(32, 32, 26, 0, Math.PI * 2); g.fill();
+    g.strokeStyle = color; g.lineWidth = 4; g.stroke();
+    g.fillStyle = '#ecebe3'; g.font = '600 30px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, 32, 34);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false }));
+    sp.scale.set(14, 14, 1); sp.renderOrder = 10; return sp;
+  }
+
+  function addRound(r, withLabels) {
+    const col = new THREE.Color(RC[r - 1]);
+    const shots = D.shots[r + '-' + S.hole];
+    const lineMat = new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.95 });
+    let prev = null;
+    shots.forEach((s, i) => {
+      const p = toXZ(s.x, s.y); p.y = 0.8;
+      if (!prev) {
+        // shot 1: landing only (tee position is not in the data)
+        const g = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(p.x, 46, p.z), new THREE.Vector3(p.x, 0.8, p.z)]);
+        const dl = new THREE.Line(g, new THREE.LineDashedMaterial({ color: col, dashSize: 3, gapSize: 3 }));
+        dl.computeLineDistances(); layer.add(dl);
+      } else {
+        const putt = prev.st === '3';
+        const d = prev.p.distanceTo(p);
+        const hgt = putt ? 0 : Math.min(70, d * (d < 25 ? 0.12 : 0.2));
+        const pts = [];
+        for (let k = 0; k <= 32; k++) {
+          const t = k / 32; const q = prev.p.clone().lerp(p, t); q.y = 0.8 + Math.sin(Math.PI * t) * hgt; pts.push(q);
+        }
+        layer.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), lineMat));
+      }
+      const lie = LIE[s.st] || ['?', '#ffffff'];
+      const m = new THREE.Mesh(new THREE.SphereGeometry(s.st === '10' ? 3.2 : 2.4, 16, 12), new THREE.MeshStandardMaterial({ color: s.st === '10' ? col : new THREE.Color(lie[1]), emissive: col, emissiveIntensity: 0.25 }));
+      m.position.copy(p); m.position.y = 2.4; layer.add(m);
+      if (s.st === '10') {
+        const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 26, 6), new THREE.MeshBasicMaterial({ color: 0xecebe3 }));
+        pole.position.set(p.x, 13, p.z); layer.add(pole);
+        const flag = new THREE.Mesh(new THREE.PlaneGeometry(9, 6), new THREE.MeshBasicMaterial({ color: col, side: THREE.DoubleSide }));
+        flag.position.set(p.x + 4.5, 23, p.z); layer.add(flag);
+      }
+      if (withLabels) { const l = label(String(s.n), RC[r - 1]); l.position.set(p.x, (prev ? 9 : 52), p.z); layer.add(l); }
+      prev = { p, st: s.st };
+    });
+  }
+
+  function addField() {
+    const rounds = S.round ? [S.round] : [1, 2, 3, 4];
+    const pos = [];
+    rounds.forEach(r => (D.field_tee[r + '-' + S.hole] || []).forEach(([u, v, st, me]) => { if (!me) { const q = toXZ(u, v); pos.push(q.x, 1.2, q.z); } }));
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    layer.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0xecebe3, size: 3.2, transparent: true, opacity: 0.45, sizeAttenuation: true })));
+    return pos.length / 3;
+  }
+
+  function addFieldApp() {
+    const rounds = S.round ? [S.round] : [1, 2, 3, 4];
+    const onMat = new THREE.LineBasicMaterial({ color: 0xd4af37, transparent: true, opacity: 0.85 });
+    const offMat = new THREE.LineBasicMaterial({ color: 0x9a9c8f, transparent: true, opacity: 0.55 });
+    let n = 0, on = 0;
+    rounds.forEach(r => (D.field_rough_app[r + '-' + S.hole] || []).forEach(([su, sv, eu, ev, ok, me]) => {
+      if (me) return;
+      n++; on += ok;
+      const a = toXZ(su, sv), b = toXZ(eu, ev), d = a.distanceTo(b), pts = [];
+      for (let k = 0; k <= 24; k++) { const t = k / 24; const q = a.clone().lerp(b, t); q.y = 0.8 + Math.sin(Math.PI * t) * d * 0.16; pts.push(q); }
+      layer.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), ok ? onMat : offMat));
+      const m = new THREE.Mesh(new THREE.SphereGeometry(1.6, 10, 8), new THREE.MeshBasicMaterial({ color: ok ? 0xd4af37 : 0x9a9c8f }));
+      m.position.set(b.x, 1.6, b.z); layer.add(m);
+    }));
+    return { n, on };
+  }
+  let appStat = { n: 0, on: 0 };
+  let fieldN = 0;
+  function drawHole() {
+    scene.remove(layer); layer.traverse(o => { if (o.geometry) o.geometry.dispose(); }); layer = new THREE.Group(); scene.add(layer);
+    const url = `images/h${S.hole}.png`;
+    if (!texCache[url]) { texCache[url] = loader.load(url, () => render()); texCache[url].anisotropy = 4; }
+    ground.material.map = texCache[url]; ground.material.needsUpdate = true;
+    fieldN = S.field ? addField() : 0;
+    appStat = S.app ? addFieldApp() : { n: 0, on: 0 };
+    if (S.round) addRound(S.round, true); else [1, 2, 3, 4].forEach(r => addRound(r, false));
+    setCam(S.cam, false);
+    render();
+  }
+
+  function pinXZ() {
+    const r = S.round || 1; const sh = D.shots[r + '-' + S.hole]; const s = sh[sh.length - 1]; return toXZ(s.x, s.y);
+  }
+  function teeSide() {
+    // direction from the field's average tee landing toward the pin; camera sits behind the landing area
+    const r = S.round || 1; const pts = D.field_tee[r + '-' + S.hole] || [];
+    let u = 0, v = 0; pts.forEach(p => { u += p[0]; v += p[1]; });
+    return pts.length ? toXZ(u / pts.length, v / pts.length) : new THREE.Vector3(-W / 2, 0, 0);
+  }
+  function setCam(kind, userClick) {
+    S.cam = kind;
+    document.querySelectorAll('#camSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.cam === kind));
+    const pin = pinXZ(), land = teeSide();
+    if (kind === 'over') { camera.position.set(0, 470, 300); controls.target.set(0, 0, 0); }
+    else if (kind === 'tee') {
+      const dir = pin.clone().sub(land).normalize();
+      const c = land.clone().sub(dir.clone().multiplyScalar(220)); camera.position.set(c.x, 90, c.z); controls.target.copy(land.clone().lerp(pin, 0.6));
+    } else { camera.position.set(pin.x - 40, 120, pin.z + 110); controls.target.copy(pin); }
+    controls.update(); if (userClick) render();
+  }
+
+  function resize() {
+    const r = canvas.getBoundingClientRect();
+    renderer.setSize(r.width, r.height, false); camera.aspect = r.width / Math.max(1, r.height); camera.updateProjectionMatrix(); render();
+  }
+  let raf = 0;
+  function render() { if (!raf) raf = requestAnimationFrame(() => { raf = 0; renderer.render(scene, camera); }); }
+  controls.addEventListener('change', render);
+  (function loop() { controls.update(); requestAnimationFrame(loop); })();
+  new ResizeObserver(resize).observe(canvas);
+
+  // ---------- side panel
+  const fmt = v => v.toFixed(1);
+  function panel() {
+    const h = D.holes[S.hole], r = S.round || 1;
+    document.getElementById('holeTitle').textContent = `${S.hole}번 홀 · 파${['', '', '', '쓰리', '포', '파이브'][h.par]}`;
+    document.getElementById('holeKv').innerHTML =
+      `<div><dt>거리 (${r}R)</dt><dd>${h.yds[r]}</dd></div><div><dt>필드 평균</dt><dd>${h.avg[r].toFixed(2)}</dd></div>` +
+      `<div><dt>난이도</dt><dd>${h.rank[r]}위</dd></div><div><dt>필드 티샷</dt><dd>${fieldN || '-'}</dd></div>`;
+    let rb = '';
+    for (let k = 1; k <= 4; k++) {
+      const s = strokes(k, S.hole), d = s - h.par;
+      rb += `<button type="button" data-r="${k}" aria-pressed="${S.round === k}"><small style="color:${RC[k - 1]}">${k}R</small><b>${s}</b><small>${d === 0 ? '파' : (d > 0 ? '+' + d : d)}</small></button>`;
+    }
+    const hr = document.getElementById('holeRounds'); hr.innerHTML = rb;
+    hr.querySelectorAll('button').forEach(b => b.onclick = () => pick(S.hole, +b.dataset.r));
+    const sh = D.shots[r + '-' + S.hole];
+    document.getElementById('shotTitle').textContent = `${r}R 샷 기록 · ${sh.length}타`;
+    document.getElementById('shotRows').innerHTML = sh.map(s => {
+      const l = LIE[s.st] || [s.st, '#fff'];
+      return `<tr><td class="n">${s.n}</td><td><span class="lie" style="background:${l[1]}"></span>${l[0]}</td><td class="num">${s.len ? fmt(s.len) : '-'}</td><td class="num">${s.st === '10' ? '홀인' : fmt(s.rem)}</td></tr>`;
+    }).join('');
+    const ab = document.getElementById('appBox'); ab.hidden = !S.app;
+    if (S.app) {
+      const mine = (S.round ? [S.round] : [1, 2, 3, 4]).flatMap(k => (D.field_rough_app[k + '-' + S.hole] || []).filter(a => a[5]));
+      const pct = appStat.n ? Math.round(appStat.on / appStat.n * 100) : 0;
+      document.getElementById('appText').innerHTML = appStat.n
+        ? `<div><span class="big">${appStat.on}/${appStat.n}</span> &nbsp;필드가 그린에 올린 샷 (${pct}%) · ${S.round ? S.round + 'R' : '4라운드'} ${S.hole}번 홀</div>` +
+          `<div>김새로미 같은 조건 샷: ${mine.length ? mine.map(a => a[4] ? '그린 적중' : '그린 놓침').join(', ') : '없음'}</div>` +
+          `<div>대회 전체 18홀: 필드 <b>42.2%</b> (221/524), 김새로미 <b>4/10</b>. 시즌 전체 김새로미 같은 조건: 1R <b>34%</b> (11/32), 2R <b>63%</b> (20/32).</div>` +
+          `<div>금색 = 그린 적중, 회색 = 그린 놓침. 김새로미 본인 샷은 라운드 색 궤적으로 따로 그렸습니다.</div>`
+        : '이 홀·라운드에는 필드에서 이 조건의 샷이 없습니다. 다른 홀이나 전체 라운드를 골라 보세요.';
+    }
+    document.getElementById('shotNote').textContent = S.round ? '' : '라운드를 고르지 않으면 1R 기록을 보여줍니다. 3D 화면은 4라운드를 겹쳐 그렸습니다.';
+    drawGreen();
+  }
+
+  const gimg = {};
+  function drawGreen() {
+    const c = document.getElementById('green'), g = c.getContext('2d');
+    const url = `images/g${S.hole}.jpg`;
+    const go = img => {
+      g.drawImage(img, 0, 0, 650, 433);
+      (S.round ? [S.round] : [1, 2, 3, 4]).forEach(r => {
+        const sh = D.shots[r + '-' + S.hole];
+        let prev = null;
+        sh.forEach(s => {
+          if (!['3', '10', '12'].includes(s.st)) { prev = null; return; }
+          g.strokeStyle = RC[r - 1]; g.lineWidth = 3;
+          if (prev) { g.beginPath(); g.moveTo(prev.gx, prev.gy); g.lineTo(s.gx, s.gy); g.stroke(); }
+          g.beginPath(); g.arc(s.gx, s.gy, s.st === '10' ? 9 : 7, 0, Math.PI * 2);
+          g.fillStyle = s.st === '10' ? RC[r - 1] : 'rgba(13,15,12,.85)'; g.fill(); g.stroke();
+          if (s.st !== '10') { g.fillStyle = '#ecebe3'; g.font = '600 11px "IBM Plex Mono", monospace'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(s.n, s.gx, s.gy + 1); }
+          prev = s;
+        });
+      });
+    };
+    if (gimg[url] && gimg[url].complete) go(gimg[url]);
+    else { const im = new Image(); im.onload = () => go(im); im.src = url; gimg[url] = im; }
+  }
+
+  // ---------- controls
+  const seg = document.getElementById('roundSeg');
+  seg.innerHTML = ['전체', '1R', '2R', '3R', '4R'].map((t, i) => `<button type="button" data-r="${i}" aria-pressed="${i === 0}">${t}</button>`).join('');
+  seg.addEventListener('click', e => { const b = e.target.closest('button'); if (b) pick(S.hole, +b.dataset.r); });
+  document.getElementById('camSeg').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setCam(b.dataset.cam, true); });
+  document.getElementById('fieldToggle').addEventListener('change', e => { S.field = e.target.checked; drawHole(); panel(); });
+  document.getElementById('appToggle').addEventListener('change', e => { S.app = e.target.checked; drawHole(); panel(); });
+  document.getElementById('sceneBtn').addEventListener('click', () => {
+    S.app = true; document.getElementById('appToggle').checked = true;
+    S.field = false; document.getElementById('fieldToggle').checked = false;
+    S.cam = 'tee'; pick(12, 1);
+  });
+
+  function pick(hole, round) {
+    S.hole = hole; S.round = round;
+    seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.r === round));
+    drawHole(); panel(); markScorecard();
+  }
+
+  buildScorecard();
+  // open on the hole where she lost the most strokes to the field across 4 rounds
+  let worst = 1, wd = -99;
+  for (let i = 1; i <= 18; i++) { let d = 0; for (let r = 1; r <= 4; r++) d += strokes(r, i) - D.holes[i].avg[r]; if (d > wd) { wd = d; worst = i; } }
+  resize();
+  pick(worst, 0);
+})();
+</script>

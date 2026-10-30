@@ -1,0 +1,17 @@
+{
+ "captured": "2026-10-30 KST, by TJ in a desktop Chrome console (this sandbox cannot reach klpga.co.kr / AWS)",
+ "files": [
+  {
+   "path": "2026/cmpro_raw/2026100005_browser_capture.json",
+   "sha256": "745cf45b9becf09c7e94fc938b94ab2c4b8cb9686c81fe2924ab3ef4e27efdfa",
+   "content": "18 responses of https://cmpro.klpga.co.kr/map3d/getData?method=shotData&gameCode=2026100005&playerCode=8380&round=4&hole={1..18}; each body kept verbatim as a string with its HTTP status",
+   "checks": "8380 rows: R1 95, R2 91, R3 93, R4 96 (= strokes + one ShotNum 0 tee row per hole); 303 shots identical to the getShotTracker archive (distances within 0.05, states equal); DistFromPrev / haversine(lat,lon) in yards = 1.0001 median"
+  },
+  {
+   "path": "source/terrain/blueheron_terrain_z15.json",
+   "sha256": "2e505c89d411c988c5ae8e7be00e253e5ba0c0e27b833412495d4c3cf4394a4d",
+   "content": "AWS Terrain Tiles (terrarium) z15 x28001-28003 y12709-12711, PNG bytes base64",
+   "checks": "vs cmpro shot altitudes (450 points): corr 0.991, DEM higher by median 3.75 m, |diff| p90 9.35 m"
+  }
+ ]
+}
