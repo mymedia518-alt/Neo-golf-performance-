@@ -90,6 +90,24 @@ _NOWRAP = "<span style='white-space:nowrap'>—</span>"
 PUBLICATION_STATUS = "REFERENCE_ESTIMATE"
 
 
+def _round_update_note_html() -> str:
+    """The hero's one-line "다음 라운드 업데이트" note, previously a
+    static "1R 종료 후 업데이트" string that went stale (and silently
+    reverted a manual link fix) the moment any later round actually
+    published. Now driven by the same on-disk file-existence check the
+    stage-nav below already uses: link to whichever round (R1/R2/R3) is
+    the latest one actually published, or fall back to the original
+    static wording if none has published yet."""
+    latest = None
+    for key, label in (("r1", "R1"), ("r2", "R2"), ("r3", "R3")):
+        if (REPO_ROOT / "docs" / "tournaments" / "2026" / GAME_CODE / key / "index.html").is_file():
+            latest = (key, label)
+    if latest is None:
+        return "1R 종료 후 업데이트"
+    key, label = latest
+    return f"<a href='/tournaments/2026/{GAME_CODE}/{key}/'>{label} 기록 보기 →</a>"
+
+
 def main() -> None:
     tourney = _load("TOURNAMENT_INFO.json")
     kranking_join = _load("ENTRY_KRANKING_JOIN.json")
@@ -230,7 +248,7 @@ def main() -> None:
         f'<h1>{_esc(event_name)}</h1><p class="meta">{date_range}</p>'
         f'<p class="meta">{_esc(course_line)}</p>'
         f'{previous_meta_html}</div>'
-        '<p class="round-update-note">1R 종료 후 업데이트</p></section>'
+        f'<p class="round-update-note">{_round_update_note_html()}</p></section>'
     )
 
     # Standard 4-round stage-nav shape (scripts/190_build_hitejinro_pre_page.py's
