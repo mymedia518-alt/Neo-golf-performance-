@@ -4,7 +4,7 @@
   "ranking_week": "2026-W43",
   "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
   "period_source": "https://k-rankings.klpga.co.kr/index.jsp",
-  "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+  "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
   "population_selection": "official K-Ranking closed interval 1..120 only",
   "source_sha256": {
     "period": "957acd8f73f9063dc2571462cca50829e31c37b815def1f09677e8b8ee5d10dc",
@@ -87,7 +87,7 @@
       "rating": "12.0139",
       "total_points": "600.69",
       "event_count": 50,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -99,7 +99,7 @@
       "rating": "9.7601",
       "total_points": "546.57",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -111,7 +111,7 @@
       "rating": "9.3465",
       "total_points": "486.02",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -123,7 +123,7 @@
       "rating": "7.6944",
       "total_points": "346.25",
       "event_count": 45,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -135,7 +135,7 @@
       "rating": "7.3096",
       "total_points": "402.03",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -147,7 +147,7 @@
       "rating": "7.3042",
       "total_points": "372.51",
       "event_count": 51,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -159,7 +159,7 @@
       "rating": "7.0424",
       "total_points": "387.33",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -171,7 +171,7 @@
       "rating": "6.3210",
       "total_points": "322.37",
       "event_count": 51,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -183,7 +183,7 @@
       "rating": "6.2098",
       "total_points": "353.96",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -195,7 +195,7 @@
       "rating": "5.4121",
       "total_points": "232.72",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -207,7 +207,7 @@
       "rating": "5.1519",
       "total_points": "293.66",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -219,7 +219,7 @@
       "rating": "4.9995",
       "total_points": "289.97",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -231,7 +231,7 @@
       "rating": "4.9606",
       "total_points": "292.67",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -243,7 +243,7 @@
       "rating": "4.9164",
       "total_points": "191.74",
       "event_count": 39,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -255,7 +255,7 @@
       "rating": "4.9039",
       "total_points": "240.29",
       "event_count": 49,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -267,7 +267,7 @@
       "rating": "4.7399",
       "total_points": "218.04",
       "event_count": 46,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -279,7 +279,7 @@
       "rating": "4.5717",
       "total_points": "265.16",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -291,7 +291,7 @@
       "rating": "4.4198",
       "total_points": "229.83",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -303,7 +303,7 @@
       "rating": "4.4160",
       "total_points": "251.71",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -315,7 +315,7 @@
       "rating": "4.3375",
       "total_points": "160.49",
       "event_count": 37,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -327,7 +327,7 @@
       "rating": "4.3282",
       "total_points": "242.38",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -339,7 +339,7 @@
       "rating": "4.2485",
       "total_points": "216.67",
       "event_count": 51,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -351,7 +351,7 @@
       "rating": "4.2033",
       "total_points": "222.77",
       "event_count": 53,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -363,7 +363,7 @@
       "rating": "4.1971",
       "total_points": "235.04",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -375,7 +375,7 @@
       "rating": "3.7529",
       "total_points": "131.35",
       "event_count": 22,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -387,7 +387,7 @@
       "rating": "3.7475",
       "total_points": "131.16",
       "event_count": 3,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -399,7 +399,7 @@
       "rating": "3.6595",
       "total_points": "212.25",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -411,7 +411,7 @@
       "rating": "3.6344",
       "total_points": "199.89",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -423,7 +423,7 @@
       "rating": "3.5911",
       "total_points": "201.10",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -435,7 +435,7 @@
       "rating": "3.5613",
       "total_points": "124.65",
       "event_count": 35,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -447,7 +447,7 @@
       "rating": "3.4881",
       "total_points": "202.31",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -459,7 +459,7 @@
       "rating": "3.2974",
       "total_points": "125.30",
       "event_count": 38,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -471,7 +471,7 @@
       "rating": "3.1774",
       "total_points": "168.40",
       "event_count": 53,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -483,7 +483,7 @@
       "rating": "3.1641",
       "total_points": "183.52",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -495,7 +495,7 @@
       "rating": "3.1122",
       "total_points": "177.40",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -507,7 +507,7 @@
       "rating": "3.0947",
       "total_points": "176.40",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -519,7 +519,7 @@
       "rating": "3.0562",
       "total_points": "165.04",
       "event_count": 54,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -531,7 +531,7 @@
       "rating": "3.0177",
       "total_points": "162.96",
       "event_count": 54,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -543,7 +543,7 @@
       "rating": "2.9871",
       "total_points": "125.46",
       "event_count": 42,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -555,7 +555,7 @@
       "rating": "2.9200",
       "total_points": "102.20",
       "event_count": 2,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -567,7 +567,7 @@
       "rating": "2.7379",
       "total_points": "95.83",
       "event_count": 31,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -579,7 +579,7 @@
       "rating": "2.6577",
       "total_points": "143.51",
       "event_count": 54,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -591,7 +591,7 @@
       "rating": "2.6563",
       "total_points": "135.47",
       "event_count": 51,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -603,7 +603,7 @@
       "rating": "2.6544",
       "total_points": "143.34",
       "event_count": 54,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -615,7 +615,7 @@
       "rating": "2.5676",
       "total_points": "130.95",
       "event_count": 51,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -627,7 +627,7 @@
       "rating": "2.5657",
       "total_points": "141.11",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -639,7 +639,7 @@
       "rating": "2.4183",
       "total_points": "133.01",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -651,7 +651,7 @@
       "rating": "2.3825",
       "total_points": "83.39",
       "event_count": 25,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -663,7 +663,7 @@
       "rating": "2.3774",
       "total_points": "92.72",
       "event_count": 39,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -675,7 +675,7 @@
       "rating": "2.3008",
       "total_points": "133.45",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -687,7 +687,7 @@
       "rating": "2.2966",
       "total_points": "80.38",
       "event_count": 11,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -699,7 +699,7 @@
       "rating": "2.2590",
       "total_points": "126.50",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -711,7 +711,7 @@
       "rating": "2.2396",
       "total_points": "125.42",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -723,7 +723,7 @@
       "rating": "2.2147",
       "total_points": "128.46",
       "event_count": 58,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -735,7 +735,7 @@
       "rating": "2.1847",
       "total_points": "113.61",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -747,7 +747,7 @@
       "rating": "2.0233",
       "total_points": "115.33",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -759,7 +759,7 @@
       "rating": "2.0022",
       "total_points": "114.13",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -771,7 +771,7 @@
       "rating": "1.9280",
       "total_points": "113.75",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -783,7 +783,7 @@
       "rating": "1.9172",
       "total_points": "115.03",
       "event_count": 60,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -795,7 +795,7 @@
       "rating": "1.8912",
       "total_points": "111.58",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -807,7 +807,7 @@
       "rating": "1.8147",
       "total_points": "63.51",
       "event_count": 26,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -819,7 +819,7 @@
       "rating": "1.7539",
       "total_points": "75.42",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -831,7 +831,7 @@
       "rating": "1.6930",
       "total_points": "94.81",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -843,7 +843,7 @@
       "rating": "1.6410",
       "total_points": "93.54",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -855,7 +855,7 @@
       "rating": "1.5976",
       "total_points": "89.47",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -867,7 +867,7 @@
       "rating": "1.5284",
       "total_points": "53.50",
       "event_count": 35,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -879,7 +879,7 @@
       "rating": "1.5007",
       "total_points": "84.04",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -891,7 +891,7 @@
       "rating": "1.4900",
       "total_points": "84.93",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -903,7 +903,7 @@
       "rating": "1.4730",
       "total_points": "78.07",
       "event_count": 53,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -915,7 +915,7 @@
       "rating": "1.4566",
       "total_points": "81.57",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -927,7 +927,7 @@
       "rating": "1.4429",
       "total_points": "62.05",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -939,7 +939,7 @@
       "rating": "1.4408",
       "total_points": "50.43",
       "event_count": 35,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -951,7 +951,7 @@
       "rating": "1.4240",
       "total_points": "75.47",
       "event_count": 53,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -963,7 +963,7 @@
       "rating": "1.3975",
       "total_points": "72.67",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -975,7 +975,7 @@
       "rating": "1.3840",
       "total_points": "78.89",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -987,7 +987,7 @@
       "rating": "1.3759",
       "total_points": "75.67",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -999,7 +999,7 @@
       "rating": "1.3076",
       "total_points": "81.07",
       "event_count": 62,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1011,7 +1011,7 @@
       "rating": "1.2866",
       "total_points": "60.47",
       "event_count": 47,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1023,7 +1023,7 @@
       "rating": "1.2771",
       "total_points": "68.97",
       "event_count": 54,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1035,7 +1035,7 @@
       "rating": "1.2756",
       "total_points": "66.33",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1047,7 +1047,7 @@
       "rating": "1.2752",
       "total_points": "71.41",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1059,7 +1059,7 @@
       "rating": "1.2733",
       "total_points": "70.03",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1071,7 +1071,7 @@
       "rating": "1.2623",
       "total_points": "69.43",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1083,7 +1083,7 @@
       "rating": "1.2477",
       "total_points": "73.62",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1095,7 +1095,7 @@
       "rating": "1.2463",
       "total_points": "43.62",
       "event_count": 28,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1107,7 +1107,7 @@
       "rating": "1.2354",
       "total_points": "50.65",
       "event_count": 41,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1119,7 +1119,7 @@
       "rating": "1.2012",
       "total_points": "66.07",
       "event_count": 55,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1131,7 +1131,7 @@
       "rating": "1.1837",
       "total_points": "52.08",
       "event_count": 44,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1143,7 +1143,7 @@
       "rating": "1.1342",
       "total_points": "66.92",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1155,7 +1155,7 @@
       "rating": "1.1214",
       "total_points": "39.25",
       "event_count": 30,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1167,7 +1167,7 @@
       "rating": "1.1172",
       "total_points": "63.68",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1179,7 +1179,7 @@
       "rating": "1.0519",
       "total_points": "51.54",
       "event_count": 49,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1191,7 +1191,7 @@
       "rating": "1.0317",
       "total_points": "53.65",
       "event_count": 52,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1203,7 +1203,7 @@
       "rating": "1.0278",
       "total_points": "57.56",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1215,7 +1215,7 @@
       "rating": "0.9734",
       "total_points": "40.88",
       "event_count": 42,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1227,7 +1227,7 @@
       "rating": "0.9670",
       "total_points": "33.85",
       "event_count": 19,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1239,7 +1239,7 @@
       "rating": "0.9663",
       "total_points": "48.31",
       "event_count": 50,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1251,7 +1251,7 @@
       "rating": "0.9566",
       "total_points": "56.44",
       "event_count": 59,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1263,7 +1263,7 @@
       "rating": "0.9133",
       "total_points": "57.54",
       "event_count": 63,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1275,7 +1275,7 @@
       "rating": "0.8823",
       "total_points": "32.65",
       "event_count": 37,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1287,7 +1287,7 @@
       "rating": "0.8786",
       "total_points": "43.05",
       "event_count": 49,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1299,7 +1299,7 @@
       "rating": "0.8651",
       "total_points": "35.47",
       "event_count": 41,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1311,7 +1311,7 @@
       "rating": "0.8512",
       "total_points": "36.60",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1323,7 +1323,7 @@
       "rating": "0.8364",
       "total_points": "51.02",
       "event_count": 61,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1335,7 +1335,7 @@
       "rating": "0.8232",
       "total_points": "40.34",
       "event_count": 49,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1347,7 +1347,7 @@
       "rating": "0.8088",
       "total_points": "33.97",
       "event_count": 42,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1359,7 +1359,7 @@
       "rating": "0.7910",
       "total_points": "44.30",
       "event_count": 56,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1371,7 +1371,7 @@
       "rating": "0.7845",
       "total_points": "32.16",
       "event_count": 41,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1383,7 +1383,7 @@
       "rating": "0.7607",
       "total_points": "26.62",
       "event_count": 19,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1395,7 +1395,7 @@
       "rating": "0.7486",
       "total_points": "31.44",
       "event_count": 42,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1407,7 +1407,7 @@
       "rating": "0.7409",
       "total_points": "31.86",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1419,7 +1419,7 @@
       "rating": "0.7170",
       "total_points": "25.10",
       "event_count": 26,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1431,7 +1431,7 @@
       "rating": "0.7138",
       "total_points": "30.69",
       "event_count": 43,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1443,7 +1443,7 @@
       "rating": "0.7051",
       "total_points": "24.68",
       "event_count": 33,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1455,7 +1455,7 @@
       "rating": "0.7045",
       "total_points": "24.66",
       "event_count": 17,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1467,7 +1467,7 @@
       "rating": "0.7036",
       "total_points": "24.63",
       "event_count": 13,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1479,7 +1479,7 @@
       "rating": "0.6990",
       "total_points": "25.86",
       "event_count": 37,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1491,7 +1491,7 @@
       "rating": "0.6947",
       "total_points": "36.82",
       "event_count": 53,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1503,7 +1503,7 @@
       "rating": "0.6697",
       "total_points": "38.17",
       "event_count": 57,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"
@@ -1515,7 +1515,7 @@
       "rating": "0.6631",
       "total_points": "23.21",
       "event_count": 32,
-      "retrieved_at": "2026-10-27T09:33:33.463530+00:00",
+      "retrieved_at": "2026-10-31T09:04:04.196212+00:00",
       "identity_validation_state": "PASS_OFFICIAL_PLAYER_ID",
       "official_source": "https://k-rankings.klpga.co.kr/allplayer.jsp",
       "ranking_week": "2026-W43"

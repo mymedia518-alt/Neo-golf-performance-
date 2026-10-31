@@ -1,0 +1,61 @@
+{
+  "game_code": "2026100001",
+  "captures": {
+    "game_list": {
+      "path": "game_list.json",
+      "sha256": "fd5be900133505c6055d92092882333131983ca98d0235b1d1de5a9be16884c0",
+      "byte_count": 2889,
+      "source_url": "https://klpga.co.kr/ajax/tourInfo/getGameList",
+      "fetched_at": "2026-10-31T09:03:58.798917+00:00"
+    },
+    "entry_list": {
+      "path": "entry_list.html",
+      "sha256": "f5cd5dbcf783637504aef952394ade3808f87daa50bc3c29d0cddafcb0f735a1",
+      "byte_count": 554187,
+      "source_url": "https://klpga.co.kr/web/tourInfo/entry",
+      "fetched_at": "2026-10-31T09:03:59.296685+00:00"
+    },
+    "kranking_period": {
+      "path": "kranking_period.html",
+      "sha256": "957acd8f73f9063dc2571462cca50829e31c37b815def1f09677e8b8ee5d10dc",
+      "byte_count": 249805,
+      "source_url": "https://k-rankings.klpga.co.kr/index.jsp",
+      "fetched_at": "2026-10-31T09:04:04.183666+00:00"
+    },
+    "kranking_full_table": {
+      "path": "kranking_full_table.html",
+      "sha256": "dc364a79b4175e1dbcbbd5fc1db183cba34aaf4627ac1273f3705e5aeea9dac5",
+      "byte_count": 583015,
+      "source_url": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "fetched_at": "2026-10-31T09:04:04.185185+00:00"
+    },
+    "round_leaderboard_r1": {
+      "path": "round_leaderboard_r1.html",
+      "sha256": "1fc106b17554548b75f8ab644223cde60687566c04f31f492bc8a7597e099b34",
+      "byte_count": 1644674,
+      "source_url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "fetched_at": "2026-10-31T09:04:10.926314+00:00"
+    },
+    "round_leaderboard_r2": {
+      "path": "round_leaderboard_r2.html",
+      "sha256": "5b89351f095d2eb369af01651ef6f970e5b436a7ad14a4897de807346ecdd12e",
+      "byte_count": 1650683,
+      "source_url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "fetched_at": "2026-10-31T09:04:10.939680+00:00"
+    },
+    "round_leaderboard_r3": {
+      "path": "round_leaderboard_r3.html",
+      "sha256": "da86475a1cd5796a5178461cd6079dd243281f76cfd7684eef62dbb39b0b99b6",
+      "byte_count": 1180749,
+      "source_url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "fetched_at": "2026-10-31T09:04:10.949141+00:00"
+    },
+    "round_leaderboard_r4": {
+      "path": "round_leaderboard_r4.html",
+      "sha256": "c29174dbf388c9bd44766f01c00bbcf43325b57d5d79ef6119774601258bc46d",
+      "byte_count": 1109451,
+      "source_url": "https://klpga.co.kr/load/leaderboard/roundLeaderboard",
+      "fetched_at": "2026-10-31T09:04:10.956198+00:00"
+    }
+  }
+}
