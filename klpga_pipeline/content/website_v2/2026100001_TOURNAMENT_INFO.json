@@ -9,12 +9,12 @@
   "course_eng_name": "Elysian Jeju",
   "out_course_text": "레이크",
   "in_course_text": "파인",
-  "game_finish": "S",
+  "game_finish": "F",
   "prize_money": 1000000000,
   "game_method": "0",
-  "is_completed": false,
+  "is_completed": true,
   "is_regular_tour": true,
   "is_stroke_play": true,
-  "collected_at": "2026-10-27T09:33:28.016286+00:00",
+  "collected_at": "2026-11-01T07:49:00.298998+00:00",
   "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
 }
