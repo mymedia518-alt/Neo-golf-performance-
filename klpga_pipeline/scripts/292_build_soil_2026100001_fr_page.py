@@ -214,6 +214,12 @@ def main() -> None:
         "</ol></nav>"
     )
 
+    video_section = (
+        "<section class='panel' id='fr-video'><p class='note'>NEO GOLF DATA</p>"
+        "<video controls playsinline style='display:block;width:100%;max-width:100%;height:auto' "
+        f"src='/assets/tournaments/{GAME_CODE}/neo-golf-data-fr.mp4'></video></section>"
+    )
+
     table_section = (
         '<section class="panel leaderboard-panel" id="fr">'
         f"<div class=\"leaderboard-head\"><h2>최종 결과 <small>{len(rows_sorted)}명</small></h2></div>"
@@ -234,7 +240,7 @@ def main() -> None:
         "</div></footer></body></html>"
     )
 
-    html = header + stage_nav + table_section + footer
+    html = header + stage_nav + video_section + table_section + footer
     OUT_PAGE.parent.mkdir(parents=True, exist_ok=True)
     OUT_PAGE.write_text(html, encoding="utf-8", newline="\n")
 
