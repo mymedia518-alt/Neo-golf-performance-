@@ -1,0 +1,124 @@
+{
+  "schema_version": "r3_archive_manifest_v1",
+  "purpose": "Version-locked snapshot of the R3-point-in-time forecast (TOP20/TOP10/TOP5/win probabilities computed from R1-R3 official scores and SG only, before any FR/final data existed) and the public R3/home pages it produced -- purely additive, never overwrites any file outside this archive directory, and this script refuses to overwrite an already-archived file even on re-run.",
+  "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e",
+  "base_branch": "feature/soil-fr-finalize (branched from local neo-website-v2 @ a91e56a0)",
+  "archived_at_utc": "2026-11-01T07:48:02Z",
+  "archive_root": "klpga_pipeline/content/website_v2/archive/2026100001/r3",
+  "file_count": 14,
+  "verification": "Each file's sha256 was computed three ways and cross-checked for exact agreement: (1) the bytes read from `git show <base_commit>:<path>` before writing, (2) the bytes re-read from the archived copy on disk after writing, (3) an independently re-invoked `git show` hash computed after the write completed. All three matched for every one of the 14 files.",
+  "records": [
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_R1_SG_OFFICIAL_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_R1_SG_OFFICIAL_V1.json",
+      "sha256": "81a93837a49d511a2a12f23a776191b4612a86fb8173dd544daf1b24d373daca",
+      "bytes": 11264,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_R2_OFFICIAL_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_R2_OFFICIAL_V1.json",
+      "sha256": "243059b52383bdb5216847b88e653128dd0fb28133bce140d66411adaa7daa8b",
+      "bytes": 24737,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_R2_SG_OFFICIAL_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_R2_SG_OFFICIAL_V1.json",
+      "sha256": "3e1757fcad14ce7110afc15da71d99672730b368635fc91d4ff9fc058f7106c0",
+      "bytes": 23957,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_R3_OFFICIAL_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_R3_OFFICIAL_V1.json",
+      "sha256": "63510eddb33670fbd0123c68a1e3430e7c0a78faa756065f4417a771b4826a95",
+      "bytes": 13892,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_R3_SG_OFFICIAL_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_R3_SG_OFFICIAL_V1.json",
+      "sha256": "a11046bb41e780e840af537467f76330da33528221639cb28c383e945430a98b",
+      "bytes": 17156,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "INPUT",
+      "original_path": "klpga_pipeline/content/website_v2/SOIL_2026100001_POST_R3_FORECAST_V1.json",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_POST_R3_FORECAST_V1.json",
+      "sha256": "f5bd82a17b0a707214647c94d7653ff424dda28841c799dc067004cbac8a3a8c",
+      "bytes": 46689,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "OUTPUT",
+      "original_path": "docs/tournaments/2026/2026100001/r3/index.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/docs/tournaments/2026/2026100001/r3/index.html",
+      "sha256": "738bb0796fcefa7eea54eee5c80ba072c7df0f44ce0437f9ddeb8adb8b69cd85",
+      "bytes": 55935,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "OUTPUT",
+      "original_path": "docs/index.html",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/docs/index.html",
+      "sha256": "ea5700d560c51bec8346115068171ed60c352a00b3912f5208af9628ca246a67",
+      "bytes": 110126,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/282_build_soil_2026100001_r3_official.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/282_build_soil_2026100001_r3_official.py",
+      "sha256": "82272fc762f01a50f0341ba446004e982a20a10294df8cee689a280fad28ccf8",
+      "bytes": 5344,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/283_build_soil_2026100001_post_r3_forecast.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/283_build_soil_2026100001_post_r3_forecast.py",
+      "sha256": "df07bfbf93709cd0895447dd7d81f5914f806fef9c8a174849f6ac83923e151a",
+      "bytes": 12042,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/284_build_soil_2026100001_r3_sg_official.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/284_build_soil_2026100001_r3_sg_official.py",
+      "sha256": "3224074d57c75537f0f23abe7439029f57f4e69cb985ee7000c699922fcc731e",
+      "bytes": 3348,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/281_build_soil_2026100001_r3_page.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/281_build_soil_2026100001_r3_page.py",
+      "sha256": "e90dadf1425548996da851c38cc9a350c1f9a79e13e15d562644d14bca3508c6",
+      "bytes": 12468,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/285_patch_home_soil_r3_summary.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/285_patch_home_soil_r3_summary.py",
+      "sha256": "e95173c82f55ffd959091af64a30d9e3fc7fead360d82bbf37445a9fd50e50d7",
+      "bytes": 4845,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    },
+    {
+      "category": "VERIFY",
+      "original_path": "klpga_pipeline/scripts/287_patch_home_soil_r3_video.py",
+      "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/scripts/287_patch_home_soil_r3_video.py",
+      "sha256": "99b27ab48e2e16186215d22495477f79758ba4465ff4c4b63e2b9dbd0e702a90",
+      "bytes": 2293,
+      "base_commit": "a91e56a06523a64ea871178245771b6a09591f3e"
+    }
+  ]
+}

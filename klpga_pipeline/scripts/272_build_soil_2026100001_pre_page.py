@@ -229,7 +229,7 @@ def main() -> None:
         '</head><body>'
         '<header class="neo-global-header" data-neo-global-navigation>'
         '<div class="neo-global-header__inner">'
-        '<a class="neo-global-brand" href="/"><span class="neo-brand-mark">NEO GOLF DATA</span>'
+        '<a class="neo-global-brand" href="/"><img class="neo-brand-logo" src="/assets/neo-logo.png" alt="NEO GOLF DATA" width="362" height="160">'
         '<span class="neo-brand-legend"><span class="neo-brand-legend__item">NUMBER</span>'
         '<span class="neo-brand-legend__item">EVIDENCE</span>'
         '<span class="neo-brand-legend__item">ORACLE</span></span></a>'

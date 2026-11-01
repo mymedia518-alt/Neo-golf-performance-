@@ -1,0 +1,1867 @@
+{
+  "schema_version": "SOIL_2026100001_R3_FORECAST_FR_VALIDATION_V1",
+  "game_code": "2026100001",
+  "purpose": "Compares the frozen R3-point-in-time forecast (TOP20/TOP10/TOP5/win probabilities, archived before any FR data existed) against the real final FR result. The forecast file itself is never modified by this script; this is a separate, additive artifact.",
+  "forecast_provenance": {
+    "archive_path": "klpga_pipeline/content/website_v2/archive/2026100001/r3/klpga_pipeline/content/website_v2/SOIL_2026100001_POST_R3_FORECAST_V1.json",
+    "sha256": "f5bd82a17b0a707214647c94d7653ff424dda28841c799dc067004cbac8a3a8c",
+    "generated_at": "2026-10-31T09:08:30.240288+00:00",
+    "sg_cutoff_exclusive": "2026-11-01"
+  },
+  "fr_result_provenance": {
+    "path": "content/website_v2/SOIL_2026100001_FR_OFFICIAL_V1.json",
+    "winner_player_id": "9784",
+    "winner_player_name": "이예원",
+    "winner_score_to_par": -12
+  },
+  "join": {
+    "forecast_rows": 68,
+    "actual_rows": 68,
+    "matched": 68
+  },
+  "outcome_definitions": {
+    "WIN": "actual_final_rank == 1",
+    "TOP5": "actual_final_rank <= 5",
+    "TOP10": "actual_final_rank <= 10",
+    "TOP20": "actual_final_rank <= 20"
+  },
+  "top_pick_vs_actual_result": {
+    "forecast_top_win_probability_player": {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "win_probability": 0.47797271825396115
+    },
+    "actual_winner": {
+      "player_id": "9784",
+      "player_name": "이예원"
+    },
+    "matched": false,
+    "note": "Recorded as-is, not adjusted: the forecast's single highest win-probability pick did NOT go on to win."
+  },
+  "validation": {
+    "win": {
+      "threshold": 1,
+      "actual_players_in_band": [
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "actual_final_rank": 1
+        }
+      ],
+      "forecast_top_n_by_probability": [
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "probability": 0.47797271825396115,
+          "actual_final_rank": 3
+        }
+      ],
+      "top_probability_selection_hits": 0,
+      "top_probability_selection_hit_rate": 0.0
+    },
+    "top5": {
+      "threshold": 5,
+      "actual_players_in_band": [
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "10146",
+          "player_name": "유현조",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9235",
+          "player_name": "최은우",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "11057",
+          "player_name": "송은아",
+          "actual_final_rank": 3
+        }
+      ],
+      "forecast_top_n_by_probability": [
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "probability": 0.9578833333333333,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "probability": 0.9044833333333333,
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "9708",
+          "player_name": "이재윤",
+          "probability": 0.6697833333333333,
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "probability": 0.6254,
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9082",
+          "player_name": "전예성",
+          "probability": 0.43706666666666666,
+          "actual_final_rank": 9
+        }
+      ],
+      "top_probability_selection_hits": 3,
+      "top_probability_selection_hit_rate": 0.6
+    },
+    "top10": {
+      "threshold": 10,
+      "actual_players_in_band": [
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "10146",
+          "player_name": "유현조",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9235",
+          "player_name": "최은우",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "11057",
+          "player_name": "송은아",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9708",
+          "player_name": "이재윤",
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "8243",
+          "player_name": "장은수",
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "9082",
+          "player_name": "전예성",
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "8881",
+          "player_name": "성유진",
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "9788",
+          "player_name": "박혜준",
+          "actual_final_rank": 9
+        }
+      ],
+      "forecast_top_n_by_probability": [
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "probability": 0.99495,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "probability": 0.9861166666666666,
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "9708",
+          "player_name": "이재윤",
+          "probability": 0.8945,
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "probability": 0.87,
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9082",
+          "player_name": "전예성",
+          "probability": 0.75975,
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "10146",
+          "player_name": "유현조",
+          "probability": 0.7013,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9135",
+          "player_name": "신다인",
+          "probability": 0.59295,
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "probability": 0.52785,
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "9235",
+          "player_name": "최은우",
+          "probability": 0.51395,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9134",
+          "player_name": "서어진",
+          "probability": 0.50425,
+          "actual_final_rank": 12
+        }
+      ],
+      "top_probability_selection_hits": 7,
+      "top_probability_selection_hit_rate": 0.7
+    },
+    "top20": {
+      "threshold": 20,
+      "actual_players_in_band": [
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "10146",
+          "player_name": "유현조",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9235",
+          "player_name": "최은우",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "11057",
+          "player_name": "송은아",
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9708",
+          "player_name": "이재윤",
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "8243",
+          "player_name": "장은수",
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "9082",
+          "player_name": "전예성",
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "8881",
+          "player_name": "성유진",
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "9788",
+          "player_name": "박혜준",
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "9135",
+          "player_name": "신다인",
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "9134",
+          "player_name": "서어진",
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "9000",
+          "player_name": "김지수",
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "8859",
+          "player_name": "이승연",
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "8883",
+          "player_name": "이가영",
+          "actual_final_rank": 17
+        },
+        {
+          "player_id": "6916",
+          "player_name": "안송이",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "11080",
+          "player_name": "길예람",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "10109",
+          "player_name": "고지원",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "9391",
+          "player_name": "최가빈",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "9183",
+          "player_name": "박결",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "9389",
+          "player_name": "전우리",
+          "actual_final_rank": 18
+        },
+        {
+          "player_id": "10577",
+          "player_name": "최예본",
+          "actual_final_rank": 18
+        }
+      ],
+      "forecast_top_n_by_probability": [
+        {
+          "player_id": "9449",
+          "player_name": "이지현3",
+          "probability": 0.99995,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9784",
+          "player_name": "이예원",
+          "probability": 0.9994833333333333,
+          "actual_final_rank": 1
+        },
+        {
+          "player_id": "9708",
+          "player_name": "이재윤",
+          "probability": 0.9867666666666667,
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "10296",
+          "player_name": "문정민",
+          "probability": 0.9814,
+          "actual_final_rank": 2
+        },
+        {
+          "player_id": "9082",
+          "player_name": "전예성",
+          "probability": 0.9584166666666667,
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "10146",
+          "player_name": "유현조",
+          "probability": 0.9523166666666667,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9134",
+          "player_name": "서어진",
+          "probability": 0.8906833333333334,
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "9235",
+          "player_name": "최은우",
+          "probability": 0.8898166666666667,
+          "actual_final_rank": 3
+        },
+        {
+          "player_id": "9135",
+          "player_name": "신다인",
+          "probability": 0.8859,
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "10725",
+          "player_name": "김민솔",
+          "probability": 0.8580333333333333,
+          "actual_final_rank": 12
+        },
+        {
+          "player_id": "9705",
+          "player_name": "홍지원",
+          "probability": 0.7908,
+          "actual_final_rank": 25
+        },
+        {
+          "player_id": "10081",
+          "player_name": "김민주",
+          "probability": 0.7859,
+          "actual_final_rank": 25
+        },
+        {
+          "player_id": "8881",
+          "player_name": "성유진",
+          "probability": 0.7532333333333333,
+          "actual_final_rank": 9
+        },
+        {
+          "player_id": "8243",
+          "player_name": "장은수",
+          "probability": 0.7350833333333333,
+          "actual_final_rank": 7
+        },
+        {
+          "player_id": "10586",
+          "player_name": "홍진영2",
+          "probability": 0.72855,
+          "actual_final_rank": 28
+        },
+        {
+          "player_id": "11143",
+          "player_name": "김시현",
+          "probability": 0.7206833333333333,
+          "actual_final_rank": 36
+        },
+        {
+          "player_id": "9145",
+          "player_name": "임희정",
+          "probability": 0.6445833333333333,
+          "actual_final_rank": 25
+        },
+        {
+          "player_id": "8883",
+          "player_name": "이가영",
+          "probability": 0.4999166666666667,
+          "actual_final_rank": 17
+        },
+        {
+          "player_id": "8246",
+          "player_name": "이소영",
+          "probability": 0.48936666666666667,
+          "actual_final_rank": 50
+        },
+        {
+          "player_id": "9000",
+          "player_name": "김지수",
+          "probability": 0.48925,
+          "actual_final_rank": 12
+        }
+      ],
+      "top_probability_selection_hits": 14,
+      "top_probability_selection_hit_rate": 0.7
+    }
+  },
+  "full_join": [
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 67,
+        "r2": 68,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.9994833333333333,
+      "forecast_top10_probability": 0.9861166666666666,
+      "forecast_top5_probability": 0.9044833333333333,
+      "forecast_win_probability": 0.2570735515873058,
+      "actual_final_rank": 1,
+      "actual_final_rank_label": "1",
+      "actual_tie": false,
+      "actual_fr_score": 71,
+      "actual_total_score": 276,
+      "actual_score_to_par": -12,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 66,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.9814,
+      "forecast_top10_probability": 0.87,
+      "forecast_top5_probability": 0.6254,
+      "forecast_win_probability": 0.07794607142857152,
+      "actual_final_rank": 2,
+      "actual_final_rank_label": "2",
+      "actual_tie": false,
+      "actual_fr_score": 72,
+      "actual_total_score": 279,
+      "actual_score_to_par": -9,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 68,
+        "r3": 68
+      },
+      "forecast_top20_probability": 0.99995,
+      "forecast_top10_probability": 0.99495,
+      "forecast_top5_probability": 0.9578833333333333,
+      "forecast_win_probability": 0.47797271825396115,
+      "actual_final_rank": 3,
+      "actual_final_rank_label": "3",
+      "actual_tie": true,
+      "actual_fr_score": 78,
+      "actual_total_score": 282,
+      "actual_score_to_par": -6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 67,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.9523166666666667,
+      "forecast_top10_probability": 0.7013,
+      "forecast_top5_probability": 0.3338833333333333,
+      "forecast_win_probability": 0.012747579365079382,
+      "actual_final_rank": 3,
+      "actual_final_rank_label": "3",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 282,
+      "actual_score_to_par": -6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 69,
+        "r2": 70,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.8898166666666667,
+      "forecast_top10_probability": 0.51395,
+      "forecast_top5_probability": 0.17143333333333333,
+      "forecast_win_probability": 0.0027216865079365067,
+      "actual_final_rank": 3,
+      "actual_final_rank_label": "3",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 282,
+      "actual_score_to_par": -6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.2561,
+      "forecast_top10_probability": 0.048133333333333334,
+      "forecast_top5_probability": 0.0067,
+      "forecast_win_probability": 5.694444444444444e-05,
+      "actual_final_rank": 3,
+      "actual_final_rank_label": "3",
+      "actual_tie": true,
+      "actual_fr_score": 68,
+      "actual_total_score": 282,
+      "actual_score_to_par": -6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 70,
+        "r2": 66,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.9867666666666667,
+      "forecast_top10_probability": 0.8945,
+      "forecast_top5_probability": 0.6697833333333333,
+      "forecast_win_probability": 0.09319950396825341,
+      "actual_final_rank": 7,
+      "actual_final_rank_label": "7",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 283,
+      "actual_score_to_par": -5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 68,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.7350833333333333,
+      "forecast_top10_probability": 0.3251,
+      "forecast_top5_probability": 0.09233333333333334,
+      "forecast_win_probability": 0.0017125396825396824,
+      "actual_final_rank": 7,
+      "actual_final_rank_label": "7",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 283,
+      "actual_score_to_par": -5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 67,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.9584166666666667,
+      "forecast_top10_probability": 0.75975,
+      "forecast_top5_probability": 0.43706666666666666,
+      "forecast_win_probability": 0.029212837301587184,
+      "actual_final_rank": 9,
+      "actual_final_rank_label": "9",
+      "actual_tie": true,
+      "actual_fr_score": 76,
+      "actual_total_score": 284,
+      "actual_score_to_par": -4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 72,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.7532333333333333,
+      "forecast_top10_probability": 0.3680833333333333,
+      "forecast_top5_probability": 0.11906666666666667,
+      "forecast_win_probability": 0.002859484126984126,
+      "actual_final_rank": 9,
+      "actual_final_rank_label": "9",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 284,
+      "actual_score_to_par": -4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 65,
+        "r3": 76
+      },
+      "forecast_top20_probability": 0.27271666666666666,
+      "forecast_top10_probability": 0.05831666666666667,
+      "forecast_top5_probability": 0.009333333333333334,
+      "forecast_win_probability": 5.6666666666666664e-05,
+      "actual_final_rank": 9,
+      "actual_final_rank_label": "9",
+      "actual_tie": true,
+      "actual_fr_score": 70,
+      "actual_total_score": 284,
+      "actual_score_to_par": -4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 70,
+        "r2": 70,
+        "r3": 69
+      },
+      "forecast_top20_probability": 0.8859,
+      "forecast_top10_probability": 0.59295,
+      "forecast_top5_probability": 0.2845,
+      "forecast_win_probability": 0.015920357142857187,
+      "actual_final_rank": 12,
+      "actual_final_rank_label": "12",
+      "actual_tie": true,
+      "actual_fr_score": 76,
+      "actual_total_score": 285,
+      "actual_score_to_par": -3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 71,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.8906833333333334,
+      "forecast_top10_probability": 0.50425,
+      "forecast_top5_probability": 0.15725,
+      "forecast_win_probability": 0.002249444444444444,
+      "actual_final_rank": 12,
+      "actual_final_rank_label": "12",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 285,
+      "actual_score_to_par": -3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 73,
+        "r3": 65
+      },
+      "forecast_top20_probability": 0.8580333333333333,
+      "forecast_top10_probability": 0.52785,
+      "forecast_top5_probability": 0.22105,
+      "forecast_win_probability": 0.009124861111111106,
+      "actual_final_rank": 12,
+      "actual_final_rank_label": "12",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 285,
+      "actual_score_to_par": -3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 70,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.48925,
+      "forecast_top10_probability": 0.1422,
+      "forecast_top5_probability": 0.028233333333333333,
+      "forecast_win_probability": 0.0002798809523809523,
+      "actual_final_rank": 12,
+      "actual_final_rank_label": "12",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 285,
+      "actual_score_to_par": -3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 68,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.39411666666666667,
+      "forecast_top10_probability": 0.11101666666666667,
+      "forecast_top5_probability": 0.0243,
+      "forecast_win_probability": 0.0002956944444444444,
+      "actual_final_rank": 12,
+      "actual_final_rank_label": "12",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 285,
+      "actual_score_to_par": -3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 70,
+        "r2": 69,
+        "r3": 73
+      },
+      "forecast_top20_probability": 0.4999166666666667,
+      "forecast_top10_probability": 0.17041666666666666,
+      "forecast_top5_probability": 0.043416666666666666,
+      "forecast_win_probability": 0.0007650000000000001,
+      "actual_final_rank": 17,
+      "actual_final_rank_label": "17",
+      "actual_tie": false,
+      "actual_fr_score": 74,
+      "actual_total_score": 286,
+      "actual_score_to_par": -2,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 68
+      },
+      "forecast_top20_probability": 0.4639333333333333,
+      "forecast_top10_probability": 0.13825,
+      "forecast_top5_probability": 0.027966666666666667,
+      "forecast_win_probability": 0.00035527777777777776,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11080",
+      "player_name": "길예람",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 73,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.3623,
+      "forecast_top10_probability": 0.0971,
+      "forecast_top5_probability": 0.019133333333333332,
+      "forecast_win_probability": 0.00024027777777777776,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 74,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 72,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.24658333333333332,
+      "forecast_top10_probability": 0.04683333333333333,
+      "forecast_top5_probability": 0.00675,
+      "forecast_win_probability": 0.0001,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 71,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.23868333333333333,
+      "forecast_top10_probability": 0.040433333333333335,
+      "forecast_top5_probability": 0.0051333333333333335,
+      "forecast_win_probability": 2.0833333333333333e-05,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.1556,
+      "forecast_top10_probability": 0.017983333333333334,
+      "forecast_top5_probability": 0.0014333333333333333,
+      "forecast_win_probability": 5.555555555555555e-06,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 72,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.11991666666666667,
+      "forecast_top10_probability": 0.011616666666666668,
+      "forecast_top5_probability": 0.0007666666666666667,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 71,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.04575,
+      "forecast_top10_probability": 0.004183333333333333,
+      "forecast_top5_probability": 0.00036666666666666667,
+      "forecast_win_probability": 8.333333333333334e-06,
+      "actual_final_rank": 18,
+      "actual_final_rank_label": "18",
+      "actual_tie": true,
+      "actual_fr_score": 70,
+      "actual_total_score": 287,
+      "actual_score_to_par": -1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 67,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.7908,
+      "forecast_top10_probability": 0.40735,
+      "forecast_top5_probability": 0.13746666666666665,
+      "forecast_win_probability": 0.003335000000000001,
+      "actual_final_rank": 25,
+      "actual_final_rank_label": "25",
+      "actual_tie": true,
+      "actual_fr_score": 78,
+      "actual_total_score": 288,
+      "actual_score_to_par": 0,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 70,
+        "r3": 68
+      },
+      "forecast_top20_probability": 0.7859,
+      "forecast_top10_probability": 0.39365,
+      "forecast_top5_probability": 0.1292,
+      "forecast_win_probability": 0.0026051785714285717,
+      "actual_final_rank": 25,
+      "actual_final_rank_label": "25",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 288,
+      "actual_score_to_par": 0,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 67,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.6445833333333333,
+      "forecast_top10_probability": 0.23458333333333334,
+      "forecast_top5_probability": 0.05475,
+      "forecast_win_probability": 0.0005955555555555554,
+      "actual_final_rank": 25,
+      "actual_final_rank_label": "25",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 288,
+      "actual_score_to_par": 0,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 70,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.72855,
+      "forecast_top10_probability": 0.34681666666666666,
+      "forecast_top5_probability": 0.11158333333333334,
+      "forecast_win_probability": 0.0025141666666666667,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 78,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 70,
+        "r3": 73
+      },
+      "forecast_top20_probability": 0.2528,
+      "forecast_top10_probability": 0.043583333333333335,
+      "forecast_top5_probability": 0.006,
+      "forecast_win_probability": 1.6666666666666667e-05,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11073",
+      "player_name": "최정원",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 71,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.18678333333333333,
+      "forecast_top10_probability": 0.029666666666666668,
+      "forecast_top5_probability": 0.00365,
+      "forecast_win_probability": 5.555555555555555e-06,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 69,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.2747,
+      "forecast_top10_probability": 0.06571666666666667,
+      "forecast_top5_probability": 0.0137,
+      "forecast_win_probability": 0.0001652777777777778,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 69,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.2606,
+      "forecast_top10_probability": 0.03845,
+      "forecast_top5_probability": 0.00375,
+      "forecast_win_probability": 1.3888888888888888e-05,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 73,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.11026666666666667,
+      "forecast_top10_probability": 0.010633333333333333,
+      "forecast_top5_probability": 0.0007666666666666667,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 74,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 77,
+        "r2": 68,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.08116666666666666,
+      "forecast_top10_probability": 0.0077666666666666665,
+      "forecast_top5_probability": 0.0006333333333333333,
+      "forecast_win_probability": 1.6666666666666667e-05,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 77,
+        "r2": 68,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.05081666666666667,
+      "forecast_top10_probability": 0.005533333333333334,
+      "forecast_top5_probability": 0.0006,
+      "forecast_win_probability": 8.333333333333334e-06,
+      "actual_final_rank": 28,
+      "actual_final_rank_label": "28",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 289,
+      "actual_score_to_par": 1,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 69,
+        "r2": 72,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.7206833333333333,
+      "forecast_top10_probability": 0.33221666666666666,
+      "forecast_top5_probability": 0.1026,
+      "forecast_win_probability": 0.0021466666666666665,
+      "actual_final_rank": 36,
+      "actual_final_rank_label": "36",
+      "actual_tie": true,
+      "actual_fr_score": 79,
+      "actual_total_score": 290,
+      "actual_score_to_par": 2,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 66,
+        "r2": 70,
+        "r3": 77
+      },
+      "forecast_top20_probability": 0.3193166666666667,
+      "forecast_top10_probability": 0.0706,
+      "forecast_top5_probability": 0.0122,
+      "forecast_win_probability": 0.00010277777777777778,
+      "actual_final_rank": 36,
+      "actual_final_rank_label": "36",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 290,
+      "actual_score_to_par": 2,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 73,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.012383333333333333,
+      "forecast_top10_probability": 0.0004333333333333333,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 36,
+      "actual_final_rank_label": "36",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 290,
+      "actual_score_to_par": 2,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.03085,
+      "forecast_top10_probability": 0.0028,
+      "forecast_top5_probability": 0.00025,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 36,
+      "actual_final_rank_label": "36",
+      "actual_tie": true,
+      "actual_fr_score": 72,
+      "actual_total_score": 290,
+      "actual_score_to_par": 2,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 72,
+        "r3": 69
+      },
+      "forecast_top20_probability": 0.26005,
+      "forecast_top10_probability": 0.05976666666666667,
+      "forecast_top5_probability": 0.0106,
+      "forecast_win_probability": 0.00014583333333333335,
+      "actual_final_rank": 40,
+      "actual_final_rank_label": "40",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 291,
+      "actual_score_to_par": 3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 74,
+        "r2": 69,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.21628333333333333,
+      "forecast_top10_probability": 0.03351666666666667,
+      "forecast_top5_probability": 0.0035,
+      "forecast_win_probability": 8.333333333333334e-06,
+      "actual_final_rank": 40,
+      "actual_final_rank_label": "40",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 291,
+      "actual_score_to_par": 3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 72,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.20181666666666667,
+      "forecast_top10_probability": 0.03183333333333333,
+      "forecast_top5_probability": 0.0037333333333333333,
+      "forecast_win_probability": 3.666666666666667e-05,
+      "actual_final_rank": 40,
+      "actual_final_rank_label": "40",
+      "actual_tie": true,
+      "actual_fr_score": 76,
+      "actual_total_score": 291,
+      "actual_score_to_par": 3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 74,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.0631,
+      "forecast_top10_probability": 0.00645,
+      "forecast_top5_probability": 0.0005833333333333334,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 40,
+      "actual_final_rank_label": "40",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 291,
+      "actual_score_to_par": 3,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 69,
+        "r2": 72,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.32625,
+      "forecast_top10_probability": 0.10695,
+      "forecast_top5_probability": 0.0288,
+      "forecast_win_probability": 0.0008936111111111114,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 79,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9483",
+      "player_name": "한지원",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 69,
+        "r2": 73,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.19568333333333332,
+      "forecast_top10_probability": 0.035366666666666664,
+      "forecast_top5_probability": 0.0051333333333333335,
+      "forecast_win_probability": 9.722222222222221e-06,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 78,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 74,
+        "r2": 70,
+        "r3": 71
+      },
+      "forecast_top20_probability": 0.14945,
+      "forecast_top10_probability": 0.01925,
+      "forecast_top5_probability": 0.0019166666666666666,
+      "forecast_win_probability": 1.6666666666666667e-05,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10789",
+      "player_name": "리 슈잉",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 67,
+        "r3": 76
+      },
+      "forecast_top20_probability": 0.060533333333333335,
+      "forecast_top10_probability": 0.007383333333333334,
+      "forecast_top5_probability": 0.00085,
+      "forecast_win_probability": 1.25e-05,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 76,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 70,
+        "r3": 77
+      },
+      "forecast_top20_probability": 0.04186666666666667,
+      "forecast_top10_probability": 0.005733333333333333,
+      "forecast_top5_probability": 0.0009166666666666666,
+      "forecast_win_probability": 5.555555555555555e-06,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 74,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 72,
+        "r3": 75
+      },
+      "forecast_top20_probability": 0.007416666666666667,
+      "forecast_top10_probability": 0.00048333333333333334,
+      "forecast_top5_probability": 5e-05,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 44,
+      "actual_final_rank_label": "44",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 292,
+      "actual_score_to_par": 4,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8246",
+      "player_name": "이소영",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 70,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.48936666666666667,
+      "forecast_top10_probability": 0.19908333333333333,
+      "forecast_top5_probability": 0.06328333333333333,
+      "forecast_win_probability": 0.0023099999999999996,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 82,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 74,
+        "r2": 70,
+        "r3": 70
+      },
+      "forecast_top20_probability": 0.16058333333333333,
+      "forecast_top10_probability": 0.016216666666666667,
+      "forecast_top5_probability": 0.0011,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 79,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 70,
+        "r2": 74,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.031933333333333334,
+      "forecast_top10_probability": 0.0017,
+      "forecast_top5_probability": 0.00011666666666666667,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8906",
+      "player_name": "이정은6",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 70,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.0302,
+      "forecast_top10_probability": 0.00205,
+      "forecast_top5_probability": 0.00016666666666666666,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 76,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 70,
+        "r3": 76
+      },
+      "forecast_top20_probability": 0.014533333333333334,
+      "forecast_top10_probability": 0.001,
+      "forecast_top5_probability": 8.333333333333333e-05,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 75,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 72,
+        "r3": 75
+      },
+      "forecast_top20_probability": 0.0017333333333333333,
+      "forecast_top10_probability": 1.6666666666666667e-05,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 75,
+        "r2": 70,
+        "r3": 75
+      },
+      "forecast_top20_probability": 0.0006,
+      "forecast_top10_probability": 0.0,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 50,
+      "actual_final_rank_label": "50",
+      "actual_tie": true,
+      "actual_fr_score": 73,
+      "actual_total_score": 293,
+      "actual_score_to_par": 5,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8838",
+      "player_name": "김우정",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 72,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.03546666666666667,
+      "forecast_top10_probability": 0.0016166666666666666,
+      "forecast_top5_probability": 0.0001,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 57,
+      "actual_final_rank_label": "57",
+      "actual_tie": true,
+      "actual_fr_score": 78,
+      "actual_total_score": 294,
+      "actual_score_to_par": 6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9702",
+      "player_name": "김리안",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 71,
+        "r3": 75
+      },
+      "forecast_top20_probability": 0.0304,
+      "forecast_top10_probability": 0.0026666666666666666,
+      "forecast_top5_probability": 0.00018333333333333334,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 57,
+      "actual_final_rank_label": "57",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 294,
+      "actual_score_to_par": 6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 72,
+        "r3": 72
+      },
+      "forecast_top20_probability": 0.0282,
+      "forecast_top10_probability": 0.0019,
+      "forecast_top5_probability": 0.00018333333333333334,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 57,
+      "actual_final_rank_label": "57",
+      "actual_tie": true,
+      "actual_fr_score": 77,
+      "actual_total_score": 294,
+      "actual_score_to_par": 6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9436",
+      "player_name": "구래현",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 71,
+        "r2": 74,
+        "r3": 75
+      },
+      "forecast_top20_probability": 0.0008833333333333333,
+      "forecast_top10_probability": 3.3333333333333335e-05,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 57,
+      "actual_final_rank_label": "57",
+      "actual_tie": true,
+      "actual_fr_score": 74,
+      "actual_total_score": 294,
+      "actual_score_to_par": 6,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9752",
+      "player_name": "김나현2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 73,
+        "r3": 78
+      },
+      "forecast_top20_probability": 0.002916666666666667,
+      "forecast_top10_probability": 0.0001,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 61,
+      "actual_final_rank_label": "61",
+      "actual_tie": false,
+      "actual_fr_score": 76,
+      "actual_total_score": 295,
+      "actual_score_to_par": 7,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 68,
+        "r2": 73,
+        "r3": 74
+      },
+      "forecast_top20_probability": 0.15498333333333333,
+      "forecast_top10_probability": 0.030983333333333335,
+      "forecast_top5_probability": 0.005666666666666667,
+      "forecast_win_probability": 0.00011027777777777777,
+      "actual_final_rank": 62,
+      "actual_final_rank_label": "62",
+      "actual_tie": true,
+      "actual_fr_score": 81,
+      "actual_total_score": 296,
+      "actual_score_to_par": 8,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "11060",
+      "player_name": "안재희",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 70,
+        "r2": 74,
+        "r3": 73
+      },
+      "forecast_top20_probability": 0.028283333333333334,
+      "forecast_top10_probability": 0.00165,
+      "forecast_top5_probability": 8.333333333333333e-05,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 62,
+      "actual_final_rank_label": "62",
+      "actual_tie": true,
+      "actual_fr_score": 79,
+      "actual_total_score": 296,
+      "actual_score_to_par": 8,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "9807",
+      "player_name": "김서윤2",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 73
+      },
+      "forecast_top20_probability": 0.032,
+      "forecast_top10_probability": 0.0024666666666666665,
+      "forecast_top5_probability": 0.00015,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 64,
+      "actual_final_rank_label": "64",
+      "actual_tie": false,
+      "actual_fr_score": 80,
+      "actual_total_score": 297,
+      "actual_score_to_par": 9,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 72,
+        "r3": 73
+      },
+      "forecast_top20_probability": 0.02235,
+      "forecast_top10_probability": 0.0023,
+      "forecast_top5_probability": 0.00018333333333333334,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 65,
+      "actual_final_rank_label": "65",
+      "actual_tie": false,
+      "actual_fr_score": 80,
+      "actual_total_score": 298,
+      "actual_score_to_par": 10,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8799",
+      "player_name": "오경은",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 76,
+        "r2": 69,
+        "r3": 76
+      },
+      "forecast_top20_probability": 0.00011666666666666667,
+      "forecast_top10_probability": 0.0,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 66,
+      "actual_final_rank_label": "66",
+      "actual_tie": false,
+      "actual_fr_score": 78,
+      "actual_total_score": 299,
+      "actual_score_to_par": 11,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 72,
+        "r2": 73,
+        "r3": 76
+      },
+      "forecast_top20_probability": 0.0005333333333333334,
+      "forecast_top10_probability": 0.0,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 67,
+      "actual_final_rank_label": "67",
+      "actual_tie": false,
+      "actual_fr_score": 80,
+      "actual_total_score": 301,
+      "actual_score_to_par": 13,
+      "actual_status": "FINISHED"
+    },
+    {
+      "player_id": "8770",
+      "player_name": "조아연",
+      "forecast_known_r1_r2_r3_scores": {
+        "r1": 73,
+        "r2": 71,
+        "r3": 80
+      },
+      "forecast_top20_probability": 5e-05,
+      "forecast_top10_probability": 0.0,
+      "forecast_top5_probability": 0.0,
+      "forecast_win_probability": 0.0,
+      "actual_final_rank": 68,
+      "actual_final_rank_label": "68",
+      "actual_tie": false,
+      "actual_fr_score": 80,
+      "actual_total_score": 304,
+      "actual_score_to_par": 16,
+      "actual_status": "FINISHED"
+    }
+  ]
+}
