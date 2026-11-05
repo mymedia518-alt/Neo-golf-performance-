@@ -1,0 +1,438 @@
+{
+  "game_code": "2026110001",
+  "collected_at": "2026-11-05T11:49:46.603217+00:00",
+  "source": "https://klpga.co.kr/web/tourInfo/entry",
+  "page_summary_counts": {
+    "총 참가자": 60,
+    "자격자": 56,
+    "추천자": 4,
+    "초청자": 0
+  },
+  "parsed_row_count": 60,
+  "unparsed_row_count": 0,
+  "duplicate_player_codes": [],
+  "matched_count": 0,
+  "unmatched_count": 60,
+  "records": [
+    {
+      "player_code": "10112",
+      "player_name": "고지우",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10109",
+      "player_name": "고지원",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10726",
+      "player_name": "김가희2",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10002",
+      "player_name": "김민별",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10097",
+      "player_name": "김민선7",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10725",
+      "player_name": "김민솔",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10081",
+      "player_name": "김민주",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8300",
+      "player_name": "김수지",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11143",
+      "player_name": "김시현",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9487",
+      "player_name": "김재희",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9000",
+      "player_name": "김지수",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9113",
+      "player_name": "노승희",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10083",
+      "player_name": "마서영",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10296",
+      "player_name": "문정민",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9431",
+      "player_name": "박보겸",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11056",
+      "player_name": "박예지",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9130",
+      "player_name": "박현경",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9788",
+      "player_name": "박혜준",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10095",
+      "player_name": "방신실",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8589",
+      "player_name": "배소현",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "nationality": "THA",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11134",
+      "player_name": "서교림",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9134",
+      "player_name": "서어진",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8881",
+      "player_name": "성유진",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11057",
+      "player_name": "송은아",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9135",
+      "player_name": "신다인",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "4905",
+      "player_name": "안선주",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "영구시드권 선수"
+    },
+    {
+      "player_code": "9465",
+      "player_name": "안지현",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11045",
+      "player_name": "양효진",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11066",
+      "player_name": "유서연2",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10146",
+      "player_name": "유현조",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9990",
+      "player_name": "윤수아",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8883",
+      "player_name": "이가영",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8392",
+      "player_name": "이다연",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9652",
+      "player_name": "이세희",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8859",
+      "player_name": "이승연",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9784",
+      "player_name": "이예원",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9759",
+      "player_name": "이율린",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9449",
+      "player_name": "이지현3",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8811",
+      "player_name": "이채은2",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9145",
+      "player_name": "임희정",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8243",
+      "player_name": "장은수",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9082",
+      "player_name": "전예성",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9389",
+      "player_name": "전우리",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9765",
+      "player_name": "정소이",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9820",
+      "player_name": "정윤지",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "1521",
+      "player_name": "지한솔",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "nationality": "THA",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9391",
+      "player_name": "최가빈",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "8284",
+      "player_name": "최예림",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10577",
+      "player_name": "최예본",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9235",
+      "player_name": "최은우",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11447",
+      "player_name": "한아름",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "9426",
+      "player_name": "한진선",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "10586",
+      "player_name": "홍진영2",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "11042",
+      "player_name": "홍현지",
+      "nationality": "KOR",
+      "qualification_category": "자격자",
+      "qualification_reason": "2026 정규투어 상금순위 순"
+    },
+    {
+      "player_code": "12024",
+      "player_name": "김규빈 0910(A)",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_code": "12015",
+      "player_name": "문아린 0905(A)",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_code": "11649",
+      "player_name": "이동은",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    },
+    {
+      "player_code": "12010",
+      "player_name": "이시은 0901(A)",
+      "nationality": "KOR",
+      "qualification_category": "추천자",
+      "qualification_reason": null
+    }
+  ]
+}

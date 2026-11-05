@@ -1,0 +1,131 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NEO GOLF DATA · 대보 하우스디 챔피언십 실시간 우승확률 (참고 예상)</title><meta name="description" content="대보 하우스디 챔피언십 실시간 우승확률 참고 예상입니다. 공식 순위가 아니며 독립 검증을 거치지 않은 실험적 모델입니다."><link rel="canonical" href="https://neogolfdata.com/tournaments/2026/2026110001/live/"><meta name="robots" content="noindex"><link rel="stylesheet" href="/assets/neo-site.css"><link rel="stylesheet" href="../../../../assets/neo.css"><style>
+.neo-global-header__inner{padding-inline:clamp(1rem,2.5vw,2.5rem)}
+.live-disclosure{background:#2a1a0a;border:1px solid var(--gold,#d8ab5c);border-radius:10px;padding:14px 18px;margin:0 0 18px;color:#f1e3c8;font-size:14px;line-height:1.55}
+.live-disclosure strong{color:var(--gold,#d8ab5c)}
+.live-status{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:0 0 14px;font-size:13px;color:var(--muted)}
+.live-status__badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--soft);font-weight:700}
+.live-status__stale{display:none;background:#5a1f1f;color:#ffd6d6;border-radius:999px;padding:3px 10px;font-weight:700}
+.live-status--is-stale .live-status__stale{display:inline-flex}
+.live-table td.rank{font-weight:800;color:var(--accent)}
+.live-table td.holes{color:var(--muted);font-size:12px;white-space:nowrap}
+.live-table td.winpct{font-weight:900;color:var(--gold,#d8ab5c)}
+.live-side-note{margin-top:22px;font-size:13px;color:var(--muted)}
+.live-side-note h3{font-size:14px;margin:0 0 6px}
+.live-side-note ul{margin:0;padding-left:18px}
+.live-error{display:none;background:#5a1f1f;color:#ffd6d6;border-radius:8px;padding:10px 14px;margin:0 0 14px;font-size:13px}
+</style></head><body><header class="neo-global-header" data-neo-global-navigation>
+<div class="neo-global-header__inner">
+<a class="neo-global-brand" href="/">
+<img class="neo-brand-logo" src="/assets/neo-logo.png" alt="NEO GOLF DATA" width="362" height="160">
+<span class="neo-brand-legend">
+<span class="neo-brand-legend__item">NUMBER</span>
+<span class="neo-brand-legend__item">EVIDENCE</span>
+<span class="neo-brand-legend__item">ORACLE</span>
+</span>
+</a>
+<nav class="neo-global-nav" aria-label="주요 메뉴">
+<a href="/">홈</a>
+<a href="/tournaments/" class="is-active" aria-current="page">대회</a>
+<a href="/ranking/">랭킹</a>
+<a href="/deep-dive/">딥다이브</a>
+<a href="/neo-lab/">NEO LAB</a>
+<a href="/about/">소개</a>
+</nav>
+</div></header><main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>대보 하우스디 챔피언십</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">실시간 우승확률</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">실시간 (참고 예상)</p><h1>대보 하우스디 챔피언십</h1><p class="meta">2026.11.06 — 11.08 · 3라운드</p><p class="meta">서원밸리CC 서원힐스 · 스트로크 플레이</p></div></section><section class="panel" id="live-probability"><div class="live-disclosure"><strong>참고 예상 (REFERENCE_ESTIMATE)</strong> — 이 수치는 공식 순위가 아니며, 독립적인 Red Team 검증을 거치지 않은 실험적 실시간 모델의 시뮬레이션 결과입니다. 아직 플레이하지 않은 홀은 시뮬레이션으로 채워지며, 컷 기준(통과 여부)은 공식적으로 확인되지 않아 별도로 표시하지 않습니다. 참고용으로만 활용해 주세요.</div><div class="live-error" id="liveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="liveStatus"><span class="live-status__badge" id="liveRoundBadge">라운드 —</span><span id="liveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="liveStaleBadge">업데이트 지연</span></div><div class="leaderboard-head"><h2>실시간 우승확률 <small id="liveFieldCount">—명</small></h2></div><div class="table-wrap"><table class="data leaderboard-table live-table" id="liveTable"><thead><tr><th>순위</th><th>선수명</th><th>진행</th><th>Win%</th><th>Top5%</th><th>Top10%</th><th>Top20%</th></tr></thead><tbody id="liveTableBody"><tr><td colspan="7">불러오는 중…</td></tr></tbody></table></div><div class="live-side-note" id="liveEliminatedNote" hidden><h3>기권/실격</h3><ul id="liveEliminatedList"></ul></div><div class="live-side-note" id="liveExcludedNote" hidden><h3>산출 불가 (데이터 미확인)</h3><ul id="liveExcludedList"></ul></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer>
+<script>
+(function () {
+  "use strict";
+  var DATA_URL = "https://raw.githubusercontent.com/mymedia518-alt/Neo-golf-performance-/live/2026110001/klpga_pipeline/content/website_v2/DAEBO_2026110001_LIVE_PROBABILITY_LATEST.json";
+  var REFRESH_MS = 60000;
+  var STALE_MS = 45 * 60 * 1000;
+
+  var statusEl = document.getElementById("liveStatus");
+  var roundBadge = document.getElementById("liveRoundBadge");
+  var updatedAtEl = document.getElementById("liveUpdatedAt");
+  var staleBadge = document.getElementById("liveStaleBadge");
+  var errorEl = document.getElementById("liveError");
+  var fieldCountEl = document.getElementById("liveFieldCount");
+  var tbody = document.getElementById("liveTableBody");
+  var eliminatedNote = document.getElementById("liveEliminatedNote");
+  var eliminatedList = document.getElementById("liveEliminatedList");
+  var excludedNote = document.getElementById("liveExcludedNote");
+  var excludedList = document.getElementById("liveExcludedList");
+
+  function fmtPct(value) {
+    return (value * 100).toFixed(2) + "%";
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function render(doc) {
+    roundBadge.textContent = "라운드 " + doc.current_round + " / " + doc.rounds_total;
+    var updated = new Date(doc.collected_at);
+    updatedAtEl.textContent = "최근 갱신(실제 수집 시각): " + updated.toLocaleString("ko-KR", { hour12: false });
+
+    var now = Date.now();
+    var ageMs = now - updated.getTime();
+    var isStale = !!doc.is_stale || ageMs > STALE_MS;
+    statusEl.classList.toggle("live-status--is-stale", isStale);
+
+    fieldCountEl.textContent = doc.probabilities.length + "명";
+
+    if (!doc.probabilities.length) {
+      tbody.innerHTML = "<tr><td colspan='7'>아직 집계된 선수가 없습니다.</td></tr>";
+    } else {
+      var rows = doc.probabilities.map(function (p, idx) {
+        var holes = p.holes_completed == null ? "—" : (p.holes_completed >= 18 ? "완료" : p.holes_completed + "H");
+        return (
+          "<tr><td class='rank'>" + (idx + 1) + "</td>" +
+          "<td>" + escapeHtml(p.player_name) + "</td>" +
+          "<td class='holes'>" + holes + "</td>" +
+          "<td class='winpct'>" + fmtPct(p.win_probability) + "</td>" +
+          "<td>" + fmtPct(p.top5_probability) + "</td>" +
+          "<td>" + fmtPct(p.top10_probability) + "</td>" +
+          "<td>" + fmtPct(p.top20_probability) + "</td></tr>"
+        );
+      });
+      tbody.innerHTML = rows.join("");
+    }
+
+    if (doc.eliminated_players && doc.eliminated_players.length) {
+      eliminatedNote.hidden = false;
+      eliminatedList.innerHTML = doc.eliminated_players.map(function (p) {
+        return "<li>" + escapeHtml(p.player_name) + "</li>";
+      }).join("");
+    } else {
+      eliminatedNote.hidden = true;
+    }
+
+    if (doc.excluded_players && doc.excluded_players.length) {
+      excludedNote.hidden = false;
+      excludedList.innerHTML = doc.excluded_players.map(function (p) {
+        return "<li>" + escapeHtml(p.player_name) + " — " + escapeHtml(p.reason) + "</li>";
+      }).join("");
+    } else {
+      excludedNote.hidden = true;
+    }
+
+    errorEl.style.display = "none";
+  }
+
+  function load() {
+    fetch(DATA_URL + "?_=" + Date.now(), { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      })
+      .then(render)
+      .catch(function () {
+        errorEl.style.display = "block";
+      });
+  }
+
+  load();
+  setInterval(load, REFRESH_MS);
+})();
+</script>
+</body></html>

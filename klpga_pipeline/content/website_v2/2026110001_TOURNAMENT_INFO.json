@@ -1,0 +1,20 @@
+{
+  "game_code": "2026110001",
+  "event_name": "대보 하우스디 챔피언십",
+  "event_eng_name": "DAEBO hausD Championship",
+  "season": 2026,
+  "start_date": "20261106",
+  "end_date": "20261108",
+  "course_name": "서원힐스",
+  "course_eng_name": "SEOWON HILLS",
+  "out_course_text": "WEST",
+  "in_course_text": "SOUTH",
+  "game_finish": "S",
+  "prize_money": 1200000000,
+  "game_method": "0",
+  "is_completed": false,
+  "is_regular_tour": true,
+  "is_stroke_play": true,
+  "collected_at": "2026-11-05T11:49:45.082026+00:00",
+  "source": "https://klpga.co.kr/ajax/tourInfo/getGameList"
+}
