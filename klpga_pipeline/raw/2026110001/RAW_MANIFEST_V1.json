@@ -1,0 +1,33 @@
+{
+  "game_code": "2026110001",
+  "captures": {
+    "game_list": {
+      "path": "game_list.json",
+      "sha256": "d856eb13e1b01adf55f8760724ed7972c5748846578b798afce6379dd0cd118f",
+      "byte_count": 2883,
+      "source_url": "https://klpga.co.kr/ajax/tourInfo/getGameList",
+      "fetched_at": "2026-11-05T11:49:45.081882+00:00"
+    },
+    "entry_list": {
+      "path": "entry_list.html",
+      "sha256": "c017a209b69299dde63b0b79784798561ed94333eb9af22eaa0e141f7401feae",
+      "byte_count": 384579,
+      "source_url": "https://klpga.co.kr/web/tourInfo/entry",
+      "fetched_at": "2026-11-05T11:49:46.437249+00:00"
+    },
+    "kranking_period": {
+      "path": "kranking_period.html",
+      "sha256": "06ff99d159d9d6a1f74d82af4ce676829cc2adf590916dba51bca6560434c334",
+      "byte_count": 249416,
+      "source_url": "https://k-rankings.klpga.co.kr/index.jsp",
+      "fetched_at": "2026-11-05T11:49:51.245727+00:00"
+    },
+    "kranking_full_table": {
+      "path": "kranking_full_table.html",
+      "sha256": "2cc9087d4bf4b88e474a5bcd2794035c298725862d2ef0e0b862097da4c7026c",
+      "byte_count": 583172,
+      "source_url": "https://k-rankings.klpga.co.kr/allplayer.jsp",
+      "fetched_at": "2026-11-05T11:49:51.247888+00:00"
+    }
+  }
+}
