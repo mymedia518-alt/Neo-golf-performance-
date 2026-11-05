@@ -49,6 +49,53 @@ from klpga.parsers.round_progress import resolve_round_progress  # noqa: E402
 
 CONTENT = ROOT / "content" / "website_v2"
 
+# REAL INTEGRATION FINDING (2026-11-05 test dispatch, one day before
+# this tournament's own 2026-11-06 start): the live roundLeaderboard
+# endpoint returned holes_completed=1/today_under_par=0/
+# total_under_par=0 for ALL 60 players, uniformly, a full day before
+# any real play could possibly have happened. klpga.parsers.
+# round_progress's own docstring already warns that no raw data-inghole
+# value other than "18" (finished) or "" (no data) has ever been
+# confirmed real for genuine mid-round play -- this is exactly that
+# unconfirmed territory turning out to be a "hasn't teed off yet"
+# placeholder, not a real score. A per-player heuristic cannot safely
+# tell a real "parred hole 1" from this placeholder, but the FIELD
+# almost certainly can: it is not plausible for dozens of real,
+# independent players to show byte-identical holes_completed/score at
+# once, whereas a site-wide pre-round placeholder naturally is
+# identical for everyone. This is a disclosed, flagged downgrade (same
+# spirit as HolesCompletedResult.assumed_default_start), never a
+# silent guess.
+_PLACEHOLDER_MIN_SAMPLE = 10
+_PLACEHOLDER_FRACTION_THRESHOLD = 0.9
+
+
+def _looks_like_not_started_placeholder(row) -> bool:
+    return (
+        row.get("holes_completed", 0) <= 1
+        and row.get("today_under_par") == 0
+        and row.get("total_under_par") == 0
+        and row.get("status") not in ("WD", "DQ", "CUT", "INCOMPLETE")
+    )
+
+
+def _apply_round_not_started_correction(players: list[dict]) -> bool:
+    """Mutates `players` in place, zeroing holes_completed only for rows
+    matching the placeholder signature, and only when the signature is
+    near-universal across the field. Returns whether the correction
+    fired at all (callers surface this at the top level -- never
+    silent)."""
+    candidates = [p for p in players if _looks_like_not_started_placeholder(p)]
+    if len(candidates) < _PLACEHOLDER_MIN_SAMPLE:
+        return False
+    if len(candidates) / max(1, len(players)) < _PLACEHOLDER_FRACTION_THRESHOLD:
+        return False
+    for p in candidates:
+        p["holes_completed"] = 0
+        p["holes_completed_display"] = "0H"
+        p["placeholder_not_started_correction_applied"] = True
+    return True
+
 
 def collect(game_code: str, round_number: int, *, client: PoliteHttpClient) -> dict:
     leaderboard_html = fetch_round_leaderboard_html(client, game_code, round_number, use_cache=False)
@@ -87,6 +134,8 @@ def collect(game_code: str, round_number: int, *, client: PoliteHttpClient) -> d
             "assumed_default_start": hc.assumed_default_start if hc is not None else assumed_default_start_overall,
         })
 
+    round_not_actually_started = _apply_round_not_started_correction(players)
+
     return {
         "schema_version": 1,
         "game_code": game_code,
@@ -95,6 +144,7 @@ def collect(game_code: str, round_number: int, *, client: PoliteHttpClient) -> d
         "player_count": len(players),
         "group_page_status": group_status,
         "group_page_round_found": bool(groupings) or not assumed_default_start_overall,
+        "round_not_actually_started": round_not_actually_started,
         "players": players,
     }
 
