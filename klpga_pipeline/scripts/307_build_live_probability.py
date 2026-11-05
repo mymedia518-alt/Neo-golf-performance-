@@ -144,6 +144,13 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
         }
         for p in current_snapshot["players"]
     }
+    status_by_player = {p["player_code"]: p["status"] for p in current_snapshot["players"]}
+
+    try:
+        assert_completed_round_has_no_incomplete_holes(current_snapshot["players"], round_complete=True, label="current round")
+        round_complete = True
+    except FreshnessGateError:
+        round_complete = False
 
     live_states, excluded = build_live_states(
         player_ids, current_round=current_round,
@@ -176,11 +183,13 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
         "generated_at": now.replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "is_stale": stale,
         "stale_threshold_minutes": max_staleness_minutes,
+        "round_complete": round_complete,
         "excluded_players": [
             {"player_id": pid, "player_name": name_by_id.get(pid), "reason": reason} for pid, reason in excluded.items()
         ],
         "eliminated_players": [
-            {"player_id": pid, "player_name": name_by_id.get(pid)} for pid in result.eliminated_players
+            {"player_id": pid, "player_name": name_by_id.get(pid), "status": status_by_player.get(pid)}
+            for pid in result.eliminated_players
         ],
         "assumed_default_start_players": [
             {"player_id": pid, "player_name": name_by_id.get(pid)} for pid in assumed_default_start_players
