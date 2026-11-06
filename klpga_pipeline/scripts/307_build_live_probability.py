@@ -94,6 +94,30 @@ def _load_forecasts() -> dict[str, PlayerSGForecast]:
     }
 
 
+def _golf_rank_displays(totals_by_player: dict[str, int]) -> dict[str, str]:
+    """Real golf tie-ranking: players with the EXACT same current total
+    score-to-par share the same rank number with a 'T' prefix (matching
+    every other leaderboard table already on this site, e.g. 'T3'),
+    and the next distinct score skips ahead by the tie count (1, T2,
+    T2, 4, ...) -- never a plain sequential index, which is what this
+    script wrote before this fix (a win%-sort position, not a real
+    leaderboard rank)."""
+    ordered = sorted(totals_by_player.items(), key=lambda kv: (kv[1], kv[0]))
+    result: dict[str, str] = {}
+    i = 0
+    n = len(ordered)
+    while i < n:
+        j = i
+        while j + 1 < n and ordered[j + 1][1] == ordered[i][1]:
+            j += 1
+        tie_count = j - i + 1
+        label = str(i + 1) if tie_count == 1 else f"T{i + 1}"
+        for k in range(i, j + 1):
+            result[ordered[k][0]] = label
+        i = j + 1
+    return result
+
+
 def _load_prior_round_snapshot(round_number: int) -> dict:
     path = CONTENT / f"{GAME_CODE}_LIVE_R{round_number}_SNAPSHOT.json"
     if not path.exists():
@@ -167,6 +191,19 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
         p["player_code"] for p in current_snapshot["players"] if p.get("assumed_default_start")
     ]
 
+    # Real current standing -- sum of REAL completed-round scores plus
+    # the REAL current-round score-so-far (never simulated) -- is what
+    # 순위 must reflect, exactly like every real leaderboard on this
+    # site (and real golf itself): position on the course right now,
+    # not a probability-sorted position. Every pid in live_states has a
+    # complete, non-None completed_round_scores list by construction
+    # (build_live_states already excludes anyone missing one).
+    current_total_by_player = {
+        pid: sum(completed_round_scores_by_player[pid]) + live_states[pid].current_round_score_so_far
+        for pid in live_states
+    }
+    rank_display_by_player = _golf_rank_displays(current_total_by_player)
+
     out = {
         "schema_version": 1,
         "game_code": GAME_CODE,
@@ -198,11 +235,16 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
             {
                 "player_id": pid,
                 "player_name": name_by_id.get(pid),
+                "rank_display": rank_display_by_player.get(pid),
+                "current_total_to_par": current_total_by_player.get(pid),
                 "holes_completed": live_states[pid].holes_completed if pid in live_states else None,
                 "today_under_par": live_states[pid].current_round_score_so_far if pid in live_states else None,
                 **probs,
             }
-            for pid, probs in sorted(result.probabilities.items(), key=lambda kv: -kv[1]["win_probability"])
+            for pid, probs in sorted(
+                result.probabilities.items(),
+                key=lambda kv: (current_total_by_player.get(kv[0], 0), kv[0]),
+            )
         ],
     }
     return out
