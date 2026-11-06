@@ -7,6 +7,8 @@
 .live-status--is-stale .live-status__stale{display:inline-flex}
 .live-status__upcoming{display:none;background:var(--soft);color:var(--muted);border-radius:999px;padding:3px 10px;font-weight:700}
 .live-status--upcoming .live-status__upcoming{display:inline-flex}
+.live-status__offhours{display:none;background:var(--soft);color:var(--muted);border-radius:999px;padding:3px 10px;font-weight:700}
+.live-status--offhours .live-status__offhours{display:inline-flex}
 #live-probability .live-table td.rank{font-weight:800;color:var(--accent)}
 #live-probability .live-table td.holes{color:var(--muted);font-size:12px}
 #live-probability .live-table td.winpct{font-weight:900;color:var(--gold,#d8ab5c)}
@@ -30,7 +32,7 @@
 <a href="/neo-lab/">NEO LAB</a>
 <a href="/about/">소개</a>
 </nav>
-</div></header><main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>대보 하우스디 챔피언십</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">실시간 우승확률</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">실시간<span class="eyebrow-badge">참고 예상</span></p><h1>대보 하우스디 챔피언십</h1><p class="meta">2026.11.06 — 11.08 · 3라운드</p><p class="meta">서원밸리CC 서원힐스 · 스트로크 플레이</p></div></section><section class="panel leaderboard-panel" id="live-probability"><div class="live-error" id="liveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="liveStatus"><span class="live-status__badge" id="liveRoundBadge">라운드 —</span><span id="liveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="liveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="liveUpcomingBadge">1라운드 시작과 동시에 업데이트</span></div><div class="leaderboard-head"><h2>실시간 우승확률 <small id="liveFieldCount">—명</small></h2></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="liveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="liveRoundScoreHeader">R1</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="liveTableBody"><tr><td colspan="8">불러오는 중…</td></tr></tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer>
+</div></header><main><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><a href="/tournaments/">대회</a><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span>대보 하우스디 챔피언십</span><span class="breadcrumb__sep" aria-hidden="true"> &gt; </span><span aria-current="page">실시간 우승확률</span></nav><section class="hero" id="tournament"><div><p class="eyebrow">실시간<span class="eyebrow-badge">참고 예상</span></p><h1>대보 하우스디 챔피언십</h1><p class="meta">2026.11.06 — 11.08 · 3라운드</p><p class="meta">서원밸리CC 서원힐스 · 스트로크 플레이</p></div></section><section class="panel leaderboard-panel" id="live-probability"><div class="live-error" id="liveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="liveStatus"><span class="live-status__badge" id="liveRoundBadge">라운드 —</span><span id="liveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="liveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="liveUpcomingBadge">1라운드 시작과 동시에 업데이트</span><span class="live-status__offhours" id="liveOffHoursBadge">실시간 업데이트</span></div><div class="leaderboard-head"><h2>실시간 우승확률 <small id="liveFieldCount">—명</small></h2></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="liveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="liveRoundScoreHeader">R1</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="liveTableBody"><tr><td colspan="8">불러오는 중…</td></tr></tbody></table></div></section></main><footer class="site-footer"><div class="site-footer__inner"><p class="site-footer__copyright">© 2026 NEO GOLF DATA. All Rights Reserved.</p></div></footer>
 <script>
 (function () {
   "use strict";
@@ -43,6 +45,19 @@
   // stale snapshot is a genuine operational concern and gets the real
   // warning.
   var ROUND1_START_MS = new Date("2026-11-06T00:00:00+09:00").getTime();
+  // The live-cycle workflow and watchdog only ever collect during
+  // 06:00-19:00 KST each day (see daebo-2026110001-live-cycle.yml's own
+  // "should_run" gate) -- the overnight gap is planned downtime, not a
+  // malfunction, so it gets a neutral "실시간 업데이트" badge instead of
+  // the alarming 지연 one. A stale snapshot DURING that active window is
+  // still a genuine problem and keeps the real warning.
+  var ACTIVE_WINDOW_START_HOUR_KST = 6;
+  var ACTIVE_WINDOW_END_HOUR_KST = 19;
+
+  function isWithinActiveWindowKST(ms) {
+    var kstHour = new Date(ms + 9 * 60 * 60 * 1000).getUTCHours();
+    return kstHour >= ACTIVE_WINDOW_START_HOUR_KST && kstHour < ACTIVE_WINDOW_END_HOUR_KST;
+  }
 
   var statusEl = document.getElementById("liveStatus");
   var roundBadge = document.getElementById("liveRoundBadge");
@@ -97,8 +112,10 @@
     var ageMs = now - updated.getTime();
     var isStale = !!doc.is_stale || ageMs > STALE_MS;
     var tournamentStarted = now >= ROUND1_START_MS;
-    statusEl.classList.toggle("live-status--is-stale", isStale && tournamentStarted);
+    var inActiveWindow = isWithinActiveWindowKST(now);
+    statusEl.classList.toggle("live-status--is-stale", isStale && tournamentStarted && inActiveWindow);
     statusEl.classList.toggle("live-status--upcoming", isStale && !tournamentStarted);
+    statusEl.classList.toggle("live-status--offhours", isStale && tournamentStarted && !inActiveWindow);
 
     var activeRows = doc.probabilities || [];
     var eliminatedRows = (doc.round_complete && doc.eliminated_players) ? doc.eliminated_players : [];
