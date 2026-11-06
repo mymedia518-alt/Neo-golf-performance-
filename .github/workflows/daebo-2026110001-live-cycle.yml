@@ -16,20 +16,22 @@ name: "Daebo HausD (2026110001) — LIVE win-probability cycle"
 # raw.githubusercontent.com, so the displayed numbers refresh without
 # any GitHub Pages redeploy.
 #
-# MANUAL DISPATCH ONLY FOR THIS FIRST ROLLOUT -- deliberately no
-# `schedule:` cron trigger yet. This is a brand-new model's first-ever
-# run against real live data; r1_live_probability's own incident
-# history is exactly why an unattended, fully-automated 3-day cron is
-# not turned on before a human has watched at least one real cycle
-# (ideally round 1's first dispatch) succeed end-to-end. Once that is
-# confirmed, add back a `schedule:` entry such as
-# `*/30 * 5-8 11 *` (every 30 minutes, day-of-month 5-8 of November
-# UTC -- chosen to cover every real KST moment of 2026-11-06..11-08
-# despite the UTC/KST day-boundary offset) -- the job's own first step
-# already computes the real KST time and SKIPS (zero HTTP calls, zero
-# commits) outside a generous 06:00-19:00 KST play window or outside
-# round 1-3's real KST dates, so turning the schedule on is then just
-# uncommenting one line, not new logic.
+# SCHEDULE ENABLED 2026-11-06 after a human watched two real manual
+# dispatches succeed against real live Round 1 data (holes_completed
+# varied realistically 1-6 across the field, scores varied -- not the
+# earlier uniform "hasn't started" placeholder). See
+# scripts/306_collect_live_round_snapshot.py's own placeholder-
+# detection fix for that earlier finding.
+#
+# CHECKOUT PINNED TO neo-website-v2 EXPLICITLY: GitHub only ever runs a
+# `schedule`-triggered workflow using the DEFAULT branch's (main's) own
+# copy of this YAML, and `github.ref` for that run is also main --
+# main carries no pipeline code at all (see START_TOURNAMENT.md: this
+# repo's convention is to register workflow files on main while the
+# real code lives on neo-website-v2/feature branches). Pinning the
+# checkout step's `ref` explicitly means the schedule trigger still
+# pulls the real scripts and content from neo-website-v2 regardless,
+# without needing to duplicate any pipeline code onto main.
 
 on:
   workflow_dispatch:
@@ -40,8 +42,8 @@ on:
       seed:
         description: "Override the RNG seed. Leave empty to use this run's own github.run_id (still persisted in the output either way)."
         required: false
-  # schedule:
-  #   - cron: "*/30 * 5-8 11 *"
+  schedule:
+    - cron: "*/30 * 5-8 11 *"
 
 permissions:
   contents: write
@@ -57,6 +59,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: neo-website-v2
           fetch-depth: 0
 
       - name: Compute KST time + round, decide whether to run
