@@ -64,19 +64,28 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
 #home-live-results .live-status--is-stale .live-status__stale{display:inline-flex}
 #home-live-results .live-status__upcoming{display:none;background:var(--soft);color:var(--muted);border-radius:999px;padding:3px 10px;font-weight:700}
 #home-live-results .live-status--upcoming .live-status__upcoming{display:inline-flex}
+#home-live-results .live-status__offhours{display:none;background:var(--soft);color:var(--muted);border-radius:999px;padding:3px 10px;font-weight:700}
+#home-live-results .live-status--offhours .live-status__offhours{display:inline-flex}
 #home-live-results .live-table td.rank{font-weight:800;color:var(--accent)}
 #home-live-results .live-table td.holes{color:var(--muted);font-size:12px}
 #home-live-results .live-table td.winpct{font-weight:900;color:var(--gold,#d8ab5c)}
 #home-live-results .live-table tr.is-eliminated td,#home-live-results .live-table tr.is-eliminated th{color:var(--muted)}
 #home-live-results .live-error{display:none;background:#5a1f1f;color:#ffd6d6;border-radius:8px;padding:10px 14px;margin:0 0 10px;font-size:13px}
 #home-live-results .eyebrow-badge{display:inline-block;padding:2px 9px;border-radius:999px;border:1px solid var(--gold,#d8ab5c);color:var(--gold,#d8ab5c);font-size:11px;font-weight:700;margin-left:6px;vertical-align:middle}
-</style><div class="leaderboard-head"><h2>실시간 우승확률<span class="eyebrow-badge">참고 예상</span> <small id="homeLiveFieldCount">—명</small></h2></div><p class='section-link-row'><a href='/tournaments/2026/2026110001/live/'>실시간 우승확률 전체 보기 →</a></p><div class="live-error" id="homeLiveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="homeLiveStatus"><span class="live-status__badge" id="homeLiveRoundBadge">라운드 —</span><span id="homeLiveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="homeLiveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="homeLiveUpcomingBadge">1라운드 시작과 동시에 업데이트</span></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="homeLiveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="homeLiveRoundScoreHeader">R1</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="homeLiveTableBody"><tr><td colspan="8">불러오는 중…</td></tr></tbody></table></div><script>
+</style><div class="leaderboard-head"><h2>실시간 우승확률<span class="eyebrow-badge">참고 예상</span> <small id="homeLiveFieldCount">—명</small></h2></div><p class='section-link-row'><a href='/tournaments/2026/2026110001/live/'>실시간 우승확률 전체 보기 →</a></p><div class="live-error" id="homeLiveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="homeLiveStatus"><span class="live-status__badge" id="homeLiveRoundBadge">라운드 —</span><span id="homeLiveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="homeLiveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="homeLiveUpcomingBadge">1라운드 시작과 동시에 업데이트</span><span class="live-status__offhours" id="homeLiveOffHoursBadge">실시간 업데이트</span></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="homeLiveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="homeLiveRoundScoreHeader">R1</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="homeLiveTableBody"><tr><td colspan="8">불러오는 중…</td></tr></tbody></table></div><script>
 (function () {
   "use strict";
   var DATA_URL = "https://raw.githubusercontent.com/mymedia518-alt/Neo-golf-performance-/live/2026110001/klpga_pipeline/content/website_v2/DAEBO_2026110001_LIVE_PROBABILITY_LATEST.json";
   var REFRESH_MS = 60000;
   var STALE_MS = 45 * 60 * 1000;
   var ROUND1_START_MS = new Date("2026-11-06T00:00:00+09:00").getTime();
+  var ACTIVE_WINDOW_START_HOUR_KST = 6;
+  var ACTIVE_WINDOW_END_HOUR_KST = 19;
+
+  function isWithinActiveWindowKST(ms) {
+    var kstHour = new Date(ms + 9 * 60 * 60 * 1000).getUTCHours();
+    return kstHour >= ACTIVE_WINDOW_START_HOUR_KST && kstHour < ACTIVE_WINDOW_END_HOUR_KST;
+  }
 
   var statusEl = document.getElementById("homeLiveStatus");
   var roundBadge = document.getElementById("homeLiveRoundBadge");
@@ -128,8 +137,10 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
     var ageMs = now - updated.getTime();
     var isStale = !!doc.is_stale || ageMs > STALE_MS;
     var tournamentStarted = now >= ROUND1_START_MS;
-    statusEl.classList.toggle("live-status--is-stale", isStale && tournamentStarted);
+    var inActiveWindow = isWithinActiveWindowKST(now);
+    statusEl.classList.toggle("live-status--is-stale", isStale && tournamentStarted && inActiveWindow);
     statusEl.classList.toggle("live-status--upcoming", isStale && !tournamentStarted);
+    statusEl.classList.toggle("live-status--offhours", isStale && tournamentStarted && !inActiveWindow);
 
     var activeRows = doc.probabilities || [];
     var eliminatedRows = (doc.round_complete && doc.eliminated_players) ? doc.eliminated_players : [];
