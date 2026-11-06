@@ -69,9 +69,19 @@ from klpga.website_v2.freshness_gate import (  # noqa: E402
     assert_no_silent_staleness,
     is_snapshot_stale,
 )
+from klpga.website_v2.player_identity import cross_tournament_verified_sponsor_cache  # noqa: E402
 
 GAME_CODE = "2026110001"
 ROUNDS = 3  # confirmed: 3 rounds, one per day, 2026-11-06..11-08
+# No {GAME_CODE}_ENTRY_KRANKING_JOIN.json exists yet for this tournament
+# (that's the real per-player nationality source every other round page
+# on this site reads -- see hitejinro_round_page._load_nationality_by_id
+# and scripts/292's own `entry.get("nationality", "KOR")`). Until one is
+# collected, this uses that SAME established fallback -- not a guess:
+# it's the identical default every other real round page on this site
+# already falls back to for a player missing a confirmed nationality,
+# and the KLPGA domestic tour field is overwhelmingly Korean.
+DEFAULT_NATIONALITY = "KOR"
 CONTENT = ROOT / "content" / "website_v2"
 FORECAST_PATH = CONTENT / f"DAEBO_{GAME_CODE}_PRE_SG_FORECAST_V1.json"
 ENTRY_PATH = CONTENT / f"{GAME_CODE}_ENTRY_SNAPSHOT.json"
@@ -204,6 +214,14 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
     }
     rank_display_by_player = _golf_rank_displays(current_total_by_player)
 
+    # Real, verified sponsor text -- reused from every OTHER tournament's
+    # own PASS-gated official collection by exact player_id match (see
+    # player_identity.cross_tournament_verified_sponsor_cache's own
+    # docstring for the conflict-drop discipline); empty string (no
+    # sponsor rendered) when no verified value exists anywhere, never
+    # fabricated. Same mechanism scripts/292 (S-OIL FR) already uses.
+    sponsor_by_player = cross_tournament_verified_sponsor_cache()
+
     out = {
         "schema_version": 1,
         "game_code": GAME_CODE,
@@ -225,7 +243,13 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
             {"player_id": pid, "player_name": name_by_id.get(pid), "reason": reason} for pid, reason in excluded.items()
         ],
         "eliminated_players": [
-            {"player_id": pid, "player_name": name_by_id.get(pid), "status": status_by_player.get(pid)}
+            {
+                "player_id": pid,
+                "player_name": name_by_id.get(pid),
+                "status": status_by_player.get(pid),
+                "nationality": DEFAULT_NATIONALITY,
+                "sponsor": sponsor_by_player.get(pid, ""),
+            }
             for pid in result.eliminated_players
         ],
         "assumed_default_start_players": [
@@ -235,6 +259,8 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
             {
                 "player_id": pid,
                 "player_name": name_by_id.get(pid),
+                "nationality": DEFAULT_NATIONALITY,
+                "sponsor": sponsor_by_player.get(pid, ""),
                 "rank_display": rank_display_by_player.get(pid),
                 "current_total_to_par": current_total_by_player.get(pid),
                 "holes_completed": live_states[pid].holes_completed if pid in live_states else None,
