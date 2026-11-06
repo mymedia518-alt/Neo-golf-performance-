@@ -287,7 +287,7 @@ def main() -> None:
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/pre/">PRE</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r1/">R1</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r2/" aria-current="page">R2</a></li>'
-        f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>R3</span></li>"
+        f"<li class='stage-nav__item'><a class='stage-nav__link' href='/tournaments/2026/{GAME_CODE}/r3/'>R3</a></li>"
         f"<li class='stage-nav__item'><span class='stage-nav__disabled' aria-disabled='true'>FR</span></li>"
         "</ol></nav>"
     )
