@@ -83,7 +83,7 @@ ROUNDS = 3  # confirmed: 3 rounds, one per day, 2026-11-06..11-08
 # and the KLPGA domestic tour field is overwhelmingly Korean.
 DEFAULT_NATIONALITY = "KOR"
 CONTENT = ROOT / "content" / "website_v2"
-FORECAST_PATH = CONTENT / f"DAEBO_{GAME_CODE}_PRE_SG_FORECAST_V1.json"
+PRE_FORECAST_PATH = CONTENT / f"DAEBO_{GAME_CODE}_PRE_SG_FORECAST_V1.json"
 ENTRY_PATH = CONTENT / f"{GAME_CODE}_ENTRY_SNAPSHOT.json"
 DEFAULT_N_SIMULATIONS = 60_000
 
@@ -92,8 +92,25 @@ def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _load_forecasts() -> dict[str, PlayerSGForecast]:
-    doc = _load(FORECAST_PATH)
+def _resolve_forecast_path(current_round: int) -> Path:
+    """Use the most recently completed round's own POST_R{k} forecast
+    (scripts/312 and its future POST_R2 sibling) if one has been built
+    -- it folds this tournament's own just-played SG into the player
+    priors, which the PRE forecast (built before Round 1 even started)
+    cannot reflect. Falls back to the PRE forecast only when no later
+    stage's forecast exists yet (e.g. still in Round 1, or a later
+    stage's forecast script hasn't been run), never silently guesses
+    which stage is "right" -- the newest one that actually exists for
+    an already-completed round always wins."""
+    for round_number in range(current_round - 1, 0, -1):
+        candidate = CONTENT / f"DAEBO_{GAME_CODE}_POST_R{round_number}_FORECAST_V1.json"
+        if candidate.is_file():
+            return candidate
+    return PRE_FORECAST_PATH
+
+
+def _load_forecasts(forecast_path: Path) -> dict[str, PlayerSGForecast]:
+    doc = _load(forecast_path)
     return {
         row["player_id"]: PlayerSGForecast(
             player_id=row["player_id"], mean_sg=row["mean_sg"], round_sd=row["round_sd"],
@@ -151,7 +168,8 @@ def _load_prior_round_snapshot(round_number: int) -> dict:
 
 
 def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_minutes: int) -> dict:
-    forecasts = _load_forecasts()
+    forecast_path = _resolve_forecast_path(current_round)
+    forecasts = _load_forecasts(forecast_path)
     entry = _load(ENTRY_PATH)
     player_ids = [str(row["player_code"]) for row in entry["records"]]
     name_by_id = {str(row["player_code"]): row["player_name"] for row in entry["records"]}
@@ -228,6 +246,7 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
         "current_round": current_round,
         "rounds_total": ROUNDS,
         "model": "klpga.neo_win.sg_live_v1.simulate_live_tournament_outcomes",
+        "sg_forecast_source": forecast_path.name,
         "model_status": LIVE_V2_MODEL_STATUS,
         "disclosure": "참고 예상 -- 독립 Red Team 검증을 거치지 않은 실험적 실시간 모델입니다. 공식 순위가 아닙니다.",
         "cut_rule_confirmed": False,

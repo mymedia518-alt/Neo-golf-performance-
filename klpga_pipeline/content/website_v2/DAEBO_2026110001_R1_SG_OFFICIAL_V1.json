@@ -1,0 +1,374 @@
+{
+  "schema_version": 1,
+  "game_code": "2026110001",
+  "source_url": "https://klpga.co.kr/load/leaderboard/strokesGained_detail POST gameCode=2026110001, round=1",
+  "scope": "single_round",
+  "round": 1,
+  "metric": "total_strokes_gained",
+  "retrieved_context_date": "2026-11-06",
+  "retrieved_at": "2026-11-06T08:56:39.406702+00:00",
+  "field_size": 60,
+  "generated_at": "2026-11-06T08:57:49.997601+00:00",
+  "records": [
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "total": 3.16,
+      "rounds": 1
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "total": 0.78,
+      "rounds": 1
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "total": 0.3,
+      "rounds": 1
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "total": -4.85,
+      "rounds": 1
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "total": 3.78,
+      "rounds": 1
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "total": -0.38,
+      "rounds": 1
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "total": 2.67,
+      "rounds": 1
+    },
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "total": 3.89,
+      "rounds": 1
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "total": -1.1,
+      "rounds": 1
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "total": -3.01,
+      "rounds": 1
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "total": 4.81,
+      "rounds": 1
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "total": -0.23,
+      "rounds": 1
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "total": -1.13,
+      "rounds": 1
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "total": -2.06,
+      "rounds": 1
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "total": -2.67,
+      "rounds": 1
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "total": -1.97,
+      "rounds": 1
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "total": -4.12,
+      "rounds": 1
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "total": 1.03,
+      "rounds": 1
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "total": 0.63,
+      "rounds": 1
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "total": 0.18,
+      "rounds": 1
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "total": -6.98,
+      "rounds": 1
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "total": 3.91,
+      "rounds": 1
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "total": 0.7,
+      "rounds": 1
+    },
+    {
+      "player_id": "12010",
+      "player_name": "이시은 0901(A)",
+      "total": -1.16,
+      "rounds": 1
+    },
+    {
+      "player_id": "12015",
+      "player_name": "문아린 0905(A)",
+      "total": 5.14,
+      "rounds": 1
+    },
+    {
+      "player_id": "12024",
+      "player_name": "김규빈 0910(A)",
+      "total": -0.25,
+      "rounds": 1
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "total": -1.31,
+      "rounds": 1
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "total": -0.98,
+      "rounds": 1
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "total": 0.38,
+      "rounds": 1
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "total": 2.73,
+      "rounds": 1
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "total": -3.43,
+      "rounds": 1
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "total": -0.09,
+      "rounds": 1
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "total": -3.21,
+      "rounds": 1
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "total": -1.33,
+      "rounds": 1
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "total": 0.61,
+      "rounds": 1
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "total": 0.08,
+      "rounds": 1
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "total": 2.0,
+      "rounds": 1
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "total": -2.71,
+      "rounds": 1
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "total": -2.2,
+      "rounds": 1
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "total": 0.98,
+      "rounds": 1
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "total": -1.95,
+      "rounds": 1
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경",
+      "total": -2.02,
+      "rounds": 1
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "total": 4.9,
+      "rounds": 1
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "total": -3.64,
+      "rounds": 1
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "total": 0.36,
+      "rounds": 1
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "total": 3.81,
+      "rounds": 1
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "total": -0.2,
+      "rounds": 1
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "total": -0.43,
+      "rounds": 1
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "total": 2.88,
+      "rounds": 1
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "total": -2.24,
+      "rounds": 1
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "total": 1.94,
+      "rounds": 1
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "total": -0.17,
+      "rounds": 1
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "total": 1.13,
+      "rounds": 1
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "total": -0.79,
+      "rounds": 1
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "total": 0.82,
+      "rounds": 1
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "total": -1.25,
+      "rounds": 1
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "total": 2.04,
+      "rounds": 1
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "total": 1.2,
+      "rounds": 1
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "total": 3.05,
+      "rounds": 1
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "total": -2.18,
+      "rounds": 1
+    }
+  ]
+}
