@@ -858,11 +858,11 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
   }
   .neo-global-nav a{
     position:relative;display:flex;flex-direction:column;justify-content:center;
-    gap:.1rem;min-width:0;min-height:210px;padding:1rem .15rem 1.15rem;
-    font-size:2.8rem;line-height:1.15;text-align:center;
+    gap:.1rem;min-width:0;min-height:52px;padding:.3rem .15rem .35rem;
+    font-size:.65rem;line-height:1.15;text-align:center;
   }
   .neo-global-nav a::before{
-    display:block;color:var(--muted);font-size:3.7rem;line-height:1.1;font-weight:500;
+    display:block;color:var(--muted);font-size:1.3rem;line-height:1.1;font-weight:500;
   }
   .neo-global-nav a[href="/"]::before{content:"⌂"}
   .neo-global-nav a[href="/tournaments/"]::before{content:"▦"}
@@ -873,8 +873,8 @@ main:has(.ph-page){width:min(calc(100% - 2rem),96rem)}
   .neo-global-nav a.is-active{color:var(--green);background:var(--surface)}
   .neo-global-nav a.is-active::before{color:var(--green)}
   .neo-global-nav a.is-active::after{
-    content:"";position:absolute;left:20%;right:20%;bottom:18px;height:6px;
+    content:"";position:absolute;left:20%;right:20%;bottom:3px;height:2px;
     background:var(--green);
   }
-  main{padding-bottom:250px}
+  body main{padding-bottom:64px}
 }
