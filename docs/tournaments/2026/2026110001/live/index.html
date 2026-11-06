@@ -100,7 +100,7 @@
       var rows = activeRows.map(function (p, idx) {
         var holes = p.holes_completed == null ? "—" : (p.holes_completed >= 18 ? "완료" : p.holes_completed + "H");
         return (
-          "<tr><td class='rank' data-label='순위'>" + (idx + 1) + "</td>" +
+          "<tr><td class='rank' data-label='순위'>" + escapeHtml(p.rank_display == null ? (idx + 1) : p.rank_display) + "</td>" +
           "<th scope='row' style='text-align:left;white-space:nowrap'>" + escapeHtml(p.player_name) + "</th>" +
           "<td class='holes' data-label='진행'>" + holes + "</td>" +
           "<td data-label='" + roundLabel + "'>" + fmtToPar(p.today_under_par) + "</td>" +
