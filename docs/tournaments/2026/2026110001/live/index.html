@@ -13,6 +13,8 @@
 #live-probability .live-table td.holes{color:var(--muted);font-size:12px}
 #live-probability .live-table td.winpct{font-weight:900;color:var(--gold,#d8ab5c)}
 #live-probability .live-table tr.is-eliminated td,#live-probability .live-table tr.is-eliminated th{color:var(--muted)}
+#live-probability .live-table th.round-score-header--current{color:#39ff8a;text-shadow:0 0 6px rgba(57,255,138,.65)}
+#live-probability .live-table td.round-score-cell--current{color:#39ff8a;font-weight:900;text-shadow:0 0 6px rgba(57,255,138,.55)}
 .live-error{display:none;background:#5a1f1f;color:#ffd6d6;border-radius:8px;padding:10px 14px;margin:0 0 14px;font-size:13px}
 </style></head><body><header class="neo-global-header" data-neo-global-navigation>
 <div class="neo-global-header__inner">
@@ -114,7 +116,7 @@
     });
     for (var r = 1; r <= currentRound; r++) {
       var th = document.createElement("th");
-      th.className = "round-score-header";
+      th.className = "round-score-header" + (r === currentRound ? " round-score-header--current" : "");
       th.textContent = r + "R";
       headRow.insertBefore(th, anchor);
     }
@@ -153,7 +155,9 @@
       var rows = activeRows.map(function (p, idx) {
         var holes = p.holes_completed == null ? "—" : (p.holes_completed >= 18 ? "완료" : p.holes_completed + "H");
         var roundCells = (p.round_scores || []).map(function (s, i) {
-          return "<td data-label='" + (i + 1) + "R'>" + fmtToPar(s) + "</td>";
+          var isCurrent = (i + 1) === doc.current_round;
+          var cls = isCurrent ? " class='round-score-cell--current'" : "";
+          return "<td" + cls + " data-label='" + (i + 1) + "R'>" + fmtToPar(s) + "</td>";
         }).join("");
         var totalCell = showTotal ? "<td data-label='합계'>" + fmtToPar(p.current_total_to_par) + "</td>" : "";
         return (
@@ -171,7 +175,8 @@
         var label = eliminationLabel(p.status);
         var emptyRoundCells = "";
         for (var r = 1; r <= doc.current_round; r++) {
-          emptyRoundCells += "<td data-label='" + r + "R'>—</td>";
+          var emptyCls = r === doc.current_round ? " class='round-score-cell--current'" : "";
+          emptyRoundCells += "<td" + emptyCls + " data-label='" + r + "R'>—</td>";
         }
         var emptyTotalCell = showTotal ? "<td data-label='합계'>—</td>" : "";
         return (
