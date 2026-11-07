@@ -108,7 +108,13 @@
   // once more than one round has started) are rebuilt on every render
   // instead of being static markup, since how many round columns the
   // table needs changes as the tournament progresses from R1 to R3.
-  function rebuildRoundHeaders(currentRound, showTotal) {
+  // The tournament's own final round is always labelled "FR" (매치 관례),
+  // never "3R"/"4R" etc, consistent with the site's archived FR pages.
+  function roundLabel(r, roundsTotal) {
+    return r === roundsTotal ? "FR" : r + "R";
+  }
+
+  function rebuildRoundHeaders(currentRound, roundsTotal, showTotal) {
     var headRow = document.querySelector("#liveTable thead tr");
     var anchor = document.getElementById("liveTop20Header");
     Array.prototype.slice.call(headRow.querySelectorAll(".round-score-header")).forEach(function (th) {
@@ -117,7 +123,7 @@
     for (var r = 1; r <= currentRound; r++) {
       var th = document.createElement("th");
       th.className = "round-score-header" + (r === currentRound ? " round-score-header--current" : "");
-      th.textContent = r + "R";
+      th.textContent = roundLabel(r, roundsTotal);
       headRow.insertBefore(th, anchor);
     }
     if (showTotal) {
@@ -131,7 +137,7 @@
   function render(doc) {
     roundBadge.textContent = "라운드 " + doc.current_round + " / " + doc.rounds_total;
     var showTotal = doc.current_round > 1;
-    rebuildRoundHeaders(doc.current_round, showTotal);
+    rebuildRoundHeaders(doc.current_round, doc.rounds_total, showTotal);
     var totalCols = 3 + doc.current_round + (showTotal ? 1 : 0) + 4;
     var updated = new Date(doc.collected_at);
     updatedAtEl.textContent = "최근 갱신(실제 수집 시각): " + updated.toLocaleString("ko-KR", { hour12: false });
@@ -157,7 +163,7 @@
         var roundCells = (p.round_scores || []).map(function (s, i) {
           var isCurrent = (i + 1) === doc.current_round;
           var cls = isCurrent ? " class='round-score-cell--current'" : "";
-          return "<td" + cls + " data-label='" + (i + 1) + "R'>" + fmtToPar(s) + "</td>";
+          return "<td" + cls + " data-label='" + roundLabel(i + 1, doc.rounds_total) + "'>" + fmtToPar(s) + "</td>";
         }).join("");
         var totalCell = showTotal ? "<td data-label='합계'>" + fmtToPar(p.current_total_to_par) + "</td>" : "";
         return (
@@ -176,7 +182,7 @@
         var emptyRoundCells = "";
         for (var r = 1; r <= doc.current_round; r++) {
           var emptyCls = r === doc.current_round ? " class='round-score-cell--current'" : "";
-          emptyRoundCells += "<td" + emptyCls + " data-label='" + r + "R'>—</td>";
+          emptyRoundCells += "<td" + emptyCls + " data-label='" + roundLabel(r, doc.rounds_total) + "'>—</td>";
         }
         var emptyTotalCell = showTotal ? "<td data-label='합계'>—</td>" : "";
         return (
