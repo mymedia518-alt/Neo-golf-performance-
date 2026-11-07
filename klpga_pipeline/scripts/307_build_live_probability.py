@@ -284,6 +284,9 @@ def build(*, current_round: int, seed: int, n_simulations: int, max_staleness_mi
                 "current_total_to_par": current_total_by_player.get(pid),
                 "holes_completed": live_states[pid].holes_completed if pid in live_states else None,
                 "today_under_par": live_states[pid].current_round_score_so_far if pid in live_states else None,
+                "round_scores": completed_round_scores_by_player.get(pid, []) + [
+                    live_states[pid].current_round_score_so_far if pid in live_states else None
+                ],
                 **probs,
             }
             for pid, probs in sorted(

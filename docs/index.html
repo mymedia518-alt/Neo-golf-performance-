@@ -72,7 +72,7 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
 #home-live-results .live-table tr.is-eliminated td,#home-live-results .live-table tr.is-eliminated th{color:var(--muted)}
 #home-live-results .live-error{display:none;background:#5a1f1f;color:#ffd6d6;border-radius:8px;padding:10px 14px;margin:0 0 10px;font-size:13px}
 #home-live-results .eyebrow-badge{display:inline-block;padding:2px 9px;border-radius:999px;border:1px solid var(--gold,#d8ab5c);color:var(--gold,#d8ab5c);font-size:11px;font-weight:700;margin-left:6px;vertical-align:middle}
-</style><div class="leaderboard-head"><h2>실시간 우승확률<span class="eyebrow-badge">참고 예상</span> <small id="homeLiveFieldCount">—명</small></h2></div><p class='section-link-row'><a href='/tournaments/2026/2026110001/live/'>실시간 우승확률 전체 보기 →</a></p><div class="live-error" id="homeLiveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="homeLiveStatus"><span class="live-status__badge" id="homeLiveRoundBadge">라운드 —</span><span id="homeLiveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="homeLiveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="homeLiveUpcomingBadge">1라운드 시작과 동시에 업데이트</span><span class="live-status__offhours" id="homeLiveOffHoursBadge">실시간 업데이트</span></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="homeLiveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="homeLiveRoundScoreHeader">R1</th><th>TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="homeLiveTableBody"><tr><td colspan="8">불러오는 중…</td></tr></tbody></table></div><script>
+</style><div class="leaderboard-head"><h2>실시간 우승확률<span class="eyebrow-badge">참고 예상</span> <small id="homeLiveFieldCount">—명</small></h2></div><p class='section-link-row'><a href='/tournaments/2026/2026110001/live/'>실시간 우승확률 전체 보기 →</a></p><div class="live-error" id="homeLiveError">실시간 데이터를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div><div class="live-status" id="homeLiveStatus"><span class="live-status__badge" id="homeLiveRoundBadge">라운드 —</span><span id="homeLiveUpdatedAt">최근 갱신: —</span><span class="live-status__stale" id="homeLiveStaleBadge">업데이트 지연</span><span class="live-status__upcoming" id="homeLiveUpcomingBadge">1라운드 시작과 동시에 업데이트</span><span class="live-status__offhours" id="homeLiveOffHoursBadge">실시간 업데이트</span></div><div class="table-wrap table-wrap--iceberg-r1"><table class="data leaderboard-table leaderboard-table--iceberg-r1 live-table" id="homeLiveTable"><thead><tr><th>순위</th><th>선수</th><th>진행</th><th id="homeLiveTop20Header">TOP20</th><th>TOP10</th><th>TOP5</th><th>우승확률</th></tr></thead><tbody id="homeLiveTableBody"><tr><td colspan="12">불러오는 중…</td></tr></tbody></table></div><script>
 (function () {
   "use strict";
   var DATA_URL = "https://raw.githubusercontent.com/mymedia518-alt/Neo-golf-performance-/live/2026110001/klpga_pipeline/content/website_v2/DAEBO_2026110001_LIVE_PROBABILITY_LATEST.json";
@@ -127,9 +127,31 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
     );
   }
 
+  function rebuildRoundHeaders(currentRound, showTotal) {
+    var headRow = document.querySelector("#homeLiveTable thead tr");
+    var anchor = document.getElementById("homeLiveTop20Header");
+    Array.prototype.slice.call(headRow.querySelectorAll(".round-score-header")).forEach(function (th) {
+      th.remove();
+    });
+    for (var r = 1; r <= currentRound; r++) {
+      var th = document.createElement("th");
+      th.className = "round-score-header";
+      th.textContent = r + "R";
+      headRow.insertBefore(th, anchor);
+    }
+    if (showTotal) {
+      var totalTh = document.createElement("th");
+      totalTh.className = "round-score-header";
+      totalTh.textContent = "합계";
+      headRow.insertBefore(totalTh, anchor);
+    }
+  }
+
   function render(doc) {
     roundBadge.textContent = "라운드 " + doc.current_round + " / " + doc.rounds_total;
-    document.getElementById("homeLiveRoundScoreHeader").textContent = "R" + doc.current_round;
+    var showTotal = doc.current_round > 1;
+    rebuildRoundHeaders(doc.current_round, showTotal);
+    var totalCols = 3 + doc.current_round + (showTotal ? 1 : 0) + 4;
     var updated = new Date(doc.collected_at);
     updatedAtEl.textContent = "최근 갱신(실제 수집 시각): " + updated.toLocaleString("ko-KR", { hour12: false });
 
@@ -146,17 +168,20 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
     var eliminatedRows = (doc.round_complete && doc.eliminated_players) ? doc.eliminated_players : [];
     fieldCountEl.textContent = (activeRows.length + eliminatedRows.length) + "명";
 
-    var roundLabel = "R" + doc.current_round;
     if (!activeRows.length && !eliminatedRows.length) {
-      tbody.innerHTML = "<tr><td colspan='8'>아직 집계된 선수가 없습니다.</td></tr>";
+      tbody.innerHTML = "<tr><td colspan='" + totalCols + "'>아직 집계된 선수가 없습니다.</td></tr>";
     } else {
       var rows = activeRows.map(function (p, idx) {
         var holes = p.holes_completed == null ? "—" : (p.holes_completed >= 18 ? "완료" : p.holes_completed + "H");
+        var roundCells = (p.round_scores || []).map(function (s, i) {
+          return "<td data-label='" + (i + 1) + "R'>" + fmtToPar(s) + "</td>";
+        }).join("");
+        var totalCell = showTotal ? "<td data-label='합계'>" + fmtToPar(p.current_total_to_par) + "</td>" : "";
         return (
           "<tr><td class='rank' data-label='순위'>" + escapeHtml(p.rank_display == null ? (idx + 1) : p.rank_display) + "</td>" +
           "<th scope='row' style='text-align:left;white-space:nowrap'>" + nameCell(p) + "</th>" +
           "<td class='holes' data-label='진행'>" + holes + "</td>" +
-          "<td data-label='" + roundLabel + "'>" + fmtToPar(p.today_under_par) + "</td>" +
+          roundCells + totalCell +
           "<td data-label='TOP20'>" + fmtPct(p.top20_probability) + "</td>" +
           "<td data-label='TOP10'>" + fmtPct(p.top10_probability) + "</td>" +
           "<td data-label='TOP5'>" + fmtPct(p.top5_probability) + "</td>" +
@@ -165,11 +190,16 @@ html{scroll-behavior:smooth}#home-live-results{scroll-margin-top:1rem}
       });
       rows = rows.concat(eliminatedRows.map(function (p) {
         var label = eliminationLabel(p.status);
+        var emptyRoundCells = "";
+        for (var r = 1; r <= doc.current_round; r++) {
+          emptyRoundCells += "<td data-label='" + r + "R'>—</td>";
+        }
+        var emptyTotalCell = showTotal ? "<td data-label='합계'>—</td>" : "";
         return (
           "<tr class='is-eliminated'><td class='rank' data-label='순위'>—</td>" +
           "<th scope='row' style='text-align:left;white-space:nowrap'>" + nameCell(p) + "</th>" +
           "<td class='holes' data-label='진행'>" + label + "</td>" +
-          "<td data-label='" + roundLabel + "'>—</td>" +
+          emptyRoundCells + emptyTotalCell +
           "<td data-label='TOP20'>—</td>" +
           "<td data-label='TOP10'>—</td>" +
           "<td data-label='TOP5'>—</td>" +
