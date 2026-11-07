@@ -1,0 +1,1177 @@
+{
+  "schema_version": 1,
+  "game_code": "2026110001",
+  "current_round": 2,
+  "rounds_total": 3,
+  "model": "klpga.neo_win.sg_live_v1.simulate_live_tournament_outcomes",
+  "sg_forecast_source": "DAEBO_2026110001_POST_R1_FORECAST_V1.json",
+  "model_status": "REFERENCE_ESTIMATE",
+  "disclosure": "참고 예상 -- 독립 Red Team 검증을 거치지 않은 실험적 실시간 모델입니다. 공식 순위가 아닙니다.",
+  "cut_rule_confirmed": false,
+  "cut_modeled": false,
+  "seed": 42360448340,
+  "n_simulations": 60000,
+  "collected_at": "2026-11-07T09:36:44Z",
+  "generated_at": "2026-11-07T09:36:44Z",
+  "is_stale": false,
+  "stale_threshold_minutes": 45,
+  "round_complete": true,
+  "excluded_players": [],
+  "eliminated_players": [
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "status": "WD",
+      "nationality": "KOR",
+      "sponsor": "KB금융그룹"
+    }
+  ],
+  "assumed_default_start_players": [
+    {
+      "player_id": "10095",
+      "player_name": "방신실"
+    }
+  ],
+  "probabilities": [
+    {
+      "player_id": "10146",
+      "player_name": "유현조",
+      "nationality": "KOR",
+      "sponsor": "롯데",
+      "rank_display": "T1",
+      "current_total_to_par": -10,
+      "holes_completed": 18,
+      "today_under_par": -7,
+      "round_scores": [
+        -3,
+        -7
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.9998166666666667,
+      "top10_probability": 0.9898666666666667,
+      "top5_probability": 0.9201166666666667,
+      "win_probability": 0.32448071428571484
+    },
+    {
+      "player_id": "9134",
+      "player_name": "서어진",
+      "nationality": "KOR",
+      "sponsor": "대보건설",
+      "rank_display": "T1",
+      "current_total_to_par": -10,
+      "holes_completed": 18,
+      "today_under_par": -6,
+      "round_scores": [
+        -4,
+        -6
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.99985,
+      "top10_probability": 0.9902166666666666,
+      "top5_probability": 0.91215,
+      "win_probability": 0.2763729365079418
+    },
+    {
+      "player_id": "9784",
+      "player_name": "이예원",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "3",
+      "current_total_to_par": -9,
+      "holes_completed": 18,
+      "today_under_par": -7,
+      "round_scores": [
+        -2,
+        -7
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.9986333333333334,
+      "top10_probability": 0.9728666666666667,
+      "top5_probability": 0.8441833333333333,
+      "win_probability": 0.1974696031746051
+    },
+    {
+      "player_id": "9426",
+      "player_name": "한진선",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "4",
+      "current_total_to_par": -8,
+      "holes_completed": 18,
+      "today_under_par": -6,
+      "round_scores": [
+        -2,
+        -6
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.968,
+      "top10_probability": 0.8268333333333333,
+      "top5_probability": 0.5662833333333334,
+      "win_probability": 0.08517333333333316
+    },
+    {
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T5",
+      "current_total_to_par": -6,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        -4,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.9243833333333333,
+      "top10_probability": 0.6714833333333333,
+      "top5_probability": 0.33866666666666667,
+      "win_probability": 0.023919444444444417
+    },
+    {
+      "player_id": "12015",
+      "player_name": "문아린 0905(A)",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T5",
+      "current_total_to_par": -6,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        -4,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.8451666666666666,
+      "top10_probability": 0.5526666666666666,
+      "top5_probability": 0.2726,
+      "win_probability": 0.023527222222222213
+    },
+    {
+      "player_id": "8243",
+      "player_name": "장은수",
+      "nationality": "KOR",
+      "sponsor": "굿빈스",
+      "rank_display": "T5",
+      "current_total_to_par": -6,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        -2,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.9395,
+      "top10_probability": 0.6855833333333333,
+      "top5_probability": 0.33718333333333333,
+      "win_probability": 0.019887777777777785
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "nationality": "KOR",
+      "sponsor": "하이트진로",
+      "rank_display": "T8",
+      "current_total_to_par": -5,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        -3,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.79585,
+      "top10_probability": 0.44975,
+      "top5_probability": 0.17718333333333333,
+      "win_probability": 0.009475277777777772
+    },
+    {
+      "player_id": "8881",
+      "player_name": "성유진",
+      "nationality": "KOR",
+      "sponsor": "대방건설",
+      "rank_display": "T8",
+      "current_total_to_par": -5,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        -1,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.8844833333333333,
+      "top10_probability": 0.5616833333333333,
+      "top5_probability": 0.22891666666666666,
+      "win_probability": 0.010484166666666673
+    },
+    {
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "nationality": "KOR",
+      "sponsor": "대선주조",
+      "rank_display": "T8",
+      "current_total_to_par": -5,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        -1,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.9131,
+      "top10_probability": 0.6150666666666667,
+      "top5_probability": 0.26375,
+      "win_probability": 0.012089603174603194
+    },
+    {
+      "player_id": "9487",
+      "player_name": "김재희",
+      "nationality": "KOR",
+      "sponsor": "SK텔레콤",
+      "rank_display": "T8",
+      "current_total_to_par": -5,
+      "holes_completed": 18,
+      "today_under_par": -5,
+      "round_scores": [
+        0,
+        -5
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.8295666666666667,
+      "top10_probability": 0.4230333333333333,
+      "top5_probability": 0.12515,
+      "win_probability": 0.002909722222222223
+    },
+    {
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "nationality": "KOR",
+      "sponsor": "대방건설",
+      "rank_display": "T12",
+      "current_total_to_par": -4,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        -3,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.80885,
+      "top10_probability": 0.37596666666666667,
+      "top5_probability": 0.09775,
+      "win_probability": 0.0015027777777777774
+    },
+    {
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T12",
+      "current_total_to_par": -4,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        0,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.7506833333333334,
+      "top10_probability": 0.35113333333333335,
+      "top5_probability": 0.1058,
+      "win_probability": 0.0028827777777777792
+    },
+    {
+      "player_id": "9130",
+      "player_name": "박현경",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "T12",
+      "current_total_to_par": -4,
+      "holes_completed": 18,
+      "today_under_par": -7,
+      "round_scores": [
+        3,
+        -7
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.6756166666666666,
+      "top10_probability": 0.27423333333333333,
+      "top5_probability": 0.07176666666666667,
+      "win_probability": 0.0013752777777777776
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "nationality": "KOR",
+      "sponsor": "두산건설 We've",
+      "rank_display": "T12",
+      "current_total_to_par": -4,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        0,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.68735,
+      "top10_probability": 0.2623333333333333,
+      "top5_probability": 0.05943333333333333,
+      "win_probability": 0.0008458333333333335
+    },
+    {
+      "player_id": "10081",
+      "player_name": "김민주",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T16",
+      "current_total_to_par": -3,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        0,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.6856666666666666,
+      "top10_probability": 0.2742833333333333,
+      "top5_probability": 0.06933333333333333,
+      "win_probability": 0.0014082142857142859
+    },
+    {
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "nationality": "KOR",
+      "sponsor": "두산건설 We've",
+      "rank_display": "T16",
+      "current_total_to_par": -3,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        0,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.6606,
+      "top10_probability": 0.26818333333333333,
+      "top5_probability": 0.07283333333333333,
+      "win_probability": 0.001271666666666667
+    },
+    {
+      "player_id": "11649",
+      "player_name": "이동은",
+      "nationality": "KOR",
+      "sponsor": "SBI저축은행",
+      "rank_display": "T16",
+      "current_total_to_par": -3,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        -3,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.5898166666666667,
+      "top10_probability": 0.20501666666666668,
+      "top5_probability": 0.0469,
+      "win_probability": 0.0007209920634920635
+    },
+    {
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "nationality": "KOR",
+      "sponsor": "하나금융그룹",
+      "rank_display": "T16",
+      "current_total_to_par": -3,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        0,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.63115,
+      "top10_probability": 0.19588333333333333,
+      "top5_probability": 0.03436666666666666,
+      "win_probability": 0.00022916666666666672
+    },
+    {
+      "player_id": "9082",
+      "player_name": "전예성",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T16",
+      "current_total_to_par": -3,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        0,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.61985,
+      "top10_probability": 0.22441666666666665,
+      "top5_probability": 0.05195,
+      "win_probability": 0.0008025
+    },
+    {
+      "player_id": "10296",
+      "player_name": "문정민",
+      "nationality": "KOR",
+      "sponsor": "동부건설",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        2,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.5136666666666667,
+      "top10_probability": 0.16595,
+      "top5_probability": 0.037316666666666665,
+      "win_probability": 0.0004541666666666666
+    },
+    {
+      "player_id": "10577",
+      "player_name": "최예본",
+      "nationality": "KOR",
+      "sponsor": "까르마",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -5,
+      "round_scores": [
+        3,
+        -5
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.435,
+      "top10_probability": 0.13278333333333334,
+      "top5_probability": 0.028816666666666668,
+      "win_probability": 0.0004904365079365079
+    },
+    {
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "nationality": "KOR",
+      "sponsor": "기프트코",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        2,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.38033333333333336,
+      "top10_probability": 0.0937,
+      "top5_probability": 0.01595,
+      "win_probability": 0.0002111111111111111
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "nationality": "KOR",
+      "sponsor": "동부건설",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        1,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.43005,
+      "top10_probability": 0.11278333333333333,
+      "top5_probability": 0.020116666666666668,
+      "win_probability": 0.00021805555555555556
+    },
+    {
+      "player_id": "9235",
+      "player_name": "최은우",
+      "nationality": "KOR",
+      "sponsor": "아마노코리아",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        -3,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.52805,
+      "top10_probability": 0.12588333333333335,
+      "top5_probability": 0.017016666666666666,
+      "win_probability": 5.4166666666666664e-05
+    },
+    {
+      "player_id": "9759",
+      "player_name": "이율린",
+      "nationality": "KOR",
+      "sponsor": "두산건설 We've",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        0,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.34655,
+      "top10_probability": 0.11498333333333334,
+      "top5_probability": 0.030716666666666666,
+      "win_probability": 0.0010319444444444447
+    },
+    {
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "nationality": "KOR",
+      "sponsor": "리쥬란",
+      "rank_display": "T21",
+      "current_total_to_par": -2,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        2,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.4064,
+      "top10_probability": 0.08766666666666667,
+      "top5_probability": 0.0119,
+      "win_probability": 9.083333333333334e-05
+    },
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T28",
+      "current_total_to_par": -1,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        0,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.3866833333333333,
+      "top10_probability": 0.09185,
+      "top5_probability": 0.014533333333333334,
+      "win_probability": 0.00010972222222222222
+    },
+    {
+      "player_id": "4905",
+      "player_name": "안선주",
+      "nationality": "KOR",
+      "sponsor": "만수정",
+      "rank_display": "T28",
+      "current_total_to_par": -1,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        1,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.20445,
+      "top10_probability": 0.023566666666666666,
+      "top5_probability": 0.002033333333333333,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "T28",
+      "current_total_to_par": -1,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        1,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.23931666666666668,
+      "top10_probability": 0.0483,
+      "top5_probability": 0.006933333333333333,
+      "win_probability": 5e-05
+    },
+    {
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "nationality": "KOR",
+      "sponsor": "NH투자증권",
+      "rank_display": "T28",
+      "current_total_to_par": -1,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        -2,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.26203333333333334,
+      "top10_probability": 0.04585,
+      "top5_probability": 0.005733333333333333,
+      "win_probability": 3.0555555555555554e-05
+    },
+    {
+      "player_id": "10083",
+      "player_name": "마서영",
+      "nationality": "KOR",
+      "sponsor": "리쥬란",
+      "rank_display": "T32",
+      "current_total_to_par": 0,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        0,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.1665,
+      "top10_probability": 0.021983333333333334,
+      "top5_probability": 0.00255,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T32",
+      "current_total_to_par": 0,
+      "holes_completed": 18,
+      "today_under_par": 2,
+      "round_scores": [
+        -2,
+        2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.16218333333333335,
+      "top10_probability": 0.03451666666666667,
+      "top5_probability": 0.0053,
+      "win_probability": 9.5e-05
+    },
+    {
+      "player_id": "11056",
+      "player_name": "박예지",
+      "nationality": "KOR",
+      "sponsor": "KB금융그룹",
+      "rank_display": "T32",
+      "current_total_to_par": 0,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        2,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.21396666666666667,
+      "top10_probability": 0.05341666666666667,
+      "top5_probability": 0.0108,
+      "win_probability": 0.0002108333333333333
+    },
+    {
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T32",
+      "current_total_to_par": 0,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        1,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.22493333333333335,
+      "top10_probability": 0.04443333333333333,
+      "top5_probability": 0.007016666666666667,
+      "win_probability": 5.6111111111111114e-05
+    },
+    {
+      "player_id": "11045",
+      "player_name": "양효진",
+      "nationality": "KOR",
+      "sponsor": "대보건설",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        2,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.10021666666666666,
+      "top10_probability": 0.01645,
+      "top5_probability": 0.002616666666666667,
+      "win_probability": 3.3333333333333335e-05
+    },
+    {
+      "player_id": "11447",
+      "player_name": "한아름",
+      "nationality": "KOR",
+      "sponsor": "DB손해보험",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": -4,
+      "round_scores": [
+        5,
+        -4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.08606666666666667,
+      "top10_probability": 0.009416666666666667,
+      "top5_probability": 0.0009333333333333333,
+      "win_probability": 4.166666666666667e-06
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        2,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.06463333333333333,
+      "top10_probability": 0.005316666666666667,
+      "top5_probability": 0.0004,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        0,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.08971666666666667,
+      "top10_probability": 0.0087,
+      "top5_probability": 0.0006833333333333333,
+      "win_probability": 5.555555555555555e-06
+    },
+    {
+      "player_id": "9135",
+      "player_name": "신다인",
+      "nationality": "KOR",
+      "sponsor": "요진건설산업",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": -3,
+      "round_scores": [
+        4,
+        -3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.11331666666666666,
+      "top10_probability": 0.015883333333333333,
+      "top5_probability": 0.0017666666666666666,
+      "win_probability": 8.333333333333334e-06
+    },
+    {
+      "player_id": "9652",
+      "player_name": "이세희",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T36",
+      "current_total_to_par": 1,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        1,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.1115,
+      "top10_probability": 0.01545,
+      "top5_probability": 0.0018,
+      "win_probability": 1.6666666666666667e-05
+    },
+    {
+      "player_id": "10109",
+      "player_name": "고지원",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        1,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.04625,
+      "top10_probability": 0.004216666666666666,
+      "top5_probability": 0.00031666666666666665,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "11143",
+      "player_name": "김시현",
+      "nationality": "KOR",
+      "sponsor": "NH투자증권",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        1,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.058083333333333334,
+      "top10_probability": 0.00515,
+      "top5_probability": 0.0005666666666666667,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "nationality": "KOR",
+      "sponsor": "동부건설",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        2,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.03286666666666667,
+      "top10_probability": 0.0020833333333333333,
+      "top5_probability": 0.0001,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8392",
+      "player_name": "이다연",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": -2,
+      "round_scores": [
+        4,
+        -2
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.06545,
+      "top10_probability": 0.006316666666666667,
+      "top5_probability": 0.0005666666666666667,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8589",
+      "player_name": "배소현",
+      "nationality": "KOR",
+      "sponsor": "메디힐",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        2,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.045566666666666665,
+      "top10_probability": 0.00285,
+      "top5_probability": 0.0003,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        3,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0335,
+      "top10_probability": 0.0018666666666666666,
+      "top5_probability": 5e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9113",
+      "player_name": "노승희",
+      "nationality": "KOR",
+      "sponsor": "리쥬란",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        2,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0442,
+      "top10_probability": 0.00285,
+      "top5_probability": 0.00015,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T42",
+      "current_total_to_par": 2,
+      "holes_completed": 18,
+      "today_under_par": 0,
+      "round_scores": [
+        2,
+        0
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0294,
+      "top10_probability": 0.002,
+      "top5_probability": 6.666666666666667e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "nationality": "KOR",
+      "sponsor": "SBI저축은행",
+      "rank_display": "T50",
+      "current_total_to_par": 3,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        2,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.011766666666666667,
+      "top10_probability": 0.0004166666666666667,
+      "top5_probability": 1.6666666666666667e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "11057",
+      "player_name": "송은아",
+      "nationality": "KOR",
+      "sponsor": "대보건설",
+      "rank_display": "T50",
+      "current_total_to_par": 3,
+      "holes_completed": 18,
+      "today_under_par": -1,
+      "round_scores": [
+        4,
+        -1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.028283333333333334,
+      "top10_probability": 0.00265,
+      "top5_probability": 0.00023333333333333333,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "12010",
+      "player_name": "이시은 0901(A)",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "T50",
+      "current_total_to_par": 3,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        2,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.010583333333333333,
+      "top10_probability": 0.0005,
+      "top5_probability": 3.3333333333333335e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "nationality": "KOR",
+      "sponsor": "두산건설 We've",
+      "rank_display": "T50",
+      "current_total_to_par": 3,
+      "holes_completed": 18,
+      "today_under_par": 3,
+      "round_scores": [
+        0,
+        3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.027766666666666665,
+      "top10_probability": 0.0019833333333333335,
+      "top5_probability": 8.333333333333333e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "nationality": "KOR",
+      "sponsor": "휴온스",
+      "rank_display": "T54",
+      "current_total_to_par": 4,
+      "holes_completed": 18,
+      "today_under_par": 1,
+      "round_scores": [
+        3,
+        1
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.006983333333333334,
+      "top10_probability": 0.0002,
+      "top5_probability": 5e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8859",
+      "player_name": "이승연",
+      "nationality": "KOR",
+      "sponsor": "까르마",
+      "rank_display": "T54",
+      "current_total_to_par": 4,
+      "holes_completed": 18,
+      "today_under_par": 3,
+      "round_scores": [
+        1,
+        3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0133,
+      "top10_probability": 0.0009,
+      "top5_probability": 1.6666666666666667e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9389",
+      "player_name": "전우리",
+      "nationality": "KOR",
+      "sponsor": "휴온스",
+      "rank_display": "T54",
+      "current_total_to_par": 4,
+      "holes_completed": 18,
+      "today_under_par": 3,
+      "round_scores": [
+        1,
+        3
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0039833333333333335,
+      "top10_probability": 0.0001,
+      "top5_probability": 1.6666666666666667e-05,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "12024",
+      "player_name": "김규빈 0910(A)",
+      "nationality": "KOR",
+      "sponsor": "",
+      "rank_display": "57",
+      "current_total_to_par": 5,
+      "holes_completed": 18,
+      "today_under_par": 4,
+      "round_scores": [
+        1,
+        4
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.005083333333333333,
+      "top10_probability": 0.00021666666666666666,
+      "top5_probability": 0.0,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "10095",
+      "player_name": "방신실",
+      "nationality": "KOR",
+      "sponsor": "KB금융그룹",
+      "rank_display": "T58",
+      "current_total_to_par": 6,
+      "holes_completed": 1,
+      "today_under_par": 0,
+      "round_scores": [
+        6,
+        0
+      ],
+      "cut_probability": 0.0,
+      "top20_probability": 0.0,
+      "top10_probability": 0.0,
+      "top5_probability": 0.0,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "nationality": "KOR",
+      "sponsor": "삼천리",
+      "rank_display": "T58",
+      "current_total_to_par": 6,
+      "holes_completed": 18,
+      "today_under_par": 5,
+      "round_scores": [
+        1,
+        5
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 0.0005333333333333334,
+      "top10_probability": 0.0,
+      "top5_probability": 0.0,
+      "win_probability": 0.0
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "nationality": "KOR",
+      "sponsor": "NH투자증권",
+      "rank_display": "60",
+      "current_total_to_par": 9,
+      "holes_completed": 18,
+      "today_under_par": 5,
+      "round_scores": [
+        4,
+        5
+      ],
+      "cut_probability": 1.0,
+      "top20_probability": 1.6666666666666667e-05,
+      "top10_probability": 0.0,
+      "top5_probability": 0.0,
+      "win_probability": 0.0
+    }
+  ]
+}
