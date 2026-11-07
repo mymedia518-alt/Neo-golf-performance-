@@ -75,8 +75,11 @@ def main():
         mismatches = []
         for index, row in enumerate(rows):
             pid = str(row.player_code)
+            if row.status is not None:
+                # WD/DQ players have no scorecard to reconcile for this round
+                # and may already be absent from the round's own tee groupings.
+                continue
             assert pid in group_by and group_by[pid].starting_tee in ("1", "10")
-            assert row.status is None, f"unresolved official status: {pid} {row.status}"
             b = buttons[pid]
             visible = [td.get_text(" ", strip=True) for td in b.find("table").find_all("td")]
             through = visible[6]
@@ -131,13 +134,21 @@ def main():
     save("sg.json", {"retrieved_at": sg_at, "records": sg})
     data = []
     for row in rows:
+        b = buttons.get(row.player_code)
+        rank_display = b.find("table").find_all("td")[1].get_text(strip=True) if b else row.rank_display
+        if row.status is not None:
+            # WD/DQ: no scorecard was collected or reconciled for this round.
+            data.append({**asdict(row), "starting_tee": None, "raw_inghole": row.holes_completed,
+                         "holes_completed": 0, "progress_display": row.status,
+                         "rank_display": rank_display})
+            continue
         card = [x for x in cards[row.player_code] if x["round"] == args.round]
         tee = int(group_by[row.player_code].starting_tee)
         order = [(tee - 1 + i) % 18 + 1 for i in range(len(card))]
         assert {x["hole"] for x in card} == set(order), "non-contiguous completed holes"
         data.append({**asdict(row), "starting_tee": tee, "raw_inghole": row.holes_completed,
                      "holes_completed": len(card), "progress_display": "F" if len(card) == 18 else f"{row.holes_completed}H",
-                     "rank_display": buttons[row.player_code].find("table").find_all("td")[1].get_text(strip=True)})
+                     "rank_display": rank_display})
     save("validated-current.json", {"game_code": args.game_code, "round": args.round,
          "stage": "FINAL_LIVE" if args.round == event["totalRound"] else f"R{args.round}_LIVE",
          "collected_at": at, "official_updated_at": None, "row_count": len(data),
