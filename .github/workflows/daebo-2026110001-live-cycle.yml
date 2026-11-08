@@ -32,6 +32,20 @@ name: "Daebo HausD (2026110001) — LIVE win-probability cycle"
 # checkout step's `ref` explicitly means the schedule trigger still
 # pulls the real scripts and content from neo-website-v2 regardless,
 # without needing to duplicate any pipeline code onto main.
+#
+# TEMPLATE FOR THE NEXT TOURNAMENT: this is the first live-cycle
+# workflow this project ever built (Daebo, 2026-11), and this project
+# has no generic/parameterized live-cycle workflow yet -- each
+# tournament gets its own copy of this file (new game_code, dates,
+# scripts/306+307 --game-code arg, and a new live/<gameCode> branch
+# name throughout). When copying this file for the NEXT tournament,
+# keep the "Restore prior rounds' real snapshots and probability
+# files" step exactly as-is (just the game_code token changes) -- it
+# fixes a real, previously-undiscovered data-loss bug where every
+# prior round's own win-probability trajectory was silently lost the
+# moment the next round was built, because a fresh checkout each run
+# never carries forward old round files and the publish step only
+# ever commits whatever round files happen to be on disk.
 
 on:
   workflow_dispatch:
@@ -62,7 +76,7 @@ jobs:
           ref: neo-website-v2
           fetch-depth: 0
 
-      - name: Restore prior rounds' real snapshots from live/2026110001
+      - name: Restore prior rounds' real snapshots and probability files from live/2026110001
         # Each run starts from a fresh neo-website-v2 checkout, which never
         # carries forward a PRIOR run's own content/website_v2/*_LIVE_R{k}_
         # SNAPSHOT.json (scripts/306's output) -- those only ever land on
@@ -72,11 +86,22 @@ jobs:
         # job step itself reports "success" (collect/build use `set +e`),
         # so the failure was previously silent: dozens of "successful"
         # dispatches never actually published fresh round-2+ data.
+        #
+        # Also restores prior rounds' own DAEBO_*_LIVE_PROBABILITY_R{k}_V1.json
+        # (scripts/307's output), for the same reason: a fresh checkout never
+        # carries those forward either, and the publish step below only ever
+        # `git add`s whatever round-probability files are PRESENT ON DISK at
+        # commit time. Before this fix, round k's probability file vanished
+        # from live/2026110001 the moment round k+1 was built -- every prior
+        # round's own win-probability trajectory was silently lost, discovered
+        # only when asked for round 1/2's numbers after the tournament ended
+        # and finding only the final round's file still on the branch.
         run: |
           set +e
           git fetch origin live/2026110001:refs/remotes/origin/live/2026110001
           if [ $? -eq 0 ]; then
             git checkout origin/live/2026110001 -- 'content/website_v2/2026110001_LIVE_R*_SNAPSHOT.json'
+            git checkout origin/live/2026110001 -- 'content/website_v2/DAEBO_2026110001_LIVE_PROBABILITY_R*_V1.json'
           fi
           set -e
 
