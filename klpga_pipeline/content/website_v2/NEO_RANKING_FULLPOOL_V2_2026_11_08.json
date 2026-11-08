@@ -1,0 +1,2070 @@
+{
+  "schema_version": "NEO_RANKING_FULLPOOL_V2",
+  "as_of": "2026-11-08",
+  "note": "대보 하우스디 챔피언십 (2026-11-08 종료, 유현조 우승 -14) 반영. 공개 승인되지 않은 FROZEN V1 공식을 그대로 재사용; 전체 후보군(top120 고정 명단이 아님) 평가.",
+  "formula_source": "NEO_RANKING_V1_FROZEN.json (unmodified)",
+  "publication_gate_status": "BLOCKED (see gates below) -- this is NOT a publication-approved ranking",
+  "tournament_coverage": {
+    "2026070001": {
+      "game_code": "2026070001",
+      "name": "2026 오로라월드 챔피언십",
+      "date": "2026-08-02",
+      "player_count": 118,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026070002": {
+      "game_code": "2026070002",
+      "name": "하이원리조트 여자오픈 2026",
+      "date": "2026-07-12",
+      "player_count": 106,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026070003": {
+      "game_code": "2026070003",
+      "name": "제16회 롯데 오픈",
+      "date": "2026-07-05",
+      "player_count": 132,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026080001": {
+      "game_code": "2026080001",
+      "name": "제15회 KG 레이디스 오픈",
+      "date": "2026-08-30",
+      "player_count": 116,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026080002": {
+      "game_code": "2026080002",
+      "name": "BC카드·한경 제48회 KLPGA 챔피언십",
+      "date": "2026-08-23",
+      "player_count": 119,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026080003": {
+      "game_code": "2026080003",
+      "name": "메디힐·한국일보 챔피언십",
+      "date": "2026-08-16",
+      "player_count": 122,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026080004": {
+      "game_code": "2026080004",
+      "name": "제13회 제주삼다수 마스터스",
+      "date": "2026-08-09",
+      "player_count": 127,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026090002": {
+      "game_code": "2026090002",
+      "name": "하나금융그룹 챔피언십",
+      "date": "2026-09-20",
+      "player_count": 105,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026090003": {
+      "game_code": "2026090003",
+      "name": "KB금융 골든라이프 챔피언십",
+      "date": "2026-09-13",
+      "player_count": 118,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026100005": {
+      "game_code": "2026100005",
+      "name": "제26회 하이트진로 챔피언십",
+      "date": "2026-10-04",
+      "player_count": 107,
+      "source": "sg_official_history (already-cumulative, official)"
+    },
+    "2026100001": {
+      "game_code": "2026100001",
+      "name": "제20회 S-OIL 챔피언십",
+      "date": "2026-11-01",
+      "player_count": 96,
+      "source": "summed from 4 per-round official SG file(s) (no pre-existing cumulative row)",
+      "note": null
+    },
+    "2026100003": {
+      "game_code": "2026100003",
+      "name": "아이스버그골프 · 서울신문 오픈",
+      "date": "2026-10-18",
+      "player_count": 107,
+      "source": "summed from 2 per-round official SG file(s) (no pre-existing cumulative row)",
+      "note": "R3 SG was never normalized into its own JSON for Iceberg (only parsed inline by sg_pre_v1.load_2026_sg_round_history from raw HTML); R3 is therefore MISSING from this tournament's cumulative total below -- it reflects only 2 of 3 real rounds for every Iceberg player. Flagged, not filled."
+    },
+    "2026110001": {
+      "game_code": "2026110001",
+      "name": "대보 하우스디 챔피언십",
+      "date": "2026-11-08",
+      "player_count": 60,
+      "source": "summed from 3 per-round official SG file(s) (no pre-existing cumulative row)",
+      "note": null
+    }
+  },
+  "known_season_game_codes_with_no_sg_data": [
+    "2026030001",
+    "2026040001",
+    "2026040002",
+    "2026040003",
+    "2026040004",
+    "2026040005",
+    "2026050001",
+    "2026050003",
+    "2026050004",
+    "2026060001",
+    "2026060002",
+    "2026060003",
+    "2026060004",
+    "2026090001",
+    "2026100004",
+    "2026120001"
+  ],
+  "eligibility_minimum_sg_events": 10,
+  "full_pool_size": 226,
+  "eligible_count": 99,
+  "gates": [
+    {
+      "gate": "EXPOSURE_BIAS",
+      "metric": "Spearman(event_count, neo_rank) over top100 pool B = -0.235",
+      "pass": false,
+      "note": "known 2026-09-12 finding was -0.358 on a different (120-player, different-era-data) cohort; this is the same diagnostic re-run on today's full-pool output, not a re-use of the old number."
+    },
+    {
+      "gate": "COHORT_DEPENDENCY",
+      "metric": "8.2% of 98 unaffected players' ranks changed when dropping 8246 (eligible pool is only 99 < 100, no outside player available to swap in)",
+      "pass": false,
+      "note": "known 2026-09-12 finding was 13.1% on a different (120-player) cohort/era; re-run on today's full pool B, which has a smaller effective pool (99 eligible) than that original test assumed."
+    },
+    {
+      "gate": "PUBLICATION_APPROVAL",
+      "metric": "NEO_RANKING_PUBLICATION_GATE_DECISION.json status",
+      "pass": false,
+      "note": "status remains BLOCKED as of this script's run; this script does not and cannot flip that decision -- no new approval evidence exists in this repo."
+    }
+  ],
+  "top_movers_vs_2026_11_01": [
+    {
+      "player_id": "11134",
+      "player_name": "서교림",
+      "prev_rank": 1,
+      "new_rank": 52,
+      "delta": -51
+    },
+    {
+      "player_id": "8284",
+      "player_name": "최예림",
+      "prev_rank": 13,
+      "new_rank": 62,
+      "delta": -49
+    },
+    {
+      "player_id": "8883",
+      "player_name": "이가영",
+      "prev_rank": 37,
+      "new_rank": 74,
+      "delta": -37
+    },
+    {
+      "player_id": "9465",
+      "player_name": "안지현",
+      "prev_rank": 51,
+      "new_rank": 85,
+      "delta": -34
+    },
+    {
+      "player_id": "8300",
+      "player_name": "김수지",
+      "prev_rank": 24,
+      "new_rank": 57,
+      "delta": -33
+    },
+    {
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "prev_rank": 45,
+      "new_rank": 77,
+      "delta": -32
+    },
+    {
+      "player_id": "10112",
+      "player_name": "고지우",
+      "prev_rank": 63,
+      "new_rank": 95,
+      "delta": -32
+    },
+    {
+      "player_id": "9145",
+      "player_name": "임희정",
+      "prev_rank": 48,
+      "new_rank": 17,
+      "delta": 31
+    },
+    {
+      "player_id": "9183",
+      "player_name": "박결",
+      "prev_rank": 78,
+      "new_rank": 47,
+      "delta": 31
+    },
+    {
+      "player_id": "6916",
+      "player_name": "안송이",
+      "prev_rank": 75,
+      "new_rank": 45,
+      "delta": 30
+    },
+    {
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "prev_rank": 59,
+      "new_rank": 30,
+      "delta": 29
+    },
+    {
+      "player_id": "8240",
+      "player_name": "황정미",
+      "prev_rank": 89,
+      "new_rank": 60,
+      "delta": 29
+    },
+    {
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "prev_rank": 38,
+      "new_rank": 67,
+      "delta": -29
+    },
+    {
+      "player_id": "9765",
+      "player_name": "정소이",
+      "prev_rank": 61,
+      "new_rank": 90,
+      "delta": -29
+    },
+    {
+      "player_id": "10002",
+      "player_name": "김민별",
+      "prev_rank": 46,
+      "new_rank": 18,
+      "delta": 28
+    },
+    {
+      "player_id": "8318",
+      "player_name": "박단유",
+      "prev_rank": 79,
+      "new_rank": 51,
+      "delta": 28
+    },
+    {
+      "player_id": "9723",
+      "player_name": "노원경",
+      "prev_rank": 94,
+      "new_rank": 66,
+      "delta": 28
+    },
+    {
+      "player_id": "9000",
+      "player_name": "김지수",
+      "prev_rank": 56,
+      "new_rank": 29,
+      "delta": 27
+    },
+    {
+      "player_id": "8277",
+      "player_name": "최민경",
+      "prev_rank": 62,
+      "new_rank": 88,
+      "delta": -26
+    },
+    {
+      "player_id": "9714",
+      "player_name": "유지나",
+      "prev_rank": 73,
+      "new_rank": 50,
+      "delta": 23
+    }
+  ],
+  "players": [
+    {
+      "rank": 1,
+      "player_id": "9449",
+      "player_name": "이지현3",
+      "score": 2.038162,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 5.998,
+      "recent_10_sg": 4.009,
+      "long_term_sg": 3.752,
+      "volatility": 2.627,
+      "feature_contributions": {
+        "recent_5_sg": 0.839169,
+        "recent_10_sg": 0.605916,
+        "long_term_sg": 0.601043,
+        "consistency": -0.037967,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 2,
+      "player_id": "9784",
+      "player_name": "이예원",
+      "score": 1.971454,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 7.074,
+      "recent_10_sg": 4.046,
+      "long_term_sg": 3.944,
+      "volatility": 4.518,
+      "feature_contributions": {
+        "recent_5_sg": 0.98702,
+        "recent_10_sg": 0.611318,
+        "long_term_sg": 0.630721,
+        "consistency": -0.285105,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 3,
+      "player_id": "10146",
+      "player_name": "유현조",
+      "score": 1.958805,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 5.876,
+      "recent_10_sg": 4.217,
+      "long_term_sg": 4.217,
+      "volatility": 3.85,
+      "feature_contributions": {
+        "recent_5_sg": 0.822406,
+        "recent_10_sg": 0.636282,
+        "long_term_sg": 0.67292,
+        "consistency": -0.197803,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 4,
+      "player_id": "8881",
+      "player_name": "성유진",
+      "score": 1.666573,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 5.892,
+      "recent_10_sg": 3.571,
+      "long_term_sg": 2.758,
+      "volatility": 3.713,
+      "feature_contributions": {
+        "recent_5_sg": 0.824604,
+        "recent_10_sg": 0.541972,
+        "long_term_sg": 0.447395,
+        "consistency": -0.179898,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 5,
+      "player_id": "10296",
+      "player_name": "문정민",
+      "score": 1.585523,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 4.812,
+      "recent_10_sg": 3.332,
+      "long_term_sg": 2.995,
+      "volatility": 3.211,
+      "feature_contributions": {
+        "recent_5_sg": 0.676205,
+        "recent_10_sg": 0.50708,
+        "long_term_sg": 0.484029,
+        "consistency": -0.114291,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 6,
+      "player_id": "10081",
+      "player_name": "김민주",
+      "score": 1.462674,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 4.096,
+      "recent_10_sg": 2.791,
+      "long_term_sg": 2.547,
+      "volatility": 2.264,
+      "feature_contributions": {
+        "recent_5_sg": 0.577821,
+        "recent_10_sg": 0.428099,
+        "long_term_sg": 0.41478,
+        "consistency": 0.009474,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 7,
+      "player_id": "9235",
+      "player_name": "최은우",
+      "score": 1.428266,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 4.06,
+      "recent_10_sg": 2.713,
+      "long_term_sg": 2.557,
+      "volatility": 2.395,
+      "feature_contributions": {
+        "recent_5_sg": 0.572874,
+        "recent_10_sg": 0.416712,
+        "long_term_sg": 0.416325,
+        "consistency": -0.007646,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 8,
+      "player_id": "10725",
+      "player_name": "김민솔",
+      "score": 1.362861,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 3.288,
+      "recent_10_sg": 2.633,
+      "long_term_sg": 2.446,
+      "volatility": 1.844,
+      "feature_contributions": {
+        "recent_5_sg": 0.466796,
+        "recent_10_sg": 0.405033,
+        "long_term_sg": 0.399168,
+        "consistency": 0.064365,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 9,
+      "player_id": "9134",
+      "player_name": "서어진",
+      "score": 1.323669,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 3.748,
+      "recent_10_sg": 2.399,
+      "long_term_sg": 2.171,
+      "volatility": 2.06,
+      "feature_contributions": {
+        "recent_5_sg": 0.530003,
+        "recent_10_sg": 0.370871,
+        "long_term_sg": 0.356659,
+        "consistency": 0.036136,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 10,
+      "player_id": "8243",
+      "player_name": "장은수",
+      "score": 1.147255,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 3.636,
+      "recent_10_sg": 2.296,
+      "long_term_sg": 2.127,
+      "volatility": 3.125,
+      "feature_contributions": {
+        "recent_5_sg": 0.514614,
+        "recent_10_sg": 0.355834,
+        "long_term_sg": 0.349858,
+        "consistency": -0.103051,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 11,
+      "player_id": "9426",
+      "player_name": "한진선",
+      "score": 1.07791,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 2.97,
+      "recent_10_sg": 2.034,
+      "long_term_sg": 1.658,
+      "volatility": 2.108,
+      "feature_contributions": {
+        "recent_5_sg": 0.4231,
+        "recent_10_sg": 0.317584,
+        "long_term_sg": 0.277362,
+        "consistency": 0.029862,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 12,
+      "player_id": "11770",
+      "player_name": "짜라위 분짠(I)",
+      "score": 1.062711,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 2.906,
+      "recent_10_sg": 1.7,
+      "long_term_sg": 1.703,
+      "volatility": 1.818,
+      "feature_contributions": {
+        "recent_5_sg": 0.414306,
+        "recent_10_sg": 0.268823,
+        "long_term_sg": 0.284318,
+        "consistency": 0.067763,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 13,
+      "player_id": "8392",
+      "player_name": "이다연",
+      "score": 1.044429,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 1.704,
+      "recent_10_sg": 1.952,
+      "long_term_sg": 1.952,
+      "volatility": 1.251,
+      "feature_contributions": {
+        "recent_5_sg": 0.249143,
+        "recent_10_sg": 0.305613,
+        "long_term_sg": 0.322807,
+        "consistency": 0.141865,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 14,
+      "player_id": "10586",
+      "player_name": "홍진영2",
+      "score": 1.007194,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 3.466,
+      "recent_10_sg": 1.413,
+      "long_term_sg": 1.357,
+      "volatility": 2.14,
+      "feature_contributions": {
+        "recent_5_sg": 0.491254,
+        "recent_10_sg": 0.226924,
+        "long_term_sg": 0.230835,
+        "consistency": 0.02568,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 15,
+      "player_id": "10097",
+      "player_name": "김민선7",
+      "score": 0.930109,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 1.864,
+      "recent_10_sg": 1.682,
+      "long_term_sg": 1.682,
+      "volatility": 1.673,
+      "feature_contributions": {
+        "recent_5_sg": 0.271128,
+        "recent_10_sg": 0.266196,
+        "long_term_sg": 0.281072,
+        "consistency": 0.086713,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 16,
+      "player_id": "9082",
+      "player_name": "전예성",
+      "score": 0.885782,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 2.65,
+      "recent_10_sg": 1.513,
+      "long_term_sg": 1.584,
+      "volatility": 2.553,
+      "feature_contributions": {
+        "recent_5_sg": 0.37913,
+        "recent_10_sg": 0.241523,
+        "long_term_sg": 0.265924,
+        "consistency": -0.028295,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 17,
+      "player_id": "9145",
+      "player_name": "임희정",
+      "score": 0.769965,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 2.754,
+      "recent_10_sg": 1.234,
+      "long_term_sg": 1.097,
+      "volatility": 2.68,
+      "feature_contributions": {
+        "recent_5_sg": 0.39342,
+        "recent_10_sg": 0.200792,
+        "long_term_sg": 0.190646,
+        "consistency": -0.044893,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 18,
+      "player_id": "10002",
+      "player_name": "김민별",
+      "score": 0.682627,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 1.67,
+      "recent_10_sg": 1.076,
+      "long_term_sg": 0.773,
+      "volatility": 1.668,
+      "feature_contributions": {
+        "recent_5_sg": 0.244471,
+        "recent_10_sg": 0.177725,
+        "long_term_sg": 0.140563,
+        "consistency": 0.087367,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 19,
+      "player_id": "8772",
+      "player_name": "박민지",
+      "score": 0.643222,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 1.01,
+      "recent_10_sg": 0.964,
+      "long_term_sg": 0.964,
+      "volatility": 1.319,
+      "feature_contributions": {
+        "recent_5_sg": 0.153782,
+        "recent_10_sg": 0.161374,
+        "long_term_sg": 0.170087,
+        "consistency": 0.132978,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 20,
+      "player_id": "11057",
+      "player_name": "송은아",
+      "score": 0.622578,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 2.446,
+      "recent_10_sg": 1.244,
+      "long_term_sg": 1.063,
+      "volatility": 3.474,
+      "feature_contributions": {
+        "recent_5_sg": 0.351099,
+        "recent_10_sg": 0.202252,
+        "long_term_sg": 0.18539,
+        "consistency": -0.148663,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 21,
+      "player_id": "10577",
+      "player_name": "최예본",
+      "score": 0.597561,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 3.108,
+      "recent_10_sg": 0.713,
+      "long_term_sg": 0.662,
+      "volatility": 3.294,
+      "feature_contributions": {
+        "recent_5_sg": 0.442063,
+        "recent_10_sg": 0.124731,
+        "long_term_sg": 0.123406,
+        "consistency": -0.125138,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 22,
+      "player_id": "10083",
+      "player_name": "마서영",
+      "score": 0.584923,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 2.204,
+      "recent_10_sg": 0.851,
+      "long_term_sg": 0.917,
+      "volatility": 2.896,
+      "feature_contributions": {
+        "recent_5_sg": 0.317846,
+        "recent_10_sg": 0.144877,
+        "long_term_sg": 0.162822,
+        "consistency": -0.073123,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 23,
+      "player_id": "9135",
+      "player_name": "신다인",
+      "score": 0.571282,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 0.916,
+      "recent_10_sg": 0.95,
+      "long_term_sg": 0.951,
+      "volatility": 1.797,
+      "feature_contributions": {
+        "recent_5_sg": 0.140866,
+        "recent_10_sg": 0.15933,
+        "long_term_sg": 0.168078,
+        "consistency": 0.070508,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 24,
+      "player_id": "8811",
+      "player_name": "이채은2",
+      "score": 0.51881,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 0.898,
+      "recent_10_sg": 0.787,
+      "long_term_sg": 0.62,
+      "volatility": 1.606,
+      "feature_contributions": {
+        "recent_5_sg": 0.138393,
+        "recent_10_sg": 0.135534,
+        "long_term_sg": 0.116913,
+        "consistency": 0.09547,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 25,
+      "player_id": "8589",
+      "player_name": "배소현",
+      "score": 0.491827,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 0.586,
+      "recent_10_sg": 0.792,
+      "long_term_sg": 0.741,
+      "volatility": 1.614,
+      "feature_contributions": {
+        "recent_5_sg": 0.095522,
+        "recent_10_sg": 0.136264,
+        "long_term_sg": 0.135617,
+        "consistency": 0.094424,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 26,
+      "player_id": "9431",
+      "player_name": "박보겸",
+      "score": 0.480707,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 1.076,
+      "recent_10_sg": 1.076,
+      "long_term_sg": 0.782,
+      "volatility": 2.58,
+      "feature_contributions": {
+        "recent_5_sg": 0.162851,
+        "recent_10_sg": 0.177725,
+        "long_term_sg": 0.141955,
+        "consistency": -0.031824,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 27,
+      "player_id": "9487",
+      "player_name": "김재희",
+      "score": 0.456648,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 1.34,
+      "recent_10_sg": 0.365,
+      "long_term_sg": 0.281,
+      "volatility": 1.674,
+      "feature_contributions": {
+        "recent_5_sg": 0.199127,
+        "recent_10_sg": 0.073926,
+        "long_term_sg": 0.064512,
+        "consistency": 0.086583,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 28,
+      "player_id": "11143",
+      "player_name": "김시현",
+      "score": 0.45068,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 1.58,
+      "recent_10_sg": 0.722,
+      "long_term_sg": 0.512,
+      "volatility": 2.644,
+      "feature_contributions": {
+        "recent_5_sg": 0.232104,
+        "recent_10_sg": 0.126045,
+        "long_term_sg": 0.100219,
+        "consistency": -0.040188,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 29,
+      "player_id": "9000",
+      "player_name": "김지수",
+      "score": 0.448792,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 1.836,
+      "recent_10_sg": 0.65,
+      "long_term_sg": 0.232,
+      "volatility": 2.516,
+      "feature_contributions": {
+        "recent_5_sg": 0.267281,
+        "recent_10_sg": 0.115533,
+        "long_term_sg": 0.056938,
+        "consistency": -0.02346,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 30,
+      "player_id": "9705",
+      "player_name": "홍지원",
+      "score": 0.447634,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 0.688,
+      "recent_10_sg": 0.628,
+      "long_term_sg": 0.439,
+      "volatility": 1.519,
+      "feature_contributions": {
+        "recent_5_sg": 0.109537,
+        "recent_10_sg": 0.112321,
+        "long_term_sg": 0.088935,
+        "consistency": 0.10684,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 31,
+      "player_id": "9788",
+      "player_name": "박혜준",
+      "score": 0.418165,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 0.462,
+      "recent_10_sg": 0.945,
+      "long_term_sg": 0.697,
+      "volatility": 2.147,
+      "feature_contributions": {
+        "recent_5_sg": 0.078483,
+        "recent_10_sg": 0.1586,
+        "long_term_sg": 0.128816,
+        "consistency": 0.024765,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 32,
+      "player_id": "8859",
+      "player_name": "이승연",
+      "score": 0.378049,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 1.444,
+      "recent_10_sg": 0.64,
+      "long_term_sg": 0.637,
+      "volatility": 3.113,
+      "feature_contributions": {
+        "recent_5_sg": 0.213417,
+        "recent_10_sg": 0.114073,
+        "long_term_sg": 0.119541,
+        "consistency": -0.101483,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 33,
+      "player_id": "10109",
+      "player_name": "고지원",
+      "score": 0.341818,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 0.932,
+      "recent_10_sg": 0.581,
+      "long_term_sg": 0.336,
+      "volatility": 2.43,
+      "feature_contributions": {
+        "recent_5_sg": 0.143065,
+        "recent_10_sg": 0.10546,
+        "long_term_sg": 0.073014,
+        "consistency": -0.01222,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 34,
+      "player_id": "11066",
+      "player_name": "유서연2",
+      "score": 0.333477,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 0.19,
+      "recent_10_sg": 0.807,
+      "long_term_sg": 0.801,
+      "volatility": 2.497,
+      "feature_contributions": {
+        "recent_5_sg": 0.041108,
+        "recent_10_sg": 0.138454,
+        "long_term_sg": 0.144892,
+        "consistency": -0.020977,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 35,
+      "player_id": "9990",
+      "player_name": "윤수아",
+      "score": 0.332342,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 0.226,
+      "recent_10_sg": 0.269,
+      "long_term_sg": 0.339,
+      "volatility": 1.377,
+      "feature_contributions": {
+        "recent_5_sg": 0.046055,
+        "recent_10_sg": 0.059911,
+        "long_term_sg": 0.073478,
+        "consistency": 0.125398,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 36,
+      "player_id": "9113",
+      "player_name": "노승희",
+      "score": 0.324341,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 0.632,
+      "recent_10_sg": 0.927,
+      "long_term_sg": 0.731,
+      "volatility": 3.102,
+      "feature_contributions": {
+        "recent_5_sg": 0.101842,
+        "recent_10_sg": 0.155973,
+        "long_term_sg": 0.134071,
+        "consistency": -0.100045,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 37,
+      "player_id": "9652",
+      "player_name": "이세희",
+      "score": 0.274372,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -0.364,
+      "recent_10_sg": 0.461,
+      "long_term_sg": 0.543,
+      "volatility": 1.656,
+      "feature_contributions": {
+        "recent_5_sg": -0.035015,
+        "recent_10_sg": 0.087941,
+        "long_term_sg": 0.105011,
+        "consistency": 0.088935,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 38,
+      "player_id": "9130",
+      "player_name": "박현경",
+      "score": 0.223338,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 0.374,
+      "recent_10_sg": -0.054,
+      "long_term_sg": 0.11,
+      "volatility": 1.735,
+      "feature_contributions": {
+        "recent_5_sg": 0.066391,
+        "recent_10_sg": 0.012756,
+        "long_term_sg": 0.03808,
+        "consistency": 0.07861,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 39,
+      "player_id": "10138",
+      "player_name": "임진영",
+      "score": 0.206276,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 0.468,
+      "recent_10_sg": -0.165,
+      "long_term_sg": -0.165,
+      "volatility": 1.496,
+      "feature_contributions": {
+        "recent_5_sg": 0.079308,
+        "recent_10_sg": -0.003449,
+        "long_term_sg": -0.004428,
+        "consistency": 0.109846,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 40,
+      "player_id": "11042",
+      "player_name": "홍현지",
+      "score": 0.180926,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 0.034,
+      "recent_10_sg": -0.082,
+      "long_term_sg": -0.174,
+      "volatility": 1.354,
+      "feature_contributions": {
+        "recent_5_sg": 0.019673,
+        "recent_10_sg": 0.008668,
+        "long_term_sg": -0.005819,
+        "consistency": 0.128404,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 41,
+      "player_id": "10095",
+      "player_name": "방신실",
+      "score": 0.169791,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -0.292,
+      "recent_10_sg": 0.336,
+      "long_term_sg": 0.443,
+      "volatility": 2.274,
+      "feature_contributions": {
+        "recent_5_sg": -0.025122,
+        "recent_10_sg": 0.069692,
+        "long_term_sg": 0.089554,
+        "consistency": 0.008168,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 42,
+      "player_id": "1521",
+      "player_name": "지한솔",
+      "score": 0.151237,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -0.44,
+      "recent_10_sg": 0.24,
+      "long_term_sg": -0.068,
+      "volatility": 1.587,
+      "feature_contributions": {
+        "recent_5_sg": -0.045458,
+        "recent_10_sg": 0.055677,
+        "long_term_sg": 0.010566,
+        "consistency": 0.097953,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 43,
+      "player_id": "11056",
+      "player_name": "박예지",
+      "score": 0.130693,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -0.04,
+      "recent_10_sg": 0.108,
+      "long_term_sg": 0.297,
+      "volatility": 2.449,
+      "feature_contributions": {
+        "recent_5_sg": 0.009505,
+        "recent_10_sg": 0.036406,
+        "long_term_sg": 0.066986,
+        "consistency": -0.014703,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 44,
+      "player_id": "9820",
+      "player_name": "정윤지",
+      "score": 0.11185,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": 0.016,
+      "recent_10_sg": -0.227,
+      "long_term_sg": 0.118,
+      "volatility": 2.047,
+      "feature_contributions": {
+        "recent_5_sg": 0.017199,
+        "recent_10_sg": -0.012501,
+        "long_term_sg": 0.039317,
+        "consistency": 0.037835,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 45,
+      "player_id": "6916",
+      "player_name": "안송이",
+      "score": 0.103323,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 0.0,
+      "recent_10_sg": 0.058,
+      "long_term_sg": 0.098,
+      "volatility": 2.371,
+      "feature_contributions": {
+        "recent_5_sg": 0.015001,
+        "recent_10_sg": 0.029107,
+        "long_term_sg": 0.036225,
+        "consistency": -0.00451,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 46,
+      "player_id": "9708",
+      "player_name": "이재윤",
+      "score": 0.095108,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": 1.116,
+      "recent_10_sg": -0.036,
+      "long_term_sg": -0.215,
+      "volatility": 3.132,
+      "feature_contributions": {
+        "recent_5_sg": 0.168347,
+        "recent_10_sg": 0.015384,
+        "long_term_sg": -0.012157,
+        "consistency": -0.103966,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 47,
+      "player_id": "9183",
+      "player_name": "박결",
+      "score": 0.066774,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": 0.21,
+      "recent_10_sg": -0.389,
+      "long_term_sg": -0.389,
+      "volatility": 1.777,
+      "feature_contributions": {
+        "recent_5_sg": 0.043856,
+        "recent_10_sg": -0.036151,
+        "long_term_sg": -0.039053,
+        "consistency": 0.073121,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 48,
+      "player_id": "10726",
+      "player_name": "김가희2",
+      "score": 0.055767,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": 0.18,
+      "recent_10_sg": -0.331,
+      "long_term_sg": -0.328,
+      "volatility": 2.024,
+      "feature_contributions": {
+        "recent_5_sg": 0.039734,
+        "recent_10_sg": -0.027684,
+        "long_term_sg": -0.029624,
+        "consistency": 0.040841,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 49,
+      "player_id": "11060",
+      "player_name": "안재희",
+      "score": 0.027126,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.232,
+      "recent_10_sg": -0.329,
+      "long_term_sg": -0.323,
+      "volatility": 1.799,
+      "feature_contributions": {
+        "recent_5_sg": -0.016877,
+        "recent_10_sg": -0.027392,
+        "long_term_sg": -0.028851,
+        "consistency": 0.070246,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 50,
+      "player_id": "9714",
+      "player_name": "유지나",
+      "score": 0.026926,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.22,
+      "recent_10_sg": -0.367,
+      "long_term_sg": -0.294,
+      "volatility": 1.805,
+      "feature_contributions": {
+        "recent_5_sg": -0.015229,
+        "recent_10_sg": -0.032939,
+        "long_term_sg": -0.024368,
+        "consistency": 0.069462,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 51,
+      "player_id": "8318",
+      "player_name": "박단유",
+      "score": -0.004241,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.34,
+      "recent_10_sg": -0.507,
+      "long_term_sg": -0.507,
+      "volatility": 1.509,
+      "feature_contributions": {
+        "recent_5_sg": -0.031717,
+        "recent_10_sg": -0.053378,
+        "long_term_sg": -0.057293,
+        "consistency": 0.108147,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 52,
+      "player_id": "11134",
+      "player_name": "서교림",
+      "score": -0.004696,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -1.238,
+      "recent_10_sg": 0.645,
+      "long_term_sg": 0.899,
+      "volatility": 3.499,
+      "feature_contributions": {
+        "recent_5_sg": -0.155109,
+        "recent_10_sg": 0.114803,
+        "long_term_sg": 0.16004,
+        "consistency": -0.15193,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 53,
+      "player_id": "8838",
+      "player_name": "김우정",
+      "score": -0.056119,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.354,
+      "recent_10_sg": -0.771,
+      "long_term_sg": -0.662,
+      "volatility": 1.413,
+      "feature_contributions": {
+        "recent_5_sg": -0.033641,
+        "recent_10_sg": -0.09192,
+        "long_term_sg": -0.081252,
+        "consistency": 0.120693,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 54,
+      "player_id": "10022",
+      "player_name": "손예빈",
+      "score": -0.093627,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -0.442,
+      "recent_10_sg": -0.854,
+      "long_term_sg": -0.753,
+      "volatility": 1.388,
+      "feature_contributions": {
+        "recent_5_sg": -0.045733,
+        "recent_10_sg": -0.104037,
+        "long_term_sg": -0.095318,
+        "consistency": 0.123961,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 55,
+      "player_id": "8380",
+      "player_name": "김새로미",
+      "score": -0.094077,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.446,
+      "recent_10_sg": -0.613,
+      "long_term_sg": -0.291,
+      "volatility": 2.222,
+      "feature_contributions": {
+        "recent_5_sg": -0.046283,
+        "recent_10_sg": -0.068853,
+        "long_term_sg": -0.023904,
+        "consistency": 0.014964,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 56,
+      "player_id": "9089",
+      "player_name": "김소정",
+      "score": -0.099905,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.32,
+      "recent_10_sg": -0.856,
+      "long_term_sg": -0.475,
+      "volatility": 1.91,
+      "feature_contributions": {
+        "recent_5_sg": -0.028969,
+        "recent_10_sg": -0.104329,
+        "long_term_sg": -0.052346,
+        "consistency": 0.055739,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 57,
+      "player_id": "8300",
+      "player_name": "김수지",
+      "score": -0.10143,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.736,
+      "recent_10_sg": -0.098,
+      "long_term_sg": 0.384,
+      "volatility": 3.347,
+      "feature_contributions": {
+        "recent_5_sg": -0.086131,
+        "recent_10_sg": 0.006332,
+        "long_term_sg": 0.080434,
+        "consistency": -0.132065,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 58,
+      "player_id": "10790",
+      "player_name": "김하은2",
+      "score": -0.119699,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -0.142,
+      "recent_10_sg": -0.588,
+      "long_term_sg": -0.704,
+      "volatility": 2.258,
+      "feature_contributions": {
+        "recent_5_sg": -0.004511,
+        "recent_10_sg": -0.065203,
+        "long_term_sg": -0.087744,
+        "consistency": 0.010259,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 59,
+      "player_id": "9389",
+      "player_name": "전우리",
+      "score": -0.164875,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -0.15,
+      "recent_10_sg": -0.484,
+      "long_term_sg": -0.27,
+      "volatility": 3.263,
+      "feature_contributions": {
+        "recent_5_sg": -0.00561,
+        "recent_10_sg": -0.05002,
+        "long_term_sg": -0.020658,
+        "consistency": -0.121087,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 60,
+      "player_id": "8240",
+      "player_name": "황정미",
+      "score": -0.16665,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -0.49,
+      "recent_10_sg": -0.913,
+      "long_term_sg": -0.913,
+      "volatility": 1.622,
+      "feature_contributions": {
+        "recent_5_sg": -0.052329,
+        "recent_10_sg": -0.11265,
+        "long_term_sg": -0.12005,
+        "consistency": 0.093379,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 61,
+      "player_id": "11073",
+      "player_name": "최정원",
+      "score": -0.17133,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -1.142,
+      "recent_10_sg": -0.595,
+      "long_term_sg": -0.589,
+      "volatility": 1.749,
+      "feature_contributions": {
+        "recent_5_sg": -0.141918,
+        "recent_10_sg": -0.066225,
+        "long_term_sg": -0.069968,
+        "consistency": 0.076781,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 62,
+      "player_id": "8284",
+      "player_name": "최예림",
+      "score": -0.192322,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -1.642,
+      "recent_10_sg": 0.003,
+      "long_term_sg": 0.33,
+      "volatility": 3.158,
+      "feature_contributions": {
+        "recent_5_sg": -0.210622,
+        "recent_10_sg": 0.021077,
+        "long_term_sg": 0.072087,
+        "consistency": -0.107364,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 63,
+      "player_id": "9937",
+      "player_name": "황유나",
+      "score": -0.24225,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -1.176,
+      "recent_10_sg": -1.137,
+      "long_term_sg": -0.941,
+      "volatility": 1.215,
+      "feature_contributions": {
+        "recent_5_sg": -0.14659,
+        "recent_10_sg": -0.145352,
+        "long_term_sg": -0.124378,
+        "consistency": 0.14657,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 64,
+      "player_id": "8234",
+      "player_name": "이주미",
+      "score": -0.244074,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -1.434,
+      "recent_10_sg": -0.62,
+      "long_term_sg": -0.724,
+      "volatility": 1.811,
+      "feature_contributions": {
+        "recent_5_sg": -0.182041,
+        "recent_10_sg": -0.069875,
+        "long_term_sg": -0.090836,
+        "consistency": 0.068678,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 65,
+      "player_id": "11216",
+      "player_name": "김지윤2",
+      "score": -0.301331,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.84,
+      "recent_10_sg": -0.91,
+      "long_term_sg": -1.067,
+      "volatility": 2.144,
+      "feature_contributions": {
+        "recent_5_sg": -0.100421,
+        "recent_10_sg": -0.112212,
+        "long_term_sg": -0.143855,
+        "consistency": 0.025158,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 66,
+      "player_id": "9723",
+      "player_name": "노원경",
+      "score": -0.317192,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -0.304,
+      "recent_10_sg": -1.137,
+      "long_term_sg": -1.326,
+      "volatility": 2.269,
+      "feature_contributions": {
+        "recent_5_sg": -0.026771,
+        "recent_10_sg": -0.145352,
+        "long_term_sg": -0.18389,
+        "consistency": 0.008821,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 67,
+      "player_id": "1485",
+      "player_name": "빳차라쭈타 콩끄라판(I)",
+      "score": -0.327427,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -0.368,
+      "recent_10_sg": -1.199,
+      "long_term_sg": -0.941,
+      "volatility": 2.647,
+      "feature_contributions": {
+        "recent_5_sg": -0.035565,
+        "recent_10_sg": -0.154404,
+        "long_term_sg": -0.124378,
+        "consistency": -0.04058,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 68,
+      "player_id": "8840",
+      "player_name": "정수빈",
+      "score": -0.398596,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -2.012,
+      "recent_10_sg": -0.879,
+      "long_term_sg": -0.682,
+      "volatility": 2.146,
+      "feature_contributions": {
+        "recent_5_sg": -0.261462,
+        "recent_10_sg": -0.107687,
+        "long_term_sg": -0.084343,
+        "consistency": 0.024896,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 69,
+      "player_id": "9111",
+      "player_name": "박서현",
+      "score": -0.401501,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -1.452,
+      "recent_10_sg": -1.157,
+      "long_term_sg": -1.138,
+      "volatility": 1.888,
+      "feature_contributions": {
+        "recent_5_sg": -0.184514,
+        "recent_10_sg": -0.148272,
+        "long_term_sg": -0.15483,
+        "consistency": 0.058615,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 70,
+      "player_id": "11447",
+      "player_name": "한아름",
+      "score": -0.418898,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -2.216,
+      "recent_10_sg": -0.67,
+      "long_term_sg": -0.285,
+      "volatility": 2.809,
+      "feature_contributions": {
+        "recent_5_sg": -0.289493,
+        "recent_10_sg": -0.077175,
+        "long_term_sg": -0.022977,
+        "consistency": -0.061753,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 71,
+      "player_id": "8884",
+      "player_name": "윤화영",
+      "score": -0.445442,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -1.626,
+      "recent_10_sg": -1.262,
+      "long_term_sg": -1.51,
+      "volatility": 1.484,
+      "feature_contributions": {
+        "recent_5_sg": -0.208423,
+        "recent_10_sg": -0.163601,
+        "long_term_sg": -0.212332,
+        "consistency": 0.111414,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 72,
+      "player_id": "9401",
+      "player_name": "마다솜",
+      "score": -0.44871,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -2.022,
+      "recent_10_sg": -0.838,
+      "long_term_sg": -0.844,
+      "volatility": 2.354,
+      "feature_contributions": {
+        "recent_5_sg": -0.262836,
+        "recent_10_sg": -0.101701,
+        "long_term_sg": -0.109385,
+        "consistency": -0.002288,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 73,
+      "player_id": "11045",
+      "player_name": "양효진",
+      "score": -0.502272,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -2.594,
+      "recent_10_sg": -1.136,
+      "long_term_sg": -0.804,
+      "volatility": 1.896,
+      "feature_contributions": {
+        "recent_5_sg": -0.341433,
+        "recent_10_sg": -0.145206,
+        "long_term_sg": -0.103202,
+        "consistency": 0.057569,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 74,
+      "player_id": "8883",
+      "player_name": "이가영",
+      "score": -0.505891,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -1.36,
+      "recent_10_sg": -0.784,
+      "long_term_sg": -0.74,
+      "volatility": 3.69,
+      "feature_contributions": {
+        "recent_5_sg": -0.171873,
+        "recent_10_sg": -0.093817,
+        "long_term_sg": -0.093309,
+        "consistency": -0.176892,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 75,
+      "player_id": "9436",
+      "player_name": "구래현",
+      "score": -0.564096,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -2.168,
+      "recent_10_sg": -1.593,
+      "long_term_sg": -1.593,
+      "volatility": 1.335,
+      "feature_contributions": {
+        "recent_5_sg": -0.282898,
+        "recent_10_sg": -0.211924,
+        "long_term_sg": -0.225161,
+        "consistency": 0.130887,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 76,
+      "player_id": "10139",
+      "player_name": "양효리",
+      "score": -0.574014,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -2.454,
+      "recent_10_sg": -1.1,
+      "long_term_sg": -1.1,
+      "volatility": 2.244,
+      "feature_contributions": {
+        "recent_5_sg": -0.322196,
+        "recent_10_sg": -0.139951,
+        "long_term_sg": -0.148956,
+        "consistency": 0.012088,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 77,
+      "player_id": "9391",
+      "player_name": "최가빈",
+      "score": -0.580828,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -1.69,
+      "recent_10_sg": -1.029,
+      "long_term_sg": -0.515,
+      "volatility": 3.928,
+      "feature_contributions": {
+        "recent_5_sg": -0.217217,
+        "recent_10_sg": -0.129585,
+        "long_term_sg": -0.058529,
+        "consistency": -0.207997,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 78,
+      "player_id": "10727",
+      "player_name": "황민정",
+      "score": -0.594475,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -2.196,
+      "recent_10_sg": -1.553,
+      "long_term_sg": -1.553,
+      "volatility": 1.63,
+      "feature_contributions": {
+        "recent_5_sg": -0.286745,
+        "recent_10_sg": -0.206084,
+        "long_term_sg": -0.218978,
+        "consistency": 0.092333,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 79,
+      "player_id": "9136",
+      "player_name": "조혜림",
+      "score": -0.602554,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -2.452,
+      "recent_10_sg": -1.298,
+      "long_term_sg": -1.365,
+      "volatility": 1.949,
+      "feature_contributions": {
+        "recent_5_sg": -0.321922,
+        "recent_10_sg": -0.168857,
+        "long_term_sg": -0.189918,
+        "consistency": 0.050642,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 80,
+      "player_id": "9277",
+      "player_name": "김아현",
+      "score": -0.624552,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -2.668,
+      "recent_10_sg": -1.567,
+      "long_term_sg": -1.512,
+      "volatility": 1.435,
+      "feature_contributions": {
+        "recent_5_sg": -0.351601,
+        "recent_10_sg": -0.208128,
+        "long_term_sg": -0.212641,
+        "consistency": 0.117818,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 81,
+      "player_id": "10481",
+      "player_name": "이서윤4",
+      "score": -0.743373,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -1.786,
+      "recent_10_sg": -2.178,
+      "long_term_sg": -2.178,
+      "volatility": 1.763,
+      "feature_contributions": {
+        "recent_5_sg": -0.230408,
+        "recent_10_sg": -0.297329,
+        "long_term_sg": -0.315588,
+        "consistency": 0.074951,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 82,
+      "player_id": "9483",
+      "player_name": "한지원",
+      "score": -0.750466,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -2.7,
+      "recent_10_sg": -1.601,
+      "long_term_sg": -1.407,
+      "volatility": 2.451,
+      "feature_contributions": {
+        "recent_5_sg": -0.355999,
+        "recent_10_sg": -0.213092,
+        "long_term_sg": -0.19641,
+        "consistency": -0.014965,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 83,
+      "player_id": "8972",
+      "player_name": "조정민",
+      "score": -0.75796,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -1.804,
+      "recent_10_sg": -1.881,
+      "long_term_sg": -1.963,
+      "volatility": 2.48,
+      "feature_contributions": {
+        "recent_5_sg": -0.232882,
+        "recent_10_sg": -0.253969,
+        "long_term_sg": -0.282354,
+        "consistency": -0.018755,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 84,
+      "player_id": "10531",
+      "player_name": "현세린",
+      "score": -0.815076,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -1.454,
+      "recent_10_sg": -2.173,
+      "long_term_sg": -2.17,
+      "volatility": 2.714,
+      "feature_contributions": {
+        "recent_5_sg": -0.184789,
+        "recent_10_sg": -0.296599,
+        "long_term_sg": -0.314351,
+        "consistency": -0.049337,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 85,
+      "player_id": "9465",
+      "player_name": "안지현",
+      "score": -0.832973,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -3.266,
+      "recent_10_sg": -1.434,
+      "long_term_sg": -1.269,
+      "volatility": 2.837,
+      "feature_contributions": {
+        "recent_5_sg": -0.433771,
+        "recent_10_sg": -0.188711,
+        "long_term_sg": -0.175079,
+        "consistency": -0.065412,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 86,
+      "player_id": "11040",
+      "player_name": "이세영",
+      "score": -0.841025,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -2.778,
+      "recent_10_sg": -2.082,
+      "long_term_sg": -2.082,
+      "volatility": 1.688,
+      "feature_contributions": {
+        "recent_5_sg": -0.366716,
+        "recent_10_sg": -0.283313,
+        "long_term_sg": -0.300749,
+        "consistency": 0.084753,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 87,
+      "player_id": "12038",
+      "player_name": "이지민",
+      "score": -0.845366,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -2.882,
+      "recent_10_sg": -1.728,
+      "long_term_sg": -1.728,
+      "volatility": 2.426,
+      "feature_contributions": {
+        "recent_5_sg": -0.381007,
+        "recent_10_sg": -0.231633,
+        "long_term_sg": -0.246029,
+        "consistency": -0.011698,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 88,
+      "player_id": "8277",
+      "player_name": "최민경",
+      "score": -0.871341,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -3.216,
+      "recent_10_sg": -1.493,
+      "long_term_sg": -1.286,
+      "volatility": 3.078,
+      "feature_contributions": {
+        "recent_5_sg": -0.426901,
+        "recent_10_sg": -0.197325,
+        "long_term_sg": -0.177707,
+        "consistency": -0.096909,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 89,
+      "player_id": "9759",
+      "player_name": "이율린",
+      "score": -0.906036,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -2.7,
+      "recent_10_sg": -2.335,
+      "long_term_sg": -1.722,
+      "volatility": 2.468,
+      "feature_contributions": {
+        "recent_5_sg": -0.355999,
+        "recent_10_sg": -0.320249,
+        "long_term_sg": -0.245101,
+        "consistency": -0.017187,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 90,
+      "player_id": "9765",
+      "player_name": "정소이",
+      "score": -0.910787,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -3.316,
+      "recent_10_sg": -1.396,
+      "long_term_sg": -1.315,
+      "volatility": 3.387,
+      "feature_contributions": {
+        "recent_5_sg": -0.440641,
+        "recent_10_sg": -0.183164,
+        "long_term_sg": -0.182189,
+        "consistency": -0.137292,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 91,
+      "player_id": "10178",
+      "player_name": "김희지",
+      "score": -1.216236,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -3.656,
+      "recent_10_sg": -3.005,
+      "long_term_sg": -2.728,
+      "volatility": 1.879,
+      "feature_contributions": {
+        "recent_5_sg": -0.48736,
+        "recent_10_sg": -0.418063,
+        "long_term_sg": -0.400604,
+        "consistency": 0.059791,
+        "sample_reliability": 0.03
+      }
+    },
+    {
+      "rank": 92,
+      "player_id": "9174",
+      "player_name": "강가율",
+      "score": -1.233212,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -2.902,
+      "recent_10_sg": -3.14,
+      "long_term_sg": -3.29,
+      "volatility": 1.967,
+      "feature_contributions": {
+        "recent_5_sg": -0.383755,
+        "recent_10_sg": -0.437772,
+        "long_term_sg": -0.487475,
+        "consistency": 0.04829,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 93,
+      "player_id": "10867",
+      "player_name": "양서후",
+      "score": -1.241861,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -3.98,
+      "recent_10_sg": -2.469,
+      "long_term_sg": -2.575,
+      "volatility": 2.495,
+      "feature_contributions": {
+        "recent_5_sg": -0.53188,
+        "recent_10_sg": -0.339812,
+        "long_term_sg": -0.376954,
+        "consistency": -0.020715,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 94,
+      "player_id": "8430",
+      "player_name": "조은채",
+      "score": -1.279329,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -3.51,
+      "recent_10_sg": -3.093,
+      "long_term_sg": -3.093,
+      "volatility": 1.947,
+      "feature_contributions": {
+        "recent_5_sg": -0.467298,
+        "recent_10_sg": -0.43091,
+        "long_term_sg": -0.457024,
+        "consistency": 0.050904,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 95,
+      "player_id": "10112",
+      "player_name": "고지우",
+      "score": -1.280431,
+      "sample_count_tournaments": 13,
+      "recent_5_sg": -4.32,
+      "recent_10_sg": -2.548,
+      "long_term_sg": -1.818,
+      "volatility": 3.278,
+      "feature_contributions": {
+        "recent_5_sg": -0.578598,
+        "recent_10_sg": -0.351345,
+        "long_term_sg": -0.259941,
+        "consistency": -0.123047,
+        "sample_reliability": 0.0325
+      }
+    },
+    {
+      "rank": 96,
+      "player_id": "8386",
+      "player_name": "성은정",
+      "score": -1.387443,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -3.478,
+      "recent_10_sg": -2.619,
+      "long_term_sg": -2.619,
+      "volatility": 3.898,
+      "feature_contributions": {
+        "recent_5_sg": -0.462901,
+        "recent_10_sg": -0.36171,
+        "long_term_sg": -0.383755,
+        "consistency": -0.204076,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 97,
+      "player_id": "9503",
+      "player_name": "이슬기2",
+      "score": -1.559765,
+      "sample_count_tournaments": 10,
+      "recent_5_sg": -4.188,
+      "recent_10_sg": -3.88,
+      "long_term_sg": -3.88,
+      "volatility": 1.57,
+      "feature_contributions": {
+        "recent_5_sg": -0.56046,
+        "recent_10_sg": -0.545805,
+        "long_term_sg": -0.578675,
+        "consistency": 0.100175,
+        "sample_reliability": 0.025
+      }
+    },
+    {
+      "rank": 98,
+      "player_id": "8770",
+      "player_name": "조아연",
+      "score": -1.939181,
+      "sample_count_tournaments": 11,
+      "recent_5_sg": -5.548,
+      "recent_10_sg": -3.295,
+      "long_term_sg": -3.042,
+      "volatility": 4.707,
+      "feature_contributions": {
+        "recent_5_sg": -0.747334,
+        "recent_10_sg": -0.4604,
+        "long_term_sg": -0.449141,
+        "consistency": -0.309806,
+        "sample_reliability": 0.0275
+      }
+    },
+    {
+      "rank": 99,
+      "player_id": "8246",
+      "player_name": "이소영",
+      "score": -2.002397,
+      "sample_count_tournaments": 12,
+      "recent_5_sg": -5.698,
+      "recent_10_sg": -3.891,
+      "long_term_sg": -3.821,
+      "volatility": 3.465,
+      "feature_contributions": {
+        "recent_5_sg": -0.767945,
+        "recent_10_sg": -0.547411,
+        "long_term_sg": -0.569555,
+        "consistency": -0.147486,
+        "sample_reliability": 0.03
+      }
+    }
+  ]
+}
