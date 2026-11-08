@@ -12,21 +12,22 @@ SCOPE: this tournament was 3 rounds (R1, R2, FR -- no separate "R3"
 label; the final round is always labelled FR on this site, matching
 the live page's own convention), unlike S-OIL's 4-round event.
 
-No forecast/win-probability columns appear on this page. Unlike
-S-OIL's FR page (scripts/292), which could show a frozen pre-FR
-forecast next to the real outcome, Daebo's own per-round live
-probability snapshots (scripts/307's output) were overwritten round by
-round on the live/2026110001 branch before the retention bug was found
-and fixed (see .github/workflows/daebo-2026110001-live-cycle.yml) --
-the actual pre-FR forecast snapshot no longer exists anywhere, so this
-page shows only the real, verified official record rather than
-fabricate or approximate a forecast comparison that isn't backed by a
-real preserved snapshot.
+No forecast/win-probability columns appear on this page -- it shows
+only the real, verified official final record. The R1/R2 live
+win-probability snapshots (scripts/307's output) WERE lost to a
+retention bug in daebo-2026110001-live-cycle.yml (overwritten round by
+round on the live/2026110001 branch, fixed after the tournament ended)
+but have since been recovered from GitHub's dangling commits (see
+DAEBO_2026110001_LIVE_PROBABILITY_R1_V1.json / R2_V1.json's own
+"recovery_note" fields) and are shown on their own dedicated pages
+instead -- see scripts/321_build_daebo_2026110001_round_pages.py.
 
-This tournament also never had separate static PRE/R1/R2/R3 pages
-(it used the new real-time "live" page instead of this project's
-older per-stage static-page pattern), so this page's stage-nav links
-only to LIVE and FR, not a full PRE/R1/R2/R3/FR set.
+This tournament never had separate static PRE/R1/R2/R3 pages during
+the live tournament itself (it used the new real-time "live" page
+instead of this project's older per-stage static-page pattern).
+R1/R2 pages were added after the fact (scripts/321) once their
+win-probability data was recovered, so this page's stage-nav links to
+R1, R2, LIVE, and FR.
 """
 from __future__ import annotations
 
@@ -192,6 +193,8 @@ def main() -> None:
 
     stage_nav = (
         '<nav class="stage-nav" aria-label="대회 단계" data-stage-nav><ol class="stage-nav__list">'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r1/">R1</a></li>'
+        f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/r2/">R2</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/live/">LIVE</a></li>'
         f'<li class="stage-nav__item"><a class="stage-nav__link" href="/tournaments/2026/{GAME_CODE}/fr/" aria-current="page">FR</a></li>'
         "</ol></nav>"
